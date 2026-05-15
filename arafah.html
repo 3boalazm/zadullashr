@@ -79,8 +79,6 @@
           <div style="font-size:12px;opacity:.85">🌇 المغرب (تقريبي)</div>
         </div>
       </div>
-      <!-- Khushoo button -->
-      <button class="af-khushoo-btn" id="khushoo-toggle" onclick="toggleKhushoo()">🌙 وضع الخشوع</button>
     </div>
 
     <!-- Fudl card -->
@@ -169,8 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initArafahMaghribTimer();
   // 4. Bonus checklist
   initBonusChecklist();
-  // 5. Restore khushoo mode
-  if (STATE.arafah?.khushooMode) document.body.classList.add('khushoo');
 });
 
 function initArafahMaghribTimer() {
