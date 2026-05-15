@@ -122,31 +122,14 @@ html[data-theme="dark"] .fab-ai,html[data-theme="oled"] .fab-ai{background:linea
 @media(max-width:768px){.fab-ai{bottom:20px;left:16px;width:48px;height:48px;font-size:20px}}
 
 
-.page-title,.hero h1,.hero .brand-name,h1,h2{font-family:'Cairo','Tajawal',system-ui,sans-serif!important}
-.brand-name{font-family:'Cairo','Tajawal',sans-serif!important;font-weight:800}
-.section-title{font-family:'Cairo','Tajawal',sans-serif!important;font-weight:800}
-.hero h1{font-family:'Cairo','Tajawal',sans-serif!important;font-weight:900}
-.page-title{font-family:'Cairo','Tajawal',sans-serif!important;font-weight:800}
-.cd-num,.zad-pts,.ts-count-num,.stat .v,.metric-val{font-family:'Cairo','Tajawal',sans-serif!important;font-weight:900}
 
-/* ══ خط ثمانية — @font-face (local files in /fonts/) ══════════ */
-@font-face { font-family:'ThmanyahSans'; src:url('../fonts/thmanyahsans-Regular.otf') format('opentype'); font-weight:400; font-display:swap; }
-@font-face { font-family:'ThmanyahSans'; src:url('../fonts/thmanyahsans-Medium.otf')  format('opentype'); font-weight:500; font-display:swap; }
-@font-face { font-family:'ThmanyahSans'; src:url('../fonts/thmanyahsans-Bold.otf')    format('opentype'); font-weight:700; font-display:swap; }
-@font-face { font-family:'ThmanyahSans'; src:url('../fonts/thmanyahsans-Black.otf')   format('opentype'); font-weight:900; font-display:swap; }
-@font-face { font-family:'ThmanyahSerifDisplay'; src:url('../fonts/thmanyahserifdisplay-Bold.otf')  format('opentype'); font-weight:700; font-display:swap; }
-@font-face { font-family:'ThmanyahSerifDisplay'; src:url('../fonts/thmanyahserifdisplay-Black.otf') format('opentype'); font-weight:900; font-display:swap; }
-/* Apply ThmanyahSans to all headings & UI numbers */
-html,body { font-family:'ThmanyahSans','Tajawal',system-ui,sans-serif !important; }
-.page-title,.hero h1,.section-title,.brand-name,h1,h2,h3 {
-  font-family:'ThmanyahSans','Tajawal',sans-serif !important; font-weight:700;
-}
-.hero h1 { font-weight:900 !important; }
-.page-title { font-weight:800 !important; }
-.cd-num,.zad-pts,.ts-count-num,.stat .v,.metric-val,.af-dhikr-count,.tasbeeh .count {
-  font-family:'ThmanyahSans','Tajawal',sans-serif !important; font-weight:900;
-}
-/* Remove Cairo fallback (was placeholder) */
+
+
+
+
+
+
+
 
 /* Mobile topbar — prevent title overflow with hamburger */
 
@@ -201,4 +184,68 @@ html[data-theme="dark"] .lang-option.active,html[data-theme="oled"] .lang-option
 .lang-option:hover:not(.active){border-color:var(--green-soft);background:var(--green-pale)}
 @media(max-width:768px){
   .lang-btn{padding:6px 12px;font-size:11px}
+}
+
+/* ════════════════════════════════════════════════════════════
+   FONT SYSTEM — FINAL
+   Body:    IBM Plex Sans Arabic (neutral, legible)
+   Headers: ThmanyahSans (brand, editorial — headers ONLY)
+   Quran:   Amiri (preserved, untouched)
+   ════════════════════════════════════════════════════════════ */
+
+/* ── ThmanyahSans @font-face (css/ → fonts/ = ../) ─────── */
+@font-face{font-family:'ThmanyahSans';src:url('../fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('../fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('../fonts/thmanyahsans-Medium.otf') format('opentype');font-weight:500;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('../fonts/thmanyahsans-Regular.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('../fonts/thmanyahsans-Light.otf') format('opentype');font-weight:300;font-display:swap}
+@font-face{font-family:'ThmanyahSerifDisplay';src:url('../fonts/thmanyahserifdisplay-Black.otf') format('opentype');font-weight:900;font-display:swap}
+@font-face{font-family:'ThmanyahSerifDisplay';src:url('../fonts/thmanyahserifdisplay-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSerifText';src:url('../fonts/thmanyahseriftext-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+
+/* ── Body: IBM Plex Sans Arabic ────────────────────────── */
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif !important}
+
+/* ── Headers ONLY: ThmanyahSans ────────────────────────── */
+h1,h2,h3,
+.page-title,.brand-name,.section-title,
+.hero h1,.hero-eyebrow,
+.card h3,.tl-title,.af-ms-title,
+.dc-day-title,.wird-bound-val{
+  font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif !important
+}
+h1,.hero h1{font-weight:900 !important}
+h2,.page-title{font-weight:800 !important}
+h3,.section-title,.brand-name{font-weight:700 !important}
+
+/* ── UI counters: ThmanyahSans Black ───────────────────── */
+.cd-num,.stat .v,.ts-count-num,.af-dhikr-count,.tasbeeh .count,
+.ring-pct>span,.zad-pts,.metric-val,.sum-hero-num,.dc-num{
+  font-family:'ThmanyahSans',monospace !important;font-weight:900 !important
+}
+
+/* ── Topbar prayer chips ────────────────────────────────── */
+.topbar-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;flex-shrink:0}
+.topbar-prayers{display:flex;align-items:center;gap:5px;flex:1;overflow-x:auto;scrollbar-width:none;padding:0 8px;justify-content:center;max-width:360px}
+.topbar-prayers::-webkit-scrollbar{display:none}
+.tp-chip{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 8px;border-radius:9px;background:var(--card);border:1.5px solid var(--border);min-width:46px;transition:all .2s;flex-shrink:0;cursor:default}
+.tp-chip.tp-next{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 0 0 2px rgba(201,161,74,.15)}
+.tp-chip.tp-done{opacity:.45}
+.tp-name{font-size:9px;font-weight:700;color:var(--muted);font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+.tp-time{font-size:13px;font-weight:900;color:var(--green-deep);direction:ltr;font-variant-numeric:tabular-nums;font-family:'ThmanyahSans',monospace}
+html[data-theme="dark"] .tp-time,html[data-theme="oled"] .tp-time{color:var(--sys-green)}
+.tp-chip.tp-next .tp-time,.tp-chip.tp-next .tp-name{color:var(--gold-dark)}
+.tp-loc-btn{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--border);background:var(--sand);font-size:12px;cursor:pointer;display:grid;place-items:center;flex-shrink:0;transition:all .2s}
+.tp-loc-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
+.notif-btn{position:relative;width:34px;height:34px;border-radius:10px;background:var(--card);border:1px solid var(--border);font-size:16px;display:grid;place-items:center;cursor:pointer;transition:all .2s;flex-shrink:0}
+.notif-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
+.notif-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--sys-red);border:2px solid var(--bg)}
+@media(max-width:1020px){.topbar-prayers{max-width:240px}}
+@media(max-width:768px){
+  .topbar-prayers{max-width:none;padding:0 4px;flex:none;width:auto}
+  .tp-chip{min-width:38px;padding:3px 5px}
+  .tp-time{font-size:11px}.tp-name{font-size:8px}
+}
+@media(max-width:480px){
+  .topbar-prayers{display:none}
 }
