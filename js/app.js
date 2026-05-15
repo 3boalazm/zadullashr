@@ -411,18 +411,16 @@ async function sendAIMessage(userMsg) {
     </div>`);
   chatWrap.scrollTop = chatWrap.scrollHeight;
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    /* Gemini via /api/gemini Edge Function — API key secure server-side */
+    const res = await fetch('/api/gemini', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: AI_SYSTEM,
         messages: chatHistory.map(m => ({ role: m.role, content: m.content }))
       })
     });
     const data = await res.json();
-    const reply = data.content?.[0]?.text || 'عذراً، حدث خطأ في الاتصال.';
+    const reply = data.text || data.error || 'عذراً، حدث خطأ في الاتصال.';
     chatHistory.push({ role: 'assistant', content: reply });
     const typing = document.getElementById(typingId);
     if (typing) typing.remove();
@@ -873,6 +871,7 @@ const SEARCH_INDEX = [
   { ico:'🧒', title:'وضع الأطفال',         sub:'قصص وألعاب ومسابقات للصغار',  url:'kids.html' },
   { ico:'🤖', title:'تدبّر بالذكاء',      sub:'اسأل عن آيات وأحكام العشر',    url:'ai.html' },
   { ico:'🎙️', title:'تسميع القرآن',        sub:'تصحيح التلاوة بالذكاء الاصطناعي', url:'tasmee.html' },
+  { ico:'🚩', title:'بلاغ مشكلة',      sub:'أرسل بلاغاً عن خطأ أو اقتراح',   url:'report.html' },
   { ico:'⚙️', title:'الإعدادات',          sub:'المظهر والتنبيهات والخصوصية',  url:'settings.html' },
   { ico:'🌙', title:'الوضع الداكن',        sub:'تفعيل / إيقاف الوضع الليلي',   url:'settings.html' },
   { ico:'📅', title:'صيام يوم عرفة',       sub:'يكفر ذنوب سنتين ماضية وقادمة', url:'worship.html' },
@@ -1739,3 +1738,193 @@ function resetCurrentDhikr() {
   showToast('🔄 تمت إعادة التعيين');
 }
 window.resetCurrentDhikr = resetCurrentDhikr;
+/* ══════════════════════════════════════════════════════════
+   9-DAY CONTENT PLAN — خطة المحتوى اليومي
+   ══════════════════════════════════════════════════════════ */
+const DAY_CONTENT = {
+  1: {
+    title: 'بداية الرحلة والنية الصادقة',
+    message: 'بدأت أفضل أيام الدنيا.. استقبلها بقلب تائب ونية صادقة',
+    hadith: 'ما من أيامٍ العمل الصالح فيهن أحب إلى الله من هذه الأيام العشر',
+    source: 'رواه البخاري',
+    task: 'ضبط جدول العبادات وتحديد خطة ختم القرآن',
+    taskUrl: 'worship.html',
+    icon: '🌱', color: '#2a7a5f',
+    notif: 'هل نويت صيام غد؟ الصيام عبادة اختص الله بها نفسه',
+  },
+  2: {
+    title: 'إحياء سنة التكبير',
+    message: 'زيّن يومك بذكر الله.. أحيِ سنة التكبير في بيتك وعملك',
+    hadith: 'وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَعْلُومَاتٍ',
+    source: 'سورة الحج — 28',
+    task: 'الوصول إلى أول 100 تكبيرة اليوم',
+    taskUrl: 'takbeer.html',
+    icon: '📿', color: '#c9a14a',
+    notif: 'الله أكبر، الله أكبر.. لا تنسَ التكبير المطلق طوال اليوم',
+  },
+  3: {
+    title: 'جواهر القرآن والتدبر',
+    message: 'نور قلبك بآيات الله.. عِش مع معاني سورة الحج',
+    hadith: 'أَفَلَا يَتَدَبَّرُونَ الْقُرْآنَ أَمْ عَلَىٰ قُلُوبٍ أَقْفَالُهَا',
+    source: 'سورة محمد — 24',
+    task: 'قراءة وردك اليومي مع تدوين ملاحظة تأملية واحدة',
+    taskUrl: 'mushaf.html',
+    icon: '📖', color: '#1a5d47',
+    notif: '10 دقائق من القرآن قد تغير مجرى يومك بالكامل',
+  },
+  4: {
+    title: 'محطة الاستغفار والتوبة',
+    message: 'طهّر صحيفتك.. التوبة مفتاح القبول في مواسم الفضل',
+    hadith: 'وَتُوبُوا إِلَى اللَّهِ جَمِيعًا أَيُّهَا الْمُؤْمِنُونَ لَعَلَّكُمْ تُفْلِحُونَ',
+    source: 'سورة النور — 31',
+    task: 'تخصيص وقت السحر لـ 100 استغفار ودعاء',
+    taskUrl: 'adhkar.html',
+    icon: '🌠', color: '#5856d6',
+    notif: 'وقت التنزل الإلهي.. استثمر دقائق السحر في طلب المغفرة',
+  },
+  5: {
+    title: 'صدقة العشر وبر الأثر',
+    message: 'مالك لا ينقص بالصدقة.. اجعل لك أثراً في حياة محتاج',
+    hadith: 'كل امرئٍ في ظل صدقته حتى يُقضى بين الناس',
+    source: 'رواه أحمد وصحَّحه الألباني',
+    task: 'إخراج صدقة اليوم — ولو بإطعام طعام',
+    taskUrl: 'sadaqah.html',
+    icon: '💚', color: '#34c759',
+    notif: 'صدقة بسيطة اليوم قد تكون حجابك من النار غداً',
+  },
+  6: {
+    title: 'صلة الرحم والكلمة الطيبة',
+    message: 'بادر بالوصل.. خير الناس من يبدأ بالسلام',
+    hadith: 'مَن كان يؤمن بالله واليوم الآخر فليصل رحمه',
+    source: 'متفق عليه',
+    task: 'اتصال أو رسالة لأحد الأقارب الذين بعُد التواصل معهم',
+    taskUrl: 'sadaqah.html',
+    icon: '❤️', color: '#ff2d55',
+    notif: 'رسالة تهنئة بالعيد لأهلك تدخل السرور على قلوبهم',
+  },
+  7: {
+    title: 'نوافل العبادات والقربات',
+    message: 'تقرب إلى الله بما يحب.. السجود يرفعك درجات',
+    hadith: 'وما يزال عبدي يتقرب إليّ بالنوافل حتى أحبه',
+    source: 'رواه البخاري',
+    task: 'المحافظة على ركعتي الضحى والسنن الرواتب كاملة',
+    taskUrl: 'worship.html',
+    icon: '🌤️', color: '#ff9500',
+    notif: 'صلاة الضحى هي صلاة الأوابين.. لا تفرط في أجرها اليوم',
+  },
+  8: {
+    title: 'يوم التروية — التحضير للقمة',
+    message: 'ارتوِ بالطاعة.. غداً هو اليوم الموعود — يوم عرفة',
+    hadith: 'صِيَامُ يَوْمِ عَرَفَةَ يُكَفِّرُ السَّنَةَ الَّتِي قَبْلَهُ وَالسَّنَةَ الَّتِي بَعْدَهُ',
+    source: 'رواه مسلم',
+    task: 'قراءة دليل يوم عرفة وتجهيز قائمة أدعيتك الشخصية',
+    taskUrl: 'arafah.html',
+    icon: '🌄', color: '#ff9500',
+    notif: 'استعد لغد.. صيام يوم عرفة يكفر سنتين من الخطايا',
+  },
+  9: {
+    title: 'يوم عرفة — يوم الجائزة الكبرى',
+    message: 'اليوم هو ربيع القلوب.. لا تغيبنّ عن موكب الذاكرين',
+    hadith: 'خَيْرُ الدُّعَاءِ دُعَاءُ يَوْمِ عَرَفَةَ',
+    source: 'رواه الترمذي وحسَّنه',
+    task: 'تفعيل المسار الزمني التفاعلي من الفجر حتى المغرب',
+    taskUrl: 'arafah.html',
+    icon: '⭐', color: '#c9a14a',
+    notif: 'بدأت الساعات الذهبية.. ألحّ في الدعاء — اللهم اعتق رقابنا من النار',
+  },
+};
+window.DAY_CONTENT = DAY_CONTENT;
+
+/* ── Render Daily Content Card ─────────────────────────── */
+function renderDailyContentCard() {
+  const container = document.getElementById('daily-content-card');
+  if (!container) return;
+  const day = getDhulHijjahDay ? getDhulHijjahDay() : null;
+  if (!day || day < 1 || day > 9) { container.style.display='none'; return; }
+  const d = DAY_CONTENT[day];
+  if (!d) return;
+  container.innerHTML = `
+    <div class="dc-day-badge" style="background:${d.color}20;border-color:${d.color}40;color:${d.color}">
+      ${d.icon} اليوم ${['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع'][day]}
+    </div>
+    <div class="dc-day-title">${d.title}</div>
+    <div class="dc-day-msg">${d.message}</div>
+    <div class="dc-day-hadith">
+      <div class="dc-hadith-text">«${d.hadith}»</div>
+      <div class="dc-hadith-src">${d.source}</div>
+    </div>
+    <a href="${d.taskUrl}" class="dc-day-task-btn">
+      <span>📌 مهمة اليوم</span>
+      <span class="dc-task-text">${d.task}</span>
+      <span>←</span>
+    </a>`;
+  container.style.display = 'block';
+}
+window.renderDailyContentCard = renderDailyContentCard;
+
+/* ══════════════════════════════════════════════════════════
+   VARIED SUCCESS MESSAGES — رسائل النجاح المتنوعة
+   ══════════════════════════════════════════════════════════ */
+const SUCCESS_MSGS = {
+  fajr:          ['تقبل الله.. صلاتك نورٌ في الدنيا والآخرة 🌅','نوّرت يومك بالفجر — بارك الله فيك','صليت الفجر في وقته — وعدك الله بالنور التام 🌟','أحسنت — فجرك سيشهد لك يوم لا ينفع مال ولا بنون'],
+  zuhr:          ['تقبل الله صلاتك.. والصلاة عماد الدين 🕌','أديت حق ربك — جزاك الله خيراً','الصلاة خير موضوع — تقبل الله منك ✅','لقد وقفت بين يدي الله — أعظم بهذا المقام'],
+  asr:           ['تقبل الله صلاة العصر.. وهي الصلاة الوسطى ⭐','أحسنت — الملائكة تشهد صلاة العصر وتسجلها','حافظت على الصلاة الوسطى — بشرى لك 🌟','بارك الله فيك وفي طاعتك'],
+  maghrib:       ['تقبل الله — المغرب وقت إجابة الدعاء 🌇','أحسنت يا صاحب الطاعة — بارك الله فيك','صليت وقت يُرفع فيه الدعاء — ادعُ الله بما شئت','تقبل الله منك — الصلاة نور ✨'],
+  isha:          ['تقبل الله العشاء — من صلاها في جماعة فله نصف الليل','أنهيت نصف الليل في طاعة الله — هنيئاً لك 🌙','بارك الله فيك — إخلاص في العشاء نور في القلب','تقبل الله — ومن حافظ على الجماعة كُتب له ربع الدين'],
+  qiyam:         ['ما شاء الله! قيام الليل في عشر ذي الحجة يعدل ليلة القدر 🌙','نهضت حين نام الناس — شرّفك الله بهذه القربة','زرعت الآن في جنتك.. دمت على هذه النعمة ⭐','هنيئاً لك — السُّهد في طاعة الله يُبدَّل بالأنس يوم القيامة'],
+  takbeer:       ['زَرعتَ الآن نخلة في الجنة.. لسانك رطب بذكر الله 📿','الله أكبر — كلمة تملأ الميزان وتفرح الملائكة','هنيئاً لك — التكبير شعيرة هذه الأيام المباركة','بارك الله في لسانك الذاكر — ولا تنقطع عن التكبير ✨'],
+  morning_dhikr: ['أذكار الصباح كالحصن المنيع — حصّنت يومك 🌅','بارك الله في صباحك — اللهم ما أصبح بي من نعمة فمنك','ما شاء الله — محمي من شر هذا اليوم بإذن الله','هنيئاً لك — أذكار الصباح تفتح أبواب البركة ✨'],
+  evening_dhikr: ['حصّنت مساءك بذكر الله — لا تُوطأ 🌙','بارك الله في مسائك — اللهم ما أمسى بي من نعمة فمنك','ما شاء الله — أتممت حراسة يومك بالذكر','مساؤك محاط بالحفظ — استمر على هذه العادة ✨'],
+  fasting:       ['بُورك لك في صيامك — الله يتولى مكافأتك 🌙','تقبل الله صيامك — الصيام لله وهو يجزي به','ما أعظم أجر الصائم — هنيئاً لك هذه القربة ⭐','الصيام جنة — نسأل الله أن يكتبك من الصائمين في المواسم'],
+  default:       ['✅ تم التسجيل — بارك الله فيك','أحسنت — كل عمل صالح في العشر محبوب إلى الله','جزاك الله خيراً — ما يخفى على الناس لا يخفى على الله','تقبل الله منك — اللهم اجعل أعمالنا في ميزان حسناتنا ✨'],
+};
+
+function getSuccessMsg(key) {
+  const msgs = SUCCESS_MSGS[key] || SUCCESS_MSGS.default;
+  return msgs[Math.floor(Math.random() * msgs.length)];
+}
+window.getSuccessMsg = getSuccessMsg;
+
+/* Override initChecklist to use varied messages */
+const _origInitChecklist = initChecklist;
+function initChecklist() {
+  _origInitChecklist();
+  /* Re-wire click handlers to use varied messages */
+  document.querySelectorAll('.check[data-key]').forEach(el => {
+    const k = el.dataset.key;
+    const handlers = el._gsapBound ? null : null; // just re-add varied toast
+    el.addEventListener('click', () => {
+      if (el.classList.contains('done')) {
+        setTimeout(() => showToast(getSuccessMsg(k)), 50);
+      }
+    });
+  });
+}
+
+/* ══════════════════════════════════════════════════════════
+   CLICK SOUND — صوت النقر
+   ══════════════════════════════════════════════════════════ */
+let _audioCtx = null;
+function playClickSound() {
+  if (STATE.theme && !localStorage.getItem('zad_sound_on')) return; /* default off */
+  try {
+    if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = _audioCtx.createOscillator();
+    const g = _audioCtx.createGain();
+    o.connect(g); g.connect(_audioCtx.destination);
+    o.frequency.setValueAtTime(880, _audioCtx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(440, _audioCtx.currentTime + 0.08);
+    g.gain.setValueAtTime(0.12, _audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, _audioCtx.currentTime + 0.12);
+    o.start(); o.stop(_audioCtx.currentTime + 0.12);
+  } catch(e) {}
+}
+window.playClickSound = playClickSound;
+
+/* ── Hook sound to checklist ── */
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.check[data-key]').forEach(el => {
+    el.addEventListener('click', () => { if (el.classList.contains('done')) playClickSound(); });
+  });
+  renderDailyContentCard();
+});
