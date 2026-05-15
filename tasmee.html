@@ -35,6 +35,11 @@
       <span data-i18n="common.darkMode">🌙 الوضع الداكن</span>
       <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
+    <!-- Language Toggle -->
+    <button class="sidebar-lang-btn" onclick="toggleLang()" id="sidebar-lang-btn">
+      <span class="slb-label" data-i18n="common.language">🌐 اللغة</span>
+      <span class="slb-val" id="sidebar-lang-val">EN</span>
+    </button>
     <nav class="nav">
       <a href="index.html" class=""><span class="ico">🏠</span data-i18n="nav.dashboard">لوحة التحكم</a>
       <a href="fadael.html" class=""><span class="ico">✨</span data-i18n="nav.virtues">فضائل العشر</a>
@@ -62,7 +67,7 @@
       <div class="page-sub">تصحيح التلاوة بتقنية التعرف على الصوت بالعربية</div></div>
       <div class="topbar-right">
         <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()" aria-label="بحث في التطبيق" role="searchbox"></div>
-        <button class="lang-btn" onclick="toggleLang()" title="Switch language" style="margin-right:8px">EN</button>
+        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang()">EN</button>
         <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
     </div>

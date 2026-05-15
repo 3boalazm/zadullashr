@@ -30,6 +30,9 @@ const TRANSLATIONS = {
     'common.save':      'حفظ',
     'common.send':      'إرسال',
     'common.noAds':     'يعمل بدون إنترنت 📴',
+    'common.language':  '🌐 اللغة',
+    'settings.lang':    'اللغة / Language',
+    'settings.langSub': 'اختر لغة التطبيق',
     /* Worship */
     'worship.title':    'جدول العبادات',
     'worship.sub':      'تابع يومك العبادي في العشر المباركة',
@@ -104,6 +107,9 @@ const TRANSLATIONS = {
     'common.save':      'Save',
     'common.send':      'Send',
     'common.noAds':     'Works offline 📴',
+    'common.language':  '🌐 Language',
+    'settings.lang':    'Language',
+    'settings.langSub': 'Choose app language',
     /* Worship */
     'worship.title':    'Worship Tracker',
     'worship.sub':      'Track your daily worship in the blessed ten days',
@@ -214,10 +220,21 @@ const I18N = {
     document.documentElement.setAttribute('lang', lang);
     document.documentElement.setAttribute('dir', lang === 'en' ? 'ltr' : 'rtl');
     this.apply();
-    /* Update language toggle buttons */
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.textContent = lang === 'en' ? 'عربي' : 'EN';
-    });
+    this._updateButtons(lang);
+  },
+
+  _updateButtons(lang) {
+    /* Topbar pill */
+    const topBtn = document.getElementById('topbar-lang-btn');
+    if (topBtn) topBtn.textContent = lang === 'en' ? 'عربي' : 'EN';
+    /* Sidebar badge */
+    const sbVal = document.getElementById('sidebar-lang-val');
+    if (sbVal) sbVal.textContent = lang === 'en' ? 'عربي' : 'EN';
+    /* Settings toggle */
+    const arBtn = document.getElementById('lang-ar-btn');
+    const enBtn = document.getElementById('lang-en-btn');
+    if (arBtn) arBtn.classList.toggle('active', lang === 'ar');
+    if (enBtn) enBtn.classList.toggle('active', lang === 'en');
   },
 
   apply() {
@@ -264,6 +281,7 @@ const I18N = {
       document.documentElement.setAttribute('dir', 'ltr');
     }
     this.apply();
+    this._updateButtons(this.current);
   }
 };
 window.I18N = I18N;

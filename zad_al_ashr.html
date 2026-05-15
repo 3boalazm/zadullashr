@@ -1,0 +1,2650 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>زاد العشر — أفضل أيام الدنيا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   CSS CUSTOM PROPERTIES — DESIGN TOKENS
+   ============================================= */
+:root {
+  --green-900: #0D3B24;
+  --green-800: #1B5E3B;
+  --green-700: #2D7A52;
+  --green-600: #3A9468;
+  --green-100: #E8F5EF;
+  --gold-800:  #7A5C1A;
+  --gold-600:  #A08030;
+  --gold-400:  #C9A84C;
+  --gold-200:  #E8D08C;
+  --gold-100:  #FDF5E0;
+  --sand-300:  #D9C9AD;
+  --sand-200:  #E8DCC8;
+  --sand-100:  #F5EDE0;
+  --sand-50:   #FAFAF5;
+
+  /* Semantic */
+  --bg:         #FAFAF5;
+  --bg-card:    #FFFFFF;
+  --bg-overlay: rgba(250,250,245,0.95);
+  --text-1:     #1A1A2E;
+  --text-2:     #4A4A5A;
+  --text-3:     #8A8A9A;
+  --border:     rgba(0,0,0,0.07);
+  --shadow-sm:  0 2px 12px rgba(0,0,0,0.06);
+  --shadow-md:  0 6px 28px rgba(0,0,0,0.09);
+  --shadow-lg:  0 12px 48px rgba(0,0,0,0.12);
+  --shadow-green: 0 8px 32px rgba(27,94,59,0.28);
+  --shadow-gold:  0 8px 32px rgba(201,168,76,0.28);
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 32px;
+  --r-full: 9999px;
+  --ease: cubic-bezier(0.4,0,0.2,1);
+  --t: 0.28s;
+  --font-arabic: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+  --font-quran:  'Amiri', serif;
+}
+
+/* DARK MODE */
+[data-theme="dark"] {
+  --bg:         #080810;
+  --bg-card:    #111122;
+  --bg-overlay: rgba(8,8,16,0.95);
+  --text-1:     #EEEEF8;
+  --text-2:     #A8A8C0;
+  --text-3:     #666680;
+  --border:     rgba(255,255,255,0.07);
+  --shadow-sm:  0 2px 12px rgba(0,0,0,0.4);
+  --shadow-md:  0 6px 28px rgba(0,0,0,0.5);
+  --shadow-lg:  0 12px 48px rgba(0,0,0,0.6);
+  --sand-50:    #12121E;
+  --sand-100:   #1A1A2E;
+  --green-100:  #0D2018;
+  --gold-100:   #1A1508;
+}
+
+/* =============================================
+   RESET & BASE
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-arabic);
+  background: var(--bg);
+  color: var(--text-1);
+  direction: rtl;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background var(--t) var(--ease), color var(--t) var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+button { font-family: var(--font-arabic); cursor: pointer; border: none; background: none; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* =============================================
+   SCROLLBAR
+   ============================================= */
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--sand-200); border-radius: 2px; }
+
+/* =============================================
+   LAYOUT SHELL
+   ============================================= */
+.shell {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  background: var(--bg);
+  box-shadow: 0 0 80px rgba(0,0,0,0.15);
+}
+
+/* TOP HEADER */
+.top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  max-width: 480px; margin: 0 auto;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 900;
+  transition: background var(--t) var(--ease), border-color var(--t) var(--ease);
+}
+
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 20px; font-weight: 800;
+  color: var(--green-800);
+}
+[data-theme="dark"] .brand { color: var(--gold-400); }
+
+.brand-logo {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--green-800), var(--gold-400));
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  box-shadow: var(--shadow-green);
+}
+
+.top-actions { display: flex; gap: 8px; }
+
+.icon-btn {
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-2);
+  font-size: 17px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--t) var(--ease);
+  box-shadow: var(--shadow-sm);
+}
+.icon-btn:hover { background: var(--green-800); color: #fff; border-color: var(--green-800); }
+
+/* MAIN CONTENT */
+.main {
+  padding: 70px 14px 86px;
+  min-height: 100vh;
+}
+
+/* BOTTOM NAVIGATION */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  max-width: 480px; margin: 0 auto;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-around;
+  padding: 6px 0 8px;
+  z-index: 900;
+}
+
+.nav-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 4px 10px;
+  border-radius: var(--r-sm);
+  color: var(--text-3);
+  font-size: 9.5px; font-weight: 600;
+  transition: all var(--t) var(--ease);
+  position: relative;
+}
+.nav-btn .ico {
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px;
+  transition: all var(--t) var(--ease);
+}
+.nav-btn.active { color: var(--green-800); }
+.nav-btn.active .ico {
+  background: var(--green-800);
+  color: #fff;
+  box-shadow: var(--shadow-green);
+  transform: translateY(-2px);
+}
+[data-theme="dark"] .nav-btn.active { color: var(--gold-400); }
+[data-theme="dark"] .nav-btn.active .ico { background: var(--green-700); box-shadow: none; }
+
+/* MORE POPUP */
+.more-popup {
+  display: none;
+  position: fixed;
+  bottom: 70px; left: 14px; right: 14px;
+  max-width: 452px; margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  z-index: 950;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.25s var(--ease);
+}
+.more-popup.show { display: block; }
+.more-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.more-item {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 10px 4px;
+  border-radius: var(--r-sm);
+  font-size: 11px; font-weight: 600; color: var(--text-2);
+  transition: all var(--t) var(--ease);
+  cursor: pointer;
+}
+.more-item:hover { background: var(--sand-100); color: var(--green-800); }
+.more-item .mi { font-size: 28px; }
+
+/* BACKDROP */
+.backdrop {
+  display: none;
+  position: fixed; inset: 0; z-index: 940;
+  background: rgba(0,0,0,0.35);
+}
+.backdrop.show { display: block; }
+
+/* =============================================
+   PAGE SYSTEM
+   ============================================= */
+.page { display: none; animation: fadeUp 0.35s var(--ease); }
+.page.active { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes glow {
+  0%,100% { box-shadow: 0 0 20px rgba(201,168,76,0.3); }
+  50% { box-shadow: 0 0 40px rgba(201,168,76,0.6); }
+}
+@keyframes bump {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* =============================================
+   SHARED COMPONENTS
+   ============================================= */
+
+/* SECTION HEADING */
+.sec-head {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 15px; font-weight: 800;
+  color: var(--green-800);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--green-100);
+}
+[data-theme="dark"] .sec-head { color: var(--gold-400); border-color: var(--green-900); }
+.sec-head .ic {
+  width: 32px; height: 32px;
+  background: var(--green-100);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+}
+[data-theme="dark"] .sec-head .ic { background: var(--green-900); }
+
+/* CARD BASE */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--t), border-color var(--t), box-shadow var(--t);
+}
+.card:hover { box-shadow: var(--shadow-md); }
+
+/* TOP ACCENT BAR */
+.card.accent-top { position: relative; padding-top: 24px; }
+.card.accent-top::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--green-800), var(--gold-400));
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+}
+
+/* BADGE */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--r-full);
+  font-size: 11px; font-weight: 700;
+}
+.badge-gold { background: var(--gold-200); color: var(--gold-800); }
+.badge-green { background: var(--green-100); color: var(--green-800); }
+[data-theme="dark"] .badge-gold { background: rgba(201,168,76,0.15); color: var(--gold-400); }
+[data-theme="dark"] .badge-green { background: rgba(27,94,59,0.2); color: #4CAF81; }
+
+/* ROW */
+.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.row.start { justify-content: flex-start; }
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 14px 0;
+}
+
+/* ARABIC TEXT */
+.quran-text {
+  font-family: var(--font-quran);
+  font-size: 22px; line-height: 2.2;
+  color: var(--green-900); text-align: center;
+  font-weight: 700;
+}
+[data-theme="dark"] .quran-text { color: var(--gold-200); }
+
+.hadith-text {
+  font-size: 15px; line-height: 1.95;
+  color: var(--text-1);
+  background: var(--sand-50);
+  padding: 16px;
+  border-radius: var(--r-md);
+  border-right: 4px solid var(--gold-400);
+}
+
+/* GREEN HERO CARD */
+.hero-green {
+  background: linear-gradient(140deg, var(--green-900), var(--green-700));
+  border-radius: var(--r-lg);
+  padding: 28px 22px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-green);
+}
+.hero-green::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 30% 70%, rgba(201,168,76,0.12), transparent 60%);
+}
+
+/* GOLD HERO CARD */
+.hero-gold {
+  background: linear-gradient(140deg, var(--gold-800), var(--gold-400));
+  border-radius: var(--r-lg);
+  padding: 28px 22px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-gold);
+}
+
+/* =============================================
+   PAGE 1 — DASHBOARD
+   ============================================= */
+
+/* COUNTDOWN */
+.countdown-card {
+  background: linear-gradient(140deg, var(--green-900) 0%, var(--green-800) 60%, #1e7048 100%);
+  border-radius: var(--r-lg);
+  padding: 26px 20px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 16px;
+  position: relative; overflow: hidden;
+  box-shadow: var(--shadow-green);
+}
+.countdown-card::before {
+  content: '';
+  position: absolute; top: -40%; right: -40%; width: 180%; height: 180%;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 55%);
+  animation: float 8s ease-in-out infinite;
+}
+.cd-label { font-size: 13px; opacity: 0.8; margin-bottom: 6px; }
+.cd-event { font-size: 20px; font-weight: 800; color: var(--gold-200); margin-bottom: 18px; position: relative; }
+.cd-units { display: flex; justify-content: center; gap: 10px; position: relative; }
+.cd-unit {
+  background: rgba(255,255,255,0.13);
+  backdrop-filter: blur(10px);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  min-width: 60px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.cd-num { font-size: 30px; font-weight: 900; line-height: 1; display: block; }
+.cd-lbl { font-size: 10px; opacity: 0.7; margin-top: 4px; }
+
+/* DAILY VERSE CARD */
+.verse-card { position: relative; overflow: hidden; }
+.verse-card .card-label {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+  font-size: 14px; font-weight: 700;
+  color: var(--green-800);
+}
+[data-theme="dark"] .verse-card .card-label { color: var(--gold-400); }
+
+/* PROGRESS RING */
+.prog-section { }
+.prog-ring-wrap { display: flex; align-items: center; gap: 20px; }
+.prog-ring { width: 100px; height: 100px; position: relative; flex-shrink: 0; }
+.prog-ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+.prog-ring-bg { fill: none; stroke: var(--sand-200); stroke-width: 8; }
+[data-theme="dark"] .prog-ring-bg { stroke: #2A2A3E; }
+.prog-ring-fill {
+  fill: none;
+  stroke: url(#pgGrad);
+  stroke-width: 8; stroke-linecap: round;
+  stroke-dasharray: 251;
+  stroke-dashoffset: 63;
+  transition: stroke-dashoffset 1.2s var(--ease);
+}
+.prog-pct {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 22px; font-weight: 900;
+  color: var(--green-800);
+}
+[data-theme="dark"] .prog-pct { color: var(--gold-400); }
+.prog-items { flex: 1; }
+.prog-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.prog-row:last-child { border-bottom: none; }
+.prog-row .lbl { color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+.prog-row .val { font-weight: 700; color: var(--green-800); }
+[data-theme="dark"] .prog-row .val { color: var(--gold-400); }
+
+/* =============================================
+   PAGE 2 — VIRTUES
+   ============================================= */
+.virtue-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 22px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t), box-shadow var(--t);
+}
+.virtue-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.virtue-num {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--green-800), var(--green-600));
+  color: #fff;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 900;
+  margin-bottom: 12px;
+}
+.virtue-title { font-size: 17px; font-weight: 800; color: var(--text-1); margin-bottom: 8px; }
+.virtue-body { font-size: 14px; line-height: 1.9; color: var(--text-2); margin-bottom: 12px; }
+.virtue-evidence {
+  background: var(--sand-50);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  border-right: 3px solid var(--gold-400);
+}
+[data-theme="dark"] .virtue-evidence { background: rgba(201,168,76,0.06); }
+.virtue-evidence .arb { font-family: var(--font-quran); font-size: 19px; line-height: 2.1; color: var(--green-900); font-weight: 700; }
+[data-theme="dark"] .virtue-evidence .arb { color: var(--gold-200); }
+.virtue-evidence .src { font-size: 12px; color: var(--text-3); margin-top: 8px; }
+
+/* COMPARISON TABLE */
+.cmp-table {
+  width: 100%;
+  border-collapse: separate; border-spacing: 0;
+  border-radius: var(--r-lg); overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
+  background: var(--bg-card);
+}
+.cmp-table th {
+  background: var(--green-800); color: #fff;
+  padding: 13px 15px; font-size: 13px; font-weight: 700;
+}
+.cmp-table td {
+  padding: 11px 15px; font-size: 13px; color: var(--text-2);
+  border-bottom: 1px solid var(--border);
+}
+.cmp-table tr:last-child td { border-bottom: none; }
+.cmp-table tr:nth-child(even) td { background: var(--sand-50); }
+
+/* =============================================
+   PAGE 3 — CHECKLIST
+   ============================================= */
+.cl-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.cl-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 13px 10px;
+  border-radius: var(--r-sm);
+  margin-bottom: 6px;
+  background: var(--sand-50);
+  cursor: pointer;
+  transition: all var(--t) var(--ease);
+  user-select: none;
+}
+.cl-item:last-child { margin-bottom: 0; }
+.cl-item:hover { background: var(--sand-100); }
+.cl-item.done { background: rgba(27,94,59,0.06); }
+[data-theme="dark"] .cl-item.done { background: rgba(27,94,59,0.12); }
+.cl-chk {
+  width: 26px; height: 26px; min-width: 26px;
+  border: 2px solid var(--sand-300);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 900; color: transparent;
+  transition: all var(--t) var(--ease);
+  margin-top: 1px;
+}
+.cl-item.done .cl-chk {
+  background: var(--green-800); border-color: var(--green-800); color: #fff;
+}
+.cl-body { flex: 1; }
+.cl-title { font-size: 14px; font-weight: 700; color: var(--text-1); }
+.cl-item.done .cl-title { text-decoration: line-through; color: var(--text-3); }
+.cl-sub { font-size: 12px; color: var(--text-3); margin-top: 3px; }
+.cl-pts {
+  font-size: 11px; background: var(--gold-200); color: var(--gold-800);
+  padding: 3px 8px; border-radius: var(--r-full); font-weight: 700;
+}
+[data-theme="dark"] .cl-pts { background: rgba(201,168,76,0.15); color: var(--gold-400); }
+
+/* FASTING TRACKER */
+.fast-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 8px 0; }
+.fast-day {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--sand-50);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all var(--t) var(--ease);
+  position: relative;
+}
+.fast-day:hover { border-color: var(--green-800); background: var(--green-100); }
+.fast-day.fasted { background: var(--green-800); border-color: var(--green-800); color: #fff; }
+.fast-day.arafah-day { border-color: var(--gold-400); }
+.fast-day.arafah-day::after {
+  content: '⭐'; position: absolute; top: -6px; right: -6px; font-size: 10px;
+}
+.fast-day.arafah-day.fasted { background: var(--gold-400); border-color: var(--gold-400); }
+.fast-lbl { font-size: 9px; font-weight: 500; opacity: 0.75; margin-top: 2px; }
+
+/* =============================================
+   PAGE 4 — QURAN
+   ============================================= */
+.plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+.plan-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--t) var(--ease);
+}
+.plan-card:hover { border-color: var(--green-800); transform: translateY(-2px); }
+.plan-card.active { border-color: var(--green-800); background: var(--green-100); }
+[data-theme="dark"] .plan-card.active { background: rgba(27,94,59,0.15); }
+.plan-ico { font-size: 32px; margin-bottom: 8px; }
+.plan-title { font-size: 14px; font-weight: 800; color: var(--text-1); margin-bottom: 4px; }
+.plan-desc { font-size: 11px; color: var(--text-3); }
+
+.quran-reader {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-md);
+}
+.surah-hdr { text-align: center; padding-bottom: 16px; border-bottom: 2px solid var(--sand-200); margin-bottom: 20px; }
+[data-theme="dark"] .surah-hdr { border-color: #2A2A3E; }
+.surah-name { font-size: 26px; font-weight: 800; color: var(--green-800); }
+[data-theme="dark"] .surah-name { color: var(--gold-400); }
+.surah-info { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+.verse-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px;
+  background: var(--sand-200); border-radius: 50%;
+  font-size: 11px; font-weight: 700; color: var(--green-800);
+  vertical-align: middle; margin: 0 3px;
+}
+[data-theme="dark"] .verse-num { background: #2A2A3E; color: var(--gold-400); }
+
+.font-controls {
+  display: flex; align-items: center; gap: 10px;
+  justify-content: center; margin-top: 16px;
+}
+.font-btn {
+  width: 36px; height: 36px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: var(--sand-50);
+  font-size: 14px; font-weight: 800;
+  color: var(--text-2);
+  transition: all var(--t);
+}
+.font-btn:hover { background: var(--green-800); color: #fff; }
+#qFontSz { font-size: 13px; color: var(--text-3); min-width: 36px; text-align: center; }
+
+/* =============================================
+   PAGE 5 — DHIKR COUNTER
+   ============================================= */
+.phrase-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.phrase-tab {
+  padding: 9px 16px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  font-size: 13px; font-weight: 700; color: var(--text-2);
+  transition: all var(--t);
+}
+.phrase-tab.active { background: var(--green-800); color: #fff; border-color: var(--green-800); }
+[data-theme="dark"] .phrase-tab.active { background: var(--green-700); }
+
+.dhikr-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 36px 24px 28px;
+  text-align: center;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-md);
+  position: relative; overflow: hidden;
+}
+.dhikr-arabic {
+  font-family: var(--font-quran);
+  font-size: 24px; line-height: 1.9;
+  color: var(--green-900); font-weight: 700;
+  margin-bottom: 24px; min-height: 60px;
+}
+[data-theme="dark"] .dhikr-arabic { color: var(--gold-200); }
+.dhikr-count {
+  font-size: 72px; font-weight: 900;
+  color: var(--green-800); line-height: 1;
+  margin: 10px 0;
+  transition: transform 0.12s var(--ease);
+}
+[data-theme="dark"] .dhikr-count { color: var(--gold-400); }
+.dhikr-count.bump { animation: bump 0.18s var(--ease); }
+.dhikr-of { font-size: 14px; color: var(--text-3); margin-bottom: 14px; }
+.dhikr-bar {
+  width: 100%; height: 6px;
+  background: var(--sand-200); border-radius: 3px; overflow: hidden;
+}
+[data-theme="dark"] .dhikr-bar { background: #2A2A3E; }
+.dhikr-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green-800), var(--gold-400));
+  border-radius: 3px; width: 0%;
+  transition: width 0.3s var(--ease);
+}
+
+.counter-btn {
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-800), var(--green-700));
+  color: #fff; font-size: 22px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 20px auto;
+  box-shadow: var(--shadow-green);
+  transition: transform var(--t), box-shadow var(--t);
+}
+.counter-btn:active { transform: scale(0.93); box-shadow: 0 4px 16px rgba(27,94,59,0.3); }
+
+.dhikr-actions { display: flex; gap: 10px; justify-content: center; }
+.dhikr-act-btn {
+  padding: 10px 22px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  font-size: 13px; font-weight: 700; color: var(--text-2);
+  transition: all var(--t);
+}
+.dhikr-act-btn:hover { background: var(--sand-100); }
+
+/* =============================================
+   PAGE 6 — ARAFAH
+   ============================================= */
+.arafah-hero {
+  background: linear-gradient(140deg, var(--green-900), var(--green-800));
+  border-radius: var(--r-lg);
+  padding: 30px 22px; color: #fff; text-align: center;
+  margin-bottom: 22px; position: relative; overflow: hidden;
+  box-shadow: var(--shadow-green);
+}
+.arafah-hero::before {
+  content: '🤲'; font-size: 80px;
+  position: absolute; top: 10px; left: 10px; opacity: 0.08;
+}
+.arafah-hero h2 { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
+.arafah-hero p { font-size: 14px; opacity: 0.85; line-height: 1.7; }
+
+.timeline { padding-right: 36px; position: relative; }
+.timeline::before {
+  content: '';
+  position: absolute; right: 14px; top: 10px; bottom: 10px; width: 2px;
+  background: linear-gradient(to bottom, var(--green-800), var(--gold-400));
+  border-radius: 2px;
+}
+.tl-item {
+  position: relative; margin-bottom: 18px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+.tl-dot {
+  position: absolute; right: -36px; top: 18px;
+  width: 16px; height: 16px;
+  background: var(--green-800); border-radius: 50%;
+  border: 3px solid var(--bg); box-shadow: 0 0 0 2px var(--green-800);
+}
+.tl-time { font-size: 12px; font-weight: 700; color: var(--gold-600); margin-bottom: 5px; }
+[data-theme="dark"] .tl-time { color: var(--gold-400); }
+.tl-title { font-size: 16px; font-weight: 800; color: var(--text-1); margin-bottom: 7px; }
+.tl-body { font-size: 13px; line-height: 1.85; color: var(--text-2); }
+.tl-dua {
+  background: var(--gold-100); border-radius: var(--r-sm);
+  padding: 12px 14px; margin-top: 12px;
+  font-family: var(--font-quran); font-size: 16px; line-height: 2;
+  color: var(--green-900); text-align: center;
+}
+[data-theme="dark"] .tl-dua { background: rgba(201,168,76,0.08); color: var(--gold-200); }
+
+/* =============================================
+   PAGE 7 — SACRIFICE
+   ============================================= */
+.notice-card {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(255,193,7,0.08);
+  border: 1px solid rgba(255,193,7,0.3);
+  border-radius: var(--r-md);
+  padding: 16px; margin-bottom: 14px;
+}
+.notice-ico { font-size: 22px; flex-shrink: 0; }
+.notice-text { font-size: 14px; line-height: 1.85; color: var(--text-1); }
+
+.animal-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 16px; }
+.animal-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 18px 14px; text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.animal-ico { font-size: 36px; margin-bottom: 8px; }
+.animal-name { font-size: 14px; font-weight: 800; color: var(--text-1); margin-bottom: 4px; }
+.animal-age { font-size: 12px; font-weight: 700; color: var(--green-800); }
+[data-theme="dark"] .animal-age { color: var(--gold-400); }
+.animal-desc { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+
+.defect-list { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+.defect-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+}
+.defect-item:last-child { border-bottom: none; }
+.defect-ico {
+  width: 32px; height: 32px;
+  background: rgba(220,53,69,0.1); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.defect-name { font-size: 14px; font-weight: 700; color: var(--text-1); }
+.defect-desc { font-size: 12px; color: var(--text-3); }
+
+/* =============================================
+   PAGE 8 — CHARITY
+   ============================================= */
+.charity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+.charity-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 20px 14px; text-align: center;
+  cursor: pointer;
+  transition: all var(--t) var(--ease);
+  box-shadow: var(--shadow-sm);
+}
+.charity-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--green-800); }
+.charity-ico { font-size: 36px; margin-bottom: 10px; }
+.charity-title { font-size: 14px; font-weight: 800; color: var(--text-1); margin-bottom: 4px; }
+.charity-reward { font-size: 11px; color: var(--green-800); font-weight: 700; }
+[data-theme="dark"] .charity-reward { color: var(--gold-400); }
+
+.donate-block {
+  background: linear-gradient(140deg, var(--green-800), var(--green-700));
+  border-radius: var(--r-lg); padding: 26px; color: #fff; text-align: center;
+  margin-bottom: 14px; box-shadow: var(--shadow-green);
+}
+.donate-block h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+.donate-block p { font-size: 13px; opacity: 0.85; line-height: 1.7; margin-bottom: 18px; }
+.donate-btn {
+  background: #fff; color: var(--green-800);
+  padding: 13px 28px; border-radius: var(--r-md);
+  font-size: 15px; font-weight: 800;
+  transition: all var(--t);
+}
+.donate-btn:hover { transform: scale(1.04); box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+
+/* =============================================
+   PAGE 9 — FAMILY
+   ============================================= */
+.family-card {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 16px 18px; margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.family-av {
+  width: 52px; height: 52px;
+  border-radius: 14px; background: var(--sand-100);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+}
+.family-info { flex: 1; }
+.family-name { font-size: 15px; font-weight: 800; color: var(--text-1); }
+.family-rel { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+.family-status { font-size: 11px; color: var(--green-800); font-weight: 700; margin-top: 4px; }
+[data-theme="dark"] .family-status { color: var(--gold-400); }
+.call-btn {
+  padding: 9px 16px; border-radius: var(--r-sm);
+  background: var(--green-800); color: #fff;
+  font-size: 13px; font-weight: 700;
+  transition: all var(--t);
+}
+.call-btn:hover { background: var(--green-700); }
+
+/* =============================================
+   PAGE 10 — KIDS
+   ============================================= */
+.kids-hero {
+  background: linear-gradient(140deg, #FF9A56, #FFD93D);
+  border-radius: var(--r-lg); padding: 28px 22px;
+  text-align: center; color: #fff; margin-bottom: 18px;
+}
+.kids-hero h2 { font-size: 24px; font-weight: 900; margin-bottom: 6px; }
+.kids-hero p { font-size: 14px; opacity: 0.9; line-height: 1.7; }
+
+.activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.activity-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 22px 14px; text-align: center;
+  cursor: pointer; transition: all var(--t);
+  box-shadow: var(--shadow-sm);
+}
+.activity-card:hover { transform: scale(1.04); }
+.activity-ico { font-size: 40px; margin-bottom: 10px; }
+.activity-title { font-size: 14px; font-weight: 800; color: var(--text-1); }
+.activity-desc { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+
+.story-card { text-align: center; }
+.story-card .big-ico { font-size: 56px; margin-bottom: 14px; }
+.story-card h3 { font-size: 18px; font-weight: 900; color: var(--text-1); margin-bottom: 10px; }
+.story-card p { font-size: 14px; line-height: 1.9; color: var(--text-2); }
+.story-nav {
+  display: flex; justify-content: center; gap: 10px; margin-top: 16px;
+}
+.story-nav-btn {
+  padding: 10px 20px; border-radius: var(--r-md);
+  background: var(--green-800); color: #fff;
+  font-size: 13px; font-weight: 700; transition: all var(--t);
+}
+.story-nav-btn:hover { background: var(--green-700); }
+.story-nav-btn.sec { background: var(--sand-100); color: var(--text-2); }
+[data-theme="dark"] .story-nav-btn.sec { background: #2A2A3E; color: var(--text-2); }
+
+/* =============================================
+   PAGE 11 — BADGES
+   ============================================= */
+.streak-card {
+  background: linear-gradient(140deg, var(--gold-800), var(--gold-400));
+  border-radius: var(--r-lg); padding: 24px;
+  color: #fff; text-align: center;
+  margin-bottom: 18px; box-shadow: var(--shadow-gold);
+}
+.streak-num { font-size: 54px; font-weight: 900; line-height: 1; }
+.streak-lbl { font-size: 14px; opacity: 0.9; margin-top: 4px; }
+.streak-days { display: flex; justify-content: center; gap: 6px; margin-top: 16px; }
+.streak-day {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+}
+.streak-day.done { background: rgba(255,255,255,0.9); color: var(--gold-800); }
+.streak-day.today { border: 2px solid #fff; animation: pulse 2s infinite; }
+
+.badges-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.badge-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 18px 10px; text-align: center;
+  box-shadow: var(--shadow-sm); transition: all var(--t);
+}
+.badge-card.earned { border-color: var(--gold-400); background: var(--gold-100); animation: glow 3s infinite; }
+[data-theme="dark"] .badge-card.earned { background: rgba(201,168,76,0.08); }
+.badge-card.locked { opacity: 0.45; filter: grayscale(1); }
+.badge-ico { font-size: 38px; margin-bottom: 8px; }
+.badge-name { font-size: 11px; font-weight: 800; color: var(--text-1); }
+.badge-desc { font-size: 9.5px; color: var(--text-3); margin-top: 3px; }
+
+/* =============================================
+   PAGE 12 — SHARE
+   ============================================= */
+.share-card {
+  background: linear-gradient(140deg, var(--green-900), var(--green-700));
+  border-radius: var(--r-lg); padding: 32px 24px;
+  text-align: center; color: #fff; margin-bottom: 14px;
+  position: relative; overflow: hidden;
+}
+.share-quote {
+  font-family: var(--font-quran);
+  font-size: 20px; line-height: 2;
+  font-weight: 700; position: relative; z-index: 1;
+  margin-bottom: 12px;
+}
+.share-source { font-size: 13px; opacity: 0.7; position: relative; z-index: 1; }
+.share-btns { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+.share-btn {
+  padding: 11px 22px; border-radius: var(--r-md);
+  font-size: 14px; font-weight: 700; transition: all var(--t);
+  display: flex; align-items: center; gap: 7px;
+}
+.share-btn.primary { background: var(--gold-400); color: #fff; }
+.share-btn.secondary { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+.share-btn:hover { transform: scale(1.04); }
+
+.quotes-list { }
+.quote-item {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 18px; margin-bottom: 12px;
+  cursor: pointer; transition: all var(--t);
+  box-shadow: var(--shadow-sm);
+}
+.quote-item:hover { border-color: var(--green-800); transform: translateY(-2px); }
+.quote-text { font-family: var(--font-quran); font-size: 17px; line-height: 2; color: var(--green-900); margin-bottom: 8px; }
+[data-theme="dark"] .quote-text { color: var(--gold-200); }
+.quote-src { font-size: 12px; color: var(--text-3); }
+.quote-action { font-size: 12px; color: var(--green-800); font-weight: 700; margin-top: 8px; }
+[data-theme="dark"] .quote-action { color: var(--gold-400); }
+
+/* =============================================
+   PAGE 13 — SETTINGS
+   ============================================= */
+.settings-group { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
+.settings-group-title { font-size: 12px; font-weight: 700; color: var(--text-3); padding: 12px 18px 8px; text-transform: uppercase; letter-spacing: 0.08em; }
+.setting-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 15px 18px; border-top: 1px solid var(--border);
+  transition: background var(--t);
+}
+.setting-row:first-of-type { border-top: none; }
+.setting-row:hover { background: var(--sand-50); }
+.setting-ico { font-size: 22px; width: 36px; text-align: center; }
+.setting-label { flex: 1; }
+.setting-name { font-size: 14px; font-weight: 700; color: var(--text-1); }
+.setting-sub { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+/* TOGGLE SWITCH */
+.toggle-sw {
+  position: relative; width: 46px; height: 26px; flex-shrink: 0;
+}
+.toggle-sw input { opacity: 0; width: 0; height: 0; }
+.toggle-sw .slider {
+  position: absolute; inset: 0;
+  background: var(--sand-200); border-radius: var(--r-full);
+  cursor: pointer; transition: background var(--t);
+}
+[data-theme="dark"] .toggle-sw .slider { background: #3A3A50; }
+.toggle-sw .slider::before {
+  content: ''; position: absolute;
+  width: 20px; height: 20px; left: 3px; bottom: 3px;
+  background: #fff; border-radius: 50%;
+  transition: transform var(--t);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.toggle-sw input:checked + .slider { background: var(--green-800); }
+.toggle-sw input:checked + .slider::before { transform: translateX(20px); }
+
+/* FONT SIZE SETTING */
+.font-size-slider {
+  width: 100%; appearance: none;
+  height: 4px; background: var(--sand-200);
+  border-radius: 2px; outline: none;
+}
+[data-theme="dark"] .font-size-slider { background: #2A2A3E; }
+.font-size-slider::-webkit-slider-thumb {
+  appearance: none; width: 18px; height: 18px;
+  background: var(--green-800); border-radius: 50%; cursor: pointer;
+}
+
+/* =============================================
+   TOAST NOTIFICATION
+   ============================================= */
+.toast {
+  position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-20px);
+  background: var(--green-800); color: #fff;
+  padding: 12px 24px; border-radius: var(--r-full);
+  font-size: 14px; font-weight: 700;
+  box-shadow: var(--shadow-lg);
+  opacity: 0; transition: all 0.35s var(--ease);
+  z-index: 9999; white-space: nowrap;
+  max-width: calc(100% - 40px);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 380px) {
+  .cd-num { font-size: 24px; }
+  .cd-unit { min-width: 54px; padding: 10px 10px; }
+  .badges-grid { grid-template-columns: repeat(2,1fr); }
+  .dhikr-count { font-size: 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- BACKDROP -->
+<div class="backdrop" id="backdrop" onclick="closeMore()"></div>
+
+<!-- MORE POPUP -->
+<div class="more-popup" id="morePopup">
+  <div class="more-grid">
+    <div class="more-item" onclick="nav('sacrifice'); closeMore()">
+      <span class="mi">🐑</span><span>الأضحية</span>
+    </div>
+    <div class="more-item" onclick="nav('charity'); closeMore()">
+      <span class="mi">💝</span><span>الصدقة</span>
+    </div>
+    <div class="more-item" onclick="nav('family'); closeMore()">
+      <span class="mi">👨‍👩‍👧</span><span>صلة الرحم</span>
+    </div>
+    <div class="more-item" onclick="nav('kids'); closeMore()">
+      <span class="mi">🌟</span><span>الأطفال</span>
+    </div>
+    <div class="more-item" onclick="nav('share'); closeMore()">
+      <span class="mi">📤</span><span>مشاركة</span>
+    </div>
+    <div class="more-item" onclick="nav('settings'); closeMore()">
+      <span class="mi">⚙️</span><span>الإعدادات</span>
+    </div>
+    <div class="more-item" onclick="nav('badges'); closeMore()">
+      <span class="mi">🏅</span><span>الأوسمة</span>
+    </div>
+    <div class="more-item" onclick="nav('virtues'); closeMore()">
+      <span class="mi">✨</span><span>الفضائل</span>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <div class="brand">
+      <div class="brand-logo">🕋</div>
+      <span>زاد العشر</span>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" title="تبديل الوضع">🌙</button>
+      <button class="icon-btn" onclick="nav('settings')">⚙️</button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- ========== PAGE: DASHBOARD ========== -->
+    <div id="page-dashboard" class="page active">
+      <!-- Countdown -->
+      <div class="countdown-card">
+        <div class="cd-label">⏳ الأيام الفاضلة تقترب</div>
+        <div class="cd-event">يوم عرفة المبارك</div>
+        <div class="cd-units">
+          <div class="cd-unit"><span class="cd-num" id="cdDays">07</span><div class="cd-lbl">يوم</div></div>
+          <div class="cd-unit"><span class="cd-num" id="cdHrs">14</span><div class="cd-lbl">ساعة</div></div>
+          <div class="cd-unit"><span class="cd-num" id="cdMin">32</span><div class="cd-lbl">دقيقة</div></div>
+          <div class="cd-unit"><span class="cd-num" id="cdSec">08</span><div class="cd-lbl">ثانية</div></div>
+        </div>
+      </div>
+
+      <!-- Verse of Day -->
+      <div class="card accent-top verse-card">
+        <div class="card-label">
+          <span style="display:flex;align-items:center;gap:7px;font-weight:800;color:var(--green-800)">
+            📖 آية اليوم
+          </span>
+          <span class="badge badge-gold" id="dayBadge">اليوم 1 من 10</span>
+        </div>
+        <div class="quran-text" id="verseText">
+          ﴿ وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ ۝ وَالشَّفْعِ وَالْوَتْرِ ﴾
+        </div>
+        <div style="text-align:center;font-size:13px;color:var(--text-3);margin-top:8px" id="verseRef">سورة الفجر: 1-3</div>
+      </div>
+
+      <!-- Hadith of Day -->
+      <div class="card accent-top">
+        <div class="sec-head" style="border:0;padding-bottom:0;margin-bottom:14px">
+          <div class="ic">🌟</div> حديث اليوم
+        </div>
+        <div class="hadith-text" id="hadithText">
+          «مَا الْعَمَلُ فِي أَيَّامٍ أَفْضَلَ مِنْهَا فِي هَذِهِ» قَالُوا: وَلَا الْجِهَادُ؟ قَالَ: «وَلَا الْجِهَادُ، إِلَّا رَجُلٌ خَرَجَ يُخَاطِرُ بِنَفْسِهِ وَمَالِهِ فَلَمْ يَرْجِعْ بِشَيْءٍ»
+        </div>
+        <div style="font-size:12px;color:var(--text-3);margin-top:8px;text-align:left">رواه البخاري (969)</div>
+      </div>
+
+      <!-- Progress -->
+      <div class="card">
+        <div class="sec-head" style="border:0;padding-bottom:0;margin-bottom:16px">
+          <div class="ic">📊</div> مؤشر الإنجاز الروحاني
+        </div>
+        <div class="prog-ring-wrap">
+          <div class="prog-ring">
+            <svg viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="pgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:var(--green-800)"/>
+                  <stop offset="100%" style="stop-color:var(--gold-400)"/>
+                </linearGradient>
+              </defs>
+              <circle class="prog-ring-bg" cx="50" cy="50" r="40"/>
+              <circle class="prog-ring-fill" cx="50" cy="50" r="40" id="ringFill"/>
+            </svg>
+            <span class="prog-pct" id="progPct">0%</span>
+          </div>
+          <div class="prog-items">
+            <div class="prog-row"><span class="lbl">🕌 الصلوات</span><span class="val" id="prayVal">0/5</span></div>
+            <div class="prog-row"><span class="lbl">🤲 الأذكار</span><span class="val" id="dhikrVal">0/100</span></div>
+            <div class="prog-row"><span class="lbl">📖 القرآن</span><span class="val" id="quranVal">جزء 0</span></div>
+            <div class="prog-row"><span class="lbl">🍽️ الصيام</span><span class="val" id="fastVal">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: VIRTUES ========== -->
+    <div id="page-virtues" class="page">
+      <div class="sec-head"><div class="ic">✨</div> فضائل عشر ذي الحجة</div>
+
+      <div class="virtue-card">
+        <div class="virtue-num">١</div>
+        <div class="virtue-title">قسَم الله بها في كتابه العزيز</div>
+        <div class="virtue-body">أقسم الله تعالى بالليالي العشر في سورة الفجر، وقسم الله بالشيء يدل على عظمة المُقسَم به وعلو شأنه.</div>
+        <div class="virtue-evidence">
+          <div class="arb">﴿ وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ ۝ وَالشَّفْعِ وَالْوَتْرِ ﴾</div>
+          <div class="src">سورة الفجر: 1-3 — قال ابن عباس وابن الزبير: هي عشر ذي الحجة</div>
+        </div>
+      </div>
+
+      <div class="virtue-card">
+        <div class="virtue-num">٢</div>
+        <div class="virtue-title">الأيام المعلومات عند الله</div>
+        <div class="virtue-body">سمّاها الله تعالى "الأيام المعلومات" وشرع ذكره فيها وتعظيمها بأداء العبادات.</div>
+        <div class="virtue-evidence">
+          <div class="arb">﴿ وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَعْلُومَاتٍ ﴾</div>
+          <div class="src">سورة الحج: 28</div>
+        </div>
+      </div>
+
+      <div class="virtue-card">
+        <div class="virtue-num">٣</div>
+        <div class="virtue-title">العمل فيها أحب إلى الله من الجهاد</div>
+        <div class="virtue-body">صرّح النبي ﷺ بأن العمل الصالح في هذه الأيام أفضل وأحب إلى الله حتى من الجهاد في سبيل الله.</div>
+        <div class="virtue-evidence">
+          <div class="arb">«مَا مِنْ أَيَّامٍ الْعَمَلُ الصَّالِحُ فِيهَا أَحَبُّ إِلَى اللَّهِ مِنْ هَذِهِ الْأَيَّامِ»</div>
+          <div class="src">رواه البخاري (969) وأبو داود (2438)</div>
+        </div>
+      </div>
+
+      <div class="virtue-card">
+        <div class="virtue-num">٤</div>
+        <div class="virtue-title">اجتماع أمهات العبادات</div>
+        <div class="virtue-body">هذه الأيام فريدة بأنها تجمع أمهات العبادات الأربع في وقت واحد؛ الصلاة والصيام والصدقة والحج.</div>
+        <div class="virtue-evidence">
+          <div class="arb">قال ابن حجر: «سبب ذلك أنه يجتمع فيها أمهات العبادة من صلاة وصيام وصدقة وحج»</div>
+          <div class="src">فتح الباري (4/460)</div>
+        </div>
+      </div>
+
+      <div class="virtue-card">
+        <div class="virtue-num">٥</div>
+        <div class="virtue-title">يوم عرفة يكفّر سنتين</div>
+        <div class="virtue-body">خُصّ يوم عرفة بتكفير ذنوب سنتين؛ سنة ماضية وسنة قادمة، وهو ما لم يأت لغيره من الأيام.</div>
+        <div class="virtue-evidence">
+          <div class="arb">«صِيَامُ يَوْمِ عَرَفَةَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ وَالسَّنَةَ الَّتِي بَعْدَهُ»</div>
+          <div class="src">رواه مسلم (1162)</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sec-head" style="border:0;padding:0;margin-bottom:14px"><div class="ic">📊</div> مقارنة فقهية</div>
+        <table class="cmp-table">
+          <tr><th>وجه المقارنة</th><th>نهار العشر</th><th>نهار رمضان</th></tr>
+          <tr><td>أفضلية النهار</td><td style="color:var(--green-800);font-weight:700">✔ الأفضل</td><td>دونه</td></tr>
+          <tr><td>أفضلية الليل</td><td>دونه</td><td style="color:var(--green-800);font-weight:700">✔ الأفضل</td></tr>
+          <tr><td>صيام التطوع</td><td style="color:var(--green-800);font-weight:700">مستحب جداً</td><td>فريضة رمضان</td></tr>
+          <tr><td>اجتماع العبادات</td><td style="color:var(--green-800);font-weight:700">✔ الحج معها</td><td>—</td></tr>
+        </table>
+        <p style="font-size:12px;color:var(--text-3);line-height:1.7">قال شيخ الإسلام ابن تيمية: "نهار أيام العشر أفضل من نهار أيام رمضان، وليالي رمضان أفضل من لياليها"</p>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: CHECKLIST ========== -->
+    <div id="page-checklist" class="page">
+      <div class="sec-head"><div class="ic">✅</div> جدول العبادات اليومي</div>
+
+      <!-- Prayers -->
+      <div class="cl-section">
+        <div class="sec-head" style="font-size:13px"><div class="ic">🕌</div> الصلوات الفريضة والنوافل</div>
+        <div class="cl-item" onclick="toggleCheck(this,'pray')" data-key="fajr">
+          <div class="cl-chk">✓</div>
+          <div class="cl-body">
+            <div class="cl-title">صلاة الفجر في جماعة</div>
+            <div class="cl-sub">من صلى الفجر في جماعة فكأنما قام الليل كله</div>
+          </div>
+          <span class="cl-pts">فرض</span>
+        </div>
+        <div class="cl-item" onclick="toggleCheck(this,'pray')" data-key="zuhr">
+          <div class="cl-chk">✓</div>
+          <div class="cl-body">
+            <div class="cl-title">صلاة الظهر في جماعة</div>
+            <div class="cl-sub">+ السنة القبلية والبعدية</div>
+          </div>
+          <span class="cl-pts">فرض</span>
+        </div>
+        <div class="cl-item" onclick="toggleCheck(this,'pray')" data-key="asr">
+          <div class="cl-chk">✓</div>
+          <div class="cl-body">
+            <div class="cl-title">صلاة العصر في جماعة</div>
+            <div class="cl-sub">«من فاتته العصر فكأنما وُتر أهله وماله»</div>
+          </div>
+          <span class="cl-pts">فرض</span>
+        </div>
+        <div class="cl-item" onclick="toggleCheck(this,'pray')" data-key="maghrib">
+          <div class="cl-chk">✓</div>
+          <div class="cl-body">
+            <div class="cl-title">صلاة المغرب في جماعة</div>
+            <div class="cl-sub">+ ركعتا السنة البعدية</div>
+          </div>
+          <span class="cl-pts">فرض</span>
+        </div>
+        <div class="cl-item" onclick="toggleCheck(this,'pray')" data-key="isha">
+          <div class="cl-chk">✓</div>
+          <div class="cl-body">
+            <div class="cl-title">صلاة العشاء في جماعة</div>
+            <div class="cl-sub">+ السنة البعدية والوتر</div>
+          </div>
+          <span class="cl-pts">فرض</span>
+        </div>
+      </div>
+
+      <!-- Nawafil -->
+      <div class="cl-section">
+        <div class="sec-head" style="font-size:13px"><div class="ic">🌅</div> النوافل المستحبة</div>
+        <div class="cl-item" onclick="toggleCheck(this,'nawafil')" data-key="duha">
+          <div class="cl-chk">✓</div>
+          <div class="cl-body">
+            <div class="cl-title">صلاة الضحى</div>
+            <div class="cl-sub">ركعتان أو أكثر بعد ارتفاع الشمس</div>
+          </div>
+          <span class="cl-pts">نافلة</span>
+        </div>
+        <div class="cl-item" onclick="toggleCheck(this,'nawafil')" data-key="qiyam">
+          <div class="cl-chk">✓</div>
+          <div class="cl-body">
+            <div class="cl-title">قيام الليل (التهجد)</div>
+            <div class="cl-sub">يعدل في أجره قيام ليلة القدر</div>
+          </div>
+          <span class="cl-pts">مستحب</span>
+        </div>
+        <div class="cl-item" onclick="toggleCheck(this,'nawafil')" data-key="tahiyya">
+          <div class="cl-chk">✓</div>
+          <div class="cl-body">
+            <div class="cl-title">تحية المسجد</div>
+            <div class="cl-sub">ركعتان عند دخول المسجد قبل الجلوس</div>
+          </div>
+          <span class="cl-pts">نافلة</span>
+        </div>
+      </div>
+
+      <!-- Dhikr section -->
+      <div class="cl-section">
+        <div class="sec-head" style="font-size:13px"><div class="ic">📿</div> الأذكار والتسبيح</div>
+        <div class="cl-item" onclick="toggleCheck(this,'dhikr_cl')" data-key="morning_dhikr">
+          <div class="cl-chk">✓</div>
+          <div class="cl-body">
+            <div class="cl-title">أذكار الصباح</div>
+            <div class="cl-sub">بعد صلاة الفجر</div>
+          </div>
+        </div>
+        <div class="cl-item" onclick="toggleCheck(this,'dhikr_cl')" data-key="evening_dhikr">
+          <div class="cl-chk">✓</div>
+          <div class="cl-body">
+            <div class="cl-title">أذكار المساء</div>
+            <div class="cl-sub">بعد صلاة العصر</div>
+          </div>
+        </div>
+        <div class="cl-item" onclick="toggleCheck(this,'dhikr_cl')" data-key="takbeer">
+          <div class="cl-chk">✓</div>
+          <div class="cl-body">
+            <div class="cl-title">التكبير المطلق</div>
+            <div class="cl-sub">الله أكبر، الله أكبر، لا إله إلا الله، الله أكبر، ولله الحمد</div>
+          </div>
+        </div>
+        <div class="cl-item" onclick="toggleCheck(this,'dhikr_cl')" data-key="istighfar">
+          <div class="cl-chk">✓</div>
+          <div class="cl-body">
+            <div class="cl-title">الاستغفار والتوبة</div>
+            <div class="cl-sub">تجديد النية وصدق التوبة</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fasting -->
+      <div class="card">
+        <div class="sec-head" style="border:0;padding:0;margin-bottom:16px"><div class="ic">🍽️</div> تتبع الصيام</div>
+        <div class="fast-grid" id="fastGrid">
+          <!-- Generated by JS -->
+        </div>
+        <div style="font-size:12px;color:var(--text-3);text-align:center;margin-top:12px">
+          ⭐ = يوم عرفة (أفضل يوم)  |  انقر لتسجيل الصيام
+        </div>
+      </div>
+
+      <!-- Repentance reminder -->
+      <div class="card" style="background:var(--gold-100);border-color:rgba(201,168,76,0.3)">
+        <div style="font-size:15px;line-height:1.9;color:var(--green-900);text-align:center">
+          🤲 تذكّر: جدّد نيتك وأصلح ما بينك وبين ربك، فالتوبة الصادقة أفضل الأعمال في هذه الأيام.
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: QURAN ========== -->
+    <div id="page-quran" class="page">
+      <div class="sec-head"><div class="ic">📖</div> مصحف العشر</div>
+
+      <!-- Plans -->
+      <div class="plan-grid">
+        <div class="plan-card active" onclick="selectPlan(this,'daily-juz')">
+          <div class="plan-ico">📅</div>
+          <div class="plan-title">جزء يومياً</div>
+          <div class="plan-desc">ختمة في 10 أيام</div>
+        </div>
+        <div class="plan-card" onclick="selectPlan(this,'two-juz')">
+          <div class="plan-ico">⚡</div>
+          <div class="plan-title">جزءان يومياً</div>
+          <div class="plan-desc">ختمتان كاملتان</div>
+        </div>
+        <div class="plan-card" onclick="selectPlan(this,'half-juz')">
+          <div class="plan-ico">🌙</div>
+          <div class="plan-title">نصف جزء</div>
+          <div class="plan-desc">للمبتدئين</div>
+        </div>
+        <div class="plan-card" onclick="selectPlan(this,'custom')">
+          <div class="plan-ico">🎯</div>
+          <div class="plan-title">مخصص</div>
+          <div class="plan-desc">حسب وقتك</div>
+        </div>
+      </div>
+
+      <!-- Reader Controls -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="row">
+          <span style="font-size:13px;color:var(--text-2);font-weight:700">حجم الخط</span>
+          <div class="font-controls">
+            <button class="font-btn" onclick="changeFontSize(-2)">ـ</button>
+            <span id="qFontSz">22px</span>
+            <button class="font-btn" onclick="changeFontSize(2)">+</button>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="row">
+          <span style="font-size:13px;color:var(--text-2);font-weight:700">السورة</span>
+          <select id="surahSelect" onchange="loadSurah(this.value)"
+            style="border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-family:var(--font-arabic);font-size:13px;background:var(--bg-card);color:var(--text-1);outline:none">
+            <option value="fajr">الفجر</option>
+            <option value="hajj">الحج</option>
+            <option value="ikhlas">الإخلاص</option>
+            <option value="baqara">البقرة (أولها)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Reader -->
+      <div class="quran-reader" id="quranReader">
+        <div class="surah-hdr">
+          <div class="surah-name" id="surahName">سورة الفجر</div>
+          <div class="surah-info" id="surahInfo">مكية — 30 آية</div>
+        </div>
+        <div class="quran-text" id="quranText" style="font-size:22px;line-height:2.3">
+          بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>
+          <span class="verse-num">١</span> وَالْفَجْرِ
+          <span class="verse-num">٢</span> وَلَيَالٍ عَشْرٍ
+          <span class="verse-num">٣</span> وَالشَّفْعِ وَالْوَتْرِ
+          <span class="verse-num">٤</span> وَاللَّيْلِ إِذَا يَسْرِ
+          <span class="verse-num">٥</span> هَلْ فِي ذَٰلِكَ قَسَمٌ لِذِي حِجْرٍ
+        </div>
+        <div class="divider"></div>
+        <div style="font-size:13px;line-height:1.9;color:var(--text-2)">
+          <strong style="color:var(--green-800)">التدبر:</strong> أقسم الله تعالى بالفجر والليالي العشر وهي عشر ذي الحجة، وفي هذا القسم إشارة إلى عظيم فضلها وشرف هذه الأيام المباركة.
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="card">
+        <div class="row" style="margin-bottom:10px">
+          <span style="font-size:14px;font-weight:800;color:var(--text-1)">تقدم الختمة</span>
+          <span class="badge badge-green" id="quranProgressBadge">0 / 30 جزء</span>
+        </div>
+        <div class="dhikr-bar">
+          <div class="dhikr-fill" id="quranProgFill" style="width:0%"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button onclick="addJuz()" style="flex:1;padding:12px;border-radius:var(--r-md);background:var(--green-800);color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:var(--font-arabic)">
+            + أضف جزءاً
+          </button>
+          <button onclick="resetQuran()" style="padding:12px 18px;border-radius:var(--r-md);background:var(--sand-100);color:var(--text-2);font-size:14px;font-weight:700;border:1px solid var(--border);cursor:pointer;font-family:var(--font-arabic)">
+            إعادة
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: DHIKR ========== -->
+    <div id="page-dhikr" class="page">
+      <div class="sec-head"><div class="ic">📿</div> المُكبِّر الذكي</div>
+
+      <!-- Phrase selector -->
+      <div class="phrase-tabs">
+        <div class="phrase-tab active" onclick="setPhrase(this, 'اللَّهُ أَكْبَرُ', 33)">الله أكبر</div>
+        <div class="phrase-tab" onclick="setPhrase(this, 'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ', 33)">سبحان الله</div>
+        <div class="phrase-tab" onclick="setPhrase(this, 'لَا إِلَهَ إِلَّا اللَّهُ', 33)">لا إله إلا الله</div>
+        <div class="phrase-tab" onclick="setPhrase(this, 'اللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ لَا إِلَهَ إِلَّا اللَّهُ اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ', 100)">التكبير الكامل</div>
+        <div class="phrase-tab" onclick="setPhrase(this, 'أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ', 100)">الاستغفار</div>
+      </div>
+
+      <!-- Counter -->
+      <div class="dhikr-box">
+        <div class="dhikr-arabic" id="dhikrPhrase">اللَّهُ أَكْبَرُ</div>
+        <div class="dhikr-count" id="dhikrNum">0</div>
+        <div class="dhikr-of">من <span id="dhikrTarget">33</span></div>
+        <div class="dhikr-bar"><div class="dhikr-fill" id="dhikrFill"></div></div>
+        <button class="counter-btn" onclick="countDhikr()">نقر</button>
+        <div class="dhikr-actions">
+          <button class="dhikr-act-btn" onclick="resetDhikr()">🔄 إعادة</button>
+          <button class="dhikr-act-btn" onclick="changeDhikrTarget()">🎯 غيّر الهدف</button>
+        </div>
+      </div>
+
+      <!-- Sessions summary -->
+      <div class="card">
+        <div class="sec-head" style="border:0;padding:0;margin-bottom:14px"><div class="ic">📊</div> إحصاءات اليوم</div>
+        <div class="prog-row"><span class="lbl">🔢 إجمالي التسبيحات</span><span class="val" id="totalDhikr">0</span></div>
+        <div class="prog-row"><span class="lbl">🎯 الأهداف المكتملة</span><span class="val" id="completedSessions">0</span></div>
+        <div class="prog-row"><span class="lbl">⭐ أفضل جلسة</span><span class="val" id="bestSession">—</span></div>
+      </div>
+
+      <!-- Audio Takbeers -->
+      <div class="card">
+        <div class="sec-head" style="border:0;padding:0;margin-bottom:14px"><div class="ic">🔊</div> صيغ التكبير</div>
+        <div class="virtue-evidence" style="margin-bottom:14px">
+          <div class="arb" style="font-size:17px">اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، وَلِلَّهِ الْحَمْدُ</div>
+          <div class="src">صيغة ابن مسعود رضي الله عنه</div>
+        </div>
+        <div class="virtue-evidence">
+          <div class="arb" style="font-size:17px">اللَّهُ أَكْبَرُ كَبِيرًا، وَالْحَمْدُ لِلَّهِ كَثِيرًا، وَسُبْحَانَ اللَّهِ بُكْرَةً وَأَصِيلًا</div>
+          <div class="src">صيغة أخرى مأثورة</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: ARAFAH ========== -->
+    <div id="page-arafah" class="page">
+      <div class="arafah-hero">
+        <h2>🌄 يوم عرفة المبارك</h2>
+        <p>أفضل يوم طلعت عليه الشمس — برنامجك الكامل من الفجر حتى الغروب</p>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">⏰ قبل الفجر — السحور والاستعداد</div>
+          <div class="tl-title">السحور وتجديد النية</div>
+          <div class="tl-body">استيقظ مبكراً للسحور، واستحضر نية الصيام واغتنام هذا اليوم العظيم بكل طاقتك.</div>
+          <div class="tl-dua">نَوَيْتُ صَوْمَ يَوْمِ عَرَفَةَ لِلَّهِ تَعَالَى</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">🌅 الفجر</div>
+          <div class="tl-title">صلاة الفجر + أذكار الصباح</div>
+          <div class="tl-body">صلِّ الفجر في جماعة إن أمكن، ثم اشتغل بالأذكار الشرعية وقراءة القرآن حتى طلوع الشمس.</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">☀️ بعد الشروق</div>
+          <div class="tl-title">صلاة الإشراق والتكبير</div>
+          <div class="tl-body">صلِّ ركعتي الإشراق، ثم أكثر من التكبير والتهليل والتحميد، فهذا يوم ذكر ودعاء.</div>
+          <div class="tl-dua">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">🌞 الضحى حتى الظهر</div>
+          <div class="tl-title">الذكر المستمر والتلاوة</div>
+          <div class="tl-body">اشغل وقتك بالقرآن والأذكار والاستغفار. خصص وقتاً للتأمل والدعاء والتوبة الصادقة من كل ذنب.</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">🕌 الظهر والعصر</div>
+          <div class="tl-title">الصلاة مع الجماعة</div>
+          <div class="tl-body">احرص على أداء الصلاتين في جماعة، وبين الظهر والعصر وقت ثمين للدعاء وقراءة القرآن.</div>
+        </div>
+
+        <div class="tl-item" style="border-color:var(--gold-400)">
+          <div class="tl-dot" style="background:var(--gold-400);box-shadow:0 0 0 2px var(--gold-400)"></div>
+          <div class="tl-time" style="color:var(--gold-600);font-size:14px;font-weight:900">⭐ ساعة الإجابة — قبيل المغرب</div>
+          <div class="tl-title">أعظم لحظات الدعاء</div>
+          <div class="tl-body">آخر ساعة قبل غروب شمس يوم عرفة هي من أعظم لحظات استجابة الدعاء. أقبل على الله بكل قلبك.</div>
+          <div class="tl-dua">اللَّهُمَّ إِنَّكَ عَفُوٌّ كَرِيمٌ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">🌙 المغرب والعشاء</div>
+          <div class="tl-title">خاتمة اليوم المبارك</div>
+          <div class="tl-body">اختم يومك بالشكر والحمد، وصلِّ المغرب والعشاء، وتهجّد في آخر الليل لتبدأ يوم العيد بأجمل ما يكون.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: SACRIFICE ========== -->
+    <div id="page-sacrifice" class="page">
+      <div class="hero-gold">
+        <div style="font-size:52px;margin-bottom:12px">🐑</div>
+        <h2 style="font-size:22px;font-weight:900;margin-bottom:8px">دليل الأضحية الشامل</h2>
+        <p style="font-size:13px;opacity:0.9;line-height:1.7">أحكام وشروط الأضحية مستمدة من الدليل الشرعي</p>
+      </div>
+
+      <div class="notice-card">
+        <div class="notice-ico">⚠️</div>
+        <div class="notice-text">
+          <strong>تنبيه مهم لمن أراد الأضحية:</strong> من دخل عليه شهر ذي الحجة وأراد أن يضحي، فلا يأخذ من شعره ولا من أظفاره ولا من جلده شيئاً حتى يضحي.
+          <div style="color:var(--text-3);font-size:12px;margin-top:6px">رواه مسلم (1977)</div>
+        </div>
+      </div>
+
+      <div class="sec-head"><div class="ic">🐄</div> الأسنان المقبولة شرعاً</div>
+      <div class="animal-grid">
+        <div class="animal-card">
+          <div class="animal-ico">🐪</div>
+          <div class="animal-name">الإبل</div>
+          <div class="animal-age">٥ سنوات فأكثر</div>
+          <div class="animal-desc">وتجزئ عن ٧ أشخاص</div>
+        </div>
+        <div class="animal-card">
+          <div class="animal-ico">🐄</div>
+          <div class="animal-name">البقرة</div>
+          <div class="animal-age">٢ سنتان فأكثر</div>
+          <div class="animal-desc">وتجزئ عن ٧ أشخاص</div>
+        </div>
+        <div class="animal-card">
+          <div class="animal-ico">🐏</div>
+          <div class="animal-name">الضأن</div>
+          <div class="animal-age">٦ أشهر فأكثر</div>
+          <div class="animal-desc">تجزئ عن شخص واحد</div>
+        </div>
+        <div class="animal-card">
+          <div class="animal-ico">🐐</div>
+          <div class="animal-name">المعز</div>
+          <div class="animal-age">سنة كاملة فأكثر</div>
+          <div class="animal-desc">تجزئ عن شخص واحد</div>
+        </div>
+      </div>
+
+      <div class="sec-head"><div class="ic">❌</div> العيوب المانعة من الإجزاء</div>
+      <div class="defect-list">
+        <div class="defect-item">
+          <div class="defect-ico">👁️</div>
+          <div><div class="defect-name">العوراء البيّن عورها</div><div class="defect-desc">التي ذهب بصر إحدى عينيها</div></div>
+        </div>
+        <div class="defect-item">
+          <div class="defect-ico">🤒</div>
+          <div><div class="defect-name">المريضة البيّن مرضها</div><div class="defect-desc">المرض الواضح الذي يضعفها</div></div>
+        </div>
+        <div class="defect-item">
+          <div class="defect-ico">🦵</div>
+          <div><div class="defect-name">العرجاء البيّن عرجها</div><div class="defect-desc">التي لا تستطيع مسايرة الصحاح</div></div>
+        </div>
+        <div class="defect-item">
+          <div class="defect-ico">🦴</div>
+          <div><div class="defect-name">العجفاء الهزيلة</div><div class="defect-desc">التي ذهب مخها من الهزال الشديد</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;background:var(--green-100);border-color:var(--green-800)">
+        <div style="font-size:15px;font-weight:800;color:var(--green-900);margin-bottom:10px">دعاء الذبح</div>
+        <div class="quran-text" style="font-size:18px">بِسْمِ اللَّهِ، وَاللَّهُ أَكْبَرُ، اللَّهُمَّ هَذَا مِنْكَ وَلَكَ</div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: CHARITY ========== -->
+    <div id="page-charity" class="page">
+      <div class="hero-green">
+        <div style="font-size:52px;margin-bottom:12px;position:relative;z-index:1">💝</div>
+        <h2 style="font-size:22px;font-weight:900;margin-bottom:8px;position:relative;z-index:1">صدقة العشر</h2>
+        <p style="font-size:13px;opacity:0.85;line-height:1.7;position:relative;z-index:1">«الصَّدَقَةُ تُطْفِئُ الْخَطِيئَةَ كَمَا يُطْفِئُ الْمَاءُ النَّارَ»</p>
+      </div>
+
+      <div class="sec-head"><div class="ic">🌟</div> أعمال البر اليومية</div>
+      <div class="charity-grid">
+        <div class="charity-card" onclick="markCharity(this,'food')">
+          <div class="charity-ico">🍱</div>
+          <div class="charity-title">إطعام طعام</div>
+          <div class="charity-reward">أجر عظيم متجدد</div>
+        </div>
+        <div class="charity-card" onclick="markCharity(this,'water')">
+          <div class="charity-ico">💧</div>
+          <div class="charity-title">سقيا الماء</div>
+          <div class="charity-reward">صدقة جارية</div>
+        </div>
+        <div class="charity-card" onclick="markCharity(this,'salam')">
+          <div class="charity-ico">🤝</div>
+          <div class="charity-title">إفشاء السلام</div>
+          <div class="charity-reward">صدقة بلا ثمن</div>
+        </div>
+        <div class="charity-card" onclick="markCharity(this,'smile')">
+          <div class="charity-ico">😊</div>
+          <div class="charity-title">الابتسامة</div>
+          <div class="charity-reward">«تَبَسُّمُكَ صَدَقَةٌ»</div>
+        </div>
+        <div class="charity-card" onclick="markCharity(this,'help')">
+          <div class="charity-ico">🙌</div>
+          <div class="charity-title">مساعدة محتاج</div>
+          <div class="charity-reward">خير الناس أنفعهم</div>
+        </div>
+        <div class="charity-card" onclick="markCharity(this,'quran-share')">
+          <div class="charity-ico">📖</div>
+          <div class="charity-title">نشر العلم</div>
+          <div class="charity-reward">علم ينتفع به</div>
+        </div>
+      </div>
+
+      <div class="donate-block">
+        <h3>تبرع بالأضحية لمن يحتاج</h3>
+        <p>ساهم في إسعاد الأسر المحتاجة بذبيحة الأضحية وتوزيعها على المستحقين</p>
+        <button class="donate-btn" onclick="showToast('سيتم توجيهك لمنصة التبرع الموثوقة 🌟')">
+          📲 تبرع الآن
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="sec-head" style="border:0;padding:0;margin-bottom:14px"><div class="ic">📊</div> أعمالك اليوم</div>
+        <div id="charityDone" style="font-size:14px;color:var(--text-3);text-align:center;padding:10px 0">
+          لم تُسجّل أي عمل بر اليوم — ابدأ الآن! 🌸
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: FAMILY ========== -->
+    <div id="page-family" class="page">
+      <div class="hero-green">
+        <div style="font-size:52px;margin-bottom:12px;position:relative;z-index:1">👨‍👩‍👧‍👦</div>
+        <h2 style="font-size:22px;font-weight:900;margin-bottom:8px;position:relative;z-index:1">صلة الرحم</h2>
+        <p style="font-size:13px;opacity:0.85;line-height:1.7;position:relative;z-index:1">«من أحب أن يُبسط له في رزقه ويُنسأ له في أثره فليصل رحمه»</p>
+      </div>
+
+      <div class="sec-head"><div class="ic">📞</div> تذكير يومي للتواصل</div>
+
+      <div class="family-card">
+        <div class="family-av">👴</div>
+        <div class="family-info">
+          <div class="family-name">الوالد / الوالدة</div>
+          <div class="family-rel">أعلى الناس حقاً</div>
+          <div class="family-status">✅ تواصلت معهم اليوم</div>
+        </div>
+        <button class="call-btn" onclick="showToast('تذكير: بر الوالدين من أحب الأعمال إلى الله ❤️')">تواصل</button>
+      </div>
+
+      <div class="family-card">
+        <div class="family-av">👨‍👦</div>
+        <div class="family-info">
+          <div class="family-name">الأخوة والأخوات</div>
+          <div class="family-rel">رحم واصلة</div>
+          <div class="family-status" style="color:var(--text-3)">لم تتواصل بعد</div>
+        </div>
+        <button class="call-btn" onclick="showToast('حفظ الله أخوتك ورزقكم المحبة 💚')">تواصل</button>
+      </div>
+
+      <div class="family-card">
+        <div class="family-av">👴🏼</div>
+        <div class="family-info">
+          <div class="family-name">الأعمام والأخوال</div>
+          <div class="family-rel">قرابة الدم</div>
+          <div class="family-status" style="color:var(--text-3)">لم تتواصل بعد</div>
+        </div>
+        <button class="call-btn" onclick="showToast('صلة الرحم تزيد العمر والرزق 🌟')">تواصل</button>
+      </div>
+
+      <div class="family-card">
+        <div class="family-av">🧑‍🤝‍🧑</div>
+        <div class="family-info">
+          <div class="family-name">الأصدقاء المقربون</div>
+          <div class="family-rel">الإخاء في الله</div>
+          <div class="family-status" style="color:var(--text-3)">لم تتواصل بعد</div>
+        </div>
+        <button class="call-btn" onclick="showToast('تهنئة العيد تجدد المحبة 🌙')">تواصل</button>
+      </div>
+
+      <div class="card" style="background:var(--gold-100);border-color:rgba(201,168,76,0.3)">
+        <div style="font-size:15px;font-weight:700;color:var(--green-900);text-align:center;line-height:1.9">
+          💡 اجعل هذه العشر فرصة لإصلاح أي قطيعة بينك وبين أحد من ذويك — فالعفو والصفح من أفضل الأعمال
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: KIDS ========== -->
+    <div id="page-kids" class="page">
+      <div class="kids-hero">
+        <div style="font-size:52px;margin-bottom:12px">🌟</div>
+        <h2>وضع الأطفال</h2>
+        <p>نتعلم سوياً فضل أيام العشر بطريقة ممتعة وشيّقة</p>
+      </div>
+
+      <!-- Story -->
+      <div class="card story-card accent-top">
+        <div class="big-ico" id="storyIco">🕌</div>
+        <h3 id="storyTitle">قصة سيدنا إبراهيم عليه السلام</h3>
+        <p id="storyText">كان سيدنا إبراهيم عليه السلام نبياً عظيماً أحب الله كثيراً. أمره الله بأمور صعبة جداً ففعلها كلها دون تردد، لأن حبه لله كان أكبر من كل شيء...</p>
+        <div class="story-nav">
+          <button class="story-nav-btn sec" onclick="prevStory()">⬅️ السابق</button>
+          <button class="story-nav-btn" onclick="nextStory()">التالي ➡️</button>
+        </div>
+      </div>
+
+      <!-- Activities -->
+      <div class="sec-head"><div class="ic">🎮</div> أنشطة تعليمية</div>
+      <div class="activity-grid">
+        <div class="activity-card" onclick="kidsActivity('quiz')">
+          <div class="activity-ico">❓</div>
+          <div class="activity-title">مسابقة</div>
+          <div class="activity-desc">اختبر معلوماتك</div>
+        </div>
+        <div class="activity-card" onclick="kidsActivity('coloring')">
+          <div class="activity-ico">🎨</div>
+          <div class="activity-title">ابدأ التعلم</div>
+          <div class="activity-desc">أذكار الأطفال</div>
+        </div>
+        <div class="activity-card" onclick="kidsActivity('surah')">
+          <div class="activity-ico">🎵</div>
+          <div class="activity-title">أناشيد العيد</div>
+          <div class="activity-desc">تكبيرات فرحة</div>
+        </div>
+        <div class="activity-card" onclick="kidsActivity('story')">
+          <div class="activity-ico">📚</div>
+          <div class="activity-title">حكايات النبيين</div>
+          <div class="activity-desc">قصص الأنبياء</div>
+        </div>
+      </div>
+
+      <!-- Kids Quiz -->
+      <div class="card" id="kidsQuiz" style="display:none">
+        <div class="sec-head" style="border:0;padding:0;margin-bottom:16px"><div class="ic">❓</div> مسابقة العشر</div>
+        <div id="quizQ" style="font-size:16px;font-weight:700;color:var(--text-1);margin-bottom:14px;line-height:1.7"></div>
+        <div id="quizOpts" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div id="quizFeedback" style="margin-top:12px;font-size:14px;font-weight:700;text-align:center;display:none"></div>
+        <button onclick="nextQuestion()" id="nextQBtn" style="display:none;margin-top:14px;width:100%;padding:12px;border-radius:var(--r-md);background:var(--green-800);color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:var(--font-arabic)">
+          السؤال التالي ➡️
+        </button>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: BADGES ========== -->
+    <div id="page-badges" class="page">
+      <div class="sec-head"><div class="ic">🏆</div> الأوسمة والإنجازات</div>
+
+      <div class="streak-card">
+        <div class="streak-num" id="streakNum">0</div>
+        <div class="streak-lbl">🔥 يوم متتالي من الالتزام</div>
+        <div class="streak-days">
+          <div class="streak-day" id="sd1">١</div>
+          <div class="streak-day" id="sd2">٢</div>
+          <div class="streak-day" id="sd3">٣</div>
+          <div class="streak-day" id="sd4">٤</div>
+          <div class="streak-day" id="sd5">٥</div>
+          <div class="streak-day today" id="sd6">٦</div>
+          <div class="streak-day" id="sd7">٧</div>
+          <div class="streak-day" id="sd8">٨</div>
+          <div class="streak-day" id="sd9">٩</div>
+          <div class="streak-day" id="sd10">١٠</div>
+        </div>
+      </div>
+
+      <div class="badges-grid">
+        <div class="badge-card earned">
+          <div class="badge-ico">🌅</div>
+          <div class="badge-name">المبكّر</div>
+          <div class="badge-desc">صلى الفجر في وقته</div>
+        </div>
+        <div class="badge-card" id="badgeDhikr">
+          <div class="badge-ico">📿</div>
+          <div class="badge-name">الذاكرون</div>
+          <div class="badge-desc">أكمل ١٠٠ تسبيحة</div>
+        </div>
+        <div class="badge-card locked" id="badgeFasting">
+          <div class="badge-ico">🍽️</div>
+          <div class="badge-name">الصائمون</div>
+          <div class="badge-desc">صيام ٩ أيام كاملة</div>
+        </div>
+        <div class="badge-card locked" id="badgeQuran">
+          <div class="badge-ico">📖</div>
+          <div class="badge-name">الحافظون</div>
+          <div class="badge-desc">ختم القرآن</div>
+        </div>
+        <div class="badge-card locked" id="badgeArafah">
+          <div class="badge-ico">🌄</div>
+          <div class="badge-name">يوم عرفة</div>
+          <div class="badge-desc">أكمل برنامج عرفة</div>
+        </div>
+        <div class="badge-card earned">
+          <div class="badge-ico">💝</div>
+          <div class="badge-name">المحسنون</div>
+          <div class="badge-desc">تصدّق للمرة الأولى</div>
+        </div>
+        <div class="badge-card locked" id="badgeTakbeer">
+          <div class="badge-ico">📢</div>
+          <div class="badge-name">المكبّرون</div>
+          <div class="badge-desc">١٠٠٠ تكبيرة</div>
+        </div>
+        <div class="badge-card locked" id="badgeFamily">
+          <div class="badge-ico">👨‍👩‍👧</div>
+          <div class="badge-name">الواصلون</div>
+          <div class="badge-desc">تواصل مع ٣ أقارب</div>
+        </div>
+        <div class="badge-card locked" id="badge10days">
+          <div class="badge-ico">🏆</div>
+          <div class="badge-name">المسارعون</div>
+          <div class="badge-desc">أتمّ العشر كاملة</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sec-head" style="border:0;padding:0;margin-bottom:14px"><div class="ic">📈</div> تقدمك الكلي</div>
+        <div class="prog-row"><span class="lbl">🏅 الأوسمة المكتسبة</span><span class="val" id="earnedBadges">2 / 9</span></div>
+        <div class="prog-row"><span class="lbl">📊 نقاط الخير</span><span class="val" id="goodPoints">250</span></div>
+        <div class="prog-row"><span class="lbl">🔥 أطول سلسلة</span><span class="val" id="longestStreak">1 يوم</span></div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: SHARE ========== -->
+    <div id="page-share" class="page">
+      <div class="sec-head"><div class="ic">📤</div> مشاركة الجمال</div>
+
+      <div class="share-card">
+        <div style="font-size:13px;opacity:0.6;margin-bottom:12px;position:relative;z-index:1">بطاقة اليوم</div>
+        <div class="share-quote" id="shareQuote">
+          ﴿ وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ ﴾
+        </div>
+        <div class="share-source" id="shareSource">سورة الفجر — تطبيق زاد العشر</div>
+        <div class="share-btns">
+          <button class="share-btn primary" onclick="copyShare()">📋 نسخ</button>
+          <button class="share-btn secondary" onclick="shareNative()">📤 مشاركة</button>
+        </div>
+      </div>
+
+      <div class="sec-head"><div class="ic">✨</div> بطاقات جاهزة للمشاركة</div>
+      <div class="quotes-list">
+        <div class="quote-item" onclick="setShareCard(this)">
+          <div class="quote-text">﴿ وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ ﴾</div>
+          <div class="quote-src">سورة الفجر: 1-2</div>
+          <div class="quote-action">انقر للمشاركة ➤</div>
+        </div>
+        <div class="quote-item" onclick="setShareCard(this)">
+          <div class="quote-text">«مَا مِنْ أَيَّامٍ الْعَمَلُ الصَّالِحُ فِيهَا أَحَبُّ إِلَى اللَّهِ مِنْ هَذِهِ الْأَيَّامِ»</div>
+          <div class="quote-src">رواه البخاري (969)</div>
+          <div class="quote-action">انقر للمشاركة ➤</div>
+        </div>
+        <div class="quote-item" onclick="setShareCard(this)">
+          <div class="quote-text">«صِيَامُ يَوْمِ عَرَفَةَ يُكَفِّرُ السَّنَةَ الَّتِي قَبْلَهُ وَالسَّنَةَ الَّتِي بَعْدَهُ»</div>
+          <div class="quote-src">رواه مسلم (1162)</div>
+          <div class="quote-action">انقر للمشاركة ➤</div>
+        </div>
+        <div class="quote-item" onclick="setShareCard(this)">
+          <div class="quote-text">اللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ لَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ</div>
+          <div class="quote-src">تكبيرات العيد المباركة</div>
+          <div class="quote-action">انقر للمشاركة ➤</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: SETTINGS ========== -->
+    <div id="page-settings" class="page">
+      <div class="sec-head"><div class="ic">⚙️</div> الإعدادات</div>
+
+      <div class="settings-group">
+        <div class="settings-group-title">المظهر والعرض</div>
+        <div class="setting-row">
+          <div class="setting-ico">🌙</div>
+          <div class="setting-label">
+            <div class="setting-name">الوضع الليلي</div>
+            <div class="setting-sub">مريح للعين أثناء قيام الليل</div>
+          </div>
+          <label class="toggle-sw">
+            <input type="checkbox" id="darkToggle" onchange="toggleThemeSwitch()">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-ico">📏</div>
+          <div class="setting-label">
+            <div class="setting-name">حجم خط القرآن</div>
+            <div class="setting-sub" id="fontSizeLabel">22px</div>
+          </div>
+          <input type="range" class="font-size-slider" min="16" max="36" value="22" step="2"
+            oninput="setGlobalFontSize(this.value)">
+        </div>
+        <div class="setting-row">
+          <div class="setting-ico">🎨</div>
+          <div class="setting-label">
+            <div class="setting-name">لون التمييز</div>
+            <div class="setting-sub">أخضر إسلامي (افتراضي)</div>
+          </div>
+          <div style="width:24px;height:24px;background:var(--green-800);border-radius:50%"></div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-group-title">الإشعارات والتذكيرات</div>
+        <div class="setting-row">
+          <div class="setting-ico">🔔</div>
+          <div class="setting-label">
+            <div class="setting-name">تذكير الأوراد اليومية</div>
+            <div class="setting-sub">تنبيه صباحي ومسائي</div>
+          </div>
+          <label class="toggle-sw">
+            <input type="checkbox" checked onchange="showToast('تم تحديث إعداد التذكير ✅')">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-ico">📿</div>
+          <div class="setting-label">
+            <div class="setting-name">الاهتزاز اللمسي</div>
+            <div class="setting-sub">عند كل تسبيحة</div>
+          </div>
+          <label class="toggle-sw">
+            <input type="checkbox" id="hapticToggle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-ico">🌅</div>
+          <div class="setting-label">
+            <div class="setting-name">تذكير يوم عرفة</div>
+            <div class="setting-sub">تنبيه خاص بيوم عرفة المبارك</div>
+          </div>
+          <label class="toggle-sw">
+            <input type="checkbox" checked onchange="showToast('تم حفظ الإعداد ✅')">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-group-title">الخصوصية والبيانات</div>
+        <div class="setting-row">
+          <div class="setting-ico">🔒</div>
+          <div class="setting-label">
+            <div class="setting-name">التطبيق خالٍ من الإعلانات</div>
+            <div class="setting-sub">لا جمع بيانات — خشوع رقمي كامل</div>
+          </div>
+          <span class="badge badge-green">✔ نعم</span>
+        </div>
+        <div class="setting-row" style="cursor:pointer" onclick="resetAllData()">
+          <div class="setting-ico">🗑️</div>
+          <div class="setting-label">
+            <div class="setting-name" style="color:#DC3545">إعادة تعيين البيانات</div>
+            <div class="setting-sub">مسح التقدم والأوسمة</div>
+          </div>
+          <span style="color:var(--text-3)">›</span>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-group-title">عن التطبيق</div>
+        <div class="setting-row">
+          <div class="setting-ico">ℹ️</div>
+          <div class="setting-label">
+            <div class="setting-name">زاد العشر — الإصدار 2.0</div>
+            <div class="setting-sub">تطبيق إسلامي | بلا إعلانات | مفتوح المصدر</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main><!-- /main -->
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="nav-btn active" data-page="dashboard" onclick="nav('dashboard')">
+      <div class="ico">🏠</div><span>الرئيسية</span>
+    </button>
+    <button class="nav-btn" data-page="checklist" onclick="nav('checklist')">
+      <div class="ico">✅</div><span>العبادات</span>
+    </button>
+    <button class="nav-btn" data-page="quran" onclick="nav('quran')">
+      <div class="ico">📖</div><span>القرآن</span>
+    </button>
+    <button class="nav-btn" data-page="dhikr" onclick="nav('dhikr')">
+      <div class="ico">📿</div><span>المُكبِّر</span>
+    </button>
+    <button class="nav-btn" data-page="arafah" onclick="nav('arafah')">
+      <div class="ico">🌄</div><span>عرفة</span>
+    </button>
+    <button class="nav-btn" id="moreNavBtn" onclick="toggleMore(event)">
+      <div class="ico">☰</div><span>المزيد</span>
+    </button>
+  </nav>
+
+</div><!-- /shell -->
+
+<script>
+/* =============================================
+   STATE
+   ============================================= */
+let state = {
+  theme: 'light',
+  dhikrCount: 0,
+  dhikrTarget: 33,
+  dhikrTotal: 0,
+  dhikrSessions: 0,
+  dhikrBest: null,
+  quranJuz: 0,
+  fastDays: {},
+  checkItems: {},
+  charityItems: [],
+  streak: 1,
+  currentStory: 0
+};
+
+// Load from localStorage
+try {
+  const saved = localStorage.getItem('zadAlAshr');
+  if (saved) state = { ...state, ...JSON.parse(saved) };
+} catch(e) {}
+
+function save() {
+  try { localStorage.setItem('zadAlAshr', JSON.stringify(state)); } catch(e) {}
+}
+
+/* =============================================
+   THEME
+   ============================================= */
+function applyTheme(th) {
+  state.theme = th;
+  document.documentElement.setAttribute('data-theme', th);
+  const btn = document.getElementById('themeBtn');
+  const sw  = document.getElementById('darkToggle');
+  if (th === 'dark') {
+    btn.textContent = '☀️';
+    if (sw) sw.checked = true;
+  } else {
+    btn.textContent = '🌙';
+    if (sw) sw.checked = false;
+  }
+  save();
+}
+
+function toggleTheme() {
+  applyTheme(state.theme === 'dark' ? 'light' : 'dark');
+}
+
+function toggleThemeSwitch() {
+  const sw = document.getElementById('darkToggle');
+  applyTheme(sw.checked ? 'dark' : 'light');
+}
+
+/* =============================================
+   NAVIGATION
+   ============================================= */
+function nav(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  const page = document.getElementById('page-' + pageId);
+  if (page) page.classList.add('active');
+
+  const navBtn = document.querySelector(`.nav-btn[data-page="${pageId}"]`);
+  if (navBtn) navBtn.classList.add('active');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  closeMore();
+  updateDashboard();
+}
+
+function toggleMore(e) {
+  e.stopPropagation();
+  const pop = document.getElementById('morePopup');
+  const back = document.getElementById('backdrop');
+  const isOpen = pop.classList.contains('show');
+  if (isOpen) {
+    closeMore();
+  } else {
+    pop.classList.add('show');
+    back.classList.add('show');
+    document.getElementById('moreNavBtn').classList.add('active');
+  }
+}
+
+function closeMore() {
+  document.getElementById('morePopup').classList.remove('show');
+  document.getElementById('backdrop').classList.remove('show');
+}
+
+/* =============================================
+   COUNTDOWN
+   ============================================= */
+function updateCountdown() {
+  const now = new Date();
+  // Arafah ~ 9th Dhul Hijjah (approximate: set to 7 days from now for demo)
+  const target = new Date();
+  target.setDate(target.getDate() + 7);
+  target.setHours(9, 0, 0, 0);
+
+  const diff = Math.max(0, target - now);
+  const days  = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins  = Math.floor((diff % 3600000) / 60000);
+  const secs  = Math.floor((diff % 60000) / 1000);
+
+  const pad = n => String(n).padStart(2, '0');
+  document.getElementById('cdDays').textContent = pad(days);
+  document.getElementById('cdHrs').textContent  = pad(hours);
+  document.getElementById('cdMin').textContent  = pad(mins);
+  document.getElementById('cdSec').textContent  = pad(secs);
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+/* =============================================
+   DAILY CONTENT
+   ============================================= */
+const verses = [
+  { text:'﴿ وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ ﴾', ref:'سورة الفجر: 1-2' },
+  { text:'﴿ وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَعْلُومَاتٍ ﴾', ref:'سورة الحج: 28' },
+  { text:'﴿ قُلْ إِنَّ صَلَاتِي وَنُسُكِي وَمَحْيَايَ وَمَمَاتِي لِلَّهِ ﴾', ref:'سورة الأنعام: 162' },
+  { text:'﴿ وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ ﴾', ref:'سورة البقرة: 197' },
+  { text:'﴿ إِنَّمَا يُوَفَّى الصَّابِرُونَ أَجْرَهُم بِغَيْرِ حِسَابٍ ﴾', ref:'سورة الزمر: 10' },
+];
+
+const day = Math.min(9, ((new Date().getDate()) % 10));
+const v = verses[day % verses.length];
+document.getElementById('verseText').textContent = v.text;
+document.getElementById('verseRef').textContent  = v.ref;
+document.getElementById('dayBadge').textContent  = `اليوم ${day + 1} من 10`;
+
+/* =============================================
+   PROGRESS / DASHBOARD
+   ============================================= */
+function updateDashboard() {
+  const prayKeys = ['fajr','zuhr','asr','maghrib','isha'];
+  const prayDone = prayKeys.filter(k => state.checkItems[k]).length;
+  const fastDone = Object.values(state.fastDays).filter(Boolean).length;
+
+  document.getElementById('prayVal').textContent   = `${prayDone}/5`;
+  document.getElementById('dhikrVal').textContent  = state.dhikrTotal;
+  document.getElementById('quranVal').textContent  = `جزء ${state.quranJuz}`;
+  document.getElementById('fastVal').textContent   = fastDone > 0 ? `${fastDone} أيام ✓` : '—';
+
+  const total = prayDone + Math.min(state.quranJuz, 10) + Math.min(fastDone, 9) + Math.min(Math.floor(state.dhikrTotal/100), 5);
+  const maxTotal = 5 + 10 + 9 + 5;
+  const pct = Math.round((total / maxTotal) * 100);
+
+  document.getElementById('progPct').textContent = pct + '%';
+  const dashOffset = 251 - (251 * pct / 100);
+  document.getElementById('ringFill').style.strokeDashoffset = dashOffset;
+}
+
+/* =============================================
+   CHECKLIST
+   ============================================= */
+function toggleCheck(el, cat) {
+  el.classList.toggle('done');
+  const key = el.dataset.key;
+  state.checkItems[key] = el.classList.contains('done');
+  if (navigator.vibrate && document.getElementById('hapticToggle').checked) navigator.vibrate(40);
+  save();
+  updateDashboard();
+  if (state.checkItems[key]) showToast('أحسنت! جزاك الله خيراً ✅');
+}
+
+/* Restore checklist state */
+function restoreChecklist() {
+  document.querySelectorAll('.cl-item').forEach(el => {
+    const key = el.dataset.key;
+    if (key && state.checkItems[key]) el.classList.add('done');
+  });
+}
+
+/* =============================================
+   FASTING TRACKER
+   ============================================= */
+function buildFastGrid() {
+  const grid = document.getElementById('fastGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  for (let i = 1; i <= 9; i++) {
+    const div = document.createElement('div');
+    div.className = 'fast-day' + (i === 9 ? ' arafah-day' : '');
+    if (state.fastDays[i]) div.classList.add('fasted');
+    div.innerHTML = `<span>${i}</span><span class="fast-lbl">${i === 9 ? 'عرفة' : 'يوم'}</span>`;
+    div.onclick = () => toggleFast(div, i);
+    grid.appendChild(div);
+  }
+}
+
+function toggleFast(el, day) {
+  el.classList.toggle('fasted');
+  state.fastDays[day] = el.classList.contains('fasted');
+  if (navigator.vibrate && document.getElementById('hapticToggle')?.checked) navigator.vibrate(50);
+  save();
+  updateDashboard();
+  if (state.fastDays[day]) showToast(day === 9 ? '⭐ صيام يوم عرفة — يكفّر سنتين!' : `يوم ${day} مُسجَّل ✅`);
+}
+
+/* =============================================
+   QURAN
+   ============================================= */
+let currentFontSize = 22;
+
+function changeFontSize(delta) {
+  currentFontSize = Math.max(16, Math.min(36, currentFontSize + delta));
+  document.getElementById('quranText').style.fontSize = currentFontSize + 'px';
+  document.getElementById('qFontSz').textContent = currentFontSize + 'px';
+  document.getElementById('fontSizeLabel').textContent = currentFontSize + 'px';
+}
+
+function setGlobalFontSize(v) {
+  currentFontSize = parseInt(v);
+  document.getElementById('quranText').style.fontSize = v + 'px';
+  document.getElementById('qFontSz').textContent = v + 'px';
+  document.getElementById('fontSizeLabel').textContent = v + 'px';
+}
+
+const surahs = {
+  fajr: {
+    name: 'سورة الفجر', info: 'مكية — 30 آية',
+    text: `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>
+    <span class="verse-num">١</span> وَالْفَجْرِ
+    <span class="verse-num">٢</span> وَلَيَالٍ عَشْرٍ
+    <span class="verse-num">٣</span> وَالشَّفْعِ وَالْوَتْرِ
+    <span class="verse-num">٤</span> وَاللَّيْلِ إِذَا يَسْرِ
+    <span class="verse-num">٥</span> هَلْ فِي ذَٰلِكَ قَسَمٌ لِذِي حِجْرٍ`
+  },
+  hajj: {
+    name: 'سورة الحج', info: 'مدنية — 78 آية (مقتطف)',
+    text: `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>
+    <span class="verse-num">٢٧</span> وَأَذِّن فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا وَعَلَىٰ كُلِّ ضَامِرٍ يَأْتِينَ مِن كُلِّ فَجٍّ عَمِيقٍ
+    <span class="verse-num">٢٨</span> لِيَشْهَدُوا مَنَافِعَ لَهُمْ وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَعْلُومَاتٍ`
+  },
+  ikhlas: {
+    name: 'سورة الإخلاص', info: 'مكية — 4 آيات',
+    text: `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>
+    <span class="verse-num">١</span> قُلْ هُوَ اللَّهُ أَحَدٌ
+    <span class="verse-num">٢</span> اللَّهُ الصَّمَدُ
+    <span class="verse-num">٣</span> لَمْ يَلِدْ وَلَمْ يُولَدْ
+    <span class="verse-num">٤</span> وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ`
+  },
+  baqara: {
+    name: 'سورة البقرة (أولها)', info: 'مدنية — 286 آية (مقتطف)',
+    text: `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>
+    <span class="verse-num">١</span> الم
+    <span class="verse-num">٢</span> ذَٰلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِلْمُتَّقِينَ
+    <span class="verse-num">٣</span> الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ`
+  }
+};
+
+function loadSurah(key) {
+  const s = surahs[key];
+  document.getElementById('surahName').textContent = s.name;
+  document.getElementById('surahInfo').textContent = s.info;
+  document.getElementById('quranText').innerHTML = s.text;
+  document.getElementById('quranText').style.fontSize = currentFontSize + 'px';
+}
+
+function selectPlan(el, plan) {
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  showToast('تم اختيار الخطة ✅');
+}
+
+function addJuz() {
+  if (state.quranJuz >= 30) { showToast('ما شاء الله! أتممت الختمة كاملة 🏆'); return; }
+  state.quranJuz++;
+  updateQuranProgress();
+  save();
+  showToast(`جزء ${state.quranJuz} مكتمل — بارك الله في جهدك 📖`);
+  if (state.quranJuz >= 30) {
+    document.getElementById('badgeQuran')?.classList.remove('locked');
+    document.getElementById('badgeQuran')?.classList.add('earned');
+  }
+}
+
+function resetQuran() {
+  if (!confirm('هل تريد إعادة تعيين تقدم القرآن؟')) return;
+  state.quranJuz = 0;
+  updateQuranProgress(); save();
+}
+
+function updateQuranProgress() {
+  const pct = Math.round((state.quranJuz / 30) * 100);
+  document.getElementById('quranProgressBadge').textContent = `${state.quranJuz} / 30 جزء`;
+  document.getElementById('quranProgFill').style.width = pct + '%';
+  updateDashboard();
+}
+
+/* =============================================
+   DHIKR COUNTER
+   ============================================= */
+function setPhrase(el, phrase, target) {
+  document.querySelectorAll('.phrase-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('dhikrPhrase').textContent = phrase;
+  state.dhikrTarget = target;
+  document.getElementById('dhikrTarget').textContent = target;
+  resetDhikr(true);
+}
+
+function countDhikr() {
+  state.dhikrCount++;
+  state.dhikrTotal++;
+
+  const el = document.getElementById('dhikrNum');
+  el.textContent = state.dhikrCount;
+  el.classList.add('bump');
+  setTimeout(() => el.classList.remove('bump'), 200);
+
+  const pct = Math.min((state.dhikrCount / state.dhikrTarget) * 100, 100);
+  document.getElementById('dhikrFill').style.width = pct + '%';
+
+  document.getElementById('totalDhikr').textContent = state.dhikrTotal;
+
+  if (navigator.vibrate && document.getElementById('hapticToggle')?.checked) navigator.vibrate(30);
+
+  if (state.dhikrCount === state.dhikrTarget) {
+    state.dhikrSessions++;
+    if (!state.dhikrBest || state.dhikrTarget > state.dhikrBest) state.dhikrBest = state.dhikrTarget;
+    document.getElementById('completedSessions').textContent = state.dhikrSessions;
+    document.getElementById('bestSession').textContent = state.dhikrBest + ' تسبيحة';
+    showToast(`🎉 ما شاء الله! أتممت ${state.dhikrTarget} تسبيحة`);
+    if (state.dhikrTotal >= 100) {
+      document.getElementById('badgeDhikr')?.classList.remove('locked');
+      document.getElementById('badgeDhikr')?.classList.add('earned');
+    }
+    if (state.dhikrTotal >= 1000) {
+      document.getElementById('badgeTakbeer')?.classList.remove('locked');
+      document.getElementById('badgeTakbeer')?.classList.add('earned');
+    }
+  }
+
+  save();
+  updateDashboard();
+}
+
+function resetDhikr(silent) {
+  state.dhikrCount = 0;
+  document.getElementById('dhikrNum').textContent = '0';
+  document.getElementById('dhikrFill').style.width = '0%';
+  if (!silent) showToast('تمت إعادة العداد 🔄');
+  save();
+}
+
+function changeDhikrTarget() {
+  const t = prompt('أدخل الهدف الجديد:', state.dhikrTarget);
+  if (t && !isNaN(t) && +t > 0) {
+    state.dhikrTarget = +t;
+    document.getElementById('dhikrTarget').textContent = +t;
+    resetDhikr(true);
+    showToast(`الهدف الجديد: ${+t} تسبيحة 🎯`);
+  }
+}
+
+/* =============================================
+   CHARITY
+   ============================================= */
+const charityNames = { food:'إطعام طعام', water:'سقيا الماء', salam:'إفشاء السلام', smile:'الابتسامة', help:'مساعدة محتاج', 'quran-share':'نشر العلم' };
+
+function markCharity(el, key) {
+  if (state.charityItems.includes(key)) {
+    showToast('لقد سجّلت هذا العمل بالفعل ✅');
+    return;
+  }
+  state.charityItems.push(key);
+  el.style.borderColor = 'var(--green-800)';
+  el.style.background = 'var(--green-100)';
+  save();
+  showToast(`${charityNames[key]} — بارك الله فيك 💝`);
+  updateCharityDone();
+}
+
+function updateCharityDone() {
+  const div = document.getElementById('charityDone');
+  if (state.charityItems.length === 0) {
+    div.textContent = 'لم تُسجّل أي عمل بر اليوم — ابدأ الآن! 🌸';
+    return;
+  }
+  div.innerHTML = state.charityItems.map(k => `<span style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;background:var(--green-100);color:var(--green-800);font-size:12px;font-weight:700;margin:3px">✓ ${charityNames[k]}</span>`).join('');
+}
+
+/* =============================================
+   KIDS / STORY
+   ============================================= */
+const stories = [
+  {
+    ico:'🕌', title:'قصة سيدنا إبراهيم عليه السلام',
+    text:'كان سيدنا إبراهيم عليه السلام نبياً عظيماً أحب الله كثيراً. أمره الله بأمور صعبة جداً ففعلها كلها دون تردد، لأن حبه لله كان أكبر من كل شيء في الدنيا.'
+  },
+  {
+    ico:'🔥', title:'الامتحان الكبير',
+    text:'أمر الله سيدنا إبراهيم أن يضحي بابنه الحبيب إسماعيل. قال إسماعيل لأبيه: "افعل ما أُمرت به يا أبي، ستجدني صابراً إن شاء الله." وهنا ظهر عظيم ايمانهما!'
+  },
+  {
+    ico:'🐏', title:'الفداء العظيم',
+    text:'لما أراد سيدنا إبراهيم الذبح، نادى المَلَك من السماء: "يا إبراهيم قد صدّقت الرؤيا!" وفدى الله إسماعيل بكبش عظيم. ومن ذلك اليوم شرعت الأضحية في الإسلام.'
+  },
+  {
+    ico:'🕋', title:'بناء الكعبة المشرفة',
+    text:'بعدها أمر الله سيدنا إبراهيم وابنه إسماعيل ببناء بيت الله الحرام. فبنيا الكعبة المشرفة ورفعا قواعدها بمحبة وإخلاص، ودعوا الله أن يتقبل منهما.'
+  },
+  {
+    ico:'🌟', title:'درس العشر للأطفال',
+    text:'هذه الأيام العشر تذكّرنا بحب سيدنا إبراهيم العظيم لله. نحن أيضاً يمكننا أن نحب الله ونثبت ذلك بالصلاة والصيام والذكر والبر في هذه الأيام المباركة!'
+  }
+];
+
+function nextStory() {
+  state.currentStory = (state.currentStory + 1) % stories.length;
+  renderStory();
+}
+function prevStory() {
+  state.currentStory = (state.currentStory - 1 + stories.length) % stories.length;
+  renderStory();
+}
+function renderStory() {
+  const s = stories[state.currentStory];
+  document.getElementById('storyIco').textContent   = s.ico;
+  document.getElementById('storyTitle').textContent = s.title;
+  document.getElementById('storyText').textContent  = s.text;
+}
+
+/* QUIZ */
+let currentQ = 0;
+const quizQuestions = [
+  { q:'كم عدد أيام العشر؟', opts:['5 أيام','10 أيام','15 يوماً','30 يوماً'], a:1 },
+  { q:'ما هو اليوم الأفضل في عشر ذي الحجة؟', opts:['اليوم الأول','اليوم العاشر','يوم عرفة','يوم التروية'], a:2 },
+  { q:'ماذا نفعل في هذه الأيام؟', opts:['نلعب فقط','نصلي ونصوم ونذكر الله','نأكل الكثير','ننام طويلاً'], a:1 },
+  { q:'في أي شهر هجري تأتي أيام العشر؟', opts:['رمضان','محرم','ذو الحجة','شوال'], a:2 },
+];
+
+function kidsActivity(type) {
+  if (type === 'quiz') {
+    const qCard = document.getElementById('kidsQuiz');
+    qCard.style.display = 'block';
+    currentQ = 0;
+    renderQuestion();
+  } else if (type === 'coloring') {
+    showToast('اللهم تقبل منا ومنكم صالح الأعمال 🌸');
+  } else {
+    showToast('اللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ 🎵');
+  }
+}
+
+function renderQuestion() {
+  if (currentQ >= quizQuestions.length) {
+    document.getElementById('quizQ').textContent = '🎉 أحسنت! أكملت المسابقة بنجاح';
+    document.getElementById('quizOpts').innerHTML = '';
+    document.getElementById('quizFeedback').style.display = 'none';
+    document.getElementById('nextQBtn').style.display = 'none';
+    return;
+  }
+  const q = quizQuestions[currentQ];
+  document.getElementById('quizQ').textContent = `س ${currentQ+1}: ${q.q}`;
+  document.getElementById('quizFeedback').style.display = 'none';
+  document.getElementById('nextQBtn').style.display = 'none';
+  const opts = document.getElementById('quizOpts');
+  opts.innerHTML = q.opts.map((opt, i) =>
+    `<button onclick="checkAnswer(${i})"
+      style="padding:12px 16px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--sand-50);color:var(--text-1);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-arabic);text-align:right;transition:all 0.2s"
+      id="opt${i}">${opt}</button>`
+  ).join('');
+}
+
+function checkAnswer(i) {
+  const q = quizQuestions[currentQ];
+  const fb = document.getElementById('quizFeedback');
+  document.querySelectorAll('[id^="opt"]').forEach(b => b.disabled = true);
+  if (i === q.a) {
+    document.getElementById('opt'+i).style.background = 'var(--green-100)';
+    document.getElementById('opt'+i).style.borderColor = 'var(--green-800)';
+    fb.textContent = '✅ إجابة صحيحة! بارك الله فيك';
+    fb.style.color = 'var(--green-800)';
+  } else {
+    document.getElementById('opt'+i).style.background = 'rgba(220,53,69,0.08)';
+    document.getElementById('opt'+i).style.borderColor = '#DC3545';
+    document.getElementById('opt'+q.a).style.background = 'var(--green-100)';
+    document.getElementById('opt'+q.a).style.borderColor = 'var(--green-800)';
+    fb.textContent = '❌ الإجابة الصحيحة هي: ' + q.opts[q.a];
+    fb.style.color = '#DC3545';
+  }
+  fb.style.display = 'block';
+  document.getElementById('nextQBtn').style.display = 'block';
+}
+
+function nextQuestion() {
+  currentQ++;
+  renderQuestion();
+}
+
+/* =============================================
+   SHARE
+   ============================================= */
+function setShareCard(el) {
+  const text = el.querySelector('.quote-text').textContent;
+  const src  = el.querySelector('.quote-src').textContent;
+  document.getElementById('shareQuote').textContent  = text;
+  document.getElementById('shareSource').textContent = src + ' — تطبيق زاد العشر';
+  showToast('تم تحديد البطاقة — جاهزة للمشاركة 📤');
+}
+
+function copyShare() {
+  const t = document.getElementById('shareQuote').textContent + '\n' + document.getElementById('shareSource').textContent;
+  navigator.clipboard?.writeText(t).then(() => showToast('تم النسخ 📋'))
+    .catch(() => showToast('انسخ النص يدوياً'));
+}
+
+function shareNative() {
+  const t = document.getElementById('shareQuote').textContent;
+  if (navigator.share) {
+    navigator.share({ title:'زاد العشر', text: t });
+  } else {
+    copyShare();
+  }
+}
+
+/* =============================================
+   TOAST
+   ============================================= */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* =============================================
+   RESET ALL
+   ============================================= */
+function resetAllData() {
+  if (!confirm('هل أنت متأكد من إعادة تعيين جميع البيانات؟ لا يمكن التراجع عن ذلك.')) return;
+  localStorage.removeItem('zadAlAshr');
+  state = { theme: state.theme, dhikrCount:0, dhikrTarget:33, dhikrTotal:0, dhikrSessions:0, dhikrBest:null, quranJuz:0, fastDays:{}, checkItems:{}, charityItems:[], streak:0, currentStory:0 };
+  save();
+  location.reload();
+}
+
+/* =============================================
+   INIT
+   ============================================= */
+function init() {
+  applyTheme(state.theme);
+  restoreChecklist();
+  buildFastGrid();
+  updateDashboard();
+  updateQuranProgress();
+  updateCharityDone();
+  renderStory();
+  if (state.dhikrTotal > 0) {
+    document.getElementById('totalDhikr').textContent = state.dhikrTotal;
+    document.getElementById('completedSessions').textContent = state.dhikrSessions;
+    if (state.dhikrBest) document.getElementById('bestSession').textContent = state.dhikrBest + ' تسبيحة';
+  }
+  // Apply streaks
+  const streakEl = document.getElementById('streakNum');
+  if (streakEl) streakEl.textContent = state.streak || '1';
+}
+
+document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#morePopup') && !e.target.closest('#moreNavBtn')) closeMore();
+});
+</script>
+</body>
+</html>
