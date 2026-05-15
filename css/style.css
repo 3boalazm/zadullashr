@@ -17,3 +17,11 @@ html[data-theme="dark"] .fab-ai,html[data-theme="oled"] .fab-ai{background:linea
 .fab-ai:hover{transform:scale(1.12) translateY(-3px);box-shadow:0 12px 32px rgba(14,59,46,.45)}
 .fab-ai:active{transform:scale(.95)}
 @media(max-width:768px){.fab-ai{bottom:20px;left:16px;width:48px;height:48px;font-size:20px}}
+
+/* ── خط ثمانية style: Cairo ExtraBold for headers ─────────── */
+.page-title,.hero h1,.hero .brand-name,h1,h2{font-family:'Cairo','Tajawal',system-ui,sans-serif!important}
+.brand-name{font-family:'Cairo','Tajawal',sans-serif!important;font-weight:800}
+.section-title{font-family:'Cairo','Tajawal',sans-serif!important;font-weight:800}
+.hero h1{font-family:'Cairo','Tajawal',sans-serif!important;font-weight:900}
+.page-title{font-family:'Cairo','Tajawal',sans-serif!important;font-weight:800}
+.cd-num,.zad-pts,.ts-count-num,.stat .v,.metric-val{font-family:'Cairo','Tajawal',sans-serif!important;font-weight:900}

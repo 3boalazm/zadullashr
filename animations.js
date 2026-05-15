@@ -26,8 +26,8 @@ function initPageEnter() {
   const main = document.querySelector('.main');
   if (main) {
     main.style.animation = 'none';
-    main.style.opacity   = '0';
-    tl.to(main, { opacity: 1, y: 0, duration: 0.45 }, 0);
+    /* Don't set opacity:0 on main — causes tab content to flash invisible */
+    gsap.from(main, { opacity: 0, y: 12, duration: 0.4, ease: 'expo.out', clearProps: 'all' });
   }
   if (window.innerWidth > 768) {
     const sidebar = document.querySelector('.sidebar');
