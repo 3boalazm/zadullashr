@@ -32,7 +32,8 @@ function defaultState() {
     charityDone: [],
     quranFontSize: 24,
     arafah:  { milestones: {}, dhikrCount: 0, khushooMode: false, bonus: {} },
-    adhkar:  {}
+    adhkar:  {},
+    takbeer7: {}  // 7 individual dhikr counters
   };
 }
 
@@ -146,16 +147,17 @@ function initChecklist() {
 function updateProgress() {
   const bar = document.getElementById('prog-bar');
   const txt = document.getElementById('prog-txt');
-  if (!bar) return;
 
   const worshipKeys = ['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam',
                        'morning_dhikr','evening_dhikr','takbeer_100','tawbah'];
   const done = worshipKeys.filter(k => STATE.worship[k]).length;
   const pct  = Math.round((done / worshipKeys.length) * 100);
-  bar.style.width = pct + '%';
+  if (bar) bar.style.width = pct + '%';
   if (txt) txt.textContent = done + ' من ' + worshipKeys.length + ' عبادة';
   const pctEl = document.getElementById('prog-pct');
   if (pctEl) pctEl.textContent = pct + '%';
+  // Update circular ring if present (no recursion — direct call)
+  if (typeof updateCircularRing === 'function') updateCircularRing(pct);
 }
 
 /* ──────────────────────────────────────────
@@ -790,6 +792,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFasting();
   updateDashStats();
   initTakbeer();
+  if (document.getElementById("tasbih-cards")) initTasbih();
   initMushaf();
   initAIChat();
   initKids();
@@ -800,6 +803,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. Animations
   initAnimations();
+
+  // 5. PWA + extras (was 2nd DOMContentLoaded - merged to prevent double-run)
+  initPWA();
+  initSearch();
+  initVerseRotator();
+  initSpeechRecognition();
+  initNotifBanner();
+  if (STATE.fontScale) applyFontSize(STATE.fontScale);
 });
 
 /* ══════════════════════════════════════════
@@ -822,7 +833,7 @@ function initAnimations() {
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
   // Cards and checklists below the fold
-  document.querySelectorAll('.card, .check, .tl-item, .info-step, .badge, .audio').forEach((el, i) => {
+  document.querySelectorAll('.card, .tl-item, .info-step, .badge, .audio').forEach((el, i) => {
     el.classList.add('reveal');
     el.style.transitionDelay = (i % 6) * 0.06 + 's';
     io.observe(el);
@@ -1218,15 +1229,7 @@ function updateCircularRing(pct) {
   if (pctEl) pctEl.textContent = pct + '%';
 }
 
-/* Extended updateProgress to also update ring */
-const _origUpdateProgress = updateProgress;
-function updateProgress() {
-  _origUpdateProgress();
-  const worshipKeys = ['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam',
-                       'morning_dhikr','evening_dhikr','takbeer_100','tawbah'];
-  const done = worshipKeys.filter(k => STATE.worship[k]).length;
-  updateCircularRing(Math.round((done / worshipKeys.length) * 100));
-}
+/* updateCircularRing is called directly from updateProgress — no override needed */
 
 /* ══════════════════════════════════════════
    SPEECH RECOGNITION (Arabic Quran Tasmee)
@@ -1336,22 +1339,7 @@ function updateAccuracyRing(pct) {
 /* ══════════════════════════════════════════
    EXTENDED INIT
    ══════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
-  // PWA
-  initPWA();
-  // Search overlay
-  initSearch();
-  // Verse rotator
-  initVerseRotator();
-  // Speech recognition (tasmee page only)
-  initSpeechRecognition();
-  // Notification banner
-  initNotifBanner();
-  // Font scale restore
-  if (STATE.fontScale) applyFontSize(STATE.fontScale);
-  // OLED / multi-theme support
-  window.applyTheme(STATE.theme);
-});
+/* merged into main DOMContentLoaded */
 
 /* ══════════════════════════════════════════════════════════
    HIJRI CALENDAR DETECTION
@@ -1938,3 +1926,192 @@ function checkDailyComplete() {
   }
 }
 window.checkDailyComplete = checkDailyComplete;
+
+
+/* ══════════════════════════════════════════════════════════
+   TASBIH — 7 Dhikr Counter System
+   المسبحة الرقمية — 7 أذكار أساسية
+   ══════════════════════════════════════════════════════════ */
+const DHIKR_LIST = [
+  { id:'subhan',    arabic:'سُبْحَانَ اللَّهِ',                                  label:'سبحان الله',         target:33,  color:'#5aabff', bg:'rgba(90,171,255,.12)'  },
+  { id:'hamd',      arabic:'الْحَمْدُ لِلَّهِ',                                  label:'الحمد لله',           target:33,  color:'#4dd866', bg:'rgba(77,216,102,.12)'  },
+  { id:'tahlil',    arabic:'لَا إِلَهَ إِلَّا اللَّهُ',                          label:'لا إله إلا الله',     target:33,  color:'#e6c97a', bg:'rgba(230,201,122,.15)' },
+  { id:'takbir_s',  arabic:'اللَّهُ أَكْبَرُ',                                   label:'الله أكبر',           target:33,  color:'#ffba3b', bg:'rgba(255,186,59,.12)'  },
+  { id:'hawqala',   arabic:'لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ',         label:'الحوقلة',             target:100, color:'#7de5ff', bg:'rgba(125,229,255,.12)' },
+  { id:'istigfar_s',arabic:'أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ',label:'أستغفر الله',         target:100, color:'#d47dff', bg:'rgba(212,125,255,.12)' },
+  { id:'salawat',   arabic:'اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى سَيِّدِنَا مُحَمَّدٍ',label:'الصلاة على النبي ﷺ', target:100, color:'#ff6b85', bg:'rgba(255,107,133,.12)' },
+];
+
+function initTasbih() {
+  const cardsWrap = document.getElementById('tasbih-cards');
+  if (!cardsWrap) return;
+
+  if (!STATE.tasbih) STATE.tasbih = { active:'subhan', subhan:0, hamd:0, tahlil:0, takbir_s:0, hawqala:0, istigfar_s:0, salawat:0, sessions:{} };
+
+  // Build 7 dhikr cards
+  DHIKR_LIST.forEach(d => {
+    if (!STATE.tasbih[d.id]) STATE.tasbih[d.id] = 0;
+    const card = document.createElement('div');
+    card.className = 'dhikr-card' + (STATE.tasbih.active === d.id ? ' active' : '');
+    card.id = 'dc-' + d.id;
+    card.style.setProperty('--dc-color', d.color);
+    card.style.setProperty('--dc-bg', d.bg);
+    const cnt   = STATE.tasbih[d.id] || 0;
+    const pct   = Math.min(Math.round((cnt / d.target) * 100), 100);
+    const laps  = Math.floor(cnt / d.target);
+    card.innerHTML = `
+      <div class="dc-arabic">${d.arabic.split(' ').slice(0,3).join(' ')}</div>
+      <div class="dc-meta">
+        <span class="dc-count" id="dcnt-${d.id}">${cnt}</span>
+        <span class="dc-sep">/</span>
+        <span class="dc-target">${d.target}</span>
+      </div>
+      <div class="dc-prog"><span style="width:${pct}%"></span></div>
+      ${laps > 0 ? `<div class="dc-laps" id="dlaps-${d.id}">×${laps}</div>` : `<div class="dc-laps" id="dlaps-${d.id}" style="opacity:0">×0</div>`}`;
+    card.addEventListener('click', () => selectDhikr(d.id));
+    cardsWrap.appendChild(card);
+  });
+
+  // Render the active dhikr
+  renderActiveDhikr();
+
+  // Ring click
+  const ring = document.getElementById('ts-ring');
+  if (ring) {
+    ring.addEventListener('click', countTasbih);
+    ring.setAttribute('tabindex', '0');
+    ring.addEventListener('keydown', e => { if(e.key===' '||e.key==='Enter'){e.preventDefault();countTasbih();} });
+  }
+
+  // Reset button
+  const resetBtn = document.getElementById('ts-reset');
+  if (resetBtn) resetBtn.onclick = resetCurrentDhikr;
+
+  // Reset all
+  const resetAll = document.getElementById('ts-reset-all');
+  if (resetAll) resetAll.onclick = () => {
+    if (confirm('إعادة تعيين جميع الأذكار؟')) {
+      DHIKR_LIST.forEach(d => { STATE.tasbih[d.id] = 0; });
+      STATE.tasbih.sessions = {};
+      saveState();
+      const wrap = document.getElementById('tasbih-cards');
+      if (wrap) { wrap.innerHTML = ''; initTasbih(); }
+      renderActiveDhikr();
+      showToast('🔄 تمت إعادة تعيين الأذكار');
+    }
+  };
+}
+window.initTasbih = initTasbih;
+
+function selectDhikr(id) {
+  STATE.tasbih.active = id;
+  saveState();
+  document.querySelectorAll('.dhikr-card').forEach(c => c.classList.remove('active'));
+  const card = document.getElementById('dc-' + id);
+  if (card) card.classList.add('active');
+  renderActiveDhikr();
+}
+window.selectDhikr = selectDhikr;
+
+function renderActiveDhikr() {
+  const id   = STATE.tasbih.active || 'subhan';
+  const def  = DHIKR_LIST.find(d => d.id === id) || DHIKR_LIST[0];
+  const cnt  = STATE.tasbih[id] || 0;
+  const pct  = Math.min(Math.round((cnt / def.target) * 100), 100);
+  const circlePct = Math.min((cnt % def.target) / def.target, 1); // per-lap progress
+
+  // Update central display
+  const textEl = document.getElementById('ts-text');
+  const cntEl  = document.getElementById('ts-count');
+  const subEl  = document.getElementById('ts-sub');
+  const lapEl  = document.getElementById('ts-laps');
+
+  if (textEl) { textEl.textContent = def.arabic; textEl.style.color = def.color; }
+  if (cntEl)  { cntEl.textContent  = cnt % def.target || (cnt > 0 && cnt % def.target === 0 ? def.target : 0); }
+  if (subEl)  subEl.textContent    = def.label + ' — كل ' + def.target;
+  if (lapEl) {
+    const laps = Math.floor(cnt / def.target);
+    lapEl.textContent  = laps > 0 ? `× ${laps} دورة مكتملة` : '';
+    lapEl.style.display = laps > 0 ? 'block' : 'none';
+  }
+
+  // Update SVG ring progress
+  const svgRing = document.getElementById('ts-ring-progress');
+  if (svgRing) {
+    const R = 80, C = 2 * Math.PI * R;
+    svgRing.style.stroke = def.color;
+    svgRing.style.strokeDasharray = C;
+    svgRing.style.strokeDashoffset = C - C * circlePct;
+  }
+  const ringBg = document.getElementById('ts-ring-bg');
+  if (ringBg) ringBg.style.stroke = def.bg;
+}
+window.renderActiveDhikr = renderActiveDhikr;
+
+function countTasbih() {
+  const id  = STATE.tasbih.active || 'subhan';
+  const def = DHIKR_LIST.find(d => d.id === id) || DHIKR_LIST[0];
+  STATE.tasbih[id] = (STATE.tasbih[id] || 0) + 1;
+  const cnt = STATE.tasbih[id];
+  if (navigator.vibrate) navigator.vibrate(18);
+
+  // Also add to takbeer total if it's takbir_s
+  if (id === 'takbir_s') {
+    STATE.takbeer.total = (STATE.takbeer.total || 0) + 1;
+    STATE.worship.takbeer_100 = STATE.takbeer.total >= 100;
+  }
+
+  saveState();
+
+  // Bump animation on count
+  const cntEl = document.getElementById('ts-count');
+  if (cntEl) { cntEl.classList.remove('bump'); void cntEl.offsetWidth; cntEl.classList.add('bump'); setTimeout(()=>cntEl.classList.remove('bump'),180); }
+
+  // Update the card counter
+  const cardCnt = document.getElementById('dcnt-' + id);
+  if (cardCnt) cardCnt.textContent = cnt;
+
+  // Laps
+  const laps = Math.floor(cnt / def.target);
+  const lapCard = document.getElementById('dlaps-' + id);
+  if (lapCard) { lapCard.textContent = `×${laps}`; lapCard.style.opacity = laps > 0 ? '1' : '0'; }
+
+  // Card progress bar
+  const card = document.getElementById('dc-' + id);
+  const cardProg = card?.querySelector('.dc-prog span');
+  if (cardProg) cardProg.style.width = Math.min(Math.round(((cnt % def.target || (cnt%def.target===0&&cnt>0?def.target:0)) / def.target) * 100), 100) + '%';
+
+  // Milestone toast
+  if (cnt === def.target) {
+    if (!STATE.tasbih.sessions) STATE.tasbih.sessions = {};
+    STATE.tasbih.sessions[id] = (STATE.tasbih.sessions[id] || 0) + 1;
+    saveState();
+    if (navigator.vibrate) navigator.vibrate([50,30,50]);
+    showToast(`✅ ${def.label} — دورة مكتملة! (×${STATE.tasbih.sessions[id]})`);
+    checkBadges();
+  } else if (cnt % def.target === 0 && cnt > 0) {
+    if (!STATE.tasbih.sessions) STATE.tasbih.sessions = {};
+    STATE.tasbih.sessions[id] = (STATE.tasbih.sessions[id] || 0) + 1;
+    saveState();
+    if (navigator.vibrate) navigator.vibrate([50,30,50]);
+    showToast(`🔄 ${def.label} — دورة ${STATE.tasbih.sessions[id]} مكتملة!`);
+  }
+
+  renderActiveDhikr();
+  updateDashStats();
+}
+window.countTasbih = countTasbih;
+
+function resetCurrentDhikr() {
+  const id = STATE.tasbih.active || 'subhan';
+  STATE.tasbih[id] = 0;
+  saveState();
+  const card = document.getElementById('dc-' + id);
+  const cardCnt  = document.getElementById('dcnt-' + id);
+  const cardProg = card?.querySelector('.dc-prog span');
+  if (cardCnt)  cardCnt.textContent = 0;
+  if (cardProg) cardProg.style.width = '0%';
+  renderActiveDhikr();
+  showToast('🔄 تمت إعادة التعيين');
+}
+window.resetCurrentDhikr = resetCurrentDhikr;

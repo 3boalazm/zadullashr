@@ -2189,3 +2189,183 @@ html[data-theme="oled"] .metric-val { color:var(--sys-green); }
 .share-harvest-card::before { content:""; position:absolute; inset:auto -60px -100px auto; width:260px; height:260px; border-radius:50%; background:radial-gradient(circle,rgba(201,161,74,.25),transparent 70%); pointer-events:none; }
 .share-harvest-card h3 { font-size:22px; font-weight:900; margin-bottom:6px; }
 .share-harvest-card p  { font-size:14px; opacity:.82; margin-bottom:18px; }
+
+/* ══════════════════════════════════════════════════════════
+   TASBIH — 7 Dhikr Cards + Central Ring
+   ══════════════════════════════════════════════════════════ */
+
+/* Central SVG ring */
+.ts-ring-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  background: linear-gradient(180deg, var(--brand-deep), #041a10);
+  border-radius: 24px; padding: 28px 20px 22px;
+  position: relative; overflow: hidden;
+}
+html[data-theme="dark"] .ts-ring-wrap,
+html[data-theme="oled"] .ts-ring-wrap { background: linear-gradient(180deg, #060e09, #020a04); }
+.ts-ring-wrap::before {
+  content:""; position:absolute; inset:auto -40px -60px auto;
+  width:200px; height:200px; border-radius:50%;
+  background: radial-gradient(circle, rgba(201,161,74,.18), transparent 70%);
+  pointer-events:none;
+}
+
+/* The Arabic dhikr text above ring */
+.ts-dhikr-text {
+  font-family: 'Amiri', serif;
+  font-size: 28px; line-height: 1.7;
+  text-align: center; margin-bottom: 6px;
+  transition: color .3s var(--ease), opacity .2s;
+  min-height: 50px; display: flex; align-items: center; justify-content: center;
+  padding: 0 12px; color: #e6c97a;
+}
+.ts-dhikr-sub {
+  font-size: 12px; color: rgba(255,255,255,.55);
+  margin-bottom: 16px; text-align: center;
+}
+
+/* SVG Ring */
+.ts-ring-svg { filter: drop-shadow(0 0 12px rgba(201,161,74,.25)); }
+#ts-ring-progress { transition: stroke-dashoffset .25s var(--ease), stroke .3s var(--ease); }
+
+/* Tap area */
+.ts-ring-tap {
+  cursor: pointer; outline: none;
+  transition: transform .12s;
+}
+.ts-ring-tap:active { transform: scale(.94); }
+
+/* Count in center */
+.ts-count-group { pointer-events: none; }
+.ts-count-num {
+  font-size: 52px; font-weight: 900;
+  fill: #fff; font-family: 'Tajawal', sans-serif;
+  font-feature-settings: "tnum";
+  transition: all .1s;
+}
+.ts-count-num.bump { animation: numBump .2s var(--ease); }
+.ts-count-hint {
+  font-size: 13px; fill: rgba(255,255,255,.5);
+  font-family: 'Tajawal', sans-serif;
+}
+
+/* Laps indicator */
+.ts-laps {
+  font-size: 13px; font-weight: 700; color: var(--brand-gold-lt);
+  text-align: center; margin-top: 6px; min-height: 20px;
+  display: none;
+}
+html[data-theme="dark"] .ts-laps,
+html[data-theme="oled"] .ts-laps { color: var(--sys-yellow); }
+
+/* Buttons row */
+.ts-btn-row {
+  display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap;
+}
+
+/* 7 Dhikr Cards Grid */
+.dhikr-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 0;
+}
+
+.dhikr-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 14px 14px 10px;
+  cursor: pointer;
+  transition: border-color .2s var(--ease), background .2s var(--ease), transform .15s var(--ease), box-shadow .2s;
+  position: relative; overflow: hidden;
+  user-select: none;
+}
+.dhikr-card:hover {
+  border-color: var(--dc-color, var(--gold));
+  background: var(--dc-bg, rgba(201,161,74,.08));
+  transform: translateY(-2px);
+}
+.dhikr-card.active {
+  border-color: var(--dc-color, var(--gold));
+  background: var(--dc-bg, rgba(201,161,74,.12));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dc-color, var(--gold)) 20%, transparent);
+}
+.dhikr-card.active::before {
+  content: "▶";
+  position: absolute; top: 8px; left: 10px;
+  font-size: 9px; color: var(--dc-color, var(--gold)); opacity: .8;
+}
+
+/* Card Arabic text */
+.dc-arabic {
+  font-family: 'Amiri', serif;
+  font-size: 17px; line-height: 1.7;
+  color: var(--dc-color, var(--ink));
+  margin-bottom: 8px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  transition: color .2s;
+}
+html[data-theme="dark"] .dc-arabic,
+html[data-theme="oled"] .dc-arabic { color: var(--dc-color); }
+
+/* Meta row */
+.dc-meta {
+  display: flex; align-items: baseline; gap: 3px;
+  margin-bottom: 6px;
+}
+.dc-count {
+  font-size: 22px; font-weight: 900;
+  color: var(--dc-color, var(--green-deep));
+  font-feature-settings: "tnum";
+  transition: color .2s;
+}
+.dc-sep, .dc-target { font-size: 12px; color: var(--muted); }
+
+/* Progress bar */
+.dc-prog {
+  height: 4px; background: var(--sand-2);
+  border-radius: 99px; overflow: hidden;
+}
+.dc-prog span {
+  display: block; height: 100%;
+  background: var(--dc-color, var(--gold));
+  border-radius: 99px;
+  transition: width .4s var(--ease);
+}
+
+/* Laps badge on card */
+.dc-laps {
+  position: absolute; top: 8px; right: 8px;
+  background: var(--dc-color, var(--gold));
+  color: #fff; font-size: 10px; font-weight: 700;
+  padding: 2px 7px; border-radius: 99px;
+  transition: opacity .3s;
+}
+html[data-theme="dark"] .dc-laps,
+html[data-theme="oled"] .dc-laps { color: #000; }
+
+/* Full-width 7th card */
+.dhikr-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+/* Total sessions stats */
+.ts-stats-row {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 0;
+}
+.ts-stat-mini {
+  background: var(--card-2); border-radius: 12px; padding: 12px 10px;
+  text-align: center; border: 1px solid var(--border);
+}
+.ts-stat-mini .v { font-size: 20px; font-weight: 900; color: var(--green-deep); }
+html[data-theme="dark"] .ts-stat-mini .v,
+html[data-theme="oled"] .ts-stat-mini .v { color: var(--sys-green); }
+.ts-stat-mini .l { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* Responsive */
+@media(max-width:600px) {
+  .ts-dhikr-text { font-size: 22px; }
+  .ts-count-num { font-size: 42px; }
+  .dc-arabic { font-size: 15px; }
+  .ts-stats-row { grid-template-columns: repeat(2,1fr); }
+}
