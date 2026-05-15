@@ -792,7 +792,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initFasting();
   updateDashStats();
   initTakbeer();
-  if (document.getElementById("tasbih-cards")) initTasbih();
   initMushaf();
   initAIChat();
   initKids();
@@ -1932,14 +1931,57 @@ window.checkDailyComplete = checkDailyComplete;
    TASBIH — 7 Dhikr Counter System
    المسبحة الرقمية — 7 أذكار أساسية
    ══════════════════════════════════════════════════════════ */
+/* الأذكار السبعة بنصوصها الكاملة الصحيحة */
 const DHIKR_LIST = [
-  { id:'subhan',    arabic:'سُبْحَانَ اللَّهِ',                                  label:'سبحان الله',         target:33,  color:'#5aabff', bg:'rgba(90,171,255,.12)'  },
-  { id:'hamd',      arabic:'الْحَمْدُ لِلَّهِ',                                  label:'الحمد لله',           target:33,  color:'#4dd866', bg:'rgba(77,216,102,.12)'  },
-  { id:'tahlil',    arabic:'لَا إِلَهَ إِلَّا اللَّهُ',                          label:'لا إله إلا الله',     target:33,  color:'#e6c97a', bg:'rgba(230,201,122,.15)' },
-  { id:'takbir_s',  arabic:'اللَّهُ أَكْبَرُ',                                   label:'الله أكبر',           target:33,  color:'#ffba3b', bg:'rgba(255,186,59,.12)'  },
-  { id:'hawqala',   arabic:'لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ',         label:'الحوقلة',             target:100, color:'#7de5ff', bg:'rgba(125,229,255,.12)' },
-  { id:'istigfar_s',arabic:'أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ',label:'أستغفر الله',         target:100, color:'#d47dff', bg:'rgba(212,125,255,.12)' },
-  { id:'salawat',   arabic:'اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى سَيِّدِنَا مُحَمَّدٍ',label:'الصلاة على النبي ﷺ', target:100, color:'#ff6b85', bg:'rgba(255,107,133,.12)' },
+  {
+    id:'subhan',
+    arabic:'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ',
+    label:'سبحان الله', sub:'سبحان الله وبحمده',
+    target:33, sessions:0,
+    color:'#5aabff', bg:'rgba(90,171,255,.12)'
+  },
+  {
+    id:'hamd',
+    arabic:'الْحَمْدُ لِلَّهِ',
+    label:'الحمد لله', sub:'الحمد لله رب العالمين',
+    target:33, sessions:0,
+    color:'#4dd866', bg:'rgba(77,216,102,.12)'
+  },
+  {
+    id:'tahlil',
+    arabic:'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ',
+    label:'لا إله إلا الله', sub:'كلمة التوحيد',
+    target:33, sessions:0,
+    color:'#e6c97a', bg:'rgba(230,201,122,.15)'
+  },
+  {
+    id:'takbir_s',
+    arabic:'اللَّهُ أَكْبَرُ',
+    label:'الله أكبر', sub:'التكبير المطلق',
+    target:33, sessions:0,
+    color:'#ffba3b', bg:'rgba(255,186,59,.12)'
+  },
+  {
+    id:'hawqala',
+    arabic:'لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ',
+    label:'الحوقلة', sub:'كنز من كنوز الجنة',
+    target:100, sessions:0,
+    color:'#7de5ff', bg:'rgba(125,229,255,.12)'
+  },
+  {
+    id:'istigfar_s',
+    arabic:'أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ',
+    label:'أستغفر الله', sub:'الاستغفار',
+    target:100, sessions:0,
+    color:'#d47dff', bg:'rgba(212,125,255,.12)'
+  },
+  {
+    id:'salawat',
+    arabic:'اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى سَيِّدِنَا مُحَمَّدٍ',
+    label:'الصلاة على النبي ﷺ', sub:'أفضل ما يقوله المسلم',
+    target:100, sessions:0,
+    color:'#ff6b85', bg:'rgba(255,107,133,.12)'
+  },
 ];
 
 function initTasbih() {
@@ -1960,14 +2002,16 @@ function initTasbih() {
     const pct   = Math.min(Math.round((cnt / d.target) * 100), 100);
     const laps  = Math.floor(cnt / d.target);
     card.innerHTML = `
-      <div class="dc-arabic">${d.arabic.split(' ').slice(0,3).join(' ')}</div>
+      <div class="dc-arabic">${d.arabic}</div>
+      <div class="dc-sub-lbl">${d.sub || ''}</div>
       <div class="dc-meta">
         <span class="dc-count" id="dcnt-${d.id}">${cnt}</span>
-        <span class="dc-sep">/</span>
+        <span class="dc-sep"> / </span>
         <span class="dc-target">${d.target}</span>
+        <span class="dc-unit">مرة</span>
       </div>
       <div class="dc-prog"><span style="width:${pct}%"></span></div>
-      ${laps > 0 ? `<div class="dc-laps" id="dlaps-${d.id}">×${laps}</div>` : `<div class="dc-laps" id="dlaps-${d.id}" style="opacity:0">×0</div>`}`;
+      ${laps > 0 ? `<div class="dc-laps" id="dlaps-${d.id}">✅ ×${laps}</div>` : `<div class="dc-laps" id="dlaps-${d.id}" style="opacity:0">×0</div>`}`;
     card.addEventListener('click', () => selectDhikr(d.id));
     cardsWrap.appendChild(card);
   });

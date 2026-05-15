@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<title>المُسبِّح والمُكبِّر — زاد العشر</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0e3b2e">
 <link rel="manifest" href="manifest.json">
+<title>المُسبِّح والمُكبِّر — زاد العشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
@@ -46,6 +46,7 @@
     <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
   </aside>
   <main class="main">
+
     <div class="topbar">
       <div>
         <div class="page-title">المُسبِّح <span>والمُكبِّر</span></div>
@@ -57,137 +58,177 @@
       </div>
     </div>
 
-    <!-- Central Ring -->
+    <!-- ══ Central Tasbih Ring ══ -->
     <div class="ts-ring-wrap">
-      <div class="ts-dhikr-text" id="ts-text">اللَّهُ أَكْبَرُ</div>
-      <div class="ts-dhikr-sub"  id="ts-sub">الله أكبر — كل 33</div>
-      <svg class="ts-ring-svg" width="200" height="200" viewBox="0 0 200 200" role="img" aria-label="مسبحة رقمية - انقر للعد">
+      <div class="ts-dhikr-text" id="ts-text">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</div>
+      <div class="ts-dhikr-sub"  id="ts-sub">سبحان الله · كل 33</div>
+      <svg class="ts-ring-svg" width="200" height="200" viewBox="0 0 200 200"
+     role="img" aria-label="مسبحة رقمية - انقر للعد">
   <circle id="ts-ring-bg"  cx="100" cy="100" r="80" fill="none"
-          stroke="rgba(255,255,255,.1)" stroke-width="10"/>
-  <!-- Progress arc starting from top (rotate via transform on the circle) -->
+          stroke="rgba(255,255,255,.08)" stroke-width="12"/>
   <circle id="ts-ring-progress" cx="100" cy="100" r="80" fill="none"
-          stroke="#e6c97a" stroke-width="10"
+          stroke="#e6c97a" stroke-width="12"
           stroke-linecap="round"
           stroke-dasharray="502.65"
           stroke-dashoffset="502.65"
           transform="rotate(-90 100 100)"
-          style="transition:stroke-dashoffset .25s ease,stroke .3s ease"/>
-  <!-- Tap area — covers whole circle -->
-  <g class="ts-ring-tap" id="ts-ring" role="button" aria-label="انقر للذكر">
+          style="transition:stroke-dashoffset .2s ease,stroke .25s ease"/>
+  <g id="ts-ring" class="ts-ring-tap" role="button" aria-label="انقر للذكر">
     <circle cx="100" cy="100" r="78" fill="transparent"/>
-    <!-- Count -->
-    <g class="ts-count-group">
-      <text id="ts-count" x="100" y="100"
-            text-anchor="middle" dominant-baseline="central"
-            font-family="Tajawal,sans-serif" font-size="52" font-weight="900"
-            fill="white" style="transition:font-size .1s">0</text>
-      <text id="ts-tap-hint" x="100" y="135"
-            text-anchor="middle" dominant-baseline="central"
-            font-family="Tajawal,sans-serif" font-size="12"
-            fill="rgba(255,255,255,.45)">اضغط للذكر</text>
-    </g>
+    <text id="ts-count" x="100" y="96"
+          text-anchor="middle" dominant-baseline="central"
+          font-family="Tajawal,sans-serif" font-size="52" font-weight="900"
+          fill="white">0</text>
+    <text id="ts-tap-hint" x="100" y="138"
+          text-anchor="middle" dominant-baseline="central"
+          font-family="Tajawal,sans-serif" font-size="13"
+          fill="rgba(255,255,255,.4)">اضغط للذكر</text>
   </g>
 </svg>
-      <div class="ts-laps" id="ts-laps">× 1 دورة مكتملة</div>
+      <div class="ts-laps" id="ts-laps"></div>
       <div class="ts-btn-row">
-        <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3);font-size:13px"
+        <button class="btn btn-ghost"
+          style="color:#fff;border-color:rgba(255,255,255,.28);font-size:13px"
           id="ts-reset">🔄 إعادة الحالي</button>
-        <button class="btn btn-ghost" style="color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.15);font-size:12px"
-          id="ts-reset-all">↺ الكل</button>
+        <button class="btn btn-ghost"
+          style="color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.12);font-size:12px"
+          id="ts-reset-all">↺ إعادة الكل</button>
       </div>
     </div>
 
-    <!-- 7 Dhikr Cards -->
+    <!-- ══ 7 Dhikr Cards ══ -->
     <div class="section-title">أذكار العشر السبعة</div>
-    <p style="font-size:13px;color:var(--muted);margin:-8px 0 14px">انقر على ذكر لاختياره · المسبحة تعدّ له تلقائياً</p>
-    <div class="dhikr-grid" id="tasbih-cards" style="margin-bottom:4px"></div>
+    <p style="font-size:13px;color:var(--muted);margin:-8px 0 14px;line-height:1.6">
+      انقر على أي ذكر لاختياره — المسبحة تعدّ له تلقائياً · مفتاح المسافة يُسبّح
+    </p>
+    <div class="dhikr-grid" id="tasbih-cards"></div>
 
-    <!-- Totals mini stats -->
+    <!-- ══ Totals ══ -->
     <div class="section-title">إجمالي الجلسات المكتملة</div>
-    <div class="ts-stats-row" id="ts-stats">
+    <div class="ts-stats-row">
       <div class="ts-stat-mini"><div class="v" id="tss-subhan">0</div><div class="l">سبحان الله</div></div>
       <div class="ts-stat-mini"><div class="v" id="tss-hamd">0</div><div class="l">الحمد لله</div></div>
       <div class="ts-stat-mini"><div class="v" id="tss-tahlil">0</div><div class="l">لا إله إلا الله</div></div>
       <div class="ts-stat-mini"><div class="v" id="tss-takbir_s">0</div><div class="l">الله أكبر</div></div>
     </div>
+    <div class="ts-stats-row" style="margin-top:10px">
+      <div class="ts-stat-mini"><div class="v" id="tss-hawqala">0</div><div class="l">لا حول ولا قوة</div></div>
+      <div class="ts-stat-mini"><div class="v" id="tss-istigfar_s">0</div><div class="l">أستغفر الله</div></div>
+      <div class="ts-stat-mini"><div class="v" id="tss-salawat">0</div><div class="l">الصلاة على النبي</div></div>
+      <div class="ts-stat-mini">
+        <div class="v" id="tss-total" style="font-size:18px">0</div>
+        <div class="l">إجمالي الدورات</div>
+      </div>
+    </div>
 
-    <!-- صيغ التكبير المأثورة -->
+    <!-- ══ Takbeer Formulas ══ -->
     <div class="section-title">صيغ التكبير المأثورة</div>
+
     <details class="card" style="cursor:pointer;margin-bottom:10px">
-      <summary style="font-size:14px;font-weight:700;color:var(--green-deep);list-style:none;padding:2px 0;outline:none">
-        📣 التكبير الثنائي — مأثور عن ابن مسعود ▼
+      <summary style="font-size:14px;font-weight:700;color:var(--green-deep);list-style:none;padding:2px 0;display:flex;justify-content:space-between">
+        <span>📣 التكبير الثنائي — مأثور عن ابن مسعود</span><span>▾</span>
       </summary>
-      <div style="font-family:Amiri,serif;font-size:20px;color:var(--green-deep);line-height:2;margin-top:12px">
+      <div style="font-family:Amiri,serif;font-size:19px;color:var(--green-deep);line-height:2.1;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
         اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ
       </div>
     </details>
+
     <details class="card" style="cursor:pointer;margin-bottom:10px">
-      <summary style="font-size:14px;font-weight:700;color:var(--green-deep);list-style:none;padding:2px 0;outline:none">
-        📣 التكبير الثلاثي — مأثور عن عمر رضي الله عنه ▼
+      <summary style="font-size:14px;font-weight:700;color:var(--green-deep);list-style:none;padding:2px 0;display:flex;justify-content:space-between">
+        <span>📣 التكبير الثلاثي — مأثور عن عمر رضي الله عنه</span><span>▾</span>
       </summary>
-      <div style="font-family:Amiri,serif;font-size:20px;color:var(--green-deep);line-height:2;margin-top:12px">
+      <div style="font-family:Amiri,serif;font-size:19px;color:var(--green-deep);line-height:2.1;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
         اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ
       </div>
     </details>
+
     <details class="card" style="cursor:pointer;margin-bottom:10px">
-      <summary style="font-size:14px;font-weight:700;color:var(--green-deep);list-style:none;padding:2px 0;outline:none">
-        📣 صيغة سلمان الفارسي رضي الله عنه ▼
+      <summary style="font-size:14px;font-weight:700;color:var(--green-deep);list-style:none;padding:2px 0;display:flex;justify-content:space-between">
+        <span>📣 صيغة سلمان الفارسي رضي الله عنه</span><span>▾</span>
       </summary>
-      <div style="font-family:Amiri,serif;font-size:20px;color:var(--green-deep);line-height:2;margin-top:12px">
+      <div style="font-family:Amiri,serif;font-size:19px;color:var(--green-deep);line-height:2.1;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
         اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ كَبِيرًا
       </div>
     </details>
+
     <details class="card" style="cursor:pointer;margin-bottom:10px">
-      <summary style="font-size:14px;font-weight:700;color:var(--green-deep);list-style:none;padding:2px 0;outline:none">
-        ⭐ ذكر يوم عرفة — «خير الدعاء دعاء يوم عرفة» ▼
+      <summary style="font-size:14px;font-weight:700;color:var(--green-deep);list-style:none;padding:2px 0;display:flex;justify-content:space-between">
+        <span>⭐ ذكر يوم عرفة — «خير الدعاء دعاء يوم عرفة»</span><span>▾</span>
       </summary>
-      <div style="font-family:Amiri,serif;font-size:20px;color:var(--green-deep);line-height:2;margin-top:12px">
+      <div style="font-family:Amiri,serif;font-size:19px;color:var(--green-deep);line-height:2.1;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
         لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ
       </div>
-      <div style="font-size:12px;color:var(--gold);margin-top:6px">رواه الترمذي وصححه</div>
-    </details>
-    <details class="card" style="cursor:pointer;margin-bottom:22px">
-      <summary style="font-size:14px;font-weight:700;color:var(--green-deep);list-style:none;padding:2px 0;outline:none">
-        🕋 التلبية — للمحاكاة الروحية ▼
-      </summary>
-      <div style="font-family:Amiri,serif;font-size:20px;color:var(--green-deep);line-height:2;margin-top:12px">
-        لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ
-      </div>
+      <div style="font-size:12px;color:var(--gold);margin-top:8px">رواه الترمذي وصححه</div>
     </details>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      initTasbih();
-      // Update mini stats
-      function updateMiniStats() {
-        if (!STATE.tasbih) return;
-        const ids = ['subhan','hamd','tahlil','takbir_s'];
-        ids.forEach(id => {
-          const el = document.getElementById('tss-' + id);
-          if (el) {
-            const sessions = STATE.tasbih.sessions?.[id] || 0;
-            el.textContent = sessions;
-          }
-        });
-      }
-      updateMiniStats();
-      // Patch countTasbih to also update mini stats
-      const _origCount = window.countTasbih;
-      window.countTasbih = function() {
-        _origCount();
-        updateMiniStats();
-      };
-      // Space key
-      document.addEventListener('keydown', e => {
-        if (e.code === 'Space' && !e.target.matches('input,textarea,button')) {
-          e.preventDefault();
-          countTasbih();
-        }
-      });
-    });
-    </script>
+    <details class="card" style="cursor:pointer;margin-bottom:24px">
+      <summary style="font-size:14px;font-weight:700;color:var(--green-deep);list-style:none;padding:2px 0;display:flex;justify-content:space-between">
+        <span>🕋 التلبية — للمحاكاة الروحية</span><span>▾</span>
+      </summary>
+      <div style="font-family:Amiri,serif;font-size:19px;color:var(--green-deep);line-height:2.1;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+        لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ
+      </div>
+      <div style="font-size:12px;color:var(--gold);margin-top:8px">متفق عليه</div>
+    </details>
+
   </main>
 </div>
 <script src="js/app.js"></script>
+<script>
+/* Page-specific init — runs AFTER app.js DOMContentLoaded */
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ── Init tasbih (only once — guard against double-run) ── */
+  if (document.querySelector('#tasbih-cards .dhikr-card')) return;
+  initTasbih();
+
+  /* ── Mini stats update ── */
+  function updateAllStats() {
+    if (!STATE.tasbih) return;
+    const ids = ['subhan','hamd','tahlil','takbir_s','hawqala','istigfar_s','salawat'];
+    let totalSessions = 0;
+    ids.forEach(id => {
+      const el  = document.getElementById('tss-' + id);
+      const val = STATE.tasbih.sessions?.[id] || 0;
+      if (el) el.textContent = val;
+      totalSessions += val;
+    });
+    const tot = document.getElementById('tss-total');
+    if (tot) tot.textContent = totalSessions;
+  }
+  updateAllStats();
+
+  /* ── Patch countTasbih to update stats after each count ── */
+  const _origCount = window.countTasbih;
+  if (_origCount) {
+    window.countTasbih = function() {
+      _origCount();
+      updateAllStats();
+    };
+    /* Re-wire ring click with patched function */
+    const ring = document.getElementById('ts-ring');
+    if (ring) {
+      ring.replaceWith(ring.cloneNode(true)); /* clear old listeners */
+      const newRing = document.getElementById('ts-ring');
+      if (newRing) {
+        newRing.addEventListener('click', () => window.countTasbih());
+        newRing.setAttribute('tabindex','0');
+        newRing.addEventListener('keydown', e => {
+          if(e.key===' '||e.key==='Enter'){ e.preventDefault(); window.countTasbih(); }
+        });
+      }
+    }
+  }
+
+  /* ── Space bar shortcut ── */
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space' && !e.target.matches('input,textarea,button,details,summary')) {
+      e.preventDefault();
+      window.countTasbih?.();
+    }
+  });
+
+}, { once: true });
+</script>
 </body>
 </html>
