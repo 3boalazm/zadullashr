@@ -62,7 +62,7 @@
         <div class="page-sub" data-i18n="index.sub">تابع وردك اليومي وفضائل العشر في مكان واحد</div>
       </div>
       <div class="topbar-right">
-        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." data-i18n-ph="common.search" onfocus="openSearchOverlay()" aria-label="بحث" role="searchbox"></div>
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." data-i18n-ph="common.search" data-i18n-ph="common.search" onfocus="openSearchOverlay()" aria-label="بحث" role="searchbox"></div>
         <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang()">EN</button>
         <button class="btn-theme" onclick="toggleTheme()" aria-label="تبديل المظهر">🌙</button>
       </div>
@@ -96,7 +96,7 @@
     <div class="card" id="daily-content-card" style="display:none;border-color:rgba(201,161,74,.25);background:linear-gradient(135deg,var(--card),var(--gold-pale))"></div>
 
     <div class="section-title" data-i18n="index.stats">إحصائيات اليوم</div>
-    <div class="grid cols-4">
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr))">
       <div class="stat"><div class="ic">📿</div><div class="v" id="stat-takbeer">0</div><div class="l" data-i18n="index.stat.takbeer">إجمالي التكبيرات</div></div>
       <div class="stat"><div class="ic">📖</div><div class="v" id="stat-juz">0</div><div class="l" data-i18n="index.stat.juz">أجزاء من الختمة</div></div>
       <div class="stat"><div class="ic">🌙</div><div class="v" id="stat-pray">0/5</div><div class="l" data-i18n="index.stat.pray">صلوات في جماعة</div></div>
