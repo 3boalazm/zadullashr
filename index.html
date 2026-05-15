@@ -10,103 +10,13 @@
 <link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕋</text></svg>">
 <title>لوحة التحكم — زاد العشر</title>
-<!-- Thmanyah font (local) -->
-<style>
-@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
-@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
-@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Regular.otf') format('opentype');font-weight:400;font-display:swap}
-</style>
+<!-- ThmanyahSans loaded via css/style.css @font-face | IBM Plex via Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"></noscript>
 <link rel="stylesheet" href="css/style.css">
-<style>
-/* ══ Thmanyah headers ═══════════════════════════════════════ */
-.page-title,.hero h1,.section-title,.brand-name,h1,h2,h3{font-family:'ThmanyahSans','Tajawal',sans-serif}
-.page-title{font-weight:900}.brand-name{font-weight:900}.hero h1{font-weight:900}.section-title{font-weight:700}
 
-/* ══ Date + logo topbar ════════════════════════════════════ */
-.topbar-logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--gold2,#e6c97a),var(--gold,#c9a14a));display:grid;place-items:center;font-size:18px;flex-shrink:0;box-shadow:0 2px 8px rgba(201,161,74,.3)}
-.hijri-bar{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:14px;padding:12px 18px;margin-bottom:14px;gap:10px;flex-wrap:wrap}
-.hijri-date{color:#fff;font-family:'ThmanyahSans','Tajawal',sans-serif;font-weight:700}
-.hijri-date .hd-hijri{font-size:17px;display:block}
-.hijri-date .hd-miladi{font-size:12px;opacity:.8;margin-top:2px;display:block;direction:ltr;text-align:right}
-.hijri-day-name{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:6px 14px;border-radius:99px;font-size:13px;font-weight:700;font-family:'ThmanyahSans','Tajawal',sans-serif}
-.hijri-day-name.arafah{background:rgba(201,161,74,.35);border-color:var(--gold)}
-.hijri-day-name.eid{background:rgba(255,100,100,.3);border-color:#ff6464}
-
-/* ══ Prayer times ══════════════════════════════════════════ */
-.prayer-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin-bottom:6px}
-.prayer-bar::-webkit-scrollbar{display:none}
-.prayer-pill{display:flex;flex-direction:column;align-items:center;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:8px 12px;min-width:72px;transition:all .2s;flex-shrink:0}
-.prayer-pill.next-prayer{border-color:var(--gold);background:linear-gradient(135deg,var(--gold-pale),var(--card));box-shadow:0 0 0 2px rgba(201,161,74,.2)}
-.prayer-pill.done{opacity:.55}
-.pp-name{font-size:11px;font-weight:700;color:var(--muted);font-family:'ThmanyahSans','Tajawal',sans-serif}
-.pp-time{font-size:15px;font-weight:900;color:var(--green-deep);font-variant-numeric:tabular-nums;direction:ltr}
-html[data-theme="dark"] .pp-time,html[data-theme="oled"] .pp-time{color:var(--sys-green)}
-.prayer-pill.next-prayer .pp-name{color:var(--gold-dark)}
-.prayer-pill.next-prayer .pp-time{color:var(--gold-dark)}
-.prayer-location-btn{display:flex;align-items:center;gap:6px;background:var(--sand);border:1px solid var(--border);border-radius:99px;padding:5px 12px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .2s;font-family:inherit;margin-bottom:10px;width:fit-content}
-.prayer-location-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
-.prayer-section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.next-prayer-badge{background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:#3a2a08;font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px}
-
-/* ══ Verse slider ══════════════════════════════════════════ */
-.verse-wrap{position:relative;overflow:hidden;border-radius:var(--radius);touch-action:pan-y}
-.verse-track{display:flex;transition:transform .45s cubic-bezier(0.4,0,0.2,1)}
-.verse-slide{min-width:100%;flex-shrink:0}
-.verse-nav-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:12px}
-.verse-arrow{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);display:grid;place-items:center;cursor:pointer;font-size:16px;color:var(--muted);transition:all .2s}
-.verse-arrow:hover{border-color:var(--gold);color:var(--gold)}
-.verse-dots-row{display:flex;gap:5px;align-items:center}
-.vd{width:6px;height:6px;border-radius:50%;background:var(--border);transition:all .3s;cursor:pointer}
-.vd.active{width:20px;border-radius:3px;background:var(--gold)}
-.verse-counter{font-size:11px;color:var(--muted);min-width:40px;text-align:center}
-
-/* ══ Install / PWA banner ══════════════════════════════════ */
-.pwa-install-card{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:14px;cursor:pointer;transition:all .2s;box-shadow:0 6px 24px rgba(14,59,46,.25)}
-.pwa-install-card:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(14,59,46,.35)}
-.pwa-install-ico{font-size:32px;flex-shrink:0}
-.pwa-install-txt{flex:1;color:#fff}
-.pwa-install-txt b{display:block;font-size:15px;font-family:'ThmanyahSans','Tajawal',sans-serif;margin-bottom:3px}
-.pwa-install-txt small{font-size:12px;opacity:.8}
-.pwa-install-btn{background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.4);color:#fff;padding:8px 16px;border-radius:99px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;white-space:nowrap}
-.pwa-install-btn:hover{background:rgba(255,255,255,.35)}
-
-/* ══ Mini badges ═══════════════════════════════════════════ */
-.mini-badges-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
-.mini-badges-scroll::-webkit-scrollbar{display:none}
-.mini-badge{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:68px;padding:10px 8px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;text-align:center;flex-shrink:0;transition:all .2s;cursor:pointer;text-decoration:none}
-.mini-badge:hover{transform:translateY(-3px);border-color:var(--gold)}
-.mini-badge.earned{border-color:rgba(201,161,74,.4);background:linear-gradient(135deg,var(--card),var(--gold-pale))}
-.mini-badge .mb-ico{font-size:26px;filter:grayscale(1);opacity:.4;transition:all .3s}
-.mini-badge.earned .mb-ico{filter:none;opacity:1}
-.mini-badge .mb-name{font-size:10px;font-weight:700;color:var(--muted);line-height:1.3}
-.mini-badge.earned .mb-name{color:var(--gold-dark)}
-
-/* ══ Stats linked ══════════════════════════════════════════ */
-.stat{cursor:pointer;text-decoration:none;display:block;transition:transform .2s,box-shadow .2s}
-.stat:hover{transform:translateY(-3px);box-shadow:var(--shadow),0 0 0 1.5px rgba(201,161,74,.3)}
-
-/* ══ Quick grid ════════════════════════════════════════════ */
-.quick-card{cursor:pointer;text-decoration:none;display:flex;flex-direction:column;align-items:flex-start}
-.quick-card h3{font-family:'ThmanyahSans','Tajawal',sans-serif;font-weight:700}
-
-/* ══ Daily reset indicator ═════════════════════════════════ */
-.reset-info{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px;margin-top:6px}
-.reset-dot{width:7px;height:7px;border-radius:50%;background:var(--sys-green);animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-/* ══ Mobile responsive ═════════════════════════════════════ */
-@media(max-width:768px){
-  .hijri-bar{padding:10px 14px}
-  .hijri-date .hd-hijri{font-size:15px}
-  .prayer-pill{min-width:60px;padding:7px 8px}
-  .pp-time{font-size:13px}
-  .pwa-install-card{padding:13px 14px;gap:10px}
-}
-</style>
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
 </head>
 <body>
@@ -152,16 +62,32 @@ html[data-theme="dark"] .pp-time,html[data-theme="oled"] .pp-time{color:var(--sy
   </aside>
 
   <main class="main">
-    <!-- Topbar with logo -->
+    <!-- Topbar: Logo → Home | Prayer Times | Notif | Lang | Theme -->
     <div class="topbar">
-      <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1">
+      <!-- Brand (logo = shortcut to home) -->
+      <a href="index.html" class="topbar-brand">
         <div class="topbar-logo">🕋</div>
         <div style="min-width:0">
-          <div class="page-title" style="font-family:'ThmanyahSans','Tajawal',sans-serif" data-i18n="brand.name">زاد العشر</div>
+          <div class="page-title" data-i18n="brand.name">زاد العشر</div>
           <div class="page-sub" id="topbar-date-sub">جارٍ تحميل التاريخ...</div>
         </div>
+      </a>
+
+      <!-- Prayer times: compact chips (filled by JS) -->
+      <div class="topbar-prayers" id="topbar-prayers">
+        <div class="tp-chip tp-done" id="tp-fajr"><span class="tp-time">--:--</span><span class="tp-name">فجر</span></div>
+        <div class="tp-chip" id="tp-dhuhr"><span class="tp-time">--:--</span><span class="tp-name">ظهر</span></div>
+        <div class="tp-chip" id="tp-asr"><span class="tp-time">--:--</span><span class="tp-name">عصر</span></div>
+        <div class="tp-chip" id="tp-maghrib"><span class="tp-time">--:--</span><span class="tp-name">مغرب</span></div>
+        <div class="tp-chip" id="tp-isha"><span class="tp-time">--:--</span><span class="tp-name">عشاء</span></div>
+        <button class="tp-loc-btn" onclick="loadTopbarPrayers()" title="تحديد الموقع">📍</button>
       </div>
+
+      <!-- Actions -->
       <div class="topbar-right">
+        <button class="notif-btn" id="notif-btn" onclick="showNotifPanel()" aria-label="الإشعارات">
+          🔔<span class="notif-dot" id="notif-dot"></span>
+        </button>
         <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang()">EN</button>
         <button class="btn-theme" onclick="toggleTheme()" aria-label="تبديل المظهر">🌙</button>
       </div>
@@ -327,216 +253,267 @@ html[data-theme="dark"] .pp-time,html[data-theme="oled"] .pp-time{color:var(--sy
 
 <script>
 /* ════════════════════════════════════════════════════════════
-   INDEX PAGE — Hijri Date, Prayer Times, Verse Slider
+   INDEX PAGE — Hijri Date (Aladhan API) + Countdown + Prayers
+   Confirmed: 1 Dhul Hijjah 1447 = May 18, 2026
+              9 Dhul Hijjah (Arafah) = May 26, 2026
+              10 Dhul Hijjah (Eid)   = May 27, 2026
    ════════════════════════════════════════════════════════════ */
 
-/* ── 1. HIJRI DATE (ACCURATE) ─────────────────────────────── */
-/* Reference: 1 Dhul Hijjah 1447 = 28 May 2026 (confirmed) */
-/* Confirmed: 9 Dhul Hijjah = May 26 → Day 1 = May 18, 2026 */
-const HIJRI_REF = { greg: new Date(2026, 4, 18), h_day:1, h_month:12, h_year:1447 };
+/* ── Constants ────────────────────────────────────────────── */
+const DH1_DATE    = new Date(2026, 4, 18, 0, 0, 0);
+const ARAFAH_DATE = new Date(2026, 4, 26, 0, 0, 0);
+const EID_DATE    = new Date(2026, 4, 27, 0, 0, 0);
 
-const HIJRI_MONTHS = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة',
+const HIJRI_MONTHS_AR = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة',
   'رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
-const HIJRI_MONTHS_EN = ['Muharram','Safar','Rabi\' al-Awwal','Rabi\' al-Thani',
-  'Jumada al-Awwal','Jumada al-Akhira','Rajab','Sha\'ban','Ramadan',
-  'Shawwal','Dhul Qa\'dah','Dhul Hijjah'];
-const MILADI_MONTHS_AR = ['يناير','فبراير','مارس','أبريل','مايو','يونيو',
+const MILADI_AR = ['يناير','فبراير','مارس','أبريل','مايو','يونيو',
   'يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-const WEEK_DAYS_AR = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-
-/* Approx Hijri: add/subtract days from reference */
-function getHijriDate(date) {
-  const msPerDay = 86400000;
-  const refDate  = new Date(HIJRI_REF.greg); refDate.setHours(0,0,0,0);
-  const today    = new Date(date); today.setHours(0,0,0,0);
-  const diffDays = Math.round((today - refDate) / msPerDay);
-
-  let { h_day, h_month, h_year } = HIJRI_REF;
-  let d = h_day + diffDays;
-
-  /* Month lengths (alternating 30/29, Dhul Hijja=29 or 30) */
-  const monthLen = [30,29,30,29,30,29,30,29,30,29,30,29];
-  while (d > monthLen[(h_month-1)%12]) {
-    d -= monthLen[(h_month-1)%12];
-    h_month++;
-    if (h_month > 12) { h_month = 1; h_year++; }
-  }
-  while (d < 1) {
-    h_month--;
-    if (h_month < 1) { h_month = 12; h_year--; }
-    d += monthLen[(h_month-1)%12];
-  }
-  return { day: d, month: h_month, year: h_year };
-}
-
-const SPECIAL_DAYS = {
-  1:  { ar:'أول ذو الحجة 🌙', en:'1st Dhul Hijjah 🌙', cls:'' },
-  8:  { ar:'يوم التروية 💧', en:'Day of Tarwiyah 💧', cls:'' },
-  9:  { ar:'يوم عرفة ⭐', en:'Day of Arafah ⭐', cls:'arafah' },
-  10: { ar:'يوم عيد الأضحى 🎉', en:'Eid al-Adha 🎉', cls:'eid' },
-  11: { ar:'أول أيام التشريق', en:'1st Day of Tashriq', cls:'' },
-  12: { ar:'ثاني أيام التشريق', en:'2nd Day of Tashriq', cls:'' },
-  13: { ar:'ثالث أيام التشريق', en:'3rd Day of Tashriq', cls:'' },
+const WEEK_AR = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const SPECIAL_DH = {
+  1:  { ar:'أول ذي الحجة 🌙',   cls:'' },
+  8:  { ar:'يوم التروية 💧',    cls:'' },
+  9:  { ar:'يوم عرفة ⭐',       cls:'arafah' },
+  10: { ar:'عيد الأضحى المبارك 🎉', cls:'eid' },
 };
 
-function initHijriBar() {
-  const now = new Date();
-  const h   = getHijriDate(now);
-  const lang = I18N?.current || 'ar';
+/* ── 1. COUNTDOWN (using confirmed fixed dates) ─────────────── */
+let _cdTimer = null;
 
-  /* Topbar date subtitle */
-  const sub = document.getElementById('topbar-date-sub');
-  if (sub) {
-    sub.textContent = lang === 'en'
-      ? `${h.day} ${HIJRI_MONTHS_EN[h.month-1]} ${h.year} AH`
-      : `${h.day} ${HIJRI_MONTHS[h.month-1]} ${h.year} هـ`;
+function startCountdown() {
+  if (_cdTimer) clearInterval(_cdTimer);
+
+  function tick() {
+    const now = new Date();
+    let target, eyebrow, heading;
+
+    if (now < DH1_DATE) {
+      target  = DH1_DATE;
+      eyebrow = 'العد التنازلي';
+      heading = 'إلى بداية ذي الحجة 🌙';
+    } else if (now < ARAFAH_DATE) {
+      const dayInDH = Math.ceil((now - DH1_DATE) / 86400000);
+      target  = ARAFAH_DATE;
+      eyebrow = `اليوم ${['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع'][Math.min(dayInDH,9)]||dayInDH} من ذي الحجة`;
+      heading = SPECIAL_DH[dayInDH]?.ar || 'أيام العشر المباركة';
+    } else if (now < EID_DATE) {
+      target  = EID_DATE;
+      eyebrow = 'اليوم التاسع — يوم عرفة';
+      heading = 'يوم عرفة المبارك ⭐';
+    } else {
+      // Eid or after
+      clearInterval(_cdTimer);
+      ['cd-days','cd-hrs','cd-mins','cd-secs'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '🎉';
+      });
+      const h = document.getElementById('hero-heading');
+      if (h) h.textContent = 'عيد الأضحى المبارك 🎉 — تقبل الله منا ومنكم';
+      return;
+    }
+
+    const diff = target - now;
+    const pad  = n => String(n).padStart(2,'0');
+    const d    = Math.floor(diff / 86400000);
+    const h    = Math.floor((diff % 86400000) / 3600000);
+    const m    = Math.floor((diff % 3600000) / 60000);
+    const s    = Math.floor((diff % 60000) / 1000);
+
+    const dEl = document.getElementById('cd-days');
+    const hEl = document.getElementById('cd-hrs');
+    const mEl = document.getElementById('cd-mins');
+    const sEl = document.getElementById('cd-secs');
+
+    if (dEl) { if (dEl.textContent !== pad(d)) dEl.textContent = pad(d); }
+    if (hEl) { if (hEl.textContent !== pad(h)) hEl.textContent = pad(h); }
+    if (mEl) { if (mEl.textContent !== pad(m)) mEl.textContent = pad(m); }
+    if (sEl) { if (sEl.textContent !== pad(s)) sEl.textContent = pad(s); }
+
+    const ey = document.getElementById('hero-eyebrow');
+    const hd = document.getElementById('hero-heading');
+    if (ey && ey.textContent !== eyebrow) ey.textContent = eyebrow;
+    if (hd && hd.textContent !== heading) hd.textContent = heading;
   }
+
+  tick();
+  _cdTimer = setInterval(tick, 1000);
+}
+
+/* ── 2. HIJRI DATE from Aladhan API ────────────────────────── */
+function applyHijriData(hijri, now) {
+  const d  = hijri.day;
+  const mo = hijri.month.ar || HIJRI_MONTHS_AR[parseInt(hijri.month.number)-1];
+  const y  = hijri.year;
+
+  /* Topbar subtitle */
+  const sub = document.getElementById('topbar-date-sub');
+  if (sub) sub.textContent = `${d} ${mo} ${y} هـ`;
 
   /* Hijri bar */
-  const hijriFull = document.getElementById('hijri-full');
-  const miladiFull = document.getElementById('miladi-full');
-  if (hijriFull) {
-    hijriFull.textContent = lang === 'en'
-      ? `${WEEK_DAYS_AR[now.getDay()]} · ${h.day} ${HIJRI_MONTHS_EN[h.month-1]} ${h.year} AH`
-      : `${WEEK_DAYS_AR[now.getDay()]} · ${h.day} ${HIJRI_MONTHS[h.month-1]} ${h.year} هـ`;
-  }
-  if (miladiFull) {
-    miladiFull.textContent = `${now.getDate()} ${MILADI_MONTHS_AR[now.getMonth()]} ${now.getFullYear()} م`;
-  }
+  const hf = document.getElementById('hijri-full');
+  if (hf) hf.textContent = `${WEEK_AR[now.getDay()]} · ${d} ${mo} ${y} هـ`;
 
-  /* Special day badge (only in Dhul Hijjah) */
-  if (h.month === 12 && SPECIAL_DAYS[h.day]) {
-    const sp = SPECIAL_DAYS[h.day];
+  const mf = document.getElementById('miladi-full');
+  if (mf) mf.textContent = `${now.getDate()} ${MILADI_AR[now.getMonth()]} ${now.getFullYear()} م`;
+
+  /* Special day badge */
+  const mn = parseInt(hijri.month.number);
+  const dn = parseInt(d);
+  if (mn === 12 && SPECIAL_DH[dn]) {
+    const sp    = SPECIAL_DH[dn];
     const badge = document.getElementById('special-day-name');
     if (badge) {
-      badge.textContent = lang === 'en' ? sp.en : sp.ar;
-      badge.className = 'hijri-day-name' + (sp.cls ? ' ' + sp.cls : '');
+      badge.textContent = sp.ar;
+      badge.className = 'hijri-day-name' + (sp.cls ? ' '+sp.cls : '');
       badge.style.display = 'inline-flex';
     }
   }
+}
 
-  /* Hero heading */
-  const heroEyebrow = document.getElementById('hero-eyebrow');
-  const heroHeading = document.getElementById('hero-heading');
-  if (heroHeading) {
-    if (h.month === 12 && h.day >= 1 && h.day <= 9) {
-      heroEyebrow.textContent = 'اليوم ' + ['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع'][h.day] + ' من ذي الحجة';
-      const special = SPECIAL_DAYS[h.day];
-      if (special) heroHeading.textContent = special.ar.replace(/[🌙💧⭐🎉]/g,'').trim();
-      else heroHeading.textContent = 'أيام العشر المباركة';
-    } else if (h.month === 12 && h.day === 10) {
-      heroHeading.textContent = 'عيد الأضحى المبارك 🎉';
+/* Fallback: manual calculation */
+function initHijriBar() {
+  const ML   = [30,29,30,29,30,29,30,29,30,29,30,29];
+  const ref  = { g: DH1_DATE, m:12, d:1, y:1447 };
+  const now  = new Date(); now.setHours(0,0,0,0);
+  const refG = new Date(ref.g); refG.setHours(0,0,0,0);
+  let diff = Math.round((now - refG) / 86400000);
+  let { m, d: hd, y } = ref;
+  hd += diff;
+  while (hd > ML[(m-1)%12]) { hd -= ML[(m-1)%12]; m++; if(m>12){m=1;y++;} }
+  while (hd < 1)             { m--; if(m<1){m=12;y--;} hd += ML[(m-1)%12]; }
+  applyHijriData({ day: hd, month: { number: m, ar: HIJRI_MONTHS_AR[m-1] }, year: y }, new Date());
+}
+
+/* ── 3. ALADHAN API: fetch Hijri + Prayer times together ─────── */
+async function loadFromAladhan(lat, lng) {
+  const now   = new Date();
+  const today = now.toDateString();
+  const cache = localStorage.getItem('zad_aladhan_today');
+  const cDate = localStorage.getItem('zad_aladhan_date');
+
+  if (cache && cDate === today) {
+    const { hijri, timings } = JSON.parse(cache);
+    applyHijriData(hijri, now);
+    applyTopbarPrayers(timings);
+    return;
+  }
+
+  try {
+    const d = String(now.getDate()).padStart(2,'0');
+    const m = String(now.getMonth()+1).padStart(2,'0');
+    const url = `https://api.aladhan.com/v1/timings/${d}-${m}-${now.getFullYear()}?latitude=${lat}&longitude=${lng}&method=5`;
+    const res  = await fetch(url);
+    const json = await res.json();
+
+    if (json.code === 200) {
+      const hijri   = json.data.date.hijri;
+      const timings = json.data.timings;
+      localStorage.setItem('zad_aladhan_today', JSON.stringify({ hijri, timings }));
+      localStorage.setItem('zad_aladhan_date', today);
+      applyHijriData(hijri, now);
+      applyTopbarPrayers(timings);
     } else {
-      heroHeading.textContent = 'إلى عشر ذي الحجة المباركة';
+      initHijriBar();
     }
+  } catch(e) {
+    initHijriBar();
   }
 }
 
-/* ── 2. PRAYER TIMES (Aladhan API, free) ─────────────────── */
-const PRAYER_NAMES = {
-  Fajr: 'الفجر', Sunrise: 'الشروق', Dhuhr: 'الظهر',
-  Asr: 'العصر', Maghrib: 'المغرب', Isha: 'العشاء'
-};
-
-function loadPrayerTimes() {
-  const btn = document.getElementById('prayer-loc-btn');
-  if (btn) btn.innerHTML = '📍 <span>جارٍ تحديد موقعك...</span>';
-
-  /* Try cached first */
-  const cached = localStorage.getItem('zad_prayer_times');
-  const cachedDate = localStorage.getItem('zad_prayer_date');
-  const today = new Date().toDateString();
-
-  if (cached && cachedDate === today) {
-    renderPrayerTimes(JSON.parse(cached));
-    return;
-  }
-
-  if (!navigator.geolocation) {
-    if (btn) btn.innerHTML = '📍 <span>المتصفح لا يدعم تحديد الموقع — استخدم Chrome</span>';
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition(
-    async (pos) => {
-      const { latitude: lat, longitude: lng } = pos.coords;
-      try {
-        const now = new Date();
-        const dateStr = `${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}`;
-        const res = await fetch(
-          `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lng}&method=4`
-        );
-        const data = await res.json();
-        if (data.code === 200) {
-          const timings = data.data.timings;
-          localStorage.setItem('zad_prayer_times', JSON.stringify(timings));
-          localStorage.setItem('zad_prayer_date', today);
-          localStorage.setItem('zad_prayer_city', data.data.meta?.timezone || '');
-          renderPrayerTimes(timings);
-        }
-      } catch (e) {
-        if (btn) btn.innerHTML = '📍 <span>خطأ في تحميل المواقيت — تحقق من الإنترنت</span>';
-      }
-    },
-    (err) => {
-      if (btn) btn.innerHTML = '📍 <span>لم يتم السماح بالموقع — اسمح من إعدادات المتصفح</span>';
-    },
-    { timeout: 8000 }
-  );
-}
-
-function renderPrayerTimes(timings) {
-  const bar = document.getElementById('prayer-bar');
-  const locBtn = document.getElementById('prayer-loc-btn');
-  if (locBtn) locBtn.style.display = 'none';
-  if (bar) bar.style.display = 'flex';
-
-  const prayers = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
-  const now = new Date();
+/* ── 4. TOPBAR prayer chips ─────────────────────────────────── */
+function applyTopbarPrayers(timings) {
+  const map = { Fajr:'tp-fajr', Dhuhr:'tp-dhuhr', Asr:'tp-asr', Maghrib:'tp-maghrib', Isha:'tp-isha' };
+  const now    = new Date();
   const nowMin = now.getHours() * 60 + now.getMinutes();
-  let nextIdx = -1;
+  let nextDone = false;
 
-  prayers.forEach((p, i) => {
-    const el = document.getElementById('pt-' + p.toLowerCase());
-    if (!el || !timings[p]) return;
-    const t = timings[p].substring(0,5);
-    el.textContent = t;
+  Object.entries(map).forEach(([pKey, elId]) => {
+    const el = document.getElementById(elId);
+    if (!el || !timings[pKey]) return;
+    const t   = timings[pKey].substring(0, 5);
     const [hh, mm] = t.split(':').map(Number);
     const pMin = hh * 60 + mm;
-    if (pMin <= nowMin) {
-      el.closest('.prayer-pill')?.classList.add('done');
-    } else if (nextIdx === -1) {
-      nextIdx = i;
+
+    /* Update time text */
+    const timeEl = el.querySelector('.tp-time');
+    if (timeEl) timeEl.textContent = t;
+
+    el.classList.remove('tp-done','tp-next');
+    if (pMin < nowMin) {
+      el.classList.add('tp-done');
+    } else if (!nextDone) {
+      el.classList.add('tp-next');
+      nextDone = true;
+      /* Also update the in-page prayer badge */
+      const badge = document.getElementById('next-prayer-label');
+      const NAMES = {Fajr:'الفجر',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
+      if (badge) { badge.textContent = 'التالية: ' + (NAMES[pKey]||pKey); badge.style.display = 'inline'; }
     }
   });
 
-  if (nextIdx !== -1) {
-    const pills = document.querySelectorAll('.prayer-pill');
-    if (pills[nextIdx]) {
-      pills[nextIdx].classList.add('next-prayer');
-      const badge = document.getElementById('next-prayer-label');
-      const pName = PRAYER_NAMES[prayers[nextIdx]];
-      if (badge) { badge.textContent = 'التالية: ' + pName; badge.style.display = 'inline'; }
-    }
+  /* Also update the prayer-bar below (backward compat) */
+  const bar = document.getElementById('prayer-bar');
+  const locBtn = document.getElementById('prayer-loc-btn');
+  if (bar) {
+    bar.style.display = 'flex';
+    const PILL_MAP = { Fajr:'pt-fajr', Sunrise:'pt-sunrise', Dhuhr:'pt-dhuhr', Asr:'pt-asr', Maghrib:'pt-maghrib', Isha:'pt-isha' };
+    Object.entries(PILL_MAP).forEach(([k, id]) => {
+      const el = document.getElementById(id);
+      if (el && timings[k]) el.textContent = timings[k].substring(0,5);
+    });
+  }
+  if (locBtn) locBtn.style.display = 'none';
+}
+
+function loadTopbarPrayers() {
+  const cachedLat = parseFloat(localStorage.getItem('zad_lat'));
+  const cachedLng = parseFloat(localStorage.getItem('zad_lng'));
+
+  if (cachedLat && cachedLng) {
+    loadFromAladhan(cachedLat, cachedLng);
+    return;
+  }
+
+  if (!navigator.geolocation) return;
+  const btn = document.querySelector('.tp-loc-btn');
+  if (btn) btn.textContent = '⏳';
+
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      const { latitude: lat, longitude: lng } = pos.coords;
+      localStorage.setItem('zad_lat', lat);
+      localStorage.setItem('zad_lng', lng);
+      loadFromAladhan(lat, lng);
+    },
+    () => { if (btn) btn.textContent = '📍'; initHijriBar(); },
+    { enableHighAccuracy: false, timeout: 8000 }
+  );
+}
+
+/* ── 5. NOTIFICATION button (simple panel) ──────────────────── */
+function showNotifPanel() {
+  window.requestNotifPermission?.();
+  const dot = document.getElementById('notif-dot');
+  if (dot) dot.style.display = 'none';
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission().then(p => {
+      if (p === 'granted') showToast('✅ الإشعارات مفعّلة — ستصلك تذكيرات العبادات');
+    });
+  } else if (Notification.permission === 'granted') {
+    showToast('🔔 الإشعارات مفعّلة بالفعل');
+  } else {
+    showToast('⚠️ فعّل الإشعارات من إعدادات المتصفح');
   }
 }
 
-/* Auto-load if cached */
-window.addEventListener('DOMContentLoaded', () => {
-  const cached = localStorage.getItem('zad_prayer_times');
-  const cachedDate = localStorage.getItem('zad_prayer_date');
-  if (cached && cachedDate === new Date().toDateString()) {
-    renderPrayerTimes(JSON.parse(cached));
-  }
-});
-
-/* ── 3. PWA INSTALL ───────────────────────────────────────── */
+/* ── 6. PWA INSTALL ─────────────────────────────────────────── */
 let _deferredPrompt = null;
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   _deferredPrompt = e;
   const card = document.getElementById('pwa-card');
   if (card) card.style.display = 'flex';
+  const dot = document.getElementById('notif-dot');
+  if (dot) dot.style.display = 'block';
 });
 window.addEventListener('appinstalled', () => {
   const card = document.getElementById('pwa-card');
@@ -547,12 +524,10 @@ window.installPWA = async function() {
     _deferredPrompt.prompt();
     const { outcome } = await _deferredPrompt.userChoice;
     _deferredPrompt = null;
-    if (outcome === 'accepted') {
-      document.getElementById('pwa-card').style.display = 'none';
-    }
+    if (outcome === 'accepted') document.getElementById('pwa-card').style.display = 'none';
   } else {
     const ua = navigator.userAgent;
-    let msg = /iPhone|iPad/.test(ua)
+    const msg = /iPhone|iPad/.test(ua)
       ? '📱 Safari → ⬆️ → "إضافة إلى الشاشة الرئيسية"'
       : /Android/.test(ua)
       ? '📱 Chrome → القائمة ⋮ → "إضافة إلى الشاشة الرئيسية"'
@@ -561,7 +536,7 @@ window.installPWA = async function() {
   }
 };
 
-/* ── 4. MINI BADGES ───────────────────────────────────────── */
+/* ── 7. MINI BADGES ─────────────────────────────────────────── */
 const MINI_BADGES_DEF = [
   { id:'early_bird',   ico:'⏰', name:'المبكّر' },
   { id:'dhikr_100',    ico:'📿', name:'الذاكرون' },
@@ -571,26 +546,22 @@ const MINI_BADGES_DEF = [
   { id:'takbeer_1000', ico:'🔔', name:'المكبّرون' },
   { id:'charity',      ico:'💚', name:'المتصدقون' },
   { id:'streak_3',     ico:'🔥', name:'السابق' },
-  { id:'arafah',       ico:'⭐', name:'عرفة' },
+  { id:'arafah_done',  ico:'⭐', name:'عرفة' },
 ];
-
 function renderMiniBadges() {
   const c = document.getElementById('mini-badges-container');
   if (!c) return;
   let state = {};
   try { state = JSON.parse(localStorage.getItem('zad_v2') || '{}'); } catch(e) {}
   const earned = state.badges || [];
-
   c.innerHTML = MINI_BADGES_DEF.map(b => {
     const isEarned = earned.includes(b.id);
-    return `<a href="badges.html" class="mini-badge ${isEarned ? 'earned' : ''}" title="${b.name}">
-      <span class="mb-ico">${b.ico}</span>
-      <span class="mb-name">${b.name}</span>
-    </a>`;
+    return `<a href="badges.html" class="mini-badge ${isEarned?'earned':''}" title="${b.name}">
+      <span class="mb-ico">${b.ico}</span><span class="mb-name">${b.name}</span></a>`;
   }).join('');
 }
 
-/* ── 5. DAILY RESET COUNTDOWN ─────────────────────────────── */
+/* ── 8. DAILY RESET COUNTDOWN ───────────────────────────────── */
 function updateResetCountdown() {
   const now = new Date();
   const midnight = new Date(now); midnight.setHours(24,0,0,0);
@@ -602,79 +573,59 @@ function updateResetCountdown() {
   if (el) el.textContent = `${h}:${m}:${s}`;
 }
 setInterval(updateResetCountdown, 1000);
-updateResetCountdown();
 
-/* ── 6. VERSE SLIDER (45 verses) ─────────────────────────── */
+/* ── 9. VERSE SLIDER ────────────────────────────────────────── */
 const VERSES = [
-  { ar:'وَلِلَّهِ عَلَى النَّاسِ حِجُّ الْبَيْتِ مَنِ اسْتَطَاعَ إِلَيْهِ سَبِيلًا', src:'آل عمران: 97', note:'فرضية الحج على المستطيع' },
-  { ar:'وَأَذِّنْ فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا وَعَلَى كُلِّ ضَامِرٍ يَأْتِينَ مِنْ كُلِّ فَجٍّ عَمِيقٍ', src:'الحج: 27', note:'الدعوة للحج' },
-  { ar:'وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ', src:'البقرة: 196', note:'إتمام الحج والعمرة لله' },
-  { ar:'وَإِذْ جَعَلْنَا الْبَيْتَ مَثَابَةً لِلنَّاسِ وَأَمْنًا', src:'البقرة: 125', note:'الكعبة مثابة وأمن للناس' },
-  { ar:'وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ', src:'الفجر: 1-2', note:'القسم بعشر ذي الحجة' },
-  { ar:'وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَعْلُومَاتٍ عَلَى مَا رَزَقَهُمْ مِنْ بَهِيمَةِ الْأَنْعَامِ', src:'الحج: 28', note:'ذكر الله في أيام العشر' },
-  { ar:'وَاذْكُرُوا اللَّهَ فِي أَيَّامٍ مَعْدُودَاتٍ', src:'البقرة: 203', note:'ذكر الله في أيام التشريق' },
-  { ar:'الْحَجُّ أَشْهُرٌ مَعْلُومَاتٌ فَمَنْ فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ', src:'البقرة: 197', note:'آداب الحج' },
-  { ar:'وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَى', src:'البقرة: 197', note:'خير الزاد التقوى' },
-  { ar:'فَإِذَا أَفَضْتُمْ مِنْ عَرَفَاتٍ فَاذْكُرُوا اللَّهَ عِنْدَ الْمَشْعَرِ الْحَرَامِ', src:'البقرة: 198', note:'الذكر بعد الإفاضة من عرفات' },
-  { ar:'ثُمَّ أَفِيضُوا مِنْ حَيْثُ أَفَاضَ النَّاسُ وَاسْتَغْفِرُوا اللَّهَ إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ', src:'البقرة: 199', note:'الاستغفار في الحج' },
-  { ar:'إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ', src:'البقرة: 158', note:'الصفا والمروة من شعائر الله' },
-  { ar:'ذَلِكَ وَمَنْ يُعَظِّمْ شَعَائِرَ اللَّهِ فَإِنَّهَا مِنْ تَقْوَى الْقُلُوبِ', src:'الحج: 32', note:'تعظيم شعائر الله من تقوى القلوب' },
-  { ar:'لَنْ يَنَالَ اللَّهَ لُحُومُهَا وَلَا دِمَاؤُهَا وَلَكِنْ يَنَالُهُ التَّقْوَى مِنْكُمْ', src:'الحج: 37', note:'المقصود من الأضحية التقوى' },
-  { ar:'فَصَلِّ لِرَبِّكَ وَانْحَرْ', src:'الكوثر: 2', note:'الأمر بصلاة العيد والأضحية' },
-  { ar:'وَإِذْ يَرْفَعُ إِبْرَاهِيمُ الْقَوَاعِدَ مِنَ الْبَيْتِ وَإِسْمَاعِيلُ رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ', src:'البقرة: 127', note:'دعاء إبراهيم وإسماعيل عند بناء الكعبة' },
-  { ar:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ', src:'البقرة: 201', note:'أبرز دعاء في الطواف والحج' },
-  { ar:'فَإِذَا قَضَيْتُمْ مَنَاسِكَكُمْ فَاذْكُرُوا اللَّهَ كَذِكْرِكُمْ آبَاءَكُمْ أَوْ أَشَدَّ ذِكْرًا', src:'البقرة: 200', note:'الذكر بعد انتهاء المناسك' },
-  { ar:'وَالْبُدْنَ جَعَلْنَاهَا لَكُمْ مِنْ شَعَائِرِ اللَّهِ لَكُمْ فِيهَا خَيْرٌ', src:'الحج: 36', note:'الهدي من شعائر الله' },
-  { ar:'فَاذْكُرُوا اسْمَ اللَّهِ عَلَيْهَا صَوَافَّ فَإِذَا وَجَبَتْ جُنُوبُهَا فَكُلُوا مِنْهَا وَأَطْعِمُوا الْقَانِعَ وَالْمُعْتَرَّ', src:'الحج: 36', note:'الأمر بالتسمية عند الذبح والتصدق' },
-  { ar:'ذَلِكَ وَمَنْ يُعَظِّمْ حُرُمَاتِ اللَّهِ فَهُوَ خَيْرٌ لَهُ عِنْدَ رَبِّهِ', src:'الحج: 30', note:'تعظيم حرمات الله خير له' },
-  { ar:'يَا أَيُّهَا الَّذِينَ آمَنُوا لَا تُحِلُّوا شَعَائِرَ اللَّهِ وَلَا الشَّهْرَ الْحَرَامَ', src:'المائدة: 2', note:'تحريم انتهاك شعائر الله' },
-  { ar:'إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ مُبَارَكًا وَهُدًى لِلْعَالَمِينَ', src:'آل عمران: 96', note:'الكعبة أول بيت وضع للناس' },
-  { ar:'فِيهِ آيَاتٌ بَيِّنَاتٌ مَقَامُ إِبْرَاهِيمَ وَمَنْ دَخَلَهُ كَانَ آمِنًا', src:'آل عمران: 97', note:'أمن البيت الحرام' },
-  { ar:'وَإِذْ بَوَّأْنَا لِإِبْرَاهِيمَ مَكَانَ الْبَيْتِ أَنْ لَا تُشْرِكْ بِي شَيْئًا وَطَهِّرْ بَيْتِيَ لِلطَّائِفِينَ', src:'الحج: 26', note:'أمر إبراهيم بتطهير البيت' },
-  { ar:'رَبَّنَا إِنِّي أَسْكَنْتُ مِنْ ذُرِّيَّتِي بِوَادٍ غَيْرِ ذِي زَرْعٍ عِنْدَ بَيْتِكَ الْمُحَرَّمِ', src:'إبراهيم: 37', note:'دعاء إبراهيم لذريته' },
-  { ar:'لِيَشْهَدُوا مَنَافِعَ لَهُمْ وَيَذْكُرُوا اسْمَ اللَّهِ', src:'الحج: 28', note:'حكمة الحج: شهود المنافع وذكر الله' },
-  { ar:'فَكُلُوا مِنْهَا وَأَطْعِمُوا الْبَائِسَ الْفَقِيرَ', src:'الحج: 28', note:'الأكل من الأضحية وإطعام الفقير' },
-  { ar:'وَلِكُلِّ أُمَّةٍ جَعَلْنَا مَنْسَكًا لِيَذْكُرُوا اسْمَ اللَّهِ عَلَى مَا رَزَقَهُمْ مِنْ بَهِيمَةِ الْأَنْعَامِ', src:'الحج: 34', note:'المنسك في كل أمة' },
-  { ar:'كَذَلِكَ سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا اللَّهَ عَلَى مَا هَدَاكُمْ وَبَشِّرِ الْمُحْسِنِينَ', src:'الحج: 37', note:'التكبير على ما هدانا الله' },
-  { ar:'وَوَاعَدْنَا مُوسَى ثَلَاثِينَ لَيْلَةً وَأَتْمَمْنَاهَا بِعَشْرٍ فَتَمَّ مِيقَاتُ رَبِّهِ أَرْبَعِينَ لَيْلَةً', src:'الأعراف: 142', note:'العشر المتممة من ذي الحجة' },
-  { ar:'جَعَلَ اللَّهُ الْكَعْبَةَ الْبَيْتَ الْحَرَامَ قِيَامًا لِلنَّاسِ وَالشَّهْرَ الْحَرَامَ وَالْهَدْيَ وَالْقَلَائِد', src:'المائدة: 97', note:'الكعبة والشهر الحرام قيام للناس' },
-  { ar:'فَمَنْ تَعَجَّلَ فِي يَوْمَيْنِ فَلَا إِثْمَ عَلَيْهِ وَمَنْ تَأَخَّرَ فَلَا إِثْمَ عَلَيْهِ لِمَنِ اتَّقَى', src:'البقرة: 203', note:'التعجل في يومين لمن اتقى' },
-  { ar:'ثُمَّ لْيَقْضُوا تَفَثَهُمْ وَلْيُوفُوا نُذُورَهُمْ وَلْيَطَّوَّفُوا بِالْبَيْتِ الْعَتِيقِ', src:'الحج: 29', note:'أعمال الحاج: قضاء التفث والطواف' },
-  { ar:'وَمَنْ تَطَوَّعَ خَيْرًا فَإِنَّ اللَّهَ شَاكِرٌ عَلِيمٌ', src:'البقرة: 158', note:'الله شاكر لمن يتطوع بالخير' },
-  { ar:'وَاذْكُرُوهُ كَمَا هَدَاكُمْ وَإِنْ كُنْتُمْ مِنْ قَبْلِهِ لَمِنَ الضَّالِّينَ', src:'البقرة: 198', note:'شكر الهداية بالذكر' },
-  { ar:'كَذَلِكَ سَخَّرَهَا لَكُمْ لَعَلَّكُمْ تَشْكُرُونَ', src:'الحج: 36', note:'تسخير الأنعام لشكر الله' },
-  { ar:'لَيْسَ عَلَيْكُمْ جُنَاحٌ أَنْ تَبْتَغُوا فَضْلًا مِنْ رَبِّكُمْ', src:'البقرة: 198', note:'جواز التجارة في الحج' },
-  { ar:'لَكُمْ فِيهَا مَنَافِعُ إِلَى أَجَلٍ مُسَمًّى ثُمَّ مَحِلُّهَا إِلَى الْبَيْتِ الْعَتِيقِ', src:'الحج: 33', note:'منافع الهدي والبيت العتيق' },
-  { ar:'فَمَنْ تَمَتَّعَ بِالْعُمْرَةِ إِلَى الْحَجِّ فَمَا اسْتَيْسَرَ مِنَ الْهَدْيِ', src:'البقرة: 196', note:'هدي التمتع' },
-  { ar:'وَلَا آمِّينَ الْبَيْتَ الْحَرَامَ يَبْتَغُونَ فَضْلًا مِنْ رَبِّهِمْ وَرِضْوَانًا', src:'المائدة: 2', note:'قصد البيت الحرام ابتغاء الفضل والرضوان' },
-  { ar:'وَمِنْهُمْ مَنْ يَقُولُ رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ', src:'البقرة: 201', note:'دعاء الحجيج الجامع' },
-  { ar:'أُولَئِكَ لَهُمْ نَصِيبٌ مِمَّا كَسَبُوا وَاللَّهُ سَرِيعُ الْحِسَابِ', src:'البقرة: 202', note:'جزاء العمل في الحج' },
-  { ar:'ذَلِكَ لِمَنْ لَمْ يَكُنْ أَهْلُهُ حَاضِرِي الْمَسْجِدِ الْحَرَامِ وَاتَّقُوا اللَّهَ وَاعْلَمُوا أَنَّ اللَّهَ شَدِيدُ الْعِقَابِ', src:'البقرة: 196', note:'التقوى في أحكام الحج' },
-  { ar:'فَمِنَ النَّاسِ مَنْ يَقُولُ رَبَّنَا آتِنَا فِي الدُّنْيَا', src:'البقرة: 200', note:'من يطلب الدنيا فقط — لا خلاق له' },
+  {ar:'وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ',src:'الفجر: 1-2',note:'القسم بعشر ذي الحجة'},
+  {ar:'وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَعْلُومَاتٍ',src:'الحج: 28',note:'الأيام المعلومات هي عشر ذي الحجة'},
+  {ar:'وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَى',src:'البقرة: 197',note:'خير الزاد التقوى'},
+  {ar:'وَلِلَّهِ عَلَى النَّاسِ حِجُّ الْبَيْتِ مَنِ اسْتَطَاعَ إِلَيْهِ سَبِيلًا',src:'آل عمران: 97',note:'فرضية الحج'},
+  {ar:'وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ',src:'البقرة: 196',note:'إتمام الحج والعمرة لله'},
+  {ar:'فَإِذَا أَفَضْتُمْ مِنْ عَرَفَاتٍ فَاذْكُرُوا اللَّهَ عِنْدَ الْمَشْعَرِ الْحَرَامِ',src:'البقرة: 198',note:'الذكر بعد الإفاضة من عرفات'},
+  {ar:'ذَلِكَ وَمَنْ يُعَظِّمْ شَعَائِرَ اللَّهِ فَإِنَّهَا مِنْ تَقْوَى الْقُلُوبِ',src:'الحج: 32',note:'تعظيم شعائر الله'},
+  {ar:'لَنْ يَنَالَ اللَّهَ لُحُومُهَا وَلَا دِمَاؤُهَا وَلَكِنْ يَنَالُهُ التَّقْوَى مِنْكُمْ',src:'الحج: 37',note:'المقصود من الأضحية التقوى'},
+  {ar:'فَصَلِّ لِرَبِّكَ وَانْحَرْ',src:'الكوثر: 2',note:'الأمر بصلاة العيد والأضحية'},
+  {ar:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ',src:'البقرة: 201',note:'أبرز دعاء في الطواف'},
+  {ar:'إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ',src:'البقرة: 158',note:'الصفا والمروة من شعائر الله'},
+  {ar:'وَإِذْ يَرْفَعُ إِبْرَاهِيمُ الْقَوَاعِدَ مِنَ الْبَيْتِ وَإِسْمَاعِيلُ رَبَّنَا تَقَبَّلْ مِنَّا',src:'البقرة: 127',note:'دعاء إبراهيم عند بناء الكعبة'},
+  {ar:'وَاذْكُرُوا اللَّهَ فِي أَيَّامٍ مَعْدُودَاتٍ',src:'البقرة: 203',note:'ذكر الله في أيام التشريق'},
+  {ar:'إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ مُبَارَكًا وَهُدًى لِلْعَالَمِينَ',src:'آل عمران: 96',note:'الكعبة أول بيت للناس'},
+  {ar:'فَإِذَا قَضَيْتُمْ مَنَاسِكَكُمْ فَاذْكُرُوا اللَّهَ كَذِكْرِكُمْ آبَاءَكُمْ أَوْ أَشَدَّ ذِكْرًا',src:'البقرة: 200',note:'الذكر بعد المناسك'},
+  {ar:'وَأَذِّنْ فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا',src:'الحج: 27',note:'الدعوة للحج'},
+  {ar:'ذَلِكَ وَمَنْ يُعَظِّمْ حُرُمَاتِ اللَّهِ فَهُوَ خَيْرٌ لَهُ عِنْدَ رَبِّهِ',src:'الحج: 30',note:'تعظيم حرمات الله'},
+  {ar:'وَالْبُدْنَ جَعَلْنَاهَا لَكُمْ مِنْ شَعَائِرِ اللَّهِ لَكُمْ فِيهَا خَيْرٌ',src:'الحج: 36',note:'الهدي من شعائر الله'},
+  {ar:'فَاذْكُرُوا اسْمَ اللَّهِ عَلَيْهَا صَوَافَّ',src:'الحج: 36',note:'التسمية عند الذبح'},
+  {ar:'كَذَلِكَ سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا اللَّهَ عَلَى مَا هَدَاكُمْ وَبَشِّرِ الْمُحْسِنِينَ',src:'الحج: 37',note:'التكبير على ما هدانا الله'},
+  {ar:'وَوَاعَدْنَا مُوسَى ثَلَاثِينَ لَيْلَةً وَأَتْمَمْنَاهَا بِعَشْرٍ',src:'الأعراف: 142',note:'العشر المتممة من ذي الحجة'},
+  {ar:'الْحَجُّ أَشْهُرٌ مَعْلُومَاتٌ فَمَنْ فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ',src:'البقرة: 197',note:'آداب الحج'},
+  {ar:'ثُمَّ لْيَقْضُوا تَفَثَهُمْ وَلْيُوفُوا نُذُورَهُمْ وَلْيَطَّوَّفُوا بِالْبَيْتِ الْعَتِيقِ',src:'الحج: 29',note:'أعمال الحاج'},
+  {ar:'لِيَشْهَدُوا مَنَافِعَ لَهُمْ وَيَذْكُرُوا اسْمَ اللَّهِ',src:'الحج: 28',note:'حكمة الحج'},
+  {ar:'فَكُلُوا مِنْهَا وَأَطْعِمُوا الْبَائِسَ الْفَقِيرَ',src:'الحج: 28',note:'إطعام الفقير من الأضحية'},
+  {ar:'رَبَّنَا إِنِّي أَسْكَنْتُ مِنْ ذُرِّيَّتِي بِوَادٍ غَيْرِ ذِي زَرْعٍ عِنْدَ بَيْتِكَ الْمُحَرَّمِ',src:'إبراهيم: 37',note:'دعاء إبراهيم لذريته'},
+  {ar:'وَمَنْ تَطَوَّعَ خَيْرًا فَإِنَّ اللَّهَ شَاكِرٌ عَلِيمٌ',src:'البقرة: 158',note:'الله شاكر لمن يتطوع'},
+  {ar:'ثُمَّ أَفِيضُوا مِنْ حَيْثُ أَفَاضَ النَّاسُ وَاسْتَغْفِرُوا اللَّهَ إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ',src:'البقرة: 199',note:'الاستغفار في الحج'},
+  {ar:'لَكُمْ فِيهَا مَنَافِعُ إِلَى أَجَلٍ مُسَمًّى ثُمَّ مَحِلُّهَا إِلَى الْبَيْتِ الْعَتِيقِ',src:'الحج: 33',note:'منافع الهدي'},
+  {ar:'وَلِكُلِّ أُمَّةٍ جَعَلْنَا مَنْسَكًا لِيَذْكُرُوا اسْمَ اللَّهِ عَلَى مَا رَزَقَهُمْ مِنْ بَهِيمَةِ الْأَنْعَامِ',src:'الحج: 34',note:'المنسك في كل أمة'},
 ];
 
-let verseIdx = 0;
-let verseTimer = null;
+let verseIdx = 0, verseTimer = null;
 
 function buildVerseSlider() {
   const track = document.getElementById('verse-track');
-  const dots   = document.getElementById('verse-dots-row');
-  if (!track || !dots) return;
+  const dots  = document.getElementById('verse-dots-row');
+  if (!track) return;
 
-  track.innerHTML = VERSES.map((v,i) => `
-    <div class="verse-slide">
-      <div class="verse">
-        <div class="src">${v.src}</div>
-        <div class="ar" style="font-family:Amiri,serif;font-size:20px;line-height:2">${v.ar}</div>
-        <p style="font-size:13px;color:var(--muted);margin-top:8px">${v.note}</p>
-      </div>
-    </div>`).join('');
+  track.innerHTML = VERSES.map(v => `
+    <div class="verse-slide"><div class="verse">
+      <div class="src">${v.src}</div>
+      <div class="ar" style="font-family:Amiri,serif;font-size:20px;line-height:2">${v.ar}</div>
+      <p style="font-size:13px;color:var(--muted);margin-top:8px">${v.note}</p>
+    </div></div>`).join('');
 
-  /* Dots — show 5 around current */
   function renderDots() {
+    if (!dots) return;
     dots.innerHTML = '';
-    const total = VERSES.length;
-    const visible = Math.min(7, total);
+    const total = VERSES.length, visible = Math.min(7, total);
     const start = Math.max(0, Math.min(verseIdx - 3, total - visible));
     for (let i = start; i < start + visible; i++) {
       const d = document.createElement('div');
@@ -682,56 +633,63 @@ function buildVerseSlider() {
       d.onclick = () => goVerse(i);
       dots.appendChild(d);
     }
-    document.getElementById('verse-counter').textContent = `${verseIdx+1}/${total}`;
+    const cEl = document.getElementById('verse-counter');
+    if (cEl) cEl.textContent = `${verseIdx+1}/${VERSES.length}`;
   }
   renderDots();
-  window._verseRenderDots = renderDots;
+  window._vRenderDots = renderDots;
 
-  /* Swipe support */
+  /* Touch swipe */
   let sx = 0;
   const wrap = document.getElementById('verse-wrap');
-  wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive:true });
-  wrap.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - sx;
-    if (Math.abs(dx) > 40) slideVerse(dx > 0 ? -1 : 1);
-  }, { passive:true });
+  if (wrap) {
+    wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive:true });
+    wrap.addEventListener('touchend',   e => {
+      const dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 40) slideVerse(dx > 0 ? -1 : 1);
+    }, { passive:true });
+  }
 
-  startVerseTimer();
+  verseTimer = setInterval(() => goVerse(verseIdx + 1), 9000); /* 9s auto-advance */
 }
 
 function goVerse(idx) {
   verseIdx = (idx + VERSES.length) % VERSES.length;
   const track = document.getElementById('verse-track');
   if (track) track.style.transform = `translateX(${verseIdx * 100}%)`;
-  if (window._verseRenderDots) window._verseRenderDots();
-  resetVerseTimer();
-}
-
-window.slideVerse = function(dir) { goVerse(verseIdx + dir); };
-
-function startVerseTimer() {
+  if (window._vRenderDots) window._vRenderDots();
   clearInterval(verseTimer);
-  verseTimer = setInterval(() => goVerse(verseIdx + 1), 8000); /* 8s per verse */
+  verseTimer = setInterval(() => goVerse(verseIdx + 1), 9000);
 }
-function resetVerseTimer() {
-  clearInterval(verseTimer);
-  startVerseTimer();
-}
+window.slideVerse = dir => goVerse(verseIdx + dir);
 
-/* RTL fix for slide direction */
-function fixVerseDirection() {
-  const track = document.getElementById('verse-track');
-  if (!track) return;
-  const isRTL = document.documentElement.dir === 'rtl';
-  const dir = isRTL ? -1 : 1;
-  track.style.transform = `translateX(${verseIdx * 100 * dir}%)`;
-}
-
-/* ── INIT ─────────────────────────────────────────────────── */
+/* ── INIT ───────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  initHijriBar();
+  startCountdown();
+  updateResetCountdown();
   renderMiniBadges();
   buildVerseSlider();
+
+  /* Auto-load Aladhan if cached coords exist */
+  const lat = parseFloat(localStorage.getItem('zad_lat'));
+  const lng = parseFloat(localStorage.getItem('zad_lng'));
+  if (lat && lng) {
+    loadFromAladhan(lat, lng);
+  } else {
+    initHijriBar();
+    /* Try auto-geolocation silently */
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          localStorage.setItem('zad_lat', pos.coords.latitude);
+          localStorage.setItem('zad_lng', pos.coords.longitude);
+          loadFromAladhan(pos.coords.latitude, pos.coords.longitude);
+        },
+        () => {}, // silent fail
+        { enableHighAccuracy: false, timeout: 6000 }
+      );
+    }
+  }
 });
 </script>
 </body>
