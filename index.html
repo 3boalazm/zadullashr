@@ -1,25 +1,20 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<title>لوحة التحكم — زاد العشر</title>
 <meta charset="UTF-8">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕋</text></svg>">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0e3b2e">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0e3b2e">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.svg">
-<!-- Async font loading — eliminates render-blocking -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" id="google-fonts"
-  href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
-  media="print" onload="this.media='all'">
-<noscript>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap">
-</noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"></noscript>
 <link rel="stylesheet" href="css/style.css">
+<title>لوحة التحكم — زاد العشر</title>
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
 </head>
 <body>
@@ -29,122 +24,109 @@
   <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
       <div class="brand-mark">🕋</div>
-      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+      <div><div class="brand-name" data-i18n="brand.name">زاد العشر</div><div class="brand-sub" data-i18n="brand.sub">أفضل أيام الدنيا</div></div>
     </a>
     <div class="theme-row">
       <span data-i18n="common.darkMode">🌙 الوضع الداكن</span>
       <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
-    <!-- Language Toggle -->
     <button class="sidebar-lang-btn" onclick="toggleLang()" id="sidebar-lang-btn">
       <span class="slb-label" data-i18n="common.language">🌐 اللغة</span>
       <span class="slb-val" id="sidebar-lang-val">EN</span>
     </button>
     <nav class="nav">
-      <a href="index.html" class="active"><span class="ico">🏠</span data-i18n="nav.dashboard">لوحة التحكم</a>
-      <a href="fadael.html" class=""><span class="ico">✨</span data-i18n="nav.virtues">فضائل العشر</a>
-      <a href="worship.html" class=""><span class="ico">📿</span data-i18n="nav.worship">جدول العبادات</a>
-      <a href="mushaf.html" class=""><span class="ico">📖</span data-i18n="nav.mushaf">مصحف العشر</a>
-      <a href="takbeer.html" class=""><span class="ico">🕋</span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</a>
-      <a href="adhkar.html" class=""><span class="ico">🤲</span data-i18n="nav.adhkar">الأذكار والدعاء</a>
-      <a href="odhiya.html" class=""><span class="ico">🐏</span data-i18n="nav.odhiya">دليل الأضحية</a>
-      <a href="arafah.html" class=""><span class="ico">🌄</span data-i18n="nav.arafah">يوم عرفة</a>
-      <a href="sadaqah.html" class=""><span class="ico">💚</span data-i18n="nav.sadaqah">صدقة العشر</a>
-      <a href="badges.html" class=""><span class="ico">🏅</span data-i18n="nav.badges">أوسمتي</a>
-      <a href="hasad.html" class=""><span class="ico">📊</span data-i18n="nav.hasad">حصاد العشر</a>
-      <a href="kids.html" class=""><span class="ico">🧒</span data-i18n="nav.kids">وضع الأطفال</a>
-      <a href="tasmee.html" class=""><span class="ico">🎙️</span data-i18n="nav.tasmee">تسميع القرآن</a>
-      <a href="ai.html" class=""><span class="ico">🤖</span data-i18n="nav.ai">تدبّر بالذكاء</a>
-      <a href="settings.html" class=""><span class="ico">⚙️</span data-i18n="nav.settings">الإعدادات</a>
-      <a href="report.html" class=""><span class="ico">🚩</span data-i18n="nav.report">بلاغ مشكلة</a>
-      <a href="about.html" class=""><span class="ico">👤</span data-i18n="nav.about">عن التطبيق</a>
+      <a href="index.html" class="active"><span class="ico">🏠</span><span data-i18n="nav.dashboard">لوحة التحكم</span></a>
+      <a href="fadael.html" class=""><span class="ico">✨</span><span data-i18n="nav.virtues">فضائل العشر</span></a>
+      <a href="worship.html" class=""><span class="ico">📿</span><span data-i18n="nav.worship">جدول العبادات</span></a>
+      <a href="mushaf.html" class=""><span class="ico">📖</span><span data-i18n="nav.mushaf">مصحف العشر</span></a>
+      <a href="takbeer.html" class=""><span class="ico">🕋</span><span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</span></a>
+      <a href="adhkar.html" class=""><span class="ico">🤲</span><span data-i18n="nav.adhkar">الأذكار والدعاء</span></a>
+      <a href="odhiya.html" class=""><span class="ico">🐏</span><span data-i18n="nav.odhiya">دليل الأضحية</span></a>
+      <a href="arafah.html" class=""><span class="ico">🌄</span><span data-i18n="nav.arafah">يوم عرفة</span></a>
+      <a href="sadaqah.html" class=""><span class="ico">💚</span><span data-i18n="nav.sadaqah">صدقة العشر</span></a>
+      <a href="badges.html" class=""><span class="ico">🏅</span><span data-i18n="nav.badges">أوسمتي</span></a>
+      <a href="hasad.html" class=""><span class="ico">📊</span><span data-i18n="nav.hasad">حصاد العشر</span></a>
+      <a href="kids.html" class=""><span class="ico">🧒</span><span data-i18n="nav.kids">وضع الأطفال</span></a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span><span data-i18n="nav.tasmee">تسميع القرآن</span></a>
+      <a href="ai.html" class=""><span class="ico">🤖</span><span data-i18n="nav.ai">تدبّر بالذكاء</span></a>
+      <a href="settings.html" class=""><span class="ico">⚙️</span><span data-i18n="nav.settings">الإعدادات</span></a>
+      <a href="report.html" class=""><span class="ico">🚩</span><span data-i18n="nav.report">بلاغ مشكلة</span></a>
+      <a href="about.html" class=""><span class="ico">👤</span><span data-i18n="nav.about">عن التطبيق</span></a>
     </nav>
-    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
+    <div class="side-foot"><span data-i18n="brand.name">زاد العشر</span> 2026 · <span data-i18n="common.noAds">بدون إعلانات — يعمل بدون إنترنت 📴</span></div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div><div class="page-title">أفضل <span>أيام الدنيا</span> بين يديك</div>
-      <div class="page-sub">تابع وردك اليومي وفضائل العشر في مكان واحد</div></div>
+      <div>
+        <div class="page-title"><span data-i18n="index.title">أفضل أيام الدنيا</span></div>
+        <div class="page-sub" data-i18n="index.sub">تابع وردك اليومي وفضائل العشر في مكان واحد</div>
+      </div>
       <div class="topbar-right">
-        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()" aria-label="بحث في التطبيق" role="searchbox"></div>
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." data-i18n-ph="common.search" onfocus="openSearchOverlay()" aria-label="بحث" role="searchbox"></div>
         <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang()">EN</button>
-        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
+        <button class="btn-theme" onclick="toggleTheme()" aria-label="تبديل المظهر">🌙</button>
       </div>
     </div>
 
-    <!-- PWA Install Banner -->
     <div class="pwa-banner" id="pwa-banner" style="display:none">
       <div class="pwa-ico">📲</div>
-      <div class="pwa-txt"><b>ثبّت التطبيق</b><small>يعمل بدون إنترنت في المصلى</small></div>
-      <button class="pwa-btn" onclick="installPWA()">تثبيت</button>
+      <div class="pwa-txt"><b data-i18n="index.install.title">ثبّت التطبيق</b><small data-i18n="index.install.sub">يعمل بدون إنترنت في المصلى</small></div>
+      <button class="pwa-btn" onclick="installPWA()" data-i18n="common.install">تثبيت</button>
     </div>
 
-    <!-- Notification Banner -->
     <div class="notif-banner" id="notif-banner">
       <span style="font-size:24px">🔔</span>
-      <div class="nb-txt"><b>فعّل تذكيرات الصلاة</b><small>لا تفوّت وردك في هذه الأيام المباركة</small></div>
-      <button class="btn btn-gold" id="enable-notif" style="padding:8px 14px;font-size:13px">تفعيل</button>
+      <div class="nb-txt"><b data-i18n="index.notif.title">فعّل تذكيرات الصلاة</b><small data-i18n="index.notif.sub">لا تفوّت وردك في هذه الأيام المباركة</small></div>
+      <button class="btn btn-gold" id="enable-notif" style="padding:8px 14px;font-size:13px" data-i18n="settings.notif.toggle">تفعيل</button>
       <button class="nb-close" onclick="this.closest('.notif-banner').style.display='none'">✕</button>
     </div>
 
-    <!-- Hero Countdown -->
     <section class="hero animate-in">
-      <div class="hero-eyebrow">العد التنازلي</div>
-      <h1>إلى يوم عرفة المبارك</h1>
-      <p>اغتنم ساعات هذه الأيام — فما من أيام العمل الصالح أحبّ إلى الله من هذه الأيام العشر.</p>
+      <div class="hero-eyebrow" data-i18n="index.countdown">العد التنازلي</div>
+      <h1 data-i18n="index.hero.heading">إلى يوم عرفة المبارك</h1>
+      <p data-i18n="index.hero.sub">اغتنم ساعات هذه الأيام — فما من أيام العمل الصالح أحبّ إلى الله من هذه الأيام العشر.</p>
       <div class="countdown">
-        <div class="cd-box"><div class="cd-num" id="cd-days">08</div><div class="cd-lbl">أيام</div></div>
-        <div class="cd-box"><div class="cd-num" id="cd-hrs">14</div><div class="cd-lbl">ساعات</div></div>
-        <div class="cd-box"><div class="cd-num" id="cd-mins">22</div><div class="cd-lbl">دقائق</div></div>
-        <div class="cd-box"><div class="cd-num" id="cd-secs">09</div><div class="cd-lbl">ثوانٍ</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-days">08</div><div class="cd-lbl" data-i18n="index.days">أيام</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-hrs">14</div><div class="cd-lbl" data-i18n="index.hours">ساعات</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-mins">22</div><div class="cd-lbl" data-i18n="index.mins">دقائق</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-secs">09</div><div class="cd-lbl" data-i18n="index.secs">ثوانٍ</div></div>
       </div>
     </section>
 
-    <!-- Stats -->
-    <div class="section-title">إحصائيات اليوم</div>
-    <!-- ── Daily Content Card (shows during Dhul Hijjah 1-9) ── -->
     <div class="card" id="daily-content-card" style="display:none;border-color:rgba(201,161,74,.25);background:linear-gradient(135deg,var(--card),var(--gold-pale))"></div>
 
+    <div class="section-title" data-i18n="index.stats">إحصائيات اليوم</div>
     <div class="grid cols-4">
-      <div class="stat"><div class="ic">📿</div><div class="v" id="stat-takbeer">0</div><div class="l">إجمالي التكبيرات</div></div>
-      <div class="stat"><div class="ic">📖</div><div class="v" id="stat-juz">0</div><div class="l">أجزاء من الختمة</div></div>
-      <div class="stat"><div class="ic">🌙</div><div class="v" id="stat-pray">0/5</div><div class="l">صلوات في جماعة</div></div>
-      <div class="stat"><div class="ic">🤲</div><div class="v" id="stat-prog">0%</div><div class="l">إنجاز الورد</div></div>
+      <div class="stat"><div class="ic">📿</div><div class="v" id="stat-takbeer">0</div><div class="l" data-i18n="index.stat.takbeer">إجمالي التكبيرات</div></div>
+      <div class="stat"><div class="ic">📖</div><div class="v" id="stat-juz">0</div><div class="l" data-i18n="index.stat.juz">أجزاء من الختمة</div></div>
+      <div class="stat"><div class="ic">🌙</div><div class="v" id="stat-pray">0/5</div><div class="l" data-i18n="index.stat.pray">صلوات في جماعة</div></div>
+      <div class="stat"><div class="ic">🤲</div><div class="v" id="stat-prog">0%</div><div class="l" data-i18n="index.stat.wird">إنجاز الورد</div></div>
     </div>
 
-    <!-- Circular Progress -->
-    <div class="section-title">مؤشر الالتزام الروحاني</div>
+    <div class="section-title" data-i18n="index.progress.title">مؤشر الالتزام الروحاني</div>
     <div class="card">
       <div class="prog-ring-wrap">
         <div class="prog-ring">
           <svg viewBox="0 0 100 100" width="100" height="100">
             <circle cx="50" cy="50" r="44" fill="none" stroke="var(--sand-2)" stroke-width="8"/>
-            <circle id="ring-circle" cx="50" cy="50" r="44" fill="none"
-              stroke="url(#ringGrad)" stroke-width="8" stroke-linecap="round"
-              style="stroke-dasharray:276.5;stroke-dashoffset:276.5;transition:stroke-dashoffset .8s ease"/>
-            <defs>
-              <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#2a7a5f"/>
-                <stop offset="100%" stop-color="#c9a14a"/>
-              </linearGradient>
-            </defs>
+            <circle id="ring-circle" cx="50" cy="50" r="44" fill="none" stroke="url(#ringGrad)" stroke-width="8" stroke-linecap="round" style="stroke-dasharray:276.5;stroke-dashoffset:276.5;transition:stroke-dashoffset .8s ease"/>
+            <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#2a7a5f"/><stop offset="100%" stop-color="#c9a14a"/></linearGradient></defs>
           </svg>
-          <div class="ring-pct"><span id="ring-pct">0%</span><span class="ring-lbl">إنجاز</span></div>
+          <div class="ring-pct"><span id="ring-pct">0%</span><span class="ring-lbl" data-i18n="index.progress.lbl">إنجاز</span></div>
         </div>
         <div class="prog-ring-info">
-          <b>ورد العشر اليومي</b>
+          <b data-i18n="index.progress.heading">ورد العشر اليومي</b>
           <ul>
-            <li>الصلوات الخمس في جماعة</li>
-            <li>السنن الرواتب والذكر</li>
-            <li>صيام النهار</li>
-            <li>التكبير والاستغفار</li>
+            <li data-i18n="index.progress.li1">الصلوات الخمس في جماعة</li>
+            <li data-i18n="index.progress.li2">السنن الرواتب والذكر</li>
+            <li data-i18n="index.progress.li3">صيام النهار</li>
+            <li data-i18n="index.progress.li4">التكبير والاستغفار</li>
           </ul>
         </div>
       </div>
     </div>
 
-    <!-- Daily Verse Rotator -->
-    <div class="section-title">آية اليوم</div>
+    <div class="section-title" data-i18n="index.verse.title">آية اليوم</div>
     <div class="verse">
       <div class="src" id="verse-src">سورة الفجر</div>
       <div class="ar" id="verse-ar">وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ</div>
@@ -152,27 +134,23 @@
       <div class="verse-nav" id="verse-dots"></div>
     </div>
 
-    <!-- Quick start -->
-    <div class="section-title">ابدأ يومك الآن</div>
+    <div class="section-title" data-i18n="index.start">ابدأ يومك الآن</div>
     <div class="grid cols-3">
-      <a class="card" href="worship.html"><div class="ico-lg">📿</div><h3>ورد اليوم</h3><p>تابع جدول عباداتك</p></a>
-      <a class="card" href="mushaf.html"><div class="ico-lg">📖</div><h3>اقرأ القرآن</h3><p>متابعة خطة الختمة</p></a>
-      <a class="card" href="takbeer.html"><div class="ico-lg">🕋</div><h3>كبّر الله</h3><p>عداد التكبير المطلق</p></a>
-      <a class="card" href="tasmee.html"><div class="ico-lg">🎙️</div><h3>تسميع القرآن</h3><p>تصحيح التلاوة بالذكاء</p></a>
-      <a class="card" href="ai.html"><div class="ico-lg">🤖</div><h3>تدبّر بالذكاء</h3><p>اسأل عن آيات وأحكام</p></a>
-      <a class="card" href="badges.html"><div class="ico-lg">🏅</div><h3>أوسمتي</h3><p>إنجازاتك الروحانية</p></a>
+      <a class="card" href="worship.html"><div class="ico-lg">📿</div><h3 data-i18n="index.grid.worship">ورد اليوم</h3><p data-i18n="index.grid.worship.sub">تابع جدول عباداتك</p></a>
+      <a class="card" href="mushaf.html"><div class="ico-lg">📖</div><h3 data-i18n="index.grid.mushaf">اقرأ القرآن</h3><p data-i18n="index.grid.mushaf.sub">متابعة خطة الختمة</p></a>
+      <a class="card" href="takbeer.html"><div class="ico-lg">🕋</div><h3 data-i18n="index.grid.tasbih">كبّر الله</h3><p data-i18n="index.grid.tasbih.sub">عداد التكبير المطلق</p></a>
+      <a class="card" href="tasmee.html"><div class="ico-lg">🎙️</div><h3 data-i18n="index.grid.tasmee">تسميع القرآن</h3><p data-i18n="index.grid.tasmee.sub">تصحيح التلاوة بالذكاء</p></a>
+      <a class="card" href="ai.html"><div class="ico-lg">🤖</div><h3 data-i18n="index.grid.ai">تدبّر بالذكاء</h3><p data-i18n="index.grid.ai.sub">اسأل عن آيات وأحكام</p></a>
+      <a class="card" href="badges.html"><div class="ico-lg">🏅</div><h3 data-i18n="index.grid.badges">أوسمتي</h3><p data-i18n="index.grid.badges.sub">إنجازاتك الروحانية</p></a>
     </div>
   </main>
-
-  <!-- Floating AI Button -->
-  <a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
+  <a href="ai.html" class="fab-ai" aria-label="AI Assistant">🤖</a>
 </div>
-  <script src="lang.js" defer></script>
-  <script src="js/app.js" defer></script>
-  <!-- ═══ Visual Upgrade v2 ═══════════════════════════════ -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
-  <script src="animations.js" defer></script>
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
+<script src="animations.js" defer></script>
 </body>
 </html>
