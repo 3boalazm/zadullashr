@@ -2166,6 +2166,6 @@ function resetCurrentDhikr() {
   if (cardCnt)  cardCnt.textContent = 0;
   if (cardProg) cardProg.style.width = '0%';
   renderActiveDhikr();
-  showToast('🔄 تمت إعادة التعيين');
+  showToast('🔄 تـمت إعادة التعيين');
 }
 window.resetCurrentDhikr = resetCurrentDhikr;
