@@ -496,12 +496,12 @@ function showNotifPanel() {
   if (dot) dot.style.display = 'none';
   if ('Notification' in window && Notification.permission === 'default') {
     Notification.requestPermission().then(p => {
-      if (p === 'granted') showToast('✅ الإشعارات مفعّلة — ستصلك تذكيرات العبادات');
+      if (p === 'granted') (typeof showToast==='function'?showToast('✅ الإشعارات مفعّلة'):alert('✅ الإشعارات مفعّلة'));
     });
   } else if (Notification.permission === 'granted') {
-    showToast('🔔 الإشعارات مفعّلة بالفعل');
+    (typeof showToast==='function'?showToast('🔔 الإشعارات مفعّلة بالفعل'):alert('🔔 مفعّلة بالفعل'));
   } else {
-    showToast('⚠️ فعّل الإشعارات من إعدادات المتصفح');
+    (typeof showToast==='function'?showToast('⚠️ فعّل من الإعدادات'):alert('⚠️ فعّل الإشعارات من إعدادات المتصفح'));
   }
 }
 
@@ -608,7 +608,7 @@ const VERSES = [
   {ar:'وَلِكُلِّ أُمَّةٍ جَعَلْنَا مَنْسَكًا لِيَذْكُرُوا اسْمَ اللَّهِ عَلَى مَا رَزَقَهُمْ مِنْ بَهِيمَةِ الْأَنْعَامِ',src:'الحج: 34',note:'المنسك في كل أمة'},
 ];
 
-let verseIdx = 0, verseTimer = null;
+let _vi = 0, _vt = null;
 
 function buildVerseSlider() {
   const track = document.getElementById('verse-track');
@@ -626,15 +626,15 @@ function buildVerseSlider() {
     if (!dots) return;
     dots.innerHTML = '';
     const total = VERSES.length, visible = Math.min(7, total);
-    const start = Math.max(0, Math.min(verseIdx - 3, total - visible));
+    const start = Math.max(0, Math.min(_vi - 3, total - visible));
     for (let i = start; i < start + visible; i++) {
       const d = document.createElement('div');
-      d.className = 'vd' + (i === verseIdx ? ' active' : '');
+      d.className = 'vd' + (i === _vi ? ' active' : '');
       d.onclick = () => goVerse(i);
       dots.appendChild(d);
     }
     const cEl = document.getElementById('verse-counter');
-    if (cEl) cEl.textContent = `${verseIdx+1}/${VERSES.length}`;
+    if (cEl) cEl.textContent = `${_vi+1}/${VERSES.length}`;
   }
   renderDots();
   window._vRenderDots = renderDots;
@@ -650,18 +650,18 @@ function buildVerseSlider() {
     }, { passive:true });
   }
 
-  verseTimer = setInterval(() => goVerse(verseIdx + 1), 9000); /* 9s auto-advance */
+  verseTimer = setInterval(() => goVerse(_vi + 1), 9000); /* 9s auto-advance */
 }
 
 function goVerse(idx) {
-  verseIdx = (idx + VERSES.length) % VERSES.length;
+  _vi = (idx + VERSES.length) % VERSES.length;
   const track = document.getElementById('verse-track');
-  if (track) track.style.transform = `translateX(${verseIdx * 100}%)`;
+  if (track) track.style.transform = `translateX(${_vi * 100}%)`;
   if (window._vRenderDots) window._vRenderDots();
-  clearInterval(verseTimer);
-  verseTimer = setInterval(() => goVerse(verseIdx + 1), 9000);
+  clearInterval(_vt);
+  verseTimer = setInterval(() => goVerse(_vi + 1), 9000);
 }
-window.slideVerse = dir => goVerse(verseIdx + dir);
+window.slideVerse = dir => goVerse(_vi + dir);
 
 /* ── INIT ───────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
