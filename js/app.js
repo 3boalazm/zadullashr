@@ -1,23 +1,13 @@
-/* ════════════════════════════════════════════
-   زاد العشر — Shared App Logic v2.0
-   ════════════════════════════════════════════ */
-
-/* ──────────────────────────────────────────
-   STATE MANAGEMENT
-   ────────────────────────────────────────── */
 const KEY = 'zad_v2';
-
 function loadState() {
   try {
     const raw = localStorage.getItem(KEY);
     return raw ? JSON.parse(raw) : defaultState();
   } catch (e) { return defaultState(); }
 }
-
 function saveState() {
   try { localStorage.setItem(KEY, JSON.stringify(STATE)); } catch (e) {}
 }
-
 function defaultState() {
   return {
     theme: 'light',
@@ -33,21 +23,17 @@ function defaultState() {
     quranFontSize: 24,
     arafah:  { milestones: {}, dhikrCount: 0, khushooMode: false, bonus: {} },
     adhkar:  {},
-    takbeer7: {}  // 7 individual dhikr counters
+    takbeer7: {}  
   };
 }
-
 function todayStr() {
   return new Date().toISOString().split('T')[0];
 }
-
-// Reset daily worship if new day
 function checkDayReset(s) {
   if (s.day !== todayStr()) {
     s.day = todayStr();
     s.worship = {};
     s.charityDone = [];
-    // update streak
     const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
     if (s.lastActive === yesterday.toISOString().split('T')[0]) {
       s.streak = (s.streak || 0) + 1;
@@ -58,52 +44,35 @@ function checkDayReset(s) {
   }
   return s;
 }
-
 let STATE = checkDayReset(loadState());
-
-/* ──────────────────────────────────────────
-   THEME
-   ────────────────────────────────────────── */
 function applyTheme(theme) {
   STATE.theme = theme;
   document.documentElement.setAttribute('data-theme', theme);
-  // Update all toggles on page
   document.querySelectorAll('.dark-switch').forEach(el => { el.checked = theme === 'dark'; });
   document.querySelectorAll('.btn-theme').forEach(btn => { btn.textContent = theme === 'dark' ? '☀️' : '🌙'; });
   saveState();
 }
-
 function toggleTheme() {
   applyTheme(STATE.theme === 'dark' ? 'light' : 'dark');
 }
 window.toggleTheme = toggleTheme;
-
-/* ── Quran Font Size — CSS custom property (global) ────── */
 function applyQuranFont(size) {
   size = size || STATE.quranFontSize || 24;
   document.documentElement.style.setProperty('--qf-size', size + 'px');
   STATE.quranFontSize = size;
   saveState();
-  // Also update any visible sliders
   document.querySelectorAll('#font-slider, #m-font').forEach(sl => {
     sl.value = size;
   });
 }
 window.applyQuranFont = applyQuranFont;
-
-/* ──────────────────────────────────────────
-   COUNTDOWN TIMER
-   ────────────────────────────────────────── */
 function startCountdown() {
   const daysEl  = document.getElementById('cd-days');
   const hrsEl   = document.getElementById('cd-hrs');
   const minsEl  = document.getElementById('cd-mins');
   const secsEl  = document.getElementById('cd-secs');
   if (!daysEl) return;
-
   function tick() {
-    // Target = Arafah day: approximate 9th Dhul Hijjah
-    // For demo, set 8 days from now
     const target = new Date();
     target.setDate(target.getDate() + 8);
     target.setHours(9, 0, 0, 0);
@@ -121,10 +90,6 @@ function startCountdown() {
   tick();
   setInterval(tick, 1000);
 }
-
-/* ──────────────────────────────────────────
-   CHECKLIST SYSTEM
-   ────────────────────────────────────────── */
 function initChecklist() {
   document.querySelectorAll('.check[data-key]').forEach(el => {
     const k = el.dataset.key;
@@ -143,11 +108,9 @@ function initChecklist() {
   });
   updateProgress();
 }
-
 function updateProgress() {
   const bar = document.getElementById('prog-bar');
   const txt = document.getElementById('prog-txt');
-
   const worshipKeys = ['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam',
                        'morning_dhikr','evening_dhikr','takbeer_100','tawbah'];
   const done = worshipKeys.filter(k => STATE.worship[k]).length;
@@ -156,13 +119,8 @@ function updateProgress() {
   if (txt) txt.textContent = done + ' من ' + worshipKeys.length + ' عبادة';
   const pctEl = document.getElementById('prog-pct');
   if (pctEl) pctEl.textContent = pct + '%';
-  // Update circular ring if present (no recursion — direct call)
   if (typeof updateCircularRing === 'function') updateCircularRing(pct);
 }
-
-/* ──────────────────────────────────────────
-   FASTING TRACKER
-   ────────────────────────────────────────── */
 function initFasting() {
   document.querySelectorAll('.fast-day').forEach(el => {
     const day = +el.dataset.day;
@@ -180,16 +138,11 @@ function initFasting() {
     });
   });
 }
-
-/* ──────────────────────────────────────────
-   DASHBOARD STATS
-   ────────────────────────────────────────── */
 function updateDashStats() {
   const statTkbr  = document.getElementById('stat-takbeer');
   const statJuz   = document.getElementById('stat-juz');
   const statPray  = document.getElementById('stat-pray');
   const statProg  = document.getElementById('stat-prog');
-
   if (statTkbr)  statTkbr.textContent  = STATE.takbeer.total.toLocaleString('ar-EG');
   if (statJuz)   statJuz.textContent   = STATE.mushaf.juz;
   if (statProg)  {
@@ -203,11 +156,6 @@ function updateDashStats() {
   const prayDone = prayers.filter(k => STATE.worship[k]).length;
   if (statPray) statPray.textContent = prayDone + '/5';
 }
-
-/* ──────────────────────────────────────────
-   TAKBEER COUNTER
-   ────────────────────────────────────────── */
-/* صيغ التكبير الصحيحة المأثورة */
 const phrases = [
   { label:'التكبير الثنائي',  text:'اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ', target:100, source:'مأثور عن ابن مسعود' },
   { label:'التكبير الثلاثي',  text:'اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ', target:100, source:'مأثور عن عمر بن الخطاب' },
@@ -217,7 +165,6 @@ const phrases = [
   { label:'التلبية 🕋',     text:'لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ', target:33, source:'متفق عليه — تلبية الحاج' },
   { label:'الاستغفار',       text:'أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ', target:100, source:'حديث شريف' },
 ];
-
 function initTakbeer() {
   const ring    = document.getElementById('tkb-ring');
   const countEl = document.getElementById('tkb-count');
@@ -226,10 +173,7 @@ function initTakbeer() {
   const resetBtn= document.getElementById('tkb-reset');
   const saveBtn = document.getElementById('tkb-save');
   const pillWrap= document.getElementById('tkb-pills');
-
   if (!ring) return;
-
-  // Build phrase pills
   if (pillWrap) {
     phrases.forEach((p, i) => {
       const btn = document.createElement('button');
@@ -250,13 +194,11 @@ function initTakbeer() {
     });
     if (wordEl) wordEl.textContent = STATE.takbeer.phrase || phrases[0].text;
   }
-
   function doCount() {
     STATE.takbeer.count++;
     STATE.takbeer.total++;
     const c = STATE.takbeer.count;
     const t = STATE.takbeer.target;
-
     if (countEl) {
       countEl.textContent = c;
       countEl.classList.add('bump');
@@ -267,7 +209,6 @@ function initTakbeer() {
       progEl.querySelector('span').style.width = pct + '%';
     }
     if (navigator.vibrate) navigator.vibrate(25);
-
     if (c === t) {
       STATE.takbeer.sessions++;
       STATE.worship.takbeer_100 = true;
@@ -279,11 +220,9 @@ function initTakbeer() {
     }
     updateDashStats();
   }
-
   ring.addEventListener('click', doCount);
   ring.addEventListener('keydown', e => { if(e.key===' '||e.key==='Enter') doCount(); });
   ring.setAttribute('tabindex','0');
-
   if (resetBtn) resetBtn.onclick = () => {
     STATE.takbeer.count = 0;
     if (countEl) countEl.textContent = '0';
@@ -291,35 +230,24 @@ function initTakbeer() {
     saveState();
     showToast('🔄 تمت إعادة العداد');
   };
-
   if (saveBtn) saveBtn.onclick = () => {
     showToast(`💾 تم حفظ ${STATE.takbeer.count} تسبيحة`);
   };
-
-  // Restore count
   if (countEl) countEl.textContent = STATE.takbeer.count;
   if (progEl) {
     const pct = Math.min((STATE.takbeer.count / (STATE.takbeer.target||33)) * 100, 100);
     progEl.querySelector('span').style.width = pct + '%';
   }
-
-  // Stats
   const totalEl = document.getElementById('tkb-total');
   const sessEl  = document.getElementById('tkb-sess');
   if (totalEl) totalEl.textContent = STATE.takbeer.total.toLocaleString('ar-EG');
   if (sessEl)  sessEl.textContent  = STATE.takbeer.sessions;
-
-  // Keyboard shortcut hint
   document.addEventListener('keydown', e => {
     if (e.code === 'Space' && document.getElementById('tkb-ring')) {
       e.preventDefault(); doCount();
     }
   });
 }
-
-/* ──────────────────────────────────────────
-   MUSHAF / QURAN PROGRESS
-   ────────────────────────────────────────── */
 function initMushaf() {
   const progBar    = document.getElementById('m-prog-bar');
   const progTxt    = document.getElementById('m-prog-txt');
@@ -328,7 +256,6 @@ function initMushaf() {
   const fontSlider = document.getElementById('m-font');
   const fontPreview= document.getElementById('m-font-preview');
   const planCards  = document.querySelectorAll('.plan-card');
-
   function updateMushafUI() {
     const j = STATE.mushaf.juz;
     const pct = Math.round((j / 30) * 100);
@@ -336,7 +263,6 @@ function initMushaf() {
     if (progTxt) progTxt.textContent = j + ' جزء / 30 جزء · المتبقي ' + (30 - j) + ' جزء';
     if (addBtn) addBtn.disabled = j >= 30;
   }
-
   if (addBtn) addBtn.onclick = () => {
     if (STATE.mushaf.juz < 30) {
       STATE.mushaf.juz++;
@@ -347,7 +273,6 @@ function initMushaf() {
       else showToast(`📖 جزء ${STATE.mushaf.juz} مكتمل — بارك الله فيك`);
     }
   };
-
   if (resetBtn) resetBtn.onclick = () => {
     if (confirm('إعادة تعيين تقدم الختمة؟')) {
       STATE.mushaf.juz = 0;
@@ -356,7 +281,6 @@ function initMushaf() {
       showToast('🔄 تمت إعادة التعيين');
     }
   };
-
   planCards.forEach(c => {
     if (c.dataset.plan === STATE.mushaf.plan) c.classList.add('active');
     c.addEventListener('click', () => {
@@ -367,20 +291,14 @@ function initMushaf() {
       showToast('✅ تم اختيار الخطة');
     });
   });
-
   if (fontSlider) {
     fontSlider.value = STATE.quranFontSize || 24;
     fontSlider.oninput = () => {
       applyQuranFont(+fontSlider.value);
     };
   }
-
   updateMushafUI();
 }
-
-/* ──────────────────────────────────────────
-   BADGES / GAMIFICATION
-   ────────────────────────────────────────── */
 const BADGE_DEFS = [
   { id:'mubakker',  label:'المبكّر',        cond: s => s.worship?.fajr },
   { id:'dhaker',    label:'الذاكرون',       cond: s => (s.takbeer?.total||0) >= 100 },
@@ -396,7 +314,6 @@ const BADGE_DEFS = [
   { id:'khatim2',   label:'الراسخون',       cond: s => (s.mushaf?.juz||0) >= 15 },
   { id:'wasil',     label:'الواصلون',       cond: s => (s.charityDone?.length||0) >= 5 },
 ];
-
 function checkBadges() {
   BADGE_DEFS.forEach(def => {
     if (!STATE.badges.includes(def.id) && def.cond(STATE)) {
@@ -408,7 +325,6 @@ function checkBadges() {
   });
   updateBadgesPage();
 }
-
 function updateBadgeUI(id) {
   const el = document.querySelector(`[data-badge="${id}"]`);
   if (!el) return;
@@ -416,7 +332,6 @@ function updateBadgeUI(id) {
   el.classList.add('earned', 'just-earned');
   setTimeout(() => el.classList.remove('just-earned'), 1000);
 }
-
 function updateBadgesPage() {
   BADGE_DEFS.forEach(def => {
     const el = document.querySelector(`[data-badge="${def.id}"]`);
@@ -425,10 +340,8 @@ function updateBadgesPage() {
     el.classList.toggle('earned', earned);
     el.classList.toggle('locked', !earned);
   });
-  // Streak
   const streakEl = document.getElementById('streak-count');
   if (streakEl) streakEl.textContent = STATE.streak || 0;
-  // Streak days
   for (let i = 1; i <= 10; i++) {
     const d = document.getElementById('sd-' + i);
     if (d) {
@@ -436,35 +349,23 @@ function updateBadgesPage() {
       d.classList.toggle('today', i === (STATE.streak || 1));
     }
   }
-  // Summary
   const earnedCount = document.getElementById('earned-count');
   if (earnedCount) earnedCount.textContent = STATE.badges.length + ' / ' + BADGE_DEFS.length;
 }
-
-/* ──────────────────────────────────────────
-   SETTINGS PAGE
-   ────────────────────────────────────────── */
 function initSettings() {
-  // Dark mode toggle
   const darkSw = document.getElementById('dark-sw');
   if (darkSw) {
     darkSw.checked = STATE.theme === 'dark';
     darkSw.onchange = () => applyTheme(darkSw.checked ? 'dark' : 'light');
   }
-
-  // Notifications toggle (demo)
   document.querySelectorAll('.notif-sw').forEach(sw => {
     sw.onchange = () => showToast(sw.checked ? '🔔 تم تفعيل الإشعارات' : '🔕 تم إيقاف الإشعارات');
   });
-
-  // Quran font slider — applies via CSS custom property to ALL pages
   const fs = document.getElementById('font-slider');
   if (fs) {
     fs.value = STATE.quranFontSize || 24;
     fs.oninput = () => applyQuranFont(+fs.value);
   }
-
-  // Reset button
   const resetBtn = document.getElementById('reset-all');
   if (resetBtn) resetBtn.onclick = () => {
     if (confirm('هل تريد مسح جميع البيانات؟ لا يمكن التراجع.')) {
@@ -478,8 +379,6 @@ function initSettings() {
       setTimeout(() => location.reload(), 800);
     }
   };
-
-  // Theme cards
   document.querySelectorAll('.theme-card').forEach(c => {
     c.addEventListener('click', () => {
       const t = c.dataset.theme;
@@ -490,30 +389,20 @@ function initSettings() {
     if (c.dataset.theme === STATE.theme) c.classList.add('active');
   });
 }
-
-/* ──────────────────────────────────────────
-   AI CHAT (Anthropic API)
-   ────────────────────────────────────────── */
 const AI_SYSTEM = `أنت مساعد إسلامي متخصص في فضائل وأحكام عشر ذي الحجة، مصادرك القرآن الكريم والأحاديث الصحيحة وكتب التفاسير المعتمدة كابن كثير والطبري والقرطبي وكتب الفقه الإسلامي.
 أجب باللغة العربية الفصحى الميسّرة، وابدأ دائماً بالدليل الشرعي مع ذكر المصدر (الكتاب والباب أو رقم الحديث).
 اقتصر على أسئلة متعلقة بـ: عشر ذي الحجة، يوم عرفة، الأضحية، التكبير، الصيام في العشر، فضائل الأعمال في هذه الأيام. إذا سُئلت عن شيء خارج هذا الإطار، بيّن أنك متخصص في موضوع العشر فقط.
 اجعل إجاباتك موجزة (3-6 جمل) ما لم يطلب المستخدم التفصيل.`;
-
 let chatHistory = [];
-
 async function sendAIMessage(userMsg) {
   const chatWrap = document.getElementById('chat-wrap');
   const input    = document.getElementById('chat-input');
   const sendBtn  = document.getElementById('chat-send');
   if (!chatWrap || !userMsg.trim()) return;
-
-  // Append user message
   appendMsg('user', userMsg);
   chatHistory.push({ role: 'user', content: userMsg });
   if (input) input.value = '';
   if (sendBtn) sendBtn.disabled = true;
-
-  // Typing indicator
   const typingId = 'typing-' + Date.now();
   chatWrap.insertAdjacentHTML('beforeend', `
     <div class="msg bot" id="${typingId}">
@@ -521,7 +410,6 @@ async function sendAIMessage(userMsg) {
       <div class="msg-bubble bot typing"><span></span><span></span><span></span></div>
     </div>`);
   chatWrap.scrollTop = chatWrap.scrollHeight;
-
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -536,7 +424,6 @@ async function sendAIMessage(userMsg) {
     const data = await res.json();
     const reply = data.content?.[0]?.text || 'عذراً، حدث خطأ في الاتصال.';
     chatHistory.push({ role: 'assistant', content: reply });
-
     const typing = document.getElementById(typingId);
     if (typing) typing.remove();
     appendMsg('bot', reply);
@@ -545,11 +432,9 @@ async function sendAIMessage(userMsg) {
     if (typing) typing.remove();
     appendMsg('bot', 'عذراً، تعذّر الاتصال. تحقق من اتصالك بالإنترنت وحاول مجدداً.');
   }
-
   if (sendBtn) sendBtn.disabled = false;
   chatWrap.scrollTop = chatWrap.scrollHeight;
 }
-
 function appendMsg(role, text) {
   const chatWrap = document.getElementById('chat-wrap');
   if (!chatWrap) return;
@@ -562,22 +447,17 @@ function appendMsg(role, text) {
   chatWrap.appendChild(el);
   chatWrap.scrollTop = chatWrap.scrollHeight;
 }
-
 function escapeHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
-
 function initAIChat() {
   const input   = document.getElementById('chat-input');
   const sendBtn = document.getElementById('chat-send');
   if (!input) return;
-
   sendBtn.onclick = () => sendAIMessage(input.value);
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAIMessage(input.value); }
   });
-
-  // Suggested questions
   document.querySelectorAll('.sq').forEach(el => {
     el.addEventListener('click', () => {
       const q = el.querySelector('h3')?.textContent?.replace(/^❓\s*/,'');
@@ -585,10 +465,6 @@ function initAIChat() {
     });
   });
 }
-
-/* ──────────────────────────────────────────
-   KIDS PAGE
-   ────────────────────────────────────────── */
 const stories = [
   { ico:'🕌', title:'إبراهيم عليه السلام — النبي الخليل', body:'كان سيدنا إبراهيم أحب الناس إلى الله وأعظمهم توحيداً، سمّاه الله "خليل الله" أي صديقه المقرّب. كان الله يختبره كثيراً فيجتاز كل اختبار بتفوق لأن حبه لله كان أكبر من كل شيء.' },
   { ico:'🌟', title:'الابتلاء العظيم', body:'أمر الله سيدنا إبراهيم في المنام بذبح ابنه إسماعيل. فأخبره إبراهيم بذلك فقال إسماعيل: "يا أبتِ افعل ما تؤمر ستجدني إن شاء الله من الصابرين". وهنا ظهر إيمانهما العظيم!' },
@@ -596,20 +472,14 @@ const stories = [
   { ico:'🕋', title:'بناء بيت الله', body:'أمر الله إبراهيم وإسماعيل ببناء الكعبة المشرفة — بيت الله الحرام في مكة. فبنياها بأحجار جبل أبي قبيس وهما يدعوان: "ربنا تقبّل منا إنك أنت السميع العليم".' },
   { ico:'✨', title:'درسنا من القصة', body:'تعلّمنا أن حب الله أهم من كل شيء، وأن الطاعة لله حتى في الأشياء الصعبة هي طريق السعادة. في أيام العشر نتذكر هذه القصة ونضحي ونكبّر ونصلي شكراً لله.' }
 ];
-
 let storyIdx = 0;
-
 function initKids() {
   renderStory();
   const next = document.getElementById('story-next');
   const prev = document.getElementById('story-prev');
   if (next) next.onclick = () => { storyIdx = (storyIdx+1) % stories.length; renderStory(); };
   if (prev) prev.onclick = () => { storyIdx = (storyIdx-1+stories.length) % stories.length; renderStory(); };
-
-  // Quiz
   initQuiz();
-
-  // Activity cards
   document.querySelectorAll('.activity-card[data-act]').forEach(el => {
     el.addEventListener('click', () => {
       const act = el.dataset.act;
@@ -622,7 +492,6 @@ function initKids() {
     });
   });
 }
-
 function renderStory() {
   const s = stories[storyIdx];
   const ico  = document.getElementById('story-ico');
@@ -634,8 +503,6 @@ function renderStory() {
   if (body) body.textContent = s.body;
   if (cnt)  cnt.textContent  = (storyIdx+1) + ' / ' + stories.length;
 }
-
-/* Kids quiz */
 const quiz = [
   { q:'كم عدد أيام العشر المباركة؟', opts:['5','7','10','15'], a:2 },
   { q:'ما هو اليوم الأفضل في عشر ذي الحجة؟', opts:['اليوم الأول','اليوم الثالث','يوم عرفة (التاسع)','يوم العيد'], a:2 },
@@ -644,20 +511,17 @@ const quiz = [
   { q:'في أي شهر هجري تأتي أيام العشر؟', opts:['رمضان','محرم','ذو الحجة','شوال'], a:2 },
 ];
 let qIdx = 0;
-
 function initQuiz() {
   const qBox = document.getElementById('quiz-section');
   if (!qBox) return;
   renderQuestion();
 }
-
 function renderQuestion() {
   const qEl   = document.getElementById('quiz-q');
   const optsEl= document.getElementById('quiz-opts');
   const fbEl  = document.getElementById('quiz-fb');
   const nextBtn= document.getElementById('quiz-next');
   if (!qEl) return;
-
   if (qIdx >= quiz.length) {
     qEl.textContent = '🎉 أحسنت! أنهيت المسابقة بنجاح';
     if (optsEl) optsEl.innerHTML = '';
@@ -665,12 +529,10 @@ function renderQuestion() {
     if (nextBtn) nextBtn.style.display = 'none';
     return;
   }
-
   const q = quiz[qIdx];
   qEl.textContent = `سؤال ${qIdx+1}: ${q.q}`;
   if (fbEl)   { fbEl.style.display = 'none'; fbEl.textContent = ''; }
   if (nextBtn) nextBtn.style.display = 'none';
-
   if (optsEl) {
     optsEl.innerHTML = '';
     q.opts.forEach((opt, i) => {
@@ -693,21 +555,15 @@ function renderQuestion() {
     });
   }
 }
-
 window.quizNext = function() {
   qIdx++;
   renderQuestion();
 };
-
-/* ──────────────────────────────────────────
-   CHARITY PAGE
-   ────────────────────────────────────────── */
 function initCharity() {
   document.querySelectorAll('.charity-act[data-act]').forEach(el => {
     const act = el.dataset.act;
     const done = (STATE.charityDone || []).includes(act);
     if (done) markCharityDone(el);
-
     el.addEventListener('click', () => {
       if ((STATE.charityDone||[]).includes(act)) {
         showToast('سجّلت هذا العمل بالفعل ✅');
@@ -721,24 +577,17 @@ function initCharity() {
     });
   });
 }
-
 function markCharityDone(el) {
   const btn = el.querySelector('.btn');
   if (btn) { btn.textContent = '✅ تم'; btn.disabled = true; }
   el.style.borderColor = 'var(--green-soft)';
   el.style.background  = 'var(--green-pale)';
 }
-
-/* ──────────────────────────────────────────
-   SIDEBAR / MOBILE
-   ────────────────────────────────────────── */
 function initSidebar() {
   const hamburger = document.getElementById('hamburger');
   const sidebar   = document.querySelector('.sidebar');
   const overlay   = document.querySelector('.sidebar-overlay');
-
   if (!hamburger || !sidebar) return;
-
   hamburger.onclick = () => {
     sidebar.classList.toggle('open');
     overlay.classList.toggle('active');
@@ -748,10 +597,6 @@ function initSidebar() {
     overlay.classList.remove('active');
   };
 }
-
-/* ──────────────────────────────────────────
-   TOAST
-   ────────────────────────────────────────── */
 let toastTimer;
 function showToast(msg) {
   let toast = document.getElementById('zad-toast');
@@ -766,27 +611,26 @@ function showToast(msg) {
   toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
 }
 window.showToast = showToast;
-
-/* ──────────────────────────────────────────
-   INIT — runs on every page
-   ────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Theme + font (instant — before paint)
+function _zadDOMReady(fn) {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fn, { once: true });
+  } else {
+    fn();
+  }
+}
+_zadDOMReady(() => {
   applyTheme(STATE.theme);
   applyQuranFont(STATE.quranFontSize || 24);
-
-  // 2. Theme toggles
   document.querySelectorAll('.btn-theme').forEach(btn => {
     btn.onclick = toggleTheme;
+    if (!btn.getAttribute('aria-label')) btn.setAttribute('aria-label', 'تبديل المظهر');
   });
   document.querySelectorAll('.dark-switch').forEach(sw => {
     sw.checked = (STATE.theme === 'dark' || STATE.theme === 'oled');
     sw.onchange = () => applyTheme(sw.checked ? 'dark' : 'light');
   });
-
-  // 3. Sidebar + core
   initSidebar();
-  initContextualDashboard();  // Hijri-aware dashboard
+  initContextualDashboard();  
   startCountdown();
   initChecklist();
   initFasting();
@@ -799,11 +643,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCharity();
   checkBadges();
   updateBadgesPage();
-
-  // 4. Animations
   initAnimations();
-
-  // 5. PWA + extras (was 2nd DOMContentLoaded - merged to prevent double-run)
   initPWA();
   initSearch();
   initVerseRotator();
@@ -811,17 +651,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initNotifBanner();
   if (STATE.fontScale) applyFontSize(STATE.fontScale);
 });
-
-/* ══════════════════════════════════════════
-   ANIMATION SYSTEM
-   ══════════════════════════════════════════ */
 function initAnimations() {
-  // A. Stagger class on grids
   document.querySelectorAll('.grid:not(.no-stagger)').forEach(g => {
     g.classList.add('stagger');
   });
-
-  // B. IntersectionObserver for scroll reveal
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -830,23 +663,18 @@ function initAnimations() {
       }
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-
-  // Cards and checklists below the fold
   document.querySelectorAll('.card, .tl-item, .info-step, .badge, .audio').forEach((el, i) => {
     el.classList.add('reveal');
     el.style.transitionDelay = (i % 6) * 0.06 + 's';
     io.observe(el);
   });
-
-  // C. Checklist — add ripple + tick animation on done
   document.querySelectorAll('.check').forEach(el => {
     const orig = el.onclick;
     const existingListener = el._zadAnimBound;
-    if (existingListener) return;  // don't double-bind
+    if (existingListener) return;  
     el._zadAnimBound = true;
     el.addEventListener('click', () => {
       if (el.classList.contains('done')) {
-        // Adding ripple
         const ripple = document.createElement('div');
         ripple.className = 'check-ripple';
         el.appendChild(ripple);
@@ -858,8 +686,6 @@ function initAnimations() {
       }
     });
   });
-
-  // D. Fasting days — ripple on done
   document.querySelectorAll('.fast-day').forEach(el => {
     if (el._zadAnimBound) return;
     el._zadAnimBound = true;
@@ -872,22 +698,14 @@ function initAnimations() {
       }
     });
   });
-
-  // E. Badge earn pop
   document.querySelectorAll('.badge.earned').forEach(b => {
     if (!b._zadAnimBound) {
       b._zadAnimBound = true;
     }
   });
-
-  // F. Countdown flip class on digit change
   initCountdownFlip();
-
-  // G. Page link fade-out transition
   initPageTransition();
 }
-
-/* Flip animation for countdown digits */
 let _prevCd = {};
 function initCountdownFlip() {
   const ids = ['cd-days','cd-hrs','cd-mins','cd-secs'];
@@ -898,17 +716,16 @@ function initCountdownFlip() {
       const newVal = el.textContent;
       if (_prevCd[id] !== newVal) {
         el.classList.remove('flip');
-        void el.offsetWidth;  // reflow
-        el.classList.add('flip');
-        setTimeout(() => el.classList.remove('flip'), 250);
+        requestAnimationFrame(() => {
+          el.classList.add('flip');
+          setTimeout(() => el.classList.remove('flip'), 250);
+        });
         _prevCd[id] = newVal;
       }
     });
     mo.observe(el, { childList: true, characterData: true, subtree: true });
   });
 }
-
-/* Badge unlock with pop animation */
 function animateBadgeUnlock(id) {
   const el = document.querySelector('[data-badge="' + id + '"]');
   if (!el) return;
@@ -916,8 +733,6 @@ function animateBadgeUnlock(id) {
   el.classList.add('earned', 'just-earned');
   setTimeout(() => el.classList.remove('just-earned'), 1000);
 }
-
-/* Page link transition (fade out → navigate) */
 function initPageTransition() {
   const links = document.querySelectorAll('.nav a, a.card');
   links.forEach(link => {
@@ -935,24 +750,18 @@ function initPageTransition() {
     });
   });
 }
-
-/* Verse rotation with animation */
 function animateVerseTransition(callback) {
   const arEl  = document.getElementById('verse-ar');
   const srcEl = document.getElementById('verse-src');
   const trEl  = document.getElementById('verse-tr');
   const els = [arEl, srcEl, trEl].filter(Boolean);
-
-  // Fade out
   els.forEach(el => {
     el.style.transition = 'opacity .2s ease, transform .2s ease';
     el.style.opacity = '0';
     el.style.transform = 'translateY(-8px)';
   });
-
   setTimeout(() => {
-    callback();  // update content
-    // Fade in
+    callback();  
     els.forEach(el => {
       el.style.transform = 'translateY(8px)';
       el.style.opacity = '0';
@@ -969,18 +778,12 @@ function animateVerseTransition(callback) {
   }, 220);
 }
 window.animateVerseTransition = animateVerseTransition;
-
-/* ══════════════════════════════════════════
-   THEME EXTENSION — OLED + Dynamic Font
-   ══════════════════════════════════════════ */
 function applyFontSize(size) {
   document.documentElement.setAttribute('data-font', size);
   STATE.fontScale = size;
   saveState();
 }
 window.applyFontSize = applyFontSize;
-
-// Extended applyTheme — supports light / dark / oled
 window.applyTheme = function(theme) {
   STATE.theme = theme;
   document.documentElement.setAttribute('data-theme', theme);
@@ -998,32 +801,21 @@ window.applyTheme = function(theme) {
   });
   saveState();
 };
-
-/* ══════════════════════════════════════════
-   PWA — Register Service Worker + Install
-   ══════════════════════════════════════════ */
 let deferredInstall = null;
-
 function initPWA() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
   }
-
   window.addEventListener('beforeinstallprompt', e => {
-    /* e.preventDefault() suppresses browser mini-infobar — intentional.
-       Chrome warns "Banner not shown" — this is expected behavior, not an error.
-       We show our own custom install banner instead. */
     e.preventDefault();
     deferredInstall = e;
     showInstallBanner();
   });
 }
-
 function showInstallBanner() {
   const b = document.getElementById('pwa-banner');
   if (b) b.style.display = 'flex';
 }
-
 window.installPWA = function() {
   if (!deferredInstall) {
     showToast('📲 افتح القائمة ← "إضافة للشاشة الرئيسية"');
@@ -1037,10 +829,6 @@ window.installPWA = function() {
     if (b) b.style.display = 'none';
   });
 };
-
-/* ══════════════════════════════════════════
-   BROWSER NOTIFICATIONS
-   ══════════════════════════════════════════ */
 async function requestNotifPermission() {
   if (!('Notification' in window)) {
     showToast('⚠️ المتصفح لا يدعم الإشعارات');
@@ -1056,32 +844,22 @@ async function requestNotifPermission() {
   return false;
 }
 window.requestNotifPermission = requestNotifPermission;
-
 function scheduleReminders() {
-  // Prayer reminders (simplified — would need exact times in production)
   const msg = (title, body) => {
     if (Notification.permission === 'granted') {
       new Notification(title, { body, icon: './icons/icon-192.svg', dir: 'rtl', lang: 'ar' });
     }
   };
-  // Demo: remind after 30s
   setTimeout(() => msg('🕌 زاد العشر', 'لا تنس وردك اليومي — بارك الله فيك'), 30000);
 }
-
 function initNotifBanner() {
   const btn = document.getElementById('enable-notif');
   if (btn) btn.onclick = requestNotifPermission;
-
-  // Hide notif banner if already granted
   if (Notification.permission === 'granted') {
     const b = document.getElementById('notif-banner');
     if (b) b.style.display = 'none';
   }
 }
-
-/* ══════════════════════════════════════════
-   SEARCH OVERLAY
-   ══════════════════════════════════════════ */
 const SEARCH_INDEX = [
   { ico:'🏠', title:'لوحة التحكم',         sub:'الصفحة الرئيسية والإحصائيات',    url:'index.html' },
   { ico:'✨', title:'فضائل العشر',         sub:'أدلة الفضل من القرآن والسنة',   url:'fadael.html' },
@@ -1101,15 +879,12 @@ const SEARCH_INDEX = [
   { ico:'📿', title:'التكبير المطلق',       sub:'من أول ذي الحجة حتى العيد',    url:'takbeer.html' },
   { ico:'🌅', title:'فجر يوم عرفة',       sub:'برنامج الفجر وما بعده',         url:'arafah.html' },
 ];
-
 function initSearch() {
   const searchInputs = document.querySelectorAll('.search input');
   searchInputs.forEach(inp => {
     inp.addEventListener('focus', openSearchOverlay);
     inp.addEventListener('input', filterSearch);
   });
-
-  // Build overlay if not present
   if (!document.getElementById('search-overlay')) {
     const ov = document.createElement('div');
     ov.className = 'search-overlay'; ov.id = 'search-overlay';
@@ -1124,29 +899,24 @@ function initSearch() {
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearchOverlay(); });
   }
 }
-
 function openSearchOverlay() {
   document.getElementById('search-overlay').classList.add('open');
   setTimeout(() => document.getElementById('search-main')?.focus(), 80);
   renderSearchResults('');
 }
-
 function closeSearchOverlay() {
   document.getElementById('search-overlay')?.classList.remove('open');
 }
-
 function filterSearch() {
   const q = (document.getElementById('search-main')?.value || '').trim();
   renderSearchResults(q);
 }
-
 function renderSearchResults(q) {
   const container = document.getElementById('search-results');
   if (!container) return;
   const filtered = q
     ? SEARCH_INDEX.filter(i => i.title.includes(q) || i.sub.includes(q))
     : SEARCH_INDEX;
-
   if (!filtered.length) {
     container.innerHTML = '<div class="search-empty">لم يُعثر على نتائج 🔍</div>';
     return;
@@ -1158,10 +928,6 @@ function renderSearchResults(q) {
     </div>`).join('');
 }
 window.closeSearchOverlay = closeSearchOverlay;
-
-/* ══════════════════════════════════════════
-   DAILY VERSES ROTATOR (8 verses)
-   ══════════════════════════════════════════ */
 const DAILY_VERSES = [
   { src:'سورة الفجر 1-2', ar:'وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ', tr:'أقسم الله بهذه الليالي العشر تنويهاً بشأنها وعظيم فضلها.' },
   { src:'سورة الحج 28', ar:'وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَّعْلُومَاتٍ', tr:'قال المفسرون: هي عشر ذي الحجة، أيام العمل الصالح.' },
@@ -1172,7 +938,6 @@ const DAILY_VERSES = [
   { src:'سورة آل عمران 133', ar:'وَسَارِعُوا إِلَىٰ مَغْفِرَةٍ مِّن رَّبِّكُمْ وَجَنَّةٍ عَرْضُهَا السَّمَاوَاتُ وَالْأَرْضُ', tr:'العشر فرصة المسارعة إلى الجنة.' },
   { src:'سورة الذاريات 56', ar:'وَمَا خَلَقْتُ الْجِنَّ وَالْإِنسَ إِلَّا لِيَعْبُدُونِ', tr:'العبادة الحقيقية — غاية الوجود الإنساني.' },
 ];
-
 let verseIdx = 0;
 function initVerseRotator() {
   const arEl  = document.getElementById('verse-ar');
@@ -1180,11 +945,8 @@ function initVerseRotator() {
   const trEl  = document.getElementById('verse-tr');
   const dotsEl= document.getElementById('verse-dots');
   if (!arEl) return;
-
-  // Set today's verse based on day of month
   verseIdx = new Date().getDate() % DAILY_VERSES.length;
   renderVerse();
-
   if (dotsEl) {
     DAILY_VERSES.forEach((_, i) => {
       const d = document.createElement('div');
@@ -1193,7 +955,6 @@ function initVerseRotator() {
       dotsEl.appendChild(d);
     });
   }
-
   function renderVerse() {
     const v = DAILY_VERSES[verseIdx];
     if (arEl)  arEl.textContent  = v.ar;
@@ -1202,7 +963,6 @@ function initVerseRotator() {
     document.querySelectorAll('.verse-dot').forEach((d,i) =>
       d.classList.toggle('active', i === verseIdx));
   }
-
   function renderVerseAnimated() {
     if (typeof animateVerseTransition === 'function') {
       animateVerseTransition(renderVerse);
@@ -1210,17 +970,11 @@ function initVerseRotator() {
       renderVerse();
     }
   }
-
-  // Auto-rotate every 8s with animation
   setInterval(() => {
     verseIdx = (verseIdx+1) % DAILY_VERSES.length;
     renderVerseAnimated();
   }, 8000);
 }
-
-/* ══════════════════════════════════════════
-   CIRCULAR PROGRESS RING (SVG)
-   ══════════════════════════════════════════ */
 function updateCircularRing(pct) {
   const ring = document.getElementById('ring-circle');
   if (!ring) return;
@@ -1230,21 +984,13 @@ function updateCircularRing(pct) {
   const pctEl = document.getElementById('ring-pct');
   if (pctEl) pctEl.textContent = pct + '%';
 }
-
-/* updateCircularRing is called directly from updateProgress — no override needed */
-
-/* ══════════════════════════════════════════
-   SPEECH RECOGNITION (Arabic Quran Tasmee)
-   ══════════════════════════════════════════ */
 let recognition = null;
 let isListening = false;
-
 function initSpeechRecognition() {
   const micBtn   = document.getElementById('mic-btn');
   const transEl  = document.getElementById('transcript');
   const feedEl   = document.getElementById('speech-feedback');
   if (!micBtn) return;
-
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
     micBtn.textContent = '⚠️';
@@ -1253,12 +999,10 @@ function initSpeechRecognition() {
     if (feedEl) feedEl.textContent = 'استخدم Chrome أو Safari للتسميع الصوتي';
     return;
   }
-
   recognition = new SpeechRecognition();
   recognition.lang = 'ar-SA';
   recognition.continuous = false;
   recognition.interimResults = true;
-
   recognition.onresult = e => {
     const transcript = Array.from(e.results)
       .map(r => r[0].transcript).join('');
@@ -1267,20 +1011,17 @@ function initSpeechRecognition() {
       analyzeRecitation(transcript);
     }
   };
-
   recognition.onend = () => {
     isListening = false;
     micBtn.classList.remove('listening');
     micBtn.textContent = '🎙️';
   };
-
   recognition.onerror = e => {
     isListening = false;
     micBtn.classList.remove('listening');
     micBtn.textContent = '🎙️';
     if (feedEl) feedEl.textContent = 'حدث خطأ في الميكروفون — حاول مجدداً';
   };
-
   micBtn.onclick = () => {
     if (isListening) {
       recognition.stop();
@@ -1297,37 +1038,30 @@ function initSpeechRecognition() {
     }
   };
 }
-
 async function analyzeRecitation(text) {
   const targetEl = document.getElementById('tasmee-target');
   const feedEl   = document.getElementById('speech-feedback');
   const accEl    = document.getElementById('accuracy-pct');
   if (!feedEl) return;
-
   const target = targetEl ? targetEl.getAttribute('data-text') : '';
   if (!target) {
     if (feedEl) feedEl.textContent = 'اختر آية أولاً';
     return;
   }
-
-  // Simple word match accuracy
   const cleanText = s => s.replace(/[ًٌٍَُِّْ]/g,'').trim();
   const targetWords = cleanText(target).split(/\s+/);
   const spokenWords = cleanText(text).split(/\s+/);
   let matched = 0;
   targetWords.forEach((w,i) => { if (spokenWords[i] === w) matched++; });
   const acc = Math.round((matched / targetWords.length) * 100);
-
   if (accEl) accEl.textContent = acc + '%';
   updateAccuracyRing(acc);
-
   if (feedEl) {
     if (acc >= 90) feedEl.innerHTML = '<span style="color:#2e7d32">✅ ممتاز! تلاوتك صحيحة</span>';
     else if (acc >= 70) feedEl.innerHTML = '<span style="color:#f57c00">⚠️ جيد — راجع بعض الكلمات</span>';
     else feedEl.innerHTML = '<span style="color:#c62828">❌ حاول مجدداً — استمع للتلاوة أولاً</span>';
   }
 }
-
 function updateAccuracyRing(pct) {
   const ring = document.getElementById('acc-ring');
   if (!ring) return;
@@ -1337,30 +1071,17 @@ function updateAccuracyRing(pct) {
   ring.style.strokeDasharray = C;
   ring.style.strokeDashoffset = C - (C*pct/100);
 }
-
-/* ══════════════════════════════════════════
-   EXTENDED INIT
-   ══════════════════════════════════════════ */
-/* merged into main DOMContentLoaded */
-
-/* ══════════════════════════════════════════════════════════
-   HIJRI CALENDAR DETECTION
-   Reference: 1 Dhul Hijjah 1447 AH = 28 May 2026 (Umm al-Qura)
-   ══════════════════════════════════════════════════════════ */
 const HIJRI_REF = {
-  greg:  new Date(2026, 4, 28, 0, 0, 0), // May 28 2026 midnight
+  greg:  new Date(2026, 4, 28, 0, 0, 0), 
   year:  1447,
-  month: 12,   // Dhul Hijjah
+  month: 12,   
   day:   1
 };
-// Alternating month lengths: odd months = 30d, even = 29d
 const HIJRI_MONTH_LEN = [30,29,30,29,30,29,30,29,30,29,30,29];
-
 function getHijriDate(date = new Date()) {
   const diffDays = Math.round((date - HIJRI_REF.greg) / 86400000);
   let { year, month, day } = HIJRI_REF;
   let d = (day - 1) + diffDays;
-
   if (d >= 0) {
     while (d >= HIJRI_MONTH_LEN[month - 1]) {
       d -= HIJRI_MONTH_LEN[month - 1];
@@ -1376,12 +1097,10 @@ function getHijriDate(date = new Date()) {
   }
   return { year, month, day: d + 1 };
 }
-
 function getDhulHijjahDay() {
   const h = getHijriDate();
   return h.month === 12 ? h.day : null;
 }
-
 const isArafahDay   = () => getDhulHijjahDay() === 9;
 const isEidDay      = () => getDhulHijjahDay() === 10;
 const isTashriq     = () => { const d = getDhulHijjahDay(); return d >= 11 && d <= 13; };
@@ -1389,33 +1108,25 @@ const isInAshra     = () => { const d = getDhulHijjahDay(); return d !== null &&
 window.getHijriDate = getHijriDate;
 window.getDhulHijjahDay = getDhulHijjahDay;
 window.isArafahDay  = isArafahDay;
-
-
-/* ══════════════════════════════════════════════════════════
-   PRAYER TIMES — Simple latitude-based approximation
-   For accurate times: use Aladhan.com API (needs geolocation)
-   ══════════════════════════════════════════════════════════ */
-function getApproxMaghrib(lat = 24.7) { // default Mecca lat
+function getApproxMaghrib(lat = 24.7) { 
   const d = new Date();
   const J = Math.floor((d - new Date(d.getFullYear(),0,0)) / 86400000);
-  // Simple civil twilight formula
   const decl = 23.45 * Math.sin((360/365 * (J - 81)) * Math.PI / 180);
   const cosH  = (Math.sin(-0.83 * Math.PI/180) - Math.sin(lat*Math.PI/180)*Math.sin(decl*Math.PI/180))
               / (Math.cos(lat*Math.PI/180)*Math.cos(decl*Math.PI/180));
   const H = Math.acos(Math.max(-1, Math.min(1, cosH))) * 180 / Math.PI;
   const tz = -(d.getTimezoneOffset() / 60);
-  const sunsetHr = 12 + H/15 + tz - (4 * 0) / 60; // lon=0 approx
+  const sunsetHr = 12 + H/15 + tz - (4 * 0) / 60; 
   const h = Math.floor(sunsetHr);
   const m = Math.floor((sunsetHr - h) * 60);
-  const maghrib = new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m + 3, 0); // +3m after sunset
+  const maghrib = new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m + 3, 0); 
   return maghrib;
 }
-
 async function fetchPrayerTimesIfPossible() {
   try {
     const pos = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, {timeout:5000}));
     const { latitude: lat, longitude: lng } = pos.coords;
-    const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
+    const today = new Date().toLocaleDateString('en-CA'); 
     const url = `https://api.aladhan.com/v1/timings/${today}?latitude=${lat}&longitude=${lng}&method=4`;
     const r = await fetch(url);
     const data = await r.json();
@@ -1425,13 +1136,8 @@ async function fetchPrayerTimesIfPossible() {
       return new Date(d.getFullYear(), d.getMonth(), d.getDate(), hh, mm, 0);
     }
   } catch (e) {}
-  return null; // fallback to approx
+  return null; 
 }
-
-
-/* ══════════════════════════════════════════════════════════
-   TIME PHASE — background color token for Arafah page
-   ══════════════════════════════════════════════════════════ */
 function getTimePhase() {
   const h = new Date().getHours();
   if (h <  4) return { name:'layl',    emoji:'🌙', label:'الليل',          gradient:'#020408,#05080f' };
@@ -1445,39 +1151,28 @@ function getTimePhase() {
   if (h < 20) return { name:'maghrib', emoji:'🌇', label:'وقت المغرب',      gradient:'#3a0a10,#6a1010' };
   return               { name:'isha',   emoji:'🌙', label:'وقت العشاء',      gradient:'#050a08,#0a1210' };
 }
-
 function applyTimeBackground(el) {
   if (!el) return;
   const { gradient } = getTimePhase();
   const [c1, c2] = gradient.split(',');
   el.style.background = `linear-gradient(160deg, ${c1}, ${c2})`;
 }
-
-
-/* ══════════════════════════════════════════════════════════
-   CONTEXTUAL DASHBOARD — detects Hijri day and adapts UI
-   ══════════════════════════════════════════════════════════ */
 function initContextualDashboard() {
   const day = getDhulHijjahDay();
   if (!day || day > 13) return;
-
   const ARABIC_NUMS = ['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر'];
   const heroEye  = document.querySelector('.hero-eyebrow');
   const heroH1   = document.querySelector('.hero h1');
   const heroP    = document.querySelector('.hero p');
   const heroEl   = document.querySelector('.hero');
   const notifEl  = document.getElementById('notif-banner');
-
   if (isArafahDay()) {
-    // ARAFAH DAY — full transformation
     document.title = '⭐ يوم عرفة — زاد العشر';
     if (heroEye)  heroEye.textContent = '⭐ يوم عرفة — يوم الإجابة العظمى';
     if (heroH1)   heroH1.innerHTML    = 'ربيع القلوب وعتق الرقاب';
     if (heroP)    heroP.textContent   = 'أكثر من الدعاء والذكر — خير الدعاء دعاء يوم عرفة';
     if (heroEl)   heroEl.style.background = 'linear-gradient(135deg, #3a1a00, #7a3a00 60%, #b05a00)';
-    // Switch countdown to "حتى ساعة الإجابة"
     startArafahMaghribCountdown();
-    // Show alert banner
     if (notifEl) {
       notifEl.style.background = 'linear-gradient(135deg, rgba(180,100,0,.15), rgba(180,100,0,.06))';
       notifEl.style.borderColor = 'rgba(200,120,0,.35)';
@@ -1485,15 +1180,12 @@ function initContextualDashboard() {
       if (b) b.textContent = '⭐ اليوم يوم عرفة — لا تغفل عن الدعاء';
       if (s) s.textContent = 'ساعة الإجابة قبيل المغرب — أعِدّ دعاءك';
     }
-
   } else if (isEidDay()) {
     if (heroEye) heroEye.textContent = '🎉 عيد الأضحى المبارك';
     if (heroH1)  heroH1.textContent  = 'تقبّل الله منكم ومنا';
     if (heroP)   heroP.textContent   = 'اللهم اجعله عيد عتق وقبول — كل عام وأنتم بخير';
     if (heroEl)  heroEl.style.background = 'linear-gradient(135deg, #0e3b2e, #1a6040)';
-
   } else {
-    // Days 1-8 or 11-13
     const label = day <= 10 ? (ARABIC_NUMS[day] || day) : day;
     if (heroEye) heroEye.textContent = `اليوم ${label} من عشر ذي الحجة`;
     if (notifEl) {
@@ -1505,26 +1197,19 @@ function initContextualDashboard() {
     }
   }
 }
-
 function startArafahMaghribCountdown() {
   const daysBox = document.querySelector('.cd-box:first-child');
   if (daysBox) daysBox.style.display = 'none';
-
   const hrsEl  = document.getElementById('cd-hrs');
   const minsEl = document.getElementById('cd-mins');
   const secsEl = document.getElementById('cd-secs');
   if (!hrsEl) return;
-
-  // Update countdowns labels
   const labels = document.querySelectorAll('.cd-lbl');
   if (labels[1]) labels[1].textContent = 'ساعة';
   if (labels[2]) labels[2].textContent = 'دقيقة';
   if (labels[3]) labels[3].textContent = 'ثانية';
-
-  // Try to get real Maghrib time, fallback to approx
   let maghribTime = getApproxMaghrib();
   fetchPrayerTimesIfPossible().then(t => { if (t) maghribTime = t; });
-
   clearInterval(window._countdownInterval);
   window._countdownInterval = setInterval(() => {
     const diff = Math.max(0, maghribTime - new Date());
@@ -1534,11 +1219,6 @@ function startArafahMaghribCountdown() {
     if (secsEl) secsEl.textContent = pad(Math.floor((diff % 60000) / 1000));
   }, 1000);
 }
-
-
-/* ══════════════════════════════════════════════════════════
-   ARAFAH PAGE — Interactive timeline + Adhkar hub
-   ══════════════════════════════════════════════════════════ */
 const ARAFAH_MILESTONES = [
   { id:'sahar',    emoji:'🌠', time:'03:30',      label:'السحور والتهجد',      desc:'4 ركعات تهجد + دعاء السحر + استغفار', dua:'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنتَ التَّوَّابُ الرَّحِيمُ' },
   { id:'fajr',     emoji:'🌅', time:'الفجر',      label:'الفجر والإشراق',      desc:'صلاة الفجر جماعةً + ذكر حتى الإشراق + صلاة ركعتين (أجر حجة وعمرة)', dua:'أجر الإشراق: "اللهم أنت السلام ومنك السلام تباركت يا ذا الجلال والإكرام"' },
@@ -1547,14 +1227,10 @@ const ARAFAH_MILESTONES = [
   { id:'golden',   emoji:'⭐',  time:'العصر→المغرب', label:'الساعة الذهبية ⭐', desc:'وقت الضراعة الأكبر — أكثر من لا إله إلا الله والدعاء', dua:'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ' },
   { id:'iftar',    emoji:'🌇', time:'المغرب',     label:'الإفطار والشكر',      desc:'إفطار الصائم — اختم بالحمد والثناء', dua:'اللهم لك صمت وعلى رزقك أفطرت' },
 ];
-
 function initArafahPage() {
   const timelineEl = document.getElementById('af-timeline');
   if (!timelineEl) return;
-
   if (!STATE.arafah) STATE.arafah = { milestones: {}, dhikrCount: 0, khushooMode: false };
-
-  // Build milestone cards
   timelineEl.innerHTML = '';
   ARAFAH_MILESTONES.forEach((m, i) => {
     const done = !!STATE.arafah.milestones[m.id];
@@ -1577,36 +1253,23 @@ function initArafahPage() {
       </div>`;
     timelineEl.appendChild(card);
   });
-
-  // Progress bar
   updateArafahProgress();
-
-  // Main Dhikr counter
   const dhikrEl = document.getElementById('af-dhikr-count');
   if (dhikrEl) dhikrEl.textContent = STATE.arafah.dhikrCount || 0;
-
   const dhikrRing = document.getElementById('af-dhikr-ring');
   if (dhikrRing) dhikrRing.addEventListener('click', countArafahDhikr);
-
-  // Khushoo mode restore
   if (STATE.arafah.khushooMode) document.body.classList.add('khushoo');
-
-  // Time-based background
   initTimeBackground();
 }
 window.initArafahPage = initArafahPage;
-
 function checkMilestone(id, btn) {
   if (!STATE.arafah) STATE.arafah = { milestones: {}, dhikrCount: 0, khushooMode: false };
   const done = !STATE.arafah.milestones[id];
   STATE.arafah.milestones[id] = done;
   saveState();
-
   const card = document.getElementById('af-ms-' + id);
   if (card) card.classList.toggle('af-done', done);
   if (btn) { btn.textContent = done ? '✅ تم' : '☐ تحديد كمنجز'; btn.classList.toggle('done', done); }
-
-  // Ripple
   if (done && card) {
     const rip = document.createElement('div');
     rip.className = 'check-ripple';
@@ -1614,13 +1277,11 @@ function checkMilestone(id, btn) {
     setTimeout(() => rip.remove(), 500);
     if (navigator.vibrate) navigator.vibrate(40);
   }
-
   updateArafahProgress();
   checkBadges();
   showToast(done ? `✅ ${ARAFAH_MILESTONES.find(m=>m.id===id)?.label || ''} مكتملة` : '↩️ تم الإلغاء');
 }
 window.checkMilestone = checkMilestone;
-
 function updateArafahProgress() {
   const done  = Object.values(STATE.arafah?.milestones || {}).filter(Boolean).length;
   const total = ARAFAH_MILESTONES.length;
@@ -1630,13 +1291,11 @@ function updateArafahProgress() {
   const ring  = document.getElementById('af-prog-ring');
   if (bar)  bar.style.width   = pct + '%';
   if (txt)  txt.textContent   = `${done} من ${total} محطات مكتملة`;
-  /* Conic gradient ring — no override hack needed */
   if (ring) {
     ring.style.background = `conic-gradient(var(--gold) ${pct}%, var(--sand-2) ${pct}%)`;
     ring.textContent = pct + '%';
   }
 }
-
 function countArafahDhikr() {
   if (!STATE.arafah) STATE.arafah = { milestones: {}, dhikrCount: 0, khushooMode: false };
   STATE.arafah.dhikrCount = (STATE.arafah.dhikrCount || 0) + 1;
@@ -1646,16 +1305,15 @@ function countArafahDhikr() {
   if (el) {
     el.textContent = STATE.arafah.dhikrCount;
     el.classList.remove('bump');
-    void el.offsetWidth;
-    el.classList.add('bump');
-    setTimeout(() => el.classList.remove('bump'), 180);
+    requestAnimationFrame(() => {
+      el.classList.add('bump');
+      setTimeout(() => el.classList.remove('bump'), 180);
+    });
   }
-  // Update progress ring
   const prog = document.querySelector('.af-dhikr-prog span');
   if (prog) prog.style.width = Math.min((STATE.arafah.dhikrCount % 100), 100) + '%';
 }
 window.countArafahDhikr = countArafahDhikr;
-
 function toggleKhushoo() {
   if (!STATE.arafah) STATE.arafah = { milestones: {}, dhikrCount: 0, khushooMode: false };
   STATE.arafah.khushooMode = !STATE.arafah.khushooMode;
@@ -1666,7 +1324,6 @@ function toggleKhushoo() {
   showToast(STATE.arafah.khushooMode ? '🌙 وضع الخشوع مفعّل — ركّز على ربك' : '💡 تم إيقاف وضع الخشوع');
 }
 window.toggleKhushoo = toggleKhushoo;
-
 function initTimeBackground() {
   const bgEl = document.getElementById('time-bg');
   if (!bgEl) return;
@@ -1679,13 +1336,8 @@ function initTimeBackground() {
     const [g1, g2] = p.gradient.split(',');
     bgEl.style.background = `linear-gradient(160deg, ${g1}, ${g2})`;
     bgEl.querySelector('.time-phase-lbl').textContent = `${p.emoji} ${p.label}`;
-  }, 60000); // update every minute
+  }, 60000); 
 }
-
-
-/* ══════════════════════════════════════════════════════════
-   ADHKAR PAGE
-   ══════════════════════════════════════════════════════════ */
 const ADHKAR_SECTIONS = [
   {
     id: 'arafah_main',
@@ -1717,24 +1369,19 @@ const ADHKAR_SECTIONS = [
     ]
   }
 ];
-
 function initAdhkarPage() {
   const container = document.getElementById('adhkar-container');
   if (!container) return;
-
   if (!STATE.adhkar) STATE.adhkar = {};
-
   ADHKAR_SECTIONS.forEach(section => {
     const secEl = document.createElement('div');
     secEl.className = 'adhkar-section';
     secEl.innerHTML = `<div class="section-title adhkar-sec-title adhkar-${section.color}">${section.title}</div>`;
-
     section.items.forEach(item => {
       if (!STATE.adhkar[item.id]) STATE.adhkar[item.id] = 0;
       const count = STATE.adhkar[item.id];
       const done  = count >= item.target;
       const pct   = Math.min(Math.round((count / item.target) * 100), 100);
-
       const card = document.createElement('div');
       card.className = `adhkar-card${done ? ' adhkar-card-done' : ''}`;
       card.id = 'adhk-' + item.id;
@@ -1757,28 +1404,23 @@ function initAdhkarPage() {
         </div>`;
       secEl.appendChild(card);
     });
-
     container.appendChild(secEl);
   });
 }
 window.initAdhkarPage = initAdhkarPage;
-
 function countAdhkar(id, target) {
   if (!STATE.adhkar) STATE.adhkar = {};
   STATE.adhkar[id] = Math.min((STATE.adhkar[id] || 0) + 1, target);
   saveState();
   if (navigator.vibrate) navigator.vibrate(15);
-
   const countEl = document.getElementById('adhk-cnt-' + id);
   const card    = document.getElementById('adhk-' + id);
   const btn     = card?.querySelector('.adhkar-count-btn');
   const progEl  = card?.querySelector('.progress span');
   const cnt     = STATE.adhkar[id];
   const pct     = Math.min(Math.round((cnt / target) * 100), 100);
-
   if (countEl) countEl.textContent = `${cnt} / ${target}`;
   if (progEl)  progEl.style.width  = pct + '%';
-
   if (cnt >= target) {
     card?.classList.add('adhkar-card-done');
     if (btn) { btn.textContent = '✅ مكتمل'; btn.disabled = true; btn.style.opacity = '.5'; }
@@ -1788,61 +1430,43 @@ function countAdhkar(id, target) {
   }
 }
 window.countAdhkar = countAdhkar;
-
 function resetAdhkar(id) {
   if (!STATE.adhkar) STATE.adhkar = {};
   STATE.adhkar[id] = 0;
   saveState();
-  // Re-init the page to reflect reset
   const container = document.getElementById('adhkar-container');
   if (container) { container.innerHTML = ''; initAdhkarPage(); }
 }
 window.resetAdhkar = resetAdhkar;
-
-/* ══════════════════════════════════════════════════════════
-   POINTS ENGINE — "رصيد الزاد"
-   مرجع: Document 7 — Gamification Logic
-   ══════════════════════════════════════════════════════════ */
 const ZAD_WEIGHTS = {
-  fajr:30, zuhr:30, asr:30, maghrib:30, isha:30,  // فرائض
-  rawatib:20, duha:25, qiyam:80,                    // نوافل
-  morning_dhikr:15, evening_dhikr:15,               // ذكر
-  takbeer_100:30,                                   // تكبير/100
-  tawbah:10,                                        // توبة
-  fasting_day:100,                                  // صيام عادي
-  fasting_arafah:500,                               // صيام عرفة
-  juz:150,                                          // جزء قرآن
-  arafah_milestone:50,                              // محطة عرفة
-  charity_act:40,                                   // عمل خيري
+  fajr:30, zuhr:30, asr:30, maghrib:30, isha:30,  
+  rawatib:20, duha:25, qiyam:80,                    
+  morning_dhikr:15, evening_dhikr:15,               
+  takbeer_100:30,                                   
+  tawbah:10,                                        
+  fasting_day:100,                                  
+  fasting_arafah:500,                               
+  juz:150,                                          
+  arafah_milestone:50,                              
+  charity_act:40,                                   
 };
-
 function calcZadPoints() {
   let base = 0;
-  // فرائض ونوافل
   Object.entries(STATE.worship || {}).forEach(([k, v]) => {
     if (v && ZAD_WEIGHTS[k]) base += ZAD_WEIGHTS[k];
   });
-  // صيام
   Object.entries(STATE.fasting || {}).forEach(([day, done]) => {
     if (done) base += +day === 9 ? ZAD_WEIGHTS.fasting_arafah : ZAD_WEIGHTS.fasting_day;
   });
-  // تكبير (لكل 100)
   base += Math.floor((STATE.takbeer?.total || 0) / 100) * ZAD_WEIGHTS.takbeer_100;
-  // قرآن
   base += (STATE.mushaf?.juz || 0) * ZAD_WEIGHTS.juz;
-  // محطات عرفة
   base += Object.values(STATE.arafah?.milestones || {}).filter(Boolean).length * ZAD_WEIGHTS.arafah_milestone;
-  // صدقات
   base += (STATE.charityDone?.length || 0) * ZAD_WEIGHTS.charity_act;
-
-  // مضاعف الـ Streak
   const streak = STATE.streak || 0;
   const mult = streak >= 9 ? 2.0 : streak >= 5 ? 1.5 : streak >= 3 ? 1.2 : 1.0;
   return { points: Math.round(base * mult), multiplier: mult };
 }
 window.calcZadPoints = calcZadPoints;
-
-/* ── Enhanced Badges (Document 7) ─────────────────────── */
 const EXTRA_BADGES = [
   { id:'saher',   label:'فجر العشر',        cond: s => s.streak >= 5 },
   { id:'sabiq',   label:'السابق',            cond: s => Object.values(s.arafah?.milestones||{}).filter(Boolean).length >= 5 },
@@ -1853,8 +1477,6 @@ const EXTRA_BADGES = [
 EXTRA_BADGES.forEach(b => {
   if (!BADGE_DEFS.find(x => x.id === b.id)) BADGE_DEFS.push(b);
 });
-
-/* ── Daily History Recording ───────────────────────────── */
 function recordDailyProgress() {
   if (!STATE.history) STATE.history = {};
   const worshipKeys = ['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam','morning_dhikr','evening_dhikr','takbeer_100','tawbah'];
@@ -1874,8 +1496,6 @@ function recordDailyProgress() {
   saveState();
 }
 window.recordDailyProgress = recordDailyProgress;
-
-/* ── Rule-based AI Insights ───────────────────────────── */
 function generateInsights() {
   const strength = [], improve = [];
   const streak   = STATE.streak || 0;
@@ -1883,25 +1503,20 @@ function generateInsights() {
   const juz      = STATE.mushaf?.juz || 0;
   const fasting  = Object.values(STATE.fasting||{}).filter(Boolean).length;
   const worship  = STATE.worship || {};
-
   if (streak >= 5)      strength.push(`🔥 شريط ${streak} أيام متتالية — استمر`);
   if (total >= 500)     strength.push('📿 مداومتك على التكبير رائعة');
   if (worship.qiyam)    strength.push('🌙 قيام الليل في عشر ذي الحجة يعدل ليلة القدر');
   if (juz >= 5)         strength.push(`📖 قرأت ${juz} أجزاء — ما شاء الله`);
   if (fasting >= 3)     strength.push(`🌙 صمت ${fasting} أيام — "الصيام لي وأنا أجزي به"`);
-
   if (!worship.qiyam)                improve.push('🌙 قيام الليل لم يُسجل — استثمره الليلة');
   if (total < 100)                   improve.push('📿 التكبير قليل — أكثر منه في كل لحظة');
   if (juz < 3)                       improve.push('📖 تقدم القراءة بطيء — ابدأ بنصف جزء يومياً');
   if (fasting < 2)                   improve.push('🌙 الصيام فرصتك في العشر — لا تفوّتها');
   if (!worship.morning_dhikr)        improve.push('🌅 أذكار الصباح لم تُسجل اليوم');
-
   const { points, multiplier } = calcZadPoints();
   return { strength, improve, points, multiplier, streak };
 }
 window.generateInsights = generateInsights;
-
-/* ── Confetti on complete daily wird ─────────────────────*/
 function triggerConfetti() {
   const colors = ['#c9a14a','#4dd866','#ffe54d','#ffffff','#5aabff','#ff6b85'];
   for (let i = 0; i < 60; i++) {
@@ -1920,8 +1535,6 @@ function triggerConfetti() {
   }
 }
 window.triggerConfetti = triggerConfetti;
-
-/* ── Check if daily wird complete → confetti ─────────────*/
 function checkDailyComplete() {
   const keys = ['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam','morning_dhikr','evening_dhikr','takbeer_100','tawbah'];
   if (keys.every(k => STATE.worship[k]) && !STATE._confettiFired) {
@@ -1934,13 +1547,6 @@ function checkDailyComplete() {
   }
 }
 window.checkDailyComplete = checkDailyComplete;
-
-
-/* ══════════════════════════════════════════════════════════
-   TASBIH — 7 Dhikr Counter System
-   المسبحة الرقمية — 7 أذكار أساسية
-   ══════════════════════════════════════════════════════════ */
-/* الأذكار السبعة بنصوصها الكاملة الصحيحة */
 const DHIKR_LIST = [
   {
     id:'subhan',
@@ -1992,14 +1598,10 @@ const DHIKR_LIST = [
     color:'#ff6b85', bg:'rgba(255,107,133,.12)'
   },
 ];
-
 function initTasbih() {
   const cardsWrap = document.getElementById('tasbih-cards');
   if (!cardsWrap) return;
-
   if (!STATE.tasbih) STATE.tasbih = { active:'subhan', subhan:0, hamd:0, tahlil:0, takbir_s:0, hawqala:0, istigfar_s:0, salawat:0, sessions:{} };
-
-  // Build 7 dhikr cards
   DHIKR_LIST.forEach(d => {
     if (!STATE.tasbih[d.id]) STATE.tasbih[d.id] = 0;
     const card = document.createElement('div');
@@ -2024,24 +1626,15 @@ function initTasbih() {
     card.addEventListener('click', () => selectDhikr(d.id));
     cardsWrap.appendChild(card);
   });
-
-  // Render the active dhikr
   renderActiveDhikr();
-
-  // Ring click
   const ring = document.getElementById('ts-ring');
   if (ring) {
-    /* Use window proxy — so page-script patch of window.countTasbih works without re-wire */
     ring.addEventListener('click', () => window.countTasbih());
     ring.setAttribute('tabindex', '0');
     ring.addEventListener('keydown', e => { if(e.key===' '||e.key==='Enter'){e.preventDefault();window.countTasbih();} });
   }
-
-  // Reset button
   const resetBtn = document.getElementById('ts-reset');
   if (resetBtn) resetBtn.onclick = resetCurrentDhikr;
-
-  // Reset all
   const resetAll = document.getElementById('ts-reset-all');
   if (resetAll) resetAll.onclick = () => {
     if (confirm('إعادة تعيين جميع الأذكار؟')) {
@@ -2056,7 +1649,6 @@ function initTasbih() {
   };
 }
 window.initTasbih = initTasbih;
-
 function selectDhikr(id) {
   STATE.tasbih.active = id;
   saveState();
@@ -2066,20 +1658,16 @@ function selectDhikr(id) {
   renderActiveDhikr();
 }
 window.selectDhikr = selectDhikr;
-
 function renderActiveDhikr() {
   const id   = STATE.tasbih.active || 'subhan';
   const def  = DHIKR_LIST.find(d => d.id === id) || DHIKR_LIST[0];
   const cnt  = STATE.tasbih[id] || 0;
   const pct  = Math.min(Math.round((cnt / def.target) * 100), 100);
-  const circlePct = Math.min((cnt % def.target) / def.target, 1); // per-lap progress
-
-  // Update central display
+  const circlePct = Math.min((cnt % def.target) / def.target, 1); 
   const textEl = document.getElementById('ts-text');
   const cntEl  = document.getElementById('ts-count');
   const subEl  = document.getElementById('ts-sub');
   const lapEl  = document.getElementById('ts-laps');
-
   if (textEl) { textEl.textContent = def.arabic; textEl.style.color = def.color; }
   if (cntEl)  { cntEl.textContent  = cnt % def.target || (cnt > 0 && cnt % def.target === 0 ? def.target : 0); }
   if (subEl)  subEl.textContent    = def.label + ' — كل ' + def.target;
@@ -2088,8 +1676,6 @@ function renderActiveDhikr() {
     lapEl.textContent  = laps > 0 ? `× ${laps} دورة مكتملة` : '';
     lapEl.style.display = laps > 0 ? 'block' : 'none';
   }
-
-  // Update SVG ring progress
   const svgRing = document.getElementById('ts-ring-progress');
   if (svgRing) {
     const R = 80, C = 2 * Math.PI * R;
@@ -2101,41 +1687,27 @@ function renderActiveDhikr() {
   if (ringBg) ringBg.style.stroke = def.bg;
 }
 window.renderActiveDhikr = renderActiveDhikr;
-
 function countTasbih() {
   const id  = STATE.tasbih.active || 'subhan';
   const def = DHIKR_LIST.find(d => d.id === id) || DHIKR_LIST[0];
   STATE.tasbih[id] = (STATE.tasbih[id] || 0) + 1;
   const cnt = STATE.tasbih[id];
   if (navigator.vibrate) navigator.vibrate(18);
-
-  // Also add to takbeer total if it's takbir_s
   if (id === 'takbir_s') {
     STATE.takbeer.total = (STATE.takbeer.total || 0) + 1;
     STATE.worship.takbeer_100 = STATE.takbeer.total >= 100;
   }
-
   saveState();
-
-  // Bump animation on count
   const cntEl = document.getElementById('ts-count');
-  if (cntEl) { cntEl.classList.remove('bump'); void cntEl.offsetWidth; cntEl.classList.add('bump'); setTimeout(()=>cntEl.classList.remove('bump'),180); }
-
-  // Update the card counter
+  if (cntEl) { cntEl.classList.remove('bump'); requestAnimationFrame(() => { cntEl.classList.add('bump'); setTimeout(()=>cntEl.classList.remove('bump'),180); }); }
   const cardCnt = document.getElementById('dcnt-' + id);
   if (cardCnt) cardCnt.textContent = cnt;
-
-  // Laps
   const laps = Math.floor(cnt / def.target);
   const lapCard = document.getElementById('dlaps-' + id);
   if (lapCard) { lapCard.textContent = `×${laps}`; lapCard.style.opacity = laps > 0 ? '1' : '0'; }
-
-  // Card progress bar
   const card = document.getElementById('dc-' + id);
   const cardProg = card?.querySelector('.dc-prog span');
   if (cardProg) cardProg.style.width = Math.min(Math.round(((cnt % def.target || (cnt%def.target===0&&cnt>0?def.target:0)) / def.target) * 100), 100) + '%';
-
-  // Milestone toast
   if (cnt === def.target) {
     if (!STATE.tasbih.sessions) STATE.tasbih.sessions = {};
     STATE.tasbih.sessions[id] = (STATE.tasbih.sessions[id] || 0) + 1;
@@ -2150,12 +1722,10 @@ function countTasbih() {
     if (navigator.vibrate) navigator.vibrate([50,30,50]);
     showToast(`🔄 ${def.label} — دورة ${STATE.tasbih.sessions[id]} مكتملة!`);
   }
-
   renderActiveDhikr();
   updateDashStats();
 }
 window.countTasbih = countTasbih;
-
 function resetCurrentDhikr() {
   const id = STATE.tasbih.active || 'subhan';
   STATE.tasbih[id] = 0;

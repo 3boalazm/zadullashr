@@ -10,9 +10,15 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.svg">
+<!-- Async font loading — eliminates render-blocking -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" id="google-fonts"
+  href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Amiri:wght@400;700&display=swap"
+  media="print" onload="this.media='all'">
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Amiri:wght@400;700&display=swap">
+</noscript>
 <link rel="stylesheet" href="css/style.css">
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
 </head>
@@ -53,7 +59,7 @@
       <div><div class="page-title"><span>أوسمتي</span> والإنجازات</div>
       <div class="page-sub">ما تحقق من أعمال البر — الأجر عند الله</div></div>
       <div class="topbar-right">
-        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()" aria-label="بحث في التطبيق" role="searchbox"></div>
         <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
     </div>
@@ -78,11 +84,11 @@
     </div>
   </main>
 </div>
-<script src="js/app.js"></script>
+<script src="js/app.js" defer></script>
   <!-- ═══ Visual Upgrade v2 ═══════════════════════════════ -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-  <script src="animations.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
+  <script src="animations.js" defer></script>
 </body>
 </html>
