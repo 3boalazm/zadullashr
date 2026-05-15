@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<title>الأذكار والدعاء — زاد العشر</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0e3b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
+</head>
+<body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <nav class="nav">
+      <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
+      <a href="fadael.html" class=""><span class="ico">✨</span>فضائل العشر</a>
+      <a href="worship.html" class=""><span class="ico">📿</span>جدول العبادات</a>
+      <a href="mushaf.html" class=""><span class="ico">📖</span>مصحف العشر</a>
+      <a href="takbeer.html" class=""><span class="ico">🕋</span>المكبِّر</a>
+      <a href="adhkar.html" class="active"><span class="ico">🤲</span>الأذكار والدعاء</a>
+      <a href="odhiya.html" class=""><span class="ico">🐏</span>دليل الأضحية</a>
+      <a href="arafah.html" class=""><span class="ico">🌄</span>يوم عرفة</a>
+      <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
+      <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
+      <a href="hasad.html" class=""><span class="ico">📊</span>حصاد العشر</a>
+      <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
+      <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
+      <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="page-title">الأذكار <span>والدعاء</span></div>
+        <div class="page-sub">ذِكر الله شفاء القلوب — "ألا بذكر الله تطمئن القلوب"</div>
+      </div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
+      </div>
+    </div>
+
+    <!-- Intro verse -->
+    <div class="verse" style="margin-bottom:22px">
+      <div class="src">سورة الرعد — 28</div>
+      <div class="ar" id="verse-ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="grid cols-3" style="margin-bottom:22px">
+      <div class="stat">
+        <div class="ic">📿</div>
+        <div class="v" id="total-adhkar-done">0</div>
+        <div class="l">ذكر أُنجز اليوم</div>
+      </div>
+      <div class="stat">
+        <div class="ic">🤲</div>
+        <div class="v" id="total-adhkar-count">0</div>
+        <div class="l">عدد التسبيحات</div>
+      </div>
+      <div class="stat">
+        <div class="ic">✅</div>
+        <div class="v" id="adhkar-sections-done">0/3</div>
+        <div class="l">أقسام مكتملة</div>
+      </div>
+    </div>
+
+    <!-- Main Adhkar Container (built by JS) -->
+    <div id="adhkar-container"></div>
+
+    <!-- Custom Dhikr Counter -->
+    <div class="section-title">عداد حر</div>
+    <div class="card">
+      <h3>📿 تسبيح مخصص</h3>
+      <p>اختر ذكراً وعُدّ بحرية</p>
+      <div class="mushaf" style="font-size:var(--qf-size);margin:14px 0;padding:16px;cursor:pointer;border-radius:14px"
+        id="custom-dhikr-text" onclick="countCustomDhikr()">
+        سُبْحَانَ اللَّهِ وَبِحَمْدِهِ
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div style="font-size:36px;font-weight:900;color:var(--green-deep);min-width:60px;font-feature-settings:'tnum'"
+          id="custom-count">0</div>
+        <button class="btn btn-primary" onclick="countCustomDhikr()">+ عدّ</button>
+        <button class="btn btn-ghost" onclick="resetCustom()">↺ إعادة</button>
+        <div class="progress" style="flex:1;margin-top:0"><span id="custom-prog" style="width:0%"></span></div>
+        <span style="font-size:13px;color:var(--muted)">/ 33</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+        <button class="btn btn-ghost" style="font-size:12px;padding:7px 14px" onclick="setCustomDhikr('سُبْحَانَ اللَّهِ')">سبحان الله</button>
+        <button class="btn btn-ghost" style="font-size:12px;padding:7px 14px" onclick="setCustomDhikr('الْحَمْدُ لِلَّهِ')">الحمد لله</button>
+        <button class="btn btn-ghost" style="font-size:12px;padding:7px 14px" onclick="setCustomDhikr('اللَّهُ أَكْبَرُ')">الله أكبر</button>
+        <button class="btn btn-ghost" style="font-size:12px;padding:7px 14px" onclick="setCustomDhikr('لَا إِلَهَ إِلَّا اللَّهُ')">لا إله إلا الله</button>
+        <button class="btn btn-ghost" style="font-size:12px;padding:7px 14px" onclick="setCustomDhikr('أَسْتَغْفِرُ اللَّهَ')">أستغفر الله</button>
+      </div>
+    </div>
+
+    <script>
+    let _customCount = 0;
+    const _customTarget = 33;
+    function countCustomDhikr() {
+      _customCount++;
+      if (navigator.vibrate) navigator.vibrate(15);
+      const el = document.getElementById('custom-count');
+      const prog = document.getElementById('custom-prog');
+      if (el) { el.textContent = _customCount; el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); setTimeout(()=>el.classList.remove('bump'),180); }
+      if (prog) prog.style.width = Math.min((_customCount / _customTarget)*100, 100) + '%';
+      if (_customCount === _customTarget) { showToast('✅ ما شاء الله — أتممت 33'); if(navigator.vibrate) navigator.vibrate([60,30,60]); }
+    }
+    function resetCustom() { _customCount = 0; document.getElementById('custom-count').textContent='0'; document.getElementById('custom-prog').style.width='0%'; }
+    function setCustomDhikr(txt) { document.getElementById('custom-dhikr-text').textContent = txt; resetCustom(); showToast('تم التغيير — اضغط للعدّ'); }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initAdhkarPage();
+      updateAdhkarStats();
+    });
+
+    function updateAdhkarStats() {
+      if (!STATE.adhkar) return;
+      const vals = Object.values(STATE.adhkar);
+      const total = vals.reduce((s,v) => s+v, 0);
+      const done  = vals.filter(v => v > 0).length;
+      const doneEl = document.getElementById('total-adhkar-done');
+      const cntEl  = document.getElementById('total-adhkar-count');
+      const secEl  = document.getElementById('adhkar-sections-done');
+      if (doneEl) doneEl.textContent = done;
+      if (cntEl)  cntEl.textContent  = total;
+    }
+    </script>
+  </main>
+</div>
+<script src="js/app.js"></script>
+
+</body>
+</html>

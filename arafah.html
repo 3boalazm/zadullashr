@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<title>يوم عرفة — زاد العشر</title>
+<title>يوم عرفة — البرنامج الكامل — زاد العشر</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0e3b2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
@@ -34,10 +32,12 @@
       <a href="worship.html" class=""><span class="ico">📿</span>جدول العبادات</a>
       <a href="mushaf.html" class=""><span class="ico">📖</span>مصحف العشر</a>
       <a href="takbeer.html" class=""><span class="ico">🕋</span>المكبِّر</a>
+      <a href="adhkar.html" class=""><span class="ico">🤲</span>الأذكار والدعاء</a>
       <a href="odhiya.html" class=""><span class="ico">🐏</span>دليل الأضحية</a>
       <a href="arafah.html" class="active"><span class="ico">🌄</span>يوم عرفة</a>
       <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
       <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
+      <a href="hasad.html" class=""><span class="ico">📊</span>حصاد العشر</a>
       <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
       <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
       <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
@@ -47,37 +47,184 @@
   </aside>
   <main class="main">
     <div class="topbar">
-      <div><div class="page-title">يوم <span>عرفة</span></div>
-      <div class="page-sub">خير يوم طلعت عليه الشمس — برنامج متكامل ساعة بساعة</div></div>
+      <div>
+        <div class="page-title">يوم <span>عرفة</span></div>
+        <div class="page-sub">ربيع القلوب وعتق الرقاب</div>
+      </div>
       <div class="topbar-right">
-        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <div class="search">🔍 <input placeholder="ابحث..." onfocus="openSearchOverlay()"></div>
         <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
     </div>
-    <section class="hero">
-      <div class="hero-eyebrow">يوم الإجابة العظمى</div>
-      <h1>«ما من يوم أكثر من أن يعتق الله فيه عبدًا من النار من يوم عرفة»</h1>
-      <p style="font-size:13px;opacity:.85">صحيح مسلم — اجعل لنفسك حظًا وافراً من هذا اليوم الكريم.</p>
-      <div class="countdown" style="margin-top:18px">
-        <div class="cd-box"><div class="cd-num" id="cd-days">08</div><div class="cd-lbl">أيام</div></div>
-        <div class="cd-box"><div class="cd-num" id="cd-hrs">14</div><div class="cd-lbl">ساعات</div></div>
-        <div class="cd-box"><div class="cd-num" id="cd-mins">22</div><div class="cd-lbl">دقائق</div></div>
-        <div class="cd-box"><div class="cd-num" id="cd-secs">09</div><div class="cd-lbl">ثوانٍ</div></div>
-      </div>
-    </section>
 
-    <div class="section-title">برنامج اليوم ساعة بساعة</div>
-    <div class="timeline">
-      <div class="tl-item"><div class="tl-time">🌙 03:30 — قبل الفجر</div><div class="tl-title">السحور والتهجد والاستغفار</div><div class="tl-desc">سحور خفيف، وتهجد بما تيسّر، واستغفار في وقت السحر — أوقات الإجابة.</div><div class="tl-dua">رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنتَ التَّوَّابُ الرَّحِيمُ</div></div>
-      <div class="tl-item"><div class="tl-time">🌅 04:30 — صلاة الفجر</div><div class="tl-title">الفجر جماعةً ثم الجلوس للذكر حتى الإشراق ⭐</div><div class="tl-desc">من صلى الفجر في جماعة ثم جلس يذكر الله حتى تطلع الشمس ثم صلى ركعتين فله أجر حجة وعمرة تامة تامة تامة.</div><div class="tl-dua">سبحان الله وبحمده عدد خلقه، ورضا نفسه، وزنة عرشه، ومداد كلماته</div></div>
-      <div class="tl-item"><div class="tl-time">☀️ 07:00 — الإشراق والضحى</div><div class="tl-title">صلاة الضحى وتلاوة القرآن</div><div class="tl-desc">أكثر من قراءة القرآن وتدبره — خاصة سورة الكهف والفاتحة والبقرة.</div></div>
-      <div class="tl-item"><div class="tl-time">🕛 12:00 — صلاة الظهر</div><div class="tl-title">الظهر ثم قيلولة خفيفة</div><div class="tl-desc">استعد لساعة الإجابة الكبرى بالراحة والسكينة واستحضار الدعاء.</div></div>
-      <div class="tl-item"><div class="tl-time">🌤️ 14:00 — بعد الظهر</div><div class="tl-title">الدعاء المتواصل ⭐⭐</div><div class="tl-desc">«خير الدعاء دعاء يوم عرفة» — أكثر من لا إله إلا الله وحده لا شريك له.</div><div class="tl-dua">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div></div>
-      <div class="tl-item" style="border-color:var(--gold-soft)"><div class="tl-time" style="font-size:14px">⭐⭐⭐ قبيل المغرب — ساعة الإجابة العظمى</div><div class="tl-title">ألحّ في الدعاء — آخر ساعة نهار عرفة</div><div class="tl-desc">قف بقلبك بين يدي الله، ارفع يديك، استحضر كل حاجاتك وحاجات أمتك، وألحّ وابكِ.</div><div class="tl-dua">اللَّهُمَّ إِنَّكَ عَفُوٌّ كَرِيمٌ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div></div>
-      <div class="tl-item"><div class="tl-time">🌙 المغرب — الإفطار</div><div class="tl-title">إفطار الصائم والشكر</div><div class="tl-desc">«صيام يوم عرفة يكفّر السنة الماضية والباقية» — اختم يومك بالحمد والشكر.</div></div>
+    <!-- Time-Aware Background + Countdown to Maghrib -->
+    <div class="time-bg" id="time-bg">
+      <div class="time-phase-lbl">جارٍ التحميل...</div>
+      <div class="time-verse">وَمَا مِنْ يَوْمٍ أَكْثَرَ مِنْ أَنْ يَعْتِقَ اللَّهُ فِيهِ عَبْدًا مِنَ النَّارِ مِنْ يَوْمِ عَرَفَةَ</div>
+      <div class="time-verse-src">صحيح مسلم</div>
+      <!-- Countdown to Maghrib -->
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+        <div class="cd-box"><div class="cd-num" id="af-hh">--</div><div class="cd-lbl">ساعة</div></div>
+        <div class="cd-box"><div class="cd-num" id="af-mm">--</div><div class="cd-lbl">دقيقة</div></div>
+        <div class="cd-box"><div class="cd-num" id="af-ss">--</div><div class="cd-lbl">ثانية</div></div>
+        <div style="display:flex;flex-direction:column;justify-content:center">
+          <div style="font-size:11px;opacity:.7;margin-bottom:2px">حتى ساعة الإجابة</div>
+          <div style="font-size:12px;opacity:.85">🌇 المغرب (تقريبي)</div>
+        </div>
+      </div>
+      <!-- Khushoo button -->
+      <button class="af-khushoo-btn" id="khushoo-toggle" onclick="toggleKhushoo()">🌙 وضع الخشوع</button>
     </div>
+
+    <!-- Fudl card -->
+    <div class="card" style="background:linear-gradient(135deg,var(--gold-pale),var(--card));border-color:rgba(201,161,74,.3);margin-bottom:22px">
+      <h3>🌟 فضل صيام يوم عرفة</h3>
+      <p style="font-family:Amiri,serif;font-size:18px;color:var(--green-deep);line-height:2">«صِيَامُ يَوْمِ عَرَفَةَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ وَالَّتِي بَعْدَهُ»</p>
+      <span class="tag">رواه مسلم (1162) — لغير الحاج</span>
+    </div>
+
+    <!-- Progress -->
+    <div class="af-prog-wrap">
+      <div class="af-prog-info">
+        <strong>برنامج يوم عرفة</strong>
+        <span id="af-prog-txt">0 من 6 محطات مكتملة</span>
+        <div class="progress" style="margin-top:8px"><span id="af-prog-bar" style="width:0%"></span></div>
+      </div>
+      <div class="af-prog-ring" id="af-prog-ring">0%</div>
+    </div>
+
+    <!-- Interactive Timeline -->
+    <div class="section-title">المسار الزمني التفاعلي</div>
+    <div id="af-timeline"></div>
+
+    <!-- Central Dhikr Hub -->
+    <div class="section-title">مركز الأذكار والدعاء</div>
+    <div class="af-dhikr-hub">
+      <div class="af-dhikr-text">
+        لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ<br>
+        لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ
+      </div>
+      <div class="af-dhikr-prog" style="margin:10px 0 0"><span style="width:0%"></span></div>
+      <div class="af-dhikr-ring" id="af-dhikr-ring">
+        <div>
+          <div class="af-dhikr-count" id="af-dhikr-count">0</div>
+          <div style="font-size:12px;color:var(--gold-soft);margin-top:4px">انقر للذكر</div>
+        </div>
+      </div>
+      <div class="af-dhikr-src">خير الدعاء دعاء يوم عرفة — رواه الترمذي</div>
+      <div class="duaa-grid">
+        <div class="duaa-cat" onclick="showToast('اللهم إنك عفو كريم تحب العفو فاعف عنا')">
+          <div class="dc-ico">🤲</div>
+          <div class="dc-title">دعاء العفو</div>
+          <div class="dc-sub">اللهم إنك عفو...</div>
+        </div>
+        <div class="duaa-cat" onclick="showToast('اللهم أصلح لي ديني الذي هو عصمة أمري...')">
+          <div class="dc-ico">📿</div>
+          <div class="dc-title">دعاء الصلاح</div>
+          <div class="dc-sub">اللهم أصلح لي...</div>
+        </div>
+        <div class="duaa-cat" onclick="showToast('اللهم اغفر لي ولوالديّ ولجميع المسلمين')">
+          <div class="dc-ico">💚</div>
+          <div class="dc-title">للوالدين والأمة</div>
+          <div class="dc-sub">اللهم اغفر لي...</div>
+        </div>
+        <div class="duaa-cat" onclick="showToast('اللهم يا مقلب القلوب ثبّت قلبي على دينك')">
+          <div class="dc-ico">❤️</div>
+          <div class="dc-title">تثبيت القلب</div>
+          <div class="dc-sub">اللهم يا مقلب...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bonus Checklist -->
+    <div class="section-title">أعمال جانبية مستحبة</div>
+    <div id="bonus-list"></div>
+
+    <!-- Share button -->
+    <div style="margin-top:24px;text-align:center">
+      <button class="btn btn-gold" style="font-size:15px;padding:14px 28px"
+        onclick="if(navigator.share){navigator.share({title:'يوم عرفة',text:'أنهيت برنامج يوم عرفة ✅ — اللهم اقبل منا ومنكم',url:window.location.href})}else{showToast('انسخ الرابط وشاركه')}">
+        🌟 مشاركة إنجاز يوم عرفة
+      </button>
+    </div>
+
+    <script>
+    // Update progress ring with conic gradient
+    const _origUpdateArafahProgress = updateArafahProgress;
+    updateArafahProgress = function() {
+      _origUpdateArafahProgress();
+      const done = Object.values(STATE.arafah?.milestones || {}).filter(Boolean).length;
+      const pct  = Math.round((done / 6) * 100);
+      const ring = document.getElementById('af-prog-ring');
+      if (ring) {
+        ring.style.background = `conic-gradient(var(--gold) ${pct}%, var(--sand-2) ${pct}%)`;
+        ring.textContent = pct + '%';
+      }
+    };
+    </script>
   </main>
 </div>
 <script src="js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Time-based background
+  initTimeBackground();
+  // 2. Arafah timeline + adhkar hub
+  initArafahPage();
+  // 3. Countdown to Maghrib (always relevant)
+  initArafahMaghribTimer();
+  // 4. Bonus checklist
+  initBonusChecklist();
+  // 5. Restore khushoo mode
+  if (STATE.arafah?.khushooMode) document.body.classList.add('khushoo');
+});
+
+function initArafahMaghribTimer() {
+  const maghrib = getApproxMaghrib();
+  const hEl = document.getElementById('af-hh');
+  const mEl = document.getElementById('af-mm');
+  const sEl = document.getElementById('af-ss');
+  if (!hEl) return;
+  function tick() {
+    const diff = Math.max(0, maghrib - new Date());
+    const pad  = n => String(n).padStart(2,'0');
+    if (hEl) hEl.textContent = pad(Math.floor(diff / 3600000));
+    if (mEl) mEl.textContent = pad(Math.floor((diff % 3600000) / 60000));
+    if (sEl) sEl.textContent = pad(Math.floor((diff % 60000) / 1000));
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+const BONUS_LIST = [
+  { id:'sadaqa_arafah', label:'إخراج صدقة اليوم' },
+  { id:'sila_arafah',   label:'التواصل مع الأقارب' },
+  { id:'niya_arafah',   label:'تجديد النية والتوبة' },
+  { id:'share_arafah',  label:'مشاركة برنامج عرفة للأصدقاء' },
+];
+
+function initBonusChecklist() {
+  const wrap = document.getElementById('bonus-list');
+  if (!wrap) return;
+  if (!STATE.arafah) STATE.arafah = { milestones:{}, dhikrCount:0, khushooMode:false, bonus:{} };
+  BONUS_LIST.forEach(b => {
+    const done = !!STATE.arafah.bonus?.[b.id];
+    const el = document.createElement('div');
+    el.className = 'bonus-check' + (done ? ' done' : '');
+    el.id = 'bonus-' + b.id;
+    el.innerHTML = `<div class="bonus-box">${done ? '✓' : ''}</div><div class="label">${b.label}</div>`;
+    el.onclick = () => {
+      if (!STATE.arafah.bonus) STATE.arafah.bonus = {};
+      const now = !STATE.arafah.bonus[b.id];
+      STATE.arafah.bonus[b.id] = now;
+      saveState();
+      el.classList.toggle('done', now);
+      el.querySelector('.bonus-box').textContent = now ? '✓' : '';
+      showToast(now ? '💚 ' + b.label : '↩️ تم الإلغاء');
+    };
+    wrap.appendChild(el);
+  });
+}
+</script>
 </body>
 </html>

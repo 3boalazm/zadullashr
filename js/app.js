@@ -22,15 +22,17 @@ function defaultState() {
   return {
     theme: 'light',
     day: todayStr(),
-    worship: {},          // { key: true/false }
-    fasting: {},          // { 1: true, ..., 9: true }
+    worship: {},
+    fasting: {},
     takbeer: { count: 0, total: 0, sessions: 0, phrase: 'اللَّهُ أَكْبَرُ', target: 33 },
     mushaf: { juz: 0, plan: 'daily-juz' },
     badges: [],
     streak: 0,
     lastActive: todayStr(),
     charityDone: [],
-    quranFontSize: 24
+    quranFontSize: 24,
+    arafah:  { milestones: {}, dhikrCount: 0, khushooMode: false, bonus: {} },
+    adhkar:  {}
   };
 }
 
@@ -134,6 +136,8 @@ function initChecklist() {
       saveState();
       updateProgress();
       checkBadges();
+      checkDailyComplete();
+      recordDailyProgress();
     });
   });
   updateProgress();
@@ -201,12 +205,15 @@ function updateDashStats() {
 /* ──────────────────────────────────────────
    TAKBEER COUNTER
    ────────────────────────────────────────── */
+/* صيغ التكبير الصحيحة المأثورة */
 const phrases = [
-  { label: 'الله أكبر',       text: 'اللَّهُ أَكْبَرُ', target: 33 },
-  { label: 'سبحان الله',      text: 'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ', target: 33 },
-  { label: 'لا إله إلا الله', text: 'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ', target: 33 },
-  { label: 'التكبير الكامل',  text: 'اللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ لَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ', target: 100 },
-  { label: 'الاستغفار',       text: 'أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ', target: 100 }
+  { label:'التكبير الثنائي',  text:'اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ', target:100, source:'مأثور عن ابن مسعود' },
+  { label:'التكبير الثلاثي',  text:'اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ', target:100, source:'مأثور عن عمر بن الخطاب' },
+  { label:'صيغة سلمان',      text:'اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ كَبِيرًا', target:33, source:'مأثور عن سلمان الفارسي رضي الله عنه' },
+  { label:'الصيغة الجامعة',  text:'اللَّهُ أَكْبَرُ كَبِيرًا، وَالْحَمْدُ لِلَّهِ كَثِيرًا، وَسُبْحَانَ اللَّهِ بُكْرَةً وَأَصِيلًا', target:33, source:'من الأذكار المأثورة' },
+  { label:'ذكر عرفة ⭐',    text:'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ', target:100, source:'رواه الترمذي — خير الدعاء' },
+  { label:'التلبية 🕋',     text:'لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ', target:33, source:'متفق عليه — تلبية الحاج' },
+  { label:'الاستغفار',       text:'أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ', target:100, source:'حديث شريف' },
 ];
 
 function initTakbeer() {
@@ -373,18 +380,19 @@ function initMushaf() {
    BADGES / GAMIFICATION
    ────────────────────────────────────────── */
 const BADGE_DEFS = [
-  { id: 'mubakker',   label: 'المبكّر',            cond: s => s.worship.fajr },
-  { id: 'dhaker',     label: 'الذاكرون',           cond: s => s.takbeer.total >= 100 },
-  { id: 'saem',       label: 'الصائمون',           cond: s => Object.values(s.fasting).filter(Boolean).length >= 3 },
-  { id: 'khatim',     label: 'الخاتمون',           cond: s => s.mushaf.juz >= 30 },
-  { id: 'musare',     label: 'المسارعون',          cond: s => {
-      const keys = ['fajr','zuhr','asr','maghrib','isha'];
-      return keys.every(k => s.worship[k]);
-    }
-  },
-  { id: 'mukabbir',   label: 'المُكبِّرون',        cond: s => s.takbeer.total >= 1000 },
-  { id: 'sadiq',      label: 'المتصدقون',          cond: s => (s.charityDone||[]).length >= 3 },
-  { id: 'kamil',      label: 'جامع الخير',          cond: s => s.streak >= 5 },
+  { id:'mubakker',  label:'المبكّر',        cond: s => s.worship?.fajr },
+  { id:'dhaker',    label:'الذاكرون',       cond: s => (s.takbeer?.total||0) >= 100 },
+  { id:'saem',      label:'الصائمون',       cond: s => Object.values(s.fasting||{}).filter(Boolean).length >= 3 },
+  { id:'khatim',    label:'الخاتمون',       cond: s => (s.mushaf?.juz||0) >= 30 },
+  { id:'musare',    label:'المسارعون',      cond: s => ['fajr','zuhr','asr','maghrib','isha'].every(k => s.worship?.[k]) },
+  { id:'mukabbir',  label:'المُكبِّرون',    cond: s => (s.takbeer?.total||0) >= 1000 },
+  { id:'sadiq',     label:'المتصدقون',      cond: s => (s.charityDone?.length||0) >= 3 },
+  { id:'kamil',     label:'جامع الخير',     cond: s => (s.streak||0) >= 5 },
+  { id:'saher',     label:'فجر العشر',      cond: s => (s.streak||0) >= 5 },
+  { id:'sabiq',     label:'السابق',         cond: s => Object.values(s.arafah?.milestones||{}).filter(Boolean).length >= 5 },
+  { id:'lisan',     label:'لسان ذاكر',      cond: s => (s.takbeer?.total||0) >= 1000 },
+  { id:'khatim2',   label:'الراسخون',       cond: s => (s.mushaf?.juz||0) >= 15 },
+  { id:'wasil',     label:'الواصلون',       cond: s => (s.charityDone?.length||0) >= 5 },
 ];
 
 function checkBadges() {
@@ -776,6 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3. Sidebar + core
   initSidebar();
+  initContextualDashboard();  // Hijri-aware dashboard
   startCountdown();
   initChecklist();
   initFasting();
@@ -1343,3 +1352,589 @@ document.addEventListener('DOMContentLoaded', () => {
   // OLED / multi-theme support
   window.applyTheme(STATE.theme);
 });
+
+/* ══════════════════════════════════════════════════════════
+   HIJRI CALENDAR DETECTION
+   Reference: 1 Dhul Hijjah 1447 AH = 28 May 2026 (Umm al-Qura)
+   ══════════════════════════════════════════════════════════ */
+const HIJRI_REF = {
+  greg:  new Date(2026, 4, 28, 0, 0, 0), // May 28 2026 midnight
+  year:  1447,
+  month: 12,   // Dhul Hijjah
+  day:   1
+};
+// Alternating month lengths: odd months = 30d, even = 29d
+const HIJRI_MONTH_LEN = [30,29,30,29,30,29,30,29,30,29,30,29];
+
+function getHijriDate(date = new Date()) {
+  const diffDays = Math.round((date - HIJRI_REF.greg) / 86400000);
+  let { year, month, day } = HIJRI_REF;
+  let d = (day - 1) + diffDays;
+
+  if (d >= 0) {
+    while (d >= HIJRI_MONTH_LEN[month - 1]) {
+      d -= HIJRI_MONTH_LEN[month - 1];
+      month++;
+      if (month > 12) { month = 1; year++; }
+    }
+  } else {
+    while (d < 0) {
+      month--;
+      if (month < 1) { month = 12; year--; }
+      d += HIJRI_MONTH_LEN[month - 1];
+    }
+  }
+  return { year, month, day: d + 1 };
+}
+
+function getDhulHijjahDay() {
+  const h = getHijriDate();
+  return h.month === 12 ? h.day : null;
+}
+
+const isArafahDay   = () => getDhulHijjahDay() === 9;
+const isEidDay      = () => getDhulHijjahDay() === 10;
+const isTashriq     = () => { const d = getDhulHijjahDay(); return d >= 11 && d <= 13; };
+const isInAshra     = () => { const d = getDhulHijjahDay(); return d !== null && d >= 1 && d <= 10; };
+window.getHijriDate = getHijriDate;
+window.getDhulHijjahDay = getDhulHijjahDay;
+window.isArafahDay  = isArafahDay;
+
+
+/* ══════════════════════════════════════════════════════════
+   PRAYER TIMES — Simple latitude-based approximation
+   For accurate times: use Aladhan.com API (needs geolocation)
+   ══════════════════════════════════════════════════════════ */
+function getApproxMaghrib(lat = 24.7) { // default Mecca lat
+  const d = new Date();
+  const J = Math.floor((d - new Date(d.getFullYear(),0,0)) / 86400000);
+  // Simple civil twilight formula
+  const decl = 23.45 * Math.sin((360/365 * (J - 81)) * Math.PI / 180);
+  const cosH  = (Math.sin(-0.83 * Math.PI/180) - Math.sin(lat*Math.PI/180)*Math.sin(decl*Math.PI/180))
+              / (Math.cos(lat*Math.PI/180)*Math.cos(decl*Math.PI/180));
+  const H = Math.acos(Math.max(-1, Math.min(1, cosH))) * 180 / Math.PI;
+  const tz = -(d.getTimezoneOffset() / 60);
+  const sunsetHr = 12 + H/15 + tz - (4 * 0) / 60; // lon=0 approx
+  const h = Math.floor(sunsetHr);
+  const m = Math.floor((sunsetHr - h) * 60);
+  const maghrib = new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m + 3, 0); // +3m after sunset
+  return maghrib;
+}
+
+async function fetchPrayerTimesIfPossible() {
+  try {
+    const pos = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, {timeout:5000}));
+    const { latitude: lat, longitude: lng } = pos.coords;
+    const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
+    const url = `https://api.aladhan.com/v1/timings/${today}?latitude=${lat}&longitude=${lng}&method=4`;
+    const r = await fetch(url);
+    const data = await r.json();
+    if (data?.data?.timings?.Maghrib) {
+      const [hh, mm] = data.data.timings.Maghrib.split(':').map(Number);
+      const d = new Date();
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate(), hh, mm, 0);
+    }
+  } catch (e) {}
+  return null; // fallback to approx
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   TIME PHASE — background color token for Arafah page
+   ══════════════════════════════════════════════════════════ */
+function getTimePhase() {
+  const h = new Date().getHours();
+  if (h <  4) return { name:'layl',    emoji:'🌙', label:'الليل',          gradient:'#020408,#05080f' };
+  if (h <  5) return { name:'sahar',   emoji:'🌠', label:'وقت السحر',      gradient:'#120822,#200a3a' };
+  if (h <  7) return { name:'fajr',    emoji:'🌅', label:'وقت الفجر',      gradient:'#1a0e3a,#2d1e60' };
+  if (h <  9) return { name:'ishraq',  emoji:'🌤️', label:'الإشراق',        gradient:'#0d3860,#0d6098' };
+  if (h < 12) return { name:'duha',    emoji:'☀️',  label:'وقت الضحى',      gradient:'#0e3b2e,#1a5d47' };
+  if (h < 15) return { name:'zuhr',    emoji:'🕛',  label:'نهار عرفة',      gradient:'#1a3a5c,#0e5080' };
+  if (h < 17) return { name:'asr',     emoji:'🌤️', label:'وقت العصر',      gradient:'#3a2a0a,#6a4a10' };
+  if (h < 18) return { name:'golden',  emoji:'✨',  label:'الساعة الذهبية ⭐', gradient:'#5a2a00,#9a5000' };
+  if (h < 20) return { name:'maghrib', emoji:'🌇', label:'وقت المغرب',      gradient:'#3a0a10,#6a1010' };
+  return               { name:'isha',   emoji:'🌙', label:'وقت العشاء',      gradient:'#050a08,#0a1210' };
+}
+
+function applyTimeBackground(el) {
+  if (!el) return;
+  const { gradient } = getTimePhase();
+  const [c1, c2] = gradient.split(',');
+  el.style.background = `linear-gradient(160deg, ${c1}, ${c2})`;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   CONTEXTUAL DASHBOARD — detects Hijri day and adapts UI
+   ══════════════════════════════════════════════════════════ */
+function initContextualDashboard() {
+  const day = getDhulHijjahDay();
+  if (!day || day > 13) return;
+
+  const ARABIC_NUMS = ['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر'];
+  const heroEye  = document.querySelector('.hero-eyebrow');
+  const heroH1   = document.querySelector('.hero h1');
+  const heroP    = document.querySelector('.hero p');
+  const heroEl   = document.querySelector('.hero');
+  const notifEl  = document.getElementById('notif-banner');
+
+  if (isArafahDay()) {
+    // ARAFAH DAY — full transformation
+    document.title = '⭐ يوم عرفة — زاد العشر';
+    if (heroEye)  heroEye.textContent = '⭐ يوم عرفة — يوم الإجابة العظمى';
+    if (heroH1)   heroH1.innerHTML    = 'ربيع القلوب وعتق الرقاب';
+    if (heroP)    heroP.textContent   = 'أكثر من الدعاء والذكر — خير الدعاء دعاء يوم عرفة';
+    if (heroEl)   heroEl.style.background = 'linear-gradient(135deg, #3a1a00, #7a3a00 60%, #b05a00)';
+    // Switch countdown to "حتى ساعة الإجابة"
+    startArafahMaghribCountdown();
+    // Show alert banner
+    if (notifEl) {
+      notifEl.style.background = 'linear-gradient(135deg, rgba(180,100,0,.15), rgba(180,100,0,.06))';
+      notifEl.style.borderColor = 'rgba(200,120,0,.35)';
+      const b = notifEl.querySelector('b'), s = notifEl.querySelector('small');
+      if (b) b.textContent = '⭐ اليوم يوم عرفة — لا تغفل عن الدعاء';
+      if (s) s.textContent = 'ساعة الإجابة قبيل المغرب — أعِدّ دعاءك';
+    }
+
+  } else if (isEidDay()) {
+    if (heroEye) heroEye.textContent = '🎉 عيد الأضحى المبارك';
+    if (heroH1)  heroH1.textContent  = 'تقبّل الله منكم ومنا';
+    if (heroP)   heroP.textContent   = 'اللهم اجعله عيد عتق وقبول — كل عام وأنتم بخير';
+    if (heroEl)  heroEl.style.background = 'linear-gradient(135deg, #0e3b2e, #1a6040)';
+
+  } else {
+    // Days 1-8 or 11-13
+    const label = day <= 10 ? (ARABIC_NUMS[day] || day) : day;
+    if (heroEye) heroEye.textContent = `اليوم ${label} من عشر ذي الحجة`;
+    if (notifEl) {
+      const b = notifEl.querySelector('b'), s = notifEl.querySelector('small');
+      if (b) b.textContent = `اليوم ${day < 10 ? day : ''} من العشر المباركة`;
+      if (s) s.textContent = getDhulHijjahDay() < 9
+        ? `${9 - day} أيام على يوم عرفة — اغتنم ما بقي`
+        : 'استمر في ذكر الله وإحياء هذه الأيام';
+    }
+  }
+}
+
+function startArafahMaghribCountdown() {
+  const daysBox = document.querySelector('.cd-box:first-child');
+  if (daysBox) daysBox.style.display = 'none';
+
+  const hrsEl  = document.getElementById('cd-hrs');
+  const minsEl = document.getElementById('cd-mins');
+  const secsEl = document.getElementById('cd-secs');
+  if (!hrsEl) return;
+
+  // Update countdowns labels
+  const labels = document.querySelectorAll('.cd-lbl');
+  if (labels[1]) labels[1].textContent = 'ساعة';
+  if (labels[2]) labels[2].textContent = 'دقيقة';
+  if (labels[3]) labels[3].textContent = 'ثانية';
+
+  // Try to get real Maghrib time, fallback to approx
+  let maghribTime = getApproxMaghrib();
+  fetchPrayerTimesIfPossible().then(t => { if (t) maghribTime = t; });
+
+  clearInterval(window._countdownInterval);
+  window._countdownInterval = setInterval(() => {
+    const diff = Math.max(0, maghribTime - new Date());
+    const pad = n => String(n).padStart(2,'0');
+    if (hrsEl)  hrsEl.textContent  = pad(Math.floor(diff / 3600000));
+    if (minsEl) minsEl.textContent = pad(Math.floor((diff % 3600000) / 60000));
+    if (secsEl) secsEl.textContent = pad(Math.floor((diff % 60000) / 1000));
+  }, 1000);
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   ARAFAH PAGE — Interactive timeline + Adhkar hub
+   ══════════════════════════════════════════════════════════ */
+const ARAFAH_MILESTONES = [
+  { id:'sahar',    emoji:'🌠', time:'03:30',      label:'السحور والتهجد',      desc:'4 ركعات تهجد + دعاء السحر + استغفار', dua:'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنتَ التَّوَّابُ الرَّحِيمُ' },
+  { id:'fajr',     emoji:'🌅', time:'الفجر',      label:'الفجر والإشراق',      desc:'صلاة الفجر جماعةً + ذكر حتى الإشراق + صلاة ركعتين (أجر حجة وعمرة)', dua:'أجر الإشراق: "اللهم أنت السلام ومنك السلام تباركت يا ذا الجلال والإكرام"' },
+  { id:'duha',     emoji:'☀️',  time:'09:00',      label:'القرآن والضحى',       desc:'قراءة وتدبر القرآن — سورة الكهف والبقرة + صلاة الضحى 4 ركعات', dua:'' },
+  { id:'khutba',   emoji:'📻',  time:'12:00',      label:'خطبة عرفة والظهر',   desc:'الاستماع لخطبة عرفة من الحجيج + صلاة الظهر + قيلولة خفيفة', dua:'' },
+  { id:'golden',   emoji:'⭐',  time:'العصر→المغرب', label:'الساعة الذهبية ⭐', desc:'وقت الضراعة الأكبر — أكثر من لا إله إلا الله والدعاء', dua:'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ' },
+  { id:'iftar',    emoji:'🌇', time:'المغرب',     label:'الإفطار والشكر',      desc:'إفطار الصائم — اختم بالحمد والثناء', dua:'اللهم لك صمت وعلى رزقك أفطرت' },
+];
+
+function initArafahPage() {
+  const timelineEl = document.getElementById('af-timeline');
+  if (!timelineEl) return;
+
+  if (!STATE.arafah) STATE.arafah = { milestones: {}, dhikrCount: 0, khushooMode: false };
+
+  // Build milestone cards
+  timelineEl.innerHTML = '';
+  ARAFAH_MILESTONES.forEach((m, i) => {
+    const done = !!STATE.arafah.milestones[m.id];
+    const card = document.createElement('div');
+    card.className = `af-milestone${done ? ' af-done' : ''}${m.id === 'golden' ? ' af-golden' : ''}`;
+    card.id = 'af-ms-' + m.id;
+    card.innerHTML = `
+      <div class="af-ms-left">
+        <div class="af-ms-time">${m.time}</div>
+        <div class="af-ms-emoji">${m.emoji}</div>
+        <div class="af-ms-line ${i < ARAFAH_MILESTONES.length - 1 ? 'has-line' : ''}"></div>
+      </div>
+      <div class="af-ms-body">
+        <div class="af-ms-title">${m.label}</div>
+        <div class="af-ms-desc">${m.desc}</div>
+        ${m.dua ? `<div class="af-ms-dua">${m.dua}</div>` : ''}
+        <button class="af-ms-btn${done ? ' done' : ''}" onclick="checkMilestone('${m.id}', this)">
+          ${done ? '✅ تم' : '☐ تحديد كمنجز'}
+        </button>
+      </div>`;
+    timelineEl.appendChild(card);
+  });
+
+  // Progress bar
+  updateArafahProgress();
+
+  // Main Dhikr counter
+  const dhikrEl = document.getElementById('af-dhikr-count');
+  if (dhikrEl) dhikrEl.textContent = STATE.arafah.dhikrCount || 0;
+
+  const dhikrRing = document.getElementById('af-dhikr-ring');
+  if (dhikrRing) dhikrRing.addEventListener('click', countArafahDhikr);
+
+  // Khushoo mode restore
+  if (STATE.arafah.khushooMode) document.body.classList.add('khushoo');
+
+  // Time-based background
+  initTimeBackground();
+}
+window.initArafahPage = initArafahPage;
+
+function checkMilestone(id, btn) {
+  if (!STATE.arafah) STATE.arafah = { milestones: {}, dhikrCount: 0, khushooMode: false };
+  const done = !STATE.arafah.milestones[id];
+  STATE.arafah.milestones[id] = done;
+  saveState();
+
+  const card = document.getElementById('af-ms-' + id);
+  if (card) card.classList.toggle('af-done', done);
+  if (btn) { btn.textContent = done ? '✅ تم' : '☐ تحديد كمنجز'; btn.classList.toggle('done', done); }
+
+  // Ripple
+  if (done && card) {
+    const rip = document.createElement('div');
+    rip.className = 'check-ripple';
+    card.appendChild(rip);
+    setTimeout(() => rip.remove(), 500);
+    if (navigator.vibrate) navigator.vibrate(40);
+  }
+
+  updateArafahProgress();
+  checkBadges();
+  showToast(done ? `✅ ${ARAFAH_MILESTONES.find(m=>m.id===id)?.label || ''} مكتملة` : '↩️ تم الإلغاء');
+}
+window.checkMilestone = checkMilestone;
+
+function updateArafahProgress() {
+  const done = Object.values(STATE.arafah?.milestones || {}).filter(Boolean).length;
+  const total = ARAFAH_MILESTONES.length;
+  const pct = Math.round((done / total) * 100);
+  const bar = document.getElementById('af-prog-bar');
+  const txt = document.getElementById('af-prog-txt');
+  if (bar) bar.style.width = pct + '%';
+  if (txt) txt.textContent = `${done} من ${total} محطات مكتملة`;
+}
+
+function countArafahDhikr() {
+  if (!STATE.arafah) STATE.arafah = { milestones: {}, dhikrCount: 0, khushooMode: false };
+  STATE.arafah.dhikrCount = (STATE.arafah.dhikrCount || 0) + 1;
+  saveState();
+  if (navigator.vibrate) navigator.vibrate(20);
+  const el = document.getElementById('af-dhikr-count');
+  if (el) {
+    el.textContent = STATE.arafah.dhikrCount;
+    el.classList.remove('bump');
+    void el.offsetWidth;
+    el.classList.add('bump');
+    setTimeout(() => el.classList.remove('bump'), 180);
+  }
+  // Update progress ring
+  const prog = document.querySelector('.af-dhikr-prog span');
+  if (prog) prog.style.width = Math.min((STATE.arafah.dhikrCount % 100), 100) + '%';
+}
+window.countArafahDhikr = countArafahDhikr;
+
+function toggleKhushoo() {
+  if (!STATE.arafah) STATE.arafah = { milestones: {}, dhikrCount: 0, khushooMode: false };
+  STATE.arafah.khushooMode = !STATE.arafah.khushooMode;
+  document.body.classList.toggle('khushoo', STATE.arafah.khushooMode);
+  saveState();
+  const btn = document.getElementById('khushoo-toggle');
+  if (btn) btn.textContent = STATE.arafah.khushooMode ? '💡 إيقاف الخشوع' : '🌙 وضع الخشوع';
+  showToast(STATE.arafah.khushooMode ? '🌙 وضع الخشوع مفعّل — ركّز على ربك' : '💡 تم إيقاف وضع الخشوع');
+}
+window.toggleKhushoo = toggleKhushoo;
+
+function initTimeBackground() {
+  const bgEl = document.getElementById('time-bg');
+  if (!bgEl) return;
+  const phase = getTimePhase();
+  const [c1, c2] = phase.gradient.split(',');
+  bgEl.style.background = `linear-gradient(160deg, ${c1}, ${c2})`;
+  bgEl.querySelector('.time-phase-lbl').textContent = `${phase.emoji} ${phase.label}`;
+  setInterval(() => {
+    const p = getTimePhase();
+    const [g1, g2] = p.gradient.split(',');
+    bgEl.style.background = `linear-gradient(160deg, ${g1}, ${g2})`;
+    bgEl.querySelector('.time-phase-lbl').textContent = `${p.emoji} ${p.label}`;
+  }, 60000); // update every minute
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   ADHKAR PAGE
+   ══════════════════════════════════════════════════════════ */
+const ADHKAR_SECTIONS = [
+  {
+    id: 'arafah_main',
+    title: '⭐ أفضل دعاء يوم عرفة',
+    color: 'gold',
+    items: [
+      { id:'tahlil', label:'التهليل الكامل', arabic:'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ', target:100, source:'رواه الترمذي' },
+      { id:'istighfar_arafah', label:'الاستغفار', arabic:'أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ', target:100, source:'حديث شريف' },
+      { id:'salawat', label:'الصلاة على النبي ﷺ', arabic:'اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ', target:100, source:'مستحب' },
+    ]
+  },
+  {
+    id: 'morning',
+    title: '🌅 أذكار الصباح',
+    color: 'green',
+    items: [
+      { id:'ayat_kursi_m', label:'آية الكرسي', arabic:'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ...', target:1, source:'مرة صباحاً — البقرة 255' },
+      { id:'morning_tasbih', label:'تسبيح الصباح', arabic:'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ', target:3, source:'صحيح مسلم — 3 مرات' },
+      { id:'sayyid_istig', label:'سيد الاستغفار', arabic:'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ...', target:1, source:'صحيح البخاري' },
+    ]
+  },
+  {
+    id: 'evening',
+    title: '🌙 أذكار المساء',
+    color: 'purple',
+    items: [
+      { id:'asr_tasbih', label:'تسبيح المساء', arabic:'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ', target:100, source:'100 مرة مساءً' },
+      { id:'three_quls', label:'المعوذتان والإخلاص', arabic:'قُلْ هُوَ اللَّهُ أَحَدٌ — قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ — قُلْ أَعُوذُ بِرَبِّ النَّاسِ', target:3, source:'3 مرات — صحيح الترمذي' },
+    ]
+  }
+];
+
+function initAdhkarPage() {
+  const container = document.getElementById('adhkar-container');
+  if (!container) return;
+
+  if (!STATE.adhkar) STATE.adhkar = {};
+
+  ADHKAR_SECTIONS.forEach(section => {
+    const secEl = document.createElement('div');
+    secEl.className = 'adhkar-section';
+    secEl.innerHTML = `<div class="section-title adhkar-sec-title adhkar-${section.color}">${section.title}</div>`;
+
+    section.items.forEach(item => {
+      if (!STATE.adhkar[item.id]) STATE.adhkar[item.id] = 0;
+      const count = STATE.adhkar[item.id];
+      const done  = count >= item.target;
+      const pct   = Math.min(Math.round((count / item.target) * 100), 100);
+
+      const card = document.createElement('div');
+      card.className = `adhkar-card${done ? ' adhkar-card-done' : ''}`;
+      card.id = 'adhk-' + item.id;
+      card.innerHTML = `
+        <div class="adhkar-arabic">${item.arabic}</div>
+        <div class="adhkar-meta">
+          <span class="adhkar-label">${item.label}</span>
+          <span class="adhkar-source tag">${item.source}</span>
+        </div>
+        <div class="adhkar-progress-row">
+          <div class="progress" style="margin-top:8px"><span style="width:${pct}%"></span></div>
+          <div class="adhkar-count-row">
+            <span class="adhkar-count-num" id="adhk-cnt-${item.id}">${count} / ${item.target}</span>
+            <button class="btn btn-primary adhkar-count-btn" onclick="countAdhkar('${item.id}', ${item.target})"
+              ${done ? 'disabled style="opacity:.5"' : ''}>
+              ${done ? '✅ مكتمل' : '+ عدّ'}
+            </button>
+            <button class="btn btn-ghost adhkar-reset-btn" onclick="resetAdhkar('${item.id}')" style="padding:8px 12px;font-size:12px">↺</button>
+          </div>
+        </div>`;
+      secEl.appendChild(card);
+    });
+
+    container.appendChild(secEl);
+  });
+}
+window.initAdhkarPage = initAdhkarPage;
+
+function countAdhkar(id, target) {
+  if (!STATE.adhkar) STATE.adhkar = {};
+  STATE.adhkar[id] = Math.min((STATE.adhkar[id] || 0) + 1, target);
+  saveState();
+  if (navigator.vibrate) navigator.vibrate(15);
+
+  const countEl = document.getElementById('adhk-cnt-' + id);
+  const card    = document.getElementById('adhk-' + id);
+  const btn     = card?.querySelector('.adhkar-count-btn');
+  const progEl  = card?.querySelector('.progress span');
+  const cnt     = STATE.adhkar[id];
+  const pct     = Math.min(Math.round((cnt / target) * 100), 100);
+
+  if (countEl) countEl.textContent = `${cnt} / ${target}`;
+  if (progEl)  progEl.style.width  = pct + '%';
+
+  if (cnt >= target) {
+    card?.classList.add('adhkar-card-done');
+    if (btn) { btn.textContent = '✅ مكتمل'; btn.disabled = true; btn.style.opacity = '.5'; }
+    showToast('✅ مكتمل — بارك الله فيك');
+    if (navigator.vibrate) navigator.vibrate([60, 30, 60]);
+    checkBadges();
+  }
+}
+window.countAdhkar = countAdhkar;
+
+function resetAdhkar(id) {
+  if (!STATE.adhkar) STATE.adhkar = {};
+  STATE.adhkar[id] = 0;
+  saveState();
+  // Re-init the page to reflect reset
+  const container = document.getElementById('adhkar-container');
+  if (container) { container.innerHTML = ''; initAdhkarPage(); }
+}
+window.resetAdhkar = resetAdhkar;
+
+/* ══════════════════════════════════════════════════════════
+   POINTS ENGINE — "رصيد الزاد"
+   مرجع: Document 7 — Gamification Logic
+   ══════════════════════════════════════════════════════════ */
+const ZAD_WEIGHTS = {
+  fajr:30, zuhr:30, asr:30, maghrib:30, isha:30,  // فرائض
+  rawatib:20, duha:25, qiyam:80,                    // نوافل
+  morning_dhikr:15, evening_dhikr:15,               // ذكر
+  takbeer_100:30,                                   // تكبير/100
+  tawbah:10,                                        // توبة
+  fasting_day:100,                                  // صيام عادي
+  fasting_arafah:500,                               // صيام عرفة
+  juz:150,                                          // جزء قرآن
+  arafah_milestone:50,                              // محطة عرفة
+  charity_act:40,                                   // عمل خيري
+};
+
+function calcZadPoints() {
+  let base = 0;
+  // فرائض ونوافل
+  Object.entries(STATE.worship || {}).forEach(([k, v]) => {
+    if (v && ZAD_WEIGHTS[k]) base += ZAD_WEIGHTS[k];
+  });
+  // صيام
+  Object.entries(STATE.fasting || {}).forEach(([day, done]) => {
+    if (done) base += +day === 9 ? ZAD_WEIGHTS.fasting_arafah : ZAD_WEIGHTS.fasting_day;
+  });
+  // تكبير (لكل 100)
+  base += Math.floor((STATE.takbeer?.total || 0) / 100) * ZAD_WEIGHTS.takbeer_100;
+  // قرآن
+  base += (STATE.mushaf?.juz || 0) * ZAD_WEIGHTS.juz;
+  // محطات عرفة
+  base += Object.values(STATE.arafah?.milestones || {}).filter(Boolean).length * ZAD_WEIGHTS.arafah_milestone;
+  // صدقات
+  base += (STATE.charityDone?.length || 0) * ZAD_WEIGHTS.charity_act;
+
+  // مضاعف الـ Streak
+  const streak = STATE.streak || 0;
+  const mult = streak >= 9 ? 2.0 : streak >= 5 ? 1.5 : streak >= 3 ? 1.2 : 1.0;
+  return { points: Math.round(base * mult), multiplier: mult };
+}
+window.calcZadPoints = calcZadPoints;
+
+/* ── Enhanced Badges (Document 7) ─────────────────────── */
+const EXTRA_BADGES = [
+  { id:'saher',   label:'فجر العشر',        cond: s => s.streak >= 5 },
+  { id:'sabiq',   label:'السابق',            cond: s => Object.values(s.arafah?.milestones||{}).filter(Boolean).length >= 5 },
+  { id:'lisan',   label:'لسان ذاكر',        cond: s => s.takbeer?.total >= 1000 },
+  { id:'khatim2', label:'الراسخون',          cond: s => s.mushaf?.juz >= 15 },
+  { id:'wasil',   label:'الواصلون',          cond: s => (s.charityDone?.length||0) >= 5 },
+];
+EXTRA_BADGES.forEach(b => {
+  if (!BADGE_DEFS.find(x => x.id === b.id)) BADGE_DEFS.push(b);
+});
+
+/* ── Daily History Recording ───────────────────────────── */
+function recordDailyProgress() {
+  if (!STATE.history) STATE.history = {};
+  const worshipKeys = ['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam','morning_dhikr','evening_dhikr','takbeer_100','tawbah'];
+  const done = worshipKeys.filter(k => STATE.worship[k]).length;
+  const pct  = Math.round((done / worshipKeys.length) * 100);
+  const { points } = calcZadPoints();
+  STATE.history[todayStr()] = {
+    pct,
+    zad:       points,
+    fasting:   Object.values(STATE.fasting || {}).filter(Boolean).length,
+    takbeer:   STATE.takbeer?.total || 0,
+    juz:       STATE.mushaf?.juz || 0,
+    badges:    STATE.badges.length,
+    dhulHijja: getDhulHijjahDay() || 0,
+    ts:        Date.now()
+  };
+  saveState();
+}
+window.recordDailyProgress = recordDailyProgress;
+
+/* ── Rule-based AI Insights ───────────────────────────── */
+function generateInsights() {
+  const strength = [], improve = [];
+  const streak   = STATE.streak || 0;
+  const total    = STATE.takbeer?.total || 0;
+  const juz      = STATE.mushaf?.juz || 0;
+  const fasting  = Object.values(STATE.fasting||{}).filter(Boolean).length;
+  const worship  = STATE.worship || {};
+
+  if (streak >= 5)      strength.push(`🔥 شريط ${streak} أيام متتالية — استمر`);
+  if (total >= 500)     strength.push('📿 مداومتك على التكبير رائعة');
+  if (worship.qiyam)    strength.push('🌙 قيام الليل في عشر ذي الحجة يعدل ليلة القدر');
+  if (juz >= 5)         strength.push(`📖 قرأت ${juz} أجزاء — ما شاء الله`);
+  if (fasting >= 3)     strength.push(`🌙 صمت ${fasting} أيام — "الصيام لي وأنا أجزي به"`);
+
+  if (!worship.qiyam)                improve.push('🌙 قيام الليل لم يُسجل — استثمره الليلة');
+  if (total < 100)                   improve.push('📿 التكبير قليل — أكثر منه في كل لحظة');
+  if (juz < 3)                       improve.push('📖 تقدم القراءة بطيء — ابدأ بنصف جزء يومياً');
+  if (fasting < 2)                   improve.push('🌙 الصيام فرصتك في العشر — لا تفوّتها');
+  if (!worship.morning_dhikr)        improve.push('🌅 أذكار الصباح لم تُسجل اليوم');
+
+  const { points, multiplier } = calcZadPoints();
+  return { strength, improve, points, multiplier, streak };
+}
+window.generateInsights = generateInsights;
+
+/* ── Confetti on complete daily wird ─────────────────────*/
+function triggerConfetti() {
+  const colors = ['#c9a14a','#4dd866','#ffe54d','#ffffff','#5aabff','#ff6b85'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const size  = 5 + Math.random() * 9;
+    const isPill = Math.random() > 0.6;
+    el.style.cssText = `position:fixed;top:-12px;left:${Math.random()*100}%;
+      width:${size}px;height:${isPill?size*2:size}px;
+      background:${color};border-radius:${isPill?'3px':'50%'};
+      animation:confettiFall ${1.8+Math.random()*2}s ease-out forwards;
+      z-index:9998;transform:rotate(${Math.random()*360}deg);
+      animation-delay:${Math.random()*0.5}s;`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 4000);
+  }
+}
+window.triggerConfetti = triggerConfetti;
+
+/* ── Check if daily wird complete → confetti ─────────────*/
+function checkDailyComplete() {
+  const keys = ['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam','morning_dhikr','evening_dhikr','takbeer_100','tawbah'];
+  if (keys.every(k => STATE.worship[k]) && !STATE._confettiFired) {
+    STATE._confettiFired = true;
+    saveState();
+    setTimeout(() => {
+      triggerConfetti();
+      showToast('🎉 ما شاء الله! أتممت الورد اليومي كاملاً');
+    }, 400);
+  }
+}
+window.checkDailyComplete = checkDailyComplete;

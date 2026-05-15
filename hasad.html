@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<title>حصاد العشر — زاد العشر</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
+</head>
+<body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <nav class="nav">
+      <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
+      <a href="fadael.html" class=""><span class="ico">✨</span>فضائل العشر</a>
+      <a href="worship.html" class=""><span class="ico">📿</span>جدول العبادات</a>
+      <a href="mushaf.html" class=""><span class="ico">📖</span>مصحف العشر</a>
+      <a href="takbeer.html" class=""><span class="ico">🕋</span>المكبِّر</a>
+      <a href="adhkar.html" class=""><span class="ico">🤲</span>الأذكار والدعاء</a>
+      <a href="odhiya.html" class=""><span class="ico">🐏</span>دليل الأضحية</a>
+      <a href="arafah.html" class=""><span class="ico">🌄</span>يوم عرفة</a>
+      <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
+      <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
+      <a href="hasad.html" class="active"><span class="ico">📊</span>حصاد العشر</a>
+      <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
+      <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
+      <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="page-title">حصاد <span>العشر</span></div>
+        <div class="page-sub">ثمار عبادتك خلال أفضل أيام الدنيا</div>
+      </div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()">🌙</button>
+      </div>
+    </div>
+
+    <!-- رصيد الزاد + Streak -->
+    <div class="zad-card" style="margin-bottom:22px">
+      <div class="zad-icon">🌟</div>
+      <div class="zad-info">
+        <div class="zad-lbl">رصيد الزاد</div>
+        <div class="zad-pts" id="zad-pts">0</div>
+        <div class="zad-mult" id="zad-mult">ابدأ Streak لزيادة نقاطك!</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:36px;font-weight:900;color:var(--brand-gold-lt)" id="zad-streak">0 🔥</div>
+        <div style="font-size:11px;opacity:.7;margin-top:2px">الشريط الزمني</div>
+      </div>
+    </div>
+
+    <!-- خريطة الحرارة -->
+    <div class="section-title">خريطة الأيام العشرة</div>
+    <div class="card" style="margin-bottom:6px">
+      <p style="font-size:13px;margin-bottom:10px">لون كل يوم يعكس نسبة إنجاز الورد</p>
+      <div class="heatmap-grid" id="heatmap-grid"></div>
+      <div style="display:flex;gap:12px;margin-top:12px;font-size:11px;color:var(--muted);flex-wrap:wrap">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;border-radius:3px;background:var(--sand-2)"></span>لم يُسجل</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;border-radius:3px;background:#1a5d2a"></span>25%</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;border-radius:3px;background:#22a040"></span>75%</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;border-radius:3px;background:var(--sys-green)"></span>مكتمل 🏆</span>
+      </div>
+    </div>
+
+    <!-- رسم بياني -->
+    <div class="section-title">مسار الأداء خلال العشر</div>
+    <div class="card">
+      <div style="position:relative;height:220px">
+        <canvas id="activity-chart" role="img" aria-label="رسم بياني لنسبة إنجاز الورد خلال أيام العشر">بيانات الأداء اليومي</canvas>
+      </div>
+    </div>
+
+    <!-- إحصائيات تفصيلية -->
+    <div class="section-title">ثمار العبادة</div>
+    <div class="grid cols-4">
+      <div class="metric-card">
+        <div class="metric-ico">📖</div>
+        <div class="metric-val" id="m-juz">0</div>
+        <div class="metric-lbl">جزء قرآن</div>
+        <div class="metric-sub" id="m-juz-sub">0% من الختمة</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-ico">📿</div>
+        <div class="metric-val" id="m-tkbr">0</div>
+        <div class="metric-lbl">تكبيرة</div>
+        <div class="metric-sub" id="m-tkbr-sub">0 جلسة</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-ico">🌙</div>
+        <div class="metric-val" id="m-fast">0</div>
+        <div class="metric-lbl">يوم صيام</div>
+        <div class="metric-sub" id="m-fast-sub">9 أيام متبقية</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-ico">🤲</div>
+        <div class="metric-val" id="m-sujd">0</div>
+        <div class="metric-lbl">سجدة نافلة</div>
+        <div class="metric-sub" id="m-sujd-sub">تقرباً إلى الله</div>
+      </div>
+    </div>
+
+    <!-- رؤى الذكاء -->
+    <div class="section-title">رؤى مخصصة لأدائك</div>
+    <div class="insight-card">
+      <div id="insights-wrap"></div>
+    </div>
+
+    <!-- خزانة الأوسمة -->
+    <div class="section-title">خزانة الأوسمة <span style="font-size:14px;font-weight:400;color:var(--muted)" id="earned-summary"></span></div>
+    <div class="badges" id="badges-cabinet"></div>
+
+    <!-- مشاركة الحصاد -->
+    <div class="share-harvest-card" style="margin-top:28px">
+      <div style="position:relative;z-index:1">
+        <h3>🌟 شارك حصادك</h3>
+        <p>ألهم أحبابك برحلتك في أفضل أيام الدنيا</p>
+        <button class="btn btn-gold" style="font-size:15px;padding:13px 28px" onclick="shareHarvest()">
+          📤 مشاركة الحصاد
+        </button>
+      </div>
+    </div>
+
+    <div class="foot-note">رصيد الزاد = الأعمال الصالحة المسجلة × مضاعف الشريط الزمني · الأجر الحقيقي عند الله وحده ❤️</div>
+  </main>
+</div>
+<script src="js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  recordDailyProgress();
+  renderZadCard();
+  renderHeatmap();
+  renderActivityChart();
+  renderMetrics();
+  renderInsights();
+  renderBadgesCabinet();
+  // Confetti if just finished Arafah
+  if (isArafahDay() && STATE.arafah?.milestones) {
+    const done = Object.values(STATE.arafah.milestones).filter(Boolean).length;
+    if (done >= 5 && !STATE._arafahConfetti) {
+      STATE._arafahConfetti = true; saveState();
+      setTimeout(triggerConfetti, 500);
+    }
+  }
+});
+
+function renderZadCard() {
+  const { points, multiplier } = calcZadPoints();
+  const el   = document.getElementById('zad-pts');
+  const mult = document.getElementById('zad-mult');
+  const strk = document.getElementById('zad-streak');
+  if (el)   el.textContent   = points.toLocaleString('ar-EG');
+  if (mult) mult.innerHTML   = multiplier > 1
+    ? `مضاعف الـ Streak: <span>×${multiplier}</span>`
+    : `ابدأ Streak لزيادة نقاطك!`;
+  if (strk) strk.textContent = (STATE.streak || 0) + ' 🔥';
+}
+
+function renderHeatmap() {
+  const wrap = document.getElementById('heatmap-grid');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  const hist = STATE.history || {};
+  for (let d = 1; d <= 10; d++) {
+    // find entry for this Dhul Hijjah day
+    const entry = Object.values(hist).find(e => e.dhulHijja === d) || null;
+    const pct = entry?.pct || 0;
+    let cls = 'hm-0';
+    if (pct > 0)   cls = 'hm-25';
+    if (pct >= 50) cls = 'hm-50';
+    if (pct >= 75) cls = 'hm-75';
+    if (pct >= 90) cls = 'hm-90';
+    if (pct >=100) cls = 'hm-100';
+    const cell = document.createElement('div');
+    cell.className = 'hm-cell ' + cls;
+    cell.title = `اليوم ${d}: ${pct}%`;
+    cell.innerHTML = `<span class="hm-day">${d}</span><span class="hm-pct">${pct?pct+'%':'-'}</span>`;
+    wrap.appendChild(cell);
+  }
+}
+
+function renderActivityChart() {
+  const ctx = document.getElementById('activity-chart');
+  if (!ctx) return;
+  const hist = STATE.history || {};
+  const labels = Array.from({length:10},(_,i)=>['١','٢','٣','٤','٥','٦','٧','٨','٩','١٠'][i]);
+  const data   = Array.from({length:10},(_,i) => {
+    const entry = Object.values(hist).find(e => e.dhulHijja === i+1);
+    return entry?.pct || 0;
+  });
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const gridColor  = isDark ? 'rgba(255,255,255,.08)' : 'rgba(14,59,46,.08)';
+  const textColor  = isDark ? '#7a9a7a' : '#6b7a72';
+  const lineColor  = '#c9a14a';
+  const fillTop    = isDark ? 'rgba(201,161,74,.25)' : 'rgba(201,161,74,.18)';
+  const fillBot    = 'rgba(201,161,74,.02)';
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'إنجاز الورد %',
+        data,
+        borderColor: lineColor,
+        borderWidth: 2.5,
+        pointBackgroundColor: lineColor,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        tension: 0.4,
+        fill: true,
+        backgroundColor: (ctx2) => {
+          const chart = ctx2.chart;
+          const { ctx: c, chartArea } = chart;
+          if (!chartArea) return fillTop;
+          const gradient = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+          gradient.addColorStop(0, fillTop);
+          gradient.addColorStop(1, fillBot);
+          return gradient;
+        }
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx3 => ' إنجاز اليوم: ' + ctx3.raw + '%'
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: textColor, font: { family: 'Tajawal', size: 12 } },
+          grid:  { color: gridColor }
+        },
+        y: {
+          min: 0, max: 100,
+          ticks: { color: textColor, callback: v => v + '%', font: { family: 'Tajawal', size: 11 } },
+          grid:  { color: gridColor }
+        }
+      }
+    }
+  });
+}
+
+function renderMetrics() {
+  // Worship count (sujood in nawafil)
+  const nawafil = ['rawatib','duha','qiyam'];
+  const sujood  = nawafil.filter(k => STATE.worship?.[k]).length * 8; // ~8 sujood per nawafil
+  const fasting = Object.values(STATE.fasting||{}).filter(Boolean).length;
+  const fastAr  = ['صفر','واحد','يومَين','ثلاثة','أربعة','خمسة','ستة','سبعة','ثمانية','تسعة'][fasting] || fasting;
+
+  const metrics = [
+    { id:'m-juz',    val: STATE.mushaf?.juz || 0,         lbl:'جزء قرآن', sub:`${Math.round(((STATE.mushaf?.juz||0)/30)*100)}% من الختمة` },
+    { id:'m-tkbr',   val: (STATE.takbeer?.total||0).toLocaleString('ar-EG'), lbl:'تكبيرة', sub:`${STATE.takbeer?.sessions||0} جلسة مكتملة` },
+    { id:'m-fast',   val: fasting,                         lbl:'يوم صيام', sub:fasting===9?'صمت الأيام التسعة 🏆':`${9-fasting} أيام متبقية` },
+    { id:'m-sujd',   val: sujood,                          lbl:'سجدة نافلة', sub:'تقرباً إلى الله' },
+  ];
+  metrics.forEach(m => {
+    const el = document.getElementById(m.id);
+    const sb = document.getElementById(m.id + '-sub');
+    if (el) el.textContent = m.val;
+    if (sb) sb.textContent = m.sub;
+  });
+}
+
+function renderInsights() {
+  const { strength, improve, points, multiplier, streak } = generateInsights();
+  const wrap = document.getElementById('insights-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+
+  if (strength.length) {
+    const hdr = document.createElement('div');
+    hdr.className = 'insight-type insight-strength';
+    hdr.textContent = '✨ نقاط قوتك';
+    wrap.appendChild(hdr);
+    strength.forEach(s => {
+      const row = document.createElement('div');
+      row.className = 'insight-row';
+      row.innerHTML = `<span class="insight-ico">🌟</span><span class="insight-text">${s}</span>`;
+      wrap.appendChild(row);
+    });
+  }
+  if (improve.length) {
+    const hdr = document.createElement('div');
+    hdr.className = 'insight-type insight-improve';
+    hdr.style.marginTop = '12px';
+    hdr.textContent = '💡 فرص التحسين';
+    wrap.appendChild(hdr);
+    improve.forEach(s => {
+      const row = document.createElement('div');
+      row.className = 'insight-row';
+      row.innerHTML = `<span class="insight-ico">💡</span><span class="insight-text">${s}</span>`;
+      wrap.appendChild(row);
+    });
+  }
+  if (!strength.length && !improve.length) {
+    wrap.innerHTML = '<div class="insight-row"><span class="insight-ico">🌱</span><span class="insight-text">ابدأ وردك اليومي وستظهر هنا رؤى مخصصة لأدائك</span></div>';
+  }
+}
+
+function renderBadgesCabinet() {
+  const wrap = document.getElementById('badges-cabinet');
+  if (!wrap) return;
+  const ALL_BADGES = [
+    { id:'mubakker', emoji:'🌅', name:'المبكّر',       desc:'الفجر في جماعة' },
+    { id:'dhaker',   emoji:'📿', name:'الذاكرون',     desc:'100 تكبيرة' },
+    { id:'saem',     emoji:'🌙', name:'الصائمون',     desc:'صيام 3 أيام' },
+    { id:'khatim',   emoji:'📖', name:'الخاتمون',     desc:'ختمة كاملة' },
+    { id:'musare',   emoji:'🕌', name:'المسارعون',    desc:'الصلوات الخمس جماعة' },
+    { id:'mukabbir', emoji:'📢', name:'المُكبِّرون',  desc:'1000 تكبيرة' },
+    { id:'sadiq',    emoji:'💚', name:'المتصدقون',    desc:'3 أعمال بر' },
+    { id:'kamil',    emoji:'👑', name:'جامع الخير',   desc:'5 أيام متتالية' },
+    { id:'saher',    emoji:'🌠', name:'فجر العشر',    desc:'5 أيام Streak' },
+    { id:'sabiq',    emoji:'⭐', name:'السابق',       desc:'جدول عرفة كاملاً' },
+    { id:'lisan',    emoji:'📣', name:'لسان ذاكر',   desc:'1000 تكبيرة' },
+    { id:'khatim2',  emoji:'📚', name:'الراسخون',    desc:'15 جزء قرآن' },
+    { id:'wasil',    emoji:'🤝', name:'الواصلون',    desc:'5 أعمال خير' },
+  ];
+  const earned = STATE.badges || [];
+  wrap.innerHTML = '';
+  ALL_BADGES.forEach(b => {
+    const done = earned.includes(b.id);
+    const card = document.createElement('div');
+    card.className = 'badge' + (done ? ' earned' : ' locked');
+    card.innerHTML = `
+      <div class="medal">${b.emoji}</div>
+      <div class="name">${b.name}</div>
+      <div class="desc">${done ? '✅ ' : ''}${b.desc}</div>`;
+    wrap.appendChild(card);
+  });
+  const earnedEl = document.getElementById('earned-summary');
+  if (earnedEl) earnedEl.textContent = earned.length + ' / ' + ALL_BADGES.length;
+}
+
+function shareHarvest() {
+  const { points } = calcZadPoints();
+  const fasting = Object.values(STATE.fasting||{}).filter(Boolean).length;
+  const text = `🕋 حصادي في عشر ذي الحجة:
+📿 رصيد الزاد: ${points.toLocaleString()} نقطة
+🌙 صيام: ${fasting} أيام
+📖 قرآن: ${STATE.mushaf?.juz||0} جزء
+🔥 شريط: ${STATE.streak||0} أيام متتالية
+✅ أوسمة: ${(STATE.badges||[]).length}
+
+تابعني على زاد العشر — رفيقك في أفضل أيام الدنيا`;
+  if (navigator.share) {
+    navigator.share({ title: 'حصادي في عشر ذي الحجة', text, url: window.location.href });
+  } else {
+    navigator.clipboard?.writeText(text);
+    showToast('📋 تم نسخ الحصاد — شاركه مع أحبابك');
+  }
+}
+window.shareHarvest = shareHarvest;
+</script>
+</body>
+</html>
