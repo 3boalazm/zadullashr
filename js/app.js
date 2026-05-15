@@ -742,6 +742,13 @@ function initPageTransition() {
     });
   });
 }
+
+// أضف هذا في ملف JS لتحميل الترجمات عند الحاجة فقط
+const tripleMode = localStorage.getItem('triple_mode') === 'true';
+if (!tripleMode) {
+  document.querySelectorAll('.trans, .en').forEach(el => el.style.display = 'none');
+}
+
 function animateVerseTransition(callback) {
   const arEl  = document.getElementById('verse-ar');
   const srcEl = document.getElementById('verse-src');
