@@ -205,19 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
       _origCount();
       updateAllStats();
     };
-    /* Re-wire ring click with patched function */
-    const ring = document.getElementById('ts-ring');
-    if (ring) {
-      ring.replaceWith(ring.cloneNode(true)); /* clear old listeners */
-      const newRing = document.getElementById('ts-ring');
-      if (newRing) {
-        newRing.addEventListener('click', () => window.countTasbih());
-        newRing.setAttribute('tabindex','0');
-        newRing.addEventListener('keydown', e => {
-          if(e.key===' '||e.key==='Enter'){ e.preventDefault(); window.countTasbih(); }
-        });
-      }
-    }
+    /* ring wired via window.countTasbih proxy in app.js — no re-wire needed */
   }
 
   /* ── Space bar shortcut ── */

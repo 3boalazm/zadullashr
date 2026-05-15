@@ -2022,9 +2022,10 @@ function initTasbih() {
   // Ring click
   const ring = document.getElementById('ts-ring');
   if (ring) {
-    ring.addEventListener('click', countTasbih);
+    /* Use window proxy — so page-script patch of window.countTasbih works without re-wire */
+    ring.addEventListener('click', () => window.countTasbih());
     ring.setAttribute('tabindex', '0');
-    ring.addEventListener('keydown', e => { if(e.key===' '||e.key==='Enter'){e.preventDefault();countTasbih();} });
+    ring.addEventListener('keydown', e => { if(e.key===' '||e.key==='Enter'){e.preventDefault();window.countTasbih();} });
   }
 
   // Reset button
