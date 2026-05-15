@@ -32,27 +32,27 @@
       <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
     <div class="theme-row">
-      <span>🌙 الوضع الداكن</span>
+      <span data-i18n="common.darkMode">🌙 الوضع الداكن</span>
       <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
     <nav class="nav">
-      <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
-      <a href="fadael.html" class=""><span class="ico">✨</span>فضائل العشر</a>
-      <a href="worship.html" class="active"><span class="ico">📿</span>جدول العبادات</a>
-      <a href="mushaf.html" class=""><span class="ico">📖</span>مصحف العشر</a>
-      <a href="takbeer.html" class=""><span class="ico">🕋</span>المُسبِّح والمُكبِّر</a>
-      <a href="adhkar.html" class=""><span class="ico">🤲</span>الأذكار والدعاء</a>
-      <a href="odhiya.html" class=""><span class="ico">🐏</span>دليل الأضحية</a>
-      <a href="arafah.html" class=""><span class="ico">🌄</span>يوم عرفة</a>
-      <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
-      <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
-      <a href="hasad.html" class=""><span class="ico">📊</span>حصاد العشر</a>
-      <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
-      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
-      <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
-      <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
-      <a href="report.html" class=""><span class="ico">🚩</span>بلاغ مشكلة</a>
-      <a href="about.html" class=""><span class="ico">👤</span>عن التطبيق</a>
+      <a href="index.html" class=""><span class="ico">🏠</span data-i18n="nav.dashboard">لوحة التحكم</a>
+      <a href="fadael.html" class=""><span class="ico">✨</span data-i18n="nav.virtues">فضائل العشر</a>
+      <a href="worship.html" class="active"><span class="ico">📿</span data-i18n="nav.worship">جدول العبادات</a>
+      <a href="mushaf.html" class=""><span class="ico">📖</span data-i18n="nav.mushaf">مصحف العشر</a>
+      <a href="takbeer.html" class=""><span class="ico">🕋</span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</a>
+      <a href="adhkar.html" class=""><span class="ico">🤲</span data-i18n="nav.adhkar">الأذكار والدعاء</a>
+      <a href="odhiya.html" class=""><span class="ico">🐏</span data-i18n="nav.odhiya">دليل الأضحية</a>
+      <a href="arafah.html" class=""><span class="ico">🌄</span data-i18n="nav.arafah">يوم عرفة</a>
+      <a href="sadaqah.html" class=""><span class="ico">💚</span data-i18n="nav.sadaqah">صدقة العشر</a>
+      <a href="badges.html" class=""><span class="ico">🏅</span data-i18n="nav.badges">أوسمتي</a>
+      <a href="hasad.html" class=""><span class="ico">📊</span data-i18n="nav.hasad">حصاد العشر</a>
+      <a href="kids.html" class=""><span class="ico">🧒</span data-i18n="nav.kids">وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span data-i18n="nav.tasmee">تسميع القرآن</a>
+      <a href="ai.html" class=""><span class="ico">🤖</span data-i18n="nav.ai">تدبّر بالذكاء</a>
+      <a href="settings.html" class=""><span class="ico">⚙️</span data-i18n="nav.settings">الإعدادات</a>
+      <a href="report.html" class=""><span class="ico">🚩</span data-i18n="nav.report">بلاغ مشكلة</a>
+      <a href="about.html" class=""><span class="ico">👤</span data-i18n="nav.about">عن التطبيق</a>
     </nav>
     <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
   </aside>
@@ -62,6 +62,7 @@
       <div class="page-sub">اعقد النية وابدأ — الله يرى كل خير تعمله</div></div>
       <div class="topbar-right">
         <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()" aria-label="بحث في التطبيق" role="searchbox"></div>
+        <button class="lang-btn" onclick="toggleLang()" title="Switch language" style="margin-right:8px">EN</button>
         <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
     </div>
@@ -128,7 +129,8 @@
   <!-- Floating AI Button -->
   <a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
 </div>
-<script src="js/app.js" defer></script>
+  <script src="lang.js" defer></script>
+  <script src="js/app.js" defer></script>
   <!-- ═══ Visual Upgrade v2 ═══════════════════════════════ -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>

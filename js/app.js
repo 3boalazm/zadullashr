@@ -449,6 +449,7 @@ function escapeHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 function initAIChat() {
+  if (!document.getElementById("chat-input")) return;
   const input   = document.getElementById('chat-input');
   const sendBtn = document.getElementById('chat-send');
   if (!input) return;
