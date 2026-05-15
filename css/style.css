@@ -1,0 +1,158 @@
+/* زاد العشر — Design System */
+:root{
+  --green-deep:#0e3b2e;
+  --green-mid:#1a5d47;
+  --green-soft:#2a7a5f;
+  --sand:#f5ecd9;
+  --sand-2:#ebdfc4;
+  --gold:#c9a14a;
+  --gold-soft:#e6c97a;
+  --ink:#10241d;
+  --muted:#6b7a72;
+  --bg:#faf6ec;
+  --card:#ffffff;
+  --border:rgba(14,59,46,.08);
+  --shadow: 0 10px 30px -12px rgba(14,59,46,.18);
+  --radius:18px;
+  --radius-sm:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Tajawal','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--ink);direction:rtl;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* Layout shell */
+.app{min-height:100vh;display:grid;grid-template-columns:280px 1fr;background:
+  radial-gradient(1200px 600px at 90% -10%, rgba(201,161,74,.08), transparent 60%),
+  radial-gradient(800px 500px at -10% 110%, rgba(26,93,71,.08), transparent 60%),
+  var(--bg);
+}
+
+/* Sidebar */
+.sidebar{position:sticky;top:0;height:100vh;padding:28px 20px;background:linear-gradient(180deg,var(--green-deep),var(--green-mid));color:#f4ecd6;display:flex;flex-direction:column;gap:24px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:44px;height:44px;border-radius:14px;background:radial-gradient(circle at 30% 30%, var(--gold-soft), var(--gold));display:grid;place-items:center;color:#3a2a08;font-weight:800;box-shadow:inset 0 -4px 10px rgba(0,0,0,.15)}
+.brand-name{font-size:20px;font-weight:800;letter-spacing:.5px}
+.brand-sub{font-size:12px;color:#cbd9c9;margin-top:2px}
+.nav{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.nav a{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;font-size:14.5px;color:#dfe9d8;transition:.2s}
+.nav a:hover{background:rgba(255,255,255,.06)}
+.nav a.active{background:linear-gradient(90deg,rgba(201,161,74,.22),rgba(201,161,74,.05));color:#fff;border:1px solid rgba(201,161,74,.35)}
+.nav .ico{width:22px;text-align:center}
+.side-foot{margin-top:auto;font-size:12px;color:#a8b8a4;border-top:1px dashed rgba(255,255,255,.12);padding-top:14px}
+
+/* Main */
+.main{padding:34px 40px 60px;max-width:1280px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+.page-title{font-size:30px;font-weight:800;color:var(--green-deep)}
+.page-title span{color:var(--gold)}
+.page-sub{color:var(--muted);font-size:14.5px;margin-top:4px}
+.search{background:#fff;border:1px solid var(--border);padding:10px 16px;border-radius:999px;display:flex;gap:10px;align-items:center;min-width:260px;box-shadow:var(--shadow)}
+.search input{border:0;outline:0;background:transparent;flex:1;font-family:inherit;font-size:14px}
+
+/* Cards */
+.grid{display:grid;gap:20px}
+.cols-3{grid-template-columns:repeat(3,1fr)}
+.cols-2{grid-template-columns:repeat(2,1fr)}
+.cols-4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:980px){.cols-3,.cols-4{grid-template-columns:repeat(2,1fr)}.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}}
+@media(max-width:600px){.cols-2,.cols-3,.cols-4{grid-template-columns:1fr}.main{padding:22px}}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.card h3{font-size:17px;color:var(--green-deep);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.card p{color:var(--muted);font-size:14px}
+.card .ico-lg{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--sand),var(--sand-2));display:grid;place-items:center;color:var(--green-deep);font-size:22px;margin-bottom:14px}
+
+/* Hero countdown */
+.hero{background:linear-gradient(135deg,var(--green-deep),var(--green-mid) 70%,var(--green-soft));color:#fff;border-radius:24px;padding:34px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.hero::before{content:"";position:absolute;inset:auto -60px -120px auto;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.3),transparent 70%)}
+.hero-eyebrow{color:var(--gold-soft);font-size:13px;letter-spacing:2px;font-weight:700;text-transform:uppercase}
+.hero h1{font-size:34px;margin:8px 0 6px;font-weight:800}
+.hero p{color:#d6e3d2;max-width:560px}
+.countdown{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
+.cd-box{background:rgba(255,255,255,.08);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:14px 18px;min-width:88px;text-align:center}
+.cd-num{font-size:32px;font-weight:800;color:var(--gold-soft);font-feature-settings:"tnum"}
+.cd-lbl{font-size:12px;color:#cbd9c9;margin-top:2px}
+
+/* Verse */
+.verse{background:linear-gradient(135deg,#fff, #fbf3df);border:1px solid var(--border);border-radius:var(--radius);padding:26px;text-align:center;position:relative;box-shadow:var(--shadow)}
+.verse .ar{font-family:'Amiri','Scheherazade New',serif;font-size:26px;color:var(--green-deep);line-height:2;margin:8px 0}
+.verse .src{color:var(--gold);font-weight:700;font-size:13px}
+
+/* Progress */
+.progress{height:10px;background:var(--sand-2);border-radius:999px;overflow:hidden;margin-top:8px}
+.progress > span{display:block;height:100%;background:linear-gradient(90deg,var(--green-soft),var(--gold));border-radius:999px}
+
+/* Checklist */
+.check{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid var(--border);border-radius:14px;background:#fff;margin-bottom:10px;transition:.2s}
+.check:hover{border-color:var(--green-soft);transform:translateX(-3px)}
+.check .box{width:26px;height:26px;border-radius:8px;border:2px solid var(--green-soft);display:grid;place-items:center;color:transparent;font-weight:800;flex-shrink:0}
+.check.done .box{background:var(--green-soft);color:#fff}
+.check.done .label{text-decoration:line-through;color:var(--muted)}
+.check .label{flex:1;font-weight:600}
+.check .meta{color:var(--muted);font-size:12px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;border:0;transition:.2s;font-size:14px}
+.btn-primary{background:var(--green-deep);color:#fff}
+.btn-primary:hover{background:var(--green-mid)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:#3a2a08}
+.btn-ghost{background:transparent;color:var(--green-deep);border:1px solid var(--green-soft)}
+
+/* Tasbeeh / counter */
+.tasbeeh{background:linear-gradient(180deg,var(--green-deep),#0a2a20);color:#fff;border-radius:28px;padding:40px;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.tasbeeh .word{font-family:'Amiri',serif;font-size:42px;color:var(--gold-soft);margin-bottom:10px}
+.tasbeeh .count{font-size:88px;font-weight:800;color:#fff;font-feature-settings:"tnum";line-height:1}
+.tasbeeh .ring{width:220px;height:220px;border-radius:50%;border:4px solid rgba(201,161,74,.3);display:grid;place-items:center;margin:24px auto;cursor:pointer;background:radial-gradient(circle at 30% 30%, rgba(201,161,74,.15),transparent 70%);transition:.15s}
+.tasbeeh .ring:active{transform:scale(.96)}
+
+/* Mushaf */
+.mushaf{background:linear-gradient(180deg,#fffaf0,#fbf2dc);border:1px solid var(--gold-soft);border-radius:var(--radius);padding:36px;font-family:'Amiri',serif;font-size:24px;line-height:2.4;color:var(--ink);text-align:center;box-shadow:var(--shadow)}
+.mushaf .header{display:flex;justify-content:space-between;font-family:'Tajawal',sans-serif;font-size:13px;color:var(--gold);font-weight:700;border-bottom:1px solid var(--gold-soft);padding-bottom:10px;margin-bottom:20px}
+.aya-num{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--gold);font-size:13px;color:var(--gold);font-family:'Tajawal',sans-serif;margin:0 6px;vertical-align:middle}
+
+/* Badges */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:18px}
+.badge{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px 16px;text-align:center;box-shadow:var(--shadow);transition:.2s}
+.badge:hover{transform:translateY(-4px)}
+.badge .medal{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--gold-soft),var(--gold));display:grid;place-items:center;margin:0 auto 12px;font-size:34px;color:#3a2a08;box-shadow:inset 0 -6px 14px rgba(0,0,0,.18), 0 6px 20px -8px rgba(201,161,74,.6)}
+.badge.locked .medal{background:#e3e0d6;color:#9aa094;box-shadow:none}
+.badge .name{font-weight:800;color:var(--green-deep);font-size:14.5px}
+.badge .desc{color:var(--muted);font-size:12px;margin-top:4px}
+
+/* Timeline (يوم عرفة) */
+.timeline{position:relative;padding-right:30px}
+.timeline::before{content:"";position:absolute;top:0;bottom:0;right:10px;width:2px;background:linear-gradient(180deg,var(--gold),var(--green-soft))}
+.tl-item{position:relative;padding:18px 22px;background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:14px;box-shadow:var(--shadow)}
+.tl-item::before{content:"";position:absolute;top:24px;right:-25px;width:14px;height:14px;border-radius:50%;background:var(--gold);border:3px solid var(--bg)}
+.tl-time{color:var(--gold);font-weight:800;font-size:13px;letter-spacing:.5px}
+.tl-title{font-weight:800;color:var(--green-deep);margin:4px 0 6px;font-size:16px}
+.tl-desc{color:var(--muted);font-size:14px}
+
+/* Stats row */
+.stat{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.stat .v{font-size:28px;font-weight:800;color:var(--green-deep)}
+.stat .l{color:var(--muted);font-size:13px;margin-top:2px}
+.stat .ic{float:left;width:42px;height:42px;border-radius:12px;background:var(--sand);color:var(--gold);display:grid;place-items:center;font-size:20px}
+
+/* Section title */
+.section-title{display:flex;align-items:center;gap:10px;margin:36px 0 16px;font-size:18px;color:var(--green-deep);font-weight:800}
+.section-title::before{content:"";width:6px;height:22px;background:var(--gold);border-radius:3px}
+
+/* Tag */
+.tag{display:inline-block;padding:4px 12px;border-radius:999px;background:var(--sand);color:var(--green-deep);font-size:12px;font-weight:700;margin-left:6px}
+.tag.gold{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#3a2a08}
+
+/* Audio item */
+.audio{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid var(--border);border-radius:14px;background:#fff;margin-bottom:10px}
+.audio .play{width:42px;height:42px;border-radius:50%;background:var(--green-deep);color:var(--gold-soft);display:grid;place-items:center;cursor:pointer}
+.audio .info{flex:1}
+.audio .info b{color:var(--green-deep)}
+.audio .info small{color:var(--muted);display:block}
+
+/* Ahkam list */
+.rules li{list-style:none;padding:14px 18px;background:#fff;border-right:4px solid var(--gold);border-radius:10px;margin-bottom:10px;color:var(--ink);box-shadow:0 4px 14px -8px rgba(14,59,46,.15)}
+.rules li b{color:var(--green-deep)}
+
+/* Footer note */
+.foot-note{margin-top:40px;text-align:center;color:var(--muted);font-size:13px;padding:20px;border-top:1px dashed var(--border)}
