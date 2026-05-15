@@ -2384,3 +2384,342 @@ html[data-theme="oled"] .ts-stat-mini .v { color: var(--sys-green); }
   .dc-arabic { font-size: 15px; }
   .ts-stats-row { grid-template-columns: repeat(2,1fr); }
 }
+
+/* ══════════════════════════════════════════════════════════
+   ADHKAR PAGE v2 — Tabs + Cards + Custom Dhikr
+   ══════════════════════════════════════════════════════════ */
+.az-tabs{display:flex;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:6px;margin-bottom:22px;box-shadow:var(--shadow-sm);flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.az-tabs::-webkit-scrollbar{display:none}
+.az-tab{flex:1;min-width:80px;padding:10px;border-radius:12px;border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s var(--ease);white-space:nowrap;text-align:center}
+.az-tab:hover{background:var(--sand);color:var(--ink)}
+.az-tab.active{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;box-shadow:0 4px 12px rgba(14,59,46,.25)}
+html[data-theme="dark"] .az-tab.active,html[data-theme="oled"] .az-tab.active{background:linear-gradient(135deg,var(--sys-green),#2eb84d);color:#001a08}
+.az-tab .tab-ico{display:block;font-size:18px;margin-bottom:2px}
+.az-section-prog{height:5px;background:var(--sand-2);border-radius:99px;overflow:hidden;margin-bottom:18px}
+.az-section-prog span{display:block;height:100%;background:linear-gradient(90deg,var(--green-soft),var(--gold));border-radius:99px;transition:width .6s var(--ease);will-change:width}
+.az-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 18px 14px;margin-bottom:12px;box-shadow:var(--shadow-sm);transition:border-color .2s,background .2s;position:relative}
+.az-card:hover{border-color:var(--gold)}
+.az-card.az-done{border-color:rgba(77,216,102,.4);background:rgba(77,216,102,.03)}
+html[data-theme="oled"] .az-card.az-done{background:rgba(77,216,102,.05)}
+.az-delete{position:absolute;top:10px;left:10px;width:26px;height:26px;border-radius:50%;border:none;background:rgba(255,59,48,.12);color:var(--sys-red);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,transform .1s}
+.az-delete:hover{background:rgba(255,59,48,.25);transform:scale(1.1)}
+.az-arabic{font-family:'Amiri',serif;font-size:19px;line-height:1.9;color:var(--green-deep);margin-bottom:10px}
+html[data-theme="dark"] .az-arabic,html[data-theme="oled"] .az-arabic{color:var(--sys-yellow)}
+.az-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.az-label{font-size:14px;font-weight:700;color:var(--ink)}
+.az-source{font-size:11px}
+.az-count-row{display:flex;align-items:center;gap:8px;margin-top:8px}
+.az-cnt-num{font-size:16px;font-weight:900;color:var(--green-deep);min-width:72px;font-feature-settings:"tnum"}
+html[data-theme="dark"] .az-cnt-num,html[data-theme="oled"] .az-cnt-num{color:var(--sys-green)}
+.az-done .az-cnt-num{color:var(--sys-green)}
+.az-btn-count{padding:9px 20px;border-radius:99px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s}
+.az-btn-count:hover{background:var(--green-mid);transform:translateY(-1px)}
+.az-btn-count:active{transform:scale(.96)}
+html[data-theme="dark"] .az-btn-count,html[data-theme="oled"] .az-btn-count{background:var(--sys-green);color:#001a08}
+.az-btn-reset{padding:9px 14px;border-radius:99px;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:inherit;font-size:13px;cursor:pointer;transition:all .15s}
+.az-btn-reset:hover{border-color:var(--sys-red);color:var(--sys-red)}
+.az-add-form{background:var(--card);border:1.5px dashed var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.az-add-form:focus-within{border-color:var(--gold);border-style:solid}
+.az-add-form label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px;text-align:right}
+.az-add-form textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--sand);font-family:'Amiri',serif;font-size:18px;color:var(--green-deep);line-height:1.8;resize:vertical;min-height:80px;direction:rtl;margin-bottom:10px}
+html[data-theme="dark"] .az-add-form textarea,html[data-theme="oled"] .az-add-form textarea{background:var(--sand-2);color:var(--sys-yellow);border-color:var(--border)}
+.az-add-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.az-add-field{display:flex;flex-direction:column;gap:4px}
+.az-add-field input{padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:var(--sand);font-family:inherit;font-size:13px;color:var(--ink);direction:rtl}
+html[data-theme="dark"] .az-add-field input,html[data-theme="oled"] .az-add-field input{background:var(--sand-2);color:var(--ink)}
+.az-add-field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,161,74,.15)}
+@media(max-width:600px){.az-tab{font-size:11px;padding:9px 8px;min-width:68px}.az-arabic{font-size:17px}.az-add-row{flex-direction:column}.az-add-row .btn{width:100%;justify-content:center}}
+
+/* Wird system — mushaf.html */
+.wird-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);margin-bottom:4px;transition:all var(--t)}
+.wird-plan-tag{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--sand),var(--sand-2));border-radius:99px;padding:4px 14px;font-size:12px;font-weight:700;color:var(--green-deep);margin-bottom:16px}
+html[data-theme="dark"] .wird-plan-tag,html[data-theme="oled"] .wird-plan-tag{color:var(--sys-green)}
+.wird-range-row{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-bottom:16px}
+.wird-bound{background:var(--sand);border-radius:14px;padding:14px 16px;text-align:center;border:1px solid var(--border);transition:background var(--t)}
+html[data-theme="dark"] .wird-bound,html[data-theme="oled"] .wird-bound{background:var(--sand-2)}
+.wird-bound-lbl{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}
+.wird-bound-val{font-size:18px;font-weight:800;color:var(--green-deep);line-height:1.2}
+html[data-theme="dark"] .wird-bound-val,html[data-theme="oled"] .wird-bound-val{color:var(--sys-green)}
+.wird-bound-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.wird-arrow{font-size:22px;color:var(--gold);text-align:center;opacity:.7}
+.wird-complete-btn{width:100%;padding:14px;border-radius:14px;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;transition:all .2s var(--ease);display:flex;align-items:center;justify-content:center;gap:10px}
+.wird-complete-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.wird-complete-btn:active{transform:scale(.97)}
+html[data-theme="dark"] .wird-complete-btn,html[data-theme="oled"] .wird-complete-btn{background:linear-gradient(135deg,var(--sys-green),#2eb84d);color:#001a08}
+.wird-done-badge{width:100%;padding:12px;border-radius:14px;background:rgba(77,216,102,.12);border:1.5px solid rgba(77,216,102,.35);color:var(--sys-green);font-size:14px;font-weight:700;display:none;align-items:center;justify-content:center;gap:10px}
+.wird-tomorrow{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:all var(--t)}
+.wird-tomorrow.locked{opacity:.55;pointer-events:none}
+.wird-tomorrow-lock{position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(0,0,0,.03) 0,rgba(0,0,0,.03) 10px,transparent 10px,transparent 20px);display:none;align-items:center;justify-content:center;font-size:28px}
+.wird-tomorrow.locked .wird-tomorrow-lock{display:flex}
+.wird-tomorrow-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.wird-tomorrow-ico{font-size:18px}
+.wird-tomorrow-lbl{font-size:13px;font-weight:700;color:var(--muted)}
+.wird-tomorrow-range{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.wird-tomorrow-bound{background:var(--sand-2);border-radius:10px;padding:10px 14px;text-align:center}
+.wird-tomorrow-bound .v{font-size:15px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .wird-tomorrow-bound .v,html[data-theme="oled"] .wird-tomorrow-bound .v{color:var(--sys-green)}
+.wird-tomorrow-bound .l{font-size:10px;color:var(--muted);margin-top:2px}
+.plan-card{cursor:pointer;transition:border-color .2s,transform .15s,box-shadow .2s}
+.plan-card:hover{border-color:var(--gold);transform:translateY(-3px)}
+.plan-card.active{border-color:var(--gold)!important;box-shadow:0 0 0 3px rgba(201,161,74,.2)}
+.plan-card.active .ico-lg{background:linear-gradient(135deg,var(--gold-soft),var(--gold))}
+/* ══════════════════════════════════════════════════════════
+   VISUAL UPGRADE v2 — Glassmorphism + GSAP + Ambient
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Ambient canvas ─────────────────────────────────────── */
+#ambient-bg {
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+html[data-theme="light"] #ambient-bg { mix-blend-mode: multiply; opacity:.6; }
+html[data-theme="dark"]  #ambient-bg,
+html[data-theme="oled"]  #ambient-bg { mix-blend-mode: screen; }
+
+/* ── Sticky Glass Topbar ────────────────────────────────── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  margin: -34px -38px 28px;
+  padding: 14px 38px;
+  border-bottom: 1px solid transparent;
+  transition: backdrop-filter .4s var(--ease), background .4s var(--ease),
+              border-color .4s, box-shadow .4s;
+}
+.topbar.glass-active {
+  backdrop-filter: blur(22px) saturate(1.9);
+  -webkit-backdrop-filter: blur(22px) saturate(1.9);
+  background: rgba(250,246,236,.88) !important;
+  border-bottom-color: rgba(201,161,74,.14);
+  box-shadow: 0 6px 28px rgba(14,59,46,.08);
+}
+html[data-theme="dark"] .topbar.glass-active {
+  background: rgba(8,12,9,.88) !important;
+  border-bottom-color: rgba(255,255,255,.06);
+  box-shadow: 0 6px 28px rgba(0,0,0,.5);
+}
+html[data-theme="oled"] .topbar.glass-active {
+  background: rgba(0,0,0,.92) !important;
+  border-bottom-color: rgba(255,255,255,.04);
+  box-shadow: 0 6px 28px rgba(0,0,0,.8);
+}
+@media(max-width:768px) {
+  .topbar { margin: -70px -16px 20px; padding: 12px 56px 12px 16px; }
+}
+
+/* ── Gradient text headings ─────────────────────────────── */
+.page-title {
+  background: linear-gradient(135deg, var(--green-deep) 30%, var(--green-soft));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.page-title span {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold-soft) 80%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+html[data-theme="dark"] .page-title,
+html[data-theme="oled"] .page-title {
+  background: linear-gradient(135deg, #a0f0b4, var(--sys-green));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+html[data-theme="dark"] .page-title span,
+html[data-theme="oled"] .page-title span {
+  background: linear-gradient(135deg, var(--sys-yellow), #ffe590);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Section title gradient bar ─────────────────────────── */
+.section-title::before {
+  background: linear-gradient(180deg, var(--gold), var(--green-soft), var(--sys-blue));
+  background-size: 100% 200%;
+  animation: barGradient 3s ease infinite;
+}
+@keyframes barGradient {
+  0%,100%{ background-position:0 0; }
+  50%     { background-position:0 100%; }
+}
+
+/* ── Card shimmer sweep on hover ────────────────────────── */
+.card {
+  overflow: hidden;
+  transform: translateZ(0); /* GPU layer */
+}
+.card::after {
+  content: '';
+  position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(110deg,
+    rgba(255,255,255,0)   0%,
+    rgba(255,255,255,.09) 48%,
+    rgba(255,255,255,0)   100%);
+  transform: translateX(-120%);
+  transition: transform .65s var(--ease);
+  pointer-events: none;
+}
+.card:hover::after { transform: translateX(120%); }
+html[data-theme="oled"] .card::after {
+  background: linear-gradient(110deg,
+    rgba(255,255,255,0)   0%,
+    rgba(255,255,255,.05) 48%,
+    rgba(255,255,255,0)   100%);
+}
+
+/* ── Glassmorphism variant cards ────────────────────────── */
+.card-glass,
+.hero.card-glass {
+  background: rgba(255,255,255,.7) !important;
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  border-color: rgba(255,255,255,.45) !important;
+}
+html[data-theme="dark"] .card-glass {
+  background: rgba(16,25,18,.75) !important;
+  border-color: rgba(255,255,255,.08) !important;
+}
+html[data-theme="oled"] .card-glass {
+  background: rgba(0,0,0,.82) !important;
+  border-color: rgba(255,255,255,.06) !important;
+}
+
+/* ── Hero glass overlay ─────────────────────────────────── */
+.hero::before { filter: blur(50px); opacity:.35; }
+
+/* ── Badge glow enhancement ─────────────────────────────── */
+.badge.earned {
+  box-shadow: 0 0 0 1.5px rgba(201,161,74,.25),
+              0 10px 30px -8px rgba(14,59,46,.12);
+  transition: box-shadow .4s, transform .3s;
+}
+.badge.earned:hover {
+  box-shadow: 0 0 0 2px rgba(201,161,74,.45),
+              0 14px 36px -8px rgba(14,59,46,.18),
+              0 0 24px rgba(201,161,74,.2);
+  transform: translateY(-4px) scale(1.02);
+}
+html[data-theme="dark"] .badge.earned,
+html[data-theme="oled"] .badge.earned {
+  box-shadow: 0 0 0 1.5px rgba(255,229,77,.2),
+              0 10px 30px -8px rgba(0,0,0,.4);
+}
+html[data-theme="dark"] .badge.earned:hover,
+html[data-theme="oled"] .badge.earned:hover {
+  box-shadow: 0 0 0 2px rgba(255,229,77,.4),
+              0 0 30px rgba(255,229,77,.18),
+              0 14px 36px -8px rgba(0,0,0,.5);
+}
+
+/* ── Tasbih ring glow ───────────────────────────────────── */
+.ts-ring-svg {
+  filter: drop-shadow(0 0 16px rgba(201,161,74,.3));
+  transition: filter .3s;
+}
+.ts-ring-tap:hover ~ .ts-ring-svg,
+.ts-ring-wrap:hover .ts-ring-svg {
+  filter: drop-shadow(0 0 28px rgba(201,161,74,.55));
+}
+
+/* ── Button elevation ───────────────────────────────────── */
+.btn-gold {
+  box-shadow: 0 4px 18px -4px rgba(201,161,74,.45);
+  transition: background var(--t), opacity var(--t), transform var(--t),
+              box-shadow var(--t);
+}
+.btn-gold:hover {
+  box-shadow: 0 8px 26px -4px rgba(201,161,74,.6);
+}
+.btn-primary {
+  box-shadow: 0 4px 14px -4px rgba(14,59,46,.3);
+  transition: background var(--t), transform var(--t), box-shadow var(--t);
+}
+.btn-primary:hover {
+  box-shadow: 0 8px 22px -4px rgba(14,59,46,.4);
+}
+html[data-theme="dark"] .btn-primary,
+html[data-theme="oled"] .btn-primary {
+  box-shadow: 0 4px 14px -4px rgba(77,216,102,.3);
+}
+
+/* ── Checklist glow-done ────────────────────────────────── */
+.check.done {
+  box-shadow: 0 0 0 2px rgba(77,216,102,.12);
+  transition: box-shadow .4s, background var(--t), border-color var(--t), transform var(--t);
+}
+.check.done:hover { box-shadow: 0 0 0 4px rgba(77,216,102,.18); }
+
+/* ── Fast day glow ──────────────────────────────────────── */
+.fast-day.done {
+  box-shadow: 0 0 16px rgba(52,199,89,.4);
+}
+.fast-day.arafah.done {
+  box-shadow: 0 0 20px rgba(201,161,74,.5);
+}
+
+/* ── Glass sidebar (mobile) ─────────────────────────────── */
+@media(max-width:768px) {
+  .sidebar {
+    backdrop-filter: blur(28px) saturate(2.2);
+    -webkit-backdrop-filter: blur(28px) saturate(2.2);
+  }
+}
+
+/* ── Scrollbar upgrade ──────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--gold-dark), var(--green-soft));
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* ── Progress bar glow ──────────────────────────────────── */
+.progress > span {
+  box-shadow: 0 0 8px rgba(42,122,95,.35);
+}
+html[data-theme="dark"] .progress > span,
+html[data-theme="oled"] .progress > span {
+  box-shadow: 0 0 10px rgba(77,216,102,.3);
+}
+
+/* ── Toast upgrade ──────────────────────────────────────── */
+.toast {
+  border: 1px solid rgba(255,255,255,.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  letter-spacing: .02em;
+}
+
+/* ── Stat card hover glow ───────────────────────────────── */
+.stat:hover {
+  box-shadow: var(--shadow), 0 0 0 1.5px rgba(201,161,74,.2);
+}
+
+/* ── Plan card shimmer ──────────────────────────────────── */
+.plan-card.active::after { transform: translateX(120%); }
+
+/* ── Dhikr card 3D perspective ──────────────────────────── */
+.dhikr-card { transform-style: preserve-3d; }
+
+/* ── Verse card glow ────────────────────────────────────── */
+.verse {
+  box-shadow: var(--shadow), 0 0 0 1px rgba(201,161,74,.1);
+  transition: box-shadow .4s var(--ease), background var(--t);
+}
+.verse:hover {
+  box-shadow: var(--shadow), 0 0 28px rgba(201,161,74,.15);
+}
+
+/* ── Arafah time-bg glass ───────────────────────────────── */
+.time-bg {
+  backdrop-filter: blur(4px) saturate(1.3);
+  -webkit-backdrop-filter: blur(4px) saturate(1.3);
+}
+
+/* ── Reduce motion — keep GSAP but respect user ─────────── */
+@media(prefers-reduced-motion:reduce) {
+  .card::after { display: none; }
+  #ambient-bg { display: none; }
+  .section-title::before { animation: none; }
+}
