@@ -1010,6 +1010,9 @@ function initPWA() {
   }
 
   window.addEventListener('beforeinstallprompt', e => {
+    /* e.preventDefault() suppresses browser mini-infobar — intentional.
+       Chrome warns "Banner not shown" — this is expected behavior, not an error.
+       We show our own custom install banner instead. */
     e.preventDefault();
     deferredInstall = e;
     showInstallBanner();
@@ -1619,13 +1622,19 @@ function checkMilestone(id, btn) {
 window.checkMilestone = checkMilestone;
 
 function updateArafahProgress() {
-  const done = Object.values(STATE.arafah?.milestones || {}).filter(Boolean).length;
+  const done  = Object.values(STATE.arafah?.milestones || {}).filter(Boolean).length;
   const total = ARAFAH_MILESTONES.length;
-  const pct = Math.round((done / total) * 100);
-  const bar = document.getElementById('af-prog-bar');
-  const txt = document.getElementById('af-prog-txt');
-  if (bar) bar.style.width = pct + '%';
-  if (txt) txt.textContent = `${done} من ${total} محطات مكتملة`;
+  const pct   = Math.round((done / total) * 100);
+  const bar   = document.getElementById('af-prog-bar');
+  const txt   = document.getElementById('af-prog-txt');
+  const ring  = document.getElementById('af-prog-ring');
+  if (bar)  bar.style.width   = pct + '%';
+  if (txt)  txt.textContent   = `${done} من ${total} محطات مكتملة`;
+  /* Conic gradient ring — no override hack needed */
+  if (ring) {
+    ring.style.background = `conic-gradient(var(--gold) ${pct}%, var(--sand-2) ${pct}%)`;
+    ring.textContent = pct + '%';
+  }
 }
 
 function countArafahDhikr() {

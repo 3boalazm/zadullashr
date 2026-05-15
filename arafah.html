@@ -3,9 +3,10 @@
 <head>
 <title>يوم عرفة — البرنامج الكامل — زاد العشر</title>
 <meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕋</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0e3b2e">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -148,20 +149,7 @@
       </button>
     </div>
 
-    <script>
-    // Update progress ring with conic gradient
-    const _origUpdateArafahProgress = updateArafahProgress;
-    updateArafahProgress = function() {
-      _origUpdateArafahProgress();
-      const done = Object.values(STATE.arafah?.milestones || {}).filter(Boolean).length;
-      const pct  = Math.round((done / 6) * 100);
-      const ring = document.getElementById('af-prog-ring');
-      if (ring) {
-        ring.style.background = `conic-gradient(var(--gold) ${pct}%, var(--sand-2) ${pct}%)`;
-        ring.textContent = pct + '%';
-      }
-    };
-    </script>
+    <!-- progress ring update moved into app.js updateArafahProgress() -->
   </main>
 </div>
 <script src="js/app.js"></script>
