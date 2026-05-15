@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗓️</text></svg>">
+<title>التقويم الهجري — زاد العشر</title>
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.page-title,.section-title,h1,h2,h3,.brand-name{font-family:'ThmanyahSans','Tajawal',sans-serif}
+
+/* ── Today banner ─────────────────────────────────────────── */
+.today-banner{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:20px;padding:24px;margin-bottom:18px;color:#fff;display:flex;align-items:center;gap:18px;position:relative;overflow:hidden}
+.today-banner::after{content:'📅';position:absolute;left:16px;bottom:8px;font-size:60px;opacity:.1}
+.tb-date{flex:1}
+.tb-hijri{font-size:26px;font-weight:900;font-family:'ThmanyahSans','Tajawal',sans-serif;line-height:1.2}
+.tb-greg{font-size:13px;opacity:.8;margin-top:4px;direction:ltr}
+.tb-special{display:inline-flex;align-items:center;gap:6px;background:rgba(201,161,74,.3);border:1px solid rgba(201,161,74,.5);color:var(--gold2,#e6c97a);padding:6px 14px;border-radius:99px;font-size:13px;font-weight:700;margin-top:10px;font-family:'ThmanyahSans','Tajawal',sans-serif}
+.tb-num{font-size:48px;font-weight:900;font-family:'ThmanyahSans','Tajawal',sans-serif;color:var(--gold2,#e6c97a);flex-shrink:0;line-height:1}
+
+/* ── Calendar grid ────────────────────────────────────────── */
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cal-nav{display:flex;align-items:center;gap:10px}
+.cal-nav-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);font-size:16px;cursor:pointer;display:grid;place-items:center;transition:all .2s;color:var(--ink)}
+.cal-nav-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
+.cal-month-lbl{font-size:16px;font-weight:800;font-family:'ThmanyahSans','Tajawal',sans-serif;color:var(--green-deep);text-align:center;min-width:180px}
+html[data-theme="dark"] .cal-month-lbl,html[data-theme="oled"] .cal-month-lbl{color:var(--sys-green)}
+
+/* Week header */
+.cal-week-row{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
+.cal-wday{text-align:center;font-size:11px;font-weight:700;color:var(--muted);padding:4px 0;font-family:'ThmanyahSans','Tajawal',sans-serif}
+.cal-wday.friday{color:var(--gold-dark)}
+
+/* Day cells */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-day{background:var(--card);border-radius:10px;padding:6px 4px;min-height:56px;position:relative;cursor:pointer;transition:all .15s;border:1.5px solid transparent;display:flex;flex-direction:column;align-items:center;gap:2px}
+.cal-day:hover{border-color:var(--gold);background:var(--gold-pale)}
+.cal-day.empty{background:transparent;pointer-events:none}
+.cal-day.other-month{opacity:.35}
+.cal-day.today-day{border-color:var(--green-soft);background:rgba(42,122,95,.08)}
+.cal-day.special-day{border-color:var(--gold);background:rgba(201,161,74,.1)}
+.cal-day.arafah-day{border-color:#ff9500;background:rgba(255,149,0,.1)}
+.cal-day.eid-day{border-color:#ff3b30;background:rgba(255,59,48,.1)}
+
+.cd-greg{font-size:15px;font-weight:700;color:var(--ink);line-height:1}
+.cd-hijri{font-size:10px;color:var(--muted);font-weight:600}
+.cal-day.today-day .cd-greg{color:var(--green-deep);font-size:16px}
+html[data-theme="dark"] .cal-day.today-day .cd-greg,html[data-theme="oled"] .cal-day.today-day .cd-greg{color:var(--sys-green)}
+.cd-badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:99px;margin-top:1px;font-family:'ThmanyahSans','Tajawal',sans-serif}
+.cd-badge.arafah{background:#ff9500;color:#fff}
+.cd-badge.eid{background:#ff3b30;color:#fff}
+.cd-badge.special{background:var(--gold);color:#3a2a08}
+.friday-col .cd-greg{color:var(--gold-dark)}
+
+/* Month/year switch */
+.type-tabs{display:flex;background:var(--sand);border-radius:99px;padding:3px;margin-bottom:12px;width:fit-content}
+.type-tab{padding:6px 16px;border-radius:99px;border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted);transition:all .2s}
+.type-tab.active{background:var(--green-deep);color:#fff}
+html[data-theme="dark"] .type-tab.active,html[data-theme="oled"] .type-tab.active{background:var(--sys-green);color:#001a08}
+
+/* Legend */
+.cal-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+
+/* Day popup */
+.day-popup{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.day-popup.show{opacity:1;pointer-events:all}
+.day-popup-card{background:var(--card);border-radius:24px 24px 0 0;padding:28px 24px 40px;width:100%;max-width:480px;transform:translateY(100%);transition:transform .3s var(--ease)}
+.day-popup.show .day-popup-card{transform:translateY(0)}
+.dp-close{position:absolute;top:16px;left:20px;width:32px;height:32px;border-radius:50%;background:var(--sand-2);border:none;cursor:pointer;font-size:16px;display:grid;place-items:center;color:var(--muted)}
+
+@media(max-width:480px){
+  .cal-day{min-height:46px;padding:4px 2px}
+  .cd-greg{font-size:13px}
+  .cd-hijri{font-size:9px}
+  .tb-hijri{font-size:20px}
+  .tb-num{font-size:36px}
+}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+</head>
+<body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark">🗓️</div>
+      <div><div class="brand-name" data-i18n="brand.name">زاد العشر</div><div class="brand-sub" data-i18n="brand.sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div class="theme-row">
+      <span data-i18n="common.darkMode">🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="hijri.html" class="active"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <a href="worship.html"><span class="ico">📿</span><span>جدول العبادات</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="summary.html"><span class="ico">📈</span><span>إحصاء العشر</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#e6c97a,#c9a14a);display:grid;place-items:center;font-size:18px">🗓️</div>
+        <div>
+          <div class="page-title">التقويم <span>الهجري</span></div>
+          <div class="page-sub" id="hijri-page-sub">الموافقة الهجرية — الميلادية</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang()">EN</button>
+        <button class="btn-theme" onclick="toggleTheme()" aria-label="المظهر">🌙</button>
+      </div>
+    </div>
+
+    <!-- Today banner -->
+    <div class="today-banner">
+      <div class="tb-num" id="tb-day-num">—</div>
+      <div class="tb-date">
+        <div class="tb-hijri" id="tb-hijri-full">جارٍ التحميل...</div>
+        <div class="tb-greg" id="tb-greg-full"></div>
+        <div class="tb-special" id="tb-special-name" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- Calendar type toggle -->
+    <div class="type-tabs">
+      <button class="type-tab active" id="tab-hijri" onclick="switchType('hijri')">هجري</button>
+      <button class="type-tab" id="tab-greg" onclick="switchType('greg')">ميلادي</button>
+    </div>
+
+    <!-- Month navigation -->
+    <div class="cal-header">
+      <div class="cal-nav">
+        <button class="cal-nav-btn" onclick="prevMonth()">›</button>
+        <div class="cal-month-lbl" id="cal-month-lbl">—</div>
+        <button class="cal-nav-btn" onclick="nextMonth()">‹</button>
+      </div>
+      <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px" onclick="goToToday()">اليوم</button>
+    </div>
+
+    <!-- Week days header -->
+    <div class="cal-week-row">
+      <div class="cal-wday">الأحد</div>
+      <div class="cal-wday">الاثنين</div>
+      <div class="cal-wday">الثلاثاء</div>
+      <div class="cal-wday">الأربعاء</div>
+      <div class="cal-wday">الخميس</div>
+      <div class="cal-wday friday">الجمعة</div>
+      <div class="cal-wday">السبت</div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+
+    <!-- Legend -->
+    <div class="cal-legend">
+      <div class="leg-item"><div class="leg-dot" style="background:var(--green-soft)"></div>اليوم</div>
+      <div class="leg-item"><div class="leg-dot" style="background:rgba(201,161,74,.6)"></div>أيام العشر</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#ff9500"></div>يوم عرفة</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#ff3b30"></div>العيد</div>
+    </div>
+
+    <!-- Special events list -->
+    <div class="section-title" style="margin-top:20px">⭐ أيام العشر في هذا الشهر</div>
+    <div id="special-events-list" class="card" style="padding:14px">
+      <div style="text-align:center;color:var(--muted);font-size:13px">جارٍ التحميل...</div>
+    </div>
+  </main>
+
+  <!-- Day popup -->
+  <div class="day-popup" id="day-popup" onclick="closeDayPopup(event)">
+    <div class="day-popup-card">
+      <button class="dp-close" onclick="closeDayPopup()">✕</button>
+      <div id="dp-content" style="padding-top:8px"></div>
+    </div>
+  </div>
+
+  <a href="ai.html" class="fab-ai" aria-label="AI">🤖</a>
+</div>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script>
+/* ════════════════════════════════════════════════════════════
+   HIJRI CALENDAR — Aladhan API
+   Reference confirmed: 1 Dhul Hijjah 1447 = May 18, 2026
+   ════════════════════════════════════════════════════════════ */
+
+const HIJRI_MONTHS_AR = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+const GREG_MONTHS_AR  = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const WEEK_AR = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+
+/* Confirmed reference */
+const DH1 = new Date(2026, 4, 18); /* May 18, 2026 = 1 Dhul Hijjah 1447 */
+
+let calType   = 'hijri'; /* 'hijri' | 'greg' */
+let curHijriY = 1447, curHijriM = 12;
+let curGregY  = new Date().getFullYear(), curGregM = new Date().getMonth() + 1;
+
+/* ── Hijri calculation ───────────────────────────────────── */
+const ML = [30,29,30,29,30,29,30,29,30,29,30,29];
+function hijriToGreg(hy, hm, hd) {
+  /* Offset from DH1 reference */
+  let refY = 1447, refM = 12, refD = 1;
+  /* Days from DH1 to (hy,hm,hd) */
+  let days = 0;
+  if (hy > refY || (hy === refY && hm > refM) || (hy === refY && hm === refM && hd > refD)) {
+    /* Forward from ref */
+    let y = refY, m = refM, d = refD;
+    while (y < hy || m < hm || d < hd) {
+      if (y === hy && m === hm && d === hd) break;
+      d++; days++;
+      if (d > ML[(m-1)%12]) { d=1; m++; if(m>12){m=1;y++;} }
+    }
+  } else {
+    /* Backward from ref */
+    let y = refY, m = refM, d = refD;
+    while (y > hy || m > hm || d > hd) {
+      if (y === hy && m === hm && d === hd) break;
+      d--; days--;
+      if (d < 1) { m--; if(m<1){m=12;y--;} d=ML[(m-1)%12]; }
+    }
+  }
+  const greg = new Date(DH1);
+  greg.setDate(DH1.getDate() + days);
+  return greg;
+}
+
+function gregToHijri(date) {
+  const msPerDay = 86400000;
+  const diff = Math.round((date - DH1) / msPerDay);
+  let y=1447, m=12, d=1+diff;
+  while (d > ML[(m-1)%12]) { d -= ML[(m-1)%12]; m++; if(m>12){m=1;y++;} }
+  while (d < 1) { m--; if(m<1){m=12;y--;} d+=ML[(m-1)%12]; }
+  return {y, m, d};
+}
+
+/* ── Special days ─────────────────────────────────────────── */
+const SPECIAL_DH = {
+  '1447-12-1':  { label:'أول ذو الحجة 🌙',  cls:'special' },
+  '1447-12-8':  { label:'يوم التروية 💧',   cls:'special' },
+  '1447-12-9':  { label:'يوم عرفة ⭐',      cls:'arafah'  },
+  '1447-12-10': { label:'عيد الأضحى 🎉',    cls:'eid'     },
+  '1447-12-11': { label:'أول أيام التشريق', cls:'special' },
+  '1447-12-12': { label:'ثاني أيام التشريق',cls:'special' },
+  '1447-12-13': { label:'ثالث أيام التشريق',cls:'special' },
+};
+
+function getSpecialKey(hy, hm, hd) {
+  return `${hy}-${hm}-${hd}`;
+}
+
+/* ── Today banner ─────────────────────────────────────────── */
+function renderTodayBanner() {
+  const now  = new Date();
+  const h    = gregToHijri(now);
+  const key  = getSpecialKey(h.y, h.m, h.d);
+  const sp   = SPECIAL_DH[key];
+
+  document.getElementById('tb-day-num').textContent   = h.d;
+  document.getElementById('tb-hijri-full').textContent = `${h.d} ${HIJRI_MONTHS_AR[h.m-1]} ${h.y} هـ`;
+  document.getElementById('tb-greg-full').textContent  = `${now.getDate()} ${GREG_MONTHS_AR[now.getMonth()]} ${now.getFullYear()} م · ${WEEK_AR[now.getDay()]}`;
+  document.getElementById('hijri-page-sub').textContent = `${h.d} ${HIJRI_MONTHS_AR[h.m-1]} ${h.y} هـ`;
+
+  const spEl = document.getElementById('tb-special-name');
+  if (sp) { spEl.textContent = sp.label; spEl.style.display = 'inline-flex'; }
+  else    { spEl.style.display = 'none'; }
+}
+
+/* ── Hijri calendar month ────────────────────────────────── */
+function renderHijriMonth(hy, hm) {
+  document.getElementById('cal-month-lbl').textContent = `${HIJRI_MONTHS_AR[hm-1]} ${hy} هـ`;
+
+  /* Find first day of this Hijri month */
+  const firstDay   = hijriToGreg(hy, hm, 1);
+  const startDow   = firstDay.getDay(); /* 0=Sun */
+  const daysInMonth = ML[(hm-1)%12];
+
+  const today = new Date();
+  const grid  = document.getElementById('cal-grid');
+  let html    = '';
+
+  /* Empty cells before first day */
+  for (let i = 0; i < startDow; i++) {
+    html += '<div class="cal-day empty"></div>';
+  }
+
+  const events = [];
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const greg    = hijriToGreg(hy, hm, d);
+    const isToday = greg.toDateString() === today.toDateString();
+    const key     = getSpecialKey(hy, hm, d);
+    const sp      = SPECIAL_DH[key];
+    const dow     = greg.getDay();
+    const isFri   = dow === 5;
+
+    let cls = 'cal-day';
+    if (isToday)     cls += ' today-day';
+    if (sp?.cls === 'arafah') cls += ' arafah-day';
+    else if (sp?.cls === 'eid')     cls += ' eid-day';
+    else if (sp)     cls += ' special-day';
+    if (isFri)       cls += ' friday-col';
+
+    const badge = sp
+      ? `<div class="cd-badge ${sp.cls}">${d===9?'عرفة':d===10?'عيد':d<=7&&d>=1?'عشر':''}</div>`
+      : '';
+
+    html += `<div class="${cls}" onclick="showDayPopup(${hy},${hm},${d})">
+      <div class="cd-greg">${greg.getDate()}</div>
+      <div class="cd-hijri">${d}</div>
+      ${badge}
+    </div>`;
+
+    if (sp) events.push({ d, label: sp.label, greg });
+  }
+
+  grid.innerHTML = html;
+  renderSpecialEvents(events);
+}
+
+/* ── Gregorian calendar month ────────────────────────────── */
+function renderGregMonth(gy, gm) {
+  document.getElementById('cal-month-lbl').textContent = `${GREG_MONTHS_AR[gm-1]} ${gy}`;
+
+  const firstDay = new Date(gy, gm-1, 1);
+  const startDow = firstDay.getDay();
+  const daysInMonth = new Date(gy, gm, 0).getDate();
+  const today = new Date();
+
+  const grid = document.getElementById('cal-grid');
+  let html = '';
+  const events = [];
+
+  for (let i = 0; i < startDow; i++) html += '<div class="cal-day empty"></div>';
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const greg   = new Date(gy, gm-1, d);
+    const h      = gregToHijri(greg);
+    const key    = getSpecialKey(h.y, h.m, h.d);
+    const sp     = SPECIAL_DH[key];
+    const isToday = greg.toDateString() === today.toDateString();
+    const isFri  = greg.getDay() === 5;
+
+    let cls = 'cal-day';
+    if (isToday) cls += ' today-day';
+    if (sp?.cls === 'arafah') cls += ' arafah-day';
+    else if (sp?.cls === 'eid') cls += ' eid-day';
+    else if (sp) cls += ' special-day';
+    if (isFri) cls += ' friday-col';
+
+    const hijriLabel = `${h.d} ${HIJRI_MONTHS_AR[h.m-1].substring(0,3)}`;
+    const badge = sp ? `<div class="cd-badge ${sp.cls}">${h.d===9?'عرفة':h.d===10?'عيد':''}</div>` : '';
+
+    html += `<div class="${cls}" onclick="showDayPopupGreg(${gy},${gm-1},${d})">
+      <div class="cd-greg">${d}</div>
+      <div class="cd-hijri">${h.d} ${HIJRI_MONTHS_AR[h.m-1].substring(0,3)}</div>
+      ${badge}
+    </div>`;
+
+    if (sp) events.push({ d, label: sp.label, greg });
+  }
+
+  grid.innerHTML = html;
+  renderSpecialEvents(events);
+}
+
+function renderSpecialEvents(events) {
+  const el = document.getElementById('special-events-list');
+  if (!el) return;
+  if (!events.length) {
+    el.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:13px;padding:8px">لا توجد مناسبات في هذا الشهر</div>';
+    return;
+  }
+  el.innerHTML = events.map(ev => {
+    const greg = ev.greg;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">
+      <div style="width:40px;height:40px;border-radius:12px;background:var(--gold-pale);border:1.5px solid rgba(201,161,74,.3);display:grid;place-items:center;font-weight:900;color:var(--gold-dark);font-family:'ThmanyahSans','Tajawal',sans-serif;font-size:16px">${ev.d}</div>
+      <div style="flex:1">
+        <div style="font-weight:700;color:var(--ink);font-size:14px">${ev.label}</div>
+        <div style="font-size:11px;color:var(--muted);direction:ltr">${greg.getDate()}/${greg.getMonth()+1}/${greg.getFullYear()}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── Day popup ────────────────────────────────────────────── */
+function showDayPopup(hy, hm, hd) {
+  const greg = hijriToGreg(hy, hm, hd);
+  const key  = getSpecialKey(hy, hm, hd);
+  const sp   = SPECIAL_DH[key];
+  const content = document.getElementById('dp-content');
+  content.innerHTML = `
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:48px;font-weight:900;font-family:'ThmanyahSans','Tajawal',sans-serif;color:var(--green-deep)">${hd}</div>
+      <div style="font-size:18px;font-weight:700;color:var(--ink)">${HIJRI_MONTHS_AR[hm-1]} ${hy} هـ</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px;direction:ltr">${WEEK_AR[greg.getDay()]} · ${greg.getDate()} ${GREG_MONTHS_AR[greg.getMonth()]} ${greg.getFullYear()}</div>
+      ${sp ? `<div class="cd-badge special" style="margin-top:8px;padding:5px 16px;font-size:13px">${sp.label}</div>` : ''}
+    </div>
+    ${hm===12&&hd>=1&&hd<=9 ? `<a href="worship.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">📿 سجّل عبادات اليوم ${hd} →</a>` : ''}
+    ${hd===9&&hm===12 ? `<a href="arafah.html" class="btn btn-gold" style="width:100%;justify-content:center;margin-top:8px">🌄 برنامج يوم عرفة →</a>` : ''}
+  `;
+  document.getElementById('day-popup').classList.add('show');
+}
+function showDayPopupGreg(gy, gm, gd) {
+  const greg = new Date(gy, gm, gd);
+  const h = gregToHijri(greg);
+  showDayPopup(h.y, h.m, h.d);
+}
+function closeDayPopup(e) {
+  if (!e || e.target === document.getElementById('day-popup')) {
+    document.getElementById('day-popup').classList.remove('show');
+  }
+}
+
+/* ── Navigation ──────────────────────────────────────────── */
+function render() {
+  if (calType === 'hijri') renderHijriMonth(curHijriY, curHijriM);
+  else                      renderGregMonth(curGregY,  curGregM);
+}
+function prevMonth() {
+  if (calType === 'hijri') { curHijriM--; if(curHijriM<1){curHijriM=12;curHijriY--;} }
+  else { curGregM--; if(curGregM<1){curGregM=12;curGregY--;} }
+  render();
+}
+function nextMonth() {
+  if (calType === 'hijri') { curHijriM++; if(curHijriM>12){curHijriM=1;curHijriY++;} }
+  else { curGregM++; if(curGregM>12){curGregM=1;curGregY++;} }
+  render();
+}
+function goToToday() {
+  const now = new Date();
+  if (calType === 'hijri') {
+    const h = gregToHijri(now);
+    curHijriY = h.y; curHijriM = h.m;
+  } else {
+    curGregY = now.getFullYear(); curGregM = now.getMonth()+1;
+  }
+  render();
+}
+function switchType(type) {
+  calType = type;
+  document.getElementById('tab-hijri').classList.toggle('active', type==='hijri');
+  document.getElementById('tab-greg').classList.toggle('active',  type==='greg');
+  if (type === 'greg') {
+    const now = new Date();
+    curGregY = now.getFullYear(); curGregM = now.getMonth()+1;
+  }
+  render();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderTodayBanner();
+  render();
+});
+</script>
+</body>
+</html>
