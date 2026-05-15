@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+<title>اتجاه القبلة — زاد العشر</title>
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name,.section-title,.qibla-num{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+/* ══ Layout hero ════════════════════════════════════════════ */
+.qibla-hero{background:linear-gradient(160deg,var(--green-deep) 0%,#0a2a20 60%,#041a10 100%);border-radius:24px;padding:28px 20px 32px;display:flex;flex-direction:column;align-items:center;gap:20px;margin-bottom:16px;position:relative;overflow:hidden}
+html[data-theme="dark"] .qibla-hero{background:linear-gradient(160deg,#060e09 0%,#040e06 60%,#020a04 100%)}
+html[data-theme="oled"] .qibla-hero{background:#000;border:1px solid rgba(255,255,255,.06)}
+.qibla-hero::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.15),transparent 70%);top:-50px;left:-50px;pointer-events:none}
+
+/* ══ Status bar ═════════════════════════════════════════════ */
+.q-status{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:99px;font-size:13px;font-weight:700;transition:all .4s}
+.q-status.idle   {background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.q-status.loading{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.q-status.active {background:rgba(201,161,74,.2);border:1px solid rgba(201,161,74,.4);color:#e6c97a}
+.q-status.aligned{background:rgba(52,199,89,.2);border:1px solid rgba(52,199,89,.5);color:#4dd866;animation:pulse-green 1.5s infinite}
+.q-status.error  {background:rgba(255,59,48,.15);border:1px solid rgba(255,59,48,.3);color:#ff7a74}
+@keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(77,216,102,.4)}50%{box-shadow:0 0 0 8px rgba(77,216,102,0)}}
+.q-status-dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex-shrink:0}
+.q-status.aligned .q-status-dot{animation:blink .7s ease-in-out infinite alternate}
+@keyframes blink{from{opacity:1}to{opacity:.3}}
+
+/* ══ Compass ════════════════════════════════════════════════ */
+.compass-wrap{position:relative;width:240px;height:240px;flex-shrink:0}
+.compass-bg{width:240px;height:240px;border-radius:50%;position:absolute;background:
+  radial-gradient(circle at 30% 30%,rgba(255,255,255,.04),transparent 60%),
+  conic-gradient(from 0deg,rgba(14,59,46,.6) 0deg 178deg,rgba(201,161,74,.08) 178deg 182deg,rgba(14,59,46,.6) 182deg 358deg,rgba(201,161,74,.08) 358deg 360deg);
+border:2px solid rgba(255,255,255,.08);box-shadow:0 0 0 1px rgba(201,161,74,.1),inset 0 0 60px rgba(0,0,0,.4)}
+.compass-bg.aligned{border-color:rgba(52,199,89,.4);box-shadow:0 0 0 1px rgba(52,199,89,.3),0 0 40px rgba(52,199,89,.15),inset 0 0 60px rgba(0,0,0,.4)}
+
+/* Tick marks */
+.compass-ticks{position:absolute;inset:0;border-radius:50%}
+.compass-ticks::before{content:'N';position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:900;color:#ff6b85;font-family:'ThmanyahSans',sans-serif}
+.compass-ticks::after{content:'S';position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:700;color:rgba(255,255,255,.4)}
+
+/* SVG compass rose */
+.compass-svg-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .1s cubic-bezier(0.15,0,0.5,1)}
+
+/* Kaaba arrow (fixed to qibla angle, rotates with compass) */
+.kaaba-arrow-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.kaaba-arrow-inner{display:flex;flex-direction:column;align-items:center;height:106px;gap:0;transition:transform .1s cubic-bezier(0.15,0,0.5,1)}
+.ka-tip{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:26px solid #c9a14a;filter:drop-shadow(0 0 6px rgba(201,161,74,.8))}
+.ka-body{width:3px;flex:1;background:linear-gradient(180deg,#c9a14a 0%,rgba(201,161,74,.2) 100%);border-radius:2px}
+.ka-kaaba{font-size:18px;margin-top:-2px;filter:drop-shadow(0 0 4px rgba(201,161,74,.6));line-height:1}
+.kaaba-arrow-inner.aligned .ka-tip{border-bottom-color:#4dd866;filter:drop-shadow(0 0 10px rgba(77,216,102,.9))}
+.kaaba-arrow-inner.aligned .ka-body{background:linear-gradient(180deg,#4dd866 0%,rgba(77,216,102,.2) 100%)}
+
+/* Center dot */
+.compass-center{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.3),rgba(0,0,0,.4));border:2px solid rgba(255,255,255,.15);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10}
+
+/* ══ Cardinal labels ════════════════════════════════════════ */
+.card-labels{position:absolute;inset:0;pointer-events:none}
+.cl{position:absolute;font-size:9px;font-weight:700;color:rgba(255,255,255,.3);font-family:'ThmanyahSans',sans-serif}
+.cl-e{right:14px;top:50%;transform:translateY(-50%)}
+.cl-w{left:14px;top:50%;transform:translateY(-50%)}
+
+/* ══ Readout ════════════════════════════════════════════════ */
+.q-readout{text-align:center;color:#fff}
+.q-heading-num{font-size:48px;font-weight:900;font-family:'ThmanyahSans',monospace;line-height:1;transition:color .3s}
+.q-heading-num.aligned{color:#4dd866}
+.q-heading-lbl{font-size:11px;color:rgba(255,255,255,.5);margin-top:3px}
+.q-qibla-row{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:6px}
+.q-qibla-angle{font-size:20px;font-weight:900;font-family:'ThmanyahSans',monospace;color:#c9a14a}
+.q-qibla-angle.aligned{color:#4dd866}
+
+/* ══ Next prayer strip ══════════════════════════════════════ */
+.next-prayer-strip{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:8px 14px;display:flex;align-items:center;gap:10px;width:100%;max-width:280px;text-align:right}
+.nps-time{font-size:20px;font-weight:900;font-family:'ThmanyahSans',monospace;color:#e6c97a}
+.nps-label{font-size:11px;color:rgba(255,255,255,.55)}
+.nps-name{font-size:14px;font-weight:700;color:#fff}
+
+/* ══ Info grid ══════════════════════════════════════════════ */
+.qibla-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.qi-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 10px;text-align:center;box-shadow:var(--shadow-sm);transition:all .2s}
+.qi-box:hover{border-color:var(--gold);transform:translateY(-2px)}
+.qi-ico{font-size:22px;margin-bottom:6px}
+.qi-val{font-size:20px;font-weight:900;font-family:'ThmanyahSans',monospace;color:var(--green-deep);line-height:1}
+html[data-theme="dark"] .qi-val,html[data-theme="oled"] .qi-val{color:var(--sys-green)}
+.qi-lbl{font-size:10px;color:var(--muted);margin-top:4px;font-weight:600}
+
+/* ══ Action buttons ═════════════════════════════════════════ */
+.qibla-actions{display:flex;gap:10px;margin-bottom:16px}
+.qibla-actions .btn{flex:1;justify-content:center}
+
+/* ══ Map button ═════════════════════════════════════════════ */
+.map-link{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px 16px;text-decoration:none;color:var(--ink);transition:all .2s;margin-bottom:16px}
+.map-link:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--shadow)}
+.ml-txt b{display:block;font-size:14px;font-weight:700;color:var(--green-deep)}
+html[data-theme="dark"] .ml-txt b,html[data-theme="oled"] .ml-txt b{color:var(--sys-green)}
+.ml-txt small{font-size:12px;color:var(--muted)}
+
+/* ══ Verse card ════════════════════════════════════════════ */
+.qibla-verse{background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1px solid rgba(201,161,74,.2);border-radius:var(--radius);padding:22px;margin-bottom:16px}
+.qv-src{font-size:12px;color:var(--gold);font-weight:700;margin-bottom:10px}
+.qv-ar{font-family:Amiri,serif;font-size:20px;color:var(--green-deep);line-height:2}
+html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-yellow)}
+.qv-note{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.7}
+
+/* ══ Contextual card (Day of Arafah) ═══════════════════════ */
+.arafah-context{background:linear-gradient(135deg,rgba(201,161,74,.08),rgba(201,161,74,.03));border:1.5px solid rgba(201,161,74,.25);border-radius:14px;padding:14px 16px;margin-bottom:16px;display:none}
+.arafah-context.show{display:flex;gap:12px;align-items:flex-start}
+
+/* ══ Calibration overlay ════════════════════════════════════ */
+.calib-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:600;display:none;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.calib-box{background:var(--card);border-radius:28px;padding:36px 28px;max-width:340px;width:90%;text-align:center}
+.calib-phone{font-size:64px;animation:figure8 2.5s ease-in-out infinite;display:inline-block}
+@keyframes figure8{0%{transform:translate(0,0) rotate(0)}20%{transform:translate(24px,-18px) rotate(25deg)}40%{transform:translate(0,-6px) rotate(0)}60%{transform:translate(-24px,-18px) rotate(-25deg)}80%{transform:translate(0,-6px) rotate(0)}100%{transform:translate(0,0) rotate(0)}}
+.calib-title{font-size:20px;font-weight:800;font-family:'ThmanyahSans',sans-serif;margin:14px 0 8px}
+.calib-sub{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px}
+.calib-bar-wrap{height:8px;background:var(--sand-2);border-radius:99px;overflow:hidden;margin-bottom:20px}
+.calib-bar-fill{height:100%;background:linear-gradient(90deg,var(--green-soft),var(--gold));border-radius:99px;transition:width .1s linear;width:0%}
+
+/* ══ Permission overlay (iOS) ═══════════════════════════════ */
+.perm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:600;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(8px)}
+.perm-sheet{background:var(--card);border-radius:24px 24px 0 0;padding:32px 24px 40px;width:100%;max-width:480px}
+.perm-sheet h3{font-size:19px;font-weight:800;font-family:'ThmanyahSans',sans-serif;margin-bottom:10px}
+.perm-sheet p{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px}
+
+/* ══ Offline pill ═══════════════════════════════════════════ */
+.offline-pill{display:inline-flex;align-items:center;gap:5px;background:var(--sand);border:1px dashed var(--border);border-radius:99px;padding:3px 12px;font-size:11px;color:var(--muted);margin-bottom:12px}
+
+/* ══ Responsive ════════════════════════════════════════════ */
+@media(max-width:480px){
+  .compass-wrap,.compass-bg{width:200px;height:200px}
+  .compass-ticks::before{top:8px}
+  .compass-ticks::after{bottom:8px}
+  .kaaba-arrow-inner{height:88px}
+  .q-heading-num{font-size:40px}
+  .qibla-info-grid{grid-template-columns:repeat(3,1fr)}
+  .qibla-actions{flex-direction:column}
+}
+@media(max-width:360px){
+  .compass-wrap,.compass-bg{width:180px;height:180px}
+  .kaaba-arrow-inner{height:78px}
+}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+</head>
+<body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html" class="active"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <a href="worship.html"><span class="ico">📿</span><span>جدول العبادات</span></a>
+      <a href="mushaf.html"><span class="ico">📖</span><span>مصحف العشر</span></a>
+      <a href="takbeer.html"><span class="ico">🕋</span><span>المسبّح</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="summary.html"><span class="ico">📈</span><span>إحصاء العشر</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="index.html" style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#e6c97a,#c9a14a);display:grid;place-items:center;font-size:18px;text-decoration:none">🕋</a>
+        <div>
+          <div class="page-title">اتجاه <span>القبلة</span></div>
+          <div class="page-sub" id="q-location-lbl">جارٍ تحديد الموقع...</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-theme" onclick="toggleTheme()" aria-label="المظهر">🌙</button>
+      </div>
+    </div>
+
+    <!-- Offline pill -->
+    <div class="offline-pill" id="offline-pill" style="display:none">📵 آخر موقع محفوظ</div>
+
+    <!-- ═══ QIBLA HERO ═══════════════════════════════════════ -->
+    <div class="qibla-hero">
+
+      <!-- Status -->
+      <div class="q-status idle" id="q-status">
+        <div class="q-status-dot"></div>
+        <span id="q-status-txt">اضغط لتحديد الموقع</span>
+      </div>
+
+      <!-- Compass -->
+      <div class="compass-wrap" id="compass-wrap">
+        <div class="compass-bg" id="compass-bg"></div>
+
+        <!-- Cardinal labels E / W -->
+        <div class="card-labels">
+          <span class="cl cl-e">E</span>
+          <span class="cl cl-w">W</span>
+        </div>
+        <div class="compass-ticks"></div>
+
+        <!-- SVG Compass rose (rotates opposite to heading → stays pointing N) -->
+        <div class="compass-svg-wrap" id="compass-svg-wrap">
+          <svg width="180" height="180" viewBox="0 0 180 180">
+            <!-- Degree ticks -->
+            <g stroke="rgba(255,255,255,.15)" stroke-width="1">
+              <script>
+                // Degree ticks drawn inline
+              </script>
+            </g>
+            <!-- North needle (red) -->
+            <polygon points="90,20 84,90 90,80 96,90" fill="#ff6b85" opacity=".9" filter="url(#glow-red)"/>
+            <!-- South needle (gray) -->
+            <polygon points="90,160 84,90 90,100 96,90" fill="rgba(255,255,255,.25)"/>
+            <!-- Center circle -->
+            <circle cx="90" cy="90" r="5" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+            <defs>
+              <filter id="glow-red" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+
+        <!-- Kaaba arrow (rotates to qibla angle relative to screen) -->
+        <div class="kaaba-arrow-wrap">
+          <div class="kaaba-arrow-inner" id="kaaba-arrow">
+            <div class="ka-tip"></div>
+            <div class="ka-body"></div>
+            <div class="ka-kaaba">🕋</div>
+          </div>
+        </div>
+
+        <div class="compass-center"></div>
+      </div>
+
+      <!-- Heading readout -->
+      <div class="q-readout">
+        <div class="q-heading-num" id="q-heading-num">---°</div>
+        <div class="q-heading-lbl">اتجاه جهازك الحالي</div>
+        <div class="q-qibla-row">
+          <span style="font-size:11px;color:rgba(255,255,255,.4)">القبلة من الشمال:</span>
+          <span class="q-qibla-angle" id="q-qibla-angle">---°</span>
+          <span style="font-size:11px;color:rgba(255,255,255,.4)">الانحراف:</span>
+          <span style="font-size:16px;font-weight:700;font-family:'ThmanyahSans',monospace;color:rgba(255,255,255,.6)" id="q-diff">---°</span>
+        </div>
+      </div>
+
+      <!-- Next prayer strip -->
+      <div class="next-prayer-strip" id="next-prayer-strip" style="display:none">
+        <div>
+          <div class="nps-label">الصلاة القادمة</div>
+          <div class="nps-name" id="nps-name">—</div>
+        </div>
+        <div class="nps-time" id="nps-time" style="margin-right:auto">--:--</div>
+        <span style="font-size:18px">🕌</span>
+      </div>
+
+    </div><!-- /qibla-hero -->
+
+    <!-- Arafah contextual card -->
+    <div class="arafah-context" id="arafah-ctx">
+      <span style="font-size:28px;flex-shrink:0">⭐</span>
+      <div>
+        <b style="font-family:'ThmanyahSans',sans-serif;font-size:14px;color:var(--gold-dark)">أنت في يوم عرفة!</b>
+        <p style="font-size:13px;color:var(--muted);margin-top:4px;line-height:1.6">خير الدعاء دعاء يوم عرفة — استقبل القبلة وأكثر من الدعاء والذكر في هذه الساعات الذهبية</p>
+      </div>
+    </div>
+
+    <!-- Info cards -->
+    <div class="qibla-info-grid">
+      <div class="qi-box">
+        <div class="qi-ico">🗺️</div>
+        <div class="qi-val" id="qi-dist">---</div>
+        <div class="qi-lbl">كم إلى مكة</div>
+      </div>
+      <div class="qi-box">
+        <div class="qi-ico">🎯</div>
+        <div class="qi-val" id="qi-acc">---</div>
+        <div class="qi-lbl">دقة GPS (م)</div>
+      </div>
+      <div class="qi-box">
+        <div class="qi-ico">📐</div>
+        <div class="qi-val" id="qi-bearing">---°</div>
+        <div class="qi-lbl">زاوية القبلة</div>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="qibla-actions" id="q-actions">
+      <button class="btn btn-primary" id="q-start-btn" onclick="startQibla()" style="justify-content:center">
+        📍 تحديد الموقع وعرض القبلة
+      </button>
+      <button class="btn btn-ghost" onclick="showCalibration()" title="معايرة البوصلة">
+        🔄
+      </button>
+    </div>
+
+    <!-- Map link -->
+    <a class="map-link" id="q-map-link" href="#" target="_blank" style="display:none">
+      <span style="font-size:28px">🗺️</span>
+      <div class="ml-txt">
+        <b>الخط المستقيم إلى مكة المكرمة</b>
+        <small id="q-map-lbl">افتح على خريطة Google</small>
+      </div>
+      <span style="margin-right:auto;color:var(--muted);font-size:18px">←</span>
+    </a>
+
+    <!-- Quranic context -->
+    <div class="qibla-verse">
+      <div class="qv-src">📖 القبلة في القرآن الكريم</div>
+      <div class="qv-ar">«وَمِنْ حَيْثُ خَرَجْتَ فَوَلِّ وَجْهَكَ شَطْرَ الْمَسْجِدِ الْحَرَامِ ۚ وَحَيْثُمَا كُنتُمْ فَوَلُّوا وُجُوهَكُمْ شَطْرَهُ»</div>
+      <p class="qv-note"><b style="color:var(--gold)">البقرة: 150</b> — تحوّلت القبلة من المسجد الأقصى إلى الكعبة في السنة الثانية للهجرة، وكان النبي ﷺ يصلي في مسجد بني سلمة فتحوّل في نصف الصلاة — ولا يزال يُعرف بـ "مسجد القبلتين"</p>
+    </div>
+
+    <!-- Privacy note -->
+    <div style="display:flex;align-items:center;gap:8px;padding:12px 16px;background:var(--sand);border-radius:12px;margin-bottom:20px;font-size:12px;color:var(--muted)">
+      <span style="font-size:18px">🔒</span>
+      <span>بياناتك لا تُشارك مع أي جهة — الموقع يُستخدم فقط لحساب القبلة ويُخزّن محلياً على جهازك</span>
+    </div>
+
+  </main>
+  <a href="ai.html" class="fab-ai" aria-label="AI">🤖</a>
+</div>
+
+<!-- Calibration overlay -->
+<div class="calib-overlay" id="calib-overlay">
+  <div class="calib-box">
+    <div class="calib-phone">📱</div>
+    <div class="calib-title">معايرة البوصلة</div>
+    <div class="calib-sub">حرّك هاتفك ببطء على شكل رقم <b>(8)</b> في الهواء عدة مرات حتى تكتمل المعايرة</div>
+    <div class="calib-bar-wrap"><div class="calib-bar-fill" id="calib-fill"></div></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="closeCalibration()" style="flex:1;justify-content:center">✅ تمّ</button>
+      <button class="btn btn-ghost" onclick="closeCalibration()" style="justify-content:center;padding:11px 14px">تخطي</button>
+    </div>
+  </div>
+</div>
+
+<!-- iOS Permission sheet -->
+<div class="perm-overlay" id="perm-overlay">
+  <div class="perm-sheet">
+    <h3>🧭 إذن البوصلة</h3>
+    <p>يحتاج تطبيق زاد العشر إذن الوصول لحساسات الجهاز لتشغيل البوصلة وعرض اتجاه القبلة بدقة</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="requestIOSPermission()" style="flex:1;justify-content:center">✅ السماح</button>
+      <button class="btn btn-ghost" onclick="closePermSheet()" style="justify-content:center;padding:11px 14px">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script>
+/* ════════════════════════════════════════════════════════════
+   QIBLA PAGE — Full Implementation
+   API: api.aladhan.com/v1/qibla/{lat}/{lng}
+   Sensors: DeviceOrientationEvent (absolute)
+   Fallback: Haversine manual calculation
+   ════════════════════════════════════════════════════════════ */
+
+const KAABA = { lat: 21.4225, lng: 39.8262 };
+
+/* ── State ── */
+let Q_angle   = null;  /* Qibla bearing from true north */
+let Q_heading = 0;     /* Current device compass heading (smoothed) */
+let Q_aligned = false;
+let Q_lat = null, Q_lng = null;
+let Q_sensorActive = false;
+let Q_headingHistory = [];
+const SMOOTH_FACTOR = 8; /* Smoothing window for heading */
+
+/* ── Helper: normalize 0-360 ── */
+const norm = a => ((a % 360) + 360) % 360;
+
+/* ── Helper: angular difference (-180 to +180) ── */
+function angDiff(a, b) {
+  let d = a - b;
+  while (d > 180) d -= 360;
+  while (d < -180) d += 360;
+  return d;
+}
+
+/* ══ 1. START ════════════════════════════════════════════════ */
+function startQibla() {
+  const btn = document.getElementById('q-start-btn');
+  if (btn) btn.disabled = true;
+  setStatus('loading', 'جارٍ تحديد موقعك...');
+
+  const cachedLat = parseFloat(localStorage.getItem('zad_lat'));
+  const cachedLng = parseFloat(localStorage.getItem('zad_lng'));
+
+  if (cachedLat && cachedLng) {
+    Q_lat = cachedLat; Q_lng = cachedLng;
+    const offline = document.getElementById('offline-pill');
+    if (offline) offline.style.display = 'flex';
+    fetchQibla(cachedLat, cachedLng, true);
+    return;
+  }
+
+  if (!navigator.geolocation) {
+    setStatus('error', 'المتصفح لا يدعم GPS — استخدم Chrome');
+    if (btn) btn.disabled = false;
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      Q_lat = pos.coords.latitude;
+      Q_lng = pos.coords.longitude;
+      localStorage.setItem('zad_lat', Q_lat);
+      localStorage.setItem('zad_lng', Q_lng);
+      fetchQibla(Q_lat, Q_lng, false, pos.coords.accuracy);
+      if (btn) btn.style.display = 'none';
+    },
+    err => {
+      if (cachedLat) { fetchQibla(cachedLat, cachedLng, true); return; }
+      setStatus('error', err.code === 1 ? 'لم يتم السماح بالموقع — فعّل GPS من الإعدادات' : 'تعذّر تحديد الموقع');
+      if (btn) btn.disabled = false;
+    },
+    { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 }
+  );
+}
+
+/* ══ 2. FETCH QIBLA ANGLE ════════════════════════════════════ */
+async function fetchQibla(lat, lng, fromCache = false, accuracy = null) {
+  /* Check cache (stored permanently per rounded coordinates) */
+  const cacheKey = `q_${Math.round(lat*10)}_${Math.round(lng*10)}`;
+  const cachedAngle = localStorage.getItem(cacheKey);
+
+  if (cachedAngle) {
+    applyQibla(parseFloat(cachedAngle), lat, lng, accuracy);
+    return;
+  }
+
+  setStatus('loading', 'جارٍ حساب اتجاه القبلة...');
+  try {
+    const res  = await fetch(`https://api.aladhan.com/v1/qibla/${lat}/${lng}`);
+    const data = await res.json();
+    if (data.code === 200) {
+      const angle = data.data.direction;
+      localStorage.setItem(cacheKey, angle);
+      applyQibla(angle, lat, lng, accuracy);
+    } else {
+      applyQibla(calcQiblaManual(lat, lng), lat, lng, accuracy);
+    }
+  } catch(e) {
+    /* Offline fallback — manual haversine */
+    const offline = document.getElementById('offline-pill');
+    if (offline) offline.style.display = 'flex';
+    applyQibla(calcQiblaManual(lat, lng), lat, lng, accuracy);
+  }
+}
+
+/* ══ 3. MANUAL QIBLA (offline fallback) ═════════════════════ */
+function calcQiblaManual(lat, lng) {
+  const φ1 = lat * Math.PI / 180;
+  const φ2 = KAABA.lat * Math.PI / 180;
+  const Δλ = (KAABA.lng - lng) * Math.PI / 180;
+  const y  = Math.sin(Δλ) * Math.cos(φ2);
+  const x  = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+  return norm(Math.atan2(y, x) * 180 / Math.PI);
+}
+
+/* ══ 4. DISTANCE MECCA ══════════════════════════════════════ */
+function distToMecca(lat, lng) {
+  const R  = 6371;
+  const φ1 = lat * Math.PI / 180;
+  const φ2 = KAABA.lat * Math.PI / 180;
+  const Δφ = (KAABA.lat - lat) * Math.PI / 180;
+  const Δλ = (KAABA.lng - lng) * Math.PI / 180;
+  const a  = Math.sin(Δφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(Δλ/2)**2;
+  return Math.round(6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+}
+
+/* ══ 5. APPLY QIBLA DATA TO UI ══════════════════════════════ */
+function applyQibla(angle, lat, lng, accuracy) {
+  Q_angle = angle;
+
+  /* Info cards */
+  const dist = distToMecca(lat, lng);
+  const distEl    = document.getElementById('qi-dist');
+  const accEl     = document.getElementById('qi-acc');
+  const bearingEl = document.getElementById('qi-bearing');
+  if (distEl)    distEl.textContent    = dist.toLocaleString('ar-EG');
+  if (accEl)     accEl.textContent     = accuracy ? Math.round(accuracy) : '—';
+  if (bearingEl) bearingEl.textContent = `${Math.round(angle)}°`;
+
+  /* Qibla angle label in hero */
+  const qAngleLbl = document.getElementById('q-qibla-angle');
+  if (qAngleLbl) qAngleLbl.textContent = `${Math.round(angle)}°`;
+
+  /* Location subtitle */
+  const sub = document.getElementById('q-location-lbl');
+  if (sub) {
+    /* Try reverse geocode from cache */
+    const cityName = localStorage.getItem('zad_city') || `${lat.toFixed(3)}°N · ${lng.toFixed(3)}°E`;
+    sub.textContent = cityName;
+    reverseGeocode(lat, lng);
+  }
+
+  /* Map link */
+  const mapLink = document.getElementById('q-map-link');
+  const mapLbl  = document.getElementById('q-map-lbl');
+  if (mapLink) {
+    mapLink.href = `https://www.google.com/maps/dir/${lat},${lng}/${KAABA.lat},${KAABA.lng}`;
+    mapLink.style.display = 'flex';
+  }
+  if (mapLbl) mapLbl.textContent = `${dist.toLocaleString('ar-EG')} كم عن مكة المكرمة`;
+
+  /* Load next prayer if available */
+  loadNextPrayer(lat, lng);
+
+  /* Check Arafah context */
+  checkArafahContext();
+
+  /* Start compass */
+  setStatus('active', 'حرّك هاتفك لإيجاد اتجاه القبلة 🧭');
+  initCompass();
+}
+
+/* ══ 6. REVERSE GEOCODE ══════════════════════════════════════ */
+async function reverseGeocode(lat, lng) {
+  try {
+    const res  = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+    const data = await res.json();
+    const city = data.address?.city || data.address?.town || data.address?.county || '';
+    const country = data.address?.country || '';
+    if (city) {
+      const label = country ? `${city}، ${country}` : city;
+      const sub = document.getElementById('q-location-lbl');
+      if (sub) sub.textContent = label;
+      localStorage.setItem('zad_city', label);
+    }
+  } catch(e) {}
+}
+
+/* ══ 7. NEXT PRAYER (from cache) ════════════════════════════ */
+function loadNextPrayer(lat, lng) {
+  const cached = localStorage.getItem('zad_prayer_times');
+  if (!cached) return;
+  try {
+    const timings = JSON.parse(cached);
+    const now = new Date();
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    const NAMES = { Fajr:'الفجر', Dhuhr:'الظهر', Asr:'العصر', Maghrib:'المغرب', Isha:'العشاء' };
+    for (const [p, name] of Object.entries(NAMES)) {
+      const t = timings[p]?.substring(0,5);
+      if (!t) continue;
+      const [hh, mm] = t.split(':').map(Number);
+      if (hh * 60 + mm > nowMin) {
+        const strip = document.getElementById('next-prayer-strip');
+        const nameEl = document.getElementById('nps-name');
+        const timeEl = document.getElementById('nps-time');
+        if (strip) strip.style.display = 'flex';
+        if (nameEl) nameEl.textContent = name;
+        if (timeEl) timeEl.textContent = t;
+        break;
+      }
+    }
+  } catch(e) {}
+}
+
+/* ══ 8. ARAFAH CONTEXT ══════════════════════════════════════ */
+function checkArafahContext() {
+  const DH9 = new Date(2026, 4, 26); /* 9 Dhul Hijjah = May 26 */
+  const now = new Date();
+  if (now.toDateString() === DH9.toDateString()) {
+    const ctx = document.getElementById('arafah-ctx');
+    if (ctx) ctx.classList.add('show');
+  }
+}
+
+/* ══ 9. COMPASS (Device Orientation) ════════════════════════ */
+function initCompass() {
+  if (Q_sensorActive) return;
+
+  /* iOS 13+ needs explicit permission */
+  if (typeof DeviceOrientationEvent !== 'undefined'
+    && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    /* Show permission sheet */
+    const sheet = document.getElementById('perm-overlay');
+    if (sheet) sheet.style.display = 'flex';
+    return;
+  }
+
+  startOrientationListener();
+}
+
+function requestIOSPermission() {
+  closePermSheet();
+  DeviceOrientationEvent.requestPermission().then(perm => {
+    if (perm === 'granted') startOrientationListener();
+    else setStatus('error', 'رُفض الإذن — يرجى السماح من إعدادات Safari');
+  });
+}
+function closePermSheet() {
+  const sheet = document.getElementById('perm-overlay');
+  if (sheet) sheet.style.display = 'none';
+}
+
+function startOrientationListener() {
+  Q_sensorActive = true;
+  /* Try absolute first (Android), fallback to relative (iOS) */
+  window.addEventListener('deviceorientationabsolute', onOrientation, true);
+  window.addEventListener('deviceorientation', onOrientation, true);
+}
+
+/* ══ 10. ORIENTATION HANDLER ════════════════════════════════ */
+function onOrientation(e) {
+  let raw = 0;
+
+  if (e.webkitCompassHeading != null) {
+    /* iOS — magnetic heading, already corrected */
+    raw = e.webkitCompassHeading;
+  } else if (e.alpha != null) {
+    raw = e.absolute ? (360 - e.alpha) % 360 : (360 - e.alpha) % 360;
+  } else return;
+
+  /* Smooth heading using circular mean */
+  Q_headingHistory.push(raw);
+  if (Q_headingHistory.length > SMOOTH_FACTOR) Q_headingHistory.shift();
+
+  const sinSum = Q_headingHistory.reduce((s,a) => s + Math.sin(a*Math.PI/180), 0);
+  const cosSum = Q_headingHistory.reduce((s,a) => s + Math.cos(a*Math.PI/180), 0);
+  Q_heading = norm(Math.atan2(sinSum, cosSum) * 180 / Math.PI);
+
+  updateCompassUI();
+}
+
+/* ══ 11. UPDATE UI ══════════════════════════════════════════ */
+let _lastTransform = '';
+function updateCompassUI() {
+  if (Q_angle === null) return;
+
+  /* Needle wrapper rotates opposite to heading (keeps North at screen top) */
+  const compassSvg = document.getElementById('compass-svg-wrap');
+  if (compassSvg) {
+    const t = `rotate(${-Q_heading}deg)`;
+    if (_lastTransform !== t) { compassSvg.style.transform = t; _lastTransform = t; }
+  }
+
+  /* Kaaba arrow: rotate to (qibla - heading) so it points to qibla on screen */
+  const kaabaArrow = document.getElementById('kaaba-arrow');
+  if (kaabaArrow) {
+    kaabaArrow.style.transform = `rotate(${norm(Q_angle - Q_heading)}deg)`;
+  }
+
+  /* Heading readout */
+  const hNum = document.getElementById('q-heading-num');
+  if (hNum) hNum.textContent = `${Math.round(Q_heading)}°`;
+
+  /* Difference */
+  const diff = angDiff(Q_angle, Q_heading);
+  const diffEl = document.getElementById('q-diff');
+  if (diffEl) diffEl.textContent = `${diff > 0 ? '+' : ''}${Math.round(diff)}°`;
+
+  /* Aligned check ±3° */
+  const isNowAligned = Math.abs(diff) <= 3;
+  if (isNowAligned !== Q_aligned) {
+    Q_aligned = isNowAligned;
+    const bg = document.getElementById('compass-bg');
+    const ka = document.getElementById('kaaba-arrow');
+    const hn = document.getElementById('q-heading-num');
+    const qa = document.getElementById('q-qibla-angle');
+
+    if (isNowAligned) {
+      setStatus('aligned', '✅ أنت مستقبل القبلة — ثبّت على هذا الاتجاه 🕋');
+      bg?.classList.add('aligned');
+      ka?.classList.add('aligned');
+      hn?.classList.add('aligned');
+      qa?.classList.add('aligned');
+      /* Haptic: triple pulse */
+      if (navigator.vibrate) navigator.vibrate([80, 40, 80, 40, 120]);
+    } else {
+      setStatus('active', 'حرّك هاتفك لإيجاد اتجاه القبلة 🧭');
+      bg?.classList.remove('aligned');
+      ka?.classList.remove('aligned');
+      hn?.classList.remove('aligned');
+      qa?.classList.remove('aligned');
+      if (navigator.vibrate) navigator.vibrate(30);
+    }
+  }
+}
+
+/* ══ 12. STATUS ════════════════════════════════════════════ */
+function setStatus(type, text) {
+  const el  = document.getElementById('q-status');
+  const txt = document.getElementById('q-status-txt');
+  if (!el) return;
+  el.className = `q-status ${type}`;
+  if (txt) txt.textContent = text;
+}
+
+/* ══ 13. CALIBRATION ════════════════════════════════════════ */
+let _calibTimer = null;
+let _calibPct   = 0;
+function showCalibration() {
+  const overlay = document.getElementById('calib-overlay');
+  if (overlay) overlay.style.display = 'flex';
+  _calibPct = 0;
+  clearInterval(_calibTimer);
+  _calibTimer = setInterval(() => {
+    _calibPct += 1.5;
+    const fill = document.getElementById('calib-fill');
+    if (fill) fill.style.width = Math.min(_calibPct, 100) + '%';
+    if (_calibPct >= 100) {
+      clearInterval(_calibTimer);
+      setTimeout(() => closeCalibration(), 300);
+    }
+  }, 70);
+}
+function closeCalibration() {
+  const overlay = document.getElementById('calib-overlay');
+  if (overlay) overlay.style.display = 'none';
+  clearInterval(_calibTimer);
+  _calibPct = 0;
+  /* Reset smoothing history after calibration */
+  Q_headingHistory = [];
+}
+
+/* ══ INIT ══════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  const lat = parseFloat(localStorage.getItem('zad_lat'));
+  const lng = parseFloat(localStorage.getItem('zad_lng'));
+  if (lat && lng) {
+    Q_lat = lat; Q_lng = lng;
+    fetchQibla(lat, lng, true);
+    const btn = document.getElementById('q-start-btn');
+    if (btn) btn.style.display = 'none';
+  }
+  checkArafahContext();
+});
+</script>
+</body>
+</html>
