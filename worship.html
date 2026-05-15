@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<title>جدول العبادات — زاد العشر</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ورد العشر اليومي — زاد العشر</title>
+<meta name="theme-color" content="#0e3b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{t=JSON.parse(s).theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">ع</div>
-      <div>
-        <div class="brand-name">زاد العشر</div>
-        <div class="brand-sub">أفضل أيام الدنيا</div>
-      </div>
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
     <nav class="nav">
       <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
@@ -30,52 +39,81 @@
       <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
       <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
       <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
       <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
       <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
     </nav>
-    <div class="side-foot">
-      نسخة 2026 · بدون إعلانات · يحترم خصوصيتك
-    </div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div>
-        <div class="page-title">ورد <span>العشر</span> اليومي</div>
-        <div class="page-sub">اعقد النية وابدأ — تذكّر أن الله يرى كل خير تعمله</div>
+      <div><div class="page-title">ورد <span>العشر</span> اليومي</div>
+      <div class="page-sub">اعقد النية وابدأ — الله يرى كل خير تعمله</div></div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
-      <div class="search">🔍 <input placeholder="ابحث في التطبيق..."></div>
     </div>
     <div class="card">
-      <h3>📊 إنجاز اليوم</h3>
-      <div class="progress" style="margin-top:14px"><span style="width:62%"></span></div>
-      <div style="margin-top:6px;font-size:13px;color:var(--muted)">8 من 13 عبادة</div>
+      <div class="prog-ring-wrap">
+        <div class="prog-ring">
+          <svg viewBox="0 0 100 100" width="90" height="90">
+            <circle cx="50" cy="50" r="44" fill="none" stroke="var(--sand-2)" stroke-width="8"/>
+            <circle id="ring-circle" cx="50" cy="50" r="44" fill="none"
+              stroke="url(#ringGrad2)" stroke-width="8" stroke-linecap="round"
+              style="stroke-dasharray:276.5;stroke-dashoffset:276.5;transition:stroke-dashoffset .8s ease"/>
+            <defs><linearGradient id="ringGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#2a7a5f"/><stop offset="100%" stop-color="#c9a14a"/>
+            </linearGradient></defs>
+          </svg>
+          <div class="ring-pct"><span id="ring-pct" style="font-size:18px">0%</span></div>
+        </div>
+        <div style="flex:1">
+          <div class="progress"><span id="prog-bar" style="width:0%"></span></div>
+          <div style="margin-top:8px;font-size:13px;color:var(--muted)" id="prog-txt">0 من 12 عبادة</div>
+        </div>
+      </div>
     </div>
 
     <div class="section-title">الفرائض</div>
-    <div class="check done"><div class="box">✓</div><div class="label">صلاة الفجر في جماعة</div><div class="meta">04:32</div></div>
-    <div class="check done"><div class="box">✓</div><div class="label">صلاة الظهر في جماعة</div><div class="meta">12:08</div></div>
-    <div class="check done"><div class="box">✓</div><div class="label">صلاة العصر في جماعة</div><div class="meta">15:42</div></div>
-    <div class="check"><div class="box"></div><div class="label">صلاة المغرب في جماعة</div><div class="meta">18:51</div></div>
-    <div class="check"><div class="box"></div><div class="label">صلاة العشاء في جماعة</div><div class="meta">20:21</div></div>
+    <div class="check" data-key="fajr"><div class="box">✓</div><div class="label">صلاة الفجر في جماعة</div><div class="meta">فجر</div></div>
+    <div class="check" data-key="zuhr"><div class="box">✓</div><div class="label">صلاة الظهر في جماعة</div><div class="meta">ظهر</div></div>
+    <div class="check" data-key="asr"><div class="box">✓</div><div class="label">صلاة العصر في جماعة</div><div class="meta">عصر</div></div>
+    <div class="check" data-key="maghrib"><div class="box">✓</div><div class="label">صلاة المغرب في جماعة</div><div class="meta">مغرب</div></div>
+    <div class="check" data-key="isha"><div class="box">✓</div><div class="label">صلاة العشاء في جماعة</div><div class="meta">عشاء</div></div>
 
     <div class="section-title">السنن والنوافل</div>
-    <div class="check done"><div class="box">✓</div><div class="label">السنن الرواتب (12 ركعة)</div></div>
-    <div class="check done"><div class="box">✓</div><div class="label">صلاة الضحى</div><div class="meta">4 ركعات</div></div>
-    <div class="check"><div class="box"></div><div class="label">قيام الليل</div><div class="meta">يعدل قيام ليلة القدر</div></div>
+    <div class="check" data-key="rawatib"><div class="box">✓</div><div class="label">السنن الرواتب — 12 ركعة</div></div>
+    <div class="check" data-key="duha"><div class="box">✓</div><div class="label">صلاة الضحى</div><div class="meta">4 ركعات</div></div>
+    <div class="check" data-key="qiyam"><div class="box">✓</div><div class="label">قيام الليل</div><div class="meta">يعدل قيام ليلة القدر</div></div>
 
-    <div class="section-title">الصيام والذكر</div>
-    <div class="check done"><div class="box">✓</div><div class="label">صيام اليوم <span class="tag gold">يوم 4 من 9</span></div></div>
-    <div class="check done"><div class="box">✓</div><div class="label">أذكار الصباح</div></div>
-    <div class="check"><div class="box"></div><div class="label">أذكار المساء</div></div>
-    <div class="check"><div class="box"></div><div class="label">تكبير 100 مرة</div></div>
-    <div class="check"><div class="box"></div><div class="label">تجديد التوبة والنية</div></div>
+    <div class="section-title">الذكر والصيام</div>
+    <div class="check" data-key="morning_dhikr"><div class="box">✓</div><div class="label">أذكار الصباح</div></div>
+    <div class="check" data-key="evening_dhikr"><div class="box">✓</div><div class="label">أذكار المساء</div></div>
+    <div class="check" data-key="takbeer_100"><div class="box">✓</div><div class="label">تكبير 100 مرة</div></div>
+    <div class="check" data-key="tawbah"><div class="box">✓</div><div class="label">تجديد التوبة والنية</div></div>
 
-    <div style="margin-top:30px;display:flex;gap:12px;flex-wrap:wrap">
-      <button class="btn btn-primary">حفظ التقدم</button>
-      <button class="btn btn-ghost">تذكيرات اليوم</button>
+    <div class="section-title">تتبّع الصيام — الأيام التسعة</div>
+    <div class="card">
+      <p style="margin-bottom:14px;font-size:13px;color:var(--muted)">⭐ = يوم عرفة · انقر لتسجيل الصيام</p>
+      <div class="fast-grid">
+        <div class="fast-day" data-day="1"><span>١</span><span class="fast-lbl">يوم</span></div>
+        <div class="fast-day" data-day="2"><span>٢</span><span class="fast-lbl">يوم</span></div>
+        <div class="fast-day" data-day="3"><span>٣</span><span class="fast-lbl">يوم</span></div>
+        <div class="fast-day" data-day="4"><span>٤</span><span class="fast-lbl">يوم</span></div>
+        <div class="fast-day" data-day="5"><span>٥</span><span class="fast-lbl">يوم</span></div>
+        <div class="fast-day" data-day="6"><span>٦</span><span class="fast-lbl">يوم</span></div>
+        <div class="fast-day" data-day="7"><span>٧</span><span class="fast-lbl">يوم</span></div>
+        <div class="fast-day" data-day="8"><span>٨</span><span class="fast-lbl">يوم</span></div>
+        <div class="fast-day arafah" data-day="9"><span>٩</span><span class="fast-lbl">عرفة</span></div>
+      </div>
     </div>
-
+    <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="showToast('✅ تم الحفظ تلقائياً')">💾 حفظ التقدم</button>
+      <button class="btn btn-ghost" onclick="requestNotifPermission()">🔔 تذكيرات الورد</button>
+    </div>
   </main>
 </div>
+<script src="js/app.js"></script>
 </body>
 </html>

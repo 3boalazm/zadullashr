@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<title>دليل الأضحية — زاد العشر</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>أحكام وشروط — زاد العشر</title>
+<meta name="theme-color" content="#0e3b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{t=JSON.parse(s).theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">ع</div>
-      <div>
-        <div class="brand-name">زاد العشر</div>
-        <div class="brand-sub">أفضل أيام الدنيا</div>
-      </div>
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
     <nav class="nav">
       <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
@@ -30,46 +39,69 @@
       <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
       <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
       <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
       <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
       <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
     </nav>
-    <div class="side-foot">
-      نسخة 2026 · بدون إعلانات · يحترم خصوصيتك
-    </div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div>
-        <div class="page-title">دليل <span>الأضحية</span></div>
-        <div class="page-sub">أحكام وشروط ميسّرة للمضحّي</div>
+      <div><div class="page-title">دليل <span>الأضحية</span></div>
+      <div class="page-sub">أحكام مصوّرة ميسّرة للمضحّي</div></div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
-      <div class="search">🔍 <input placeholder="ابحث في التطبيق..."></div>
     </div>
     <div class="card" style="background:linear-gradient(135deg,#fff8e6,#fbf2dc);border-color:var(--gold-soft)">
-      <h3>🔔 تذكير المضحّي</h3>
-      <p>إذا عزمت على الأضحية فأمسك عن قص شعرك وأظافرك من رؤية هلال ذي الحجة حتى تذبح.</p>
-      <button class="btn btn-gold" style="margin-top:14px">فعّل التذكير</button>
+      <h3>🔔 تذكير المضحّي — أهم نقطة!</h3>
+      <p style="font-size:15px;line-height:1.9">إذا عزمت على الأضحية فأمسك عن قص شعرك وأظافرك وجلدك من رؤية هلال ذي الحجة حتى تذبح.</p>
+      <div style="font-size:12px;color:var(--muted);margin:6px 0">رواه مسلم (1977) عن أم سلمة رضي الله عنها</div>
+      <button class="btn btn-gold" onclick="requestNotifPermission()">🔔 فعّل تذكير عدم القص</button>
     </div>
 
-    <div class="section-title">شروط الأضحية</div>
+    <div class="section-title">خطوات الأضحية — دليل مصوّر</div>
+    <div class="info-step">
+      <div class="step-num">١</div>
+      <div class="step-body"><b>النية والعزم</b><p>من هلال ذي الحجة يعقد نية الأضحية ويمتنع عن أخذ الشعر والأظافر.</p></div>
+    </div>
+    <div class="info-step">
+      <div class="step-num">٢</div>
+      <div class="step-body"><b>اختيار الأضحية السليمة</b><p>تخلو من العيوب الأربعة المانعة، وتبلغ السن الشرعي المطلوب.</p></div>
+    </div>
+    <div class="info-step">
+      <div class="step-num">٣</div>
+      <div class="step-body"><b>وقت الذبح</b><p>يبدأ بعد صلاة العيد يوم النحر (10 ذو الحجة) وينتهي غروب 13 ذو الحجة.</p></div>
+    </div>
+    <div class="info-step">
+      <div class="step-num">٤</div>
+      <div class="step-body"><b>دعاء الذبح</b><p style="font-family:Amiri,serif;font-size:17px;color:var(--green-deep);line-height:1.9">بِسْمِ اللَّهِ وَاللَّهُ أَكْبَرُ، اللَّهُمَّ هَذَا مِنْكَ وَلَكَ</p></div>
+    </div>
+    <div class="info-step">
+      <div class="step-num">٥</div>
+      <div class="step-body"><b>توزيع اللحم</b><p>يستحب أثلاثاً: ثلث يأكله، ثلث يهديه، ثلث يتصدق به على الفقراء.</p></div>
+    </div>
+
+    <div class="section-title">السن الشرعي للأضحية</div>
     <div class="grid cols-3">
-      <div class="card"><div class="ico-lg">🐪</div><h3>الإبل</h3><p>أن تتم خمس سنوات</p></div>
-      <div class="card"><div class="ico-lg">🐄</div><h3>البقر</h3><p>أن تتم سنتين</p></div>
-      <div class="card"><div class="ico-lg">🐏</div><h3>الغنم</h3><p>الضأن 6 أشهر، الماعز سنة</p></div>
+      <div class="card" style="text-align:center"><div style="font-size:36px;margin-bottom:10px">🐪</div>
+        <h3>الإبل</h3><p>5 سنوات كاملة</p><span class="tag gold">تجزئ عن 7</span></div>
+      <div class="card" style="text-align:center"><div style="font-size:36px;margin-bottom:10px">🐄</div>
+        <h3>البقر</h3><p>2 سنة كاملة</p><span class="tag gold">تجزئ عن 7</span></div>
+      <div class="card" style="text-align:center"><div style="font-size:36px;margin-bottom:10px">🐏</div>
+        <h3>الغنم</h3><p>ضأن: 6 أشهر · ماعز: سنة</p><span class="tag">عن شخص واحد</span></div>
     </div>
 
-    <div class="section-title">العيوب المانعة</div>
-    <ul class="rules">
-      <li><b>العوراء البيّن عورها</b> — التي ذهب ضوء عينها.</li>
-      <li><b>المريضة البيّن مرضها</b> — الظاهر عليها أثر المرض.</li>
-      <li><b>العرجاء البيّن ظلعها</b> — التي لا تستطيع المشي مع الصحاح.</li>
-      <li><b>العجفاء التي لا تُنقي</b> — الهزيلة التي لا مخّ في عظامها.</li>
-    </ul>
-
-    <div class="section-title">وقت الذبح</div>
-    <div class="card"><p>يبدأ بعد صلاة العيد يوم النحر، وينتهي بغروب شمس آخر أيام التشريق (اليوم 13 من ذي الحجة).</p></div>
-
+    <div class="section-title">العيوب الأربعة المانعة من الإجزاء</div>
+    <div class="defect-grid">
+      <div class="defect-card"><div class="dc-ico">👁️</div><b>العوراء البيّن</b><p>التي فقدت ضوء عينها أو أصيب بصرها بشكل واضح.</p></div>
+      <div class="defect-card"><div class="dc-ico">🤒</div><b>المريضة البيّن</b><p>الظاهر عليها أثر المرض الشديد في جسمها أو سلوكها.</p></div>
+      <div class="defect-card"><div class="dc-ico">🦿</div><b>العرجاء البيّن</b><p>التي لا تستطيع السير مع الأصحاء بسبب عرجها الواضح.</p></div>
+      <div class="defect-card"><div class="dc-ico">⚖️</div><b>العجفاء المُنقية</b><p>الهزيلة جداً التي لا مخّ في عظامها — لضعفها الشديد.</p></div>
+    </div>
   </main>
 </div>
+<script src="js/app.js"></script>
 </body>
 </html>

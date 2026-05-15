@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<title>أوسمتي — زاد العشر</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>نظام التحفيز — زاد العشر</title>
+<meta name="theme-color" content="#0e3b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{t=JSON.parse(s).theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">ع</div>
-      <div>
-        <div class="brand-name">زاد العشر</div>
-        <div class="brand-sub">أفضل أيام الدنيا</div>
-      </div>
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
     <nav class="nav">
       <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
@@ -30,38 +39,42 @@
       <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
       <a href="badges.html" class="active"><span class="ico">🏅</span>أوسمتي</a>
       <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
       <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
       <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
     </nav>
-    <div class="side-foot">
-      نسخة 2026 · بدون إعلانات · يحترم خصوصيتك
-    </div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div>
-        <div class="page-title"><span>أوسمتي</span></div>
-        <div class="page-sub">ما تحقق من أعمال البر — الأجر عند الله</div>
+      <div><div class="page-title"><span>أوسمتي</span> والإنجازات</div>
+      <div class="page-sub">ما تحقق من أعمال البر — الأجر عند الله</div></div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
-      <div class="search">🔍 <input placeholder="ابحث في التطبيق..."></div>
     </div>
-    <div class="section-title">أوسمة محققة</div>
+    <div class="card" style="background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;margin-bottom:22px;text-align:center;padding:28px">
+      <div style="font-size:48px;font-weight:900" id="streak-count">0</div>
+      <div style="font-size:15px;opacity:.85;margin-top:4px">🔥 يوم متتالي من الالتزام</div>
+      <div class="streak-bar" style="margin-top:16px">
+        <div class="streak-day" id="sd-1">1</div><div class="streak-day" id="sd-2">2</div><div class="streak-day" id="sd-3">3</div><div class="streak-day" id="sd-4">4</div><div class="streak-day" id="sd-5">5</div><div class="streak-day" id="sd-6">6</div><div class="streak-day" id="sd-7">7</div><div class="streak-day" id="sd-8">8</div><div class="streak-day" id="sd-9">9</div><div class="streak-day" id="sd-10">10</div>
+      </div>
+      <div style="margin-top:14px;font-size:13px;opacity:.7">المكتسبة: <strong id="earned-count">0 / 8</strong></div>
+    </div>
+    <div class="section-title">الأوسمة</div>
     <div class="badges">
-      <div class="badge"><div class="medal">🕌</div><div class="name">المسارع في الخيرات</div><div class="desc">إنجاز ورد 7 أيام متتالية</div></div>
-      <div class="badge"><div class="medal">📿</div><div class="name">المُكبِّر</div><div class="desc">1000 تكبيرة</div></div>
-      <div class="badge"><div class="medal">🌙</div><div class="name">القائم</div><div class="desc">3 ليال قيام</div></div>
-      <div class="badge"><div class="medal">📖</div><div class="name">التالي</div><div class="desc">5 أجزاء قراءة</div></div>
+      <div class="badge locked" data-badge="mubakker"><div class="medal">🌅</div><div class="name">المبكّر</div><div class="desc">صلاة الفجر في جماعة</div></div>
+      <div class="badge locked" data-badge="dhaker"><div class="medal">📿</div><div class="name">الذاكرون</div><div class="desc">100 تكبيرة</div></div>
+      <div class="badge locked" data-badge="saem"><div class="medal">🌙</div><div class="name">الصائمون</div><div class="desc">صيام 3 أيام</div></div>
+      <div class="badge locked" data-badge="khatim"><div class="medal">📖</div><div class="name">الخاتمون</div><div class="desc">ختمة كاملة</div></div>
+      <div class="badge locked" data-badge="musare"><div class="medal">🕌</div><div class="name">المسارعون</div><div class="desc">الصلوات الخمس في جماعة</div></div>
+      <div class="badge locked" data-badge="mukabbir"><div class="medal">📢</div><div class="name">المُكبِّرون</div><div class="desc">1000 تكبيرة</div></div>
+      <div class="badge locked" data-badge="sadiq"><div class="medal">💚</div><div class="name">المتصدقون</div><div class="desc">3 أعمال بر</div></div>
+      <div class="badge locked" data-badge="kamil"><div class="medal">👑</div><div class="name">جامع الخير</div><div class="desc">5 أيام متتالية</div></div>
     </div>
-
-    <div class="section-title">أوسمة قادمة</div>
-    <div class="badges">
-      <div class="badge locked"><div class="medal">🌟</div><div class="name">الصائم</div><div class="desc">صيام التسع أيام كاملة</div></div>
-      <div class="badge locked"><div class="medal">📚</div><div class="name">الخاتم</div><div class="desc">ختمة كاملة في العشر</div></div>
-      <div class="badge locked"><div class="medal">💚</div><div class="name">المتصدّق</div><div class="desc">صدقة كل يوم</div></div>
-      <div class="badge locked"><div class="medal">👑</div><div class="name">جامع الخير</div><div class="desc">إكمال كل الأوسمة</div></div>
-    </div>
-
   </main>
 </div>
+<script src="js/app.js"></script>
 </body>
 </html>

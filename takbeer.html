@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<title>المُكبِّر — زاد العشر</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>الله أكبر، الله أكبر — زاد العشر</title>
+<meta name="theme-color" content="#0e3b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{t=JSON.parse(s).theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">ع</div>
-      <div>
-        <div class="brand-name">زاد العشر</div>
-        <div class="brand-sub">أفضل أيام الدنيا</div>
-      </div>
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
     <nav class="nav">
       <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
@@ -30,47 +39,54 @@
       <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
       <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
       <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
       <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
       <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
     </nav>
-    <div class="side-foot">
-      نسخة 2026 · بدون إعلانات · يحترم خصوصيتك
-    </div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div>
-        <div class="page-title">المُكبِّر — <span>الله أكبر</span></div>
-        <div class="page-sub">استشعر بهجة العشر بالتكبير المطلق والمقيد</div>
+      <div><div class="page-title">المُكبِّر — <span>الله أكبر</span></div>
+      <div class="page-sub">استشعر بهجة العشر — مفتاح المسافة يُكبّر</div></div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
-      <div class="search">🔍 <input placeholder="ابحث في التطبيق..."></div>
     </div>
     <div class="tasbeeh">
-      <div class="word">اللهُ أكبرُ كبيرًا</div>
-      <div class="ring">
+      <div class="phrase-pills" id="tkb-pills"></div>
+      <div class="word" id="tkb-word">اللَّهُ أَكْبَرُ</div>
+      <div class="tasbeeh-prog" id="tkb-prog"><span style="width:0%"></span></div>
+      <div class="ring" id="tkb-ring" tabindex="0" role="button" aria-label="انقر للتكبير">
         <div>
-          <div class="count">237</div>
-          <div style="color:var(--gold-soft);font-size:14px;margin-top:8px">اضغط للتكبير</div>
+          <div class="count" id="tkb-count">0</div>
+          <div style="color:var(--gold-soft);font-size:12px;margin-top:6px">انقر أو اضغط مسافة</div>
         </div>
       </div>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px">
-        <button class="btn btn-gold">إعادة العد</button>
-        <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3)">حفظ</button>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+        <button class="btn btn-gold" id="tkb-reset">🔄 إعادة</button>
+        <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3)" id="tkb-save">💾 حفظ</button>
       </div>
     </div>
-
-    <div class="section-title">صيغ التكبير</div>
+    <div class="section-title">إحصائيات</div>
     <div class="grid cols-2">
-      <div class="card"><h3>📣 التكبير المطلق</h3><p style="font-family:Amiri,serif;font-size:18px;color:var(--green-deep);line-height:2">الله أكبر، الله أكبر، الله أكبر، لا إله إلا الله، والله أكبر، الله أكبر، ولله الحمد.</p><span class="tag">من أول ذي الحجة إلى آخر أيام التشريق</span></div>
-      <div class="card"><h3>🕌 التكبير المقيد</h3><p>عقب الصلوات المفروضة من فجر يوم عرفة إلى عصر آخر أيام التشريق.</p><span class="tag gold">يبدأ بعد 6 أيام</span></div>
+      <div class="card"><h3>📿 إجمالي التكبيرات</h3><div class="v" id="tkb-total" style="font-size:28px;font-weight:900;color:var(--green-deep)">0</div></div>
+      <div class="card"><h3>🏅 الجلسات المكتملة</h3><div class="v" id="tkb-sess" style="font-size:28px;font-weight:900;color:var(--green-deep)">0</div></div>
     </div>
-
-    <div class="section-title">استمع لتكبيرات العيد</div>
-    <div class="audio"><div class="play">▶</div><div class="info"><b>تكبيرات الحرم المكي</b><small>عبدالرحمن السديس · 4:32</small></div></div>
-    <div class="audio"><div class="play">▶</div><div class="info"><b>تكبيرات المسجد النبوي</b><small>علي الحذيفي · 5:18</small></div></div>
-    <div class="audio"><div class="play">▶</div><div class="info"><b>تكبيرات المسجد الأقصى</b><small>تسجيل حي · 6:04</small></div></div>
-
+    <div class="section-title">صيغ التكبير الواردة</div>
+    <div class="grid cols-2">
+      <div class="card"><h3>📣 التكبير المطلق</h3>
+        <p style="font-family:Amiri,serif;font-size:18px;color:var(--green-deep);line-height:2">اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ، وَلِلَّهِ الْحَمْدُ</p>
+        <span class="tag">من أول ذي الحجة إلى آخر التشريق</span>
+      </div>
+      <div class="card"><h3>🕌 التكبير المقيد</h3>
+        <p>عقب الصلوات المفروضة من فجر عرفة إلى عصر 13 ذو الحجة.</p>
+        <span class="tag gold">يبدأ فجر عرفة</span>
+      </div>
+    </div>
   </main>
 </div>
+<script src="js/app.js"></script>
 </body>
 </html>

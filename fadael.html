@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<title>فضائل العشر — زاد العشر</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>لماذا هذه الأيام؟ — زاد العشر</title>
+<meta name="theme-color" content="#0e3b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{t=JSON.parse(s).theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">ع</div>
-      <div>
-        <div class="brand-name">زاد العشر</div>
-        <div class="brand-sub">أفضل أيام الدنيا</div>
-      </div>
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
     <nav class="nav">
       <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
@@ -30,58 +39,56 @@
       <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
       <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
       <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
       <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
       <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
     </nav>
-    <div class="side-foot">
-      نسخة 2026 · بدون إعلانات · يحترم خصوصيتك
-    </div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div>
-        <div class="page-title">لماذا <span>هذه الأيام</span>؟</div>
-        <div class="page-sub">أدلة الفضل من القرآن والسنة</div>
+      <div><div class="page-title">لماذا <span>هذه الأيام</span>؟</div>
+      <div class="page-sub">أدلة الفضل من القرآن والسنة الصحيحة</div></div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
-      <div class="search">🔍 <input placeholder="ابحث في التطبيق..."></div>
     </div>
     <div class="grid cols-2">
-      <div class="verse">
-        <div class="src">القرآن الكريم</div>
+      <div class="verse"><div class="src">سورة الفجر 1-2</div>
         <div class="ar">وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ</div>
-        <p>أقسم الله تعالى بها، والله لا يُقسم إلا بعظيم.</p>
-      </div>
-      <div class="verse">
-        <div class="src">سورة الحج</div>
+        <p>أقسم الله بها — والله لا يُقسم إلا بعظيم.</p></div>
+      <div class="verse"><div class="src">سورة الحج — 28</div>
         <div class="ar">وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَّعْلُومَاتٍ</div>
-        <p>قال جمهور المفسرين: هي عشر ذي الحجة.</p>
-      </div>
+        <p>قال المفسرون: هي عشر ذي الحجة.</p></div>
     </div>
-
     <div class="section-title">من السنة النبوية</div>
     <div class="card">
-      <div class="ico-lg">🕌</div>
-      <h3>أحبّ الأيام إلى الله</h3>
-      <p style="font-family:'Amiri',serif;font-size:18px;color:var(--ink);line-height:2">«ما من أيامٍ العملُ الصالحُ فيهنّ أحبّ إلى الله من هذه الأيام العشر، قالوا: ولا الجهاد في سبيل الله؟ قال: ولا الجهاد في سبيل الله، إلا رجلٌ خرج بنفسه وماله فلم يرجع من ذلك بشيء».</p>
-      <span class="tag">رواه البخاري</span>
+      <div class="ico-lg">🕌</div><h3>أحبّ الأيام إلى الله</h3>
+      <p style="font-family:Amiri,serif;font-size:19px;color:var(--ink);line-height:2">«ما من أيامٍ العملُ الصالحُ فيهنّ أحبّ إلى الله من هذه الأيام العشر»</p>
+      <span class="tag">رواه البخاري (969)</span>
     </div>
-
+    <div class="card" style="margin-top:12px">
+      <div class="ico-lg">🌟</div><h3>يوم النحر أعظم الأيام</h3>
+      <p style="font-family:Amiri,serif;font-size:18px;color:var(--ink);line-height:2">«أعظم الأيام عند الله يوم النحر ثم يوم القَرّ»</p>
+      <span class="tag">رواه أبو داود (1765) وصححه الألباني</span>
+    </div>
     <div class="section-title">مقارنة فقهية</div>
     <div class="grid cols-2">
-      <div class="card"><h3>☀️ نهار العشر</h3><p>أفضل أيام السنة على الإطلاق لاجتماع أمهات العبادات (صلاة، صيام، حج، أضحية).</p></div>
-      <div class="card"><h3>🌙 ليالي رمضان الأواخر</h3><p>أفضل ليالي السنة لما فيها من ليلة القدر، فاجتمع لكِ خير الزمانين.</p></div>
+      <div class="card"><h3>☀️ نهار العشر</h3><p>أفضل أيام السنة مطلقاً لاجتماع أمهات العبادات.</p><span class="tag gold">الأفضل نهاراً</span></div>
+      <div class="card"><h3>🌙 ليالي رمضان الأواخر</h3><p>أفضل ليالي السنة لما فيها من ليلة القدر.</p><span class="tag">الأفضل ليلاً</span></div>
     </div>
-
-    <div class="section-title">خصائص العشر</div>
+    <div class="section-title">الخصائص الكبرى</div>
     <ul class="rules">
-      <li><b>1.</b> أقسم الله بها في كتابه.</li>
-      <li><b>2.</b> فيها يوم عرفة، وهو يوم إكمال الدين.</li>
-      <li><b>3.</b> فيها يوم النحر، وهو أعظم الأيام عند الله.</li>
-      <li><b>4.</b> العمل الصالح فيها أحبّ إلى الله من غيرها.</li>
-      <li><b>5.</b> اجتماع أمهات العبادات لا يكون إلا فيها.</li>
+      <li><b>١.</b> أقسم الله بها في كتابه الكريم.</li>
+      <li><b>٢.</b> فيها يوم عرفة — يوم إكمال الدين وإتمام النعمة.</li>
+      <li><b>٣.</b> فيها يوم النحر — أعظم الأيام عند الله.</li>
+      <li><b>٤.</b> العمل الصالح فيها أحبّ إلى الله حتى من الجهاد.</li>
+      <li><b>٥.</b> اجتماع الصلاة والصيام والحج والأضحية لا يكون إلا فيها.</li>
+      <li><b>٦.</b> صيام يوم عرفة يكفّر ذنوب سنتين — ماضية وقادمة.</li>
     </ul>
-
   </main>
 </div>
+<script src="js/app.js"></script>
 </body>
 </html>

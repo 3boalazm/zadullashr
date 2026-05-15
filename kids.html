@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<title>وضع الأطفال — زاد العشر</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ثريّا — قصة الفداء — زاد العشر</title>
+<meta name="theme-color" content="#0e3b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{t=JSON.parse(s).theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">ع</div>
-      <div>
-        <div class="brand-name">زاد العشر</div>
-        <div class="brand-sub">أفضل أيام الدنيا</div>
-      </div>
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
     <nav class="nav">
       <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
@@ -30,39 +39,48 @@
       <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
       <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
       <a href="kids.html" class="active"><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
       <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
       <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
     </nav>
-    <div class="side-foot">
-      نسخة 2026 · بدون إعلانات · يحترم خصوصيتك
-    </div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div>
-        <div class="page-title">ثُريّا — <span>وضع الأطفال</span></div>
-        <div class="page-sub">علّم صغارك قصة الفداء وفضل العشر</div>
+      <div><div class="page-title">ثُريّا — <span>وضع الأطفال</span></div>
+      <div class="page-sub">علّم صغارك قصة الفداء وفضل العشر بطريقة ممتعة</div></div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
-      <div class="search">🔍 <input placeholder="ابحث في التطبيق..."></div>
     </div>
     <section class="hero" style="background:linear-gradient(135deg,#1a5d47,#c9a14a)">
-      <div class="hero-eyebrow">قصة اليوم</div>
-      <h1>إبراهيم وإسماعيل عليهما السلام</h1>
-      <p>قصة الفداء العظيم بأسلوب مصوّر يحبّه الأطفال.</p>
-      <button class="btn btn-gold" style="margin-top:18px">▶ ابدأ القصة</button>
+      <div class="hero-eyebrow">قصة العشر</div>
+      <h1 id="story-title">إبراهيم عليه السلام — النبي الخليل</h1>
+      <p id="story-body">كان سيدنا إبراهيم أحب الناس إلى الله وأعظمهم توحيداً...</p>
+      <div style="display:flex;gap:12px;margin-top:18px;align-items:center">
+        <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.4)" id="story-prev">◀ السابقة</button>
+        <span style="color:rgba(255,255,255,.7);font-size:13px" id="story-count">1 / 5</span>
+        <button class="btn btn-gold" id="story-next">التالية ▶</button>
+      </div>
+      <div style="font-size:36px;margin-top:14px" id="story-ico">🕌</div>
     </section>
-
     <div class="section-title">أنشطة تفاعلية</div>
     <div class="grid cols-3">
-      <div class="card"><div class="ico-lg">🎨</div><h3>لوّن الكعبة</h3><p>نشاط رسم وتلوين</p></div>
-      <div class="card"><div class="ico-lg">🧩</div><h3>بازل المناسك</h3><p>رتّب صور الحج</p></div>
-      <div class="card"><div class="ico-lg">🎵</div><h3>تكبيرات للصغار</h3><p>تعلّم التكبير غناءً</p></div>
-      <div class="card"><div class="ico-lg">📜</div><h3>سور قصيرة</h3><p>تلاوة وتصحيح بالذكاء</p></div>
-      <div class="card"><div class="ico-lg">⭐</div><h3>نجوم ثُريّا</h3><p>اجمع نجومًا بكل نشاط</p></div>
-      <div class="card"><div class="ico-lg">🐑</div><h3>قصة الأضحية</h3><p>لماذا نُضحّي؟</p></div>
+      <div class="card activity-card" data-act="quiz" style="cursor:pointer"><div class="ico-lg">🧩</div><h3>مسابقة العشر</h3><p>أسئلة ممتعة للصغار</p></div>
+      <div class="card activity-card" data-act="takbeer" style="cursor:pointer"><div class="ico-lg">🎵</div><h3>تكبيرات للصغار</h3><p>تعلّم التكبير وأنت مستمتع</p></div>
+      <div class="card activity-card" data-act="stars" style="cursor:pointer"><div class="ico-lg">⭐</div><h3>نجوم ثُريّا</h3><p>اجمع نجوماً بكل نشاط</p></div>
     </div>
-
+    <div id="quiz-section" style="display:none;margin-top:18px">
+      <div class="card">
+        <div style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:16px;line-height:1.7" id="quiz-q">جارٍ التحميل...</div>
+        <div id="quiz-opts"></div>
+        <div id="quiz-fb" style="margin-top:10px;font-size:14px;font-weight:700;display:none"></div>
+        <button class="btn btn-primary" onclick="quizNext()" id="quiz-next" style="display:none;margin-top:14px">السؤال التالي ▶</button>
+      </div>
+    </div>
   </main>
 </div>
+<script src="js/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<title>تسميع القرآن — زاد العشر</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0e3b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{t=JSON.parse(s).theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+</head>
+<body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <nav class="nav">
+      <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
+      <a href="fadael.html" class=""><span class="ico">✨</span>فضائل العشر</a>
+      <a href="worship.html" class=""><span class="ico">📿</span>جدول العبادات</a>
+      <a href="mushaf.html" class=""><span class="ico">📖</span>مصحف العشر</a>
+      <a href="takbeer.html" class=""><span class="ico">🕋</span>المكبِّر</a>
+      <a href="odhiya.html" class=""><span class="ico">🐏</span>دليل الأضحية</a>
+      <a href="arafah.html" class=""><span class="ico">🌄</span>يوم عرفة</a>
+      <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
+      <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
+      <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class="active"><span class="ico">🎙️</span>تسميع القرآن</a>
+      <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
+      <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div><div class="page-title">تسميع <span>القرآن</span></div>
+      <div class="page-sub">تصحيح التلاوة بتقنية التعرف على الصوت بالعربية</div></div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
+      </div>
+    </div>
+
+    <!-- Pick verse -->
+    <div class="section-title">اختر الآية للتسميع</div>
+    <div class="grid cols-2">
+      <div class="card" style="cursor:pointer;border:2px solid transparent;transition:border-color .2s"
+        onclick="selectVerse(this,'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ','البسملة')">
+        <h3>📖 البسملة</h3>
+        <p style="font-family:Amiri,serif;font-size:18px;color:var(--green-deep);line-height:2">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+      </div>
+      <div class="card" style="cursor:pointer;border:2px solid transparent;transition:border-color .2s"
+        onclick="selectVerse(this,'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ الرَّحْمَٰنِ الرَّحِيمِ مَالِكِ يَوْمِ الدِّينِ','الفاتحة 2-4')">
+        <h3>📖 الفاتحة (2-4)</h3>
+        <p style="font-family:Amiri,serif;font-size:16px;color:var(--green-deep);line-height:2">الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ الرَّحْمَٰنِ الرَّحِيمِ مَالِكِ يَوْمِ الدِّينِ</p>
+      </div>
+      <div class="card" style="cursor:pointer;border:2px solid transparent;transition:border-color .2s"
+        onclick="selectVerse(this,'وَالْفَجْرِ وَلَيَالٍ عَشْرٍ','الفجر 1-2')">
+        <h3>📖 سورة الفجر (1-2)</h3>
+        <p style="font-family:Amiri,serif;font-size:18px;color:var(--green-deep);line-height:2">وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ</p>
+      </div>
+      <div class="card" style="cursor:pointer;border:2px solid transparent;transition:border-color .2s"
+        onclick="selectVerse(this,'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ','دعاء عرفة')">
+        <h3>🤲 دعاء يوم عرفة</h3>
+        <p style="font-family:Amiri,serif;font-size:15px;color:var(--green-deep);line-height:2">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ...</p>
+      </div>
+    </div>
+
+    <!-- Selected verse display -->
+    <div id="tasmee-target" data-text="" class="verse" style="margin-top:8px;display:none">
+      <div class="src" id="tasmee-title">اختر آية</div>
+      <div class="ar" id="tasmee-text" style="font-size:22px"></div>
+    </div>
+
+    <!-- Mic -->
+    <div class="section-title">التسميع الصوتي</div>
+    <div class="card" style="text-align:center;padding:30px">
+      <button class="mic-btn" id="mic-btn" title="انقر للتسميع">🎙️</button>
+      <p style="margin-top:16px;color:var(--muted);font-size:13px">انقر الميكروفون ثم اتلُ الآية بصوت واضح</p>
+    </div>
+
+    <!-- Transcript -->
+    <div class="section-title">ما سمعته</div>
+    <div class="transcript-box" id="transcript">هنا ستظهر تلاوتك...</div>
+
+    <!-- Accuracy -->
+    <div class="section-title">دقة التلاوة</div>
+    <div class="card" style="text-align:center;padding:28px">
+      <div class="accuracy-ring">
+        <svg viewBox="0 0 120 120" width="120" height="120" style="position:absolute;inset:0;transform:rotate(-90deg)">
+          <circle cx="60" cy="60" r="52" fill="none" stroke="var(--sand-2)" stroke-width="10"/>
+          <circle id="acc-ring" cx="60" cy="60" r="52" fill="none" stroke="#4caf50"
+            stroke-width="10" stroke-linecap="round"
+            style="stroke-dasharray:326.7;stroke-dashoffset:326.7;transition:all .8s ease"/>
+        </svg>
+        <div class="pct" id="accuracy-pct">--</div>
+      </div>
+      <div style="margin-top:16px;font-size:15px;font-weight:700" id="speech-feedback">اضغط الميكروفون وابدأ التسميع</div>
+    </div>
+
+    <div class="section-title">نصائح التسميع</div>
+    <ul class="rules">
+      <li><b>التجويد أولاً:</b> تأكد من إخراج الحروف صحيحاً قبل التسميع.</li>
+      <li><b>بيئة هادئة:</b> ابتعد عن الضوضاء لدقة أعلى في التعرف.</li>
+      <li><b>الصوت العادي:</b> تحدث بصوت طبيعي لا بطيئاً جداً.</li>
+      <li><b>المتصفح المناسب:</b> يعمل بشكل أفضل في Chrome وEdge وSafari.</li>
+    </ul>
+
+    <script>
+    function selectVerse(el, text, title) {
+      document.querySelectorAll('.card[onclick]').forEach(c => c.style.borderColor='transparent');
+      el.style.borderColor = 'var(--gold)';
+      const target = document.getElementById('tasmee-target');
+      const titleEl = document.getElementById('tasmee-title');
+      const textEl  = document.getElementById('tasmee-text');
+      if(target){target.style.display='block';target.setAttribute('data-text',text);}
+      if(titleEl) titleEl.textContent = title;
+      if(textEl)  textEl.textContent  = text;
+    }
+    </script>
+  </main>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>

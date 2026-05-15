@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<title>تدبّر بالذكاء — زاد العشر</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>اسأل عن آيات وأحكام العشر — زاد العشر</title>
+<meta name="theme-color" content="#0e3b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{t=JSON.parse(s).theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">ع</div>
-      <div>
-        <div class="brand-name">زاد العشر</div>
-        <div class="brand-sub">أفضل أيام الدنيا</div>
-      </div>
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
     <nav class="nav">
       <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
@@ -30,59 +39,47 @@
       <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
       <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
       <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
       <a href="ai.html" class="active"><span class="ico">🤖</span>تدبّر بالذكاء</a>
       <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
     </nav>
-    <div class="side-foot">
-      نسخة 2026 · بدون إعلانات · يحترم خصوصيتك
-    </div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div>
-        <div class="page-title">تدبّر <span>بالذكاء</span></div>
-        <div class="page-sub">اسأل عن آيات وأحكام العشر — إجابات موثقة</div>
-      </div>
-      <div class="search">🔍 <input placeholder="ابحث في التطبيق..."></div>
-    </div>
-    <div class="card" style="min-height:380px;display:flex;flex-direction:column;gap:14px">
-      <div style="display:flex;gap:12px;align-items:flex-start">
-        <div class="ico-lg" style="margin:0">🤖</div>
-        <div style="background:var(--sand);padding:14px 18px;border-radius:14px;border-top-right-radius:4px;max-width:80%">
-          مرحبًا بك. اسألني عن أي آية، حديث، أو حكم فقهي يخص العشر، وسأجيبك من ابن كثير والطبري وكتب الفقه المعتمدة.
-        </div>
-      </div>
-
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-direction:row-reverse">
-        <div class="ico-lg" style="margin:0;background:var(--green-soft);color:#fff">👤</div>
-        <div style="background:var(--green-deep);color:#fff;padding:14px 18px;border-radius:14px;border-top-left-radius:4px;max-width:80%">
-          ما معنى "الأيام المعلومات" في سورة الحج؟
-        </div>
-      </div>
-
-      <div style="display:flex;gap:12px;align-items:flex-start">
-        <div class="ico-lg" style="margin:0">🤖</div>
-        <div style="background:var(--sand);padding:14px 18px;border-radius:14px;border-top-right-radius:4px;max-width:80%">
-          قال ابن كثير في تفسيره: <i>"الأيام المعلومات هي عشر ذي الحجة، وهو قول ابن عباس وابن عمر رضي الله عنهم"</i>. وذلك لما فيها من الذكر عند ذبح الهدي والأضاحي.
-          <div style="margin-top:8px"><span class="tag">ابن كثير 5/415</span> <span class="tag">الطبري 18/595</span></div>
-        </div>
+      <div><div class="page-title">تدبّر <span>بالذكاء</span></div>
+      <div class="page-sub">اسأل عن آيات وأحكام العشر — إجابات من المصادر الشرعية</div></div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
     </div>
-
-    <div style="margin-top:20px;display:flex;gap:10px;background:#fff;padding:10px;border-radius:999px;border:1px solid var(--border);box-shadow:var(--shadow)">
-      <input placeholder="اكتب سؤالك..." style="flex:1;border:0;outline:0;padding:8px 16px;font-family:inherit;font-size:14px">
-      <button class="btn btn-primary">إرسال</button>
+    <div class="card" style="min-height:400px">
+      <div class="chat-wrap" id="chat-wrap">
+        <div class="msg bot">
+          <div class="msg-av bot">🤖</div>
+          <div class="msg-bubble bot">
+            مرحبًا في <strong>مساعد العشر</strong> 🕌<br><br>
+            اسألني عن أي آية، حديث، أو حكم فقهي يخص عشر ذي الحجة — وسأجيبك من ابن كثير والطبري وكتب الفقه المعتمدة.
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input id="chat-input" placeholder="اكتب سؤالك هنا..." autocomplete="off">
+        <button class="btn btn-primary" id="chat-send">إرسال</button>
+      </div>
     </div>
-
     <div class="section-title">أسئلة مقترحة</div>
-    <div class="grid cols-2">
-      <div class="card"><h3>❓ هل صيام يوم عرفة لغير الحاج واجب؟</h3></div>
-      <div class="card"><h3>❓ ما حكم الأضحية؟ سنة أم واجبة؟</h3></div>
-      <div class="card"><h3>❓ متى يبدأ التكبير المقيد؟</h3></div>
-      <div class="card"><h3>❓ ما فضل قيام الليل في العشر؟</h3></div>
+    <div class="grid cols-2 suggested-qs">
+      <div class="card sq"><h3>❓ ما معنى "الأيام المعلومات" في سورة الحج؟</h3></div>
+      <div class="card sq"><h3>❓ هل صيام يوم عرفة واجب أم مستحب؟</h3></div>
+      <div class="card sq"><h3>❓ ما حكم الأضحية؟ سنة أم واجبة؟</h3></div>
+      <div class="card sq"><h3>❓ ما فضل التكبير في أيام العشر؟</h3></div>
+      <div class="card sq"><h3>❓ ما الأعمال الأفضل في العشر؟</h3></div>
+      <div class="card sq"><h3>❓ متى يبدأ التكبير المقيد ومتى ينتهي؟</h3></div>
     </div>
-
   </main>
 </div>
+<script src="js/app.js"></script>
 </body>
 </html>

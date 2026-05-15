@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<title>يوم عرفة — زاد العشر</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>البرنامج المتكامل — زاد العشر</title>
+<meta name="theme-color" content="#0e3b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{t=JSON.parse(s).theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">ع</div>
-      <div>
-        <div class="brand-name">زاد العشر</div>
-        <div class="brand-sub">أفضل أيام الدنيا</div>
-      </div>
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
     <nav class="nav">
       <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
@@ -30,39 +39,45 @@
       <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
       <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
       <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
       <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
       <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
     </nav>
-    <div class="side-foot">
-      نسخة 2026 · بدون إعلانات · يحترم خصوصيتك
-    </div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div>
-        <div class="page-title">يوم <span>عرفة</span></div>
-        <div class="page-sub">خير يوم طلعت عليه الشمس — برنامج متكامل</div>
+      <div><div class="page-title">يوم <span>عرفة</span></div>
+      <div class="page-sub">خير يوم طلعت عليه الشمس — برنامج متكامل ساعة بساعة</div></div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
-      <div class="search">🔍 <input placeholder="ابحث في التطبيق..."></div>
     </div>
     <section class="hero">
-      <div class="hero-eyebrow">يوم الإجابة</div>
+      <div class="hero-eyebrow">يوم الإجابة العظمى</div>
       <h1>«ما من يوم أكثر من أن يعتق الله فيه عبدًا من النار من يوم عرفة»</h1>
-      <p>صحيح مسلم — اجعل لنفسك حظًا من هذا اليوم العظيم.</p>
+      <p style="font-size:13px;opacity:.85">صحيح مسلم — اجعل لنفسك حظًا وافراً من هذا اليوم الكريم.</p>
+      <div class="countdown" style="margin-top:18px">
+        <div class="cd-box"><div class="cd-num" id="cd-days">08</div><div class="cd-lbl">أيام</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-hrs">14</div><div class="cd-lbl">ساعات</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-mins">22</div><div class="cd-lbl">دقائق</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-secs">09</div><div class="cd-lbl">ثوانٍ</div></div>
+      </div>
     </section>
 
-    <div class="section-title">برنامج اليوم بالساعات</div>
+    <div class="section-title">برنامج اليوم ساعة بساعة</div>
     <div class="timeline">
-      <div class="tl-item"><div class="tl-time">قبل الفجر · 03:30</div><div class="tl-title">السحور والاستغفار</div><div class="tl-desc">سحور خفيف، وأربع ركعات تهجد، واستغفار في وقت السحَر.</div></div>
-      <div class="tl-item"><div class="tl-time">الفجر · 04:30</div><div class="tl-title">صلاة الفجر في جماعة</div><div class="tl-desc">الجلوس في المصلى لذكر الله حتى الإشراق ثم صلاة ركعتين (أجر حجة وعمرة تامة).</div></div>
-      <div class="tl-item"><div class="tl-time">الضحى · 09:00</div><div class="tl-title">قراءة القرآن وتدبّره</div><div class="tl-desc">أكثر من قراءة القرآن، خاصة سور الفاتحة والبقرة والكهف.</div></div>
-      <div class="tl-item"><div class="tl-time">الظهر · 12:00</div><div class="tl-title">صلاة الظهر</div><div class="tl-desc">ثم استرح قليلاً للقيلولة استعدادًا لساعة الإجابة.</div></div>
-      <div class="tl-item"><div class="tl-time">العصر · 15:30</div><div class="tl-title">الذكر والدعاء المستمر</div><div class="tl-desc">«خير الدعاء دعاء يوم عرفة، وخير ما قلت أنا والنبيون من قبلي: لا إله إلا الله وحده لا شريك له».</div></div>
-      <div class="tl-item"><div class="tl-time">قبل المغرب</div><div class="tl-title">ساعة الإجابة العظمى</div><div class="tl-desc">قف بقلبك بين يدي الله، ارفع يديك، استحضر حاجاتك وحاجات أمتك، وألحّ في الدعاء.</div></div>
-      <div class="tl-item"><div class="tl-time">المغرب</div><div class="tl-title">إفطار الصائم</div><div class="tl-desc">«صيام يوم عرفة يكفّر السنة الماضية والباقية» — لغير الحاج.</div></div>
+      <div class="tl-item"><div class="tl-time">🌙 03:30 — قبل الفجر</div><div class="tl-title">السحور والتهجد والاستغفار</div><div class="tl-desc">سحور خفيف، وتهجد بما تيسّر، واستغفار في وقت السحر — أوقات الإجابة.</div><div class="tl-dua">رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنتَ التَّوَّابُ الرَّحِيمُ</div></div>
+      <div class="tl-item"><div class="tl-time">🌅 04:30 — صلاة الفجر</div><div class="tl-title">الفجر جماعةً ثم الجلوس للذكر حتى الإشراق ⭐</div><div class="tl-desc">من صلى الفجر في جماعة ثم جلس يذكر الله حتى تطلع الشمس ثم صلى ركعتين فله أجر حجة وعمرة تامة تامة تامة.</div><div class="tl-dua">سبحان الله وبحمده عدد خلقه، ورضا نفسه، وزنة عرشه، ومداد كلماته</div></div>
+      <div class="tl-item"><div class="tl-time">☀️ 07:00 — الإشراق والضحى</div><div class="tl-title">صلاة الضحى وتلاوة القرآن</div><div class="tl-desc">أكثر من قراءة القرآن وتدبره — خاصة سورة الكهف والفاتحة والبقرة.</div></div>
+      <div class="tl-item"><div class="tl-time">🕛 12:00 — صلاة الظهر</div><div class="tl-title">الظهر ثم قيلولة خفيفة</div><div class="tl-desc">استعد لساعة الإجابة الكبرى بالراحة والسكينة واستحضار الدعاء.</div></div>
+      <div class="tl-item"><div class="tl-time">🌤️ 14:00 — بعد الظهر</div><div class="tl-title">الدعاء المتواصل ⭐⭐</div><div class="tl-desc">«خير الدعاء دعاء يوم عرفة» — أكثر من لا إله إلا الله وحده لا شريك له.</div><div class="tl-dua">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div></div>
+      <div class="tl-item" style="border-color:var(--gold-soft)"><div class="tl-time" style="font-size:14px">⭐⭐⭐ قبيل المغرب — ساعة الإجابة العظمى</div><div class="tl-title">ألحّ في الدعاء — آخر ساعة نهار عرفة</div><div class="tl-desc">قف بقلبك بين يدي الله، ارفع يديك، استحضر كل حاجاتك وحاجات أمتك، وألحّ وابكِ.</div><div class="tl-dua">اللَّهُمَّ إِنَّكَ عَفُوٌّ كَرِيمٌ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div></div>
+      <div class="tl-item"><div class="tl-time">🌙 المغرب — الإفطار</div><div class="tl-title">إفطار الصائم والشكر</div><div class="tl-desc">«صيام يوم عرفة يكفّر السنة الماضية والباقية» — اختم يومك بالحمد والشكر.</div></div>
     </div>
-
   </main>
 </div>
+<script src="js/app.js"></script>
 </body>
 </html>

@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<title>صدقة العشر — زاد العشر</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>أبواب البر — زاد العشر</title>
+<meta name="theme-color" content="#0e3b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{t=JSON.parse(s).theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">ع</div>
-      <div>
-        <div class="brand-name">زاد العشر</div>
-        <div class="brand-sub">أفضل أيام الدنيا</div>
-      </div>
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
     <nav class="nav">
       <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
@@ -30,40 +39,41 @@
       <a href="sadaqah.html" class="active"><span class="ico">💚</span>صدقة العشر</a>
       <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
       <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
       <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
       <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
     </nav>
-    <div class="side-foot">
-      نسخة 2026 · بدون إعلانات · يحترم خصوصيتك
-    </div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div>
-        <div class="page-title">صدقة <span>العشر</span></div>
-        <div class="page-sub">أبواب البر مفتوحة — اختر بابك</div>
+      <div><div class="page-title">صدقة <span>العشر</span></div>
+      <div class="page-sub">أبواب البر مفتوحة — اختر بابك اليوم</div></div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
-      <div class="search">🔍 <input placeholder="ابحث في التطبيق..."></div>
     </div>
     <div class="grid cols-3">
-      <div class="card"><div class="ico-lg">🍞</div><h3>إطعام الطعام</h3><p>أفضل ما تُطعم وجبات للمحتاجين والمساكين.</p><button class="btn btn-primary" style="margin-top:10px">تبرّع الآن</button></div>
-      <div class="card"><div class="ico-lg">💧</div><h3>سقيا الماء</h3><p>سقيا الماء من أعظم الصدقات الجارية.</p><button class="btn btn-primary" style="margin-top:10px">شارك</button></div>
-      <div class="card"><div class="ico-lg">🐑</div><h3>أضحية للفقراء</h3><p>وكّل جمعية موثوقة لذبح أضحيتك.</p><button class="btn btn-gold" style="margin-top:10px">احجز أضحية</button></div>
-      <div class="card"><div class="ico-lg">📖</div><h3>طباعة مصاحف</h3><p>صدقة جارية ما قُرئت.</p><button class="btn btn-primary" style="margin-top:10px">ساهم</button></div>
-      <div class="card"><div class="ico-lg">👨‍👩‍👧</div><h3>كفالة يتيم</h3><p>«أنا وكافل اليتيم في الجنة هكذا».</p><button class="btn btn-primary" style="margin-top:10px">اكفل الآن</button></div>
-      <div class="card"><div class="ico-lg">🤝</div><h3>صلة الرحم</h3><p>اتصل بقريب لم تره منذ زمن.</p><button class="btn btn-ghost" style="margin-top:10px">قائمة الأقارب</button></div>
+      <div class="card charity-act" data-act="food"><div class="ico-lg">🍞</div><h3>إطعام الطعام</h3><p>وجبات للمحتاجين.</p><button class="btn btn-primary" style="margin-top:10px">✅ سجّل هذا العمل</button></div>
+      <div class="card charity-act" data-act="water"><div class="ico-lg">💧</div><h3>سقيا الماء</h3><p>من أعظم الصدقات الجارية.</p><button class="btn btn-primary" style="margin-top:10px">✅ سجّل</button></div>
+      <div class="card charity-act" data-act="sheep"><div class="ico-lg">🐑</div><h3>أضحية للفقراء</h3><p>وكّل جمعية موثوقة.</p><button class="btn btn-gold" style="margin-top:10px">احجز أضحية</button></div>
+      <div class="card charity-act" data-act="quran"><div class="ico-lg">📖</div><h3>طباعة مصاحف</h3><p>صدقة جارية ما قُرئت.</p><button class="btn btn-primary" style="margin-top:10px">✅ سجّل</button></div>
+      <div class="card charity-act" data-act="orphan"><div class="ico-lg">👨‍👩‍👧</div><h3>كفالة يتيم</h3><p>«أنا وكافل اليتيم في الجنة هكذا» ﷺ.</p><button class="btn btn-primary" style="margin-top:10px">✅ سجّل</button></div>
+      <div class="card charity-act" data-act="kin"><div class="ico-lg">🤝</div><h3>صلة الرحم</h3><p>اتصل بقريب لم تره منذ زمن.</p><button class="btn btn-ghost" style="margin-top:10px">✅ سجّل</button></div>
     </div>
-
-    <div class="section-title">اقتراحات بسيطة لكل يوم</div>
+    <div class="section-title">اقتراح لكل يوم</div>
     <ul class="rules">
-      <li><b>اليوم 1:</b> ابتسم في وجوه إخوانك.</li>
+      <li><b>اليوم 1:</b> ابتسم في وجوه إخوانك — «تبسّمك صدقة».</li>
       <li><b>اليوم 2:</b> أفشِ السلام على من عرفت ومن لم تعرف.</li>
-      <li><b>اليوم 3:</b> أعِن أحدًا بحاجته.</li>
-      <li><b>اليوم 4:</b> اعفُ عن إساءة.</li>
-      <li><b>اليوم 5:</b> أمط الأذى عن الطريق.</li>
+      <li><b>اليوم 3:</b> أعِن أحداً في حاجته.</li>
+      <li><b>اليوم 4:</b> اعفُ عن إساءة — العفو يرفع الدرجات.</li>
+      <li><b>اليوم 5:</b> أمط الأذى عن الطريق — فهي صدقة.</li>
+      <li><b>اليوم 6:</b> ادعُ لأحد بظهر الغيب.</li>
+      <li><b>اليوم 7:</b> علّم أحداً شيئاً نافعاً.</li>
     </ul>
-
   </main>
 </div>
+<script src="js/app.js"></script>
 </body>
 </html>

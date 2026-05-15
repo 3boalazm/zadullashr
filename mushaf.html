@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<title>مصحف العشر — زاد العشر</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>اقرأ وتدبّر — زاد العشر</title>
+<meta name="theme-color" content="#0e3b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{t=JSON.parse(s).theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">ع</div>
-      <div>
-        <div class="brand-name">زاد العشر</div>
-        <div class="brand-sub">أفضل أيام الدنيا</div>
-      </div>
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
     <nav class="nav">
       <a href="index.html" class=""><span class="ico">🏠</span>لوحة التحكم</a>
@@ -30,48 +39,54 @@
       <a href="sadaqah.html" class=""><span class="ico">💚</span>صدقة العشر</a>
       <a href="badges.html" class=""><span class="ico">🏅</span>أوسمتي</a>
       <a href="kids.html" class=""><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html" class=""><span class="ico">🎙️</span>تسميع القرآن</a>
       <a href="ai.html" class=""><span class="ico">🤖</span>تدبّر بالذكاء</a>
       <a href="settings.html" class=""><span class="ico">⚙️</span>الإعدادات</a>
     </nav>
-    <div class="side-foot">
-      نسخة 2026 · بدون إعلانات · يحترم خصوصيتك
-    </div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div>
-        <div class="page-title">مصحف <span>العشر</span></div>
-        <div class="page-sub">خطة ختم مرنة، وتدبّر هادئ</div>
+      <div><div class="page-title">مصحف <span>العشر</span></div>
+      <div class="page-sub">خطة ختم مرنة وتدبّر هادئ</div></div>
+      <div class="topbar-right">
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." onfocus="openSearchOverlay()"></div>
+        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
       </div>
-      <div class="search">🔍 <input placeholder="ابحث في التطبيق..."></div>
     </div>
-    <div class="grid cols-3">
-      <div class="card"><div class="ico-lg">📅</div><h3>خطة 10 أيام</h3><p>ختمة كاملة (3 أجزاء يوميًا)</p><span class="tag gold">نشطة</span></div>
-      <div class="card"><div class="ico-lg">📗</div><h3>جزء يوميًا</h3><p>قراءة هادئة بتركيز كامل</p></div>
-      <div class="card"><div class="ico-lg">💎</div><h3>جواهر القرآن</h3><p>آيات الحج والتوحيد بالتفسير</p></div>
+    <div class="grid cols-3" style="margin-bottom:20px">
+      <div class="card plan-card" data-plan="khatma-10"><div class="ico-lg">📅</div><h3>خطة 10 أيام</h3><p>ختمة كاملة (3 أجزاء يومياً)</p></div>
+      <div class="card plan-card active" data-plan="daily-juz"><div class="ico-lg">📗</div><h3>جزء يومياً</h3><p>قراءة هادئة بتركيز كامل</p></div>
+      <div class="card plan-card" data-plan="gems"><div class="ico-lg">💎</div><h3>جواهر القرآن</h3><p>آيات الحج والتوحيد</p></div>
     </div>
-
     <div class="section-title">صفحة اليوم — سورة الحج</div>
     <div class="mushaf">
       <div class="header"><span>سورة الحج</span><span>الجزء 17 · الصفحة 332</span></div>
       وَأَذِّن فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا وَعَلَىٰ كُلِّ ضَامِرٍ يَأْتِينَ مِن كُلِّ فَجٍّ عَمِيقٍ <span class="aya-num">27</span>
-      لِّيَشْهَدُوا مَنَافِعَ لَهُمْ وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَّعْلُومَاتٍ عَلَىٰ مَا رَزَقَهُم مِّن بَهِيمَةِ الْأَنْعَامِ ۖ فَكُلُوا مِنْهَا وَأَطْعِمُوا الْبَائِسَ الْفَقِيرَ <span class="aya-num">28</span>
+      لِّيَشْهَدُوا مَنَافِعَ لَهُمْ وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَّعْلُومَاتٍ <span class="aya-num">28</span>
       ثُمَّ لْيَقْضُوا تَفَثَهُمْ وَلْيُوفُوا نُذُورَهُمْ وَلْيَطَّوَّفُوا بِالْبَيْتِ الْعَتِيقِ <span class="aya-num">29</span>
     </div>
-
-    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+    <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
       <button class="btn btn-ghost">◀ السابقة</button>
-      <button class="btn btn-gold">💎 تدبّر الآية</button>
+      <button class="btn btn-gold" onclick="showToast('💎 تدبّر: تعلّق بالبيت الحرام قلباً')">💎 تدبّر</button>
       <button class="btn btn-ghost">التالية ▶</button>
+      <div style="display:flex;align-items:center;gap:10px;margin-right:auto">
+        <span style="font-size:13px;color:var(--muted)">حجم الخط</span>
+        <input type="range" id="m-font" min="16" max="36" value="24" style="accent-color:var(--green-deep);width:100px">
+      </div>
     </div>
-
-    <div class="section-title">تقدمي في الختمة</div>
+    <div class="section-title">تقدّمي في الختمة</div>
     <div class="card">
-      <div class="progress"><span style="width:42%"></span></div>
-      <div style="margin-top:8px;font-size:13px;color:var(--muted)">12 جزء / 30 جزء · المتبقي 4 أيام</div>
+      <h3>📊 الختمة الكاملة</h3>
+      <div class="progress" style="margin-top:12px"><span id="m-prog-bar" style="width:0%"></span></div>
+      <div style="margin-top:8px;font-size:13px;color:var(--muted)" id="m-prog-txt">0 جزء / 30 جزء</div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-primary" id="m-add-juz">+ أضف جزءاً مكتملاً</button>
+        <button class="btn btn-ghost" id="m-reset">إعادة تعيين</button>
+      </div>
     </div>
-
   </main>
 </div>
+<script src="js/app.js"></script>
 </body>
 </html>
