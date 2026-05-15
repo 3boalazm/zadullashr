@@ -7,7 +7,11 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0e3b2e">
-<title>عن التطبيق — زاد العشر</title>
+<title class="triple-title">
+  <span class="ar">عن التطبيق — زاد العشر</span>
+  <span class="trans">ʿan al-taṭbīq — zād al-ʿashr</span>
+  <span class="en">About App — Zad Al-Ashr</span>
+</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
@@ -16,6 +20,94 @@
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"></noscript>
 <link rel="stylesheet" href="css/style.css">
 <style>
+/* === Triple Text Core Styles === */
+.triple-text, .triple-title, .triple-para, .triple-btn, .triple-badge, .triple-stat-v, .triple-stat-l {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+  line-height: 1.25;
+}
+.triple-text .ar, .triple-title .ar, .triple-para .ar, .triple-btn .ar, .triple-badge .ar, .triple-stat-v .ar, .triple-stat-l .ar {
+  font-family: 'Amiri', serif;
+  font-weight: 700;
+  font-size: 1em;
+  color: var(--ink, #1a1a1a);
+  direction: rtl;
+}
+.triple-text .trans, .triple-title .trans, .triple-para .trans, .triple-btn .trans, .triple-badge .trans, .triple-stat-v .trans, .triple-stat-l .trans {
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.72em;
+  color: var(--gold-dark, #8b6914);
+  direction: ltr;
+  opacity: 0.9;
+  font-weight: 500;
+}
+.triple-text .en, .triple-title .en, .triple-para .en, .triple-btn .en, .triple-badge .en, .triple-stat-v .en, .triple-stat-l .en {
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.68em;
+  color: var(--muted, #666);
+  direction: ltr;
+  text-transform: capitalize;
+  opacity: 0.85;
+}
+
+/* للجمل الطويلة */
+.triple-para {
+  gap: 5px;
+  text-align: justify;
+  text-align-last: center;
+}
+.triple-para .ar { font-size: 1.05em; line-height: 1.8; }
+.triple-para .trans { font-size: 0.82em; line-height: 1.5; }
+.triple-para .en { font-size: 0.78em; line-height: 1.4; }
+
+/* للأزرار والعناصر الصغيرة */
+.triple-btn, .triple-badge {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 10px;
+}
+.triple-btn .ar, .triple-badge .ar { font-size: 0.95em; }
+.triple-btn .trans, .triple-badge .trans { font-size: 0.7em; }
+.triple-btn .en, .triple-badge .en { font-size: 0.65em; }
+
+/* للإحصائيات */
+.triple-stat-v { font-size: 1.8em !important; font-weight: 900 !important; }
+.triple-stat-v .ar { font-size: 1.3em; }
+.triple-stat-v .trans, .triple-stat-v .en { font-size: 0.55em; }
+.triple-stat-l .ar { font-size: 0.9em; }
+.triple-stat-l .trans, .triple-stat-l .en { font-size: 0.6em; }
+
+/* للعناوين */
+.section-title.triple-text {
+  font-size: 1.4em;
+  margin-bottom: 16px;
+  color: var(--green-deep, #0e3b2e);
+}
+.section-title.triple-text .ar { font-size: 1.2em; }
+
+/* للوضع الداكن */
+html[data-theme="dark"] .triple-text .ar,
+html[data-theme="oled"] .triple-text .ar { color: var(--sys-text, #f0f0f0); }
+html[data-theme="dark"] .triple-text .trans,
+html[data-theme="oled"] .triple-text .trans { color: var(--sys-gold, #d4af37); }
+html[data-theme="dark"] .triple-text .en,
+html[data-theme="oled"] .triple-text .en { color: var(--sys-muted, #aaa); }
+
+/* تحسينات للموبايل */
+@media (max-width: 768px) {
+  .triple-text .ar { font-size: 0.95em; }
+  .triple-text .trans { font-size: 0.68em; }
+  .triple-text .en { font-size: 0.64em; }
+  .triple-para .ar { font-size: 1em; }
+  .triple-para .trans { font-size: 0.78em; }
+  .triple-para .en { font-size: 0.74em; }
+}
+
+/* === باقي الستايل الأصلي === */
 .about-hero{background:linear-gradient(135deg,var(--green-deep),var(--green-mid) 60%,var(--green-soft));border-radius:22px;padding:40px 36px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow);margin-bottom:24px}
 .about-hero::before{content:"";position:absolute;inset:auto -60px -100px auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.28),transparent 68%);pointer-events:none}
 .dev-avatar{width:88px;height:88px;border-radius:24px;background:linear-gradient(135deg,var(--brand-gold-lt),var(--brand-gold));display:grid;place-items:center;font-size:42px;margin-bottom:18px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
@@ -23,7 +115,6 @@
 .dev-title{font-size:14px;opacity:.8;margin-bottom:16px}
 .dev-badges{display:flex;gap:8px;flex-wrap:wrap}
 .dev-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:5px 14px;border-radius:99px;font-size:12px;font-weight:700}
-
 .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
 .contact-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;box-shadow:var(--shadow-sm);transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;gap:8px}
 .contact-card:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:var(--shadow)}
@@ -31,7 +122,6 @@
 .contact-lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 .contact-val{font-size:13px;font-weight:700;color:var(--green-deep);direction:ltr}
 html[data-theme="dark"] .contact-val,html[data-theme="oled"] .contact-val{color:var(--sys-green)}
-
 .social-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px}
 .social-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;box-shadow:var(--shadow-sm);text-decoration:none;color:inherit;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:6px}
 .social-card:hover{transform:translateY(-3px)}
@@ -42,7 +132,6 @@ html[data-theme="dark"] .contact-val,html[data-theme="oled"] .contact-val{color:
 .social-card.facebook:hover{border-color:#1877f2}
 .social-card.instagram:hover{border-color:#e4405f}
 .social-card.tiktok:hover{border-color:#010101}
-
 .app-info-card{background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1px solid rgba(201,161,74,.2);border-radius:var(--radius);padding:26px;margin-bottom:20px}
 .app-info-card h3{color:var(--gold-dark);margin-bottom:14px;font-size:17px}
 html[data-theme="dark"] .app-info-card h3,html[data-theme="oled"] .app-info-card h3{color:var(--sys-yellow)}
@@ -51,11 +140,9 @@ html[data-theme="dark"] .app-info-card h3,html[data-theme="oled"] .app-info-card
 .app-stat .v{font-size:22px;font-weight:900;color:var(--green-deep)}
 html[data-theme="dark"] .app-stat .v,html[data-theme="oled"] .app-stat .v{color:var(--sys-green)}
 .app-stat .l{font-size:11px;color:var(--muted);margin-top:2px}
-
 .sources-list{list-style:none;display:flex;flex-direction:column;gap:8px}
 .sources-list li{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--card);border:1px solid var(--border);border-radius:11px;font-size:13px;color:var(--ink)}
 .sources-list li .s-ico{font-size:18px;flex-shrink:0}
-
 @media(max-width:768px){
   .contact-grid{grid-template-columns:1fr 1fr}
   .social-grid{grid-template-columns:repeat(3,1fr)}
@@ -76,44 +163,201 @@ html[data-theme="dark"] .app-stat .v,html[data-theme="oled"] .app-stat .v{color:
   <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
       <div class="brand-mark">🕋</div>
-      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+      <div>
+        <div class="brand-name triple-text">
+          <span class="ar">زاد العشر</span>
+          <span class="trans">zād al-ʿashr</span>
+          <span class="en">Zad Al-Ashr</span>
+        </div>
+        <div class="brand-sub triple-text">
+          <span class="ar">أفضل أيام الدنيا</span>
+          <span class="trans">afḍal ayyām al-dunyā</span>
+          <span class="en">Best Days of Life</span>
+        </div>
+      </div>
     </a>
+    
     <div class="theme-row">
-      <span data-i18n="common.darkMode">🌙 الوضع الداكن</span>
+      <span class="triple-text" data-i18n="common.darkMode">
+        <span class="ar">🌙 الوضع الداكن</span>
+        <span class="trans">🌙 al-waḍʿ al-dākin</span>
+        <span class="en">🌙 Dark Mode</span>
+      </span>
       <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
+    
     <!-- Language Toggle -->
     <button class="sidebar-lang-btn" onclick="toggleLang()" id="sidebar-lang-btn">
-      <span class="slb-label" data-i18n="common.language">🌐 اللغة</span>
+      <span class="slb-label triple-text" data-i18n="common.language">
+        <span class="ar">🌐 اللغة</span>
+        <span class="trans">🌐 al-lughah</span>
+        <span class="en">🌐 Language</span>
+      </span>
       <span class="slb-val" id="sidebar-lang-val">EN</span>
     </button>
+    
     <nav class="nav">
-      <a href="index.html"><span class="ico">🏠</span data-i18n="nav.dashboard">لوحة التحكم</a>
-      <a href="fadael.html"><span class="ico">✨</span data-i18n="nav.virtues">فضائل العشر</a>
-      <a href="worship.html"><span class="ico">📿</span data-i18n="nav.worship">جدول العبادات</a>
-      <a href="mushaf.html"><span class="ico">📖</span data-i18n="nav.mushaf">مصحف العشر</a>
-      <a href="takbeer.html"><span class="ico">🕋</span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</a>
-      <a href="adhkar.html"><span class="ico">🤲</span data-i18n="nav.adhkar">الأذكار والدعاء</a>
-      <a href="odhiya.html"><span class="ico">🐏</span data-i18n="nav.odhiya">دليل الأضحية</a>
-      <a href="arafah.html"><span class="ico">🌄</span data-i18n="nav.arafah">يوم عرفة</a>
-      <a href="sadaqah.html"><span class="ico">💚</span data-i18n="nav.sadaqah">صدقة العشر</a>
-      <a href="badges.html"><span class="ico">🏅</span data-i18n="nav.badges">أوسمتي</a>
-      <a href="hasad.html"><span class="ico">📊</span data-i18n="nav.hasad">حصاد العشر</a>
-      <a href="kids.html"><span class="ico">🧒</span data-i18n="nav.kids">وضع الأطفال</a>
-      <a href="tasmee.html"><span class="ico">🎙️</span data-i18n="nav.tasmee">تسميع القرآن</a>
-      <a href="ai.html"><span class="ico">🤖</span data-i18n="nav.ai">تدبّر بالذكاء</a>
-      <a href="settings.html"><span class="ico">⚙️</span data-i18n="nav.settings">الإعدادات</a>
-      <a href="report.html"><span class="ico">🚩</span data-i18n="nav.report">بلاغ مشكلة</a>
-      <a href="about.html" class="active"><span class="ico">👤</span data-i18n="nav.about">عن التطبيق</a>
+      <a href="index.html">
+        <span class="ico">🏠</span>
+        <span class="triple-text" data-i18n="nav.dashboard">
+          <span class="ar">لوحة التحكم</span>
+          <span class="trans">lawḥat al-taḥakkum</span>
+          <span class="en">Dashboard</span>
+        </span>
+      </a>
+      <a href="fadael.html">
+        <span class="ico">✨</span>
+        <span class="triple-text" data-i18n="nav.virtues">
+          <span class="ar">فضائل العشر</span>
+          <span class="trans">faḍā'il al-ʿashr</span>
+          <span class="en">Virtues of the Ten</span>
+        </span>
+      </a>
+      <a href="worship.html">
+        <span class="ico">📿</span>
+        <span class="triple-text" data-i18n="nav.worship">
+          <span class="ar">جدول العبادات</span>
+          <span class="trans">jadwal al-ʿibādāt</span>
+          <span class="en">Worship Schedule</span>
+        </span>
+      </a>
+      <a href="mushaf.html">
+        <span class="ico">📖</span>
+        <span class="triple-text" data-i18n="nav.mushaf">
+          <span class="ar">مصحف العشر</span>
+          <span class="trans">muṣḥaf al-ʿashr</span>
+          <span class="en">Ten-Day Mushaf</span>
+        </span>
+      </a>
+      <a href="takbeer.html">
+        <span class="ico">🕋</span>
+        <span class="triple-text" data-i18n="nav.tasbih">
+          <span class="ar">المُسبِّح والمُكبِّر</span>
+          <span class="trans">al-musabbiḥ wal-mukabbir</span>
+          <span class="en">Tasbih & Takbir</span>
+        </span>
+      </a>
+      <a href="adhkar.html">
+        <span class="ico">🤲</span>
+        <span class="triple-text" data-i18n="nav.adhkar">
+          <span class="ar">الأذكار والدعاء</span>
+          <span class="trans">al-adhkār wal-duʿāʾ</span>
+          <span class="en">Remembrances & Du'a</span>
+        </span>
+      </a>
+      <a href="odhiya.html">
+        <span class="ico">🐏</span>
+        <span class="triple-text" data-i18n="nav.odhiya">
+          <span class="ar">دليل الأضحية</span>
+          <span class="trans">dalīl al-uḍḥiyyah</span>
+          <span class="en">Sacrifice Guide</span>
+        </span>
+      </a>
+      <a href="arafah.html">
+        <span class="ico">🌄</span>
+        <span class="triple-text" data-i18n="nav.arafah">
+          <span class="ar">يوم عرفة</span>
+          <span class="trans">yawm ʿarafah</span>
+          <span class="en">Day of Arafah</span>
+        </span>
+      </a>
+      <a href="sadaqah.html">
+        <span class="ico">💚</span>
+        <span class="triple-text" data-i18n="nav.sadaqah">
+          <span class="ar">صدقة العشر</span>
+          <span class="trans">ṣadaqat al-ʿashr</span>
+          <span class="en">Ten-Day Charity</span>
+        </span>
+      </a>
+      <a href="badges.html">
+        <span class="ico">🏅</span>
+        <span class="triple-text" data-i18n="nav.badges">
+          <span class="ar">أوسمتي</span>
+          <span class="trans">awsimatī</span>
+          <span class="en">My Badges</span>
+        </span>
+      </a>
+      <a href="hasad.html">
+        <span class="ico">📊</span>
+        <span class="triple-text" data-i18n="nav.hasad">
+          <span class="ar">حصاد العشر</span>
+          <span class="trans">ḥaṣād al-ʿashr</span>
+          <span class="en">Ten-Day Harvest</span>
+        </span>
+      </a>
+      <a href="kids.html">
+        <span class="ico">🧒</span>
+        <span class="triple-text" data-i18n="nav.kids">
+          <span class="ar">وضع الأطفال</span>
+          <span class="trans">waḍʿ al-aṭfāl</span>
+          <span class="en">Kids Mode</span>
+        </span>
+      </a>
+      <a href="tasmee.html">
+        <span class="ico">🎙️</span>
+        <span class="triple-text" data-i18n="nav.tasmee">
+          <span class="ar">تسميع القرآن</span>
+          <span class="trans">tasmīʿ al-qurʾān</span>
+          <span class="en">Quran Recitation</span>
+        </span>
+      </a>
+      <a href="ai.html">
+        <span class="ico">🤖</span>
+        <span class="triple-text" data-i18n="nav.ai">
+          <span class="ar">تدبّر بالذكاء</span>
+          <span class="trans">tadabbur bi-al-dhakāʾ</span>
+          <span class="en">Reflect with AI</span>
+        </span>
+      </a>
+      <a href="settings.html">
+        <span class="ico">⚙️</span>
+        <span class="triple-text" data-i18n="nav.settings">
+          <span class="ar">الإعدادات</span>
+          <span class="trans">al-iʿdādāt</span>
+          <span class="en">Settings</span>
+        </span>
+      </a>
+      <a href="report.html">
+        <span class="ico">🚩</span>
+        <span class="triple-text" data-i18n="nav.report">
+          <span class="ar">بلاغ مشكلة</span>
+          <span class="trans">bulāgh mushkilah</span>
+          <span class="en">Report Issue</span>
+        </span>
+      </a>
+      <a href="about.html" class="active">
+        <span class="ico">👤</span>
+        <span class="triple-text" data-i18n="nav.about">
+          <span class="ar">عن التطبيق</span>
+          <span class="trans">ʿan al-taṭbīq</span>
+          <span class="en">About App</span>
+        </span>
+      </a>
     </nav>
-    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
+    
+    <div class="side-foot triple-text">
+      <span class="ar">زاد العشر 2026 · بدون إعلانات</span>
+      <span class="trans">zād al-ʿashr 2026 · bidūn iʿlānāt</span>
+      <span class="en">Zad Al-Ashr 2026 · No Ads</span>
+      <span class="ar">يعمل بدون إنترنت 📴</span>
+      <span class="trans">yaʿmal bidūn internet 📴</span>
+      <span class="en">Works Offline 📴</span>
+    </div>
   </aside>
 
   <main class="main">
     <div class="topbar">
       <div>
-        <div class="page-title">عن <span>التطبيق</span></div>
-        <div class="page-sub">زاد العشر — رفيقك الذكي في أفضل أيام الدنيا</div>
+        <div class="page-title triple-text">
+          <span class="ar">عن <span>التطبيق</span></span>
+          <span class="trans">ʿan <span>al-taṭbīq</span></span>
+          <span class="en">About <span>the App</span></span>
+        </div>
+        <div class="page-sub triple-text">
+          <span class="ar">زاد العشر — رفيقك الذكي في أفضل أيام الدنيا</span>
+          <span class="trans">zād al-ʿashr — rafīquka al-dhakī fī afḍal ayyām al-dunyā</span>
+          <span class="en">Zad Al-Ashr — Your Smart Companion in Life's Best Days</span>
+        </div>
       </div>
       <div class="topbar-right">
         <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang()">EN</button>
@@ -124,113 +368,305 @@ html[data-theme="dark"] .app-stat .v,html[data-theme="oled"] .app-stat .v{color:
     <!-- Developer Hero -->
     <div class="about-hero">
       <div class="dev-avatar">👨‍💻</div>
-      <div class="dev-name">مصطفى أبو العزم</div>
-      <div class="dev-title">مصمم واجهات · مطور تطبيقات ويب · مبتكر تجربة المستخدم</div>
+      <div class="dev-name triple-text">
+        <span class="ar">مصطفى أبو العزم</span>
+        <span class="trans">Muṣṭafā Abū al-ʿAzm</span>
+        <span class="en">Mustafa Abu Al-Azm</span>
+      </div>
+      <div class="dev-title triple-text">
+        <span class="ar">مصمم واجهات · مطور تطبيقات ويب · مبتكر تجربة المستخدم</span>
+        <span class="trans">muṣammim wājihāt · muṭawwir taṭbīqāt web · mubtakir tajribat al-mustakhdim</span>
+        <span class="en">UI Designer · Web App Developer · UX Innovator</span>
+      </div>
       <div class="dev-badges">
-        <span class="dev-badge">🎨 UI/UX Designer</span>
-        <span class="dev-badge">💻 Web Developer</span>
-        <span class="dev-badge">📱 PWA Specialist</span>
-        <span class="dev-badge">🤖 AI Integration</span>
+        <span class="dev-badge triple-badge">
+          <span class="ar">🎨 مصمم واجهات</span>
+          <span class="trans">🎨 muṣammim wājihāt</span>
+          <span class="en">🎨 UI/UX Designer</span>
+        </span>
+        <span class="dev-badge triple-badge">
+          <span class="ar">💻 مطور ويب</span>
+          <span class="trans">💻 muṭawwir web</span>
+          <span class="en">💻 Web Developer</span>
+        </span>
+        <span class="dev-badge triple-badge">
+          <span class="ar">📱 متخصص PWA</span>
+          <span class="trans">📱 mutakhaṣṣiṣ PWA</span>
+          <span class="en">📱 PWA Specialist</span>
+        </span>
+        <span class="dev-badge triple-badge">
+          <span class="ar">🤖 دمج الذكاء</span>
+          <span class="trans">🤖 damj al-dhakāʾ</span>
+          <span class="en">🤖 AI Integration</span>
+        </span>
       </div>
     </div>
 
     <!-- Contact -->
-    <div class="section-title">📬 تواصل معي</div>
+    <div class="section-title triple-text">
+      <span class="ar">📬 تواصل معي</span>
+      <span class="trans">📬 tawāṣal maʿī</span>
+      <span class="en">📬 Contact Me</span>
+    </div>
     <div class="contact-grid">
       <a href="mailto:Mustafaaboalazm@mail.ru" class="contact-card">
         <div class="contact-ico">📧</div>
-        <div class="contact-lbl">البريد الإلكتروني</div>
+        <div class="contact-lbl triple-text">
+          <span class="ar">البريد الإلكتروني</span>
+          <span class="trans">al-barīd al-iliktrūnī</span>
+          <span class="en">Email</span>
+        </div>
         <div class="contact-val">Mustafaaboalazm@mail.ru</div>
       </a>
       <a href="https://wa.me/201092500454" target="_blank" class="contact-card">
         <div class="contact-ico">💬</div>
-        <div class="contact-lbl">واتساب</div>
+        <div class="contact-lbl triple-text">
+          <span class="ar">واتساب</span>
+          <span class="trans">wātsāb</span>
+          <span class="en">WhatsApp</span>
+        </div>
         <div class="contact-val">+20 109 250 0454</div>
       </a>
       <a href="tel:+201092500454" class="contact-card">
         <div class="contact-ico">📞</div>
-        <div class="contact-lbl">هاتف</div>
+        <div class="contact-lbl triple-text">
+          <span class="ar">هاتف</span>
+          <span class="trans">hātif</span>
+          <span class="en">Phone</span>
+        </div>
         <div class="contact-val">+20 109 250 0454</div>
       </a>
     </div>
 
     <!-- Social -->
-    <div class="section-title">🌐 تابعني على</div>
+    <div class="section-title triple-text">
+      <span class="ar">🌐 تابعني على</span>
+      <span class="trans">🌐 tābiʿnī ʿalā</span>
+      <span class="en">🌐 Follow Me On</span>
+    </div>
     <div class="social-grid">
       <a href="https://www.behance.net/aboalazm" target="_blank" class="social-card behance">
         <div class="social-ico">🎨</div>
-        <div class="social-name">Behance</div>
+        <div class="social-name triple-text">
+          <span class="ar">Behance</span>
+          <span class="trans">Behance</span>
+          <span class="en">Behance</span>
+        </div>
       </a>
       <a href="https://www.linkedin.com/in/aboalazm" target="_blank" class="social-card linkedin">
         <div class="social-ico">💼</div>
-        <div class="social-name">LinkedIn</div>
+        <div class="social-name triple-text">
+          <span class="ar">LinkedIn</span>
+          <span class="trans">LinkedIn</span>
+          <span class="en">LinkedIn</span>
+        </div>
       </a>
       <a href="https://www.facebook.com/3boalazm" target="_blank" class="social-card facebook">
         <div class="social-ico">👥</div>
-        <div class="social-name">Facebook</div>
+        <div class="social-name triple-text">
+          <span class="ar">Facebook</span>
+          <span class="trans">Facebook</span>
+          <span class="en">Facebook</span>
+        </div>
       </a>
       <a href="https://www.instagram.com/3boalazm" target="_blank" class="social-card instagram">
         <div class="social-ico">📸</div>
-        <div class="social-name">Instagram</div>
+        <div class="social-name triple-text">
+          <span class="ar">Instagram</span>
+          <span class="trans">Instagram</span>
+          <span class="en">Instagram</span>
+        </div>
       </a>
       <a href="https://www.tiktok.com/@mustafaaboalazm" target="_blank" class="social-card tiktok">
         <div class="social-ico">🎵</div>
-        <div class="social-name">TikTok</div>
+        <div class="social-name triple-text">
+          <span class="ar">TikTok</span>
+          <span class="trans">TikTok</span>
+          <span class="en">TikTok</span>
+        </div>
       </a>
     </div>
 
     <!-- App Info -->
-    <div class="section-title">🕋 عن زاد العشر</div>
+    <div class="section-title triple-text">
+      <span class="ar">🕋 عن زاد العشر</span>
+      <span class="trans">🕋 ʿan zād al-ʿashr</span>
+      <span class="en">🕋 About Zad Al-Ashr</span>
+    </div>
     <div class="app-info-card">
-      <h3>رؤية التطبيق</h3>
-      <p style="color:var(--muted);font-size:14px;line-height:1.8">
-        زاد العشر رفيقٌ رقمي يعينك على استثمار أفضل أيام الدنيا — العشر من ذي الحجة — لحظة بلحظة.
-        صُمِّم وفق فلسفة <strong>«التقنية الهادئة»</strong> التي تُقلّل الحمل المعرفي وتُوجّه تركيزك
-        نحو العبادة بعيداً عن المشتتات، بدون إعلانات، وبدون تتبع لبياناتك.
+      <h3 class="triple-text">
+        <span class="ar">رؤية التطبيق</span>
+        <span class="trans">ruʾyat al-taṭbīq</span>
+        <span class="en">App Vision</span>
+      </h3>
+      <p style="color:var(--muted);font-size:14px;line-height:1.8" class="triple-para">
+        <span class="ar">زاد العشر رفيقٌ رقمي يعينك على استثمار أفضل أيام الدنيا — العشر من ذي الحجة — لحظة بلحظة.</span>
+        <span class="trans">zād al-ʿashr rafīqun raqmī yuʿīnuka ʿalā istithmār afḍal ayyām al-dunyā — al-ʿashr min dhī al-ḥijjah — laḥẓah bi-laḥẓah.</span>
+        <span class="en">Zad Al-Ashr is a digital companion helping you invest in the best days of life — the Ten Days of Dhul-Hijjah — moment by moment.</span>
+        <br>
+        <span class="ar">صُمِّم وفق فلسفة <strong>«التقنية الهادئة»</strong> التي تُقلّل الحمل المعرفي وتُوجّه تركيزك نحو العبادة بعيداً عن المشتتات، بدون إعلانات، وبدون تتبع لبياناتك.</span>
+        <span class="trans">ṣummima wafqa falsafat <strong>«al-tiqniyyah al-hādiʾah»</strong> allatī tuqallil al-ḥaml al-maʿrifī wa-tuwajjih tarkīzaka naḥwa al-ʿibādah baʿīdan ʿan al-mushtattāt, bidūn iʿlānāt, wa-bidūn tatbiʿ li-bayānātik.</span>
+        <span class="en">Designed based on the <strong>"Calm Technology"</strong> philosophy that reduces cognitive load and directs your focus toward worship away from distractions, with no ads and no data tracking.</span>
       </p>
       <div class="app-stat-row">
-        <div class="app-stat"><div class="v">16</div><div class="l">صفحة</div></div>
-        <div class="app-stat"><div class="v">13</div><div class="l">وسام</div></div>
-        <div class="app-stat"><div class="v">9</div><div class="l">أيام محتوى</div></div>
-        <div class="app-stat"><div class="v">100%</div><div class="l">بدون إعلانات</div></div>
+        <div class="app-stat">
+          <div class="v triple-stat-v">
+            <span class="ar">16</span>
+            <span class="trans">16</span>
+            <span class="en">16</span>
+          </div>
+          <div class="l triple-stat-l">
+            <span class="ar">صفحة</span>
+            <span class="trans">ṣafḥah</span>
+            <span class="en">Pages</span>
+          </div>
+        </div>
+        <div class="app-stat">
+          <div class="v triple-stat-v">
+            <span class="ar">13</span>
+            <span class="trans">13</span>
+            <span class="en">13</span>
+          </div>
+          <div class="l triple-stat-l">
+            <span class="ar">وسام</span>
+            <span class="trans">wisām</span>
+            <span class="en">Badges</span>
+          </div>
+        </div>
+        <div class="app-stat">
+          <div class="v triple-stat-v">
+            <span class="ar">9</span>
+            <span class="trans">9</span>
+            <span class="en">9</span>
+          </div>
+          <div class="l triple-stat-l">
+            <span class="ar">أيام محتوى</span>
+            <span class="trans">ayyām muḥtawá</span>
+            <span class="en">Days of Content</span>
+          </div>
+        </div>
+        <div class="app-stat">
+          <div class="v triple-stat-v">
+            <span class="ar">100%</span>
+            <span class="trans">100%</span>
+            <span class="en">100%</span>
+          </div>
+          <div class="l triple-stat-l">
+            <span class="ar">بدون إعلانات</span>
+            <span class="trans">bidūn iʿlānāt</span>
+            <span class="en">No Ads</span>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Sources -->
-    <div class="section-title">📚 المصادر الشرعية</div>
+    <div class="section-title triple-text">
+      <span class="ar">📚 المصادر الشرعية</span>
+      <span class="trans">📚 al-maṣādir al-sharʿiyyah</span>
+      <span class="en">📚 Islamic Sources</span>
+    </div>
     <div class="card" style="margin-bottom:20px">
       <ul class="sources-list">
-        <li><span class="s-ico">📖</span> القرآن الكريم — طبعة مجمع الملك فهد لطباعة المصحف الشريف</li>
-        <li><span class="s-ico">📘</span> صحيح البخاري ومسلم — الأحاديث المتعلقة بفضل العشر والأعمال</li>
-        <li><span class="s-ico">📗</span> تفسير ابن كثير والمختصر في التفسير</li>
-        <li><span class="s-ico">📙</span> سنن أبي داود والترمذي والنسائي وابن ماجه</li>
-        <li><span class="s-ico">🎓</span> فتاوى ابن باز وابن عثيمين رحمهما الله</li>
+        <li>
+          <span class="s-ico">📖</span>
+          <span class="triple-text">
+            <span class="ar">القرآن الكريم — طبعة مجمع الملك فهد لطباعة المصحف الشريف</span>
+            <span class="trans">al-qurʾān al-karīm — ṭabʿat majmaʿ al-malik fahd li-ṭibāʿat al-muṣḥaf al-sharīf</span>
+            <span class="en">The Holy Quran — King Fahd Complex Edition</span>
+          </span>
+        </li>
+        <li>
+          <span class="s-ico">📘</span>
+          <span class="triple-text">
+            <span class="ar">صحيح البخاري ومسلم — الأحاديث المتعلقة بفضل العشر والأعمال</span>
+            <span class="trans">ṣaḥīḥ al-bukhārī wa-muslim — al-aḥādīth al-mutaʿalliqah bi-faḍl al-ʿashr wal-aʿmāl</span>
+            <span class="en">Sahih Al-Bukhari & Muslim — Hadiths on the Virtues of the Ten Days</span>
+          </span>
+        </li>
+        <li>
+          <span class="s-ico">📗</span>
+          <span class="triple-text">
+            <span class="ar">تفسير ابن كثير والمختصر في التفسير</span>
+            <span class="trans">tafsīr ibn kathīr wal-mukhtaṣar fī al-tafsīr</span>
+            <span class="en">Tafsir Ibn Kathir & Al-Mukhtasar</span>
+          </span>
+        </li>
+        <li>
+          <span class="s-ico">📙</span>
+          <span class="triple-text">
+            <span class="ar">سنن أبي داود والترمذي والنسائي وابن ماجه</span>
+            <span class="trans">sunan abī dāwūd wal-tirmidhī wal-nasāʾī wa-ibn mājah</span>
+            <span class="en">Sunan of Abu Dawud, Tirmidhi, Nasa'i & Ibn Majah</span>
+          </span>
+        </li>
+        <li>
+          <span class="s-ico">🎓</span>
+          <span class="triple-text">
+            <span class="ar">فتاوى ابن باز وابن عثيمين رحمهما الله</span>
+            <span class="trans">fatāwá ibn bāz wa-ibn ʿuthaymīn raḥimahumā allāh</span>
+            <span class="en">Fatwas of Ibn Baz & Ibn Uthaymeen, may Allah have mercy on them</span>
+          </span>
+        </li>
       </ul>
     </div>
 
     <!-- Tech Stack -->
-    <div class="section-title">⚙️ التقنيات المستخدمة</div>
+    <div class="section-title triple-text">
+      <span class="ar">⚙️ التقنيات المستخدمة</span>
+      <span class="trans">⚙️ al-tiqniyyāt al-mustakhdamah</span>
+      <span class="en">⚙️ Technologies Used</span>
+    </div>
     <div class="grid cols-3" style="margin-bottom:24px">
       <div class="card" style="text-align:center">
         <div style="font-size:32px;margin-bottom:8px">🌐</div>
-        <div style="font-weight:800;color:var(--green-deep)">PWA</div>
-        <p>يعمل أوفلاين داخل المساجد</p>
+        <div style="font-weight:800;color:var(--green-deep)" class="triple-text">
+          <span class="ar">PWA</span>
+          <span class="trans">PWA</span>
+          <span class="en">PWA</span>
+        </div>
+        <p class="triple-text">
+          <span class="ar">يعمل أوفلاين داخل المساجد</span>
+          <span class="trans">yaʿmal offline dākhil al-masājid</span>
+          <span class="en">Works Offline Inside Mosques</span>
+        </p>
       </div>
       <div class="card" style="text-align:center">
         <div style="font-size:32px;margin-bottom:8px">🤖</div>
-        <div style="font-weight:800;color:var(--green-deep)">Groq AI</div>
-        <p>Llama 3.3 70B — مجاني وسريع</p>
+        <div style="font-weight:800;color:var(--green-deep)" class="triple-text">
+          <span class="ar">Groq AI</span>
+          <span class="trans">Groq AI</span>
+          <span class="en">Groq AI</span>
+        </div>
+        <p class="triple-text">
+          <span class="ar">Llama 3.3 70B — مجاني وسريع</span>
+          <span class="trans">Llama 3.3 70B — majjānī wa-sarīʿ</span>
+          <span class="en">Llama 3.3 70B — Free & Fast</span>
+        </p>
       </div>
       <div class="card" style="text-align:center">
         <div style="font-size:32px;margin-bottom:8px">✨</div>
-        <div style="font-weight:800;color:var(--green-deep)">GSAP</div>
-        <p>أنيميشن سلس واحترافي</p>
+        <div style="font-weight:800;color:var(--green-deep)" class="triple-text">
+          <span class="ar">GSAP</span>
+          <span class="trans">GSAP</span>
+          <span class="en">GSAP</span>
+        </div>
+        <p class="triple-text">
+          <span class="ar">أنيميشن سلس واحترافي</span>
+          <span class="trans">anīmishan sals wa-iḥtirāfī</span>
+          <span class="en">Smooth & Professional Animations</span>
+        </p>
       </div>
     </div>
 
-    <div class="foot-note">
-      صُنع بـ ❤️ لخدمة المسلمين في أفضل أيام الدنيا<br>
-      <strong>زاد العشر 2026</strong> · لا إعلانات · لا تتبع · مفتوح المصدر
+    <div class="foot-note triple-text">
+      <span class="ar">صُنع بـ ❤️ لخدمة المسلمين في أفضل أيام الدنيا</span>
+      <span class="trans">ṣuniʿa bi- ❤️ li-khidmat al-muslimīn fī afḍal ayyām al-dunyā</span>
+      <span class="en">Made with ❤️ to Serve Muslims in Life's Best Days</span>
+      <br>
+      <span class="ar"><strong>زاد العشر 2026</strong> · لا إعلانات · لا تتبع · مفتوح المصدر</span>
+      <span class="trans"><strong>zād al-ʿashr 2026</strong> · lā iʿlānāt · lā tatbiʿ · maftūḥ al-maṣdar</span>
+      <span class="en"><strong>Zad Al-Ashr 2026</strong> · No Ads · No Tracking · Open Source</span>
     </div>
   </main>
 </div>
