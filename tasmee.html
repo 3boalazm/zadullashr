@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{t=JSON.parse(s).theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
 </head>
 <body>
 <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>

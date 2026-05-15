@@ -203,31 +203,35 @@ html[data-theme="dark"] {
 }
 
 /* ── OLED semantic tokens ─────────────────────────────────── */
+/*    RULE: Only SURFACES change vs dark.                      */
+/*    TEXT  → near-white with a whisper of green tint          */
+/*    bg/card → rich black (true OLED power saving)            */
 html[data-theme="oled"] {
-  /* Rich black surfaces */
-  --bg:        #050505;    /* rich black */
-  --card:      #0d0d0d;
-  --card-2:    #111111;
-  --sand:      #0a0a0a;
-  --sand-2:    #0f0f0f;
-  --gold-pale: #0c0a00;
-  --green-pale:#020b04;
+  /* Rich Black Surfaces ─────────────────────── */
+  --bg:        #000000;    /* true OLED black — max power saving */
+  --card:      #0a0a0a;    /* rich black card */
+  --card-2:    #101010;
+  --sand:      #080808;
+  --sand-2:    #0d0d0d;
+  --gold-pale: #0a0800;    /* very dark warm black */
+  --green-pale:#040a05;
 
-  /* Same foreground as dark — lighter colors */
-  --ink:       #e0f0e0;    /* slightly brighter than dark */
-  --muted:     #8aaa8a;
-  --muted-2:   #5a7a5a;
+  /* Text — near white with subtle mint tint ─── */
+  /* hsl(135°, 30%, 97%) ≈ #f5fef6              */
+  --ink:       #f5fef6;    /* near-white, tiny green soul */
+  --muted:     #b8cfba;    /* muted but bright — not dim green */
+  --muted-2:   #7a9a7c;
 
-  /* Same lighter brand colors as dark */
+  /* Interactive — inherit lighter values from dark */
   --green-deep: #4dd866;
   --green-mid:  #2eb84d;
   --green-soft: #3dcc5e;
 
-  --gold:       #e6c97a;
-  --gold-soft:  #f0d898;
+  --gold:       #f0d080;   /* slightly brighter gold on true black */
+  --gold-soft:  #f8e4a0;
   --gold-dark:  #c9a14a;
 
-  --border:    rgba(255,255,255,.07);
+  --border:    rgba(255,255,255,.09);
   --shadow:    0 10px 30px -12px rgba(0,0,0,.85);
   --shadow-sm: 0 4px 14px -6px rgba(0,0,0,.7);
 }
@@ -1358,4 +1362,430 @@ html[data-font="lg"] .check .label, html[data-font="xl"] .check .label { font-si
   .pwa-banner { flex-wrap: wrap; }
   .tasbeeh { padding: 24px 16px; }
   .tasbeeh .ring { width: 150px; height: 150px; }
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   QURAN FONT SIZE — CSS Custom Property (JS-controlled)
+   Applied globally so it persists across pages via STATE
+   ══════════════════════════════════════════════════════════ */
+:root { --qf-size: 24px; }
+.mushaf { font-size: var(--qf-size) !important; }
+/* Settings preview mirrors the same var */
+#font-preview, #m-font-preview { font-size: var(--qf-size) !important; }
+
+
+/* ══════════════════════════════════════════════════════════
+   OLED TEXT — explicit overrides (vars not enough for hard-
+   coded colors inside component rules)
+   ══════════════════════════════════════════════════════════ */
+/* Arabic Quranic text in verse/mushaf */
+html[data-theme="oled"] .verse .ar,
+html[data-theme="oled"] .mushaf       { color: #f0faf0; }
+/* Card headings */
+html[data-theme="oled"] .card h3      { color: #c8f0c8; }
+/* Section titles */
+html[data-theme="oled"] .section-title{ color: #b0e8b8; }
+/* Page title */
+html[data-theme="oled"] .page-title   { color: #a8e8b8; }
+/* Progress ring pct */
+html[data-theme="oled"] .prog-ring .ring-pct { color: #c8f0c8; }
+/* Tasbeeh word: gold on OLED pops beautifully */
+html[data-theme="oled"] .tasbeeh .word { color: var(--sys-yellow); }
+/* stat value */
+html[data-theme="oled"] .stat .v      { color: #c8f0c8; }
+/* Rules list headings */
+html[data-theme="oled"] .rules li b   { color: #c8f0c8; }
+/* Timeline */
+html[data-theme="oled"] .tl-title     { color: #b8e8c0; }
+/* Info steps */
+html[data-theme="oled"] .info-step .step-body b { color: #c8f0c8; }
+/* Badge names */
+html[data-theme="oled"] .badge .name  { color: #c8f0c8; }
+/* Audio info */
+html[data-theme="oled"] .audio .info b{ color: #c0e8c4; }
+/* Search results */
+html[data-theme="oled"] .search-result .sr-txt b { color: #c8f0c8; }
+/* Prog ring info */
+html[data-theme="oled"] .prog-ring-info b { color: #f0faf0; }
+/* Check label */
+html[data-theme="oled"] .check .label { color: #edf8ee; }
+/* Transcript */
+html[data-theme="oled"] .transcript-box { color: #f0faf0; }
+/* Accuracy pct */
+html[data-theme="oled"] .accuracy-ring .pct { color: #c8f0c8; }
+/* Settings labels */
+html[data-theme="oled"] .settings-row .lbl b { color: #edf8ee; }
+/* Notif/pwa banner text */
+html[data-theme="oled"] .notif-banner,
+html[data-theme="oled"] .pwa-banner   { color: #edf8ee; }
+/* verse src */
+html[data-theme="oled"] .verse .src   { color: var(--sys-yellow); }
+/* Step numbers: gold */
+html[data-theme="oled"] .info-step .step-num { background: linear-gradient(135deg,var(--sys-yellow),#c9a10a); color:#1a1000; }
+/* Defect card headings: slightly lighter red */
+html[data-theme="oled"] .defect-card b { color: #ff9a96; }
+
+
+/* ══════════════════════════════════════════════════════════
+   ANIMATIONS SYSTEM
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Keyframes ───────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; pointer-events: none; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* RTL slide: entering from the right (inline-start) */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+/* Pop: overshoot then settle */
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.6); }
+  60%  { opacity: 1; transform: scale(1.15); }
+  80%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+/* Badge earned glow */
+@keyframes badgeGlow {
+  0%   { box-shadow: 0 0 0   0   rgba(201,161,74,0); }
+  40%  { box-shadow: 0 0 30px 10px rgba(201,161,74,.5); }
+  100% { box-shadow: 0 0 0   0   rgba(201,161,74,0); }
+}
+@keyframes badgeGlowGreen {
+  0%   { box-shadow: 0 0 0   0   rgba(77,216,102,0); }
+  40%  { box-shadow: 0 0 30px 10px rgba(77,216,102,.4); }
+  100% { box-shadow: 0 0 0   0   rgba(77,216,102,0); }
+}
+/* Ripple (for check/fasting done) */
+@keyframes ripple {
+  0%   { transform: scale(1);   opacity: .6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+/* Flip (countdown digits) */
+@keyframes flipTop {
+  0%   { transform: rotateX(0deg); }
+  100% { transform: rotateX(-90deg); opacity: 0; }
+}
+@keyframes flipBottom {
+  0%   { transform: rotateX(90deg); opacity: 0; }
+  100% { transform: rotateX(0deg); }
+}
+/* Shimmer (skeleton / hero glow) */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+/* Float (hero decoration) */
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50%      { transform: translateY(-8px); }
+}
+/* Count number bump */
+@keyframes numBump {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+/* Tick check bounce */
+@keyframes tickPop {
+  0%   { transform: scale(0) rotate(-12deg); opacity: 0; }
+  50%  { transform: scale(1.25) rotate(4deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); }
+}
+/* Horizontal shake (wrong answer) */
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%  { transform: translateX(-6px); }
+  40%  { transform: translateX(6px); }
+  60%  { transform: translateX(-4px); }
+  80%  { transform: translateX(4px); }
+}
+/* Pulse glow for active elements */
+@keyframes pulseGlow {
+  0%,100% { box-shadow: 0 0 0 0 rgba(77,216,102,0); }
+  50%      { box-shadow: 0 0 16px 4px rgba(77,216,102,.35); }
+}
+/* Hero shimmer sweep */
+@keyframes heroShimmer {
+  0%   { opacity: 0; transform: translateX(-100%) skewX(-15deg); }
+  50%  { opacity: .08; }
+  100% { opacity: 0; transform: translateX(200%) skewX(-15deg); }
+}
+/* Page enter */
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* Verse slide */
+@keyframes verseFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes verseFadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ── Page Enter Animation ─────────────────────────────────── */
+.main {
+  animation: pageEnter .45s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+/* ── Stagger Grid Animations ──────────────────────────────── */
+.grid.stagger > * {
+  opacity: 0;
+  animation: slideUp .4s var(--ease) both;
+}
+.grid.stagger > *:nth-child(1) { animation-delay: .05s; }
+.grid.stagger > *:nth-child(2) { animation-delay: .10s; }
+.grid.stagger > *:nth-child(3) { animation-delay: .15s; }
+.grid.stagger > *:nth-child(4) { animation-delay: .20s; }
+.grid.stagger > *:nth-child(5) { animation-delay: .25s; }
+.grid.stagger > *:nth-child(6) { animation-delay: .30s; }
+.grid.stagger > *:nth-child(7) { animation-delay: .35s; }
+.grid.stagger > *:nth-child(8) { animation-delay: .40s; }
+
+/* ── IntersectionObserver scroll reveal ───────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .5s var(--ease), transform .5s var(--ease);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity .5s var(--ease), transform .5s var(--ease);
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+/* ── Section Title Entrance ───────────────────────────────── */
+.section-title {
+  /* RTL: titles slide from right (inline-start side) */
+  animation: slideInRight .35s var(--ease) both;
+}
+
+/* ── Hero Shimmer Sweep ───────────────────────────────────── */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.07) 50%, transparent 60%);
+  animation: heroShimmer 4s ease-in-out infinite;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ── Checklist Done Tick Animation ───────────────────────── */
+.check .box {
+  transition: background var(--t), border-color var(--t), color var(--t), transform .2s;
+}
+.check.just-done .box {
+  animation: tickPop .35s var(--ease) both;
+}
+/* Ripple wrapper on check */
+.check { position: relative; overflow: hidden; }
+.check-ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(77,216,102,.3) 0%, transparent 70%);
+  animation: ripple .5s ease-out forwards;
+  pointer-events: none;
+}
+
+/* ── Fast Day Done Ripple ────────────────────────────────── */
+.fast-day { overflow: hidden; }
+.fast-ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(77,216,102,.4) 0%, transparent 70%);
+  animation: ripple .5s ease-out forwards;
+  pointer-events: none;
+}
+
+/* ── Badge Unlock Pop + Glow ─────────────────────────────── */
+.badge.just-earned {
+  animation: popIn .5s var(--ease) both;
+}
+.badge.just-earned .medal {
+  animation: badgeGlow 1s ease-out forwards;
+}
+html[data-theme="dark"] .badge.just-earned .medal,
+html[data-theme="oled"] .badge.just-earned .medal {
+  animation: badgeGlowGreen 1s ease-out forwards;
+}
+
+/* ── Countdown digit flip ────────────────────────────────── */
+.cd-num { transition: transform .15s var(--ease), opacity .1s; }
+.cd-num.flip {
+  animation: numBump .25s var(--ease) both;
+}
+
+/* ── Progress bar grow animation ─────────────────────────── */
+.progress > span {
+  transition: width .9s cubic-bezier(0.4,0,0.2,1);
+}
+.tasbeeh-prog span {
+  transition: width .5s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── Toast enhanced ──────────────────────────────────────── */
+.toast {
+  transition: opacity .3s var(--ease), transform .3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.toast.show {
+  transform: translateX(-50%) translateY(0) scale(1.02);
+}
+.toast.show.shrink {
+  transform: translateX(-50%) translateY(0) scale(1);
+  transition-duration: .1s;
+}
+
+/* ── Nav active pulse ────────────────────────────────────── */
+.nav a.active::after {
+  content: "";
+  position: absolute;
+  left: -2px; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 60%; border-radius: 2px;
+  background: var(--brand-gold);
+  animation: pulseGlow 2.5s ease-in-out infinite;
+}
+.nav a { position: relative; }
+
+/* ── Quiz wrong answer shake ─────────────────────────────── */
+.quiz-opt.wrong { animation: shake .4s var(--ease); }
+.quiz-opt.correct { animation: scaleIn .25s var(--ease); }
+
+/* ── Chat message entrance ───────────────────────────────── */
+.msg { animation: slideUp .3s var(--ease) both; }
+
+/* ── Verse rotation transition ───────────────────────────── */
+.verse-content { position: relative; }
+.verse-content.fading-out .ar,
+.verse-content.fading-out .src,
+.verse-content.fading-out p {
+  animation: verseFadeOut .25s var(--ease) both;
+}
+.verse-content.fading-in .ar,
+.verse-content.fading-in .src,
+.verse-content.fading-in p {
+  animation: verseFadeIn .3s var(--ease) .15s both;
+}
+
+/* ── Sidebar nav stagger ─────────────────────────────────── */
+.nav a {
+  animation: slideInRight .3s var(--ease) both;
+}
+.nav a:nth-child(1)  { animation-delay: .04s; }
+.nav a:nth-child(2)  { animation-delay: .07s; }
+.nav a:nth-child(3)  { animation-delay: .10s; }
+.nav a:nth-child(4)  { animation-delay: .13s; }
+.nav a:nth-child(5)  { animation-delay: .16s; }
+.nav a:nth-child(6)  { animation-delay: .19s; }
+.nav a:nth-child(7)  { animation-delay: .22s; }
+.nav a:nth-child(8)  { animation-delay: .25s; }
+.nav a:nth-child(9)  { animation-delay: .28s; }
+.nav a:nth-child(10) { animation-delay: .31s; }
+.nav a:nth-child(11) { animation-delay: .34s; }
+.nav a:nth-child(12) { animation-delay: .37s; }
+.nav a:nth-child(13) { animation-delay: .40s; }
+
+/* ── Hero entrance ───────────────────────────────────────── */
+.hero { animation: scaleIn .5s var(--ease) .05s both; }
+.hero .countdown .cd-box {
+  animation: slideUp .35s var(--ease) both;
+}
+.hero .countdown .cd-box:nth-child(1) { animation-delay: .15s; }
+.hero .countdown .cd-box:nth-child(2) { animation-delay: .20s; }
+.hero .countdown .cd-box:nth-child(3) { animation-delay: .25s; }
+.hero .countdown .cd-box:nth-child(4) { animation-delay: .30s; }
+
+/* ── Card hover enhancement ──────────────────────────────── */
+.card {
+  transition: background var(--t), border-color var(--t),
+              transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+a.card:hover, .card.hoverable:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow), 0 0 0 1px rgba(77,216,102,.12);
+}
+html[data-theme="oled"] a.card:hover,
+html[data-theme="oled"] .card.hoverable:hover {
+  box-shadow: var(--shadow), 0 0 24px rgba(77,216,102,.15);
+}
+
+/* ── Settings row entrance ───────────────────────────────── */
+.settings-row {
+  animation: slideInRight .3s var(--ease) both;
+}
+.settings-group .settings-row:nth-child(1) { animation-delay: .05s; }
+.settings-group .settings-row:nth-child(2) { animation-delay: .09s; }
+.settings-group .settings-row:nth-child(3) { animation-delay: .13s; }
+.settings-group .settings-row:nth-child(4) { animation-delay: .17s; }
+
+/* ── Tasbeeh ring entrance ───────────────────────────────── */
+.tasbeeh .ring {
+  animation: scaleIn .6s cubic-bezier(0.34,1.56,0.64,1) .2s both;
+}
+
+/* ── Timeline entrance ───────────────────────────────────── */
+.tl-item {
+  animation: slideInRight .35s var(--ease) both;
+}
+.tl-item:nth-child(1)  { animation-delay: .05s; }
+.tl-item:nth-child(2)  { animation-delay: .10s; }
+.tl-item:nth-child(3)  { animation-delay: .15s; }
+.tl-item:nth-child(4)  { animation-delay: .20s; }
+.tl-item:nth-child(5)  { animation-delay: .25s; }
+.tl-item:nth-child(6)  { animation-delay: .30s; }
+.tl-item:nth-child(7)  { animation-delay: .35s; }
+
+/* ── Float animation for brand mark ─────────────────────── */
+.brand-mark { animation: float 4s ease-in-out infinite; }
+
+/* ── Microphone pulse (Tasmee page) ──────────────────────── */
+.mic-btn.listening {
+  animation: mic-pulse 1.1s ease-out infinite;
+}
+@keyframes mic-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(255,59,48,.7),  0 8px 28px rgba(255,59,48,.5); }
+  60%  { box-shadow: 0 0 0 18px rgba(255,59,48,0),  0 8px 28px rgba(255,59,48,.4); }
+  100% { box-shadow: 0 0 0 0   rgba(255,59,48,0),  0 8px 28px rgba(255,59,48,.5); }
+}
+
+/* ── Reduced motion support ──────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }

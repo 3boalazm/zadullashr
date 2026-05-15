@@ -73,8 +73,20 @@ function applyTheme(theme) {
 function toggleTheme() {
   applyTheme(STATE.theme === 'dark' ? 'light' : 'dark');
 }
-
 window.toggleTheme = toggleTheme;
+
+/* ── Quran Font Size — CSS custom property (global) ────── */
+function applyQuranFont(size) {
+  size = size || STATE.quranFontSize || 24;
+  document.documentElement.style.setProperty('--qf-size', size + 'px');
+  STATE.quranFontSize = size;
+  saveState();
+  // Also update any visible sliders
+  document.querySelectorAll('#font-slider, #m-font').forEach(sl => {
+    sl.value = size;
+  });
+}
+window.applyQuranFont = applyQuranFont;
 
 /* ──────────────────────────────────────────
    COUNTDOWN TIMER
@@ -350,14 +362,8 @@ function initMushaf() {
   if (fontSlider) {
     fontSlider.value = STATE.quranFontSize || 24;
     fontSlider.oninput = () => {
-      const sz = fontSlider.value + 'px';
-      STATE.quranFontSize = +fontSlider.value;
-      if (fontPreview) fontPreview.style.fontSize = sz;
-      const mushafText = document.querySelector('.mushaf');
-      if (mushafText) mushafText.style.fontSize = sz;
-      saveState();
+      applyQuranFont(+fontSlider.value);
     };
-    if (fontPreview) fontPreview.style.fontSize = (STATE.quranFontSize || 24) + 'px';
   }
 
   updateMushafUI();
@@ -395,7 +401,10 @@ function checkBadges() {
 
 function updateBadgeUI(id) {
   const el = document.querySelector(`[data-badge="${id}"]`);
-  if (el) { el.classList.remove('locked'); el.classList.add('earned'); }
+  if (!el) return;
+  el.classList.remove('locked');
+  el.classList.add('earned', 'just-earned');
+  setTimeout(() => el.classList.remove('just-earned'), 1000);
 }
 
 function updateBadgesPage() {
@@ -438,17 +447,11 @@ function initSettings() {
     sw.onchange = () => showToast(sw.checked ? '🔔 تم تفعيل الإشعارات' : '🔕 تم إيقاف الإشعارات');
   });
 
-  // Quran font slider
+  // Quran font slider — applies via CSS custom property to ALL pages
   const fs = document.getElementById('font-slider');
-  const fp = document.getElementById('font-preview');
   if (fs) {
     fs.value = STATE.quranFontSize || 24;
-    fs.oninput = () => {
-      STATE.quranFontSize = +fs.value;
-      if (fp) fp.style.fontSize = fs.value + 'px';
-      saveState();
-    };
-    if (fp) fp.style.fontSize = (STATE.quranFontSize||24) + 'px';
+    fs.oninput = () => applyQuranFont(+fs.value);
   }
 
   // Reset button
@@ -758,22 +761,21 @@ window.showToast = showToast;
    INIT — runs on every page
    ────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  // Apply saved theme
+  // 1. Theme + font (instant — before paint)
   applyTheme(STATE.theme);
+  applyQuranFont(STATE.quranFontSize || 24);
 
-  // Wire theme toggles
+  // 2. Theme toggles
   document.querySelectorAll('.btn-theme').forEach(btn => {
     btn.onclick = toggleTheme;
   });
   document.querySelectorAll('.dark-switch').forEach(sw => {
-    sw.checked = STATE.theme === 'dark';
+    sw.checked = (STATE.theme === 'dark' || STATE.theme === 'oled');
     sw.onchange = () => applyTheme(sw.checked ? 'dark' : 'light');
   });
 
-  // Init sidebar mobile
+  // 3. Sidebar + core
   initSidebar();
-
-  // Page-specific inits
   startCountdown();
   initChecklist();
   initFasting();
@@ -786,7 +788,168 @@ document.addEventListener('DOMContentLoaded', () => {
   initCharity();
   checkBadges();
   updateBadgesPage();
+
+  // 4. Animations
+  initAnimations();
 });
+
+/* ══════════════════════════════════════════
+   ANIMATION SYSTEM
+   ══════════════════════════════════════════ */
+function initAnimations() {
+  // A. Stagger class on grids
+  document.querySelectorAll('.grid:not(.no-stagger)').forEach(g => {
+    g.classList.add('stagger');
+  });
+
+  // B. IntersectionObserver for scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  // Cards and checklists below the fold
+  document.querySelectorAll('.card, .check, .tl-item, .info-step, .badge, .audio').forEach((el, i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = (i % 6) * 0.06 + 's';
+    io.observe(el);
+  });
+
+  // C. Checklist — add ripple + tick animation on done
+  document.querySelectorAll('.check').forEach(el => {
+    const orig = el.onclick;
+    const existingListener = el._zadAnimBound;
+    if (existingListener) return;  // don't double-bind
+    el._zadAnimBound = true;
+    el.addEventListener('click', () => {
+      if (el.classList.contains('done')) {
+        // Adding ripple
+        const ripple = document.createElement('div');
+        ripple.className = 'check-ripple';
+        el.appendChild(ripple);
+        el.classList.add('just-done');
+        setTimeout(() => {
+          ripple.remove();
+          el.classList.remove('just-done');
+        }, 500);
+      }
+    });
+  });
+
+  // D. Fasting days — ripple on done
+  document.querySelectorAll('.fast-day').forEach(el => {
+    if (el._zadAnimBound) return;
+    el._zadAnimBound = true;
+    el.addEventListener('click', () => {
+      if (el.classList.contains('done')) {
+        const rip = document.createElement('div');
+        rip.className = 'fast-ripple';
+        el.appendChild(rip);
+        setTimeout(() => rip.remove(), 500);
+      }
+    });
+  });
+
+  // E. Badge earn pop
+  document.querySelectorAll('.badge.earned').forEach(b => {
+    if (!b._zadAnimBound) {
+      b._zadAnimBound = true;
+    }
+  });
+
+  // F. Countdown flip class on digit change
+  initCountdownFlip();
+
+  // G. Page link fade-out transition
+  initPageTransition();
+}
+
+/* Flip animation for countdown digits */
+let _prevCd = {};
+function initCountdownFlip() {
+  const ids = ['cd-days','cd-hrs','cd-mins','cd-secs'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const mo = new MutationObserver(() => {
+      const newVal = el.textContent;
+      if (_prevCd[id] !== newVal) {
+        el.classList.remove('flip');
+        void el.offsetWidth;  // reflow
+        el.classList.add('flip');
+        setTimeout(() => el.classList.remove('flip'), 250);
+        _prevCd[id] = newVal;
+      }
+    });
+    mo.observe(el, { childList: true, characterData: true, subtree: true });
+  });
+}
+
+/* Badge unlock with pop animation */
+function animateBadgeUnlock(id) {
+  const el = document.querySelector('[data-badge="' + id + '"]');
+  if (!el) return;
+  el.classList.remove('locked');
+  el.classList.add('earned', 'just-earned');
+  setTimeout(() => el.classList.remove('just-earned'), 1000);
+}
+
+/* Page link transition (fade out → navigate) */
+function initPageTransition() {
+  const links = document.querySelectorAll('.nav a, a.card');
+  links.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('javascript') || href.startsWith('http')) return;
+      e.preventDefault();
+      const main = document.querySelector('.main');
+      if (main) {
+        main.style.transition = 'opacity .2s ease, transform .2s ease';
+        main.style.opacity = '0';
+        main.style.transform = 'translateY(8px)';
+      }
+      setTimeout(() => { window.location.href = href; }, 200);
+    });
+  });
+}
+
+/* Verse rotation with animation */
+function animateVerseTransition(callback) {
+  const arEl  = document.getElementById('verse-ar');
+  const srcEl = document.getElementById('verse-src');
+  const trEl  = document.getElementById('verse-tr');
+  const els = [arEl, srcEl, trEl].filter(Boolean);
+
+  // Fade out
+  els.forEach(el => {
+    el.style.transition = 'opacity .2s ease, transform .2s ease';
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(-8px)';
+  });
+
+  setTimeout(() => {
+    callback();  // update content
+    // Fade in
+    els.forEach(el => {
+      el.style.transform = 'translateY(8px)';
+      el.style.opacity = '0';
+    });
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        els.forEach(el => {
+          el.style.transition = 'opacity .3s ease, transform .3s ease';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        });
+      });
+    });
+  }, 220);
+}
+window.animateVerseTransition = animateVerseTransition;
 
 /* ══════════════════════════════════════════
    THEME EXTENSION — OLED + Dynamic Font
@@ -798,18 +961,19 @@ function applyFontSize(size) {
 }
 window.applyFontSize = applyFontSize;
 
-// Extended applyTheme to support oled
-const _baseApplyTheme = applyTheme;
+// Extended applyTheme — supports light / dark / oled
 window.applyTheme = function(theme) {
   STATE.theme = theme;
   document.documentElement.setAttribute('data-theme', theme);
   document.querySelectorAll('.dark-switch').forEach(el => {
     el.checked = (theme === 'dark' || theme === 'oled');
   });
+  document.querySelectorAll('#oled-sw').forEach(el => {
+    el.checked = (theme === 'oled');
+  });
   document.querySelectorAll('.btn-theme').forEach(btn => {
     btn.textContent = (theme === 'dark' || theme === 'oled') ? '☀️' : '🌙';
   });
-  // Highlight active theme card
   document.querySelectorAll('.theme-card').forEach(c => {
     c.classList.toggle('active', c.dataset.theme === theme);
   });
@@ -1017,8 +1181,19 @@ function initVerseRotator() {
       d.classList.toggle('active', i === verseIdx));
   }
 
-  // Auto-rotate every 8s
-  setInterval(() => { verseIdx = (verseIdx+1)%DAILY_VERSES.length; renderVerse(); }, 8000);
+  function renderVerseAnimated() {
+    if (typeof animateVerseTransition === 'function') {
+      animateVerseTransition(renderVerse);
+    } else {
+      renderVerse();
+    }
+  }
+
+  // Auto-rotate every 8s with animation
+  setInterval(() => {
+    verseIdx = (verseIdx+1) % DAILY_VERSES.length;
+    renderVerseAnimated();
+  }, 8000);
 }
 
 /* ══════════════════════════════════════════
