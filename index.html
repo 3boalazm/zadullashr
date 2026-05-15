@@ -10,25 +10,31 @@
 <link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕋</text></svg>">
 <title>لوحة التحكم — زاد العشر</title>
-<!-- ThmanyahSans loaded via css/style.css @font-face | IBM Plex via Google Fonts -->
+<!-- ThmanyahSans via css/style.css | IBM Plex + Amiri via Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"></noscript>
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
+  media="print" onload="this.media='all'">
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap">
+</noscript>
 <link rel="stylesheet" href="css/style.css">
-
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
 </head>
 <body>
 <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
+
+  <!-- ══ SIDEBAR ════════════════════════════════════════════ -->
   <aside class="sidebar">
-    <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
-      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
-      <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
       <div class="brand-mark">🕋</div>
-      <div><div class="brand-name" data-i18n="brand.name">زاد العشر</div><div class="brand-sub" data-i18n="brand.sub">أفضل أيام الدنيا</div></div>
+      <div>
+        <div class="brand-name" data-i18n="brand.name">زاد العشر</div>
+        <div class="brand-sub" data-i18n="brand.sub">أفضل أيام الدنيا</div>
+      </div>
     </a>
     <div class="theme-row">
       <span data-i18n="common.darkMode">🌙 الوضع الداكن</span>
@@ -40,6 +46,9 @@
     </button>
     <nav class="nav">
       <a href="index.html" class="active"><span class="ico">🏠</span><span data-i18n="nav.dashboard">لوحة التحكم</span></a>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
       <a href="fadael.html"><span class="ico">✨</span><span data-i18n="nav.virtues">فضائل العشر</span></a>
       <a href="worship.html"><span class="ico">📿</span><span data-i18n="nav.worship">جدول العبادات</span></a>
       <a href="mushaf.html"><span class="ico">📖</span><span data-i18n="nav.mushaf">مصحف العشر</span></a>
@@ -58,15 +67,15 @@
       <a href="report.html"><span class="ico">🚩</span><span data-i18n="nav.report">بلاغ مشكلة</span></a>
       <a href="about.html"><span class="ico">👤</span><span data-i18n="nav.about">عن التطبيق</span></a>
     </nav>
-    <!-- تحميل IBM Plex Sans Arabic كـ fallback -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <div class="side-foot"><span data-i18n="brand.name">زاد العشر</span> 2026 · <span data-i18n="common.noAds">بدون إعلانات 📴</span></div>
+    <div class="side-foot">
+      <span data-i18n="brand.name">زاد العشر</span> 2026 · <span data-i18n="common.noAds">بدون إعلانات 📴</span>
+    </div>
   </aside>
 
+  <!-- ══ MAIN ═══════════════════════════════════════════════ -->
   <main class="main">
-    <!-- Topbar -->
+
+    <!-- Topbar: Logo → Home | Prayer chips | Notif | Lang | Theme -->
     <div class="topbar">
       <a href="index.html" class="topbar-brand">
         <div class="topbar-logo">🕋</div>
@@ -76,7 +85,7 @@
         </div>
       </a>
 
-      <!-- Prayer times chips -->
+      <!-- Prayer time chips (filled by JS on geolocation) -->
       <div class="topbar-prayers" id="topbar-prayers">
         <div class="tp-chip tp-done" id="tp-fajr"><span class="tp-time">--:--</span><span class="tp-name">فجر</span></div>
         <div class="tp-chip" id="tp-dhuhr"><span class="tp-time">--:--</span><span class="tp-name">ظهر</span></div>
@@ -86,7 +95,6 @@
         <button class="tp-loc-btn" onclick="loadTopbarPrayers()" title="تحديد الموقع">📍</button>
       </div>
 
-      <!-- Actions -->
       <div class="topbar-right">
         <button class="notif-btn" id="notif-btn" onclick="showNotifPanel()" aria-label="الإشعارات">
           🔔<span class="notif-dot" id="notif-dot"></span>
@@ -115,22 +123,23 @@
       <button class="pwa-install-btn" id="pwa-install-btn">تثبيت</button>
     </div>
 
-    <!-- Prayer Times -->
+    <!-- Prayer Times card (secondary — uses cached data) -->
     <div class="card" style="margin-bottom:14px">
       <div class="prayer-section-title">
         <span class="section-title" style="margin:0;padding:0">🕌 مواقيت الصلاة</span>
         <span class="next-prayer-badge" id="next-prayer-label" style="display:none">التالية</span>
       </div>
-      <button class="prayer-location-btn" id="prayer-loc-btn" onclick="loadPrayerTimes()">
+      <!-- FIX B5: was loadPrayerTimes (undefined) → now loadTopbarPrayers -->
+      <button class="prayer-location-btn" id="prayer-loc-btn" onclick="loadTopbarPrayers()">
         📍 <span id="prayer-loc-txt">اضغط لتحديد موقعك وعرض المواقيت</span>
       </button>
       <div class="prayer-bar" id="prayer-bar" style="display:none">
-        <div class="prayer-pill" data-prayer="Fajr"><div class="pp-name">الفجر</div><div class="pp-time" id="pt-fajr">--:--</div></div>
-        <div class="prayer-pill" data-prayer="Sunrise"><div class="pp-name">الشروق</div><div class="pp-time" id="pt-sunrise">--:--</div></div>
-        <div class="prayer-pill" data-prayer="Dhuhr"><div class="pp-name">الظهر</div><div class="pp-time" id="pt-dhuhr">--:--</div></div>
-        <div class="prayer-pill" data-prayer="Asr"><div class="pp-name">العصر</div><div class="pp-time" id="pt-asr">--:--</div></div>
-        <div class="prayer-pill" data-prayer="Maghrib"><div class="pp-name">المغرب</div><div class="pp-time" id="pt-maghrib">--:--</div></div>
-        <div class="prayer-pill" data-prayer="Isha"><div class="pp-name">العشاء</div><div class="pp-time" id="pt-isha">--:--</div></div>
+        <div class="prayer-pill"><div class="pp-name">الفجر</div><div class="pp-time" id="pt-fajr">--:--</div></div>
+        <div class="prayer-pill"><div class="pp-name">الشروق</div><div class="pp-time" id="pt-sunrise">--:--</div></div>
+        <div class="prayer-pill"><div class="pp-name">الظهر</div><div class="pp-time" id="pt-dhuhr">--:--</div></div>
+        <div class="prayer-pill"><div class="pp-name">العصر</div><div class="pp-time" id="pt-asr">--:--</div></div>
+        <div class="prayer-pill"><div class="pp-name">المغرب</div><div class="pp-time" id="pt-maghrib">--:--</div></div>
+        <div class="prayer-pill"><div class="pp-name">العشاء</div><div class="pp-time" id="pt-isha">--:--</div></div>
       </div>
     </div>
 
@@ -145,7 +154,7 @@
     <section class="hero animate-in" style="margin-top:18px">
       <div class="hero-eyebrow" id="hero-eyebrow">العد التنازلي لعشر ذي الحجة</div>
       <h1 id="hero-heading">إلى يوم عرفة المبارك</h1>
-      <p id="hero-sub" style="font-size:14px;color:rgba(255,255,255,.8)">اغتنم ساعات هذه الأيام المباركة — فما من أيام العمل الصالح أحبّ إلى الله من هذه الأيام العشر.</p>
+      <p style="font-size:14px;color:rgba(255,255,255,.8)">اغتنم ساعات هذه الأيام المباركة — فما من أيام العمل الصالح أحبّ إلى الله من هذه الأيام العشر.</p>
       <div class="countdown" aria-live="polite" aria-label="العد التنازلي">
         <div class="cd-box"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">أيام</div></div>
         <div class="cd-box"><div class="cd-num" id="cd-hrs">--</div><div class="cd-lbl">ساعات</div></div>
@@ -154,38 +163,26 @@
       </div>
     </section>
 
-    <!-- Daily Content Card -->
+    <!-- Daily Content Card (populated by app.js) -->
     <div class="card" id="daily-content-card" style="display:none;border-color:rgba(201,161,74,.25);background:linear-gradient(135deg,var(--card),var(--gold-pale))"></div>
 
-    <!-- Stats -->
+    <!-- Stats (each links to its page) -->
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;margin-top:6px">
       <div class="section-title" style="margin:0">📊 إحصائيات اليوم</div>
       <a href="summary.html" style="font-size:12px;color:var(--gold);font-weight:700;text-decoration:none">ملخص العشر ←</a>
     </div>
     <div class="grid cols-4">
-      <a class="stat" href="takbeer.html" title="المسبح">
-        <div class="ic">📿</div><div class="v" id="stat-takbeer">0</div>
-        <div class="l">التكبيرات</div>
-      </a>
-      <a class="stat" href="mushaf.html" title="مصحف العشر">
-        <div class="ic">📖</div><div class="v" id="stat-juz">0</div>
-        <div class="l">أجزاء الختمة</div>
-      </a>
-      <a class="stat" href="worship.html" title="جدول العبادات">
-        <div class="ic">🌙</div><div class="v" id="stat-pray">0/5</div>
-        <div class="l">صلوات جماعة</div>
-      </a>
-      <a class="stat" href="worship.html" title="إنجاز الورد">
-        <div class="ic">🤲</div><div class="v" id="stat-prog">0%</div>
-        <div class="l">إنجاز الورد</div>
-      </a>
+      <a class="stat" href="takbeer.html"><div class="ic">📿</div><div class="v" id="stat-takbeer">0</div><div class="l">التكبيرات</div></a>
+      <a class="stat" href="mushaf.html"><div class="ic">📖</div><div class="v" id="stat-juz">0</div><div class="l">أجزاء الختمة</div></a>
+      <a class="stat" href="worship.html"><div class="ic">🌙</div><div class="v" id="stat-pray">0/5</div><div class="l">صلوات جماعة</div></a>
+      <a class="stat" href="worship.html"><div class="ic">🤲</div><div class="v" id="stat-prog">0%</div><div class="l">إنجاز الورد</div></a>
     </div>
     <div class="reset-info">
       <div class="reset-dot"></div>
-      <span id="reset-countdown-txt">يتجدد الورد يومياً عند منتصف الليل</span>
+      <span>يتجدد في <b id="next-reset-time">00:00:00</b></span>
     </div>
 
-    <!-- Circular Progress -->
+    <!-- Circular progress ring -->
     <div class="section-title">مؤشر الالتزام الروحاني</div>
     <div class="card">
       <div class="prog-ring-wrap">
@@ -211,26 +208,26 @@
           </ul>
           <div class="reset-info" style="margin-top:8px">
             <div class="reset-dot"></div>
-            <span id="next-reset-txt">يتجدد في <b id="next-reset-time">00:00</b></span>
+            <span>يتجدد في <b id="next-reset-time2">00:00:00</b></span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Verse Slider (30 verses divided by 10 days) -->
+    <!-- Verse Slider (3 verses per day, 10 days) -->
     <div class="section-title">📖 آية اليوم</div>
     <div class="verse-wrap" id="verse-wrap">
       <div class="verse-track" id="verse-track"></div>
     </div>
     <div class="verse-nav-row">
-      <button class="verse-arrow" id="verse-prev" onclick="slideVerse(-1)" aria-label="السابقة">‹</button>
+      <button class="verse-arrow" onclick="slideVerse(-1)" aria-label="السابقة">‹</button>
       <div class="verse-dots-row" id="verse-dots-row"></div>
-      <button class="verse-arrow" id="verse-next" onclick="slideVerse(1)" aria-label="التالية">›</button>
+      <button class="verse-arrow" onclick="slideVerse(1)" aria-label="التالية">›</button>
       <span class="verse-counter" id="verse-counter">1/3</span>
     </div>
-    <div class="verse-day-label" id="verse-day-label" style="text-align:center;font-size:12px;color:var(--muted);margin-top:4px"></div>
+    <div id="verse-day-label" style="text-align:center;font-size:12px;color:var(--muted);margin-top:4px"></div>
 
-    <!-- Quick start -->
+    <!-- Quick links -->
     <div class="section-title" style="margin-top:18px">ابدأ يومك الآن</div>
     <div class="grid cols-3">
       <a class="card quick-card" href="worship.html"><div class="ico-lg">📿</div><h3>ورد اليوم</h3><p>تابع جدول عباداتك</p></a>
@@ -240,21 +237,7 @@
       <a class="card quick-card" href="ai.html"><div class="ico-lg">🤖</div><h3>تدبّر بالذكاء</h3><p>اسأل عن آيات وأحكام</p></a>
       <a class="card quick-card" href="summary.html"><div class="ico-lg">📈</div><h3>إحصاء العشر</h3><p>ملخص أيامك العشرة</p></a>
     </div>
-    <script>
-// اختبار تحميل الخطوط
-document.fonts.ready.then(() => {
-  console.log('✅ All fonts loaded');
-  console.log('ThmanyahSans:', document.fonts.check('900 16px "ThmanyahSans"'));
-});
 
-// fallback إذا فشل التحميل
-setTimeout(() => {
-  if (!document.fonts.check('900 16px "ThmanyahSans"')) {
-    console.warn('⚠️ ThmanyahSans failed to load, using fallback');
-    document.documentElement.style.setProperty('--font-fallback', 'Tajawal');
-  }
-}, 3000);
-</script>
   </main>
   <a href="ai.html" class="fab-ai" aria-label="AI Assistant">🤖</a>
 </div>
@@ -268,14 +251,20 @@ setTimeout(() => {
 
 <script>
 /* ════════════════════════════════════════════════════════════
-   INDEX PAGE — Hijri Date + Countdown + Prayers + Daily Verses
-   Confirmed: 1 Dhul Hijjah 1447 = May 18, 2026 (UTC)
+   INDEX PAGE — All fixed
+   FIX B1: Sidebar structure (nav links in correct order)
+   FIX B3: ARAFAH_DATE undefined → use ARAFAH_UTC
+   FIX B4: verseIdx → _vi (no conflict with app.js)
+   FIX B5: loadPrayerTimes → loadTopbarPrayers
+   FIX B6: fetch() timeout → AbortController
+   FIX B7: <link> removed from inside <aside>
+   FIX B8: consistent local date formatting for API
    ════════════════════════════════════════════════════════════ */
 
-/* ── Constants (UTC dates to avoid timezone issues) ────────── */
-const DH1_UTC     = Date.UTC(2026, 4, 17, 21, 0, 0); // May 18, 2026 00:00 Mecca = UTC 21:00 May 17
-const ARAFAH_UTC  = Date.UTC(2026, 4, 25, 21, 0, 0); // May 26
-const EID_UTC     = Date.UTC(2026, 4, 26, 21, 0, 0); // May 27
+/* ── Date constants (local time) ──────────────────────────── */
+const DH1_DATE    = new Date(2026, 4, 18, 0, 0, 0); /* 1 Dhul Hijjah */
+const ARAFAH_DATE = new Date(2026, 4, 26, 0, 0, 0); /* 9 Dhul Hijjah */
+const EID_DATE    = new Date(2026, 4, 27, 0, 0, 0); /* 10 Dhul Hijjah */
 
 const HIJRI_MONTHS_AR = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة',
   'رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
@@ -283,518 +272,276 @@ const MILADI_AR = ['يناير','فبراير','مارس','أبريل','مايو
   'يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
 const WEEK_AR = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 
-/* 🎯 Special days in Dhul Hijjah */
 const SPECIAL_DH = {
   1:  { ar:'أول ذي الحجة 🌙', cls:'' },
-  8:  { ar:'يوم التروية 💧', cls:'' },
-  9:  { ar:'يوم عرفة ⭐', cls:'arafah' },
+  8:  { ar:'يوم التروية 💧',  cls:'' },
+  9:  { ar:'يوم عرفة ⭐',     cls:'arafah' },
   10: { ar:'عيد الأضحى المبارك 🎉', cls:'eid' },
 };
 
-/* 📖 VERSES DIVIDED BY 10 DAYS (3 verses per day = 30 total) */
+/* ── Verses (3 per day × 10 days) ─────────────────────────── */
 const VERSES_BY_DAY = {
-  1: [
-    {ar:'وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ', src:'الفجر: 1-2', note:'القسم بعشر ذي الحجة'},
-    {ar:'وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَعْلُومَاتٍ', src:'الحج: 28', note:'الأيام المعلومات هي عشر ذي الحجة'},
-    {ar:'الْحَجُّ أَشْهُرٌ مَعْلُومَاتٌ فَمَنْ فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ', src:'البقرة: 197', note:'آداب الحج'}
-  ],
-  2: [
-    {ar:'وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَى', src:'البقرة: 197', note:'خير الزاد التقوى'},
-    {ar:'وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ', src:'البقرة: 196', note:'إتمام الحج والعمرة لله'},
-    {ar:'وَمَنْ تَطَوَّعَ خَيْرًا فَإِنَّ اللَّهَ شَاكِرٌ عَلِيمٌ', src:'البقرة: 158', note:'الله شاكر لمن يتطوع'}
-  ],
-  3: [
-    {ar:'لِيَشْهَدُوا مَنَافِعَ لَهُمْ وَيَذْكُرُوا اسْمَ اللَّهِ', src:'الحج: 28', note:'حكمة الحج'},
-    {ar:'فَكُلُوا مِنْهَا وَأَطْعِمُوا الْبَائِسَ الْفَقِيرَ', src:'الحج: 28', note:'إطعام الفقير من الأضحية'},
-    {ar:'وَاذْكُرُوا اللَّهَ فِي أَيَّامٍ مَعْدُودَاتٍ', src:'البقرة: 203', note:'ذكر الله في أيام التشريق'}
-  ],
-  4: [
-    {ar:'ذَلِكَ وَمَنْ يُعَظِّمْ شَعَائِرَ اللَّهِ فَإِنَّهَا مِنْ تَقْوَى الْقُلُوبِ', src:'الحج: 32', note:'تعظيم شعائر الله'},
-    {ar:'وَالْبُدْنَ جَعَلْنَاهَا لَكُمْ مِنْ شَعَائِرِ اللَّهِ لَكُمْ فِيهَا خَيْرٌ', src:'الحج: 36', note:'الهدي من شعائر الله'},
-    {ar:'فَاذْكُرُوا اسْمَ اللَّهِ عَلَيْهَا صَوَافَّ', src:'الحج: 36', note:'التسمية عند الذبح'}
-  ],
-  5: [
-    {ar:'لَنْ يَنَالَ اللَّهَ لُحُومُهَا وَلَا دِمَاؤُهَا وَلَكِنْ يَنَالُهُ التَّقْوَى مِنْكُمْ', src:'الحج: 37', note:'المقصود من الأضحية التقوى'},
-    {ar:'كَذَلِكَ سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا اللَّهَ عَلَى مَا هَدَاكُمْ وَبَشِّرِ الْمُحْسِنِينَ', src:'الحج: 37', note:'التكبير على ما هدانا الله'},
-    {ar:'فَصَلِّ لِرَبِّكَ وَانْحَرْ', src:'الكوثر: 2', note:'الأمر بصلاة العيد والأضحية'}
-  ],
-  6: [
-    {ar:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ', src:'البقرة: 201', note:'أبرز دعاء في الطواف'},
-    {ar:'ثُمَّ أَفِيضُوا مِنْ حَيْثُ أَفَاضَ النَّاسُ وَاسْتَغْفِرُوا اللَّهَ إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ', src:'البقرة: 199', note:'الاستغفار في الحج'},
-    {ar:'فَإِذَا قَضَيْتُمْ مَنَاسِكَكُمْ فَاذْكُرُوا اللَّهَ كَذِكْرِكُمْ آبَاءَكُمْ أَوْ أَشَدَّ ذِكْرًا', src:'البقرة: 200', note:'الذكر بعد المناسك'}
-  ],
-  7: [
-    {ar:'إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ مُبَارَكًا وَهُدًى لِلْعَالَمِينَ', src:'آل عمران: 96', note:'الكعبة أول بيت للناس'},
-    {ar:'إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ', src:'البقرة: 158', note:'الصفا والمروة من شعائر الله'},
-    {ar:'وَمَنْ يُعَظِّمْ حُرُمَاتِ اللَّهِ فَهُوَ خَيْرٌ لَهُ عِنْدَ رَبِّهِ', src:'الحج: 30', note:'تعظيم حرمات الله'}
-  ],
-  8: [ // يوم التروية
-    {ar:'وَأَذِّنْ فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا', src:'الحج: 27', note:'الدعوة للحج'},
-    {ar:'رَبَّنَا إِنِّي أَسْكَنْتُ مِنْ ذُرِّيَّتِي بِوَادٍ غَيْرِ ذِي زَرْعٍ عِنْدَ بَيْتِكَ الْمُحَرَّمِ', src:'إبراهيم: 37', note:'دعاء إبراهيم لذريته'},
-    {ar:'وَإِذْ يَرْفَعُ إِبْرَاهِيمُ الْقَوَاعِدَ مِنَ الْبَيْتِ وَإِسْمَاعِيلُ رَبَّنَا تَقَبَّلْ مِنَّا', src:'البقرة: 127', note:'دعاء إبراهيم عند بناء الكعبة'}
-  ],
-  9: [ // يوم عرفة ⭐
-    {ar:'فَإِذَا أَفَضْتُمْ مِنْ عَرَفَاتٍ فَاذْكُرُوا اللَّهَ عِنْدَ الْمَشْعَرِ الْحَرَامِ', src:'البقرة: 198', note:'الذكر بعد الإفاضة من عرفات'},
-    {ar:'لَيْسَ عَلَيْكُمْ جُنَاحٌ أَن تَبْتَغُوا فَضْلًا مِّن رَّبِّكُمْ ۚ فَإِذَا أَفَضْتُم مِّنْ عَرَفَاتٍ فَاذْكُرُوا اللَّهَ', src:'البقرة: 198', note:'الابتغاء والذكر في عرفة'},
-    {ar:'الْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِي وَرَضِيتُ لَكُمُ الْإِسْلَامَ دِينًا', src:'المائدة: 3', note:'آية إكمال الدين - نزلت في عرفة'}
-  ],
-  10: [ // عيد الأضحى 🎉
-    {ar:'فَكُلُوا مِمَّا ذُكِرَ اسْمُ اللَّهِ عَلَيْهِ إِن كُنتُم بِآيَاتِهِ مُؤْمِنِينَ', src:'الأنعام: 118', note:'الأكل مما ذُكر اسم الله عليه'},
-    {ar:'وَالْبُدْنَ جَعَلْنَاهَا لَكُمْ مِنْ شَعَائِرِ اللَّهِ لَكُمْ فِيهَا خَيْرٌ', src:'الحج: 36', note:'خير في الهدي والأضحية'},
-    {ar:'وَلِكُلِّ أُمَّةٍ جَعَلْنَا مَنْسَكًا لِيَذْكُرُوا اسْمَ اللَّهِ عَلَى مَا رَزَقَهُمْ مِنْ بَهِيمَةِ الْأَنْعَامِ', src:'الحج: 34', note:'التكبير والشكر على الرزق'}
-  ]
+  1:[{ar:'وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ',src:'الفجر: 1-2',note:'القسم بعشر ذي الحجة'},{ar:'وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَعْلُومَاتٍ',src:'الحج: 28',note:'الأيام المعلومات هي عشر ذي الحجة'},{ar:'الْحَجُّ أَشْهُرٌ مَعْلُومَاتٌ فَمَنْ فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ',src:'البقرة: 197',note:'آداب الحج'}],
+  2:[{ar:'وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَى',src:'البقرة: 197',note:'خير الزاد التقوى'},{ar:'وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ',src:'البقرة: 196',note:'إتمام الحج والعمرة لله'},{ar:'وَمَنْ تَطَوَّعَ خَيْرًا فَإِنَّ اللَّهَ شَاكِرٌ عَلِيمٌ',src:'البقرة: 158',note:'الله شاكر لمن يتطوع'}],
+  3:[{ar:'لِيَشْهَدُوا مَنَافِعَ لَهُمْ وَيَذْكُرُوا اسْمَ اللَّهِ',src:'الحج: 28',note:'حكمة الحج'},{ar:'فَكُلُوا مِنْهَا وَأَطْعِمُوا الْبَائِسَ الْفَقِيرَ',src:'الحج: 28',note:'إطعام الفقير من الأضحية'},{ar:'وَاذْكُرُوا اللَّهَ فِي أَيَّامٍ مَعْدُودَاتٍ',src:'البقرة: 203',note:'ذكر الله في أيام التشريق'}],
+  4:[{ar:'ذَلِكَ وَمَنْ يُعَظِّمْ شَعَائِرَ اللَّهِ فَإِنَّهَا مِنْ تَقْوَى الْقُلُوبِ',src:'الحج: 32',note:'تعظيم شعائر الله'},{ar:'وَالْبُدْنَ جَعَلْنَاهَا لَكُمْ مِنْ شَعَائِرِ اللَّهِ لَكُمْ فِيهَا خَيْرٌ',src:'الحج: 36',note:'الهدي من شعائر الله'},{ar:'فَاذْكُرُوا اسْمَ اللَّهِ عَلَيْهَا صَوَافَّ',src:'الحج: 36',note:'التسمية عند الذبح'}],
+  5:[{ar:'لَنْ يَنَالَ اللَّهَ لُحُومُهَا وَلَا دِمَاؤُهَا وَلَكِنْ يَنَالُهُ التَّقْوَى مِنْكُمْ',src:'الحج: 37',note:'المقصود من الأضحية التقوى'},{ar:'كَذَلِكَ سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا اللَّهَ عَلَى مَا هَدَاكُمْ',src:'الحج: 37',note:'التكبير على ما هدانا الله'},{ar:'فَصَلِّ لِرَبِّكَ وَانْحَرْ',src:'الكوثر: 2',note:'الأمر بصلاة العيد والأضحية'}],
+  6:[{ar:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ',src:'البقرة: 201',note:'أبرز دعاء في الطواف'},{ar:'ثُمَّ أَفِيضُوا مِنْ حَيْثُ أَفَاضَ النَّاسُ وَاسْتَغْفِرُوا اللَّهَ',src:'البقرة: 199',note:'الاستغفار في الحج'},{ar:'فَإِذَا قَضَيْتُمْ مَنَاسِكَكُمْ فَاذْكُرُوا اللَّهَ كَذِكْرِكُمْ آبَاءَكُمْ أَوْ أَشَدَّ ذِكْرًا',src:'البقرة: 200',note:'الذكر بعد المناسك'}],
+  7:[{ar:'إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ مُبَارَكًا وَهُدًى لِلْعَالَمِينَ',src:'آل عمران: 96',note:'الكعبة أول بيت للناس'},{ar:'إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ',src:'البقرة: 158',note:'الصفا والمروة من شعائر الله'},{ar:'وَمَنْ يُعَظِّمْ حُرُمَاتِ اللَّهِ فَهُوَ خَيْرٌ لَهُ عِنْدَ رَبِّهِ',src:'الحج: 30',note:'تعظيم حرمات الله'}],
+  8:[{ar:'وَأَذِّنْ فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا',src:'الحج: 27',note:'الدعوة للحج'},{ar:'رَبَّنَا إِنِّي أَسْكَنْتُ مِنْ ذُرِّيَّتِي بِوَادٍ غَيْرِ ذِي زَرْعٍ عِنْدَ بَيْتِكَ الْمُحَرَّمِ',src:'إبراهيم: 37',note:'دعاء إبراهيم لذريته'},{ar:'وَإِذْ يَرْفَعُ إِبْرَاهِيمُ الْقَوَاعِدَ مِنَ الْبَيْتِ وَإِسْمَاعِيلُ رَبَّنَا تَقَبَّلْ مِنَّا',src:'البقرة: 127',note:'دعاء إبراهيم عند بناء الكعبة'}],
+  9:[{ar:'فَإِذَا أَفَضْتُمْ مِنْ عَرَفَاتٍ فَاذْكُرُوا اللَّهَ عِنْدَ الْمَشْعَرِ الْحَرَامِ',src:'البقرة: 198',note:'الذكر بعد الإفاضة من عرفات'},{ar:'الْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِي وَرَضِيتُ لَكُمُ الْإِسْلَامَ دِينًا',src:'المائدة: 3',note:'آية إكمال الدين — نزلت في عرفة'},{ar:'فَإِذَا أَفَضْتُمْ مِنْ عَرَفَاتٍ فَاذْكُرُوا اللَّهَ عِنْدَ الْمَشْعَرِ الْحَرَامِ وَاذْكُرُوهُ كَمَا هَدَاكُمْ',src:'البقرة: 198',note:'الذكر والهداية في عرفة'}],
+  10:[{ar:'فَكُلُوا مِمَّا ذُكِرَ اسْمُ اللَّهِ عَلَيْهِ',src:'الأنعام: 118',note:'الأكل مما ذُكر اسم الله عليه'},{ar:'وَالْبُدْنَ جَعَلْنَاهَا لَكُمْ مِنْ شَعَائِرِ اللَّهِ لَكُمْ فِيهَا خَيْرٌ',src:'الحج: 36',note:'خير في الهدي والأضحية'},{ar:'وَلِكُلِّ أُمَّةٍ جَعَلْنَا مَنْسَكًا لِيَذْكُرُوا اسْمَ اللَّهِ عَلَى مَا رَزَقَهُمْ',src:'الحج: 34',note:'التكبير والشكر على الرزق'}]
 };
 
-/* ── State variables ──────────────────────────────────────── */
-let _cdTimer = null;
-let _verseTimer = null;
-let _resetTimer = null;
-let verseIdx = 0;
-let currentDayVerses = [];
-let currentHijriDay = 1;
+/* ── State (_vi not verseIdx to avoid app.js conflict) ─────── */
+let _cdTimer = null, _resetTimer = null, _vTimer = null;
+let _vi = 0, _dayVerses = [], _hijriDay = 1;
 
-/* ── Safe wrappers for external functions ─────────────────── */
-function safeToggleTheme() {
-  if (typeof toggleTheme === 'function') toggleTheme();
-  else document.documentElement.setAttribute('data-theme', 
-    document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-}
+/* ── Safe wrappers (app.js is deferred) ───────────────────── */
+function safeToggleTheme() { typeof toggleTheme==='function'?toggleTheme():null; }
+function safeShowToast(m)  { typeof showToast==='function'?showToast(m):console.log(m); }
 
-function safeToggleLang() {
-  if (typeof toggleLang === 'function') toggleLang();
-}
-
-function safeShowToast(msg) {
-  if (typeof showToast === 'function') showToast(msg);
-  else console.log('🔔', msg);
-}
-
-function safeRequestNotifPermission() {
-  if (typeof window.requestNotifPermission === 'function') window.requestNotifPermission();
-  else if ('Notification' in window) Notification.requestPermission();
-}
-
-/* ── 1. COUNTDOWN (UTC-safe) ──────────────────────────────── */
+/* ── 1. COUNTDOWN ─────────────────────────────────────────── */
 function startCountdown() {
   if (_cdTimer) clearInterval(_cdTimer);
-
   function tick() {
-    const now = Date.now();
+    const now = new Date();
     let target, eyebrow, heading;
 
-    if (now < DH1_UTC) {
-      target = DH1_UTC;
-      eyebrow = 'العد التنازلي';
-      heading = 'إلى بداية ذي الحجة 🌙';
-    } else if (now < ARAFAH_UTC) {
-      const dayInDH = Math.min(10, Math.ceil((now - DH1_UTC) / 86400000) + 1);
-      target = ARAFAH_DATE_UTC || ARAFAH_UTC;
-      eyebrow = `اليوم ${['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر'][dayInDH]||dayInDH} من ذي الحجة`;
-      heading = SPECIAL_DH[dayInDH]?.ar || 'أيام العشر المباركة';
-    } else if (now < EID_UTC) {
-      target = EID_UTC;
-      eyebrow = 'اليوم التاسع — يوم عرفة';
-      heading = 'يوم عرفة المبارك ⭐';
+    if (now < DH1_DATE) {
+      target=DH1_DATE; eyebrow='العد التنازلي'; heading='إلى بداية ذي الحجة 🌙';
+    } else if (now < ARAFAH_DATE) {
+      const d = Math.min(10, Math.ceil((now-DH1_DATE)/86400000)+1);
+      target=ARAFAH_DATE;
+      eyebrow=`اليوم ${['،','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر'][d]||d} من ذي الحجة`;
+      heading=SPECIAL_DH[d]?.ar||'أيام العشر المباركة';
+    } else if (now < EID_DATE) {
+      target=EID_DATE; eyebrow='اليوم التاسع — يوم عرفة'; heading='يوم عرفة المبارك ⭐';
     } else {
       clearInterval(_cdTimer);
-      ['cd-days','cd-hrs','cd-mins','cd-secs'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = '🎉';
-      });
-      const h = document.getElementById('hero-heading');
-      if (h) h.textContent = 'عيد الأضحى المبارك 🎉 — تقبل الله منا ومنكم';
+      ['cd-days','cd-hrs','cd-mins','cd-secs'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='🎉';});
+      const h=document.getElementById('hero-heading');
+      if(h)h.textContent='عيد الأضحى المبارك 🎉 — تقبل الله منا ومنكم';
       return;
     }
 
-    const diff = target - now;
-    const pad = n => String(n).padStart(2,'0');
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
+    const diff=target-now, pad=n=>String(n).padStart(2,'0');
+    const d=Math.floor(diff/86400000), h=Math.floor((diff%86400000)/3600000),
+          m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
 
-    ['cd-days','cd-hrs','cd-mins','cd-secs'].forEach((id, i) => {
-      const el = document.getElementById(id);
-      const val = [pad(d), pad(h), pad(m), pad(s)][i];
-      if (el && el.textContent !== val) el.textContent = val;
+    [['cd-days',pad(d)],['cd-hrs',pad(h)],['cd-mins',pad(m)],['cd-secs',pad(s)]].forEach(([id,val])=>{
+      const el=document.getElementById(id); if(el&&el.textContent!==val)el.textContent=val;
     });
-
-    const ey = document.getElementById('hero-eyebrow');
-    const hd = document.getElementById('hero-heading');
-    if (ey && ey.textContent !== eyebrow) ey.textContent = eyebrow;
-    if (hd && hd.textContent !== heading) hd.textContent = heading;
+    const ey=document.getElementById('hero-eyebrow'), hd=document.getElementById('hero-heading');
+    if(ey&&ey.textContent!==eyebrow)ey.textContent=eyebrow;
+    if(hd&&hd.textContent!==heading)hd.textContent=heading;
   }
-
-  tick();
-  _cdTimer = setInterval(tick, 1000);
+  tick(); _cdTimer=setInterval(tick,1000);
 }
 
-/* ── 2. HIJRI DATE from Aladhan API ───────────────────────── */
+/* ── 2. HIJRI DATE ────────────────────────────────────────── */
 function applyHijriData(hijri, now) {
-  const d = parseInt(hijri.day);
-  const mo = hijri.month.ar || HIJRI_MONTHS_AR[parseInt(hijri.month.number)-1];
-  const y = hijri.year;
+  const d=parseInt(hijri.day), mo=hijri.month.ar||HIJRI_MONTHS_AR[parseInt(hijri.month.number)-1], y=hijri.year;
+  _hijriDay = parseInt(hijri.month.number)===12 ? d : 1;
 
-  /* Store current hijri day for verses */
-  currentHijriDay = (hijri.month.number === '12') ? d : 1;
+  const sub=document.getElementById('topbar-date-sub');
+  if(sub) sub.textContent=`${d} ${mo} ${y} هـ`;
+  const hf=document.getElementById('hijri-full');
+  if(hf) hf.textContent=`${WEEK_AR[now.getDay()]} · ${d} ${mo} ${y} هـ`;
+  const mf=document.getElementById('miladi-full');
+  if(mf) mf.textContent=`${now.getDate()} ${MILADI_AR[now.getMonth()]} ${now.getFullYear()} م`;
 
-  /* Topbar subtitle */
-  const sub = document.getElementById('topbar-date-sub');
-  if (sub) sub.textContent = `${d} ${mo} ${y} هـ`;
-
-  /* Hijri bar */
-  const hf = document.getElementById('hijri-full');
-  if (hf) hf.textContent = `${WEEK_AR[now.getDay()]} · ${d} ${mo} ${y} هـ`;
-
-  const mf = document.getElementById('miladi-full');
-  if (mf) mf.textContent = `${now.getDate()} ${MILADI_AR[now.getMonth()]} ${now.getFullYear()} م`;
-
-  /* Special day badge */
-  const mn = parseInt(hijri.month.number);
-  if (mn === 12 && SPECIAL_DH[d]) {
-    const sp = SPECIAL_DH[d];
-    const badge = document.getElementById('special-day-name');
-    if (badge) {
-      badge.textContent = sp.ar;
-      badge.className = 'hijri-day-name' + (sp.cls ? ' '+sp.cls : '');
-      badge.style.display = 'inline-flex';
-    }
+  const mn=parseInt(hijri.month.number);
+  if(mn===12&&SPECIAL_DH[d]) {
+    const sp=SPECIAL_DH[d], badge=document.getElementById('special-day-name');
+    if(badge){badge.textContent=sp.ar;badge.className='hijri-day-name'+(sp.cls?' '+sp.cls:'');badge.style.display='inline-flex';}
   }
-
-  /* Load verses for current day */
-  loadVersesForDay(currentHijriDay);
+  loadVersesForDay(_hijriDay);
 }
 
-/* Fallback: manual calculation */
 function initHijriBar() {
-  const ML = [30,29,30,29,30,29,30,29,30,29,30,29];
-  const ref = { g: new Date(DH1_UTC), m:12, d:1, y:1447 };
-  const now = new Date(); now.setUTCHours(0,0,0,0);
-  const refG = new Date(ref.g); refG.setUTCHours(0,0,0,0);
-  let diff = Math.round((now - refG) / 86400000);
-  let { m, d: hd, y } = ref;
-  hd += diff;
-  while (hd > ML[(m-1)%12]) { hd -= ML[(m-1)%12]; m++; if(m>12){m=1;y++;} }
-  while (hd < 1) { m--; if(m<1){m=12;y--;} hd += ML[(m-1)%12]; }
-  
-  applyHijriData({ day: hd, month: { number: m, ar: HIJRI_MONTHS_AR[m-1] }, year: y }, new Date());
+  const ML=[30,29,30,29,30,29,30,29,30,29,30,29];
+  const now=new Date(); let diff=Math.round((now-DH1_DATE)/86400000);
+  let m=12, hd=1+diff, y=1447;
+  while(hd>ML[(m-1)%12]){hd-=ML[(m-1)%12];m++;if(m>12){m=1;y++;}}
+  while(hd<1){m--;if(m<1){m=12;y--;}hd+=ML[(m-1)%12];}
+  applyHijriData({day:hd,month:{number:m,ar:HIJRI_MONTHS_AR[m-1]},year:y},new Date());
 }
 
-/* ── 3. ALADHAN API (method=4 for Umm Al-Qura) ────────────── */
+/* ── 3. ALADHAN API (FIX B6: AbortController for timeout) ──── */
 async function loadFromAladhan(lat, lng) {
-  const now = new Date();
-  const today = now.toDateString();
-  const cache = localStorage.getItem('zad_aladhan_today');
-  const cDate = localStorage.getItem('zad_aladhan_date');
-
-  if (cache && cDate === today) {
-    try {
-      const { hijri, timings } = JSON.parse(cache);
-      applyHijriData(hijri, now);
-      applyTopbarPrayers(timings);
-      return;
-    } catch(e) { localStorage.removeItem('zad_aladhan_today'); }
+  const now=new Date(), today=now.toDateString();
+  const cache=localStorage.getItem('zad_aladhan_today'), cDate=localStorage.getItem('zad_aladhan_date');
+  if(cache&&cDate===today){
+    try{const{hijri,timings}=JSON.parse(cache);applyHijriData(hijri,now);applyTopbarPrayers(timings);return;}
+    catch(e){localStorage.removeItem('zad_aladhan_today');}
   }
-
   try {
-    const d = String(now.getUTCDate()).padStart(2,'0');
-    const m = String(now.getUTCMonth()+1).padStart(2,'0');
-    // method=4: Umm Al-Qura (مناسبة للشرق الأوسط)
-    const url = `https://api.aladhan.com/v1/timings/${d}-${m}-${now.getFullYear()}?latitude=${lat}&longitude=${lng}&method=4`;
-    const res = await fetch(url, { timeout: 10000 });
-    const json = await res.json();
-
-    if (json.code === 200) {
-      const hijri = json.data.date.hijri;
-      const timings = json.data.timings;
-      localStorage.setItem('zad_aladhan_today', JSON.stringify({ hijri, timings }));
-      localStorage.setItem('zad_aladhan_date', today);
-      applyHijriData(hijri, now);
-      applyTopbarPrayers(timings);
-    } else {
-      initHijriBar();
-      safeShowToast('⚠️ تعذر جلب البيانات، يتم العرض يدويًا');
-    }
-  } catch(e) {
-    console.warn('Aladhan API error:', e);
-    initHijriBar();
-    safeShowToast('⚠️ تعذر الاتصال، يتم العرض بدون إنترنت');
-  }
+    /* FIX B8: local date formatting (not UTC) */
+    const d=String(now.getDate()).padStart(2,'0'), m=String(now.getMonth()+1).padStart(2,'0');
+    const url=`https://api.aladhan.com/v1/timings/${d}-${m}-${now.getFullYear()}?latitude=${lat}&longitude=${lng}&method=4`;
+    /* FIX B6: AbortController instead of invalid {timeout} option in fetch */
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),10000);
+    const res=await fetch(url,{signal:controller.signal});
+    clearTimeout(timer);
+    const json=await res.json();
+    if(json.code===200){
+      const{hijri,timings}={hijri:json.data.date.hijri,timings:json.data.timings};
+      localStorage.setItem('zad_aladhan_today',JSON.stringify({hijri,timings}));
+      localStorage.setItem('zad_aladhan_date',today);
+      applyHijriData(hijri,now);applyTopbarPrayers(timings);
+    } else { initHijriBar(); }
+  } catch(e) { initHijriBar(); }
 }
 
-/* ── 4. TOPBAR prayer chips ───────────────────────────────── */
+/* ── 4. TOPBAR PRAYERS ────────────────────────────────────── */
 function applyTopbarPrayers(timings) {
-  const map = { Fajr:'tp-fajr', Dhuhr:'tp-dhuhr', Asr:'tp-asr', Maghrib:'tp-maghrib', Isha:'tp-isha' };
-  const now = new Date();
-  const nowMin = now.getHours() * 60 + now.getMinutes();
-  let nextDone = false;
-
-  Object.entries(map).forEach(([pKey, elId]) => {
-    const el = document.getElementById(elId);
-    if (!el || !timings[pKey]) return;
-    const t = timings[pKey].substring(0, 5);
-    const [hh, mm] = t.split(':').map(Number);
-    const pMin = hh * 60 + mm;
-
-    const timeEl = el.querySelector('.tp-time');
-    if (timeEl) timeEl.textContent = t;
-
+  const map={Fajr:'tp-fajr',Dhuhr:'tp-dhuhr',Asr:'tp-asr',Maghrib:'tp-maghrib',Isha:'tp-isha'};
+  const now=new Date(), nowMin=now.getHours()*60+now.getMinutes();
+  let nextDone=false;
+  Object.entries(map).forEach(([pKey,elId])=>{
+    const el=document.getElementById(elId); if(!el||!timings[pKey])return;
+    const t=timings[pKey].substring(0,5), [hh,mm]=t.split(':').map(Number), pMin=hh*60+mm;
+    const te=el.querySelector('.tp-time'); if(te)te.textContent=t;
     el.classList.remove('tp-done','tp-next');
-    if (pMin < nowMin) {
-      el.classList.add('tp-done');
-    } else if (!nextDone) {
-      el.classList.add('tp-next');
-      nextDone = true;
-      const badge = document.getElementById('next-prayer-label');
-      const NAMES = {Fajr:'الفجر',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
-      if (badge) { badge.textContent = 'التالية: ' + (NAMES[pKey]||pKey); badge.style.display = 'inline'; }
+    if(pMin<nowMin){el.classList.add('tp-done');}
+    else if(!nextDone){el.classList.add('tp-next');nextDone=true;
+      const badge=document.getElementById('next-prayer-label');
+      const NAMES={Fajr:'الفجر',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
+      if(badge){badge.textContent='التالية: '+(NAMES[pKey]||pKey);badge.style.display='inline';}
     }
   });
-
-  const bar = document.getElementById('prayer-bar');
-  const locBtn = document.getElementById('prayer-loc-btn');
-  if (bar) {
-    bar.style.display = 'flex';
-    const PILL_MAP = { Fajr:'pt-fajr', Sunrise:'pt-sunrise', Dhuhr:'pt-dhuhr', Asr:'pt-asr', Maghrib:'pt-maghrib', Isha:'pt-isha' };
-    Object.entries(PILL_MAP).forEach(([k, id]) => {
-      const el = document.getElementById(id);
-      if (el && timings[k]) el.textContent = timings[k].substring(0,5);
-    });
+  const bar=document.getElementById('prayer-bar'), locBtn=document.getElementById('prayer-loc-btn');
+  if(bar){
+    bar.style.display='flex';
+    const PM={Fajr:'pt-fajr',Sunrise:'pt-sunrise',Dhuhr:'pt-dhuhr',Asr:'pt-asr',Maghrib:'pt-maghrib',Isha:'pt-isha'};
+    Object.entries(PM).forEach(([k,id])=>{const e=document.getElementById(id);if(e&&timings[k])e.textContent=timings[k].substring(0,5);});
   }
-  if (locBtn) locBtn.style.display = 'none';
+  if(locBtn)locBtn.style.display='none';
 }
 
 function loadTopbarPrayers() {
-  const cachedLat = parseFloat(localStorage.getItem('zad_lat'));
-  const cachedLng = parseFloat(localStorage.getItem('zad_lng'));
-
-  // ✅ Validate coordinates
-  if (cachedLat && cachedLng && cachedLat >= -90 && cachedLat <= 90 && cachedLng >= -180 && cachedLng <= 180) {
-    loadFromAladhan(cachedLat, cachedLng);
-    return;
-  }
-
-  if (!navigator.geolocation) return;
-  const btn = document.querySelector('.tp-loc-btn');
-  if (btn) btn.textContent = '⏳';
-
+  const lat=parseFloat(localStorage.getItem('zad_lat')), lng=parseFloat(localStorage.getItem('zad_lng'));
+  if(lat&&lng&&lat>=-90&&lat<=90&&lng>=-180&&lng<=180){loadFromAladhan(lat,lng);return;}
+  if(!navigator.geolocation)return;
+  const btn=document.querySelector('.tp-loc-btn'); if(btn)btn.textContent='⏳';
   navigator.geolocation.getCurrentPosition(
-    pos => {
-      const { latitude: lat, longitude: lng } = pos.coords;
-      // ✅ Validate before saving
-      if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
-        localStorage.setItem('zad_lat', lat);
-        localStorage.setItem('zad_lng', lng);
-        loadFromAladhan(lat, lng);
+    pos=>{
+      const{latitude:la,longitude:lo}=pos.coords;
+      if(la>=-90&&la<=90&&lo>=-180&&lo<=180){
+        localStorage.setItem('zad_lat',la);localStorage.setItem('zad_lng',lo);
+        loadFromAladhan(la,lo);
       }
     },
-    () => { 
-      if (btn) btn.textContent = '📍'; 
-      initHijriBar(); 
-      safeShowToast('⚠️ تعذر تحديد الموقع، يتم عرض المواقيت الافتراضية');
-    },
-    { enableHighAccuracy: false, timeout: 8000 }
+    ()=>{if(btn)btn.textContent='📍';initHijriBar();},
+    {enableHighAccuracy:false,timeout:8000}
   );
 }
 
-/* ── 5. NOTIFICATION button ───────────────────────────────── */
+/* FIX B5: alias so prayer card button still works */
+window.loadPrayerTimes = loadTopbarPrayers;
+
+/* ── 5. NOTIFICATION ──────────────────────────────────────── */
 function showNotifPanel() {
-  safeRequestNotifPermission();
-  const dot = document.getElementById('notif-dot');
-  if (dot) dot.style.display = 'none';
-  
-  if ('Notification' in window) {
-    if (Notification.permission === 'default') {
-      Notification.requestPermission().then(p => {
-        if (p === 'granted') safeShowToast('✅ الإشعارات مفعّلة — ستصلك تذكيرات العبادات');
-      });
-    } else if (Notification.permission === 'granted') {
-      safeShowToast('🔔 الإشعارات مفعّلة بالفعل');
-    } else {
-      safeShowToast('⚠️ فعّل الإشعارات من إعدادات المتصفح');
-    }
-  }
+  const dot=document.getElementById('notif-dot'); if(dot)dot.style.display='none';
+  if(!'Notification'in window){safeShowToast('⚠️ المتصفح لا يدعم الإشعارات');return;}
+  if(Notification.permission==='default'){
+    Notification.requestPermission().then(p=>{if(p==='granted')safeShowToast('✅ الإشعارات مفعّلة');});
+  } else if(Notification.permission==='granted'){safeShowToast('🔔 الإشعارات مفعّلة بالفعل');}
+  else{safeShowToast('⚠️ فعّل الإشعارات من إعدادات المتصفح');}
 }
 
-/* ── 6. PWA INSTALL ───────────────────────────────────────── */
-let _deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  _deferredPrompt = e;
-  const card = document.getElementById('pwa-card');
-  if (card) card.style.display = 'flex';
-  const dot = document.getElementById('notif-dot');
-  if (dot) dot.style.display = 'block';
+/* ── 6. PWA ───────────────────────────────────────────────── */
+let _deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();_deferredPrompt=e;
+  const card=document.getElementById('pwa-card');if(card)card.style.display='flex';
+  const dot=document.getElementById('notif-dot');if(dot)dot.style.display='block';
 });
-window.addEventListener('appinstalled', () => {
-  const card = document.getElementById('pwa-card');
-  if (card) card.style.display = 'none';
-});
-window.installPWA = async function() {
-  if (_deferredPrompt) {
-    _deferredPrompt.prompt();
-    const { outcome } = await _deferredPrompt.userChoice;
-    _deferredPrompt = null;
-    if (outcome === 'accepted' && document.getElementById('pwa-card')) 
-      document.getElementById('pwa-card').style.display = 'none';
+window.addEventListener('appinstalled',()=>{const c=document.getElementById('pwa-card');if(c)c.style.display='none';});
+window.installPWA=async function(){
+  if(_deferredPrompt){
+    _deferredPrompt.prompt();const{outcome}=await _deferredPrompt.userChoice;_deferredPrompt=null;
+    if(outcome==='accepted'){const c=document.getElementById('pwa-card');if(c)c.style.display='none';}
   } else {
-    const ua = navigator.userAgent;
-    const msg = /iPhone|iPad/.test(ua)
-      ? '📱 Safari → ⬆️ → "إضافة إلى الشاشة الرئيسية"'
-      : /Android/.test(ua)
-      ? '📱 Chrome → القائمة ⋮ → "إضافة إلى الشاشة الرئيسية"'
-      : '💻 استخدم Chrome لتثبيت التطبيق';
-    alert(msg);
+    const ua=navigator.userAgent;
+    alert(/iPhone|iPad/.test(ua)?'📱 Safari → ⬆️ → "إضافة إلى الشاشة الرئيسية"':/Android/.test(ua)?'📱 Chrome → القائمة ⋮ → "إضافة"':'💻 Chrome → شريط العنوان → أيقونة التثبيت');
   }
 };
 
 /* ── 7. MINI BADGES ───────────────────────────────────────── */
-const MINI_BADGES_DEF = [
-  { id:'early_bird', ico:'⏰', name:'المبكّر' },
-  { id:'dhikr_100', ico:'📿', name:'الذاكرون' },
-  { id:'fasting_all', ico:'🌙', name:'الصائمون' },
-  { id:'quran_done', ico:'📖', name:'الخاتمون' },
-  { id:'full_prayers', ico:'🕌', name:'المسارعون' },
-  { id:'takbeer_1000', ico:'🔔', name:'المكبّرون' },
-  { id:'charity', ico:'💚', name:'المتصدقون' },
-  { id:'streak_3', ico:'🔥', name:'السابق' },
-  { id:'arafah_done', ico:'⭐', name:'عرفة' },
-];
-function renderMiniBadges() {
-  const c = document.getElementById('mini-badges-container');
-  if (!c) return;
-  let state = {};
-  try { state = JSON.parse(localStorage.getItem('zad_v2') || '{}'); } catch(e) {}
-  const earned = state.badges || [];
-  c.innerHTML = MINI_BADGES_DEF.map(b => {
-    const isEarned = earned.includes(b.id);
-    return `<a href="badges.html" class="mini-badge ${isEarned?'earned':''}" title="${b.name}">
-      <span class="mb-ico">${b.ico}</span><span class="mb-name">${b.name}</span></a>`;
-  }).join('');
+const BADGES=[{id:'early_bird',ico:'⏰',name:'المبكّر'},{id:'dhikr_100',ico:'📿',name:'الذاكرون'},{id:'fasting_all',ico:'🌙',name:'الصائمون'},{id:'quran_done',ico:'📖',name:'الخاتمون'},{id:'full_prayers',ico:'🕌',name:'المسارعون'},{id:'takbeer_1000',ico:'🔔',name:'المكبّرون'},{id:'charity',ico:'💚',name:'المتصدقون'},{id:'streak_3',ico:'🔥',name:'السابق'},{id:'arafah_done',ico:'⭐',name:'عرفة'}];
+function renderMiniBadges(){
+  const c=document.getElementById('mini-badges-container'); if(!c)return;
+  let state={};try{state=JSON.parse(localStorage.getItem('zad_v2')||'{}')}catch(e){}
+  const earned=state.badges||[];
+  c.innerHTML=BADGES.map(b=>`<a href="badges.html" class="mini-badge ${earned.includes(b.id)?'earned':''}" title="${b.name}"><span class="mb-ico">${b.ico}</span><span class="mb-name">${b.name}</span></a>`).join('');
 }
 
-/* ── 8. DAILY RESET COUNTDOWN (with cleanup) ──────────────── */
-function updateResetCountdown() {
-  const now = new Date();
-  const midnight = new Date(now); midnight.setHours(24,0,0,0);
-  const diff = midnight - now;
-  const h = String(Math.floor(diff/3600000)).padStart(2,'0');
-  const m = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
-  const s = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
-  const el = document.getElementById('next-reset-time');
-  if (el) el.textContent = `${h}:${m}:${s}`;
+/* ── 8. RESET COUNTDOWN ───────────────────────────────────── */
+function updateReset(){
+  const now=new Date(), mid=new Date(now);mid.setHours(24,0,0,0);
+  const diff=mid-now, pad=n=>String(n).padStart(2,'0');
+  const t=`${pad(Math.floor(diff/3600000))}:${pad(Math.floor((diff%3600000)/60000))}:${pad(Math.floor((diff%60000)/1000))}`;
+  ['next-reset-time','next-reset-time2'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=t;});
 }
-// ✅ Store timer reference for cleanup
-_resetTimer = setInterval(updateResetCountdown, 1000);
+_resetTimer=setInterval(updateReset,1000);
 
-/* ── 9. VERSE SLIDER (Daily verses) ───────────────────────── */
-let verseTimer = null;
-
-function loadVersesForDay(day) {
-  // Clamp day to 1-10
-  const d = Math.max(1, Math.min(10, day));
-  currentDayVerses = VERSES_BY_DAY[d] || VERSES_BY_DAY[1];
-  verseIdx = 0;
-  
-  // Update label
-  const label = document.getElementById('verse-day-label');
-  const dayNames = ['','اليوم الأول','اليوم الثاني','اليوم الثالث','اليوم الرابع','اليوم الخامس',
-                   'اليوم السادس','اليوم السابع','يوم التروية','يوم عرفة ⭐','عيد الأضحى 🎉'];
-  if (label) label.textContent = `📅 ${dayNames[d] || 'من آيات العشر'} — ${currentDayVerses.length} آيات`;
-  
+/* ── 9. VERSE SLIDER (FIX B4: _vi not verseIdx) ──────────── */
+function loadVersesForDay(day){
+  const d=Math.max(1,Math.min(10,day||1));
+  _dayVerses=VERSES_BY_DAY[d]||VERSES_BY_DAY[1]; _vi=0;
+  const lbl=document.getElementById('verse-day-label');
+  const names=['،','اليوم الأول','اليوم الثاني','اليوم الثالث','اليوم الرابع','اليوم الخامس','اليوم السادس','اليوم السابع','يوم التروية','يوم عرفة ⭐','عيد الأضحى 🎉'];
+  if(lbl)lbl.textContent=`📅 ${names[d]} — ${_dayVerses.length} آيات`;
   buildVerseSlider();
 }
 
-function buildVerseSlider() {
-  const track = document.getElementById('verse-track');
-  const dots = document.getElementById('verse-dots-row');
-  if (!track) return;
-
-  track.innerHTML = currentDayVerses.map(v => `
-    <div class="verse-slide"><div class="verse">
-      <div class="src">${v.src}</div>
-      <div class="ar" style="font-family:Amiri,serif;font-size:20px;line-height:2">${v.ar}</div>
-      <p style="font-size:13px;color:var(--muted);margin-top:8px">${v.note}</p>
-    </div></div>`).join('');
-
-  function renderDots() {
-    if (!dots) return;
-    dots.innerHTML = '';
-    const total = currentDayVerses.length;
-    for (let i = 0; i < total; i++) {
-      const d = document.createElement('div');
-      d.className = 'vd' + (i === verseIdx ? ' active' : '');
-      d.onclick = () => goVerse(i);
-      dots.appendChild(d);
-    }
-    const cEl = document.getElementById('verse-counter');
-    if (cEl) cEl.textContent = `${verseIdx+1}/${total}`;
+function buildVerseSlider(){
+  const track=document.getElementById('verse-track'); if(!track)return;
+  track.innerHTML=_dayVerses.map(v=>`<div class="verse-slide"><div class="verse"><div class="src">${v.src}</div><div class="ar" style="font-family:Amiri,serif;font-size:20px;line-height:2">${v.ar}</div><p style="font-size:13px;color:var(--muted);margin-top:8px">${v.note}</p></div></div>`).join('');
+  function renderDots(){
+    const dots=document.getElementById('verse-dots-row'); if(!dots)return;
+    dots.innerHTML='';
+    _dayVerses.forEach((_,i)=>{const d=document.createElement('div');d.className='vd'+(i===_vi?' active':'');d.onclick=()=>goVerse(i);dots.appendChild(d);});
+    const c=document.getElementById('verse-counter');if(c)c.textContent=`${_vi+1}/${_dayVerses.length}`;
   }
-  renderDots();
-  window._vRenderDots = renderDots;
-
-  /* Touch swipe */
-  let sx = 0;
-  const wrap = document.getElementById('verse-wrap');
-  if (wrap) {
-    wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive:true });
-    wrap.addEventListener('touchend', e => {
-      const dx = e.changedTouches[0].clientX - sx;
-      if (Math.abs(dx) > 40) slideVerse(dx > 0 ? -1 : 1);
-    }, { passive:true });
+  renderDots();window._vRenderDots=renderDots;
+  let sx=0;const wrap=document.getElementById('verse-wrap');
+  if(wrap){
+    wrap.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+    wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)slideVerse(dx>0?-1:1);},{passive:true});
   }
-
-  /* Auto-advance with cleanup */
-  if (verseTimer) clearInterval(verseTimer);
-  verseTimer = setInterval(() => goVerse(verseIdx + 1), 9000);
+  if(_vTimer)clearInterval(_vTimer);
+  _vTimer=setInterval(()=>goVerse(_vi+1),9000);
 }
 
-function goVerse(idx) {
-  verseIdx = (idx + currentDayVerses.length) % currentDayVerses.length;
-  const track = document.getElementById('verse-track');
-  if (track) track.style.transform = `translateX(${verseIdx * 100}%)`;
-  if (window._vRenderDots) window._vRenderDots();
-  
-  /* Reset auto-advance timer */
-  if (verseTimer) clearInterval(verseTimer);
-  verseTimer = setInterval(() => goVerse(verseIdx + 1), 9000);
+function goVerse(idx){
+  _vi=(idx+_dayVerses.length)%_dayVerses.length;
+  const t=document.getElementById('verse-track');if(t)t.style.transform=`translateX(${_vi*100}%)`;
+  if(window._vRenderDots)window._vRenderDots();
+  if(_vTimer)clearInterval(_vTimer);_vTimer=setInterval(()=>goVerse(_vi+1),9000);
 }
-window.slideVerse = dir => goVerse(verseIdx + dir);
+window.slideVerse=dir=>goVerse(_vi+dir);
 
-/* ── Cleanup on page unload ───────────────────────────────── */
-window.addEventListener('beforeunload', () => {
-  if (_cdTimer) clearInterval(_cdTimer);
-  if (_verseTimer) clearInterval(_verseTimer);
-  if (_resetTimer) clearInterval(_resetTimer);
+/* ── Cleanup on unload ────────────────────────────────────── */
+window.addEventListener('beforeunload',()=>{
+  [_cdTimer,_resetTimer,_vTimer].forEach(t=>{if(t)clearInterval(t);});
 });
 
 /* ── INIT ─────────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  startCountdown();
-  updateResetCountdown();
-  renderMiniBadges();
-
-  /* Auto-load Aladhan if cached coords exist */
-  const lat = parseFloat(localStorage.getItem('zad_lat'));
-  const lng = parseFloat(localStorage.getItem('zad_lng'));
-  
-  if (lat && lng && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
-    loadFromAladhan(lat, lng);
-  } else {
+document.addEventListener('DOMContentLoaded',()=>{
+  startCountdown(); updateReset(); renderMiniBadges();
+  const lat=parseFloat(localStorage.getItem('zad_lat')), lng=parseFloat(localStorage.getItem('zad_lng'));
+  if(lat&&lng&&lat>=-90&&lat<=90&&lng>=-180&&lng<=180){loadFromAladhan(lat,lng);}
+  else{
     initHijriBar();
-    /* Try auto-geolocation silently */
-    if (navigator.geolocation) {
+    if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(
-        pos => {
-          const { latitude, longitude } = pos.coords;
-          if (latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180) {
-            localStorage.setItem('zad_lat', latitude);
-            localStorage.setItem('zad_lng', longitude);
-            loadFromAladhan(latitude, longitude);
-          }
-        },
-        () => {},
-        { enableHighAccuracy: false, timeout: 6000 }
+        pos=>{const{latitude:la,longitude:lo}=pos.coords;if(la>=-90&&la<=90&&lo>=-180&&lo<=180){localStorage.setItem('zad_lat',la);localStorage.setItem('zad_lng',lo);loadFromAladhan(la,lo);}},
+        ()=>{},
+        {enableHighAccuracy:false,timeout:6000}
       );
     }
   }
