@@ -56,7 +56,6 @@ function initPageEnter() {
   }
 }
 function initScrollReveal() {
-requestAnimationFrame(() => {
 gsap.utils.toArray('.card, .tl-item, .info-step, .af-milestone').forEach((el, i) => {
     el.style.animation = 'none';
     gsap.from(el, {

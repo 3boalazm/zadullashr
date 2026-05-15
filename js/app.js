@@ -609,14 +609,7 @@ function showToast(msg) {
   toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
 }
 window.showToast = showToast;
-function _zadDOMReady(fn) {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', fn, { once: true });
-  } else {
-    fn();
-  }
-}
-_zadDOMReady(() => {
+document.addEventListener('DOMContentLoaded', () => {
   applyTheme(STATE.theme);
   applyQuranFont(STATE.quranFontSize || 24);
   document.querySelectorAll('.btn-theme').forEach(btn => {

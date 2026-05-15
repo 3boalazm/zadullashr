@@ -49,6 +49,8 @@ self.addEventListener('fetch', e => {
   const url = e.request.url;
 
   /* Always bypass API calls — never cache, never intercept */
+  /* Only handle http/https requests */
+  if (!url.startsWith('http')) return;
   if (shouldBypass(url)) return;
 
   /* For navigation requests — serve cached or fallback */
