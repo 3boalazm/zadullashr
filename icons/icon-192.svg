@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="40" fill="#0e3b2e"/>
+  <rect x="16" y="16" width="160" height="160" rx="28" fill="#1a5d47"/>
+  <text x="96" y="120" font-family="serif" font-size="88" text-anchor="middle" fill="#c9a14a" font-weight="bold">ع</text>
+  <rect x="36" y="148" width="120" height="3" rx="2" fill="#c9a14a" opacity=".6"/>
+</svg>
