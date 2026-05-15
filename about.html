@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕋</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0e3b2e">
+<title>عن التطبيق — زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
+  media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"></noscript>
+<link rel="stylesheet" href="css/style.css">
+<style>
+.about-hero{background:linear-gradient(135deg,var(--green-deep),var(--green-mid) 60%,var(--green-soft));border-radius:22px;padding:40px 36px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow);margin-bottom:24px}
+.about-hero::before{content:"";position:absolute;inset:auto -60px -100px auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.28),transparent 68%);pointer-events:none}
+.dev-avatar{width:88px;height:88px;border-radius:24px;background:linear-gradient(135deg,var(--brand-gold-lt),var(--brand-gold));display:grid;place-items:center;font-size:42px;margin-bottom:18px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.dev-name{font-size:26px;font-weight:900;margin-bottom:4px}
+.dev-title{font-size:14px;opacity:.8;margin-bottom:16px}
+.dev-badges{display:flex;gap:8px;flex-wrap:wrap}
+.dev-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:5px 14px;border-radius:99px;font-size:12px;font-weight:700}
+
+.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.contact-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;box-shadow:var(--shadow-sm);transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;gap:8px}
+.contact-card:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:var(--shadow)}
+.contact-ico{font-size:28px}
+.contact-lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.contact-val{font-size:13px;font-weight:700;color:var(--green-deep);direction:ltr}
+html[data-theme="dark"] .contact-val,html[data-theme="oled"] .contact-val{color:var(--sys-green)}
+
+.social-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px}
+.social-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;box-shadow:var(--shadow-sm);text-decoration:none;color:inherit;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.social-card:hover{transform:translateY(-3px)}
+.social-ico{font-size:24px}
+.social-name{font-size:11px;font-weight:700;color:var(--muted)}
+.social-card.behance:hover{border-color:#053eff}
+.social-card.linkedin:hover{border-color:#0077b5}
+.social-card.facebook:hover{border-color:#1877f2}
+.social-card.instagram:hover{border-color:#e4405f}
+.social-card.tiktok:hover{border-color:#010101}
+
+.app-info-card{background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1px solid rgba(201,161,74,.2);border-radius:var(--radius);padding:26px;margin-bottom:20px}
+.app-info-card h3{color:var(--gold-dark);margin-bottom:14px;font-size:17px}
+html[data-theme="dark"] .app-info-card h3,html[data-theme="oled"] .app-info-card h3{color:var(--sys-yellow)}
+.app-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.app-stat{background:var(--card);border-radius:12px;padding:12px;text-align:center;border:1px solid var(--border)}
+.app-stat .v{font-size:22px;font-weight:900;color:var(--green-deep)}
+html[data-theme="dark"] .app-stat .v,html[data-theme="oled"] .app-stat .v{color:var(--sys-green)}
+.app-stat .l{font-size:11px;color:var(--muted);margin-top:2px}
+
+.sources-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.sources-list li{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--card);border:1px solid var(--border);border-radius:11px;font-size:13px;color:var(--ink)}
+.sources-list li .s-ico{font-size:18px;flex-shrink:0}
+
+@media(max-width:768px){
+  .contact-grid{grid-template-columns:1fr 1fr}
+  .social-grid{grid-template-columns:repeat(3,1fr)}
+  .app-stat-row{grid-template-columns:repeat(2,1fr)}
+  .dev-name{font-size:20px}
+}
+@media(max-width:480px){
+  .contact-grid{grid-template-columns:1fr}
+  .social-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+</head>
+<body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark">🕋</div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span>لوحة التحكم</a>
+      <a href="fadael.html"><span class="ico">✨</span>فضائل العشر</a>
+      <a href="worship.html"><span class="ico">📿</span>جدول العبادات</a>
+      <a href="mushaf.html"><span class="ico">📖</span>مصحف العشر</a>
+      <a href="takbeer.html"><span class="ico">🕋</span>المُسبِّح والمُكبِّر</a>
+      <a href="adhkar.html"><span class="ico">🤲</span>الأذكار والدعاء</a>
+      <a href="odhiya.html"><span class="ico">🐏</span>دليل الأضحية</a>
+      <a href="arafah.html"><span class="ico">🌄</span>يوم عرفة</a>
+      <a href="sadaqah.html"><span class="ico">💚</span>صدقة العشر</a>
+      <a href="badges.html"><span class="ico">🏅</span>أوسمتي</a>
+      <a href="hasad.html"><span class="ico">📊</span>حصاد العشر</a>
+      <a href="kids.html"><span class="ico">🧒</span>وضع الأطفال</a>
+      <a href="tasmee.html"><span class="ico">🎙️</span>تسميع القرآن</a>
+      <a href="ai.html"><span class="ico">🤖</span>تدبّر بالذكاء</a>
+      <a href="settings.html"><span class="ico">⚙️</span>الإعدادات</a>
+      <a href="report.html"><span class="ico">🚩</span>بلاغ مشكلة</a>
+      <a href="about.html" class="active"><span class="ico">👤</span>عن التطبيق</a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات<br>يعمل بدون إنترنت 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="page-title">عن <span>التطبيق</span></div>
+        <div class="page-sub">زاد العشر — رفيقك الذكي في أفضل أيام الدنيا</div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-theme" onclick="toggleTheme()" aria-label="تبديل المظهر">🌙</button>
+      </div>
+    </div>
+
+    <!-- Developer Hero -->
+    <div class="about-hero">
+      <div class="dev-avatar">👨‍💻</div>
+      <div class="dev-name">مصطفى أبو العزم</div>
+      <div class="dev-title">مصمم واجهات · مطور تطبيقات ويب · مبتكر تجربة المستخدم</div>
+      <div class="dev-badges">
+        <span class="dev-badge">🎨 UI/UX Designer</span>
+        <span class="dev-badge">💻 Web Developer</span>
+        <span class="dev-badge">📱 PWA Specialist</span>
+        <span class="dev-badge">🤖 AI Integration</span>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="section-title">📬 تواصل معي</div>
+    <div class="contact-grid">
+      <a href="mailto:Mustafaaboalazm@mail.ru" class="contact-card">
+        <div class="contact-ico">📧</div>
+        <div class="contact-lbl">البريد الإلكتروني</div>
+        <div class="contact-val">Mustafaaboalazm@mail.ru</div>
+      </a>
+      <a href="https://wa.me/201092500454" target="_blank" class="contact-card">
+        <div class="contact-ico">💬</div>
+        <div class="contact-lbl">واتساب</div>
+        <div class="contact-val">+20 109 250 0454</div>
+      </a>
+      <a href="tel:+201092500454" class="contact-card">
+        <div class="contact-ico">📞</div>
+        <div class="contact-lbl">هاتف</div>
+        <div class="contact-val">+20 109 250 0454</div>
+      </a>
+    </div>
+
+    <!-- Social -->
+    <div class="section-title">🌐 تابعني على</div>
+    <div class="social-grid">
+      <a href="https://www.behance.net/aboalazm" target="_blank" class="social-card behance">
+        <div class="social-ico">🎨</div>
+        <div class="social-name">Behance</div>
+      </a>
+      <a href="https://www.linkedin.com/in/aboalazm" target="_blank" class="social-card linkedin">
+        <div class="social-ico">💼</div>
+        <div class="social-name">LinkedIn</div>
+      </a>
+      <a href="https://www.facebook.com/3boalazm" target="_blank" class="social-card facebook">
+        <div class="social-ico">👥</div>
+        <div class="social-name">Facebook</div>
+      </a>
+      <a href="https://www.instagram.com/3boalazm" target="_blank" class="social-card instagram">
+        <div class="social-ico">📸</div>
+        <div class="social-name">Instagram</div>
+      </a>
+      <a href="https://www.tiktok.com/@mustafaaboalazm" target="_blank" class="social-card tiktok">
+        <div class="social-ico">🎵</div>
+        <div class="social-name">TikTok</div>
+      </a>
+    </div>
+
+    <!-- App Info -->
+    <div class="section-title">🕋 عن زاد العشر</div>
+    <div class="app-info-card">
+      <h3>رؤية التطبيق</h3>
+      <p style="color:var(--muted);font-size:14px;line-height:1.8">
+        زاد العشر رفيقٌ رقمي يعينك على استثمار أفضل أيام الدنيا — العشر من ذي الحجة — لحظة بلحظة.
+        صُمِّم وفق فلسفة <strong>«التقنية الهادئة»</strong> التي تُقلّل الحمل المعرفي وتُوجّه تركيزك
+        نحو العبادة بعيداً عن المشتتات، بدون إعلانات، وبدون تتبع لبياناتك.
+      </p>
+      <div class="app-stat-row">
+        <div class="app-stat"><div class="v">16</div><div class="l">صفحة</div></div>
+        <div class="app-stat"><div class="v">13</div><div class="l">وسام</div></div>
+        <div class="app-stat"><div class="v">9</div><div class="l">أيام محتوى</div></div>
+        <div class="app-stat"><div class="v">100%</div><div class="l">بدون إعلانات</div></div>
+      </div>
+    </div>
+
+    <!-- Sources -->
+    <div class="section-title">📚 المصادر الشرعية</div>
+    <div class="card" style="margin-bottom:20px">
+      <ul class="sources-list">
+        <li><span class="s-ico">📖</span> القرآن الكريم — طبعة مجمع الملك فهد لطباعة المصحف الشريف</li>
+        <li><span class="s-ico">📘</span> صحيح البخاري ومسلم — الأحاديث المتعلقة بفضل العشر والأعمال</li>
+        <li><span class="s-ico">📗</span> تفسير ابن كثير والمختصر في التفسير</li>
+        <li><span class="s-ico">📙</span> سنن أبي داود والترمذي والنسائي وابن ماجه</li>
+        <li><span class="s-ico">🎓</span> فتاوى ابن باز وابن عثيمين رحمهما الله</li>
+      </ul>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="section-title">⚙️ التقنيات المستخدمة</div>
+    <div class="grid cols-3" style="margin-bottom:24px">
+      <div class="card" style="text-align:center">
+        <div style="font-size:32px;margin-bottom:8px">🌐</div>
+        <div style="font-weight:800;color:var(--green-deep)">PWA</div>
+        <p>يعمل أوفلاين داخل المساجد</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:32px;margin-bottom:8px">🤖</div>
+        <div style="font-weight:800;color:var(--green-deep)">Groq AI</div>
+        <p>Llama 3.3 70B — مجاني وسريع</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:32px;margin-bottom:8px">✨</div>
+        <div style="font-weight:800;color:var(--green-deep)">GSAP</div>
+        <p>أنيميشن سلس واحترافي</p>
+      </div>
+    </div>
+
+    <div class="foot-note">
+      صُنع بـ ❤️ لخدمة المسلمين في أفضل أيام الدنيا<br>
+      <strong>زاد العشر 2026</strong> · لا إعلانات · لا تتبع · مفتوح المصدر
+    </div>
+  </main>
+</div>
+
+<a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
+
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+</body>
+</html>
