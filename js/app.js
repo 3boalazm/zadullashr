@@ -98,7 +98,7 @@ function initChecklist() {
       el.classList.toggle('done');
       STATE.worship[k] = el.classList.contains('done');
       if (navigator.vibrate) navigator.vibrate(30);
-      if (STATE.worship[k]) showToast('✅ تم التسجيل — بارك الله فيك');
+      if (STATE.worship[k]) showToast(typeof getSuccessMsg==='function' ? getSuccessMsg(k) : '✅ تم التسجيل — بارك الله فيك');
       saveState();
       updateProgress();
       checkBadges();
@@ -1878,21 +1878,7 @@ function getSuccessMsg(key) {
 }
 window.getSuccessMsg = getSuccessMsg;
 
-/* Override initChecklist to use varied messages */
-const _origInitChecklist = initChecklist;
-function initChecklist() {
-  _origInitChecklist();
-  /* Re-wire click handlers to use varied messages */
-  document.querySelectorAll('.check[data-key]').forEach(el => {
-    const k = el.dataset.key;
-    const handlers = el._gsapBound ? null : null; // just re-add varied toast
-    el.addEventListener('click', () => {
-      if (el.classList.contains('done')) {
-        setTimeout(() => showToast(getSuccessMsg(k)), 50);
-      }
-    });
-  });
-}
+
 
 /* ══════════════════════════════════════════════════════════
    CLICK SOUND — صوت النقر
