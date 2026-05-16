@@ -122,43 +122,40 @@
       <button class="pwa-install-btn" id="pwa-install-btn">تثبيت</button>
     </div>
 
-    <!-- ══ Prayer Times Card ══════════════════════════════════ -->
-    <div class="card pt-card-wrap" style="margin-bottom:14px">
-      <div class="pt-header">
-        <div class="pt-title-row">
-          <span class="section-title" style="margin:0;padding:0">🕌 مواقيت الصلاة</span>
-          <span class="pt-next-badge" id="next-prayer-label" style="display:none">التالية: —</span>
-        </div>
-        <button class="pt-loc-btn" id="prayer-loc-btn" onclick="loadTopbarPrayers()">
-          <span>📍</span>
-          <span id="prayer-loc-txt">اضغط لتحديد موقعك</span>
-        </button>
+    <!-- ══ Prayer Times Card — Table Style ═══════════════════ -->
+    <div class="card prayer-table-card" id="prayer-card" style="margin-bottom:14px">
+      <div class="pt-card-header">
+        <span class="section-title" style="margin:0;padding:0">🕌 مواقيت الصلاة</span>
+        <span class="pt-next-lbl" id="next-prayer-label" style="display:none"></span>
       </div>
-      <!-- Prayer pills row -->
-      <div class="pt-pills-row" id="prayer-bar" style="display:none">
-        <div class="pt-pill" id="ptc-fajr">
-          <span class="pt-pill-name">الفجر</span>
-          <span class="pt-pill-time" id="pt-fajr">--:--</span>
+      <button class="pt-loc-trigger" id="prayer-loc-btn" onclick="loadTopbarPrayers()">
+        📍 <span id="prayer-loc-txt">اضغط لتحديد موقعك وعرض المواقيت</span>
+      </button>
+      <!-- Grid: names row + times row -->
+      <div class="pt-grid" id="prayer-bar" style="display:none">
+        <div class="pt-col" id="ptc-fajr">
+          <div class="pt-name">الفجر</div>
+          <div class="pt-time" id="pt-fajr">--:--</div>
         </div>
-        <div class="pt-pill" id="ptc-sunrise">
-          <span class="pt-pill-name">الشروق</span>
-          <span class="pt-pill-time" id="pt-sunrise">--:--</span>
+        <div class="pt-col" id="ptc-sunrise">
+          <div class="pt-name">الشروق</div>
+          <div class="pt-time" id="pt-sunrise">--:--</div>
         </div>
-        <div class="pt-pill" id="ptc-dhuhr">
-          <span class="pt-pill-name">الظهر</span>
-          <span class="pt-pill-time" id="pt-dhuhr">--:--</span>
+        <div class="pt-col" id="ptc-dhuhr">
+          <div class="pt-name">الظهر</div>
+          <div class="pt-time" id="pt-dhuhr">--:--</div>
         </div>
-        <div class="pt-pill" id="ptc-asr">
-          <span class="pt-pill-name">العصر</span>
-          <span class="pt-pill-time" id="pt-asr">--:--</span>
+        <div class="pt-col" id="ptc-asr">
+          <div class="pt-name">العصر</div>
+          <div class="pt-time" id="pt-asr">--:--</div>
         </div>
-        <div class="pt-pill" id="ptc-maghrib">
-          <span class="pt-pill-name">المغرب</span>
-          <span class="pt-pill-time" id="pt-maghrib">--:--</span>
+        <div class="pt-col" id="ptc-maghrib">
+          <div class="pt-name">المغرب</div>
+          <div class="pt-time" id="pt-maghrib">--:--</div>
         </div>
-        <div class="pt-pill" id="ptc-isha">
-          <span class="pt-pill-name">العشاء</span>
-          <span class="pt-pill-time" id="pt-isha">--:--</span>
+        <div class="pt-col" id="ptc-isha">
+          <div class="pt-name">العشاء</div>
+          <div class="pt-time" id="pt-isha">--:--</div>
         </div>
       </div>
     </div>
@@ -324,42 +321,88 @@ let _vi = 0, _dayVerses = [], _hijriDay = 1;
 function safeToggleTheme() { typeof toggleTheme==='function'?toggleTheme():null; }
 function safeShowToast(m)  { typeof showToast==='function'?showToast(m):console.log(m); }
 
-/* ── 1. COUNTDOWN ─────────────────────────────────────────── */
+/* ── 1. COUNTDOWN (linked to confirmed Hijri dates) ─────────
+   9 Dhul Hijjah (Arafah) = May 26, 2026 → confirmed by user
+   10 Dhul Hijjah (Eid)   = May 27, 2026
+   1 Dhul Hijjah          = May 18, 2026
+   Phases:
+     now < May 18          → count to May 18
+     May 18 ≤ now < May 26 → show day N, count to Arafah
+     now = May 26          → Arafah day, count to Eid
+     now ≥ May 27          → Eid
+──────────────────────────────────────────────────────────── */
 function startCountdown() {
   if (_cdTimer) clearInterval(_cdTimer);
+
+  const DAY_NAMES = ['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن التروية','التاسع عرفة','العاشر العيد'];
+
   function tick() {
     const now = new Date();
-    let target, eyebrow, heading;
+    /* Normalize to midnight for day calculation */
+    const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const dh1Mid   = new Date(DH1_DATE.getFullYear(), DH1_DATE.getMonth(), DH1_DATE.getDate());
 
-    if (now < DH1_DATE) {
-      target=DH1_DATE; eyebrow='العد التنازلي'; heading='إلى بداية ذي الحجة 🌙';
-    } else if (now < ARAFAH_DATE) {
-      const d = Math.min(10, Math.ceil((now-DH1_DATE)/86400000)+1);
-      target=ARAFAH_DATE;
-      eyebrow=`اليوم ${['،','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر'][d]||d} من ذي الحجة`;
-      heading=SPECIAL_DH[d]?.ar||'أيام العشر المباركة';
-    } else if (now < EID_DATE) {
-      target=EID_DATE; eyebrow='اليوم التاسع — يوم عرفة'; heading='يوم عرفة المبارك ⭐';
+    /* Which Dhul Hijjah day are we on? 1-based, 0 = before DH1 */
+    const dhDay = Math.floor((todayMid - dh1Mid) / 86400000) + 1; /* 1 on May 18, 2 on May 19… */
+
+    let target, eyebrow, heading, subtext;
+
+    if (dhDay < 1) {
+      /* Before Dhul Hijjah */
+      target  = DH1_DATE;
+      eyebrow = 'العد التنازلي';
+      heading = 'إلى بداية عشر ذي الحجة 🌙';
+      subtext = null;
+
+    } else if (dhDay <= 8) {
+      /* Days 1-8: count down to Arafah */
+      target  = ARAFAH_DATE;
+      eyebrow = `اليوم ${DAY_NAMES[dhDay] || dhDay} من ذي الحجة`;
+      heading = dhDay === 8 ? 'يوم التروية 💧' : 'أيام العشر المباركة';
+
+    } else if (dhDay === 9) {
+      /* Day 9: Arafah — count to Eid */
+      target  = EID_DATE;
+      eyebrow = 'اليوم التاسع من ذي الحجة';
+      heading = 'يوم عرفة المبارك ⭐';
+
     } else {
+      /* Day 10+: Eid */
       clearInterval(_cdTimer);
-      ['cd-days','cd-hrs','cd-mins','cd-secs'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='🎉';});
-      const h=document.getElementById('hero-heading');
-      if(h)h.textContent='عيد الأضحى المبارك 🎉 — تقبل الله منا ومنكم';
+      ['cd-days','cd-hrs','cd-mins','cd-secs'].forEach(id => {
+        const e = document.getElementById(id);
+        if (e) e.textContent = '🎉';
+      });
+      const hd = document.getElementById('hero-heading');
+      const ey = document.getElementById('hero-eyebrow');
+      if (ey) ey.textContent = 'اليوم العاشر — عيد الأضحى';
+      if (hd) hd.textContent = 'عيد الأضحى المبارك 🎉 — تقبل الله منا ومنكم';
       return;
     }
 
-    const diff=target-now, pad=n=>String(n).padStart(2,'0');
-    const d=Math.floor(diff/86400000), h=Math.floor((diff%86400000)/3600000),
-          m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
+    /* Calculate remaining time */
+    const diff = target - now;
+    if (diff <= 0) { tick(); return; } /* boundary — re-tick immediately */
 
-    [['cd-days',pad(d)],['cd-hrs',pad(h)],['cd-mins',pad(m)],['cd-secs',pad(s)]].forEach(([id,val])=>{
-      const el=document.getElementById(id); if(el&&el.textContent!==val)el.textContent=val;
+    const pad = n => String(Math.max(0,n)).padStart(2,'0');
+    const dd  = Math.floor(diff / 86400000);
+    const hh  = Math.floor((diff % 86400000) / 3600000);
+    const mm  = Math.floor((diff % 3600000)  / 60000);
+    const ss  = Math.floor((diff % 60000)    / 1000);
+
+    /* Update DOM only when value changes (avoids flicker) */
+    [['cd-days', pad(dd)], ['cd-hrs', pad(hh)], ['cd-mins', pad(mm)], ['cd-secs', pad(ss)]].forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el && el.textContent !== val) el.textContent = val;
     });
-    const ey=document.getElementById('hero-eyebrow'), hd=document.getElementById('hero-heading');
-    if(ey&&ey.textContent!==eyebrow)ey.textContent=eyebrow;
-    if(hd&&hd.textContent!==heading)hd.textContent=heading;
+    const eyEl = document.getElementById('hero-eyebrow');
+    const hdEl = document.getElementById('hero-heading');
+    if (eyEl && eyEl.textContent !== eyebrow) eyEl.textContent = eyebrow;
+    if (hdEl && hdEl.textContent !== heading)  hdEl.textContent = heading;
   }
-  tick(); _cdTimer=setInterval(tick,1000);
+
+  tick();
+  _cdTimer = setInterval(tick, 1000);
 }
 
 /* ── 2. HIJRI DATE ────────────────────────────────────────── */
@@ -440,22 +483,26 @@ function applyTopbarPrayers(timings) {
     bar.style.display='flex';
     const PM={Fajr:'pt-fajr',Sunrise:'pt-sunrise',Dhuhr:'pt-dhuhr',Asr:'pt-asr',Maghrib:'pt-maghrib',Isha:'pt-isha'};
     const CM={Fajr:'ptc-fajr',Sunrise:'ptc-sunrise',Dhuhr:'ptc-dhuhr',Asr:'ptc-asr',Maghrib:'ptc-maghrib',Isha:'ptc-isha'};
+    const NAMES={Fajr:'الفجر',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
     const now2=new Date(),nowMin2=now2.getHours()*60+now2.getMinutes();
-    let nxtDone=false;
+    let nxtDone=false,nxtName='';
     Object.entries(PM).forEach(([k,id])=>{
       const e=document.getElementById(id);
-      const pill=document.getElementById(CM[k]);
+      const col=document.getElementById(CM[k]);
       if(e&&timings[k]){
         const t2=timings[k].substring(0,5);
         e.textContent=t2;
-        if(pill){
-          pill.classList.remove('done','next');
+        if(col){
+          col.classList.remove('done','next');
           const [hh2,mm2]=t2.split(':').map(Number);
-          if(hh2*60+mm2<nowMin2){pill.classList.add('done');}
-          else if(!nxtDone){pill.classList.add('next');nxtDone=true;}
+          if(hh2*60+mm2<nowMin2){col.classList.add('done');}
+          else if(!nxtDone){col.classList.add('next');nxtDone=true;nxtName=NAMES[k]||'';}
         }
       }
     });
+    // Update next prayer label in card
+    const badge=document.getElementById('next-prayer-label');
+    if(badge&&nxtName){badge.textContent='التالية: '+nxtName;badge.style.display='flex';}
   }
   if(locBtn)locBtn.style.display='none';
 }
@@ -679,4 +726,99 @@ document.addEventListener('DOMContentLoaded',()=>{
       font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif
     }
     .mini-badge.earned .mb-name{color:var(--gold-dark)}
+
+    /* ══ Prayer Table Card ══════════════════════════════════════ */
+    .prayer-table-card{}
+    .pt-card-header{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:10px;flex-wrap:wrap;gap:8px
+    }
+    .pt-next-lbl{
+      font-size:13px;font-weight:700;color:var(--gold-dark);
+      display:flex;align-items:center;gap:4px
+    }
+    html[data-theme="dark"] .pt-next-lbl,html[data-theme="oled"] .pt-next-lbl{color:var(--sys-yellow)}
+    .pt-loc-trigger{
+      display:flex;align-items:center;gap:6px;
+      background:var(--sand);border:1px solid var(--border);
+      border-radius:99px;padding:6px 14px;
+      font-size:12px;color:var(--muted);cursor:pointer;
+      font-family:inherit;transition:all .2s;
+      margin-bottom:12px
+    }
+    .pt-loc-trigger:hover{border-color:var(--gold);background:var(--gold-pale);color:var(--green-deep)}
+
+    /* The two-row grid */
+    .pt-grid{
+      display:flex;justify-content:space-between;
+      gap:4px;direction:rtl
+    }
+    .pt-col{
+      display:flex;flex-direction:column;align-items:center;
+      gap:8px;flex:1;min-width:0;
+      padding:4px 2px;position:relative;
+      transition:all .2s
+    }
+    /* Highlight next prayer column */
+    .pt-col.next::before{
+      content:'';position:absolute;inset:-4px -2px;
+      border-radius:10px;
+      background:rgba(201,161,74,.08);
+      border:1.5px solid rgba(201,161,74,.3)
+    }
+    .pt-col.next .pt-name{color:var(--gold-dark)}
+    .pt-col.next .pt-time{color:var(--gold-dark)}
+    html[data-theme="dark"] .pt-col.next .pt-name,html[data-theme="oled"] .pt-col.next .pt-name{color:var(--sys-yellow)}
+    html[data-theme="dark"] .pt-col.next .pt-time,html[data-theme="oled"] .pt-col.next .pt-time{color:var(--sys-yellow)}
+    .pt-col.done .pt-name,.pt-col.done .pt-time{opacity:.45}
+
+    .pt-name{
+      font-size:12px;font-weight:700;
+      color:var(--muted);
+      font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif;
+      white-space:nowrap
+    }
+    .pt-time{
+      font-size:17px;font-weight:900;
+      color:var(--green-deep);
+      font-family:'ThmanyahSans',monospace;
+      direction:ltr;font-variant-numeric:tabular-nums;
+      letter-spacing:.5px
+    }
+    html[data-theme="dark"] .pt-time,html[data-theme="oled"] .pt-time{color:var(--sys-green)}
+
+    @media(max-width:480px){
+      .pt-name{font-size:10px}
+      .pt-time{font-size:14px;letter-spacing:0}
+      .pt-grid{gap:2px}
+    }
+
+    /* ══ Mini Badges ═══════════════════════════════════════════ */
+    .mb-section{margin-bottom:16px}
+    .mb-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .mb-see-all{font-size:12px;color:var(--gold);font-weight:700;text-decoration:none;transition:opacity .2s}
+    .mb-see-all:hover{opacity:.7}
+    .mb-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+    .mb-scroll::-webkit-scrollbar{display:none}
+    .mini-badge{
+      display:flex;flex-direction:column;align-items:center;gap:5px;
+      min-width:72px;padding:12px 8px;
+      background:var(--card);border:1.5px solid var(--border);
+      border-radius:16px;text-align:center;flex-shrink:0;
+      transition:all .2s;cursor:pointer;text-decoration:none
+    }
+    .mini-badge:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:var(--shadow-sm)}
+    .mini-badge.earned{
+      border-color:rgba(201,161,74,.4);
+      background:linear-gradient(160deg,var(--card),var(--gold-pale))
+    }
+    .mini-badge .mb-ico{font-size:28px;filter:grayscale(1);opacity:.3;transition:all .3s}
+    .mini-badge.earned .mb-ico{filter:none;opacity:1}
+    .mini-badge .mb-name{
+      font-size:10px;font-weight:700;
+      color:var(--muted);line-height:1.3;
+      font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif
+    }
+    .mini-badge.earned .mb-name{color:var(--gold-dark)}
+    html[data-theme="dark"] .mini-badge.earned .mb-name,html[data-theme="oled"] .mini-badge.earned .mb-name{color:var(--sys-yellow)}
 >
