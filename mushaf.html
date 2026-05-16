@@ -8,86 +8,154 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0e3b2e">
 <link rel="manifest" href="manifest.json">
+<!-- Async font loading — eliminates render-blocking -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" id="google-fonts"
   href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
   media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"></noscript>
+<noscript>
+  
+</noscript>
 <link rel="stylesheet" href="css/style.css">
 <style>
 /* ─── Wird Range Card ─────────────────────────── */
-.wird-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);margin-bottom:4px;transition:all var(--t)}
-.wird-plan-tag{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--sand),var(--sand-2));border-radius:99px;padding:4px 14px;font-size:12px;font-weight:700;color:var(--green-deep);margin-bottom:16px}
-html[data-theme="dark"] .wird-plan-tag,html[data-theme="oled"] .wird-plan-tag{color:var(--sys-green)}
-.wird-range-row{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-bottom:16px}
-.wird-bound{background:var(--sand);border-radius:14px;padding:14px 16px;text-align:center;border:1px solid var(--border);transition:background var(--t)}
-html[data-theme="dark"] .wird-bound,html[data-theme="oled"] .wird-bound{background:var(--sand-2)}
-.wird-bound-lbl{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}
-.wird-bound-val{font-size:18px;font-weight:800;color:var(--green-deep);line-height:1.2}
-html[data-theme="dark"] .wird-bound-val,html[data-theme="oled"] .wird-bound-val{color:var(--sys-green)}
-.wird-bound-sub{font-size:11px;color:var(--muted);margin-top:4px}
-.wird-arrow{font-size:22px;color:var(--gold);text-align:center;opacity:.7}
-.wird-complete-btn{width:100%;padding:14px;border-radius:14px;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;transition:all .2s var(--ease);display:flex;align-items:center;justify-content:center;gap:10px}
-.wird-complete-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-.wird-complete-btn:active{transform:scale(.97)}
-html[data-theme="dark"] .wird-complete-btn,html[data-theme="oled"] .wird-complete-btn{background:linear-gradient(135deg,var(--sys-green),#2eb84d);color:#001a08}
-.wird-done-badge{width:100%;padding:12px;border-radius:14px;background:rgba(77,216,102,.12);border:1.5px solid rgba(77,216,102,.35);color:var(--sys-green);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;display:none}
-.wird-tomorrow{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:all var(--t)}
-.wird-tomorrow.locked { opacity: 0.4; pointer-events: none; }
-.wird-tomorrow-lock{position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(0,0,0,.03) 0,rgba(0,0,0,.03) 10px,transparent 10px,transparent 20px);display:flex;align-items:center;justify-content:center;font-size:28px;display:none}
-.wird-tomorrow.locked .wird-tomorrow-lock{display:flex}
-.wird-tomorrow-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.wird-tomorrow-ico{font-size:18px}
-.wird-tomorrow-lbl{font-size:13px;font-weight:700;color:var(--muted)}
-.wird-tomorrow-range{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
-.wird-tomorrow-bound{background:var(--sand-2);border-radius:10px;padding:10px 14px;text-align:center}
-.wird-tomorrow-bound .v{font-size:15px;font-weight:800;color:var(--green-deep)}
-html[data-theme="dark"] .wird-tomorrow-bound .v,html[data-theme="oled"] .wird-tomorrow-bound .v{color:var(--sys-green)}
-.wird-tomorrow-bound .l{font-size:10px;color:var(--muted);margin-top:2px}
-.plan-card{cursor:pointer;transition:border-color .2s,transform .15s,box-shadow .2s}
-.plan-card:hover{border-color:var(--gold);transform:translateY(-3px)}
-.plan-card.active{border-color:var(--gold)!important;box-shadow:0 0 0 3px rgba(201,161,74,.2)}
-.plan-card.active .ico-lg{background:linear-gradient(135deg,var(--gold-soft),var(--gold))}
+.wird-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  box-shadow: var(--shadow);
+  margin-bottom: 4px;
+  transition: all var(--t);
+}
+.wird-plan-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, var(--sand), var(--sand-2));
+  border-radius: 99px; padding: 4px 14px;
+  font-size: 12px; font-weight: 700; color: var(--green-deep);
+  margin-bottom: 16px;
+}
+html[data-theme="dark"] .wird-plan-tag,
+html[data-theme="oled"] .wird-plan-tag { color: var(--sys-green); }
 
-/* ─── MP3 Quran Player Styles ─────────────────── */
-.mp3quran-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);margin-bottom:14px}
-.mp3-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-.mp3-header .section-title{margin:0;padding:0}
-.select-wrapper{display:flex;flex-direction:column;gap:4px}
-.select-wrapper label{font-size:12px;color:var(--gold);font-weight:700}
-.select-wrapper select{width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--sand);color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:border-color .2s}
-.select-wrapper select:focus{border-color:var(--green-soft);box-shadow:0 0 0 3px rgba(42,122,95,.12)}
-.mp3-player-action{text-align:center;margin-top:16px}
-.mp3-play-btn{background:var(--green-deep);color:#fff;border:none;padding:12px 30px;border-radius:99px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
-.mp3-play-btn:hover{background:var(--green-mid);transform:translateY(-2px)}
-.mp3-play-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
-html[data-theme="dark"] .mp3-play-btn,html[data-theme="oled"] .mp3-play-btn{background:var(--sys-green);color:#001a08}
-html[data-theme="dark"] .mp3-play-btn:hover,html[data-theme="oled"] .mp3-play-btn:hover{background:#2eb84d}
-#main-quran-audio{width:100%;margin-top:14px;display:none;border-radius:12px}
-.mp3-loading{text-align:center;color:var(--gold);font-size:13px;padding:10px;display:none}
-.mp3-error{background:rgba(255,59,48,.1);border:1px solid var(--sys-red);color:var(--sys-red);padding:10px 14px;border-radius:10px;font-size:13px;margin-top:10px;display:none}
-.mp3-now-playing{background:var(--gold-pale);border:1px solid var(--gold);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13px;color:var(--green-deep);display:none}
-html[data-theme="dark"] .mp3-now-playing,html[data-theme="oled"] .mp3-now-playing{background:rgba(230,201,122,.1);border-color:var(--sys-yellow);color:var(--sys-yellow)}
+.wird-range-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.wird-bound {
+  background: var(--sand);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: background var(--t);
+}
+html[data-theme="dark"] .wird-bound,
+html[data-theme="oled"] .wird-bound { background: var(--sand-2); }
+.wird-bound-lbl {
+  font-size: 11px; font-weight: 700;
+  color: var(--gold); letter-spacing: .8px;
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.wird-bound-val {
+  font-size: 18px; font-weight: 800;
+  color: var(--green-deep); line-height: 1.2;
+}
+html[data-theme="dark"] .wird-bound-val,
+html[data-theme="oled"] .wird-bound-val { color: var(--sys-green); }
+.wird-bound-sub {
+  font-size: 11px; color: var(--muted); margin-top: 4px;
+}
+.wird-arrow {
+  font-size: 22px; color: var(--gold); text-align: center;
+  opacity: .7;
+}
+/* Complete button */
+.wird-complete-btn {
+  width: 100%; padding: 14px;
+  border-radius: 14px; border: none; cursor: pointer;
+  font-family: inherit; font-size: 15px; font-weight: 700;
+  background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+  color: #fff;
+  transition: all .2s var(--ease);
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.wird-complete-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.wird-complete-btn:active { transform: scale(.97); }
+html[data-theme="dark"] .wird-complete-btn,
+html[data-theme="oled"] .wird-complete-btn {
+  background: linear-gradient(135deg, var(--sys-green), #2eb84d);
+  color: #001a08;
+}
+/* Done state */
+.wird-done-badge {
+  width: 100%; padding: 12px;
+  border-radius: 14px;
+  background: rgba(77,216,102,.12);
+  border: 1.5px solid rgba(77,216,102,.35);
+  color: var(--sys-green);
+  font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  display: none;
+}
+/* Tomorrow preview */
+.wird-tomorrow {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--t);
+}
+.wird-tomorrow.locked {
+  opacity: .55;
+  pointer-events: none;
+}
+.wird-tomorrow-lock {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0,0,0,.03) 0,
+    rgba(0,0,0,.03) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  display: none;
+}
+.wird-tomorrow.locked .wird-tomorrow-lock { display: flex; }
+.wird-tomorrow-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+.wird-tomorrow-ico { font-size: 18px; }
+.wird-tomorrow-lbl {
+  font-size: 13px; font-weight: 700; color: var(--muted);
+}
+.wird-tomorrow-range {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center;
+}
+.wird-tomorrow-bound {
+  background: var(--sand-2); border-radius: 10px; padding: 10px 14px; text-align: center;
+}
+.wird-tomorrow-bound .v { font-size: 15px; font-weight: 800; color: var(--green-deep); }
+html[data-theme="dark"] .wird-tomorrow-bound .v,
+html[data-theme="oled"] .wird-tomorrow-bound .v { color: var(--sys-green); }
+.wird-tomorrow-bound .l { font-size: 10px; color: var(--muted); margin-top: 2px; }
 
-/* ─── Quranpedia Search ───────────────────────── */
-.quranpedia-search-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px}
-.qp-search-header h3{font-size:15px;color:var(--green-deep);margin:0 0 4px}
-.qp-search-header small{color:var(--muted);font-size:12px;display:block}
-.qp-search-group{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.qp-search-group input{flex:1;min-width:200px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--sand);color:var(--text);font-family:inherit;font-size:14px;outline:none}
-.qp-search-group input:focus{border-color:var(--green-soft)}
-.qp-search-group button{padding:10px 20px;border-radius:10px;border:none;background:var(--green-deep);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s}
-.qp-search-group button:hover{background:var(--green-mid)}
-html[data-theme="dark"] .qp-search-group button,html[data-theme="oled"] .qp-search-group button{background:var(--sys-green);color:#001a08}
-.qp-spinner{display:inline-block;animation:spin 1s linear infinite}
-@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-.qp-result-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;transition:border-color .2s}
-.qp-result-item:hover{border-color:var(--gold)}
-.qp-text{font-family:'Amiri',serif;font-size:18px;line-height:1.8;color:var(--green-deep);display:block;margin-bottom:8px}
-html[data-theme="dark"] .qp-text,html[data-theme="oled"] .qp-text{color:var(--sys-yellow)}
-.qp-meta{font-size:12px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap}
-.qp-no-results{text-align:center;padding:20px;color:var(--muted)}
+/* Plan cards hover */
+.plan-card { cursor: pointer; transition: border-color .2s, transform .15s, box-shadow .2s; }
+.plan-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+.plan-card.active { border-color: var(--gold) !important; box-shadow: 0 0 0 3px rgba(201,161,74,.2); }
+.plan-card.active .ico-lg { background: linear-gradient(135deg, var(--gold-soft), var(--gold)); }
 </style>
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
 </head>
@@ -95,125 +163,137 @@ html[data-theme="dark"] .qp-text,html[data-theme="oled"] .qp-text{color:var(--sy
 <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
-  <aside class="sidebar">
+    <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
       <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:28px;height:28px;border-radius:6px"></div>
-      <div><div class="brand-name" data-i18n="brand.name">زاد العشر</div><div class="brand-sub" data-i18n="brand.sub">أفضل أيام الدنيا</div></div>
+      <div>
+        <div class="brand-name" data-i18n="brand.name">زاد العشر</div>
+        <div class="brand-sub" data-i18n="brand.sub">أفضل أيام الدنيا</div>
+      </div>
     </a>
-    <div class="theme-row"><span data-i18n="common.darkMode">🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
-    <button class="sidebar-lang-btn" onclick="toggleLang()" id="sidebar-lang-btn"><span class="slb-label" data-i18n="common.language">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
+    <div class="theme-row">
+      <span data-i18n="common.darkMode">🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <button class="sidebar-lang-btn" onclick="toggleLang()" id="sidebar-lang-btn">
+      <span class="slb-label" data-i18n="common.language">🌐 اللغة</span>
+      <span class="slb-val" id="sidebar-lang-val">EN</span>
+    </button>
     <nav class="nav">
-      <a href="index.html"><span class="ico">🏠</span><span data-i18n="nav.dashboard">لوحة التحكم</span></a>
-      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
-      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
-      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
-      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
-      <a href="fadael.html"><span class="ico">✨</span><span data-i18n="nav.virtues">فضائل العشر</span></a>
-      <a href="worship.html"><span class="ico">📿</span><span data-i18n="nav.worship">جدول العبادات</span></a>
+      <a href="index.html" ><span class="ico">🏠</span><span data-i18n="nav.dashboard">لوحة التحكم</span></a>
+      <a href="prayers.html" ><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html" ><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html" ><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <a href="videos.html" ><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="fadael.html" ><span class="ico">✨</span><span data-i18n="nav.virtues">فضائل العشر</span></a>
+      <a href="worship.html" ><span class="ico">📿</span><span data-i18n="nav.worship">جدول العبادات</span></a>
       <a href="mushaf.html" class="active"><span class="ico">📖</span><span data-i18n="nav.mushaf">مصحف العشر</span></a>
-      <a href="takbeer.html"><span class="ico">🕋</span><span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</span></a>
-      <a href="adhkar.html"><span class="ico">🤲</span><span data-i18n="nav.adhkar">أذكار والدعاء</span></a>
-      <a href="odhiya.html"><span class="ico">🐏</span><span data-i18n="nav.odhiya">دليل الأضحية</span></a>
-      <a href="arafah.html"><span class="ico">🌄</span><span data-i18n="nav.arafah">يوم عرفة</span></a>
-      <a href="sadaqah.html"><span class="ico">💚</span><span data-i18n="nav.sadaqah">صدقة العشر</span></a>
-      <a href="badges.html"><span class="ico">🏅</span><span data-i18n="nav.badges">أوسمتي</span></a>
-      <a href="hasad.html"><span class="ico">📊</span><span data-i18n="nav.hasad">حصاد العشر</span></a>
-      <a href="summary.html"><span class="ico">📈</span><span>إحصاء العشر</span></a>
-      <a href="kids.html"><span class="ico">🧒</span><span data-i18n="nav.kids">وضع الأطفال</span></a>
-      <a href="tasmee.html"><span class="ico">🎙️</span><span data-i18n="nav.tasmee">تسميع القرآن</span></a>
-      <a href="ai.html"><span class="ico">🤖</span><span data-i18n="nav.ai">تدبّر بالذكاء</span></a>
-      <a href="settings.html"><span class="ico">⚙️</span><span data-i18n="nav.settings">الإعدادات</span></a>
-      <a href="report.html"><span class="ico">🚩</span><span data-i18n="nav.report">بلاغ مشكلة</span></a>
-      <a href="about.html"><span class="ico">👤</span><span data-i18n="nav.about">عن التطبيق</span></a>
+      <a href="takbeer.html" ><span class="ico">🕋</span><span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</span></a>
+      <a href="adhkar.html" ><span class="ico">🤲</span><span data-i18n="nav.adhkar">الأذكار والدعاء</span></a>
+      <a href="odhiya.html" ><span class="ico">🐏</span><span data-i18n="nav.odhiya">دليل الأضحية</span></a>
+      <a href="arafah.html" ><span class="ico">🌄</span><span data-i18n="nav.arafah">يوم عرفة</span></a>
+      <a href="sadaqah.html" ><span class="ico">💚</span><span data-i18n="nav.sadaqah">صدقة العشر</span></a>
+      <a href="badges.html" ><span class="ico">🏅</span><span data-i18n="nav.badges">أوسمتي</span></a>
+      <a href="hasad.html" ><span class="ico">📊</span><span data-i18n="nav.hasad">حصاد العشر</span></a>
+      <a href="summary.html" ><span class="ico">📈</span><span>إحصاء العشر</span></a>
+      <a href="kids.html" ><span class="ico">🧒</span><span data-i18n="nav.kids">وضع الأطفال</span></a>
+      <a href="tasmee.html" ><span class="ico">🎙️</span><span data-i18n="nav.tasmee">تسميع القرآن</span></a>
+      <a href="ai.html" ><span class="ico">🤖</span><span data-i18n="nav.ai">تدبّر بالذكاء</span></a>
+      <a href="settings.html" ><span class="ico">⚙️</span><span data-i18n="nav.settings">الإعدادات</span></a>
+      <a href="report.html" ><span class="ico">🚩</span><span data-i18n="nav.report">بلاغ مشكلة</span></a>
+      <a href="about.html" ><span class="ico">👤</span><span data-i18n="nav.about">عن التطبيق</span></a>
     </nav>
     <div class="side-foot"><span data-i18n="brand.name">زاد العشر</span> 2026 · <span data-i18n="common.noAds">بدون إعلانات 📴</span></div>
   </aside>
-
   <main class="main">
     <div class="topbar">
-      <div><div class="page-title"><span data-i18n="mushaf.title">مصحف العشر</span></div><div class="page-sub">خطة ختم مرنة وتدبّر هادئ</div></div>
+      <div><div class="page-title"><span data-i18n="mushaf.title">مصحف العشر</span></div>
+      <div class="page-sub">خطة ختم مرنة وتدبّر هادئ</div></div>
       <div class="topbar-right">
-        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." data-i18n-ph="common.search" onfocus="openSearchOverlay?.()" aria-label="بحث" role="searchbox"></div>
-        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang?.()">EN</button>
-        <button class="btn-theme" onclick="safeToggleTheme?.()">🌙</button>
+        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." data-i18n-ph="common.search" data-i18n-ph="common.search" onfocus="openSearchOverlay()" aria-label="بحث في التطبيق" role="searchbox"></div>
+        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang()">EN</button>
+        <button class="btn-theme" onclick="toggleTheme()">🌙</button>
       </div>
     </div>
 
-    <p style="font-size:13px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px"><span style="font-size:16px">👆</span> انقر على الخطة للاختيار — تتغير معها مواعيد الورد تلقائياً</p>
+    <!-- ── Plan Selection ── -->
+    <p style="font-size:13px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+      <span style="font-size:16px">👆</span> انقر على الخطة للاختيار — تتغير معها مواعيد الورد تلقائياً
+    </p>
     <div class="grid cols-3 no-stagger" style="margin-bottom:24px">
-      <div class="card plan-card" data-plan="khatma-10"><div class="ico-lg">📅</div><h3>خطة 10 أيام</h3><p>ختمة كاملة (3 أجزاء يومياً)</p></div>
-      <div class="card plan-card" data-plan="daily-juz"><div class="ico-lg">📗</div><h3 data-i18n="mushaf.plan.juz">جزء يومياً</h3><p>قراءة هادئة بتركيز كامل</p></div>
-      <div class="card plan-card" data-plan="gems"><div class="ico-lg">💎</div><h3>جواهر القرآن</h3><p>آيات الحج والتوحيد</p></div>
+      <div class="card plan-card" data-plan="khatma-10">
+        <div class="ico-lg">📅</div>
+        <h3>خطة 10 أيام</h3>
+        <p>ختمة كاملة (3 أجزاء يومياً)</p>
+      </div>
+      <div class="card plan-card" data-plan="daily-juz">
+        <div class="ico-lg">📗</div>
+        <h3 data-i18n="mushaf.plan.juz">جزء يومياً</h3>
+        <p>قراءة هادئة بتركيز كامل</p>
+      </div>
+      <div class="card plan-card" data-plan="gems">
+        <div class="ico-lg">💎</div>
+        <h3>جواهر القرآن</h3>
+        <p>آيات الحج والتوحيد</p>
+      </div>
     </div>
 
+    <!-- ── Wird of the Day (dynamic by plan) ── -->
     <div class="section-title" id="wird-section-title">ورد اليوم</div>
+
     <div class="wird-card">
       <div class="wird-plan-tag" id="wird-plan-tag">📗 جزء يومياً</div>
+
+      <!-- From / To Range -->
       <div class="wird-range-row">
-        <div class="wird-bound"><div class="wird-bound-lbl">مِن</div><div class="wird-bound-val" id="wird-from-val">الجزء 1</div><div class="wird-bound-sub" id="wird-from-sub">صفحة 1</div></div>
+        <div class="wird-bound">
+          <div class="wird-bound-lbl">مِن</div>
+          <div class="wird-bound-val" id="wird-from-val">الجزء 1</div>
+          <div class="wird-bound-sub" id="wird-from-sub">صفحة 1</div>
+        </div>
         <div class="wird-arrow">←</div>
-        <div class="wird-bound"><div class="wird-bound-lbl">إلى</div><div class="wird-bound-val" id="wird-to-val">الجزء 1</div><div class="wird-bound-sub" id="wird-to-sub">صفحة 20</div></div>
+        <div class="wird-bound">
+          <div class="wird-bound-lbl">إلى</div>
+          <div class="wird-bound-val" id="wird-to-val">الجزء 1</div>
+          <div class="wird-bound-sub" id="wird-to-sub">صفحة 20</div>
+        </div>
       </div>
-      <button class="wird-complete-btn" id="wird-complete-btn" onclick="completeWird()"><span>✅</span> أنهيت وردي اليوم</button>
-      <div class="wird-done-badge" id="wird-done-badge"><span>✅</span><span>أحسنت — وردك اليوم مكتمل</span><span id="wird-done-time" style="font-size:12px;opacity:.7"></span></div>
+
+      <!-- Complete button / Done badge -->
+      <button class="wird-complete-btn" id="wird-complete-btn" onclick="completeWird()">
+        <span>✅</span> أنهيت وردي اليوم
+      </button>
+      <div class="wird-done-badge" id="wird-done-badge">
+        <span>✅</span>
+        <span>أحسنت — وردك اليوم مكتمل</span>
+        <span id="wird-done-time" style="font-size:12px;opacity:.7"></span>
+      </div>
     </div>
 
+    <!-- ── Tomorrow's Wird (locked until today complete) ── -->
     <div class="wird-tomorrow locked" id="wird-tomorrow-card">
       <div class="wird-tomorrow-lock">🔒</div>
-      <div class="wird-tomorrow-header"><div class="wird-tomorrow-ico">🌅</div><div class="wird-tomorrow-lbl" id="wird-tomorrow-lbl">ورد الغد — يُفتح بعد إتمام ورد اليوم</div></div>
+      <div class="wird-tomorrow-header">
+        <div class="wird-tomorrow-ico">🌅</div>
+        <div class="wird-tomorrow-lbl" id="wird-tomorrow-lbl">ورد الغد — يُفتح بعد إتمام ورد اليوم</div>
+      </div>
       <div class="wird-tomorrow-range">
-        <div class="wird-tomorrow-bound"><div class="v" id="wird-tmr-from">—</div><div class="l">من</div></div>
+        <div class="wird-tomorrow-bound">
+          <div class="v" id="wird-tmr-from">—</div>
+          <div class="l">من</div>
+        </div>
         <div style="color:var(--gold);font-size:18px;text-align:center">←</div>
-        <div class="wird-tomorrow-bound"><div class="v" id="wird-tmr-to">—</div><div class="l">إلى</div></div>
+        <div class="wird-tomorrow-bound">
+          <div class="v" id="wird-tmr-to">—</div>
+          <div class="l">إلى</div>
+        </div>
       </div>
     </div>
 
-    <div class="mp3quran-card" id="mp3quran-card">
-      <div class="mp3-header">
-        <div>
-          <span class="section-title" style="margin:0;padding:0">🎧 المكتبة الصوتية</span>
-          <small style="color:var(--muted);font-size:12px;display:block;margin-top:4px">استمع للقرآن بصوت أشهر القراء بجودة عالية</small>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
-        <div class="select-wrapper">
-          <label>👤 القارئ الشيخ:</label>
-          <select id="mp3-reciter-select" onchange="onReciterChanged()">
-            <option value="">جاري تحميل قائمة القراء...</option>
-          </select>
-        </div>
-        <div class="select-wrapper">
-          <label>📖 السورة الكريمة:</label>
-          <select id="mp3-surah-select" disabled>
-            <option value="">اختر القارئ أولاً...</option>
-          </select>
-        </div>
-      </div>
-      <div class="mp3-player-action">
-        <button id="mp3-play-btn" class="mp3-play-btn" onclick="playSelectedAudio()" disabled>
-          <span>▶️</span> <span id="mp3-btn-text">اختر سورة للتشغيل</span>
-        </button>
-        <div id="mp3-loading" class="mp3-loading">⏳ جاري التحميل...</div>
-        <div id="mp3-error" class="mp3-error"></div>
-        <div id="mp3-now-playing" class="mp3-now-playing"></div>
-        <audio id="main-quran-audio" controls style="width:100%;margin-top:14px;display:none"></audio>
-      </div>
+    <!-- ── Quranic Text ── -->
+    <div class="section-title" style="margin-top:28px">
+      <span id="quran-display-title">من الورد — سورة الحج</span>
     </div>
-
-    <div class="card quranpedia-search-card">
-      <div class="qp-search-header">
-        <h3>🔍 البحث في القرآن الكريم</h3>
-        <small>ابحث بالكلمة أو الجملة فورياً عبر قاعدة بيانات Quranpedia</small>
-      </div>
-      <div class="qp-search-group">
-        <input type="text" id="qp-search-input" placeholder="اكتب كلمة البحث هنا (مثلاً: رمضان، الصلاة)...">
-        <button id="qp-search-btn" onclick="performQuranpediaSearch()">ابحَث</button>
-      </div>
-      <div id="qp-search-loading" style="display:none;text-align:center;margin:20px 0;color:var(--gold)"><span class="qp-spinner">⏳</span> جاري البحث في آيات الذكر الحكيم...</div>
-      <div id="qp-search-results" class="qp-results-list"></div>
-    </div>
-
-    <div class="section-title" style="margin-top:28px"><span id="quran-display-title">من الورد الإرشادي — سورة الحج</span></div>
     <div class="mushaf" id="mushaf-text" style="font-size:var(--qf-size)">
       <div class="header"><span id="surah-name">سورة الحج</span><span id="surah-meta">الجزء 17 · الصفحة 332</span></div>
       وَأَذِّن فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا وَعَلَىٰ كُلِّ ضَامِرٍ يَأْتِينَ مِن كُلِّ فَجٍّ عَمِيقٍ <span class="aya-num">27</span>
@@ -222,14 +302,16 @@ html[data-theme="dark"] .qp-text,html[data-theme="oled"] .qp-text{color:var(--sy
     </div>
     <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
       <button class="btn btn-ghost">◀ السابقة</button>
-      <button class="btn btn-gold" onclick="showToast?.('💎 تدبّر: تعلّق بالبيت الحرام قلباً')">💎 تدبّر</button>
+      <button class="btn btn-gold" onclick="showToast('💎 تدبّر: تعلّق بالبيت الحرام قلباً')">💎 تدبّر</button>
       <button class="btn btn-ghost">التالية ▶</button>
       <div style="display:flex;align-items:center;gap:10px;margin-right:auto">
         <span style="font-size:13px;color:var(--muted)" data-i18n="mushaf.font">حجم الخط</span>
-        <input type="range" id="m-font" min="16" max="36" value="24" style="accent-color:var(--green-deep);width:100px" oninput="document.documentElement.style.setProperty('--qf-size',this.value+'px')">
+        <input type="range" id="m-font" min="16" max="36" value="24"
+               style="accent-color:var(--green-deep);width:100px">
       </div>
     </div>
 
+    <!-- ── Khatma Progress ── -->
     <div class="section-title">تقدّمي في الختمة</div>
     <div class="card">
       <h3>📊 الختمة الكاملة</h3>
@@ -240,350 +322,207 @@ html[data-theme="dark"] .qp-text,html[data-theme="oled"] .qp-text{color:var(--sy
         <button class="btn btn-ghost" id="m-reset">إعادة تعيين</button>
       </div>
     </div>
+
   </main>
 
-  <a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء">🤖</a>
+  <!-- Floating AI Button -->
+  <a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
 </div>
-
-<script src="lang.js" defer></script>
-<script src="js/app.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
-<script src="animations.js" defer></script>
-
+  <script src="lang.js" defer></script>
+  <script src="js/app.js" defer></script>
 <script>
-/* ════════════════════════════════════════════════════════════
-   MUSHAF PAGE — Wird System + Local State (No Mushaf Text API)
-   ════════════════════════════════════════════════════════════ */
+/* ══ MUSHAF PAGE — Wird system ══════════════════════════════ */
 
-window.STATE = window.STATE || JSON.parse(localStorage.getItem('zad_v2') || '{}');
-
+/* Reading plan definitions */
 const PLANS = {
-  'khatma-10': { label:'📅 خطة 10 أيام', juzPerDay:3, ranges:Array.from({length:10},(_,i)=>({fromJuz:i*3+1,toJuz:i*3+3,fromPage:i*60+1,toPage:Math.min(i*60+60,604)})) },
-  'daily-juz': { label:'📗 جزء يومياً', juzPerDay:1, ranges:Array.from({length:30},(_,i)=>({fromJuz:i+1,toJuz:i+1,fromPage:i*20+1,toPage:Math.min(i*20+20,604)})) },
-  'gems': { label:'💎 جواهر القرآن', juzPerDay:0, ranges:[
-    {fromJuz:'البقرة',toJuz:'آل عمران',fromPage:2,toPage:50,label:'التوحيد والإيمان'},
-    {fromJuz:'الحج',toJuz:'الحج',fromPage:332,toPage:341,label:'آيات الحج والنسك'},
-    {fromJuz:'الكهف',toJuz:'الكهف',fromPage:293,toPage:304,label:'الفتنة والثبات'},
-    {fromJuz:'الإخلاص',toJuz:'الناس',fromPage:604,toPage:604,label:'الإخلاص والتوحيد'}
-  ]}
+  'khatma-10': {
+    label: '📅 خطة 10 أيام',
+    juzPerDay: 3,
+    ranges: Array.from({length:10}, (_,i) => ({
+      fromJuz: i*3+1, toJuz: i*3+3,
+      fromPage: i*60+1, toPage: Math.min(i*60+60, 604)
+    }))
+  },
+  'daily-juz': {
+    label: '📗 جزء يومياً',
+    juzPerDay: 1,
+    ranges: Array.from({length:30}, (_,i) => ({
+      fromJuz: i+1, toJuz: i+1,
+      fromPage: i*20+1, toPage: Math.min(i*20+20, 604)
+    }))
+  },
+  'gems': {
+    label: '💎 جواهر القرآن',
+    juzPerDay: 0,
+    ranges: [
+      { fromJuz: 'البقرة',  toJuz: 'آل عمران', fromPage: 2, toPage: 50,  label: 'التوحيد والإيمان' },
+      { fromJuz: 'الحج',    toJuz: 'الحج',      fromPage: 332, toPage: 341, label: 'آيات الحج والنسك' },
+      { fromJuz: 'الكهف',   toJuz: 'الكهف',     fromPage: 293, toPage: 304, label: 'الفتنة والثبات' },
+      { fromJuz: 'الإخلاص', toJuz: 'الناس',     fromPage: 604, toPage: 604, label: 'الإخلاص والتوحيد' },
+    ]
+  }
 };
 
-const _arSurahNames = [
-  "الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود",
-  "يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون",
-  "النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ",
-  "فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف",
-  "محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة",
-  "الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة",
-  "المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس",
-  "التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد",
-  "الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة",
-  "التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص",
-  "الفلق","الناس"
-];
-
-let _globalRecitersData = [];
-
-/* ── Wird System Functions ───────────────────────────────── */
 function getPlanDay() {
-  const dhDay = typeof getDhulHijjahDay === 'function' ? getDhulHijjahDay() : null;
-  if (dhDay && dhDay >= 1 && dhDay <= 10) return dhDay - 1;
-  const juz = window.STATE?.mushaf?.juz || 0, plan = window.STATE?.mushaf?.plan || 'daily-juz';
+  /* Use Dhul Hijjah day if in Ashra, otherwise use juz-based day */
+  const dhDay = getDhulHijjahDay ? getDhulHijjahDay() : null;
+  if (dhDay && dhDay >= 1 && dhDay <= 10) return dhDay - 1; /* 0-indexed */
+  /* fallback: use completed juz count */
+  const juz = STATE.mushaf?.juz || 0;
+  const plan = STATE.mushaf?.plan || 'daily-juz';
   if (plan === 'khatma-10') return Math.floor(juz / 3);
   if (plan === 'daily-juz') return juz;
   return 0;
 }
 
 function getWirdRange(plan, dayIdx) {
-  const p = PLANS[plan]; if (!p) return null;
-  if (plan === 'gems') { const idx = dayIdx % p.ranges.length; return p.ranges[idx]; }
+  const p = PLANS[plan];
+  if (!p) return null;
+  if (plan === 'gems') {
+    const idx = dayIdx % p.ranges.length;
+    return p.ranges[idx];
+  }
   const idx = Math.min(dayIdx, p.ranges.length - 1);
   return p.ranges[idx] || p.ranges[p.ranges.length - 1];
 }
 
 function isTodayComplete() {
   const today = new Date().toISOString().split('T')[0];
-  return !!(window.STATE?.mushaf?.completedDates?.[today]);
-}
-
-function saveState() {
-  if (typeof window.saveState === 'function') window.saveState();
-  else localStorage.setItem('zad_v2', JSON.stringify(window.STATE || {}));
-}
-
-function showToast(msg) {
-  if (typeof window.showToast === 'function') window.showToast(msg);
-  else { alert(msg); }
+  return !!(STATE.mushaf?.completedDates?.[today]);
 }
 
 function renderWird() {
-  const plan = window.STATE?.mushaf?.plan || 'daily-juz', P = PLANS[plan], day = getPlanDay(), r = getWirdRange(plan, day), rTmr = getWirdRange(plan, day + 1), done = isTodayComplete();
-  const tagEl = document.getElementById('wird-plan-tag'); if (tagEl) tagEl.textContent = P?.label || '';
-  const titleEl = document.getElementById('wird-section-title'); if (titleEl) titleEl.innerHTML = plan === 'gems' ? 'ورد اليوم — <span style="color:var(--gold)">جواهر القرآن</span>' : 'ورد اليوم';
-  
+  const plan = STATE.mushaf?.plan || 'daily-juz';
+  const P    = PLANS[plan];
+  const day  = getPlanDay();
+  const r    = getWirdRange(plan, day);
+  const rTmr = getWirdRange(plan, day + 1);
+  const done = isTodayComplete();
+
+  /* Plan tag */
+  const tagEl = document.getElementById('wird-plan-tag');
+  if (tagEl) tagEl.textContent = P?.label || '';
+
+  /* Section title */
+  const titleEl = document.getElementById('wird-section-title');
+  if (titleEl) {
+    titleEl.innerHTML = plan === 'gems'
+      ? 'ورد اليوم — <span style="color:var(--gold)">جواهر القرآن</span>'
+      : 'ورد اليوم';
+  }
+
   if (r) {
-    const fromVal = document.getElementById('wird-from-val'), fromSub = document.getElementById('wird-from-sub'), toVal = document.getElementById('wird-to-val'), toSub = document.getElementById('wird-to-sub');
+    const fromVal = document.getElementById('wird-from-val');
+    const fromSub = document.getElementById('wird-from-sub');
+    const toVal   = document.getElementById('wird-to-val');
+    const toSub   = document.getElementById('wird-to-sub');
+
     if (plan === 'gems') {
-      if (fromVal) fromVal.textContent = r.fromJuz; if (fromSub) fromSub.textContent = r.label || '';
-      if (toVal) toVal.textContent = r.toJuz; if (toSub) toSub.textContent = 'صفحة ' + r.toPage;
+      if (fromVal) fromVal.textContent = r.fromJuz;
+      if (fromSub) fromSub.textContent = r.label || '';
+      if (toVal)   toVal.textContent   = r.toJuz;
+      if (toSub)   toSub.textContent   = 'صفحة ' + r.toPage;
     } else {
-      if (fromVal) fromVal.textContent = 'الجزء ' + r.fromJuz; if (fromSub) fromSub.textContent = 'صفحة ' + r.fromPage;
-      if (toVal) toVal.textContent = 'الجزء ' + r.toJuz; if (toSub) toSub.textContent = 'صفحة ' + r.toPage;
+      if (fromVal) fromVal.textContent = 'الجزء ' + r.fromJuz;
+      if (fromSub) fromSub.textContent = 'صفحة ' + r.fromPage;
+      if (toVal)   toVal.textContent   = 'الجزء ' + r.toJuz;
+      if (toSub)   toSub.textContent   = 'صفحة ' + r.toPage;
     }
   }
-  
-  const btn = document.getElementById('wird-complete-btn'), badge = document.getElementById('wird-done-badge'), doneTime = document.getElementById('wird-done-time');
+
+  /* Complete button / done badge */
+  const btn    = document.getElementById('wird-complete-btn');
+  const badge  = document.getElementById('wird-done-badge');
+  const doneTime = document.getElementById('wird-done-time');
   if (done) {
-    if (btn) btn.style.display = 'none'; if (badge) badge.style.display = 'flex';
-    const ts = window.STATE?.mushaf?.completedDates?.[new Date().toISOString().split('T')[0]];
-    if (doneTime && ts) { const d = new Date(ts); doneTime.textContent = '— ' + d.toLocaleTimeString('ar', {hour:'2-digit',minute:'2-digit'}); }
-  } else { if (btn) btn.style.display = 'flex'; if (badge) badge.style.display = 'none'; }
-  
-  const tmrCard = document.getElementById('wird-tomorrow-card'), tmrLbl = document.getElementById('wird-tomorrow-lbl'), tmrFrom = document.getElementById('wird-tmr-from'), tmrTo = document.getElementById('wird-tmr-to');
-  if (tmrCard) tmrCard.classList.toggle('locked', !done);
-  if (tmrLbl) tmrLbl.textContent = done ? 'ورد الغد — جاهز لاستقبالك' : 'ورد الغد — يُفتح بعد إتمام ورد اليوم';
-  if (rTmr) {
-    if (plan === 'gems') { if (tmrFrom) tmrFrom.textContent = rTmr.fromJuz; if (tmrTo) tmrTo.textContent = rTmr.toJuz; }
-    else { if (tmrFrom) tmrFrom.textContent = 'جزء ' + rTmr.fromJuz; if (tmrTo) tmrTo.textContent = 'جزء ' + rTmr.toJuz; }
+    if (btn)   btn.style.display   = 'none';
+    if (badge) badge.style.display = 'flex';
+    const ts = STATE.mushaf?.completedDates?.[new Date().toISOString().split('T')[0]];
+    if (doneTime && ts) {
+      const d = new Date(ts);
+      doneTime.textContent = '— ' + d.toLocaleTimeString('ar', {hour:'2-digit',minute:'2-digit'});
+    }
+  } else {
+    if (btn)   btn.style.display   = 'flex';
+    if (badge) badge.style.display = 'none';
   }
-  document.querySelectorAll('.plan-card').forEach(c => c.classList.toggle('active', c.dataset.plan === plan));
+
+  /* Tomorrow card */
+  const tmrCard = document.getElementById('wird-tomorrow-card');
+  const tmrLbl  = document.getElementById('wird-tomorrow-lbl');
+  const tmrFrom = document.getElementById('wird-tmr-from');
+  const tmrTo   = document.getElementById('wird-tmr-to');
+
+  if (tmrCard) tmrCard.classList.toggle('locked', !done);
+  if (tmrLbl) {
+    tmrLbl.textContent = done
+      ? 'ورد الغد — جاهز لاستقبالك'
+      : 'ورد الغد — يُفتح بعد إتمام ورد اليوم';
+  }
+
+  if (rTmr) {
+    if (plan === 'gems') {
+      if (tmrFrom) tmrFrom.textContent = rTmr.fromJuz;
+      if (tmrTo)   tmrTo.textContent   = rTmr.toJuz;
+    } else {
+      if (tmrFrom) tmrFrom.textContent = 'جزء ' + rTmr.fromJuz;
+      if (tmrTo)   tmrTo.textContent   = 'جزء ' + rTmr.toJuz;
+    }
+  }
+
+  /* Highlight active plan card */
+  document.querySelectorAll('.plan-card').forEach(c => {
+    c.classList.toggle('active', c.dataset.plan === plan);
+  });
 }
 
 function completeWird() {
-  if (!window.STATE.mushaf) window.STATE.mushaf = {juz:0, plan:'daily-juz'};
-  if (!window.STATE.mushaf.completedDates) window.STATE.mushaf.completedDates = {};
+  if (!STATE.mushaf) STATE.mushaf = { juz:0, plan:'daily-juz' };
+  if (!STATE.mushaf.completedDates) STATE.mushaf.completedDates = {};
   const today = new Date().toISOString().split('T')[0];
-  window.STATE.mushaf.completedDates[today] = new Date().toISOString();
-  const plan = window.STATE.mushaf.plan || 'daily-juz', add = plan === 'khatma-10' ? 3 : plan === 'daily-juz' ? 1 : 0;
-  if (add > 0) window.STATE.mushaf.juz = Math.min((window.STATE.mushaf.juz || 0) + add, 30);
-  window.STATE.worship = window.STATE.worship || {}; window.STATE.worship.mushaf_daily = true;
-  saveState(); renderWird();
-  if (typeof window.checkBadges === 'function') window.checkBadges();
-  if (typeof window.updateProgress === 'function') window.updateProgress();
-  if (typeof window.recordDailyProgress === 'function') window.recordDailyProgress();
-  if (typeof window.triggerConfetti === 'function') window.triggerConfetti();
+  STATE.mushaf.completedDates[today] = new Date().toISOString();
+
+  /* Also increment juz counter based on plan */
+  const plan = STATE.mushaf.plan || 'daily-juz';
+  const add  = plan === 'khatma-10' ? 3 : plan === 'daily-juz' ? 1 : 0;
+  if (add > 0) {
+    STATE.mushaf.juz = Math.min((STATE.mushaf.juz || 0) + add, 30);
+  }
+
+  STATE.worship = STATE.worship || {};
+  STATE.worship.mushaf_daily = true;
+
+  saveState();
+  checkBadges();
+  renderWird();
+  updateProgress();
+  recordDailyProgress();
+
+  /* Confetti */
+  if (typeof triggerConfetti === 'function') triggerConfetti();
   showToast('🎉 ما شاء الله! ورد اليوم مكتمل — ورد الغد جاهز 🌅');
 }
 window.completeWird = completeWird;
 
-/* ── MP3 Quran Integration (V3 API) ─────────────────────── */
-async function initMp3Player() {
-  const reciterSelect = document.getElementById('mp3-reciter-select');
-  if (!reciterSelect) return;
-  try {
-    const res = await fetch('https://mp3quran.net/api/v3/reciters?language=ar');
-    const data = await res.json();
-    if (data && Array.isArray(data.reciters)) {
-      _globalRecitersData = data.reciters;
-      reciterSelect.innerHTML = '<option value="">-- اختر القارئ الشيخ --</option>';
-      _globalRecitersData.forEach((reciter, index) => {
-        if (reciter.moshaf && reciter.moshaf.length > 0) {
-          const option = document.createElement('option');
-          option.value = index;
-          option.textContent = reciter.name;
-          reciterSelect.appendChild(option);
-        }
-      });
-    }
-  } catch (error) {
-    console.error("MP3Quran API Connection Failed:", error);
-    reciterSelect.innerHTML = '<option value="">⚠️ خطأ في الاتصال بالسيرفر الصوتي</option>';
-  }
-}
-
-function onReciterChanged() {
-  const reciterIndex = document.getElementById('mp3-reciter-select').value;
-  const surahSelect = document.getElementById('mp3-surah-select');
-  const playBtn = document.getElementById('mp3-play-btn');
-  if (!surahSelect) return;
-  if (reciterIndex === "") {
-    surahSelect.innerHTML = '<option value="">اختر القارئ أولاً...</option>';
-    surahSelect.disabled = true;
-    if (playBtn) playBtn.disabled = true;
-    return;
-  }
-  const reciter = _globalRecitersData[reciterIndex];
-  const activeMoshaf = reciter.moshaf[0];
-  const availableSuras = activeMoshaf.surah_list.split(',').map(Number);
-  surahSelect.innerHTML = '<option value="">-- اختر السورة الكريمة --</option>';
-  availableSuras.forEach(suraNum => {
-    const option = document.createElement('option');
-    option.value = suraNum;
-    const name = _arSurahNames[suraNum - 1] || `سورة رقم ${suraNum}`;
-    option.textContent = `سورة ${name} (${suraNum})`;
-    surahSelect.appendChild(option);
-  });
-  surahSelect.disabled = false;
-  if (playBtn) {
-    playBtn.disabled = false;
-    document.getElementById('mp3-btn-text').textContent = 'تشغيل السورة المحددة';
-  }
-}
-
-function playSelectedAudio() {
-  const reciterIndex = document.getElementById('mp3-reciter-select').value;
-  const surahNum = document.getElementById('mp3-surah-select').value;
-  const audioEl = document.getElementById('main-quran-audio');
-  const loadingEl = document.getElementById('mp3-loading');
-  const errorEl = document.getElementById('mp3-error');
-  const npEl = document.getElementById('mp3-now-playing');
-  
-  if (reciterIndex === "" || surahNum === "") {
-    alert("برجاء اختيار الشيخ والسورة أولاً.");
-    return;
-  }
-  if (errorEl) errorEl.style.display = 'none';
-  if (loadingEl) loadingEl.style.display = 'block';
-  
-  const reciter = _globalRecitersData[reciterIndex];
-  const activeMoshaf = reciter.moshaf[0];
-  const serverUrl = activeMoshaf.server;
-  const formattedSurahNum = String(surahNum).padStart(3, '0');
-  const finalAudioUrl = `${serverUrl}${formattedSurahNum}.mp3`;
-  
-  if (audioEl) {
-    audioEl.src = finalAudioUrl;
-    audioEl.style.display = 'block';
-    audioEl.play()
-      .then(() => {
-        if (loadingEl) loadingEl.style.display = 'none';
-        if (npEl) {
-          npEl.textContent = `🔊 جاري الاستماع الآن: سورة ${_arSurahNames[surahNum - 1]} بصوت الشيخ ${reciter.name}`;
-          npEl.style.display = 'block';
-        }
-      })
-      .catch(err => {
-        if (loadingEl) loadingEl.style.display = 'none';
-        if (errorEl) {
-          errorEl.textContent = "تعذر بث الملف الصوتي، يرجى تجربة قارئ أو سورة أخرى.";
-          errorEl.style.display = 'block';
-        }
-      });
-  }
-}
-
-/* ── Quranpedia Instant Search ──────────────────────────── */
-async function performQuranpediaSearch() {
-  const inputEl = document.getElementById('qp-search-input');
-  const containerEl = document.getElementById('qp-search-results');
-  const loadingEl = document.getElementById('qp-search-loading');
-  if (!inputEl || !containerEl || !loadingEl) return;
-  const keyword = inputEl.value.trim();
-  if (keyword.length < 2) {
-    alert("برجاء كتابة كلمة بحث صحيحة (حرفين على الأقل)");
-    return;
-  }
-  loadingEl.style.display = 'block';
-  containerEl.innerHTML = '';
-  try {
-    const url = `https://api.quranpedia.net/v1/search/${encodeURIComponent(keyword)}/ayahs`;
-    const response = await fetch(url);
-    const jsonResult = await response.json();
-    loadingEl.style.display = 'none';
-    let ayahsList = [];
-    if (jsonResult && jsonResult.data && Array.isArray(jsonResult.data.data)) {
-      ayahsList = jsonResult.data.data;
-    } else if (jsonResult && Array.isArray(jsonResult.data)) {
-      ayahsList = jsonResult.data;
-    }
-    if (ayahsList && ayahsList.length > 0) {
-      containerEl.innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:8px">تم العثور على (${ayahsList.length}) موضع:</div>`;
-      ayahsList.forEach(item => {
-        const textContent = item.text || item.text_clean || item.content || '';
-        const surahName = item.surah?.name || item.surah_name || `سورة رقم ${item.surah_id || ''}`;
-        const ayahNum = item.ayah_number || item.numberInSurah || item.id || '';
-        if (textContent) {
-          const cardHtml = `
-            <div class="qp-result-item">
-              <span class="qp-text">« ${textContent} »</span>
-              <div class="qp-meta"><span>📖 سورة ${surahName}</span><span>🔢 الآية: ${ayahNum}</span></div>
-            </div>`;
-          containerEl.insertAdjacentHTML('beforeend', cardHtml);
-        }
-      });
-    } else {
-      containerEl.innerHTML = `<div class="qp-no-results">لم نجد نتائج للكلمة "${keyword}". جرب البحث بدون تشكيل.</div>`;
-    }
-  } catch (error) {
-    loadingEl.style.display = 'none';
-    containerEl.innerHTML = `<div class="qp-no-results" style="color:var(--sys-red)">حدث خطأ أثناء جلب البيانات.</div>`;
-  }
-}
-
-/* ════════════════════════════════════════════════════════════
-   INIT ON DOM READY
-   ════════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
   renderWird();
-  initMp3Player();
-  
-  // تحديث شريط التقدم الأصلي بناء على قيم الـ STATE المحفوظة
-  const bar = document.getElementById('m-prog-bar'), txt = document.getElementById('m-prog-txt');
-  const savedJuz = window.STATE?.mushaf?.juz || 0;
-  const pct = Math.round((savedJuz / 30) * 100);
-  if (bar) bar.style.width = pct + '%';
-  if (txt) txt.textContent = savedJuz + ' جزء / 30 جزء';
-
-  /* Plan card clicks */
+  initMushaf();
+  /* Plan card click */
   document.querySelectorAll('.plan-card').forEach(c => {
     c.addEventListener('click', () => {
-      if (!window.STATE.mushaf) window.STATE.mushaf = {juz:0};
-      window.STATE.mushaf.plan = c.dataset.plan;
-      saveState(); renderWird();
+      if (!STATE.mushaf) STATE.mushaf = { juz:0 };
+      STATE.mushaf.plan = c.dataset.plan;
+      saveState();
+      renderWird();
       showToast('✅ تم اختيار الخطة — ورد اليوم محدّث');
     });
   });
-  
-  /* Font size slider */
-  const fontSlider = document.getElementById('m-font');
-  if (fontSlider) {
-    fontSlider.addEventListener('input', (e) => {
-      document.documentElement.style.setProperty('--qf-size', e.target.value + 'px');
-      window.STATE.quranFontSize = +e.target.value;
-      localStorage.setItem('zad_v2', JSON.stringify(window.STATE));
-    });
-  }
-  
-  /* Add juz button */
-  const addJuzBtn = document.getElementById('m-add-juz');
-  if (addJuzBtn) {
-    addJuzBtn.addEventListener('click', () => {
-      if (!window.STATE.mushaf) window.STATE.mushaf = {juz:0};
-      window.STATE.mushaf.juz = Math.min((window.STATE.mushaf.juz || 0) + 1, 30);
-      saveState();
-      const pct = Math.round((window.STATE.mushaf.juz / 30) * 100);
-      if (bar) bar.style.width = pct + '%';
-      if (txt) txt.textContent = window.STATE.mushaf.juz + ' جزء / 30 جزء';
-      showToast(`📗 تم إضافة جزء — تقدمك: ${window.STATE.mushaf.juz}/30`);
-      if (typeof window.checkBadges === 'function') window.checkBadges();
-      if (typeof window.updateProgress === 'function') window.updateProgress();
-    });
-  }
-  
-  /* Reset button */
-  const resetBtn = document.getElementById('m-reset');
-  if (resetBtn) {
-    resetBtn.addEventListener('click', () => {
-      if (confirm('⚠️ هل تريد إعادة تعيين تقدم الختمة؟')) {
-        if (!window.STATE.mushaf) window.STATE.mushaf = {};
-        window.STATE.mushaf.juz = 0; 
-        window.STATE.mushaf.completedDates = {};
-        saveState(); renderWird();
-        if (bar) bar.style.width = '0%'; 
-        if (txt) txt.textContent = '0 جزء / 30 جزء';
-        showToast('🔄 تم إعادة تعيين التقدم');
-        if (typeof window.updateProgress === 'function') window.updateProgress();
-      }
-    });
-  }
-  
-  // تشغيل البحث تلقائياً عند الضغط على زر Enter
-  document.getElementById('qp-search-input')?.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') performQuranpediaSearch();
-  });
 });
 </script>
+  <!-- ═══ Visual Upgrade v2 ═══════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
+  <script src="animations.js" defer></script>
 </body>
 </html>
