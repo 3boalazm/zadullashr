@@ -352,21 +352,36 @@ let _page = parseInt(localStorage.getItem(STORAGE_KEY) || '1');
 let _bookmarks = JSON.parse(localStorage.getItem(BM_KEY) || '[]');
 
 /* ── Image CDN — GitHub public repo (zero load on your server) ── */
+/* CDN priority:
+   1. jsDelivr (GitHub CDN, no CORS, global)
+   2. QuranHub repo (backup images)
+   3. searchtruth.com (last resort)
+*/
+const CDN_SOURCES = [
+  p => `https://cdn.jsdelivr.net/gh/Tariq-1/Al-Quran-Al-Kareem-Page-Images@master/jpg/${String(p).padStart(3,'0')}.jpg`,
+  p => `https://cdn.jsdelivr.net/gh/QuranHub/quran-pages-images@main/hafs/${String(p).padStart(3,'0')}.png`,
+  p => `https://www.searchtruth.com/quran/images/page-${String(p).padStart(3,'0')}.gif`,
+];
+let _cdnIdx = 0; /* track which CDN we're using */
+
 function imgUrl(page) {
-  const p = String(page).padStart(3, '0');
-  /* Primary source: quran.com CDN (very reliable) */
-  return `https://raw.githubusercontent.com/Tariq-1/Al-Quran-Al-Kareem-Page-Images/master/jpg/${p}.jpg`;
+  return CDN_SOURCES[_cdnIdx](page);
 }
 
-/* Fallback CDN if primary fails */
 function imgUrlFallback(page) {
-  return `https://www.searchtruth.com/quran/images/page-${String(page).padStart(3,'0')}.gif`;
+  _cdnIdx = Math.min(_cdnIdx + 1, CDN_SOURCES.length - 1);
+  return CDN_SOURCES[_cdnIdx](page);
 }
 
 /* ── Render page ─────────────────────────────────────────── */
 function renderPage(p, saveState = true) {
   p = Math.max(1, Math.min(604, p));
   _page = p;
+
+  /* Reset CDN index and error state for each new page */
+  _cdnIdx = 0;
+  const errEl = document.querySelector('.cdn-error');
+  if (errEl) errEl.remove();
 
   /* Show loading */
   const loading = document.getElementById('q-loading');
@@ -375,6 +390,8 @@ function renderPage(p, saveState = true) {
   /* Set image */
   const img = document.getElementById('mushaf-page-img');
   if (img) {
+    img.style.display = '';
+    img.dataset.attempts = '0';
     img.src = '';
     setTimeout(() => { img.src = imgUrl(p); }, 30);
   }
@@ -432,16 +449,40 @@ function onImageLoad() {
 }
 
 function onImageError() {
-  /* Try fallback CDN */
   const img = document.getElementById('mushaf-page-img');
-  if (img && !img.dataset.fallback) {
-    img.dataset.fallback = '1';
+  if (!img) return;
+  const attempts = parseInt(img.dataset.attempts || '0');
+  if (attempts < CDN_SOURCES.length - 1) {
+    img.dataset.attempts = attempts + 1;
     img.src = imgUrlFallback(_page);
   } else {
+    /* All CDNs failed */
     const loading = document.getElementById('q-loading');
     if (loading) loading.classList.add('hidden');
-    if (img) img.alt = '⚠️ تعذّر تحميل الصورة — تحقق من الاتصال';
+    img.style.display = 'none';
+    const wrap = document.getElementById('page-wrap');
+    if (wrap && !wrap.querySelector('.cdn-error')) {
+      wrap.insertAdjacentHTML('beforeend', `
+        <div class="cdn-error" style="text-align:center;padding:40px 20px">
+          <div style="font-size:48px;margin-bottom:12px">📡</div>
+          <div style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:8px">تعذّر تحميل صفحة المصحف</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.7">تحقق من اتصالك بالإنترنت وأعد المحاولة</div>
+          <button onclick="reloadPage()" style="padding:10px 24px;border-radius:99px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer">🔄 إعادة المحاولة</button>
+        </div>`);
+    }
   }
+}
+
+function reloadPage() {
+  _cdnIdx = 0;
+  const img = document.getElementById('mushaf-page-img');
+  if (img) {
+    img.style.display = '';
+    img.dataset.attempts = '0';
+  }
+  const errEl = document.querySelector('.cdn-error');
+  if (errEl) errEl.remove();
+  renderPage(_page, false);
 }
 
 /* ── Navigation ─────────────────────────────────────────── */
