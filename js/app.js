@@ -137,9 +137,8 @@ function initFasting() {
       updateDashStats();
     });
   });
-}
-
-/* ── دالة البحث الفوري لـ Quranpedia API المتوافقة مع زاد العشر ── */
+  
+  /* ── دالة البحث الفوري لـ Quranpedia API المتوافقة مع زاد العشر ── */
 async function performQuranpediaSearch() {
   const inputEl = document.getElementById('qp-search-input');
   const containerEl = document.getElementById('qp-search-results');
