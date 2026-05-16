@@ -224,28 +224,97 @@ h3,.section-title,.brand-name{font-weight:700 !important}
   font-family:'ThmanyahSans',monospace !important;font-weight:900 !important
 }
 
-/* ── Topbar prayer chips ────────────────────────────────── */
-.topbar-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;flex-shrink:0}
-.topbar-prayers{display:flex;align-items:center;gap:5px;flex:1;overflow-x:auto;scrollbar-width:none;padding:0 8px;justify-content:center;max-width:360px}
-.topbar-prayers::-webkit-scrollbar{display:none}
-.tp-chip{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 8px;border-radius:9px;background:var(--card);border:1.5px solid var(--border);min-width:46px;transition:all .2s;flex-shrink:0;cursor:default}
-.tp-chip.tp-next{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 0 0 2px rgba(201,161,74,.15)}
-.tp-chip.tp-done{opacity:.45}
-.tp-name{font-size:9px;font-weight:700;color:var(--muted);font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
-.tp-time{font-size:13px;font-weight:900;color:var(--green-deep);direction:ltr;font-variant-numeric:tabular-nums;font-family:'ThmanyahSans',monospace}
-html[data-theme="dark"] .tp-time,html[data-theme="oled"] .tp-time{color:var(--sys-green)}
-.tp-chip.tp-next .tp-time,.tp-chip.tp-next .tp-name{color:var(--gold-dark)}
-.tp-loc-btn{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--border);background:var(--sand);font-size:12px;cursor:pointer;display:grid;place-items:center;flex-shrink:0;transition:all .2s}
-.tp-loc-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
-.notif-btn{position:relative;width:34px;height:34px;border-radius:10px;background:var(--card);border:1px solid var(--border);font-size:16px;display:grid;place-items:center;cursor:pointer;transition:all .2s;flex-shrink:0}
-.notif-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
-.notif-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--sys-red);border:2px solid var(--bg)}
-@media(max-width:1020px){.topbar-prayers{max-width:240px}}
-@media(max-width:768px){
-  .topbar-prayers{max-width:none;padding:0 4px;flex:none;width:auto}
-  .tp-chip{min-width:38px;padding:3px 5px}
-  .tp-time{font-size:11px}.tp-name{font-size:8px}
+/* ══ تنسيق كرت الصلاة المقسم الجديد ══ */
+.pt-next-banner {
+  background: linear-gradient(135deg, var(--green-deep, #0e3b2e), #175845);
+  color: #ffffff;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
 }
-@media(max-width:480px){
-  .topbar-prayers{display:none}
+html[data-theme="dark"] .pt-next-banner, html[data-theme="oled"] .pt-next-banner {
+  background: linear-gradient(135deg, #12221c, var(--card));
+  border: 1px solid var(--border);
+}
+.pt-next-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.pt-next-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gold, #c9a14a);
+}
+.pt-next-time-lbl {
+  font-size: 13px;
+  opacity: 0.85;
+}
+.pt-next-countdown-box {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.pt-next-countdown-box small {
+  font-size: 10px;
+  display: block;
+  opacity: 0.8;
+  margin-bottom: 2px;
+}
+.pt-countdown-num {
+  font-family: 'ThmanyahSans', monospace;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  direction: ltr;
+}
+.prayer-list-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.p-row-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: var(--sand, #f4f6f4);
+  border: 1px solid var(--border, transparent);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+.p-row-item:hover {
+  background: var(--gold-pale);
+  border-color: var(--gold);
+}
+.p-row-item.active-prayer {
+  border: 1.5px solid var(--gold);
+  background: linear-gradient(160deg, var(--card), var(--gold-pale));
+  box-shadow: var(--shadow-sm);
+}
+.p-row-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.p-row-item.active-prayer .p-row-name {
+  color: var(--gold-dark);
+}
+.p-row-time {
+  font-family: 'ThmanyahSans', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--green-deep);
+  direction: ltr;
+}
+.p-row-item.active-prayer .p-row-time {
+  color: var(--gold-dark);
+  font-weight: 900;
+}
 }

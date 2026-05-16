@@ -1115,21 +1115,117 @@ function getApproxMaghrib(lat = 24.7) {
   const maghrib = new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m + 3, 0); 
   return maghrib;
 }
-async function fetchPrayerTimesIfPossible() {
-  try {
-    const pos = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, {timeout:5000}));
-    const { latitude: lat, longitude: lng } = pos.coords;
-    const today = new Date().toLocaleDateString('en-CA'); 
-    const url = `https://api.aladhan.com/v1/timings/${today}?latitude=${lat}&longitude=${lng}&method=4`;
-    const r = await fetch(url);
-    const data = await r.json();
-    if (data?.data?.timings?.Maghrib) {
-      const [hh, mm] = data.data.timings.Maghrib.split(':').map(Number);
-      const d = new Date();
-      return new Date(d.getFullYear(), d.getMonth(), d.getDate(), hh, mm, 0);
+/* ── دالة معالجة وعرض المواقيت وتفعيل العداد التنازلي التلقائي المطور ── */
+let _prayerCountdownInterval = null;
+
+function applyTopbarPrayers(timings) {
+  // 1. تحديث التوب بار الافتراضي للتطبيق كالمعتاد
+  const map = {Fajr:'tp-fajr', Dhuhr:'tp-dhuhr', Asr:'tp-asr', Maghrib:'tp-maghrib', Isha:'tp-isha'};
+  const now = new Date();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  let nextDone = false;
+  
+  Object.entries(map).forEach(([pKey, elId]) => {
+    const el = document.getElementById(elId); if (!el || !timings[pKey]) return;
+    const t = timings[pKey].substring(0, 5);
+    const [hh, mm] = t.split(':').map(Number); const pMin = hh * 60 + mm;
+    const te = el.querySelector('.tp-time'); if (te) te.textContent = t;
+    el.classList.remove('tp-done', 'tp-next');
+    if (pMin < nowMin) { el.classList.add('tp-done'); }
+    else if (!nextDone) { el.classList.add('tp-next'); nextDone = true; }
+  });
+
+  // إظهار منطقة المواقيت الحية وإخفاء زر تحديد الموقع الأصلي بالكرت
+  const dynamicArea = document.getElementById('prayer-dynamic-area');
+  const locBtn = document.getElementById('prayer-loc-btn');
+  if (dynamicArea) dynamicArea.style.display = 'block';
+  if (locBtn) locBtn.style.display = 'none';
+
+  // 2. تحديث السيكشن الجديد والمقسم (Rows) وحساب العداد التنازلي
+  const prayersToRender = { Fajr: 'الفجر', Sunrise: 'الشروق', Dhuhr: 'الظهر', Asr: 'العصر', Maghrib: 'المغرب', Isha: 'العشاء' };
+  
+  // ملء الساعات داخل الصفوف بنظام 12 ساعة مريح ومبسط للمستخدم
+  Object.keys(prayersToRender).forEach(key => {
+    const rawTime = timings[key];
+    const timeEl = document.getElementById(`time-${key}`);
+    if (timeEl && rawTime) {
+      const [hours, minutes] = rawTime.substring(0, 5).split(':');
+      let h = parseInt(hours);
+      const ampm = h >= 12 ? 'م' : 'ص';
+      h = h % 12 || 12;
+      timeEl.textContent = `${h}:${minutes} ${ampm}`;
     }
-  } catch (e) {}
-  return null; 
+  });
+
+  // تشغيل وتحديث العداد التنازلي كل ثانية بدقة عالية تمنع السيحان
+  if (_prayerCountdownInterval) clearInterval(_prayerCountdownInterval);
+  
+  function updateCountdownTick() {
+    const currentTime = new Date();
+    let nextPrayerKey = null;
+    let nextPrayerDate = null;
+
+    // البحث عن الصلاة القادمة المتبقية اليوم
+    for (const key of Object.keys(prayersToRender)) {
+      if (!timings[key]) continue;
+      const [pHours, pMinutes] = timings[key].substring(0, 5).split(':').map(Number);
+      const pDate = new Date(currentTime);
+      pDate.setHours(pHours, pMinutes, 0, 0);
+
+      if (pDate > currentTime) {
+        nextPrayerKey = key;
+        nextPrayerDate = pDate;
+        break;
+      }
+    }
+
+    // إذا مرّت كل صلوات اليوم، فالصلاة القادمة فجر الغد تلقائيًا
+    if (!nextPrayerKey) {
+      nextPrayerKey = 'Fajr';
+      if (timings['Fajr']) {
+        const [pHours, pMinutes] = timings['Fajr'].substring(0, 5).split(':').map(Number);
+        nextPrayerDate = new Date(currentTime);
+        nextPrayerDate.setDate(nextPrayerDate.getDate() + 1);
+        nextPrayerDate.setHours(pHours, pMinutes, 0, 0);
+      }
+    }
+
+    if (nextPrayerKey && nextPrayerDate) {
+      // إبراز الصف النشط بصرياً وإزالة التحديد عن البقية
+      Object.keys(prayersToRender).forEach(k => {
+        const row = document.getElementById(`row-${k}`);
+        if (row) row.classList.remove('active-prayer');
+      });
+      const activeRow = document.getElementById(`row-${nextPrayerKey}`);
+      if (activeRow) activeRow.classList.add('active-prayer');
+
+      // حساب الفارق الزمني المتبقي للأذان بالثواني
+      const diff = nextPrayerDate - currentTime;
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      // تحديث نصوص البنر العلوي والعدادات
+      const titleEl = document.getElementById('next-prayer-title');
+      const specTimeEl = document.getElementById('next-prayer-time-spec');
+      const timerEl = document.getElementById('countdown-timer');
+
+      if (titleEl) titleEl.textContent = `الصلاة القادمة: ${prayersToRender[nextPrayerKey]}`;
+      
+      if (specTimeEl && timings[nextPrayerKey]) {
+        const [hRaw, mRaw] = timings[nextPrayerKey].substring(0, 5).split(':');
+        let h = parseInt(hRaw); const ampm = h >= 12 ? 'م' : 'ص'; h = h % 12 || 12;
+        specTimeEl.textContent = `موعد الأذان: ${h}:${mRaw} ${ampm}`;
+      }
+      
+      if (timerEl) {
+        timerEl.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      }
+    }
+  }
+
+  updateCountdownTick();
+  _prayerCountdownInterval = setInterval(updateCountdownTick, 1000);
 }
 function getTimePhase() {
   const h = new Date().getHours();

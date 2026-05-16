@@ -124,38 +124,41 @@
 
     <!-- ══ Prayer Times Card — Table Style ═══════════════════ -->
     <div class="card prayer-table-card" id="prayer-card" style="margin-bottom:14px">
-      <div class="pt-card-header">
-        <span class="section-title" style="margin:0;padding:0">🕌 مواقيت الصلاة</span>
-        <span class="pt-next-lbl" id="next-prayer-label" style="display:none"></span>
+      <div class="pt-next-banner">
+        <div class="pt-next-info">
+          <span class="pt-next-title" id="next-prayer-title">جاري تحديد الصلاة القادمة...</span>
+          <span class="pt-next-time-lbl" id="next-prayer-time-spec">--:--</span>
+        </div>
+        <div class="pt-next-countdown-box">
+          <small>متبقي</small>
+          <div class="pt-countdown-num" id="countdown-timer">--:--:--</div>
+        </div>
       </div>
-      <button class="pt-loc-trigger" id="prayer-loc-btn" onclick="loadTopbarPrayers()">
-        📍 <span id="prayer-loc-txt">اضغط لتحديد موقعك وعرض المواقيت</span>
-      </button>
-      <!-- Grid: names row + times row -->
-      <div class="pt-grid" id="prayer-bar" style="display:none">
-        <div class="pt-col" id="ptc-fajr">
-          <div class="pt-name">الفجر</div>
-          <div class="pt-time" id="pt-fajr">--:--</div>
+
+      <div class="prayer-list-rows">
+        <div class="p-row-item" id="row-Fajr">
+          <span class="p-row-name">🔬 الفجر</span>
+          <span class="p-row-time" id="time-Fajr">--:--</span>
         </div>
-        <div class="pt-col" id="ptc-sunrise">
-          <div class="pt-name">الشروق</div>
-          <div class="pt-time" id="pt-sunrise">--:--</div>
+        <div class="p-row-item" id="row-Sunrise">
+          <span class="p-row-name">🌅 الشروق</span>
+          <span class="p-row-time" id="time-Sunrise">--:--</span>
         </div>
-        <div class="pt-col" id="ptc-dhuhr">
-          <div class="pt-name">الظهر</div>
-          <div class="pt-time" id="pt-dhuhr">--:--</div>
+        <div class="p-row-item" id="row-Dhuhr">
+          <span class="p-row-name">☀️ الظهر</span>
+          <span class="p-row-time" id="time-Dhuhr">--:--</span>
         </div>
-        <div class="pt-col" id="ptc-asr">
-          <div class="pt-name">العصر</div>
-          <div class="pt-time" id="pt-asr">--:--</div>
+        <div class="p-row-item" id="row-Asr">
+          <span class="p-row-name">🌤️ العصر</span>
+          <span class="p-row-time" id="time-Asr">--:--</span>
         </div>
-        <div class="pt-col" id="ptc-maghrib">
-          <div class="pt-name">المغرب</div>
-          <div class="pt-time" id="pt-maghrib">--:--</div>
+        <div class="p-row-item" id="row-Maghrib">
+          <span class="p-row-name">🌌 المغرب</span>
+          <span class="p-row-time" id="time-Maghrib">--:--</span>
         </div>
-        <div class="pt-col" id="ptc-isha">
-          <div class="pt-name">العشاء</div>
-          <div class="pt-time" id="pt-isha">--:--</div>
+        <div class="p-row-item" id="row-Isha">
+          <span class="p-row-name">🌃 العشاء</span>
+          <span class="p-row-time" id="time-Isha">--:--</span>
         </div>
       </div>
     </div>
