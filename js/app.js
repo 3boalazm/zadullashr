@@ -347,7 +347,6 @@ const BADGE_DEFS = [
   { id:'lisan',     label:'لسان ذاكر',      cond: s => (s.takbeer?.total||0) >= 1000 },
   { id:'khatim2',   label:'الراسخون',       cond: s => (s.mushaf?.juz||0) >= 15 },
   { id:'wasil',     label:'الواصلون',       cond: s => (s.charityDone?.length||0) >= 5 },
-];
 function checkBadges() {
   BADGE_DEFS.forEach(def => {
     if (!STATE.badges.includes(def.id) && def.cond(STATE)) {
@@ -359,21 +358,26 @@ function checkBadges() {
   });
   updateBadgesPage();
 }
+
 function updateBadgeUI(id) {
   const el = document.querySelector(`[data-badge="${id}"]`);
   if (!el) return;
+  
   el.classList.remove('locked');
   el.classList.add('earned', 'just-earned');
   setTimeout(() => el.classList.remove('just-earned'), 1000);
 }
+
 function updateBadgesPage() {
   BADGE_DEFS.forEach(def => {
     const el = document.querySelector(`[data-badge="${def.id}"]`);
     if (!el) return;
+    
     const earned = STATE.badges.includes(def.id);
     el.classList.toggle('earned', earned);
     el.classList.toggle('locked', !earned);
   });
+}
   const streakEl = document.getElementById('streak-count');
   if (streakEl) streakEl.textContent = STATE.streak || 0;
   for (let i = 1; i <= 10; i++) {
