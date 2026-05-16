@@ -1767,6 +1767,111 @@ document.addEventListener('DOMContentLoaded', () => {
   renderDailyContentCard();
 });
 
+/* ── سكريبت المصحف الرقمي وقراءة السور المتكامل مع زاد العشر ── */
+
+// 1. جلب فهرس السور الـ 114 عند تحميل الصفحة لتعبئة القائمة المنسدلة
+async function initMushafSurahIndex() {
+  const selectEl = document.getElementById('mushaf-surah-select');
+  if (!selectEl) return;
+
+  try {
+    // استدعاء Endpoint رقم 1: لجلب قائمة السور كاملة
+    const response = await fetch('https://api.alquran.cloud/v1/surah');
+    const result = await response.json();
+
+    if (result.code === 200 && Array.isArray(result.data)) {
+      selectEl.innerHTML = '<option value="">-- اختر السورة لبدء القراءة --</option>';
+      
+      result.data.forEach(surah => {
+        const option = document.createElement('option');
+        option.value = surah.number;
+        // عرض اسم السورة، عدد آياتها، ونوعها (مكية/مدنية) لراحة المستخدم
+        option.textContent = `${surah.number}. سورة ${surah.name} (${surah.numberOfAyahs} آية) - ${surah.revelationType === 'Meccan' ? 'مكية' : 'مدنية'}`;
+        selectEl.appendChild(option);
+      });
+    }
+  } catch (error) {
+    console.error("خطأ أثناء جلب فهرس السور:", error);
+    selectEl.innerHTML = '<option value="">⚠️ فشل تحميل الفهرس القرآني</option>';
+  }
+}
+
+// 2. جلب نص السورة بالكامل وعرض آياتها بالرسم العثماني المنسق
+async function loadSurahText() {
+  const selectEl = document.getElementById('mushaf-surah-select');
+  const readerArea = document.getElementById('mushaf-reader-area');
+  const loadingEl = document.getElementById('mushaf-loading');
+  
+  if (!selectEl || !readerArea || !loadingEl) return;
+  
+  const surahNumber = selectEl.value;
+  
+  if (!surahNumber) {
+    readerArea.style.display = 'none';
+    return;
+  }
+  
+  // تفعيل مؤشر التحميل وتصفية المساحة السابقة
+  loadingEl.style.display = 'block';
+  readerArea.style.display = 'none';
+  readerArea.innerHTML = '';
+  
+  try {
+    // استدعاء Endpoint رقم 2: لجلب السورة المحددة بالرسم العثماني المعتمد (quran-uthmani)
+    const url = `https://api.alquran.cloud/v1/surah/${surahNumber}/quran-uthmani`;
+    const response = await fetch(url);
+    const result = await response.json();
+    
+    loadingEl.style.display = 'none';
+    
+    if (result.code === 200 && result.data) {
+      const surahData = result.data;
+      readerArea.style.display = 'block';
+      
+      // بناء رأس السورة (الاسم)
+      let contentHtml = `<div class="mushaf-surah-title">﴿ سورة ${surahData.name} ﴾</div>`;
+      
+      // عرض البسملة إذا لم تكن سورة التوبة (رقم 9)، وتصفية البسملة الملتصقة بالآية الأولى إذا كانت الفاتحة
+      if (parseInt(surahNumber) !== 9) {
+        contentHtml += `<div class="mushaf-bismillah">بسم الله الرحمن الرحيم</div>`;
+      }
+      
+      contentHtml += `<div class="mushaf-ayah-text">`;
+      
+      // حلقة تكرارية لدمج الآيات ووضع أرقام الآيات في نهايتها داخل الأقواس المصحفية الجمالية
+      surahData.ayahs.forEach((ayah, index) => {
+        let text = ayah.text;
+        
+        // الـ API في نسخة quran-uthmani يدمج البسملة في الآية الأولى لكل السور عدا الفاتحة والتوبة
+        // نقوم بإزالتها برمجياً هنا لأننا قمنا بطباعتها في الأعلى منفصلة بشكل فخم
+        if (index === 0 && text.startsWith("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ")) {
+          text = text.replace("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ", "");
+        } else if (index === 0 && text.startsWith("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ")) {
+          text = text.replace("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "");
+        }
+        
+        contentHtml += `${text} <span class="mushaf-ayah-num">۝${ayah.numberInSurah}</span> `;
+      });
+      
+      contentHtml += `</div>`;
+      
+      // ضخ كود الـ HTML داخل الحاوية للعرض المباشر
+      readerArea.innerHTML = contentHtml;
+    }
+    
+  } catch (error) {
+    console.error("خطأ أثناء جلب نص السورة:", error);
+    loadingEl.style.display = 'none';
+    readerArea.style.display = 'block';
+    readerArea.innerHTML = `<div style="color:red; text-align:center;">حدث خطأ في الاتصال بالسيرفر، برجاء المحاولة مرة أخرى.</div>`;
+  }
+}
+
+// 3. التشغيل التلقائي وبدء تحميل الفهرس فور فتح التطبيق
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(initMushafSurahIndex, 500);
+});
+
 /* ════════════════════════════════════════════════════════════
    MAIN INIT — DOMContentLoaded
    ════════════════════════════════════════════════════════════ */

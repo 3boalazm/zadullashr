@@ -1063,34 +1063,49 @@ h3,h4,.section-title,.brand-name{font-weight:700 !important}
 .notif-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
 .notif-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--sys-red);border:2px solid var(--bg)}
 
-/* ════════════════════════════════════════════════════════════
-   QURANPEDIA SEARCH CARD — NEW STYLES
-   ════════════════════════════════════════════════════════════ */
-.quranpedia-search-card{padding:16px !important}
-.qp-search-header h3{margin:0 0 4px 0;color:var(--green-deep, #0e3b2e);font-size:16px}
-html[data-theme="dark"] .qp-search-header h3, html[data-theme="oled"] .qp-search-header h3{color:var(--sys-green, #4caf50)}
-.qp-search-header small{color:var(--muted, #718096);font-size:12px;display:block;margin-bottom:12px}
-.qp-search-group{display:flex;gap:8px}
-#qp-search-input{flex:1;padding:12px;border-radius:12px;border:1px solid var(--border, #edf2f7);background:var(--sand, #f4f6f4);color:var(--text, #2d3748);font-family:inherit;font-size:14px;outline:none;transition:border-color 0.2s}
-#qp-search-input:focus{border-color:var(--gold, #c9a14a)}
-#qp-search-btn{background:var(--green-deep, #0e3b2e);color:#ffffff;border:none;padding:0 22px;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.2s}
-#qp-search-btn:hover{opacity:0.9}
-.qp-results-list{margin-top:14px;display:flex;flex-direction:column;gap:10px}
-.qp-result-item{background:var(--card, #ffffff);border:1px solid var(--border, #edf2f7);border-radius:12px;padding:16px;box-shadow:var(--shadow-sm);transition:transform 0.2s}
-.qp-result-item:hover{transform:translateY(-2px);border-color:var(--gold, #c9a14a)}
-.qp-text{font-family:'Amiri',serif;font-size:19px;line-height:1.7;color:var(--text, #2d3748);margin-bottom:10px;display:block;text-align:right}
-.qp-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--gold-dark, #a17e3b);border-top:1px dashed var(--border, #edf2f7);padding-top:10px}
-html[data-theme="dark"] .qp-meta, html[data-theme="oled"] .qp-meta{color:var(--sys-yellow, #c9a14a)}
-.qp-no-results{text-align:center;color:var(--muted, #718096);padding:24px;font-size:14px}
-.qp-spinner{display:inline-block;animation:qp-spin 1s linear infinite}
-@keyframes qp-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-
-/* ════════════════════════════════════════════════════════════
-   MP3 QURAN AUDIO PLAYER — NEW STYLES
-   ════════════════════════════════════════════════════════════ */
-.mp3quran-card select{cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23c9a14a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");background-repeat:no-repeat;background-position:left 12px center;background-size:16px;padding-left:35px !important}
-#main-quran-audio{border-radius:12px}
-html[data-theme="dark"] #main-quran-audio, html[data-theme="oled"] #main-quran-audio{filter:invert(1) hue-rotate(180deg);opacity:0.85}
+/* ══ تنسيق مصحف القراءة زاد العشر ══ */
+    .mushaf-text-container {
+      direction: rtl;
+      text-align: justify;
+      text-justify: inter-word;
+    }
+    .mushaf-surah-title {
+      text-align: center;
+      color: var(--green-deep);
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    html[data-theme="dark"] .mushaf-surah-title, html[data-theme="oled"] .mushaf-surah-title {
+      color: var(--sys-green);
+    }
+    .mushaf-bismillah {
+      font-family: 'Amiri', serif;
+      font-size: 24px;
+      text-align: center;
+      display: block;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .mushaf-ayah-text {
+      font-family: 'Amiri', serif;
+      font-size: 23px;
+      line-height: 2.2;
+      color: var(--text);
+      word-spacing: 2px;
+    }
+    .mushaf-ayah-num {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold-dark);
+      margin: 0 4px;
+      display: inline-block;
+      user-select: none;
+    }
+    html[data-theme="dark"] .mushaf-ayah-num, html[data-theme="oled"] .mushaf-ayah-num {
+      color: var(--sys-yellow);
+    }
 
 /* ════════════════════════════════════════════════════════════
    END OF CSS
