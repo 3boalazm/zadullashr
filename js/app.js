@@ -1996,6 +1996,75 @@ function playClickSound() {
   } catch(e) {}
 }
 window.playClickSound = playClickSound;
+/* ── دالة البحث الفوري في القرآن الكريم وربط الـ API ── */
+async function performQuranSearch() {
+  const inputEl = document.getElementById('quran-search-input');
+  const containerEl = document.getElementById('search-results-container');
+  const loadingEl = document.getElementById('search-loading');
+  
+  if (!inputEl || !containerEl) return;
+  
+  const keyword = inputEl.value.trim();
+  
+  // التحقق من أن المستخدم كتب كلمة على الأقل للبحث
+  if (keyword.length < 2) {
+    alert("برجاء كتابة كلمة بحث صحيحة (حرفين على الأقل)");
+    return;
+  }
+  
+  // إظهار مؤشر التحميل وتصفية النتائج السابقة
+  loadingEl.style.display = 'block';
+  containerEl.innerHTML = '';
+  
+  try {
+    // بناء رابط الـ API: للبحث في المصحف كاملاً (all) بالنسخة البسيطة النظيفة (quran-simple-clean)
+    const url = `https://api.alquran.cloud/v1/search/${encodeURIComponent(keyword)}/all/quran-simple-clean`;
+    
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    // إخفاء مؤشر التحميل فور وصول الاستجابة
+    loadingEl.style.display = 'none';
+    
+    if (data.code === 200 && data.data && data.data.count > 0) {
+      const matches = data.data.matches;
+      
+      // عرض عدد النتائج التي تم العثور عليها
+      let summaryHtml = `<div style="font-size:12px; color:var(--muted); margin-bottom:6px"> تم العثور على (${data.data.count}) آية تحتوي على كلمة "${keyword}":</div>`;
+      containerEl.insertAdjacentHTML('beforeend', summaryHtml);
+      
+      // حلقة تكرارية لبناء كروت الآيات المكتشفة
+      matches.forEach(ayah => {
+        const itemHtml = `
+          <div class="search-result-item">
+            <span class="s-result-text">« ${ayah.text} »</span>
+            <div class="s-result-meta">
+              <span>📖 سورة ${ayah.surah.name}</span>
+              <span>🔢 رقم الآية: ${ayah.numberInSurah}</span>
+            </div>
+          </div>
+        `;
+        containerEl.insertAdjacentHTML('beforeend', itemHtml);
+      });
+      
+    } else {
+      // في حال لم يتم العثور على أي نتائج
+      containerEl.innerHTML = `<div class="search-no-results">لم نجد أي آيات تحتوي على "${keyword}". تأكد من كتابة الكلمة بشكل صحيح.</div>`;
+    }
+    
+  } catch (error) {
+    console.error("خطأ أثناء البحث في القرآن:", error);
+    loadingEl.style.display = 'none';
+    containerEl.innerHTML = `<div class="search-no-results" style="color:red">عذراً، حدث خطأ في الاتصال بالخادم. حاول مجدداً لاحقاً.</div>`;
+  }
+}
+
+// تحسين تجربة المستخدم: تشغيل البحث بمجرد الضغط على زر Enter داخل خانة الإدخال
+document.getElementById('quran-search-input')?.addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
+    performQuranSearch();
+  }
+});
 
 /* ── Hook sound to checklist ── */
 document.addEventListener('DOMContentLoaded', () => {
