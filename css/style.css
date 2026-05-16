@@ -1106,7 +1106,21 @@ h3,h4,.section-title,.brand-name{font-weight:700 !important}
     html[data-theme="dark"] .mushaf-ayah-num, html[data-theme="oled"] .mushaf-ayah-num {
       color: var(--sys-yellow);
     }
+  /* 5️⃣ Prayer Bar Styles */
+.prayer-section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.next-prayer-badge{background:var(--gold);color:#3a2a08;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.prayer-location-btn{width:100%;padding:12px;border-radius:12px;border:1.5px dashed var(--border);background:var(--sand);color:var(--green-deep);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.prayer-location-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
+.prayer-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.prayer-pill{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:10px 8px;text-align:center;transition:all .2s}
+.prayer-pill:hover{border-color:var(--green-soft);transform:translateY(-2px)}
+.pp-name{font-size:11px;color:var(--muted);margin-bottom:4px;font-weight:600}
+.pp-time{font-size:14px;font-weight:900;color:var(--green-deep);font-variant-numeric:tabular-nums}
+
+@media(max-width:600px){
+  .prayer-bar{grid-template-columns:repeat(2,1fr)}
+}
 
 /* ════════════════════════════════════════════════════════════
    END OF CSS
-   ════════════════════════════════════════════════════════════ */
+   ════════════════════════════════════════════════
