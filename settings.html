@@ -50,6 +50,7 @@
       <a href="videos.html" ><span class="ico">🎬</span><span>محاضرات العشر</span></a>
       <a href="fadael.html" ><span class="ico">✨</span><span data-i18n="nav.virtues">فضائل العشر</span></a>
       <a href="worship.html" ><span class="ico">📿</span><span data-i18n="nav.worship">جدول العبادات</span></a>
+      <a href="mushaf-quran.html" ><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
       <a href="mushaf.html" ><span class="ico">📖</span><span data-i18n="nav.mushaf">مصحف العشر</span></a>
       <a href="takbeer.html" ><span class="ico">🕋</span><span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</span></a>
       <a href="adhkar.html" ><span class="ico">🤲</span><span data-i18n="nav.adhkar">الأذكار والدعاء</span></a>
@@ -379,7 +380,7 @@ window.fbRequestNotifications = async function() {
 
     const messaging = getMessaging(window._fbApp);
     /* VAPID KEY — from Firebase Console > Project Settings > Cloud Messaging > Web Push certificates */
-    const VAPID = 'BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjZEw__eLYCBdaBbPK-I0VJA'; // placeholder
+    const VAPID = localStorage.getItem('zad_vapid') || ''; /* set from Firebase Console */
 
     const token = await getToken(messaging, {
       vapidKey:             VAPID,
@@ -497,14 +498,62 @@ function showToken(token) {
 }
 
 /* ── Enable notifications (called from onclick) ── */
+/* ── VAPID INPUT UI ── */
+function showVapidInput() {
+  const stored = localStorage.getItem('zad_vapid') || '';
+  const row = document.getElementById('fb-row-notif');
+  if (!row) return;
+  row.insertAdjacentHTML('afterend', `
+    <div id="vapid-input-row" style="padding:12px 14px;background:var(--sand);border-top:1px solid var(--border)">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">
+        🔑 أدخل مفتاح VAPID من Firebase Console:<br>
+        <span style="font-size:11px;direction:ltr;display:block;margin-top:4px">
+          Firebase Console → Project Settings → Cloud Messaging → Web Push certificates → Generate key pair
+        </span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <input id="vapid-key-input" type="text" placeholder="أدخل مفتاح VAPID هنا..."
+          value="${stored}"
+          style="flex:1;padding:8px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);font-family:monospace;font-size:11px;direction:ltr;outline:none">
+        <button onclick="saveAndEnableNotif()" style="padding:8px 14px;border-radius:8px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">
+          ✅ تفعيل
+        </button>
+      </div>
+    </div>`);
+}
+
+async function saveAndEnableNotif() {
+  const input = document.getElementById('vapid-key-input');
+  if (!input) return;
+  const vapidKey = input.value.trim();
+  if (!vapidKey || vapidKey.length < 50) {
+    badge('fb-notif-badge', '❌ مفتاح غير صالح', 'err');
+    sub('fb-notif-sub', 'يرجى إدخال مفتاح VAPID صحيح من Firebase Console');
+    return;
+  }
+  localStorage.setItem('zad_vapid', vapidKey);
+  const row = document.getElementById('vapid-input-row');
+  if (row) row.remove();
+  await doEnableNotif(vapidKey);
+}
+
 window.fbEnableNotif = async function () {
-  if (!window._fbApp) { alert('Firebase لم يتصل بعد'); return; }
+  /* First check if we have a stored VAPID key */
+  const storedVapid = localStorage.getItem('zad_vapid');
+  if (storedVapid && storedVapid.length >= 50) {
+    await doEnableNotif(storedVapid);
+  } else {
+    showVapidInput();
+  }
+};
+
+async function doEnableNotif(vapidKey) {
+  if (!window._fbApp) { badge('fb-notif-badge', '❌ Firebase غير متصل', 'err'); return; }
 
   badge('fb-notif-badge', '⏳', 'info');
   sub('fb-notif-sub', 'جارٍ طلب الإذن...');
 
   try {
-    /* Check FCM support */
     const canMsg = await messagingOk();
     if (!canMsg) {
       badge('fb-notif-badge', '⚠️ غير مدعوم', 'warn');
@@ -519,20 +568,13 @@ window.fbEnableNotif = async function () {
       return;
     }
 
-    /* Register SW */
-    sub('fb-notif-sub', 'جارٍ تسجيل الـ Service Worker...');
+    sub('fb-notif-sub', 'جارٍ التسجيل...');
     const sw = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+    const messaging = getMessaging(window._fbApp);
 
-    _messaging = getMessaging(window._fbApp);
-
-    /* VAPID key from Firebase Console → Project Settings → Cloud Messaging → Web Push certificates */
-    /* Replace this placeholder after generating your key in Firebase Console */
-    const VAPID = localStorage.getItem('zad_vapid') ||
-      'BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjZEw__eLYCBdaBbPK-I0VJA1gDl';
-
-    sub('fb-notif-sub', 'جارٍ جلب الـ FCM Token...');
-    const token = await getToken(_messaging, {
-      vapidKey: VAPID,
+    sub('fb-notif-sub', 'جارٍ جلب الـ Token...');
+    const token = await getToken(messaging, {
+      vapidKey: vapidKey,
       serviceWorkerRegistration: sw
     });
 
@@ -540,19 +582,24 @@ window.fbEnableNotif = async function () {
       localStorage.setItem('zad_fcm_token', token);
       localStorage.setItem('zad_fcm_date',  new Date().toISOString());
       badge('fb-notif-badge', '✅ مفعّل', 'ok');
-      sub('fb-notif-sub', 'تم التفعيل بنجاح!');
+      sub('fb-notif-sub', '✅ تم التفعيل بنجاح!');
       showToken(token);
-      if (typeof showToast === 'function') showToast('✅ إشعارات Firebase مفعّلة');
+      if (typeof showToast === 'function') showToast('✅ إشعارات FCM مفعّلة');
     } else {
       badge('fb-notif-badge', '⚠️ لا token', 'warn');
-      sub('fb-notif-sub', 'تأكد من ضبط VAPID key في Firebase Console');
+      sub('fb-notif-sub', 'تحقق من صحة مفتاح VAPID وحاول مجدداً');
     }
   } catch(e) {
-    badge('fb-notif-badge', '❌ خطأ', 'err');
+    badge('fb-notif-badge', '❌ ' + e.message.substring(0,40), 'err');
     sub('fb-notif-sub', e.message);
+    /* Clear invalid VAPID so user can re-enter */
+    if (e.message.includes('applicationServerKey') || e.message.includes('VAPID')) {
+      localStorage.removeItem('zad_vapid');
+      sub('fb-notif-sub', '⚠️ مفتاح VAPID غير صالح — اضغط مجدداً لإدخال مفتاح جديد');
+    }
     console.error('FCM error:', e);
   }
-};
+}
 
 document.addEventListener('DOMContentLoaded', init);
 </script>
