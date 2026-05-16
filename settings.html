@@ -21,6 +21,11 @@
 </noscript>
 <link rel="stylesheet" href="css/style.css">
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
+
+<script>
+/* Force-set correct VAPID key from Firebase Console */
+localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H1zri8aBn7dKAYX-ane9SgSztSxStJT6TKupW3zKAXg');
+</script>
 </head>
 <body>
 <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
@@ -380,7 +385,7 @@ window.fbRequestNotifications = async function() {
 
     const messaging = getMessaging(window._fbApp);
     /* VAPID KEY — from Firebase Console > Project Settings > Cloud Messaging > Web Push certificates */
-    const VAPID = localStorage.getItem('zad_vapid') || ''; /* set from Firebase Console */
+    const VAPID = localStorage.getItem('zad_vapid') || 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H1zri8aBn7dKAYX-ane9SgSztSxStJT6TKupW3zKAXg';
 
     const token = await getToken(messaging, {
       vapidKey:             VAPID,
@@ -517,13 +522,17 @@ window.showVapidInput = function() {
           Web configuration → Web Push certificates → Generate key pair
         </span>
       </div>
-      <div style="display:flex;gap:8px">
-        <input id="vapid-key-input" type="text" placeholder="أدخل مفتاح VAPID هنا..."
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input id="vapid-key-input" type="text" placeholder="BEl62iUY..."
           value="${stored}"
-          style="flex:1;padding:8px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);font-family:monospace;font-size:11px;direction:ltr;outline:none">
+          oninput="document.getElementById('vapid-len').textContent=this.value.trim().length+' حرف'"
+          style="flex:1;min-width:200px;padding:8px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);font-family:monospace;font-size:11px;direction:ltr;outline:none;transition:border-color .2s">
         <button onclick="saveAndEnableNotif()" style="padding:8px 14px;border-radius:8px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">
           ✅ تفعيل
         </button>
+      </div>
+      <div style="font-size:10px;color:var(--muted);margin-top:4px;direction:ltr">
+        <span id="vapid-len">${stored ? stored.length : 0} حرف</span> — المفتاح الصحيح ~88 حرف ويبدأ بـ B
       </div>
     </div>`);
 }
@@ -532,9 +541,13 @@ window.saveAndEnableNotif = async function() {
   const input = document.getElementById('vapid-key-input');
   if (!input) return;
   const vapidKey = input.value.trim();
-  if (!vapidKey || vapidKey.length < 50) {
+  /* VAPID = base64url ~88 chars starting with B */
+  const validVapid = vapidKey.length >= 80 && /^[A-Za-z0-9_\-]+$/.test(vapidKey);
+  if (!validVapid) {
     badge('fb-notif-badge', '❌ مفتاح غير صالح', 'err');
-    sub('fb-notif-sub', 'يرجى إدخال مفتاح VAPID صحيح من Firebase Console');
+    sub('fb-notif-sub', 'المفتاح يجب أن يكون ~88 حرف — تأكد من النسخ كاملاً من Firebase Console');
+    const inp = document.getElementById('vapid-key-input');
+    if (inp) inp.style.borderColor='var(--sys-red)';
     return;
   }
   localStorage.setItem('zad_vapid', vapidKey);
@@ -544,7 +557,8 @@ window.saveAndEnableNotif = async function() {
 }
 
 window.fbEnableNotif = async function () {
-  /* First check if we have a stored VAPID key */
+  /* VAPID hardcoded from Firebase Console */
+  localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H1zri8aBn7dKAYX-ane9SgSztSxStJT6TKupW3zKAXg');
   const storedVapid = localStorage.getItem('zad_vapid');
   if (storedVapid && storedVapid.length >= 50) {
     await doEnableNotif(storedVapid);
