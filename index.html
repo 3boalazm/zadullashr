@@ -122,32 +122,56 @@
       <button class="pwa-install-btn" id="pwa-install-btn">تثبيت</button>
     </div>
 
-    <!-- Prayer Times card (secondary — uses cached data) -->
-    <div class="card" style="margin-bottom:14px">
-      <div class="prayer-section-title">
-        <span class="section-title" style="margin:0;padding:0">🕌 مواقيت الصلاة</span>
-        <span class="next-prayer-badge" id="next-prayer-label" style="display:none">التالية</span>
+    <!-- ══ Prayer Times Card ══════════════════════════════════ -->
+    <div class="card pt-card-wrap" style="margin-bottom:14px">
+      <div class="pt-header">
+        <div class="pt-title-row">
+          <span class="section-title" style="margin:0;padding:0">🕌 مواقيت الصلاة</span>
+          <span class="pt-next-badge" id="next-prayer-label" style="display:none">التالية: —</span>
+        </div>
+        <button class="pt-loc-btn" id="prayer-loc-btn" onclick="loadTopbarPrayers()">
+          <span>📍</span>
+          <span id="prayer-loc-txt">اضغط لتحديد موقعك</span>
+        </button>
       </div>
-      <!-- FIX B5: was loadPrayerTimes (undefined) → now loadTopbarPrayers -->
-      <button class="prayer-location-btn" id="prayer-loc-btn" onclick="loadTopbarPrayers()">
-        📍 <span id="prayer-loc-txt">اضغط لتحديد موقعك وعرض المواقيت</span>
-      </button>
-      <div class="prayer-bar" id="prayer-bar" style="display:none">
-        <div class="prayer-pill"><div class="pp-name">الفجر</div><div class="pp-time" id="pt-fajr">--:--</div></div>
-        <div class="prayer-pill"><div class="pp-name">الشروق</div><div class="pp-time" id="pt-sunrise">--:--</div></div>
-        <div class="prayer-pill"><div class="pp-name">الظهر</div><div class="pp-time" id="pt-dhuhr">--:--</div></div>
-        <div class="prayer-pill"><div class="pp-name">العصر</div><div class="pp-time" id="pt-asr">--:--</div></div>
-        <div class="prayer-pill"><div class="pp-name">المغرب</div><div class="pp-time" id="pt-maghrib">--:--</div></div>
-        <div class="prayer-pill"><div class="pp-name">العشاء</div><div class="pp-time" id="pt-isha">--:--</div></div>
+      <!-- Prayer pills row -->
+      <div class="pt-pills-row" id="prayer-bar" style="display:none">
+        <div class="pt-pill" id="ptc-fajr">
+          <span class="pt-pill-name">الفجر</span>
+          <span class="pt-pill-time" id="pt-fajr">--:--</span>
+        </div>
+        <div class="pt-pill" id="ptc-sunrise">
+          <span class="pt-pill-name">الشروق</span>
+          <span class="pt-pill-time" id="pt-sunrise">--:--</span>
+        </div>
+        <div class="pt-pill" id="ptc-dhuhr">
+          <span class="pt-pill-name">الظهر</span>
+          <span class="pt-pill-time" id="pt-dhuhr">--:--</span>
+        </div>
+        <div class="pt-pill" id="ptc-asr">
+          <span class="pt-pill-name">العصر</span>
+          <span class="pt-pill-time" id="pt-asr">--:--</span>
+        </div>
+        <div class="pt-pill" id="ptc-maghrib">
+          <span class="pt-pill-name">المغرب</span>
+          <span class="pt-pill-time" id="pt-maghrib">--:--</span>
+        </div>
+        <div class="pt-pill" id="ptc-isha">
+          <span class="pt-pill-name">العشاء</span>
+          <span class="pt-pill-time" id="pt-isha">--:--</span>
+        </div>
       </div>
     </div>
 
-    <!-- Mini Badges -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <div class="section-title" style="margin:0">🏅 أوسمتي</div>
-      <a href="badges.html" style="font-size:12px;color:var(--gold);font-weight:700;text-decoration:none">عرض الكل ←</a>
+    <!-- ══ Mini Badges ════════════════════════════════════════ -->
+    <div class="mb-section">
+      <div class="mb-header">
+        <div class="section-title" style="margin:0">🏅 أوسمتي</div>
+        <a href="badges.html" class="mb-see-all">عرض الكل ←</a>
+      </div>
+      <div class="mb-scroll" id="mini-badges-container"></div>
     </div>
-    <div class="mini-badges-scroll" id="mini-badges-container"></div>
+
 
     <!-- Hero Countdown -->
     <section class="hero animate-in" style="margin-top:18px">
@@ -415,7 +439,23 @@ function applyTopbarPrayers(timings) {
   if(bar){
     bar.style.display='flex';
     const PM={Fajr:'pt-fajr',Sunrise:'pt-sunrise',Dhuhr:'pt-dhuhr',Asr:'pt-asr',Maghrib:'pt-maghrib',Isha:'pt-isha'};
-    Object.entries(PM).forEach(([k,id])=>{const e=document.getElementById(id);if(e&&timings[k])e.textContent=timings[k].substring(0,5);});
+    const CM={Fajr:'ptc-fajr',Sunrise:'ptc-sunrise',Dhuhr:'ptc-dhuhr',Asr:'ptc-asr',Maghrib:'ptc-maghrib',Isha:'ptc-isha'};
+    const now2=new Date(),nowMin2=now2.getHours()*60+now2.getMinutes();
+    let nxtDone=false;
+    Object.entries(PM).forEach(([k,id])=>{
+      const e=document.getElementById(id);
+      const pill=document.getElementById(CM[k]);
+      if(e&&timings[k]){
+        const t2=timings[k].substring(0,5);
+        e.textContent=t2;
+        if(pill){
+          pill.classList.remove('done','next');
+          const [hh2,mm2]=t2.split(':').map(Number);
+          if(hh2*60+mm2<nowMin2){pill.classList.add('done');}
+          else if(!nxtDone){pill.classList.add('next');nxtDone=true;}
+        }
+      }
+    });
   }
   if(locBtn)locBtn.style.display='none';
 }
@@ -547,4 +587,96 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 </body>
-</html>
+</html
+    /* ══ Prayer Times Card ═════════════════════════════════════ */
+    .pt-card-wrap{}
+    .pt-header{margin-bottom:10px}
+    .pt-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .pt-next-badge{
+      background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+      color:#3a2a08;font-size:10px;font-weight:800;
+      padding:4px 12px;border-radius:99px;
+      font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif
+    }
+    .pt-loc-btn{
+      display:flex;align-items:center;gap:6px;
+      background:var(--sand);border:1px solid var(--border);
+      border-radius:99px;padding:6px 14px;
+      font-size:12px;color:var(--muted);cursor:pointer;
+      font-family:inherit;transition:all .2s;width:fit-content
+    }
+    .pt-loc-btn:hover{border-color:var(--gold);background:var(--gold-pale);color:var(--green-deep)}
+    .pt-pills-row{
+      display:flex;gap:8px;overflow-x:auto;
+      padding-bottom:4px;scrollbar-width:none
+    }
+    .pt-pills-row::-webkit-scrollbar{display:none}
+    .pt-pill{
+      display:flex;flex-direction:column;align-items:center;
+      background:var(--sand);border:1.5px solid var(--border);
+      border-radius:14px;padding:10px 14px;
+      min-width:78px;flex-shrink:0;
+      transition:all .25s;position:relative;
+      gap:4px
+    }
+    .pt-pill.next{
+      background:linear-gradient(135deg,var(--gold-pale),var(--card));
+      border-color:var(--gold);
+      box-shadow:0 0 0 3px rgba(201,161,74,.15)
+    }
+    .pt-pill.done{opacity:.5}
+    .pt-pill.next::after{
+      content:'';position:absolute;top:6px;right:6px;
+      width:6px;height:6px;border-radius:50%;
+      background:var(--gold);
+      animation:pulse 1.5s ease-in-out infinite
+    }
+    .pt-pill-name{
+      font-size:11px;font-weight:700;color:var(--muted);
+      font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif
+    }
+    .pt-pill.next .pt-pill-name{color:var(--gold-dark)}
+    .pt-pill-time{
+      font-size:18px;font-weight:900;
+      color:var(--green-deep);
+      font-family:'ThmanyahSans',monospace;
+      direction:ltr;font-variant-numeric:tabular-nums;
+      line-height:1
+    }
+    html[data-theme="dark"] .pt-pill-time,html[data-theme="oled"] .pt-pill-time{color:var(--sys-green)}
+    .pt-pill.next .pt-pill-time{color:var(--gold-dark)}
+    html[data-theme="dark"] .pt-pill.next .pt-pill-time,html[data-theme="oled"] .pt-pill.next .pt-pill-time{color:var(--sys-yellow)}
+    @media(max-width:480px){
+      .pt-pill{min-width:62px;padding:8px 10px}
+      .pt-pill-time{font-size:15px}
+      .pt-pill-name{font-size:10px}
+    }
+
+    /* ══ Mini Badges ═══════════════════════════════════════════ */
+    .mb-section{margin-bottom:16px}
+    .mb-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .mb-see-all{font-size:12px;color:var(--gold);font-weight:700;text-decoration:none;transition:opacity .2s}
+    .mb-see-all:hover{opacity:.7}
+    .mb-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+    .mb-scroll::-webkit-scrollbar{display:none}
+    .mini-badge{
+      display:flex;flex-direction:column;align-items:center;gap:5px;
+      min-width:72px;padding:12px 8px;
+      background:var(--card);border:1.5px solid var(--border);
+      border-radius:16px;text-align:center;flex-shrink:0;
+      transition:all .2s;cursor:pointer;text-decoration:none
+    }
+    .mini-badge:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:var(--shadow-sm)}
+    .mini-badge.earned{
+      border-color:rgba(201,161,74,.4);
+      background:linear-gradient(160deg,var(--card),var(--gold-pale))
+    }
+    .mini-badge .mb-ico{font-size:28px;filter:grayscale(1);opacity:.35;transition:all .3s}
+    .mini-badge.earned .mb-ico{filter:none;opacity:1}
+    .mini-badge .mb-name{
+      font-size:10px;font-weight:700;
+      color:var(--muted);line-height:1.3;
+      font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif
+    }
+    .mini-badge.earned .mb-name{color:var(--gold-dark)}
+>
