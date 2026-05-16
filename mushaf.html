@@ -487,7 +487,7 @@ function initMp3Player() {
 }
 
 /* ════════════════════════════════════════════════════════════
-   QURANPEDIA SEARCH — FIXED (standalone)
+   QURANPEDIA SEARCH — FIXED (CORS + SyntaxError)
    ════════════════════════════════════════════════════════════ */
 
 async function performQuranpediaSearch() {
@@ -495,60 +495,151 @@ async function performQuranpediaSearch() {
   const containerEl = document.getElementById('qp-search-results');
   const loadingEl = document.getElementById('qp-search-loading');
   
-  if (!inputEl || !containerEl || !loadingEl) { console.warn('⚠️ عناصر البحث غير موجودة'); return; }
+  if (!inputEl || !containerEl || !loadingEl) {
+    console.warn('⚠️ عناصر البحث غير موجودة');
+    return;
+  }
   
   const keyword = inputEl.value.trim();
-  if (keyword.length < 2) { showToast('⚠️ اكتب كلمتين على الأقل'); inputEl.focus(); return; }
+  if (keyword.length < 2) {
+    showToast('⚠️ اكتب كلمتين على الأقل للبحث');
+    inputEl.focus();
+    return;
+  }
   
+  // تفعيل التحميل
   loadingEl.style.display = 'block';
   containerEl.innerHTML = '';
-  hideError();
   
   try {
-    const url = `https://api.quranpedia.net/v1/search/${encodeURIComponent(keyword)}/ayahs`;
+    // 🔹 الحل 1: استخدام بروكسي allorigins.win لتجاوز CORS
+    const apiUrl = `https://api.quranpedia.net/v1/search/${encodeURIComponent(keyword)}/ayahs`;
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+    
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 10000);
     
-    const response = await fetch(url, { signal: controller.signal });
+    const response = await fetch(proxyUrl, { 
+      signal: controller.signal,
+      headers: { 'Accept': 'application/json' }
+    });
     clearTimeout(timeout);
+    
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     
-    const jsonResult = await response.json();
+    const proxyData = await response.json();
+    
+    // فك تشفير الرد من البروكسي
+    if (!proxyData?.contents) throw new Error('No content from proxy');
+    
+    const jsonResult = JSON.parse(proxyData.contents);
     loadingEl.style.display = 'none';
     
+    // استخراج قائمة الآيات بمرونة
     let ayahsList = [];
-    if (jsonResult?.data?.data && Array.isArray(jsonResult.data.data)) ayahsList = jsonResult.data.data;
-    else if (jsonResult?.data && Array.isArray(jsonResult.data)) ayahsList = jsonResult.data;
-    else if (jsonResult?.ayahs && Array.isArray(jsonResult.ayahs)) ayahsList = jsonResult.ayahs;
-    else if (Array.isArray(jsonResult)) ayahsList = jsonResult;
+    if (jsonResult?.data?.data && Array.isArray(jsonResult.data.data)) {
+      ayahsList = jsonResult.data.data;
+    } else if (jsonResult?.data && Array.isArray(jsonResult.data)) {
+      ayahsList = jsonResult.data;
+    } else if (jsonResult?.ayahs && Array.isArray(jsonResult.ayahs)) {
+      ayahsList = jsonResult.ayahs;
+    } else if (Array.isArray(jsonResult)) {
+      ayahsList = jsonResult;
+    }
     
     if (ayahsList.length > 0) {
-      containerEl.insertAdjacentHTML('beforeend', `<div style="font-size:12px;color:var(--muted);margin-bottom:6px">تم العثور على (${ayahsList.length}) موضع يحتوي على "${keyword}":</div>`);
-      ayahsList.forEach(item => {
+      containerEl.insertAdjacentHTML('beforeend', 
+        `<div style="font-size:12px;color:var(--muted);margin-bottom:6px">
+          تم العثور على (${ayahsList.length}) موضع يحتوي على "${keyword}":
+        </div>`
+      );
+      
+      ayahsList.slice(0, 20).forEach(item => { // عرض أول 20 نتيجة فقط
         const textContent = item.text || item.text_clean || item.content || '';
         const surahName = item.surah?.name || item.surah_name || (item.surah_id ? `سورة رقم ${item.surah_id}` : '');
         const ayahNum = item.ayah_number || item.numberInSurah || item.id || '';
+        
         if (textContent) {
-          const cardHtml = `<div class="qp-result-item"><span class="qp-text">« ${textContent} »</span><div class="qp-meta"><span>📖 ${surahName ? 'سورة ' + surahName : 'قرآن كريم'}</span><span>🔢 آية رقم: ${ayahNum}</span></div></div>`;
+          const cardHtml = `
+            <div class="qp-result-item">
+              <span class="qp-text">« ${textContent} »</span>
+              <div class="qp-meta">
+                <span>📖 ${surahName ? 'سورة ' + surahName : 'قرآن كريم'}</span>
+                <span>🔢 آية رقم: ${ayahNum}</span>
+              </div>
+            </div>
+          `;
           containerEl.insertAdjacentHTML('beforeend', cardHtml);
         }
       });
+      
     } else {
-      containerEl.innerHTML = `<div class="qp-no-results">لم نجد أي آيات تحتوي على "${keyword}"<br><small>جرب كلمة أخرى بدون تشكيل</small></div>`;
+      containerEl.innerHTML = `
+        <div class="qp-no-results">
+          لم نجد أي آيات تحتوي على "${keyword}"<br>
+          <small>جرب كلمة أخرى بدون تشكيل أو بحروف مختلفة</small>
+        </div>
+      `;
     }
+    
   } catch (error) {
     console.error('❌ Quranpedia API error:', error);
     loadingEl.style.display = 'none';
-    containerEl.innerHTML = `<div class="qp-no-results" style="color:var(--sys-red)">⚠️ تعذر الاتصال بالخادم<br><small>تحقق من اتصالك أو حاول لاحقاً</small></div>`;
+    
+    // 🔹 الحل 2: Fallback — عرض نتائج تجريبية عند فشل الـ API
+    showFallbackResults(keyword, containerEl);
   }
 }
 
-function initQuranSearch() {
-  const inputEl = document.getElementById('qp-search-input');
-  if (!inputEl) return;
-  inputEl.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); performQuranpediaSearch(); } });
-  let searchTimeout;
-  inputEl.addEventListener('input', () => { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => { if (inputEl.value.trim().length >= 2) performQuranpediaSearch(); }, 500); });
+/* ════════════════════════════════════════════════════════════
+   FALLBACK RESULTS — عند فشل API Quranpedia
+   ════════════════════════════════════════════════════════════ */
+
+function showFallbackResults(keyword, containerEl) {
+  // قائمة آيات تجريبية للبحث الشائع
+  const fallbackData = {
+    'رمضان': [
+      { text: 'شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ', surah: 'البقرة', ayah: 185 },
+      { text: 'وَأَن تَصُومُوا خَيْرٌ لَّكُمْ ۖ إِن كُنتُمْ تَعْلَمُونَ', surah: 'البقرة', ayah: 184 },
+    ],
+    'الصلاة': [
+      { text: 'إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَّوْقُوتًا', surah: 'النساء', ayah: 103 },
+      { text: 'وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ', surah: 'البقرة', ayah: 43 },
+    ],
+    'الحج': [
+      { text: 'وَأَذِّن فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا', surah: 'الحج', ayah: 27 },
+      { text: 'الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ', surah: 'البقرة', ayah: 197 },
+    ],
+    'الذكر': [
+      { text: 'فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ', surah: 'البقرة', ayah: 152 },
+      { text: 'وَلَذِكْرُ اللَّهِ أَكْبَرُ', surah: 'العنكبوت', ayah: 45 },
+    ],
+  };
+  
+  const results = fallbackData[keyword] || [
+    { text: `نتيجة تجريبية لكلمة "${keyword}" — جرب: رمضان، الصلاة، الحج، الذكر`, surah: 'تجريبي', ayah: 1 }
+  ];
+  
+  containerEl.innerHTML = `
+    <div style="background:var(--gold-pale);border:1px solid var(--gold);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:var(--green-deep)">
+      ⚠️ تعذر الاتصال بخدمة البحث — عرض نتائج تجريبية
+    </div>
+  `;
+  
+  results.forEach(item => {
+    const cardHtml = `
+      <div class="qp-result-item">
+        <span class="qp-text">« ${item.text} »</span>
+        <div class="qp-meta">
+          <span>📖 سورة ${item.surah}</span>
+          <span>🔢 آية رقم: ${item.ayah}</span>
+        </div>
+      </div>
+    `;
+    containerEl.insertAdjacentHTML('beforeend', cardHtml);
+  });
+  
+  showToast('🔄 عرض نتائج تجريبية — تحقق من اتصالك وحاول مجدداً');
 }
 
 /* ════════════════════════════════════════════════════════════
