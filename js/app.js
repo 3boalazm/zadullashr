@@ -80,7 +80,7 @@ function startCountdown() {
   const CD_EID    = new Date(2026, 4, 27, 0, 0, 0);
   const DNAMES    = ['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن التروية','التاسع عرفة','العاشر'];
 
-  function tick() {
+  const tick = function() {
     const now      = new Date();
     const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const dh1Mid   = new Date(2026, 4, 18);
@@ -347,6 +347,7 @@ const BADGE_DEFS = [
   { id:'lisan',     label:'لسان ذاكر',      cond: s => (s.takbeer?.total||0) >= 1000 },
   { id:'khatim2',   label:'الراسخون',       cond: s => (s.mushaf?.juz||0) >= 15 },
   { id:'wasil',     label:'الواصلون',       cond: s => (s.charityDone?.length||0) >= 5 },
+];
 function checkBadges() {
   BADGE_DEFS.forEach(def => {
     if (!STATE.badges.includes(def.id) && def.cond(STATE)) {
@@ -358,26 +359,21 @@ function checkBadges() {
   });
   updateBadgesPage();
 }
-
 function updateBadgeUI(id) {
   const el = document.querySelector(`[data-badge="${id}"]`);
   if (!el) return;
-  
   el.classList.remove('locked');
   el.classList.add('earned', 'just-earned');
   setTimeout(() => el.classList.remove('just-earned'), 1000);
 }
-
 function updateBadgesPage() {
   BADGE_DEFS.forEach(def => {
     const el = document.querySelector(`[data-badge="${def.id}"]`);
     if (!el) return;
-    
     const earned = STATE.badges.includes(def.id);
     el.classList.toggle('earned', earned);
     el.classList.toggle('locked', !earned);
   });
-}
   const streakEl = document.getElementById('streak-count');
   if (streakEl) streakEl.textContent = STATE.streak || 0;
   for (let i = 1; i <= 10; i++) {
@@ -1917,9 +1913,10 @@ function getSuccessMsg(key) {
 }
 window.getSuccessMsg = getSuccessMsg;
 
-/* ══ Video Enhanced Functions ═══════════════════════════ */
 
-/* Toggle Full Summary */
+
+
+/* ══ Video Enhanced Functions ═══════════════════════════ */
 function toggleFullSummary(btn) {
   btn.classList.toggle('open');
   const summary = btn.nextElementSibling;
@@ -1929,13 +1926,10 @@ function toggleFullSummary(btn) {
   }
 }
 
-/* Save Personal Notes */
 function saveVidNote(vidId) {
   if (!STATE.vidNotes) STATE.vidNotes = {};
-  
   const currentNote = STATE.vidNotes[vidId] || '';
   const newNote = prompt('✍️ اكتب ملاحظتك على هذا الفيديو:', currentNote);
-  
   if (newNote !== null) {
     if (newNote.trim()) {
       STATE.vidNotes[vidId] = newNote.trim();
@@ -1948,83 +1942,43 @@ function saveVidNote(vidId) {
   }
 }
 
-/* Copy Summary to Clipboard */
 async function copyVidSummary(vidId) {
   const vidCard = document.querySelector(`[onclick*="${vidId}"]`)?.closest('.vid-card');
   if (!vidCard) return;
-  
-  const title = vidCard.querySelector('.vid-title')?.textContent || '';
+  const title   = vidCard.querySelector('.vid-title')?.textContent || '';
   const speaker = vidCard.querySelector('.speaker-name')?.textContent || '';
-  const desc = vidCard.querySelector('.vid-desc')?.textContent || '';
-  
-  const text = `🎬 ${title}\n👤 ${speaker}\n\n📝 ${desc}\n\n🔗 https://youtu.be/${vidId}`;
-  
+  const desc    = vidCard.querySelector('.vid-desc')?.textContent || '';
+  const text    = `🎬 ${title}\n👤 ${speaker}\n\n📝 ${desc}\n\n🔗 https://youtu.be/${vidId}`;
   try {
     await navigator.clipboard.writeText(text);
     showToast('📋 تم نسخ الملخص للحافظة');
-  } catch (err) {
-    // Fallback for older browsers
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
     showToast('📋 تم نسخ الملخص');
   }
 }
 
-/* Add to Favorites */
 function addToFavorites(vidId) {
   if (!STATE.vidFavorites) STATE.vidFavorites = [];
-  
   const idx = STATE.vidFavorites.indexOf(vidId);
   const btn = event?.target?.closest('.vid-action-btn');
-  
   if (idx === -1) {
     STATE.vidFavorites.push(vidId);
-    if (btn) {
-      btn.classList.add('favorited');
-      btn.innerHTML = '❤️ مضافة';
-    }
+    if (btn) { btn.classList.add('favorited'); btn.innerHTML = '❤️ مضافة'; }
     showToast('❤️ تمت الإضافة للمفضلة');
   } else {
     STATE.vidFavorites.splice(idx, 1);
-    if (btn) {
-      btn.classList.remove('favorited');
-      btn.innerHTML = '❤️ مفضلة';
-    }
+    if (btn) { btn.classList.remove('favorited'); btn.innerHTML = '❤️ مفضلة'; }
     showToast('🗑️ تمت الإزالة من المفضلة');
   }
   saveState();
 }
-
-/* Initialize Video Cards on Load */
-document.addEventListener('DOMContentLoaded', () => {
-  // Restore favorite buttons state
-  if (STATE.vidFavorites?.length) {
-    STATE.vidFavorites.forEach(vidId => {
-      const btn = document.querySelector(`[onclick*="addToFavorites('${vidId}')"]`);
-      if (btn) {
-        btn.classList.add('favorited');
-        btn.innerHTML = '❤️ مضافة';
-      }
-    });
-  }
-  
-  // Restore saved notes indicator
-  if (STATE.vidNotes) {
-    Object.keys(STATE.vidNotes).forEach(vidId => {
-      const btn = document.querySelector(`[onclick*="saveVidNote('${vidId}')"]`);
-      if (btn && STATE.vidNotes[vidId]) {
-        btn.classList.add('saved');
-        btn.title = '📝 لديك ملاحظة محفوظة';
-      }
-    });
-  }
-});
-
-
+window.toggleFullSummary = toggleFullSummary;
+window.saveVidNote       = saveVidNote;
+window.copyVidSummary    = copyVidSummary;
+window.addToFavorites    = addToFavorites;
 
 /* ══════════════════════════════════════════════════════════
    CLICK SOUND — صوت النقر

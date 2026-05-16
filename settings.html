@@ -499,7 +499,7 @@ function showToken(token) {
 
 /* ── Enable notifications (called from onclick) ── */
 /* ── VAPID INPUT UI ── */
-function showVapidInput() {
+window.showVapidInput = function() {
   const stored = localStorage.getItem('zad_vapid') || '';
   const row = document.getElementById('fb-row-notif');
   if (!row) return;
@@ -522,7 +522,7 @@ function showVapidInput() {
     </div>`);
 }
 
-async function saveAndEnableNotif() {
+window.saveAndEnableNotif = async function() {
   const input = document.getElementById('vapid-key-input');
   if (!input) return;
   const vapidKey = input.value.trim();
@@ -547,7 +547,7 @@ window.fbEnableNotif = async function () {
   }
 };
 
-async function doEnableNotif(vapidKey) {
+window.doEnableNotif = async function(vapidKey) {
   if (!window._fbApp) { badge('fb-notif-badge', '❌ Firebase غير متصل', 'err'); return; }
 
   badge('fb-notif-badge', '⏳', 'info');
