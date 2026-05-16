@@ -8,15 +8,13 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
 <title>محاضرات العشر — زاد العشر</title>
-<style>
-@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
-@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
-</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/style.css">
 <style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
 html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
 h1,h2,h3,.page-title,.brand-name,.section-title,.vid-title,.speaker-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
 
@@ -160,7 +158,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
         <a href="index.html" style="width:32px;height:32px;border-radius:10px;overflow:hidden;display:grid;place-items:center;text-decoration:none"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:32px;height:32px"></a>
         <div>
           <div class="page-title">محاضرات <span>العشر</span></div>
-          <div class="page-sub">9 محاضرات مختارة لاستثمار الأيام</div>
+          <div class="page-sub">6 محاضرات مختارة لاستثمار الأيام</div>
         </div>
       </div>
       <div class="topbar-right">
@@ -174,15 +172,15 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <h1>محاضرات في فضل عشر ذي الحجة</h1>
       <p>مجموعة مختارة من أبرز المحاضرات والخطب للاستعداد الإيماني والعلمي في أفضل أيام الدنيا</p>
       <div class="vids-count-row">
-        <div class="vids-count-item"><div class="vci-num">9</div><div class="vci-lbl">محاضرة</div></div>
-        <div class="vids-count-item"><div class="vci-num">7</div><div class="vci-lbl">علماء</div></div>
-        <div class="vids-count-item"><div class="vci-num">36+</div><div class="vci-lbl">نقطة علمية</div></div>
+        <div class="vids-count-item"><div class="vci-num">6</div><div class="vci-lbl">محاضرة</div></div>
+        <div class="vids-count-item"><div class="vci-num">5</div><div class="vci-lbl">علماء</div></div>
+        <div class="vids-count-item"><div class="vci-num">30+</div><div class="vci-lbl">نقطة علمية</div></div>
       </div>
     </div>
 
     <!-- Filter tabs -->
     <div class="filter-tabs" id="filter-tabs">
-      <button class="ftab active" onclick="filterVids('all', this)">الكل (9)</button>
+      <button class="ftab active" onclick="filterVids('all', this)">الكل (6)</button>
       <button class="ftab" onclick="filterVids('fiqh', this)">⚖️ الفقه والأحكام</button>
       <button class="ftab" onclick="filterVids('spiritual', this)">💚 التزكية والإيمان</button>
       <button class="ftab" onclick="filterVids('practical', this)">📋 الخطط العملية</button>
@@ -229,7 +227,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
           <a class="vid-watch-btn" href="https://youtu.be/57p126d5w9k" target="_blank" rel="noopener">
             ▶ مشاهدة على يوتيوب
           </a>
-          <a class="vid-share-btn" href="https://wa.me/?text=${encodeURIComponent('🕋 محاضرة رائعة عن عشر ذي الحجة: https://youtu.be/57p126d5w9k')}" target="_blank" title="مشاركة">📤</a>
+          <button type="button" class="vid-share-btn" onclick="shareVid('57p126d5w9k','فضل عشر ذي الحجة وكيفية استثمارها')" title="مشاركة">📤</button>
         </div>
       </div>
 
@@ -272,7 +270,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
         </div>
         <div class="vid-footer">
           <a class="vid-watch-btn" href="https://youtu.be/nnE0NuHUNsc" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <a class="vid-share-btn" onclick="shareVid('nnE0NuHUNsc','العَشر الأُوَل من ذي الحِجَّة — الشيخ سمير مصطفى')" title="مشاركة" style="cursor:pointer">📤</a>
+          <button type="button" class="vid-share-btn" onclick="shareVid('nnE0NuHUNsc','العَشر الأُوَل من ذي الحِجَّة — الشيخ سمير مصطفى')" title="مشاركة">📤</button>
         </div>
       </div>
 
@@ -319,7 +317,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
         </div>
         <div class="vid-footer">
           <a class="vid-watch-btn" href="https://youtu.be/OusUlCU5WBI" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <a class="vid-share-btn" onclick="shareVid('OusUlCU5WBI','عشر ذي الحجة أيام غير عادية')" title="مشاركة" style="cursor:pointer">📤</a>
+          <button type="button" class="vid-share-btn" onclick="shareVid('OusUlCU5WBI','عشر ذي الحجة أيام غير عادية')" title="مشاركة">📤</button>
         </div>
       </div>
 
@@ -359,7 +357,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
         </div>
         <div class="vid-footer">
           <a class="vid-watch-btn" href="https://youtu.be/smro5XFkoj0" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <a class="vid-share-btn" onclick="shareVid('smro5XFkoj0','عشر ذي الحجة — الفرصة الذهبية')" title="مشاركة" style="cursor:pointer">📤</a>
+          <button type="button" class="vid-share-btn" onclick="shareVid('smro5XFkoj0','عشر ذي الحجة — الفرصة الذهبية')" title="مشاركة">📤</button>
         </div>
       </div>
 
@@ -403,7 +401,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
         </div>
         <div class="vid-footer">
           <a class="vid-watch-btn" href="https://youtu.be/zetXiUuqkiY" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <a class="vid-share-btn" onclick="shareVid('zetXiUuqkiY','عشر ذي الحجة موسم الخواص — د. حازم شومان')" title="مشاركة" style="cursor:pointer">📤</a>
+          <button type="button" class="vid-share-btn" onclick="shareVid('zetXiUuqkiY','عشر ذي الحجة موسم الخواص — د. حازم شومان')" title="مشاركة">📤</button>
         </div>
       </div>
 
@@ -444,51 +442,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
         </div>
         <div class="vid-footer">
           <a class="vid-watch-btn" href="https://youtu.be/8O7V5aIib-k" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <a class="vid-share-btn" onclick="shareVid('8O7V5aIib-k','اغتنم الفرصة قبل فوات الأوان')" title="مشاركة" style="cursor:pointer">📤</a>
-        </div>
-      </div>
-
-
-      <!-- ── Video 7: Sheikh Abdul Salam Al-Shuwair ── -->
-      <div class="vid-card" data-tag="fiqh">
-        <div class="vid-thumb-wrap" onclick="openPlayer('S0zEqUKK9Xk', 'ثلاث مزايا عظيمة في عشر ذي الحجة — الشيخ عبد السلام الشويعر')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/S0zEqUKK9Xk/hqdefault.jpg"
-               onerror="this.src='https://img.youtube.com/vi/S0zEqUKK9Xk/mqdefault.jpg'"
-               alt="ثلاث مزايا عظيمة في عشر ذي الحجة" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-          <div class="vid-number-badge">7</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row">
-            <div class="speaker-avatar" style="background:linear-gradient(135deg,#0e3b2e,#2a7a5f)">🎓</div>
-            <div class="vid-meta-text">
-              <div class="speaker-name">الشيخ عبد السلام الشويعر</div>
-              <div class="vid-category">⚖️ الفقه والأحكام</div>
-            </div>
-          </div>
-          <div class="vid-title">ثلاث مزايا زمنية عظيمة في عشر ذي الحجة</div>
-          <div class="vid-desc">يكشف الشيخ لماذا تجتمع في هذه الأيام ثلاث فضائل لا تتوفر في أي وقت آخر من العام، مما يجعلها من أقدس الأزمنة في الإسلام</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)">
-            <span>📌 الثلاث مزايا الكبرى</span>
-            <span class="toggle-ico">▼</span>
-          </button>
-          <div class="vid-points">
-            <div class="vid-points-inner">
-              <div class="vid-point"><span class="vid-point-ico">🥇</span><div class="vid-point-text"><b>الميزة الأولى — الأشهر الحرم</b>هذه الأيام تقع ضمن ذي الحجة من الأشهر الحرم التي اصطفاها الله قبل خلق السماوات والأرض — الذنب فيها مضاعف والعمل الصالح ذو قدر كبير</div></div>
-              <div class="vid-point"><span class="vid-point-ico">🥈</span><div class="vid-point-text"><b>الميزة الثانية — أفضل أيام العمل</b>العمل القليل فيها أحب إلى الله من غيرها، حتى من الجهاد في سبيل الله — ثبت ذلك بحديث النبي ﷺ</div></div>
-              <div class="vid-point"><span class="vid-point-ico">🥉</span><div class="vid-point-text"><b>الميزة الثالثة — أفضل يومين في السنة</b>تشتمل هذه الأيام على يوم عرفة (أفضل يوم طلعت فيه الشمس) ويوم النحر (أفضل أيام السنة عند الله)</div></div>
-              <div class="vid-point"><span class="vid-point-ico">⭐</span><div class="vid-point-text"><b>يوم عرفة vs يوم النحر</b>عرفة = أفضل يوم طلعت فيه الشمس · النحر = أفضل أيام السنة عند الله — كلاهما لا نظير لهما</div></div>
-              <div class="vid-point"><span class="vid-point-ico">🎁</span><div class="vid-point-text"><b>إدراكها فضل عظيم</b>مجرد إدراك المؤمن لهذه الأيام منحة ربانية لتدارك التقصير ورفع الدرجات</div></div>
-              <div class="vid-point"><span class="vid-point-ico">📜</span><div class="vid-point-text"><b>حديث الختام</b>"خيركم من طال عمره وحسن عمله" — كل يوم في هذا الموسم يرفع منزلة المؤمن درجات كبيرة</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://youtu.be/S0zEqUKK9Xk" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <a class="vid-share-btn" onclick="shareVid('S0zEqUKK9Xk','ثلاث مزايا زمنية عظيمة في عشر ذي الحجة — الشيخ عبد السلام الشويعر')" title="مشاركة" style="cursor:pointer">📤</a>
+          <button type="button" class="vid-share-btn" onclick="shareVid('8O7V5aIib-k','اغتنم الفرصة قبل فوات الأوان')" title="مشاركة">📤</button>
         </div>
       </div>
 
@@ -520,104 +474,6 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
     </div>
 
   </main>
-  <!-- ═══════════════════════════════════════════════════════════ -->
-<!-- الفيديو 7: د. أحمد العربي — أفضل خطة لعبادة عشر ذي الحجة -->
-<!-- ═══════════════════════════════════════════════════════════ -->
-<article class="video-card">
-  <div class="video-thumb">
-    <img src="https://img.youtube.com/vi/PLACEHOLDER_ID_7/hqdefault.jpg" alt="أفضل خطة لعبادة عشر ذي الحجة" loading="lazy">
-    <span class="video-num">7</span>
-  </div>
-  <div class="video-body">
-    <div class="video-meta">
-      <span class="meta-speaker">🎓 د. أحمد العربي</span>
-      <span class="meta-cat">📋 الخطط العملية / 💚 التزكية</span>
-    </div>
-    <h3 class="video-title">أفضل خطة لعبادة عشر ذي الحجة</h3>
-    <p class="video-desc">لماذا تُعد هذه العشر أعظم مواسم العام؟ وكيف نستغل "النهار" تحديداً لنيل مقام محبة الله الخاص؟</p>
-    <div class="video-points">
-      <h4>📌 النقاط الرئيسية ▼</h4>
-      <ul>
-        <li><strong>🌞 نهار العشر vs ليالي رمضان:</strong> فضل النهار في العشر أعظم، وهي "أيام الصادقين" لغياب المحفز الجماعي كالتراويح.</li>
-        <li><strong>❤️ مقام المحبة:</strong> العمل فيها باب لاستجلاب "حب الله"، وهو مقام أرفع من مجرد طلب الأجر أو الثواب.</li>
-        <li><strong>🏆 أفضل من الجهاد:</strong> العمل الصالح فيها يعدل الجهاد في سبيل الله إلا من خرج بنفسه وماله ثم استشهد.</li>
-        <li><strong>⭐ يوم عرفة ويوم النحر:</strong> أهم يومين في السنة؛ يوم إكمال الدين والبيعة القديمة منذ خلق آدم.</li>
-        <li><strong>🤲 حال النبي ﷺ في عرفة:</strong> التذلل والدعاء من الظهر للمغرب حتى كاد يمسك الإناء بيد واحدة لئلا ينزل الأخرى عن الدعاء.</li>
-        <li><strong> صيام عرفة:</strong> يكفر سنتين، والتكفير يتفاوت بحسب "إقبال القلب وإخباته" كما ذكر ابن القيم.</li>
-        <li><strong>🛡️ إدحار الشيطان:</strong> لا يُرى الشيطان في يوم أحقر ولا أدحر منه في يوم عرفة لنزول الرحمات والعتق من النار.</li>
-      </ul>
-    </div>
-    <div class="video-actions">
-      <a href="https://youtu.be/PLACEHOLDER_ID_7" class="btn-yt" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-      <a href="https://wa.me/?text=${encodeURIComponent(' محاضرة رائعة: أفضل خطة لعبادة عشر ذي الحجة - د. أحمد العربي')}" class="btn-share" target="_blank">📤 مشاركة</a>
-    </div>
-  </div>
-</article>
-
-<!-- ═══════════════════════════════════════════════════════════ -->
-<!-- الفيديو 8: د. أحمد عبد المنعم — لقاء العشر من ذي الحجة -->
-<!-- ═══════════════════════════════════════════════════════════ -->
-<article class="video-card">
-  <div class="video-thumb">
-    <img src="https://img.youtube.com/vi/PLACEHOLDER_ID_8/hqdefault.jpg" alt="لقاء العشر من ذي الحجة" loading="lazy">
-    <span class="video-num">8</span>
-  </div>
-  <div class="video-body">
-    <div class="video-meta">
-      <span class="meta-speaker">🎓 د. أحمد عبد المنعم</span>
-      <span class="meta-cat">💚 التزكية والإيمان /  الخطط العملية</span>
-    </div>
-    <h3 class="video-title">لقاء العشر من ذي الحجة</h3>
-    <p class="video-desc">العلاقة التكاملية بين مواسم الطاعات، وكيف نحوّل البصيرة التي اكتسبناها في رمضان إلى واقع عملي متحرك في الأرض.</p>
-    <div class="video-points">
-      <h4>📌 النقاط الرئيسية ▼</h4>
-      <ul>
-        <li><strong>🔄 رمضان vs العشر:</strong> رمضان موسم السكينة واستجلاء الرؤية، والعشر موسم الحركة والانتشار بالنور المكتسب.</li>
-        <li><strong>🏃 الأركان الثلاثة:</strong> الحركة (التحرك للدين)، التضحية (بذل الوقت والمال رغم المعوقات)، والذكر (الزاد أثناء الحركة).</li>
-        <li><strong> العبادة المستقلة:</strong> التدرب على العبادة الفردية وعدم الارتباط بوجود الصحبة؛ فالدين علاقة شخصية مع الله.</li>
-        <li><strong> الذكر عبادة الحركة:</strong> أنسب عبادة للمتحرك، يُنصح بقراءة أسماء الله وصفاته لزيادة "حساسية القلب" للتأثر.</li>
-        <li><strong>📜 كمال الدين:</strong> "اليوم أكملت لكم دينكم" يرتبط بالخروج بهذا النور للناس والتحريك في الواقع، لا المكوث فقط.</li>
-      </ul>
-    </div>
-    <div class="video-actions">
-      <a href="https://youtu.be/PLACEHOLDER_ID_8" class="btn-yt" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-      <a href="https://wa.me/?text=${encodeURIComponent(' محاضرة رائعة: لقاء العشر من ذي الحجة - د. أحمد عبد المنعم')}" class="btn-share" target="_blank">📤 مشاركة</a>
-    </div>
-  </div>
-</article>
-
-<!-- ═══════════════════════════════════════════════════════════ -->
-<!-- الفيديو 9: د. أحمد عبد المنعم — موسم العَشر والذكر -->
-<!-- ═══════════════════════════════════════════════════════════ -->
-<article class="video-card">
-  <div class="video-thumb">
-    <img src="https://img.youtube.com/vi/PLACEHOLDER_ID_9/hqdefault.jpg" alt="موسم العَشر والذكر: حِكَم وأسرار" loading="lazy">
-    <span class="video-num">9</span>
-  </div>
-  <div class="video-body">
-    <div class="video-meta">
-      <span class="meta-speaker">🎓 د. أحمد عبد المنعم</span>
-      <span class="meta-cat">💚 التزكية والإيمان</span>
-    </div>
-    <h3 class="video-title">موسم العَشر والذكر: حِكَم وأسرار</h3>
-    <p class="video-desc">الربط بين عبادة الذكر وطبيعة الحركة في موسم العشر، وشرح عميق لمفهوم "سبق المفردون" وأسرار تأثير الذكر على الروح.</p>
-    <div class="video-points">
-      <h4>📌 النقاط الرئيسية ▼</h4>
-      <ul>
-        <li><strong>⚖️ التلقي vs التطبيق:</strong> رمضان للتلقّي في سكون، والعشر للتطبيق والاحتكاك بالمجتمع بالأخلاق والدين.</li>
-        <li><strong> الذكر وقود الحركة:</strong> التحرك يستنفد الإيمان، والذكر هو الزاد الذي يمد بالطاقة ويمنع الغفلة أثناء الانشغال.</li>
-        <li><strong>🏆 سبق المفردون:</strong> هم الذاكرون الله كثيراً، أفردهم الذكر عن الغفلة ورفعت أرواحهم لعالم الغيب رغم وجودهم في الدنيا.</li>
-        <li><strong>🕊️ أسرار الذكر:</strong> يحرر الروح من أسر المادة، ينهى عن الفحشاء أكبر من الصلاة، ويمنح السكينة في أصعب الشدائد.</li>
-        <li><strong>📊 مراتب الذكر (الغزالي):</strong> لسان فقط ← لسان يُعلم القلب ← قلب يفيض على اللسان (أعلى المراتب وتلقائية الذكر).</li>
-        <li><strong>💡 نصيحة عملية:</strong> لا تترك الذكر حتى مع غفلة القلب، واقرأ عن أسماء الله لزيادة الخشوع والتأثر الروحي.</li>
-      </ul>
-    </div>
-    <div class="video-actions">
-      <a href="https://youtu.be/PLACEHOLDER_ID_9" class="btn-yt" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-      <a href="https://wa.me/?text=${encodeURIComponent('🕋 محاضرة رائعة: موسم العَشر والذكر: حِكَم وأسرار - د. أحمد عبد المنعم')}" class="btn-share" target="_blank">📤 مشاركة</a>
-    </div>
-  </div>
-</article>
   <a href="ai.html" class="fab-ai" aria-label="AI">🤖</a>
 </div>
 
@@ -625,7 +481,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
 <div class="player-overlay" id="player-overlay" onclick="closePlayerIfOverlay(event)">
   <button class="player-close" onclick="closePlayer()">✕</button>
   <div class="player-wrap">
-    <iframe id="yt-iframe" allowfullscreen allow="autoplay; encrypted-media" loading="lazy"></iframe>
+    <iframe id="yt-iframe" title="مشغل الفيديو" allowfullscreen allow="autoplay; encrypted-media" loading="lazy"></iframe>
   </div>
   <div class="player-title" id="player-title"></div>
 </div>
@@ -646,8 +502,8 @@ function openPlayer(videoId, title) {
 function closePlayer() {
   const overlay = document.getElementById('player-overlay');
   const iframe  = document.getElementById('yt-iframe');
-  iframe.src = '';
-  overlay.classList.remove('open');
+  if (iframe) iframe.src = '';
+  if (overlay) overlay.classList.remove('open');
   document.body.style.overflow = '';
 }
 function closePlayerIfOverlay(e) {
@@ -659,7 +515,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closePlayer(
 function togglePoints(btn) {
   btn.classList.toggle('open');
   const pts = btn.nextElementSibling;
-  pts.classList.toggle('open');
+  if (pts) pts.classList.toggle('open');
 }
 
 /* ── Filter ── */
