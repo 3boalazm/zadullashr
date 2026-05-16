@@ -53,11 +53,11 @@ border:2px solid rgba(255,255,255,.08);box-shadow:0 0 0 1px rgba(201,161,74,.1),
 .compass-ticks::after{content:'S';position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:700;color:rgba(255,255,255,.4)}
 
 /* SVG compass rose */
-.compass-svg-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .1s cubic-bezier(0.15,0,0.5,1)}
+.compass-svg-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;will-change:transform}
 
 /* Kaaba arrow (fixed to qibla angle, rotates with compass) */
-.kaaba-arrow-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.kaaba-arrow-inner{display:flex;flex-direction:column;align-items:center;height:106px;gap:0;transition:transform .1s cubic-bezier(0.15,0,0.5,1)}
+.kaaba-arrow-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;will-change:transform}
+.kaaba-arrow-inner{display:flex;flex-direction:column;align-items:center;height:106px;gap:0}
 .ka-tip{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:26px solid #c9a14a;filter:drop-shadow(0 0 6px rgba(201,161,74,.8))}
 .ka-body{width:3px;flex:1;background:linear-gradient(180deg,#c9a14a 0%,rgba(201,161,74,.2) 100%);border-radius:2px}
 .ka-kaaba{font-size:18px;margin-top:-2px;filter:drop-shadow(0 0 4px rgba(201,161,74,.6));line-height:1}
@@ -160,52 +160,50 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
 
-  <!-- Sidebar -->
-    <aside class="sidebar">
+  <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
       <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:28px;height:28px;border-radius:6px"></div>
       <div>
-        <div class="brand-name" data-i18n="brand.name">زاد العشر</div>
-        <div class="brand-sub" data-i18n="brand.sub">أفضل أيام الدنيا</div>
+        <div class="brand-name">زاد العشر</div>
+        <div class="brand-sub">أفضل أيام الدنيا</div>
       </div>
     </a>
     <div class="theme-row">
-      <span data-i18n="common.darkMode">🌙 الوضع الداكن</span>
+      <span>🌙 الوضع الداكن</span>
       <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
     <button class="sidebar-lang-btn" onclick="toggleLang()" id="sidebar-lang-btn">
-      <span class="slb-label" data-i18n="common.language">🌐 اللغة</span>
+      <span class="slb-label">🌐 اللغة</span>
       <span class="slb-val" id="sidebar-lang-val">EN</span>
     </button>
     <nav class="nav">
-      <a href="index.html" ><span class="ico">🏠</span><span data-i18n="nav.dashboard">لوحة التحكم</span></a>
-      <a href="prayers.html" ><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
       <a href="qibla.html" class="active"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
-      <a href="hijri.html" ><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
-      <a href="videos.html" ><span class="ico">🎬</span><span>محاضرات العشر</span></a>
-      <a href="fadael.html" ><span class="ico">✨</span><span data-i18n="nav.virtues">فضائل العشر</span></a>
-      <a href="worship.html" ><span class="ico">📿</span><span data-i18n="nav.worship">جدول العبادات</span></a>
-      <a href="mushaf.html" ><span class="ico">📖</span><span data-i18n="nav.mushaf">مصحف العشر</span></a>
-      <a href="takbeer.html" ><span class="ico">🕋</span><span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</span></a>
-      <a href="adhkar.html" ><span class="ico">🤲</span><span data-i18n="nav.adhkar">الأذكار والدعاء</span></a>
-      <a href="odhiya.html" ><span class="ico">🐏</span><span data-i18n="nav.odhiya">دليل الأضحية</span></a>
-      <a href="arafah.html" ><span class="ico">🌄</span><span data-i18n="nav.arafah">يوم عرفة</span></a>
-      <a href="sadaqah.html" ><span class="ico">💚</span><span data-i18n="nav.sadaqah">صدقة العشر</span></a>
-      <a href="badges.html" ><span class="ico">🏅</span><span data-i18n="nav.badges">أوسمتي</span></a>
-      <a href="hasad.html" ><span class="ico">📊</span><span data-i18n="nav.hasad">حصاد العشر</span></a>
-      <a href="summary.html" ><span class="ico">📈</span><span>إحصاء العشر</span></a>
-      <a href="kids.html" ><span class="ico">🧒</span><span data-i18n="nav.kids">وضع الأطفال</span></a>
-      <a href="tasmee.html" ><span class="ico">🎙️</span><span data-i18n="nav.tasmee">تسميع القرآن</span></a>
-      <a href="ai.html" ><span class="ico">🤖</span><span data-i18n="nav.ai">تدبّر بالذكاء</span></a>
-      <a href="settings.html" ><span class="ico">⚙️</span><span data-i18n="nav.settings">الإعدادات</span></a>
-      <a href="report.html" ><span class="ico">🚩</span><span data-i18n="nav.report">بلاغ مشكلة</span></a>
-      <a href="about.html" ><span class="ico">👤</span><span data-i18n="nav.about">عن التطبيق</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="worship.html"><span class="ico">📿</span><span>جدول العبادات</span></a>
+      <a href="mushaf.html"><span class="ico">📖</span><span>مصحف العشر</span></a>
+      <a href="takbeer.html"><span class="ico">🕋</span><span>المُسبِّح والمُكبِّر</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="summary.html"><span class="ico">📈</span><span>إحصاء العشر</span></a>
+      <a href="kids.html"><span class="ico">🧒</span><span>وضع الأطفال</span></a>
+      <a href="tasmee.html"><span class="ico">🎙️</span><span>تسميع القرآن</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
     </nav>
-    <div class="side-foot"><span data-i18n="brand.name">زاد العشر</span> 2026 · <span data-i18n="common.noAds">بدون إعلانات 📴</span></div>
+    <div class="side-foot"><span>زاد العشر</span> 2026 · <span>بدون إعلانات 📴</span></div>
   </aside>
 
   <main class="main">
-    <!-- Topbar -->
     <div class="topbar">
       <div style="display:flex;align-items:center;gap:10px">
         <a href="index.html" style="width:32px;height:32px;border-radius:10px;overflow:hidden;display:grid;place-items:center;text-decoration:none"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:32px;height:32px"></a>
@@ -215,47 +213,31 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
         </div>
       </div>
       <div class="topbar-right">
-        <button class="btn-theme" onclick="toggleTheme()" aria-label="المظهر">🌙</button>
+        <button class="btn-theme" aria-label="المظهر">🌙</button>
       </div>
     </div>
 
-    <!-- Offline pill -->
     <div class="offline-pill" id="offline-pill" style="display:none">📵 آخر موقع محفوظ</div>
 
-    <!-- ═══ QIBLA HERO ═══════════════════════════════════════ -->
     <div class="qibla-hero">
-
-      <!-- Status -->
       <div class="q-status idle" id="q-status">
         <div class="q-status-dot"></div>
         <span id="q-status-txt">اضغط لتحديد الموقع</span>
       </div>
 
-      <!-- Compass -->
       <div class="compass-wrap" id="compass-wrap">
         <div class="compass-bg" id="compass-bg"></div>
 
-        <!-- Cardinal labels E / W -->
         <div class="card-labels">
           <span class="cl cl-e">E</span>
           <span class="cl cl-w">W</span>
         </div>
         <div class="compass-ticks"></div>
 
-        <!-- SVG Compass rose (rotates opposite to heading → stays pointing N) -->
         <div class="compass-svg-wrap" id="compass-svg-wrap">
           <svg width="180" height="180" viewBox="0 0 180 180">
-            <!-- Degree ticks -->
-            <g stroke="rgba(255,255,255,.15)" stroke-width="1">
-              <script>
-                // Degree ticks drawn inline
-              </script>
-            </g>
-            <!-- North needle (red) -->
             <polygon points="90,20 84,90 90,80 96,90" fill="#ff6b85" opacity=".9" filter="url(#glow-red)"/>
-            <!-- South needle (gray) -->
             <polygon points="90,160 84,90 90,100 96,90" fill="rgba(255,255,255,.25)"/>
-            <!-- Center circle -->
             <circle cx="90" cy="90" r="5" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
             <defs>
               <filter id="glow-red" x="-50%" y="-50%" width="200%" height="200%">
@@ -266,8 +248,7 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
           </svg>
         </div>
 
-        <!-- Kaaba arrow (rotates to qibla angle relative to screen) -->
-        <div class="kaaba-arrow-wrap">
+        <div class="kaaba-arrow-wrap" id="kaaba-arrow-wrap">
           <div class="kaaba-arrow-inner" id="kaaba-arrow">
             <div class="ka-tip"></div>
             <div class="ka-body"></div>
@@ -278,7 +259,6 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
         <div class="compass-center"></div>
       </div>
 
-      <!-- Heading readout -->
       <div class="q-readout">
         <div class="q-heading-num" id="q-heading-num">---°</div>
         <div class="q-heading-lbl">اتجاه جهازك الحالي</div>
@@ -290,7 +270,6 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
         </div>
       </div>
 
-      <!-- Next prayer strip -->
       <div class="next-prayer-strip" id="next-prayer-strip" style="display:none">
         <div>
           <div class="nps-label">الصلاة القادمة</div>
@@ -299,10 +278,8 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
         <div class="nps-time" id="nps-time" style="margin-right:auto">--:--</div>
         <span style="font-size:18px">🕌</span>
       </div>
+    </div>
 
-    </div><!-- /qibla-hero -->
-
-    <!-- Arafah contextual card -->
     <div class="arafah-context" id="arafah-ctx">
       <span style="font-size:28px;flex-shrink:0">⭐</span>
       <div>
@@ -311,7 +288,6 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
       </div>
     </div>
 
-    <!-- Info cards -->
     <div class="qibla-info-grid">
       <div class="qi-box">
         <div class="qi-ico">🗺️</div>
@@ -330,7 +306,6 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
       </div>
     </div>
 
-    <!-- Action buttons -->
     <div class="qibla-actions" id="q-actions">
       <button class="btn btn-primary" id="q-start-btn" onclick="startQibla()" style="justify-content:center">
         📍 تحديد الموقع وعرض القبلة
@@ -340,7 +315,6 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
       </button>
     </div>
 
-    <!-- Map link -->
     <a class="map-link" id="q-map-link" href="#" target="_blank" style="display:none">
       <span style="font-size:28px">🗺️</span>
       <div class="ml-txt">
@@ -350,24 +324,20 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
       <span style="margin-right:auto;color:var(--muted);font-size:18px">←</span>
     </a>
 
-    <!-- Quranic context -->
     <div class="qibla-verse">
       <div class="qv-src">📖 القبلة في القرآن الكريم</div>
       <div class="qv-ar">«وَمِنْ حَيْثُ خَرَجْتَ فَوَلِّ وَجْهَكَ شَطْرَ الْمَسْجِدِ الْحَرَامِ ۚ وَحَيْثُمَا كُنتُمْ فَوَلُّوا وُجُوهَكُمْ شَطْرَهُ»</div>
       <p class="qv-note"><b style="color:var(--gold)">البقرة: 150</b> — تحوّلت القبلة من المسجد الأقصى إلى الكعبة في السنة الثانية للهجرة، وكان النبي ﷺ يصلي في مسجد بني سلمة فتحوّل في نصف الصلاة — ولا يزال يُعرف بـ "مسجد القبلتين"</p>
     </div>
 
-    <!-- Privacy note -->
     <div style="display:flex;align-items:center;gap:8px;padding:12px 16px;background:var(--sand);border-radius:12px;margin-bottom:20px;font-size:12px;color:var(--muted)">
       <span style="font-size:18px">🔒</span>
       <span>بياناتك لا تُشارك مع أي جهة — الموقع يُستخدم فقط لحساب القبلة ويُخزّن محلياً على جهازك</span>
     </div>
-
   </main>
   <a href="ai.html" class="fab-ai" aria-label="AI">🤖</a>
 </div>
 
-<!-- Calibration overlay -->
 <div class="calib-overlay" id="calib-overlay">
   <div class="calib-box">
     <div class="calib-phone">📱</div>
@@ -381,7 +351,6 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
   </div>
 </div>
 
-<!-- iOS Permission sheet -->
 <div class="perm-overlay" id="perm-overlay">
   <div class="perm-sheet">
     <h3>🧭 إذن البوصلة</h3>
@@ -396,28 +365,20 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
 <script src="lang.js" defer></script>
 <script src="js/app.js" defer></script>
 <script>
-/* ════════════════════════════════════════════════════════════
-   QIBLA PAGE — Full Implementation
-   API: api.aladhan.com/v1/qibla/{lat}/{lng}
-   Sensors: DeviceOrientationEvent (absolute)
-   Fallback: Haversine manual calculation
-   ════════════════════════════════════════════════════════════ */
-
 const KAABA = { lat: 21.4225, lng: 39.8262 };
 
 /* ── State ── */
-let Q_angle   = null;  /* Qibla bearing from true north */
-let Q_heading = 0;     /* Current device compass heading (smoothed) */
-let Q_aligned = false;
+let Q_angle = null;       /* القبلة من الشمال الحقيقي */
+let currentHeading = 0;   /* الزاوية الحالية المفلترة */
+let lastRawHeading = null;/* آخر زاوية خام قادمة من الحساس */
 let Q_lat = null, Q_lng = null;
-let Q_sensorActive = false;
-let Q_headingHistory = [];
-const SMOOTH_FACTOR = 8; /* Smoothing window for heading */
+let isIOS = false;
 
-/* ── Helper: normalize 0-360 ── */
+/* الفلتر الرياضي: كلما قل الرقم زادت النعومة واختفت الرعشة (مثالي بين 0.05 و 0.15) */
+const FILTER_ALPHA = 0.08; 
+
 const norm = a => ((a % 360) + 360) % 360;
 
-/* ── Helper: angular difference (-180 to +180) ── */
 function angDiff(a, b) {
   let d = a - b;
   while (d > 180) d -= 360;
@@ -436,14 +397,13 @@ function startQibla() {
 
   if (cachedLat && cachedLng) {
     Q_lat = cachedLat; Q_lng = cachedLng;
-    const offline = document.getElementById('offline-pill');
-    if (offline) offline.style.display = 'flex';
+    document.getElementById('offline-pill').style.display = 'flex';
     fetchQibla(cachedLat, cachedLng, true);
     return;
   }
 
   if (!navigator.geolocation) {
-    setStatus('error', 'المتصفح لا يدعم GPS — استخدم Chrome');
+    setStatus('error', 'المتصفح لا يدعم تحديد الموقع.');
     if (btn) btn.disabled = false;
     return;
   }
@@ -459,322 +419,179 @@ function startQibla() {
     },
     err => {
       if (cachedLat) { fetchQibla(cachedLat, cachedLng, true); return; }
-      setStatus('error', err.code === 1 ? 'لم يتم السماح بالموقع — فعّل GPS من الإعدادات' : 'تعذّر تحديد الموقع');
+      setStatus('error', 'يجب تفعيل الـ GPS للسماح بحساب القبلة بدقة.');
       if (btn) btn.disabled = false;
     },
-    { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 }
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
   );
 }
 
-/* ══ 2. FETCH QIBLA ANGLE ════════════════════════════════════ */
-async function fetchQibla(lat, lng, fromCache = false, accuracy = null) {
-  /* Check cache (stored permanently per rounded coordinates) */
-  const cacheKey = `q_${Math.round(lat*10)}_${Math.round(lng*10)}`;
-  const cachedAngle = localStorage.getItem(cacheKey);
-
-  if (cachedAngle) {
-    applyQibla(parseFloat(cachedAngle), lat, lng, accuracy);
-    return;
-  }
-
-  setStatus('loading', 'جارٍ حساب اتجاه القبلة...');
-  try {
-    const res  = await fetch(`https://api.aladhan.com/v1/qibla/${lat}/${lng}`);
-    const data = await res.json();
-    if (data.code === 200) {
-      const angle = data.data.direction;
-      localStorage.setItem(cacheKey, angle);
-      applyQibla(angle, lat, lng, accuracy);
-    } else {
-      applyQibla(calcQiblaManual(lat, lng), lat, lng, accuracy);
-    }
-  } catch(e) {
-    /* Offline fallback — manual haversine */
-    const offline = document.getElementById('offline-pill');
-    if (offline) offline.style.display = 'flex';
-    applyQibla(calcQiblaManual(lat, lng), lat, lng, accuracy);
-  }
+/* ══ 2. FETCH QIBLA ANGLE (محلي بالكامل لسرعة استجابة فورية بدون لود) ════ */
+function fetchQibla(lat, lng, fromCache = false, accuracy = null) {
+  // حساب القبلة يدوياً فورياً لضمان العمل أوفلاين وسرعة التحميل
+  const angle = calcQiblaManual(lat, lng);
+  applyQibla(angle, lat, lng, accuracy);
 }
 
-/* ══ 3. MANUAL QIBLA (offline fallback) ═════════════════════ */
+/* ══ 3. MANUAL QIBLA CALCULATOR ══════════════════════════════ */
 function calcQiblaManual(lat, lng) {
   const φ1 = lat * Math.PI / 180;
   const φ2 = KAABA.lat * Math.PI / 180;
   const Δλ = (KAABA.lng - lng) * Math.PI / 180;
-  const y  = Math.sin(Δλ) * Math.cos(φ2);
-  const x  = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+  const y = Math.sin(Δλ) * Math.cos(φ2);
+  const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
   return norm(Math.atan2(y, x) * 180 / Math.PI);
 }
 
-/* ══ 4. DISTANCE MECCA ══════════════════════════════════════ */
 function distToMecca(lat, lng) {
-  const R  = 6371;
   const φ1 = lat * Math.PI / 180;
   const φ2 = KAABA.lat * Math.PI / 180;
   const Δφ = (KAABA.lat - lat) * Math.PI / 180;
   const Δλ = (KAABA.lng - lng) * Math.PI / 180;
-  const a  = Math.sin(Δφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(Δλ/2)**2;
+  const a = Math.sin(Δφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(Δλ/2)**2;
   return Math.round(6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
 }
 
-/* ══ 5. APPLY QIBLA DATA TO UI ══════════════════════════════ */
+/* ══ 4. APPLY QIBLA DATA TO UI ══════════════════════════════ */
 function applyQibla(angle, lat, lng, accuracy) {
   Q_angle = angle;
-
-  /* Info cards */
   const dist = distToMecca(lat, lng);
-  const distEl    = document.getElementById('qi-dist');
-  const accEl     = document.getElementById('qi-acc');
-  const bearingEl = document.getElementById('qi-bearing');
-  if (distEl)    distEl.textContent    = dist.toLocaleString('ar-EG');
-  if (accEl)     accEl.textContent     = accuracy ? Math.round(accuracy) : '—';
-  if (bearingEl) bearingEl.textContent = `${Math.round(angle)}°`;
 
-  /* Qibla angle label in hero */
-  const qAngleLbl = document.getElementById('q-qibla-angle');
-  if (qAngleLbl) qAngleLbl.textContent = `${Math.round(angle)}°`;
+  document.getElementById('qi-dist').textContent = dist.toLocaleString('ar-EG');
+  document.getElementById('qi-acc').textContent = accuracy ? Math.round(accuracy) : '—';
+  document.getElementById('qi-bearing').textContent = `${Math.round(angle)}°`;
+  document.getElementById('q-qibla-angle').textContent = `${Math.round(angle)}°`;
 
-  /* Location subtitle */
   const sub = document.getElementById('q-location-lbl');
   if (sub) {
-    /* Try reverse geocode from cache */
-    const cityName = localStorage.getItem('zad_city') || `${lat.toFixed(3)}°N · ${lng.toFixed(3)}°E`;
-    sub.textContent = cityName;
-    reverseGeocode(lat, lng);
+    sub.textContent = `${lat.toFixed(3)}°N · ${lng.toFixed(3)}°E`;
   }
 
-  /* Map link */
   const mapLink = document.getElementById('q-map-link');
-  const mapLbl  = document.getElementById('q-map-lbl');
   if (mapLink) {
-    mapLink.href = `https://www.google.com/maps/dir/${lat},${lng}/${KAABA.lat},${KAABA.lng}`;
+    mapLink.href = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${KAABA.lat},${KAABA.lng}`;
     mapLink.style.display = 'flex';
   }
-  if (mapLbl) mapLbl.textContent = `${dist.toLocaleString('ar-EG')} كم عن مكة المكرمة`;
+  document.getElementById('q-map-lbl').textContent = `${dist.toLocaleString('ar-EG')} كم عن مكة المكرمة`;
 
-  /* Load next prayer if available */
-  loadNextPrayer(lat, lng);
-
-  /* Check Arafah context */
-  checkArafahContext();
-
-  /* Start compass */
   setStatus('active', 'حرّك هاتفك لإيجاد اتجاه القبلة 🧭');
   initCompass();
 }
 
-/* ══ 6. REVERSE GEOCODE ══════════════════════════════════════ */
-async function reverseGeocode(lat, lng) {
-  try {
-    const res  = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
-    const data = await res.json();
-    const city = data.address?.city || data.address?.town || data.address?.county || '';
-    const country = data.address?.country || '';
-    if (city) {
-      const label = country ? `${city}، ${country}` : city;
-      const sub = document.getElementById('q-location-lbl');
-      if (sub) sub.textContent = label;
-      localStorage.setItem('zad_city', label);
-    }
-  } catch(e) {}
-}
-
-/* ══ 7. NEXT PRAYER (from cache) ════════════════════════════ */
-function loadNextPrayer(lat, lng) {
-  const cached = localStorage.getItem('zad_prayer_times');
-  if (!cached) return;
-  try {
-    const timings = JSON.parse(cached);
-    const now = new Date();
-    const nowMin = now.getHours() * 60 + now.getMinutes();
-    const NAMES = { Fajr:'الفجر', Dhuhr:'الظهر', Asr:'العصر', Maghrib:'المغرب', Isha:'العشاء' };
-    for (const [p, name] of Object.entries(NAMES)) {
-      const t = timings[p]?.substring(0,5);
-      if (!t) continue;
-      const [hh, mm] = t.split(':').map(Number);
-      if (hh * 60 + mm > nowMin) {
-        const strip = document.getElementById('next-prayer-strip');
-        const nameEl = document.getElementById('nps-name');
-        const timeEl = document.getElementById('nps-time');
-        if (strip) strip.style.display = 'flex';
-        if (nameEl) nameEl.textContent = name;
-        if (timeEl) timeEl.textContent = t;
-        break;
-      }
-    }
-  } catch(e) {}
-}
-
-/* ══ 8. ARAFAH CONTEXT ══════════════════════════════════════ */
-function checkArafahContext() {
-  const DH9 = new Date(2026, 4, 26); /* 9 Dhul Hijjah = May 26 */
-  const now = new Date();
-  if (now.toDateString() === DH9.toDateString()) {
-    const ctx = document.getElementById('arafah-ctx');
-    if (ctx) ctx.classList.add('show');
-  }
-}
-
-/* ══ 9. COMPASS (Device Orientation) ════════════════════════ */
+/* ══ 5. COMPASS ENGINE (مع فلتر معالجة الرعشة واللاج) ═════════════ */
 function initCompass() {
-  if (Q_sensorActive) return;
+  isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-  /* iOS 13+ needs explicit permission */
-  if (typeof DeviceOrientationEvent !== 'undefined'
-    && typeof DeviceOrientationEvent.requestPermission === 'function') {
-    /* Show permission sheet */
-    const sheet = document.getElementById('perm-overlay');
-    if (sheet) sheet.style.display = 'flex';
-    return;
+  if (isIOS) {
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      document.getElementById('perm-overlay').style.display = 'flex';
+    } else {
+      window.addEventListener('deviceorientation', handleOrientation, { passive: true });
+    }
+  } else {
+    window.addEventListener('deviceorientationabsolute', handleOrientation, { passive: true });
   }
-
-  startOrientationListener();
 }
 
 function requestIOSPermission() {
-  closePermSheet();
-  DeviceOrientationEvent.requestPermission().then(perm => {
-    if (perm === 'granted') startOrientationListener();
-    else setStatus('error', 'رُفض الإذن — يرجى السماح من إعدادات Safari');
-  });
-}
-function closePermSheet() {
-  const sheet = document.getElementById('perm-overlay');
-  if (sheet) sheet.style.display = 'none';
-}
-
-function startOrientationListener() {
-  Q_sensorActive = true;
-  /* Try absolute first (Android), fallback to relative (iOS) */
-  window.addEventListener('deviceorientationabsolute', onOrientation, true);
-  window.addEventListener('deviceorientation', onOrientation, true);
+  DeviceOrientationEvent.requestPermission()
+    .then(response => {
+      if (response === 'granted') {
+        window.addEventListener('deviceorientation', handleOrientation, { passive: true });
+        closePermSheet();
+      } else {
+        setStatus('error', 'تم رفض إذن الحساسات.');
+      }
+    }).catch(console.error);
 }
 
-/* ══ 10. ORIENTATION HANDLER ════════════════════════════════ */
-function onOrientation(e) {
-  let raw = 0;
+function handleOrientation(e) {
+  let heading = null;
 
-  if (e.webkitCompassHeading != null) {
-    /* iOS — magnetic heading, already corrected */
-    raw = e.webkitCompassHeading;
-  } else if (e.alpha != null) {
-    raw = e.absolute ? (360 - e.alpha) % 360 : (360 - e.alpha) % 360;
-  } else return;
+  if (e.webkitCompassHeading !== undefined) {
+    heading = e.webkitCompassHeading; // لنظام iOS
+  } else if (e.absolute === true && e.alpha !== null) {
+    heading = 360 - e.alpha; // لنظام أندرويد (Absolute)
+  } else if (e.alpha !== null) {
+    heading = 360 - e.alpha; // كخيار احتياطي للـ أندرويد
+  }
 
-  /* Smooth heading using circular mean */
-  Q_headingHistory.push(raw);
-  if (Q_headingHistory.length > SMOOTH_FACTOR) Q_headingHistory.shift();
+  if (heading === null) return;
 
-  const sinSum = Q_headingHistory.reduce((s,a) => s + Math.sin(a*Math.PI/180), 0);
-  const cosSum = Q_headingHistory.reduce((s,a) => s + Math.cos(a*Math.PI/180), 0);
-  Q_heading = norm(Math.atan2(sinSum, cosSum) * 180 / Math.PI);
+  // حل مشكلة القفز المفاجئ بين الزاويتين 0 و 360
+  if (lastRawHeading === null) {
+    currentHeading = heading;
+    lastRawHeading = heading;
+  }
 
-  updateCompassUI();
+  let diff = angDiff(heading, currentHeading);
+  
+  // فلتر الـ Low-Pass الرياضي لتنعيم الحركة ومنع الاهتزاز الفجائي
+  currentHeading = norm(currentHeading + diff * FILTER_ALPHA);
+  lastRawHeading = heading;
+
+  // تشغيل دالة التحديث في الإطار التالي للمتصفح لتجنب الـ Lag (60fps)
+  requestAnimationFrame(updateCompassUI);
 }
 
-/* ══ 11. UPDATE UI ══════════════════════════════════════════ */
-let _lastTransform = '';
+/* ══ 6. UI RENDER ENGINE ══════════════════════════════════════ */
 function updateCompassUI() {
   if (Q_angle === null) return;
 
-  /* Needle wrapper rotates opposite to heading (keeps North at screen top) */
-  const compassSvg = document.getElementById('compass-svg-wrap');
-  if (compassSvg) {
-    const t = `rotate(${-Q_heading}deg)`;
-    if (_lastTransform !== t) { compassSvg.style.transform = t; _lastTransform = t; }
-  }
+  // حساب الانحراف بدقة بين اتجاه الهاتف الحالي وزاوية الكعبة
+  let diffWithQibla = angDiff(Q_angle, currentHeading);
+  let absDiff = Math.abs(diffWithQibla);
 
-  /* Kaaba arrow: rotate to (qibla - heading) so it points to qibla on screen */
-  const kaabaArrow = document.getElementById('kaaba-arrow');
-  if (kaabaArrow) {
-    kaabaArrow.style.transform = `rotate(${norm(Q_angle - Q_heading)}deg)`;
-  }
+  // تحديث دوران البوصلة (النورث يظل يشير للشمال دائمًا)
+  document.getElementById('compass-svg-wrap').style.transform = `rotate(${-currentHeading}deg)`;
 
-  /* Heading readout */
-  const hNum = document.getElementById('q-heading-num');
-  if (hNum) hNum.textContent = `${Math.round(Q_heading)}°`;
+  // السهم يلف مع البوصلة بناءً على زاوية مكة النسبية للموبايل
+  document.getElementById('kaaba-arrow-wrap').style.transform = `rotate(${diffWithQibla}deg)`;
 
-  /* Difference */
-  const diff = angDiff(Q_angle, Q_heading);
-  const diffEl = document.getElementById('q-diff');
-  if (diffEl) diffEl.textContent = `${diff > 0 ? '+' : ''}${Math.round(diff)}°`;
+  // قراءة الأرقام الحالية بالدرجات
+  document.getElementById('q-heading-num').textContent = `${Math.round(currentHeading)}°`;
+  document.getElementById('q-diff').textContent = `${Math.round(absDiff)}°`;
 
-  /* Aligned check ±3° */
-  const isNowAligned = Math.abs(diff) <= 3;
-  if (isNowAligned !== Q_aligned) {
-    Q_aligned = isNowAligned;
-    const bg = document.getElementById('compass-bg');
-    const ka = document.getElementById('kaaba-arrow');
-    const hn = document.getElementById('q-heading-num');
-    const qa = document.getElementById('q-qibla-angle');
+  // التحقق من محاذاة القبلة بالكامل (إذا كان الانحراف أقل من 5 درجات)
+  const statusBox = document.getElementById('q-status');
+  const statusTxt = document.getElementById('q-status-txt');
+  const headingNum = document.getElementById('q-heading-num');
+  const arrowInner = document.getElementById('kaaba-arrow');
+  const compassBg = document.getElementById('compass-bg');
 
-    if (isNowAligned) {
-      setStatus('aligned', '✅ أنت مستقبل القبلة — ثبّت على هذا الاتجاه 🕋');
-      bg?.classList.add('aligned');
-      ka?.classList.add('aligned');
-      hn?.classList.add('aligned');
-      qa?.classList.add('aligned');
-      /* Haptic: triple pulse */
-      if (navigator.vibrate) navigator.vibrate([80, 40, 80, 40, 120]);
-    } else {
-      setStatus('active', 'حرّك هاتفك لإيجاد اتجاه القبلة 🧭');
-      bg?.classList.remove('aligned');
-      ka?.classList.remove('aligned');
-      hn?.classList.remove('aligned');
-      qa?.classList.remove('aligned');
-      if (navigator.vibrate) navigator.vibrate(30);
-    }
+  if (absDiff <= 5) {
+    statusBox.className = 'q-status aligned';
+    statusTxt.textContent = 'أنت باتجاه القبلة الآن 🕋';
+    headingNum.classList.add('aligned');
+    arrowInner.classList.add('aligned');
+    compassBg.classList.add('aligned');
+  } else {
+    statusBox.className = 'q-status active';
+    statusTxt.textContent = 'حرّك هاتفك لإيجاد اتجاه القبلة 🧭';
+    headingNum.classList.remove('aligned');
+    arrowInner.classList.remove('aligned');
+    compassBg.classList.remove('aligned');
   }
 }
 
-/* ══ 12. STATUS ════════════════════════════════════════════ */
+/* ══ 7. STATUS & OVERLAYS HELPERS ═════════════════════════════ */
 function setStatus(type, text) {
-  const el  = document.getElementById('q-status');
-  const txt = document.getElementById('q-status-txt');
-  if (!el) return;
-  el.className = `q-status ${type}`;
-  if (txt) txt.textContent = text;
-}
-
-/* ══ 13. CALIBRATION ════════════════════════════════════════ */
-let _calibTimer = null;
-let _calibPct   = 0;
-function showCalibration() {
-  const overlay = document.getElementById('calib-overlay');
-  if (overlay) overlay.style.display = 'flex';
-  _calibPct = 0;
-  clearInterval(_calibTimer);
-  _calibTimer = setInterval(() => {
-    _calibPct += 1.5;
-    const fill = document.getElementById('calib-fill');
-    if (fill) fill.style.width = Math.min(_calibPct, 100) + '%';
-    if (_calibPct >= 100) {
-      clearInterval(_calibTimer);
-      setTimeout(() => closeCalibration(), 300);
-    }
-  }, 70);
-}
-function closeCalibration() {
-  const overlay = document.getElementById('calib-overlay');
-  if (overlay) overlay.style.display = 'none';
-  clearInterval(_calibTimer);
-  _calibPct = 0;
-  /* Reset smoothing history after calibration */
-  Q_headingHistory = [];
-}
-
-/* ══ INIT ══════════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
-  const lat = parseFloat(localStorage.getItem('zad_lat'));
-  const lng = parseFloat(localStorage.getItem('zad_lng'));
-  if (lat && lng) {
-    Q_lat = lat; Q_lng = lng;
-    fetchQibla(lat, lng, true);
-    const btn = document.getElementById('q-start-btn');
-    if (btn) btn.style.display = 'none';
+  const statusBox = document.getElementById('q-status');
+  const statusTxt = document.getElementById('q-status-txt');
+  if (statusBox && statusTxt) {
+    statusBox.className = `q-status ${type}`;
+    statusTxt.textContent = text;
   }
-  checkArafahContext();
-});
+}
+
+function showCalibration() {
+  document.getElementById('calib-overlay').style.display = 'flex';
+  let fill = document.getElementById('calib-fill');
+  fill.style.width = '0%';
+  setTimeout(() => fill.style.width = '100%', 2000);
+}
+function closeCalibration() { document.getElementById('calib-overlay').style.display = 'none'; }
+function closePermSheet() { document.getElementById('perm-overlay').style.display = 'none'; }
 </script>
 </body>
 </html>
