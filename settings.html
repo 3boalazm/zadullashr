@@ -505,10 +505,16 @@ window.showVapidInput = function() {
   if (!row) return;
   row.insertAdjacentHTML('afterend', `
     <div id="vapid-input-row" style="padding:12px 14px;background:var(--sand);border-top:1px solid var(--border)">
-      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.7">
         🔑 أدخل مفتاح VAPID من Firebase Console:<br>
-        <span style="font-size:11px;direction:ltr;display:block;margin-top:4px">
-          Firebase Console → Project Settings → Cloud Messaging → Web Push certificates → Generate key pair
+        <a href="https://console.firebase.google.com/project/zadullashr/settings/cloudmessaging"
+           target="_blank"
+           style="font-size:11px;direction:ltr;display:inline-block;margin-top:4px;
+                  color:var(--sys-blue);text-decoration:underline">
+          → افتح Firebase Console &gt; Cloud Messaging
+        </a><br>
+        <span style="font-size:11px;color:var(--muted-2)">
+          Web configuration → Web Push certificates → Generate key pair
         </span>
       </div>
       <div style="display:flex;gap:8px">
@@ -590,12 +596,23 @@ window.doEnableNotif = async function(vapidKey) {
       sub('fb-notif-sub', 'تحقق من صحة مفتاح VAPID وحاول مجدداً');
     }
   } catch(e) {
-    badge('fb-notif-badge', '❌ ' + e.message.substring(0,40), 'err');
-    sub('fb-notif-sub', e.message);
-    /* Clear invalid VAPID so user can re-enter */
-    if (e.message.includes('applicationServerKey') || e.message.includes('VAPID')) {
+    /* ── Classify error type ── */
+    const isPushErr = e.message.includes('push service error')
+                   || e.message.includes('Registration failed')
+                   || e.message.includes('applicationServerKey')
+                   || e.message.includes('VAPID')
+                   || e.message.includes('AbortError');
+
+    if (isPushErr) {
+      /* Clear bad VAPID → force re-entry */
       localStorage.removeItem('zad_vapid');
-      sub('fb-notif-sub', '⚠️ مفتاح VAPID غير صالح — اضغط مجدداً لإدخال مفتاح جديد');
+      localStorage.removeItem('zad_fcm_token');
+      localStorage.removeItem('zad_fcm_date');
+      badge('fb-notif-badge', '⚠️ مفتاح خاطئ', 'warn');
+      sub('fb-notif-sub', '⚠️ مفتاح VAPID غير صحيح — اضغط هنا لإدخال مفتاح جديد');
+    } else {
+      badge('fb-notif-badge', '❌ ' + e.message.substring(0,35), 'err');
+      sub('fb-notif-sub', e.message);
     }
     console.error('FCM error:', e);
   }
