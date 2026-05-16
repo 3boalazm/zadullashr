@@ -138,6 +138,89 @@ function initFasting() {
     });
   });
 }
+
+/* ── دالة البحث الفوري لـ Quranpedia API المتوافقة مع زاد العشر ── */
+async function performQuranpediaSearch() {
+  const inputEl = document.getElementById('qp-search-input');
+  const containerEl = document.getElementById('qp-search-results');
+  const loadingEl = document.getElementById('qp-search-loading');
+  
+  if (!inputEl || !containerEl || !loadingEl) return;
+  
+  const keyword = inputEl.value.trim();
+  
+  if (keyword.length < 2) {
+    alert("برجاء كتابة كلمة بحث صحيحة (حرفين على الأقل)");
+    return;
+  }
+  
+  // تفعيل مؤشر التحميل وتصفية النتائج السابقة
+  loadingEl.style.display = 'block';
+  containerEl.innerHTML = '';
+  
+  try {
+    // جلب البيانات من الـ Endpoint الجديد مع الفلترة للآيات
+    const url = `https://api.quranpedia.net/v1/search/${encodeURIComponent(keyword)}/ayahs`;
+    
+    const response = await fetch(url);
+    const jsonResult = await response.json();
+    
+    loadingEl.style.display = 'none';
+    
+    // قراءة المصفوفة المرتجعة من سيرفر القرآن بيديا (تأتي بداخل كائن pagination مسمى data)
+    let ayahsList = [];
+    if (jsonResult && jsonResult.data && Array.isArray(jsonResult.data.data)) {
+      ayahsList = jsonResult.data.data;
+    } else if (jsonResult && Array.isArray(jsonResult.data)) {
+      ayahsList = jsonResult.data;
+    } else if (Array.isArray(jsonResult)) {
+      ayahsList = jsonResult;
+    }
+    
+    if (ayahsList && ayahsList.length > 0) {
+      // إظهار ملخص بعدد نتائج البحث
+      let infoBar = `<div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;"> تم العثور على (${ayahsList.length}) موضع يحتوي على "${keyword}":</div>`;
+      containerEl.insertAdjacentHTML('beforeend', infoBar);
+      
+      // رندرة الكروت
+      ayahsList.forEach(item => {
+        // استخراج البيانات بحسب المسميات الدقيقة للـ API
+        const textContent = item.text || item.text_clean || item.content || '';
+        const surahName = item.surah?.name || item.surah_name || `سورة رقم ${item.surah_id || ''}`;
+        const ayahNum = item.ayah_number || item.numberInSurah || item.id || '';
+        
+        if (textContent) {
+          const cardHtml = `
+            <div class="qp-result-item">
+              <span class="qp-text">« ${textContent} »</span>
+              <div class="qp-meta">
+                <span>📖 سورة ${surahName}</span>
+                <span>🔢 آية رقم: ${ayahNum}</span>
+              </div>
+            </div>
+          `;
+          containerEl.insertAdjacentHTML('beforeend', cardHtml);
+        }
+      });
+      
+    } else {
+      containerEl.innerHTML = `<div class="qp-no-results">لم نجد أي آيات تحتوي على الكلمة "${keyword}". جرب كلمة أخرى بدون تشكيل.</div>`;
+    }
+    
+  } catch (error) {
+    console.error("خطأ أثناء الاتصال بـ Quranpedia API:", error);
+    loadingEl.style.display = 'none';
+    containerEl.innerHTML = `<div class="qp-no-results" style="color:red">حدث خطأ أثناء جلب البيانات، برجاء المحاولة مجدداً.</div>`;
+  }
+}
+
+// تشغيل البحث تلقائياً بمجرد ضغط Enter في خانة الإدخال
+document.getElementById('qp-search-input')?.addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
+    performQuranpediaSearch();
+  }
+});
+
 function updateDashStats() {
   const statTkbr  = document.getElementById('stat-takbeer');
   const statJuz   = document.getElementById('stat-juz');
@@ -1115,117 +1198,21 @@ function getApproxMaghrib(lat = 24.7) {
   const maghrib = new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m + 3, 0); 
   return maghrib;
 }
-/* ── دالة معالجة وعرض المواقيت وتفعيل العداد التنازلي التلقائي المطور ── */
-let _prayerCountdownInterval = null;
-
-function applyTopbarPrayers(timings) {
-  // 1. تحديث التوب بار الافتراضي للتطبيق كالمعتاد
-  const map = {Fajr:'tp-fajr', Dhuhr:'tp-dhuhr', Asr:'tp-asr', Maghrib:'tp-maghrib', Isha:'tp-isha'};
-  const now = new Date();
-  const nowMin = now.getHours() * 60 + now.getMinutes();
-  let nextDone = false;
-  
-  Object.entries(map).forEach(([pKey, elId]) => {
-    const el = document.getElementById(elId); if (!el || !timings[pKey]) return;
-    const t = timings[pKey].substring(0, 5);
-    const [hh, mm] = t.split(':').map(Number); const pMin = hh * 60 + mm;
-    const te = el.querySelector('.tp-time'); if (te) te.textContent = t;
-    el.classList.remove('tp-done', 'tp-next');
-    if (pMin < nowMin) { el.classList.add('tp-done'); }
-    else if (!nextDone) { el.classList.add('tp-next'); nextDone = true; }
-  });
-
-  // إظهار منطقة المواقيت الحية وإخفاء زر تحديد الموقع الأصلي بالكرت
-  const dynamicArea = document.getElementById('prayer-dynamic-area');
-  const locBtn = document.getElementById('prayer-loc-btn');
-  if (dynamicArea) dynamicArea.style.display = 'block';
-  if (locBtn) locBtn.style.display = 'none';
-
-  // 2. تحديث السيكشن الجديد والمقسم (Rows) وحساب العداد التنازلي
-  const prayersToRender = { Fajr: 'الفجر', Sunrise: 'الشروق', Dhuhr: 'الظهر', Asr: 'العصر', Maghrib: 'المغرب', Isha: 'العشاء' };
-  
-  // ملء الساعات داخل الصفوف بنظام 12 ساعة مريح ومبسط للمستخدم
-  Object.keys(prayersToRender).forEach(key => {
-    const rawTime = timings[key];
-    const timeEl = document.getElementById(`time-${key}`);
-    if (timeEl && rawTime) {
-      const [hours, minutes] = rawTime.substring(0, 5).split(':');
-      let h = parseInt(hours);
-      const ampm = h >= 12 ? 'م' : 'ص';
-      h = h % 12 || 12;
-      timeEl.textContent = `${h}:${minutes} ${ampm}`;
+async function fetchPrayerTimesIfPossible() {
+  try {
+    const pos = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, {timeout:5000}));
+    const { latitude: lat, longitude: lng } = pos.coords;
+    const today = new Date().toLocaleDateString('en-CA'); 
+    const url = `https://api.aladhan.com/v1/timings/${today}?latitude=${lat}&longitude=${lng}&method=4`;
+    const r = await fetch(url);
+    const data = await r.json();
+    if (data?.data?.timings?.Maghrib) {
+      const [hh, mm] = data.data.timings.Maghrib.split(':').map(Number);
+      const d = new Date();
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate(), hh, mm, 0);
     }
-  });
-
-  // تشغيل وتحديث العداد التنازلي كل ثانية بدقة عالية تمنع السيحان
-  if (_prayerCountdownInterval) clearInterval(_prayerCountdownInterval);
-  
-  function updateCountdownTick() {
-    const currentTime = new Date();
-    let nextPrayerKey = null;
-    let nextPrayerDate = null;
-
-    // البحث عن الصلاة القادمة المتبقية اليوم
-    for (const key of Object.keys(prayersToRender)) {
-      if (!timings[key]) continue;
-      const [pHours, pMinutes] = timings[key].substring(0, 5).split(':').map(Number);
-      const pDate = new Date(currentTime);
-      pDate.setHours(pHours, pMinutes, 0, 0);
-
-      if (pDate > currentTime) {
-        nextPrayerKey = key;
-        nextPrayerDate = pDate;
-        break;
-      }
-    }
-
-    // إذا مرّت كل صلوات اليوم، فالصلاة القادمة فجر الغد تلقائيًا
-    if (!nextPrayerKey) {
-      nextPrayerKey = 'Fajr';
-      if (timings['Fajr']) {
-        const [pHours, pMinutes] = timings['Fajr'].substring(0, 5).split(':').map(Number);
-        nextPrayerDate = new Date(currentTime);
-        nextPrayerDate.setDate(nextPrayerDate.getDate() + 1);
-        nextPrayerDate.setHours(pHours, pMinutes, 0, 0);
-      }
-    }
-
-    if (nextPrayerKey && nextPrayerDate) {
-      // إبراز الصف النشط بصرياً وإزالة التحديد عن البقية
-      Object.keys(prayersToRender).forEach(k => {
-        const row = document.getElementById(`row-${k}`);
-        if (row) row.classList.remove('active-prayer');
-      });
-      const activeRow = document.getElementById(`row-${nextPrayerKey}`);
-      if (activeRow) activeRow.classList.add('active-prayer');
-
-      // حساب الفارق الزمني المتبقي للأذان بالثواني
-      const diff = nextPrayerDate - currentTime;
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-      // تحديث نصوص البنر العلوي والعدادات
-      const titleEl = document.getElementById('next-prayer-title');
-      const specTimeEl = document.getElementById('next-prayer-time-spec');
-      const timerEl = document.getElementById('countdown-timer');
-
-      if (titleEl) titleEl.textContent = `الصلاة القادمة: ${prayersToRender[nextPrayerKey]}`;
-      
-      if (specTimeEl && timings[nextPrayerKey]) {
-        const [hRaw, mRaw] = timings[nextPrayerKey].substring(0, 5).split(':');
-        let h = parseInt(hRaw); const ampm = h >= 12 ? 'م' : 'ص'; h = h % 12 || 12;
-        specTimeEl.textContent = `موعد الأذان: ${h}:${mRaw} ${ampm}`;
-      }
-      
-      if (timerEl) {
-        timerEl.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-      }
-    }
-  }
-
-  updateCountdownTick();
-  _prayerCountdownInterval = setInterval(updateCountdownTick, 1000);
+  } catch (e) {}
+  return null; 
 }
 function getTimePhase() {
   const h = new Date().getHours();
@@ -1996,110 +1983,6 @@ function playClickSound() {
   } catch(e) {}
 }
 window.playClickSound = playClickSound;
-/* ── دالة البحث الفوري في القرآن الكريم باستخدام Quranpedia API ── */
-async function performQuranSearch() {
-  const inputEl = document.getElementById('quran-search-input');
-  const containerEl = document.getElementById('search-results-container');
-  const loadingEl = document.getElementById('search-loading');
-  
-  if (!inputEl || !containerEl) return;
-  
-  const keyword = inputEl.value.trim();
-  
-  // التحقق من طول كلمة البحث
-  if (keyword.length < 2) {
-    alert("برجاء كتابة كلمة بحث صحيحة (حرفين على الأقل)");
-    return;
-  }
-  
-  // إظهار مؤشر التحميل وتفريغ النتائج السابقة
-  loadingEl.style.display = 'block';
-  containerEl.innerHTML = '';
-  
-/* ── دالة البحث الفوري والمعالجة الشاملة لـ Quranpedia API ── */
-async function performQuranpediaSearch() {
-  const inputEl = document.getElementById('qp-search-input');
-  const containerEl = document.getElementById('qp-search-results');
-  const loadingEl = document.getElementById('qp-search-loading');
-  
-  if (!inputEl || !containerEl) return;
-  
-  const keyword = inputEl.value.trim();
-  
-  // التحقق من طول الكلمة المطلوبة للبحث لضمان سرعة الاستجابة
-  if (keyword.length < 2) {
-    alert("برجاء كتابة كلمة بحث صحيحة (حرفين على الأقل)");
-    return;
-  }
-  
-  // تفعيل مؤشر التحميل وتصفية الحاوية
-  loadingEl.style.display = 'block';
-  containerEl.innerHTML = '';
-  
-  try {
-    // استدعاء الإندبوينت الرسمي لـ Quranpedia مع فلترة البحث للآيات (ayahs) فقط
-    const url = `https://api.quranpedia.net/v1/search/${encodeURIComponent(keyword)}/ayahs`;
-    
-    const response = await fetch(url);
-    const data = await response.json();
-    
-    // إخفاء الـ Spinner فوراً
-    loadingEl.style.display = 'none';
-    
-    // قراءة البيانات (سيرفر قورآن بيديا يرجع النتائج مباشرة داخل مصفوفة أو بداخل كائن pagination)
-    let ayahsList = [];
-    if (Array.isArray(data)) {
-      ayahsList = data;
-    } else if (data && Array.isArray(data.data)) {
-      ayahsList = data.data;
-    } else if (data && Array.isArray(data.results)) {
-      ayahsList = data.results;
-    }
-    
-    if (ayahsList && ayahsList.length > 0) {
-      // إظهار ملخص بعدد المواضع المكتشفة
-      let infoBar = `<div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;"> تم العثور على (${ayahsList.length}) موضع يحتوي على "${keyword}":</div>`;
-      containerEl.insertAdjacentHTML('beforeend', infoBar);
-      
-      // رندرة الكروت والآيات طردياً
-      ayahsList.forEach(item => {
-        // استخراج النص واسم السورة ورقم الآية ديناميكياً حسب بناء عناصر الـ API
-        const textContent = item.text || item.text_clean || item.content || '';
-        const surahName = item.surah?.name || item.surah_name || `سورة رقم ${item.surah_id || ''}`;
-        const ayahNum = item.ayah_number || item.numberInSurah || item.id || '';
-        
-        if (textContent) {
-          const cardHtml = `
-            <div class="qp-result-item">
-              <span class="qp-text">« ${textContent} »</span>
-              <div class="qp-meta">
-                <span>📖 ${surahName}</span>
-                <span>🔢 آية رقم: ${ayahNum}</span>
-              </div>
-            </div>
-          `;
-          containerEl.insertAdjacentHTML('beforeend', cardHtml);
-        }
-      });
-      
-    } else {
-      // التعامل مع حالة عدم وجود نتائج مطابقة للكلمة
-      containerEl.innerHTML = `<div class="qp-no-results">لم نجد أي آيات تحتوي على الكلمة "${keyword}". جرب البحث بكلمة أخرى (بدون حركات أو تشكيل مركّب).</div>`;
-    }
-    
-  } catch (error) {
-    console.error("خطأ أثناء الاتصال بـ Quranpedia API:", error);
-    loadingEl.style.display = 'none';
-    containerEl.innerHTML = `<div class="qp-no-results" style="color:red">حدث خطأ أثناء جلب البيانات من سيرفر Quranpedia، برجاء التحقق من اتصال الإنترنت والمحاولة مجدداً.</div>`;
-  }
-}
-
-// تشغيل البحث فوراً بمجرد قيام المستخدم بالضغط على زر Enter كاختصار سريع
-document.getElementById('qp-search-input')?.addEventListener('keypress', function (e) {
-  if (e.key === 'Enter') {
-    performQuranpediaSearch();
-  }
-});
 
 /* ── Hook sound to checklist ── */
 document.addEventListener('DOMContentLoaded', () => {
