@@ -352,22 +352,22 @@ let _page = parseInt(localStorage.getItem(STORAGE_KEY) || '1');
 let _bookmarks = JSON.parse(localStorage.getItem(BM_KEY) || '[]');
 
 /* ── Image CDN — GitHub public repo (zero load on your server) ── */
-/* CDN priority:
-   1. jsDelivr (GitHub CDN, no CORS, global)
-   2. QuranHub repo (backup images)
-   3. searchtruth.com (last resort)
-*/
+/* ── CDN sources — tested and reliable ────────────────────
+   1. sufone/medina-mushaf via jsDelivr (plain PNG, no padding)
+   2. QuranHub/quran-pages-images via jsDelivr (zero-padded PNG)
+   3. Tariq-1 repo via jsDelivr (zero-padded JPG)
+   4. searchtruth.com GIF (last resort)
+   All served via jsDelivr = no CORS, global CDN, fast
+──────────────────────────────────────────────────────── */
 const CDN_SOURCES = [
-  p => `https://cdn.jsdelivr.net/gh/Tariq-1/Al-Quran-Al-Kareem-Page-Images@master/jpg/${String(p).padStart(3,'0')}.jpg`,
+  p => `https://cdn.jsdelivr.net/gh/sufone/medina-mushaf@main/png-d150/${p}.png`,
   p => `https://cdn.jsdelivr.net/gh/QuranHub/quran-pages-images@main/hafs/${String(p).padStart(3,'0')}.png`,
+  p => `https://cdn.jsdelivr.net/gh/Tariq-1/Al-Quran-Al-Kareem-Page-Images@master/jpg/${String(p).padStart(3,'0')}.jpg`,
   p => `https://www.searchtruth.com/quran/images/page-${String(p).padStart(3,'0')}.gif`,
 ];
-let _cdnIdx = 0; /* track which CDN we're using */
+let _cdnIdx = 0;
 
-function imgUrl(page) {
-  return CDN_SOURCES[_cdnIdx](page);
-}
-
+function imgUrl(page) { return CDN_SOURCES[_cdnIdx](page); }
 function imgUrlFallback(page) {
   _cdnIdx = Math.min(_cdnIdx + 1, CDN_SOURCES.length - 1);
   return CDN_SOURCES[_cdnIdx](page);
@@ -387,13 +387,13 @@ function renderPage(p, saveState = true) {
   const loading = document.getElementById('q-loading');
   if (loading) loading.classList.remove('hidden');
 
-  /* Set image */
+  /* Set image — avoid ghost onload from empty src */
   const img = document.getElementById('mushaf-page-img');
   if (img) {
     img.style.display = '';
     img.dataset.attempts = '0';
-    img.src = '';
-    setTimeout(() => { img.src = imgUrl(p); }, 30);
+    img.removeAttribute('src');      /* avoid empty-src ghost-load */
+    img.src = imgUrl(p);
   }
 
   /* Update controls */
@@ -444,6 +444,9 @@ function renderPage(p, saveState = true) {
 
 /* ── Image load/error callbacks ─────────────────────────── */
 function onImageLoad() {
+  const img = document.getElementById('mushaf-page-img');
+  /* Ignore ghost-load triggered by img.src='' */
+  if (!img || !img.naturalWidth) return;
   const loading = document.getElementById('q-loading');
   if (loading) loading.classList.add('hidden');
 }
