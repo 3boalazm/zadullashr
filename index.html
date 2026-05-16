@@ -633,6 +633,28 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 });
 </script>
+
+<!-- Firebase Analytics (non-blocking) -->
+<script type="module">
+  import { initializeApp }  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+  import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js';
+  try {
+    const app = initializeApp({
+      apiKey:'AIzaSyBgs8kMenbiTaJP4d1eEWv6zmp-kGoExqM',
+      authDomain:'zadullashr.firebaseapp.com',
+      projectId:'zadullashr',
+      storageBucket:'zadullashr.firebasestorage.app',
+      messagingSenderId:'1001954401018',
+      appId:'1:1001954401018:web:7271f17d574371ff018743',
+      measurementId:'G-W6PZ48LXYJ'
+    });
+    const analytics = getAnalytics(app);
+    logEvent(analytics, 'page_view', { page_title: 'Dashboard', page_location: location.href });
+    window._fbAnalytics = analytics;
+    window._fbReady     = true;
+    console.log('✅ Firebase Analytics active — zadullashr');
+  } catch(e) { console.warn('Firebase Analytics:', e.message); }
+</script>
 </body>
 </html
     /* ══ Prayer Times Card ═════════════════════════════════════ */

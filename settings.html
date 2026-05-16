@@ -189,6 +189,60 @@
       </div>
     </div>
     <div class="foot-note">زاد العشر 2026 · بدون إعلانات · يعمل بدون إنترنت 📴</div>
+
+    <!-- ══ Firebase ══════════════════════════════════════════ -->
+    <div class="section-title" style="margin-top:24px">🔥 Firebase</div>
+    <div class="settings-group" id="firebase-group">
+
+      <div class="settings-row" id="fb-row-conn">
+        <div class="ic">🔗</div>
+        <div class="lbl">
+          <b>حالة الاتصال</b>
+          <small id="fb-conn-sub">جارٍ الفحص...</small>
+        </div>
+        <span class="fb-badge" id="fb-conn-badge">⏳</span>
+      </div>
+
+      <div class="settings-row" id="fb-row-analytics">
+        <div class="ic">📊</div>
+        <div class="lbl">
+          <b>Analytics</b>
+          <small id="fb-analytics-sub">G-W6PZ48LXYJ</small>
+        </div>
+        <span class="fb-badge" id="fb-analytics-badge">⏳</span>
+      </div>
+
+      <div class="settings-row" id="fb-row-notif" onclick="fbEnableNotif()" style="cursor:pointer">
+        <div class="ic">🔔</div>
+        <div class="lbl">
+          <b>إشعارات Push (FCM)</b>
+          <small id="fb-notif-sub">اضغط للتفعيل</small>
+        </div>
+        <span class="fb-badge" id="fb-notif-badge">—</span>
+      </div>
+
+      <div class="settings-row" id="fb-row-token" style="display:none">
+        <div class="ic">🎫</div>
+        <div class="lbl" style="min-width:0;overflow:hidden">
+          <b>FCM Token</b>
+          <small id="fb-token-val" style="direction:ltr;word-break:break-all;display:block;font-size:10px;opacity:.7">—</small>
+        </div>
+      </div>
+
+    </div>
+
+<style>
+.fb-badge{
+  display:inline-block;padding:4px 12px;border-radius:99px;
+  font-size:11px;font-weight:700;white-space:nowrap;flex-shrink:0;
+  background:var(--sand);color:var(--muted);transition:all .3s
+}
+.fb-badge.ok   {background:#dcfce7;color:#166534}
+.fb-badge.warn {background:#fef9c3;color:#854d0e}
+.fb-badge.err  {background:#fee2e2;color:#991b1b}
+.fb-badge.info {background:#dbeafe;color:#1e40af}
+</style>
+
   </main>
 
   <!-- Floating AI Button -->
@@ -201,5 +255,307 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
   <script src="animations.js" defer></script>
+
+<script type="module">
+/* ════════════════════════════════════════════════════════════
+   SETTINGS PAGE — Firebase Status Check + FCM
+   ════════════════════════════════════════════════════════════ */
+
+import { initializeApp }         from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getAnalytics, isSupported as analyticsSupported } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js';
+import { getMessaging, getToken, isSupported as msgSupported } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js';
+
+const FB_CONFIG = {
+  apiKey:            'AIzaSyBgs8kMenbiTaJP4d1eEWv6zmp-kGoExqM',
+  authDomain:        'zadullashr.firebaseapp.com',
+  projectId:         'zadullashr',
+  storageBucket:     'zadullashr.firebasestorage.app',
+  messagingSenderId: '1001954401018',
+  appId:             '1:1001954401018:web:7271f17d574371ff018743',
+  measurementId:     'G-W6PZ48LXYJ'
+};
+
+function setBadge(id, text, type) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const colors = {
+    ok:      'background:#dcfce7;color:#166534',
+    warn:    'background:#fef9c3;color:#854d0e',
+    error:   'background:#fee2e2;color:#991b1b',
+    info:    'background:#dbeafe;color:#1e40af',
+    neutral: 'background:var(--sand);color:var(--muted)',
+  };
+  el.textContent = text;
+  el.style.cssText = `padding:4px 12px;border-radius:99px;font-size:11px;font-weight:700;${colors[type]||colors.neutral}`;
+}
+
+async function checkFirebase() {
+  const statusBadge = document.getElementById('fb-status-badge');
+  const statusText  = document.getElementById('fb-status-text');
+
+  try {
+    /* 1. Initialize */
+    const app = initializeApp(FB_CONFIG);
+    setBadge('fb-status-badge', '✅ متصل', 'ok');
+    if (statusText) statusText.textContent = 'Firebase متصل — zadullashr · App ID: 1001954401018';
+
+    /* 2. Analytics */
+    const analyticsOk = await analyticsSupported();
+    if (analyticsOk) {
+      const analytics = getAnalytics(app);
+      setBadge('fb-analytics-badge', '✅ فعّال', 'ok');
+      const atxt = document.getElementById('fb-analytics-text');
+      if (atxt) atxt.textContent = 'Firebase Analytics يعمل — measurementId: G-W6PZ48LXYJ';
+    } else {
+      setBadge('fb-analytics-badge', '⚠️ غير مدعوم', 'warn');
+    }
+
+    /* 3. Check existing FCM token */
+    const existingToken = localStorage.getItem('zad_fcm_token');
+    const tokenDate     = localStorage.getItem('zad_fcm_date');
+    if (existingToken) {
+      setBadge('fb-notif-badge', '✅ مفعّل', 'ok');
+      const ntxt = document.getElementById('fb-notif-text');
+      if (ntxt) ntxt.textContent = 'الإشعارات مفعّلة — ' + new Date(tokenDate).toLocaleDateString('ar');
+      showToken(existingToken);
+    } else if (Notification.permission === 'granted') {
+      setBadge('fb-notif-badge', '⚠️ مرخّص', 'warn');
+      const ntxt = document.getElementById('fb-notif-text');
+      if (ntxt) ntxt.textContent = 'الإذن ممنوح — اضغط لجلب الـ Token';
+    } else if (Notification.permission === 'denied') {
+      setBadge('fb-notif-badge', '❌ مرفوض', 'error');
+      const ntxt = document.getElementById('fb-notif-text');
+      if (ntxt) ntxt.textContent = 'رُفض الإذن — فعّله من إعدادات المتصفح';
+    } else {
+      setBadge('fb-notif-badge', '⭕ غير مفعّل', 'neutral');
+    }
+
+    /* Expose for button click */
+    window._fbApp       = app;
+    window._fbReady     = true;
+
+  } catch(e) {
+    setBadge('fb-status-badge', '❌ خطأ', 'error');
+    if (statusText) statusText.textContent = 'خطأ: ' + e.message;
+    setBadge('fb-analytics-badge', '❌', 'error');
+    setBadge('fb-notif-badge', '❌', 'error');
+  }
+}
+
+function showToken(token) {
+  const row = document.getElementById('fb-token-row');
+  const txt = document.getElementById('fb-token-text');
+  if (row) row.style.display = 'flex';
+  if (txt) txt.textContent = token.substring(0, 40) + '...';
+}
+
+window.fbRequestNotifications = async function() {
+  if (!window._fbApp) return;
+  const badge = document.getElementById('fb-notif-badge');
+  const ntxt  = document.getElementById('fb-notif-text');
+
+  setBadge('fb-notif-badge', '⏳ جارٍ...', 'info');
+
+  try {
+    const msgOk = await msgSupported();
+    if (!msgOk) {
+      setBadge('fb-notif-badge', '⚠️ غير مدعوم', 'warn');
+      if (ntxt) ntxt.textContent = 'FCM غير مدعوم في هذا المتصفح';
+      return;
+    }
+
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') {
+      setBadge('fb-notif-badge', '❌ مرفوض', 'error');
+      if (ntxt) ntxt.textContent = 'فعّل الإشعارات من إعدادات المتصفح';
+      return;
+    }
+
+    /* Register service worker first */
+    let sw;
+    if ('serviceWorker' in navigator) {
+      sw = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+    }
+
+    const messaging = getMessaging(window._fbApp);
+    /* VAPID KEY — from Firebase Console > Project Settings > Cloud Messaging > Web Push certificates */
+    const VAPID = 'BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjZEw__eLYCBdaBbPK-I0VJA'; // placeholder
+
+    const token = await getToken(messaging, {
+      vapidKey:             VAPID,
+      serviceWorkerRegistration: sw
+    });
+
+    if (token) {
+      localStorage.setItem('zad_fcm_token', token);
+      localStorage.setItem('zad_fcm_date',  new Date().toISOString());
+      setBadge('fb-notif-badge', '✅ مفعّل', 'ok');
+      if (ntxt) ntxt.textContent = '✅ الإشعارات مفعّلة بنجاح!';
+      showToken(token);
+      if (typeof showToast === 'function') showToast('✅ إشعارات Firebase مفعّلة');
+    } else {
+      setBadge('fb-notif-badge', '⚠️ لا يوجد Token', 'warn');
+    }
+  } catch(e) {
+    setBadge('fb-notif-badge', '❌ ' + e.message.substring(0, 30), 'error');
+    console.error('FCM error:', e);
+  }
+};
+
+/* Run on load */
+document.addEventListener('DOMContentLoaded', checkFirebase);
+</script>
+
+
+<script type="module">
+/* ────────────────────────────────────────────────────────────
+   Firebase Settings — CDN SDK v10.12.2
+   Project: zadullashr | measurementId: G-W6PZ48LXYJ
+   ──────────────────────────────────────────────────────────── */
+import { initializeApp }
+  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getAnalytics, isSupported as analyticsOk }
+  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js';
+import { getMessaging, getToken, isSupported as messagingOk }
+  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js';
+
+const CFG = {
+  apiKey:            'AIzaSyBgs8kMenbiTaJP4d1eEWv6zmp-kGoExqM',
+  authDomain:        'zadullashr.firebaseapp.com',
+  projectId:         'zadullashr',
+  storageBucket:     'zadullashr.firebasestorage.app',
+  messagingSenderId: '1001954401018',
+  appId:             '1:1001954401018:web:7271f17d574371ff018743',
+  measurementId:     'G-W6PZ48LXYJ'
+};
+
+/* ── Badge helper ── */
+function badge(id, txt, type='neutral'){
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = txt;
+  el.className = 'fb-badge' + (type !== 'neutral' ? ' ' + type : '');
+}
+function sub(id, txt){ const el=document.getElementById(id); if(el) el.textContent=txt; }
+
+let _app, _analytics, _messaging;
+
+async function init() {
+  try {
+    /* 1. Init app */
+    _app = initializeApp(CFG);
+    badge('fb-conn-badge', '✅ متصل', 'ok');
+    sub('fb-conn-sub', 'Firebase متصل · App: 1001954401018 · Project: zadullashr');
+
+    /* 2. Analytics */
+    const canAnalytics = await analyticsOk();
+    if (canAnalytics) {
+      _analytics = getAnalytics(_app);
+      badge('fb-analytics-badge', '✅ فعّال', 'ok');
+      sub('fb-analytics-sub', 'تتبع الاستخدام فعّال · measurementId: G-W6PZ48LXYJ');
+    } else {
+      badge('fb-analytics-badge', '⚠️ غير مدعوم', 'warn');
+      sub('fb-analytics-sub', 'Analytics غير مدعوم في هذا المتصفح');
+    }
+
+    /* 3. FCM status from localStorage */
+    const storedToken = localStorage.getItem('zad_fcm_token');
+    const storedDate  = localStorage.getItem('zad_fcm_date');
+    const notifPerm   = Notification.permission;
+
+    if (storedToken) {
+      badge('fb-notif-badge', '✅ مفعّل', 'ok');
+      sub('fb-notif-sub', 'الإشعارات مفعّلة · ' + new Date(storedDate).toLocaleDateString('ar-EG'));
+      showToken(storedToken);
+    } else if (notifPerm === 'granted') {
+      badge('fb-notif-badge', '⚠️ مرخّص', 'warn');
+      sub('fb-notif-sub', 'الإذن ممنوح — اضغط لجلب الـ Token');
+    } else if (notifPerm === 'denied') {
+      badge('fb-notif-badge', '❌ مرفوض', 'err');
+      sub('fb-notif-sub', 'فعّل الإشعارات من إعدادات المتصفح ثم اضغط هنا');
+    } else {
+      badge('fb-notif-badge', '⭕ غير مفعّل', 'neutral');
+      sub('fb-notif-sub', 'اضغط لتفعيل إشعارات الصلاة والأذكار');
+    }
+
+    window._fbApp  = _app;
+    window._fbReady = true;
+
+  } catch(e) {
+    badge('fb-conn-badge', '❌ خطأ', 'err');
+    sub('fb-conn-sub', e.message);
+    badge('fb-analytics-badge', '❌', 'err');
+    badge('fb-notif-badge', '❌', 'err');
+  }
+}
+
+function showToken(token) {
+  const row = document.getElementById('fb-row-token');
+  const val = document.getElementById('fb-token-val');
+  if (row) row.style.display = 'flex';
+  if (val) val.textContent = token.substring(0,50) + '…';
+}
+
+/* ── Enable notifications (called from onclick) ── */
+window.fbEnableNotif = async function () {
+  if (!window._fbApp) { alert('Firebase لم يتصل بعد'); return; }
+
+  badge('fb-notif-badge', '⏳', 'info');
+  sub('fb-notif-sub', 'جارٍ طلب الإذن...');
+
+  try {
+    /* Check FCM support */
+    const canMsg = await messagingOk();
+    if (!canMsg) {
+      badge('fb-notif-badge', '⚠️ غير مدعوم', 'warn');
+      sub('fb-notif-sub', 'FCM غير مدعوم في هذا المتصفح');
+      return;
+    }
+
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') {
+      badge('fb-notif-badge', '❌ مرفوض', 'err');
+      sub('fb-notif-sub', 'فعّل الإشعارات من إعدادات المتصفح');
+      return;
+    }
+
+    /* Register SW */
+    sub('fb-notif-sub', 'جارٍ تسجيل الـ Service Worker...');
+    const sw = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+
+    _messaging = getMessaging(window._fbApp);
+
+    /* VAPID key from Firebase Console → Project Settings → Cloud Messaging → Web Push certificates */
+    /* Replace this placeholder after generating your key in Firebase Console */
+    const VAPID = localStorage.getItem('zad_vapid') ||
+      'BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjZEw__eLYCBdaBbPK-I0VJA1gDl';
+
+    sub('fb-notif-sub', 'جارٍ جلب الـ FCM Token...');
+    const token = await getToken(_messaging, {
+      vapidKey: VAPID,
+      serviceWorkerRegistration: sw
+    });
+
+    if (token) {
+      localStorage.setItem('zad_fcm_token', token);
+      localStorage.setItem('zad_fcm_date',  new Date().toISOString());
+      badge('fb-notif-badge', '✅ مفعّل', 'ok');
+      sub('fb-notif-sub', 'تم التفعيل بنجاح!');
+      showToken(token);
+      if (typeof showToast === 'function') showToast('✅ إشعارات Firebase مفعّلة');
+    } else {
+      badge('fb-notif-badge', '⚠️ لا token', 'warn');
+      sub('fb-notif-sub', 'تأكد من ضبط VAPID key في Firebase Console');
+    }
+  } catch(e) {
+    badge('fb-notif-badge', '❌ خطأ', 'err');
+    sub('fb-notif-sub', e.message);
+    console.error('FCM error:', e);
+  }
+};
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
 </body>
 </html>
