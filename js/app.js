@@ -1917,6 +1917,113 @@ function getSuccessMsg(key) {
 }
 window.getSuccessMsg = getSuccessMsg;
 
+/* ══ Video Enhanced Functions ═══════════════════════════ */
+
+/* Toggle Full Summary */
+function toggleFullSummary(btn) {
+  btn.classList.toggle('open');
+  const summary = btn.nextElementSibling;
+  if (summary && summary.classList.contains('vid-full-summary')) {
+    summary.classList.toggle('open');
+    summary.style.maxHeight = summary.classList.contains('open') ? '2000px' : '0';
+  }
+}
+
+/* Save Personal Notes */
+function saveVidNote(vidId) {
+  if (!STATE.vidNotes) STATE.vidNotes = {};
+  
+  const currentNote = STATE.vidNotes[vidId] || '';
+  const newNote = prompt('✍️ اكتب ملاحظتك على هذا الفيديو:', currentNote);
+  
+  if (newNote !== null) {
+    if (newNote.trim()) {
+      STATE.vidNotes[vidId] = newNote.trim();
+      showToast('💾 تم حفظ ملاحظتك');
+    } else {
+      delete STATE.vidNotes[vidId];
+      showToast('🗑️ تم حذف الملاحظة');
+    }
+    saveState();
+  }
+}
+
+/* Copy Summary to Clipboard */
+async function copyVidSummary(vidId) {
+  const vidCard = document.querySelector(`[onclick*="${vidId}"]`)?.closest('.vid-card');
+  if (!vidCard) return;
+  
+  const title = vidCard.querySelector('.vid-title')?.textContent || '';
+  const speaker = vidCard.querySelector('.speaker-name')?.textContent || '';
+  const desc = vidCard.querySelector('.vid-desc')?.textContent || '';
+  
+  const text = `🎬 ${title}\n👤 ${speaker}\n\n📝 ${desc}\n\n🔗 https://youtu.be/${vidId}`;
+  
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('📋 تم نسخ الملخص للحافظة');
+  } catch (err) {
+    // Fallback for older browsers
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast('📋 تم نسخ الملخص');
+  }
+}
+
+/* Add to Favorites */
+function addToFavorites(vidId) {
+  if (!STATE.vidFavorites) STATE.vidFavorites = [];
+  
+  const idx = STATE.vidFavorites.indexOf(vidId);
+  const btn = event?.target?.closest('.vid-action-btn');
+  
+  if (idx === -1) {
+    STATE.vidFavorites.push(vidId);
+    if (btn) {
+      btn.classList.add('favorited');
+      btn.innerHTML = '❤️ مضافة';
+    }
+    showToast('❤️ تمت الإضافة للمفضلة');
+  } else {
+    STATE.vidFavorites.splice(idx, 1);
+    if (btn) {
+      btn.classList.remove('favorited');
+      btn.innerHTML = '❤️ مفضلة';
+    }
+    showToast('🗑️ تمت الإزالة من المفضلة');
+  }
+  saveState();
+}
+
+/* Initialize Video Cards on Load */
+document.addEventListener('DOMContentLoaded', () => {
+  // Restore favorite buttons state
+  if (STATE.vidFavorites?.length) {
+    STATE.vidFavorites.forEach(vidId => {
+      const btn = document.querySelector(`[onclick*="addToFavorites('${vidId}')"]`);
+      if (btn) {
+        btn.classList.add('favorited');
+        btn.innerHTML = '❤️ مضافة';
+      }
+    });
+  }
+  
+  // Restore saved notes indicator
+  if (STATE.vidNotes) {
+    Object.keys(STATE.vidNotes).forEach(vidId => {
+      const btn = document.querySelector(`[onclick*="saveVidNote('${vidId}')"]`);
+      if (btn && STATE.vidNotes[vidId]) {
+        btn.classList.add('saved');
+        btn.title = '📝 لديك ملاحظة محفوظة';
+      }
+    });
+  }
+});
+
 
 
 /* ══════════════════════════════════════════════════════════

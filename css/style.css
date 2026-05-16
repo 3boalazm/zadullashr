@@ -1121,6 +1121,108 @@ h3,h4,.section-title,.brand-name{font-weight:700 !important}
   .prayer-bar{grid-template-columns:repeat(2,1fr)}
 }
 
+/* ══ Video Card — Enhanced Details ═══════════════════════ */
+.vid-full-summary {
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 8px;
+}
+
+.vid-summary-section {
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.vid-summary-section:last-child { border-bottom: none; }
+
+.vid-summary-section h4 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green-deep);
+}
+
+.vid-summary-section p,
+.vid-summary-section ul {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0;
+}
+
+.vid-summary-section ul {
+  list-style: disc;
+  padding-right: 20px;
+}
+
+/* ══ Extra Action Buttons ═══════════════════════════════ */
+.vid-extra-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.vid-action-btn {
+  flex: 1;
+  min-width: 80px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--sand);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.vid-action-btn:hover {
+  border-color: var(--gold);
+  background: var(--gold-pale);
+  transform: translateY(-1px);
+}
+
+.vid-action-btn:active {
+  transform: scale(0.98);
+}
+
+.vid-action-btn.saved {
+  background: var(--green-pale);
+  border-color: var(--green-soft);
+  color: var(--green-deep);
+}
+
+.vid-action-btn.favorited {
+  background: rgba(255,45,85,.1);
+  border-color: var(--sys-pink);
+  color: var(--sys-pink);
+}
+
+/* ══ Responsive Adjustments ════════════════════════════ */
+@media (max-width: 480px) {
+  .vid-extra-actions {
+    flex-direction: column;
+  }
+  .vid-action-btn {
+    min-width: 100%;
+  }
+  .vid-summary-section h4 {
+    font-size: 12px;
+  }
+  .vid-summary-section p,
+  .vid-summary-section ul {
+    font-size: 12px;
+  }
+}
+
 /* ════════════════════════════════════════════════════════════
    END OF CSS
-   ════════════════════════════════════════════════
+   ════════════════════════════════════════════════════════════ */
