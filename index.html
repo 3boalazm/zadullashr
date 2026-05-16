@@ -363,33 +363,58 @@ function fallbackHijriDate(){
   },now);
 }
 
-function applyHijriData(hijri,now){
-  const d=parseInt(hijri.day);
-  const mo=hijri.month.ar||HIJRI_MONTHS_AR[parseInt(hijri.month.number)-1];
-  const y=hijri.year;
-  _hijriDay=parseInt(hijri.month.number)===12?d:1;
+// مصفوفات الثوابت العربية اللازمة لتشغيل دالة التاريخ بنجاح
+const WEEK_AR = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+
+const MILADI_AR = [
+  "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", 
+  "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+];
+
+const HIJRI_MONTHS_AR = [
+  "محرّم", "صفر", "ربيع الأول", "ربيع الآخر", "جمادى الأولى", "جمادى الآخرة",
+  "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"
+];
+
+function applyHijriData(hijri, now) {
+  // التحقق من سلامة البيانات المدخلة لتجنب انهيار التطبيق
+  if (!hijri || !now) return;
+
+  const d = parseInt(hijri.day);
+  const mo = hijri.month.ar || HIJRI_MONTHS_AR[parseInt(hijri.month.number) - 1];
+  const y = hijri.year;
   
-  const sub=document.getElementById('topbar-date-sub');
-  if(sub)sub.textContent=`${d} ${mo} ${y} هـ`;
+  // منطق آية اليوم بناءً على الشهر
+  _hijriDay = parseInt(hijri.month.number) === 12 ? d : 1;
   
-  const hf=document.getElementById('hijri-full');
-  if(hf)hf.textContent=`${WEEK_AR[now.getDay()]} · ${d} ${mo} ${y} هـ`;
+  // 1. تحديث تاريخ الشريط العلوي المصغر (إن وجد)
+  const sub = document.getElementById('topbar-date-sub');
+  if (sub) sub.textContent = `${d} ${mo} ${y} هـ`;
   
-  const mf=document.getElementById('miladi-full');
-  if(mf)mf.textContent=`${now.getDate()} ${MILADI_AR[now.getMonth()]} ${now.getFullYear()} م`;
+  // 2. تحديث التاريخ الهجري الكامل في شريط التاريخ
+  const hf = document.getElementById('hijri-full');
+  if (hf) hf.textContent = `${WEEK_AR[now.getDay()]} · ${d} ${mo} ${y} هـ`;
   
-  const mn=parseInt(hijri.month.number);
-  if(mn===12&&SPECIAL_DH[d]){
-    const sp=SPECIAL_DH[d];
-    const badge=document.getElementById('special-day-name');
-    if(badge){
-      badge.textContent=sp.ar;
-      badge.className='hijri-day-name'+(sp.cls?' '+sp.cls:'');
-      badge.style.display='inline-flex';
+  // 3. تحديث التاريخ الميلادي الكامل في شريط التاريخ
+  const mf = document.getElementById('miladi-full');
+  if (mf) mf.textContent = `${now.getDate()} ${MILADI_AR[now.getMonth()]} ${now.getFullYear()} م`;
+  
+  // 4. معالجة وتحديث شارات الأيام الخاصة (مثل أيام عشر ذي الحجة والتشريق)
+  const mn = parseInt(hijri.month.number);
+  if (mn === 12 && typeof SPECIAL_DH !== 'undefined' && SPECIAL_DH[d]) {
+    const sp = SPECIAL_DH[d];
+    const badge = document.getElementById('special-day-name');
+    if (badge) {
+      badge.textContent = sp.ar;
+      badge.className = 'hijri-day-name' + (sp.cls ? ' ' + sp.cls : '');
+      badge.style.display = 'inline-flex';
     }
   }
   
-  loadVersesForDay(_hijriDay);
+  // تشغيل دالة جلب الآيات لليوم المحدد
+  if (typeof loadVersesForDay === 'function') {
+    loadVersesForDay(_hijriDay);
+  }
 }
 
 /* ── 3. IMPROVED MINI BADGES ─────────────────────────────── */
