@@ -96,11 +96,12 @@
 
     <div class="card" style="margin-bottom:14px">
       <div class="prayer-section-title">
-        <span class="section-title" style="margin:0;padding:0">🕌 مواقيت الصلاة</span>
-        <span class="next-prayer-badge" id="next-prayer-label" style="display:none">التالية</span>
-      </div>
-        📍 <span id="prayer-loc-txt">اضغط لتحديد موقعك وعرض المواقيت</span>
-      </button>
+   <span class="section-title" style="margin:0;padding:0">🕌 مواقيت الصلاة</span>
+   <span class="next-prayer-badge" id="next-prayer-label" style="display:none">التالية</span>
+</div>
+<button id="prayer-loc-btn" onclick="getUserLocation()" style="background:none; border:none; padding:0; cursor:pointer; text-align:inherit; font:inherit; color:inherit;">
+   📍 <span id="prayer-loc-txt">اضغط لتحديد موقعك وعرض المواقيت</span>
+</button>
       <div class="prayer-bar" id="prayer-bar" style="display:none">
         <div class="prayer-pill"><div class="pp-name">الفجر</div><div class="pp-time" id="pt-fajr">--:--</div></div>
         <div class="prayer-pill"><div class="pp-name">الشروق</div><div class="pp-time" id="pt-sunrise">--:--</div></div>
