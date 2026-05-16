@@ -138,7 +138,7 @@ function initFasting() {
     });
   });
   
-  /* ── دالة البحث الفوري لـ Quranpedia API المتوافقة مع زاد العشر ── */
+/* ── دالة البحث الفوري لـ Quranpedia API المحدثة والنظيفة تماماً ── */
 async function performQuranpediaSearch() {
   const inputEl = document.getElementById('qp-search-input');
   const containerEl = document.getElementById('qp-search-results');
@@ -158,7 +158,7 @@ async function performQuranpediaSearch() {
   containerEl.innerHTML = '';
   
   try {
-    // جلب البيانات من الـ Endpoint الجديد مع الفلترة للآيات
+    // جلب البيانات من الـ Endpoint للـ API
     const url = `https://api.quranpedia.net/v1/search/${encodeURIComponent(keyword)}/ayahs`;
     
     const response = await fetch(url);
@@ -166,12 +166,14 @@ async function performQuranpediaSearch() {
     
     loadingEl.style.display = 'none';
     
-    // قراءة المصفوفة المرتجعة من سيرفر القرآن بيديا (تأتي بداخل كائن pagination مسمى data)
+    // فحص وتوجيه المصفوفة بدقة بناءً على نظام الباجينيشن لـ Quranpedia
     let ayahsList = [];
     if (jsonResult && jsonResult.data && Array.isArray(jsonResult.data.data)) {
       ayahsList = jsonResult.data.data;
     } else if (jsonResult && Array.isArray(jsonResult.data)) {
       ayahsList = jsonResult.data;
+    } else if (jsonResult && jsonResult.ayahs && Array.isArray(jsonResult.ayahs)) {
+      ayahsList = jsonResult.ayahs;
     } else if (Array.isArray(jsonResult)) {
       ayahsList = jsonResult;
     }
@@ -181,11 +183,11 @@ async function performQuranpediaSearch() {
       let infoBar = `<div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;"> تم العثور على (${ayahsList.length}) موضع يحتوي على "${keyword}":</div>`;
       containerEl.insertAdjacentHTML('beforeend', infoBar);
       
-      // رندرة الكروت
+      // بناء الكروت ديناميكياً
       ayahsList.forEach(item => {
-        // استخراج البيانات بحسب المسميات الدقيقة للـ API
+        // فحص مسميات الحقول المختلفة لضمان القراءة في كل الأحوال
         const textContent = item.text || item.text_clean || item.content || '';
-        const surahName = item.surah?.name || item.surah_name || `سورة رقم ${item.surah_id || ''}`;
+        const surahName = item.surah?.name || item.surah_name || (item.surah_id ? `سورة رقم ${item.surah_id}` : '');
         const ayahNum = item.ayah_number || item.numberInSurah || item.id || '';
         
         if (textContent) {
@@ -193,7 +195,7 @@ async function performQuranpediaSearch() {
             <div class="qp-result-item">
               <span class="qp-text">« ${textContent} »</span>
               <div class="qp-meta">
-                <span>📖 سورة ${surahName}</span>
+                <span>📖 ${surahName ? 'سورة ' + surahName : 'قرآن كريم'}</span>
                 <span>🔢 آية رقم: ${ayahNum}</span>
               </div>
             </div>
