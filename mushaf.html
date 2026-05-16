@@ -1,161 +1,190 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<title>مصحف العشر — زاد العشر</title>
 <meta charset="UTF-8">
-<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0e3b2e">
 <link rel="manifest" href="manifest.json">
-<!-- Async font loading — eliminates render-blocking -->
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>مصحف العشر — زاد العشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" id="google-fonts"
-  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
-  media="print" onload="this.media='all'">
-<noscript>
-  
-</noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/style.css">
 <style>
-/* ─── Wird Range Card ─────────────────────────── */
-.wird-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px 22px;
-  box-shadow: var(--shadow);
-  margin-bottom: 4px;
-  transition: all var(--t);
-}
-.wird-plan-tag {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: linear-gradient(135deg, var(--sand), var(--sand-2));
-  border-radius: 99px; padding: 4px 14px;
-  font-size: 12px; font-weight: 700; color: var(--green-deep);
-  margin-bottom: 16px;
-}
-html[data-theme="dark"] .wird-plan-tag,
-html[data-theme="oled"] .wird-plan-tag { color: var(--sys-green); }
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.section-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
 
-.wird-range-row {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 16px;
+/* ══ Hero CTA ══════════════════════════════════════════════ */
+.mushaf-hero{
+  background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 60%,#c9a14a 160%);
+  border-radius:20px;padding:26px 22px;color:#fff;
+  position:relative;overflow:hidden;margin-bottom:20px;
+  display:flex;align-items:center;gap:18px;
+  box-shadow:0 12px 40px -12px rgba(14,59,46,.4);
+  text-decoration:none;transition:transform .2s
 }
-.wird-bound {
-  background: var(--sand);
-  border-radius: 14px;
-  padding: 14px 16px;
-  text-align: center;
-  border: 1px solid var(--border);
-  transition: background var(--t);
+.mushaf-hero:hover{transform:translateY(-3px)}
+.mushaf-hero::before{content:'';position:absolute;inset:auto -60px -80px auto;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.3),transparent 70%);pointer-events:none}
+.mh-ico{font-size:52px;flex-shrink:0;line-height:1}
+.mh-title{font-size:20px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:4px}
+.mh-sub{font-size:12px;color:rgba(255,255,255,.8);line-height:1.6}
+.mh-arrow{margin-right:auto;font-size:22px;opacity:.6;flex-shrink:0}
+
+/* ══ Plan Cards ════════════════════════════════════════════ */
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:480px){.plan-grid{grid-template-columns:1fr}}
+.plan-card{
+  background:var(--card);border:2px solid var(--border);
+  border-radius:16px;padding:16px 14px;text-align:center;
+  cursor:pointer;transition:all .2s;position:relative;overflow:hidden
 }
-html[data-theme="dark"] .wird-bound,
-html[data-theme="oled"] .wird-bound { background: var(--sand-2); }
-.wird-bound-lbl {
-  font-size: 11px; font-weight: 700;
-  color: var(--gold); letter-spacing: .8px;
-  text-transform: uppercase; margin-bottom: 6px;
+.plan-card:hover{border-color:var(--gold);transform:translateY(-3px)}
+.plan-card.active{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,161,74,.2)}
+.plan-card.active::after{content:'✓';position:absolute;top:8px;left:10px;font-size:14px;font-weight:900;color:var(--gold)}
+.pc-ico{font-size:30px;margin-bottom:8px}
+.pc-title{font-size:13px;font-weight:800;color:var(--green-deep);font-family:'ThmanyahSans',sans-serif;margin-bottom:3px}
+html[data-theme="dark"] .pc-title,html[data-theme="oled"] .pc-title{color:var(--sys-green)}
+.pc-sub{font-size:11px;color:var(--muted);line-height:1.4}
+.plan-card.active .pc-ico{filter:drop-shadow(0 0 6px rgba(201,161,74,.5))}
+
+/* ══ Wird Card ══════════════════════════════════════════════ */
+.wird-wrap{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:18px;overflow:hidden;box-shadow:var(--shadow);
+  margin-bottom:14px
 }
-.wird-bound-val {
-  font-size: 18px; font-weight: 800;
-  color: var(--green-deep); line-height: 1.2;
+.wird-head{
+  background:linear-gradient(135deg,var(--green-deep),var(--green-mid));
+  padding:14px 18px;display:flex;align-items:center;justify-content:space-between
 }
-html[data-theme="dark"] .wird-bound-val,
-html[data-theme="oled"] .wird-bound-val { color: var(--sys-green); }
-.wird-bound-sub {
-  font-size: 11px; color: var(--muted); margin-top: 4px;
+.wird-head-title{font-size:15px;font-weight:800;color:#fff;font-family:'ThmanyahSans',sans-serif}
+.wird-head-badge{
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);
+  border-radius:99px;padding:3px 12px;font-size:11px;font-weight:700;color:#fff
 }
-.wird-arrow {
-  font-size: 22px; color: var(--gold); text-align: center;
-  opacity: .7;
+.wird-body{padding:18px}
+.wird-range{
+  display:grid;grid-template-columns:1fr auto 1fr;gap:10px;
+  align-items:center;margin-bottom:16px
 }
+.wr-box{
+  background:var(--sand);border:1px solid var(--border);
+  border-radius:12px;padding:12px;text-align:center;transition:background .2s
+}
+.wr-lbl{font-size:10px;font-weight:700;color:var(--gold-dark);letter-spacing:1px;margin-bottom:5px}
+.wr-val{font-size:16px;font-weight:800;color:var(--green-deep);font-family:'ThmanyahSans',sans-serif;line-height:1.2}
+html[data-theme="dark"] .wr-val,html[data-theme="oled"] .wr-val{color:var(--sys-green)}
+.wr-sub{font-size:10px;color:var(--muted);margin-top:3px}
+.wr-arrow{font-size:20px;color:var(--gold);text-align:center}
+
+/* Read button */
+.wird-read-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:14px;border-radius:12px;border:none;
+  background:linear-gradient(135deg,var(--green-deep),var(--green-mid));
+  color:#fff;font-family:'ThmanyahSans',inherit;font-size:15px;font-weight:700;
+  cursor:pointer;transition:all .2s;margin-bottom:10px;text-decoration:none
+}
+.wird-read-btn:hover{opacity:.9;transform:translateY(-2px);box-shadow:var(--shadow)}
+html[data-theme="dark"] .wird-read-btn,html[data-theme="oled"] .wird-read-btn{background:linear-gradient(135deg,var(--sys-green),#2eb84d);color:#001a08}
+
+/* Done badge */
+.wird-done{
+  display:none;align-items:center;justify-content:center;gap:8px;
+  background:rgba(52,199,89,.1);border:1.5px solid rgba(52,199,89,.3);
+  border-radius:12px;padding:12px;margin-bottom:10px;
+  font-size:13px;font-weight:700;color:var(--sys-green)
+}
+.wird-done.show{display:flex}
+
 /* Complete button */
-.wird-complete-btn {
-  width: 100%; padding: 14px;
-  border-radius: 14px; border: none; cursor: pointer;
-  font-family: inherit; font-size: 15px; font-weight: 700;
-  background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
-  color: #fff;
-  transition: all .2s var(--ease);
-  display: flex; align-items: center; justify-content: center; gap: 10px;
+.wird-complete-btn{
+  width:100%;padding:11px;border-radius:12px;border:1.5px solid var(--border);
+  background:none;font-family:inherit;font-size:13px;font-weight:700;
+  color:var(--muted);cursor:pointer;transition:all .2s
 }
-.wird-complete-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-.wird-complete-btn:active { transform: scale(.97); }
-html[data-theme="dark"] .wird-complete-btn,
-html[data-theme="oled"] .wird-complete-btn {
-  background: linear-gradient(135deg, var(--sys-green), #2eb84d);
-  color: #001a08;
-}
-/* Done state */
-.wird-done-badge {
-  width: 100%; padding: 12px;
-  border-radius: 14px;
-  background: rgba(77,216,102,.12);
-  border: 1.5px solid rgba(77,216,102,.35);
-  color: var(--sys-green);
-  font-size: 14px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  display: none;
-}
-/* Tomorrow preview */
-.wird-tomorrow {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px 22px;
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  overflow: hidden;
-  transition: all var(--t);
-}
-.wird-tomorrow.locked {
-  opacity: .55;
-  pointer-events: none;
-}
-.wird-tomorrow-lock {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(0,0,0,.03) 0,
-    rgba(0,0,0,.03) 10px,
-    transparent 10px,
-    transparent 20px
-  );
-  display: flex; align-items: center; justify-content: center;
-  font-size: 28px;
-  display: none;
-}
-.wird-tomorrow.locked .wird-tomorrow-lock { display: flex; }
-.wird-tomorrow-header {
-  display: flex; align-items: center; gap: 10px;
-  margin-bottom: 12px;
-}
-.wird-tomorrow-ico { font-size: 18px; }
-.wird-tomorrow-lbl {
-  font-size: 13px; font-weight: 700; color: var(--muted);
-}
-.wird-tomorrow-range {
-  display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center;
-}
-.wird-tomorrow-bound {
-  background: var(--sand-2); border-radius: 10px; padding: 10px 14px; text-align: center;
-}
-.wird-tomorrow-bound .v { font-size: 15px; font-weight: 800; color: var(--green-deep); }
-html[data-theme="dark"] .wird-tomorrow-bound .v,
-html[data-theme="oled"] .wird-tomorrow-bound .v { color: var(--sys-green); }
-.wird-tomorrow-bound .l { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.wird-complete-btn:hover{border-color:var(--sys-green);color:var(--sys-green);background:rgba(52,199,89,.06)}
+.wird-complete-btn.done{display:none}
 
-/* Plan cards hover */
-.plan-card { cursor: pointer; transition: border-color .2s, transform .15s, box-shadow .2s; }
-.plan-card:hover { border-color: var(--gold); transform: translateY(-3px); }
-.plan-card.active { border-color: var(--gold) !important; box-shadow: 0 0 0 3px rgba(201,161,74,.2); }
-.plan-card.active .ico-lg { background: linear-gradient(135deg, var(--gold-soft), var(--gold)); }
+/* Tomorrow card */
+.tmr-card{
+  background:var(--card-2);border:1px solid var(--border);
+  border-radius:14px;padding:14px 16px;margin-bottom:14px;
+  opacity:.5;pointer-events:none;transition:all .3s;position:relative
+}
+.tmr-card.unlocked{opacity:1;pointer-events:auto;border-color:rgba(201,161,74,.3)}
+.tmr-lock{position:absolute;top:10px;left:12px;font-size:14px}
+.tmr-title{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:10px;padding-right:4px}
+.tmr-card.unlocked .tmr-title{color:var(--gold-dark)}
+.tmr-range{display:flex;align-items:center;gap:10px}
+.tmr-b{flex:1;background:var(--sand);border-radius:9px;padding:9px;text-align:center}
+.tmr-b .v{font-size:13px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .tmr-b .v,html[data-theme="oled"] .tmr-b .v{color:var(--sys-green)}
+.tmr-b .l{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* ══ Progress ══════════════════════════════════════════════ */
+.progress-hero{
+  background:linear-gradient(135deg,#120822,#200a3a);
+  border-radius:18px;padding:20px;color:#fff;margin-bottom:14px;
+  display:flex;align-items:center;gap:16px
+}
+.ph-ring{
+  width:72px;height:72px;border-radius:50%;flex-shrink:0;
+  background:conic-gradient(#c9a14a 0%,rgba(255,255,255,.1) 0%);
+  display:flex;align-items:center;justify-content:center;font-size:11px;
+  font-weight:900;color:#fff;transition:background .5s;font-family:'ThmanyahSans',monospace
+}
+.ph-info{}
+.ph-title{font-size:15px;font-weight:800;font-family:'ThmanyahSans',sans-serif;margin-bottom:4px}
+.ph-sub{font-size:12px;color:rgba(255,255,255,.7);line-height:1.6}
+.ph-bar-wrap{background:rgba(255,255,255,.15);border-radius:99px;height:6px;overflow:hidden;margin-top:8px}
+.ph-bar{height:100%;background:linear-gradient(90deg,var(--gold),#e6c97a);border-radius:99px;transition:width .6s}
+
+/* ══ Gems Section ══════════════════════════════════════════ */
+.gems-verse{
+  background:linear-gradient(135deg,var(--card),var(--gold-pale));
+  border:1px solid rgba(201,161,74,.2);border-radius:16px;
+  padding:20px;margin-bottom:10px;transition:all .2s;cursor:pointer
+}
+.gems-verse:hover{border-color:rgba(201,161,74,.4);transform:translateX(-3px)}
+.gv-src{font-size:11px;font-weight:700;color:var(--gold-dark);margin-bottom:8px}
+.gv-ar{font-family:'Amiri',serif;font-size:19px;color:var(--green-deep);line-height:2}
+html[data-theme="dark"] .gv-ar,html[data-theme="oled"] .gv-ar{color:var(--sys-yellow)}
+.gv-link{font-size:12px;color:var(--muted);margin-top:6px;display:flex;align-items:center;gap:5px}
+
+/* ══ Stats ════════════════════════════════════════════════ */
+.mushaf-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.ms-stat{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:14px;text-align:center;box-shadow:var(--shadow-sm)
+}
+.ms-val{font-size:24px;font-weight:900;color:var(--green-deep);font-family:'ThmanyahSans',monospace}
+html[data-theme="dark"] .ms-val,html[data-theme="oled"] .ms-val{color:var(--sys-green)}
+.ms-lbl{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* ══ Quran text preview ════════════════════════════════════ */
+.quran-preview{
+  background:linear-gradient(180deg,#fffaf0,#fbf2dc);
+  border:1px solid rgba(201,161,74,.25);border-radius:16px;
+  padding:22px;font-family:'Amiri',serif;
+  font-size:var(--qf-size,24px);line-height:2.4;
+  color:var(--ink);text-align:center;box-shadow:var(--shadow);
+  transition:all .2s
+}
+html[data-theme="dark"] .quran-preview{background:linear-gradient(180deg,#1a1608,#141004);border-color:rgba(230,201,122,.2);color:var(--sys-yellow)}
+html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900,#080600);border-color:rgba(230,201,122,.15);color:var(--sys-yellow)}
+.qp-header{display:flex;justify-content:space-between;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:12px;color:var(--gold);font-weight:700;border-bottom:1px solid rgba(201,161,74,.3);padding-bottom:8px;margin-bottom:14px}
+.font-ctrl{display:flex;gap:6px}
+.fc-btn{
+  width:30px;height:30px;border-radius:8px;border:1px solid var(--border);
+  background:var(--card);font-size:12px;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .2s
+}
+.fc-btn:hover{border-color:var(--gold);color:var(--gold-dark)}
 </style>
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
 </head>
@@ -163,361 +192,497 @@ html[data-theme="oled"] .wird-tomorrow-bound .v { color: var(--sys-green); }
 <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
-    <aside class="sidebar">
+  <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
       <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:28px;height:28px;border-radius:6px"></div>
-      <div>
-        <div class="brand-name" data-i18n="brand.name">زاد العشر</div>
-        <div class="brand-sub" data-i18n="brand.sub">أفضل أيام الدنيا</div>
-      </div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
-    <div class="theme-row">
-      <span data-i18n="common.darkMode">🌙 الوضع الداكن</span>
-      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
-    </div>
-    <button class="sidebar-lang-btn" onclick="toggleLang()" id="sidebar-lang-btn">
-      <span class="slb-label" data-i18n="common.language">🌐 اللغة</span>
-      <span class="slb-val" id="sidebar-lang-val">EN</span>
-    </button>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
     <nav class="nav">
-      <a href="index.html" ><span class="ico">🏠</span><span data-i18n="nav.dashboard">لوحة التحكم</span></a>
-      <a href="prayers.html" ><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
-      <a href="qibla.html" ><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
-      <a href="hijri.html" ><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
-      <a href="videos.html" ><span class="ico">🎬</span><span>محاضرات العشر</span></a>
-      <a href="fadael.html" ><span class="ico">✨</span><span data-i18n="nav.virtues">فضائل العشر</span></a>
-      <a href="worship.html" ><span class="ico">📿</span><span data-i18n="nav.worship">جدول العبادات</span></a>
-      <a href="mushaf.html" class="active"><span class="ico">📖</span><span data-i18n="nav.mushaf">مصحف العشر</span></a>
-      <a href="takbeer.html" ><span class="ico">🕋</span><span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</span></a>
-      <a href="adhkar.html" ><span class="ico">🤲</span><span data-i18n="nav.adhkar">الأذكار والدعاء</span></a>
-      <a href="odhiya.html" ><span class="ico">🐏</span><span data-i18n="nav.odhiya">دليل الأضحية</span></a>
-      <a href="arafah.html" ><span class="ico">🌄</span><span data-i18n="nav.arafah">يوم عرفة</span></a>
-      <a href="sadaqah.html" ><span class="ico">💚</span><span data-i18n="nav.sadaqah">صدقة العشر</span></a>
-      <a href="badges.html" ><span class="ico">🏅</span><span data-i18n="nav.badges">أوسمتي</span></a>
-      <a href="hasad.html" ><span class="ico">📊</span><span data-i18n="nav.hasad">حصاد العشر</span></a>
-      <a href="summary.html" ><span class="ico">📈</span><span>إحصاء العشر</span></a>
-      <a href="kids.html" ><span class="ico">🧒</span><span data-i18n="nav.kids">وضع الأطفال</span></a>
-      <a href="tasmee.html" ><span class="ico">🎙️</span><span data-i18n="nav.tasmee">تسميع القرآن</span></a>
-      <a href="ai.html" ><span class="ico">🤖</span><span data-i18n="nav.ai">تدبّر بالذكاء</span></a>
-      <a href="settings.html" ><span class="ico">⚙️</span><span data-i18n="nav.settings">الإعدادات</span></a>
-      <a href="report.html" ><span class="ico">🚩</span><span data-i18n="nav.report">بلاغ مشكلة</span></a>
-      <a href="about.html" ><span class="ico">👤</span><span data-i18n="nav.about">عن التطبيق</span></a>
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="worship.html"><span class="ico">📿</span><span>جدول العبادات</span></a>
+      <a href="mushaf.html" class="active"><span class="ico">📖</span><span>مصحف العشر</span></a>
+      <a href="takbeer.html"><span class="ico">🕋</span><span>المسبّح</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="summary.html"><span class="ico">📈</span><span>إحصاء العشر</span></a>
+      <a href="kids.html"><span class="ico">🧒</span><span>وضع الأطفال</span></a>
+      <a href="tasmee.html"><span class="ico">🎙️</span><span>تسميع القرآن</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
     </nav>
-    <div class="side-foot"><span data-i18n="brand.name">زاد العشر</span> 2026 · <span data-i18n="common.noAds">بدون إعلانات 📴</span></div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
   </aside>
+
   <main class="main">
     <div class="topbar">
-      <div><div class="page-title"><span data-i18n="mushaf.title">مصحف العشر</span></div>
-      <div class="page-sub">خطة ختم مرنة وتدبّر هادئ</div></div>
+      <div>
+        <div class="page-title">مصحف <span>العشر</span></div>
+        <div class="page-sub">خطة ختم مرنة مربوطة بوردك اليومي</div>
+      </div>
       <div class="topbar-right">
-        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." data-i18n-ph="common.search" data-i18n-ph="common.search" onfocus="openSearchOverlay()" aria-label="بحث في التطبيق" role="searchbox"></div>
-        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang()">EN</button>
+        <div class="search">🔍 <input placeholder="ابحث..." onfocus="openSearchOverlay?.()"></div>
         <button class="btn-theme" onclick="toggleTheme()">🌙</button>
       </div>
     </div>
 
-    <!-- ── Plan Selection ── -->
-    <p style="font-size:13px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px">
-      <span style="font-size:16px">👆</span> انقر على الخطة للاختيار — تتغير معها مواعيد الورد تلقائياً
-    </p>
-    <div class="grid cols-3 no-stagger" style="margin-bottom:24px">
-      <div class="card plan-card" data-plan="khatma-10">
-        <div class="ico-lg">📅</div>
-        <h3>خطة 10 أيام</h3>
-        <p>ختمة كاملة (3 أجزاء يومياً)</p>
-      </div>
-      <div class="card plan-card" data-plan="daily-juz">
-        <div class="ico-lg">📗</div>
-        <h3 data-i18n="mushaf.plan.juz">جزء يومياً</h3>
-        <p>قراءة هادئة بتركيز كامل</p>
-      </div>
-      <div class="card plan-card" data-plan="gems">
-        <div class="ico-lg">💎</div>
-        <h3>جواهر القرآن</h3>
-        <p>آيات الحج والتوحيد</p>
-      </div>
-    </div>
-
-    <!-- ── Wird of the Day (dynamic by plan) ── -->
-    <div class="section-title" id="wird-section-title">ورد اليوم</div>
-
-    <div class="wird-card">
-      <div class="wird-plan-tag" id="wird-plan-tag">📗 جزء يومياً</div>
-
-      <!-- From / To Range -->
-      <div class="wird-range-row">
-        <div class="wird-bound">
-          <div class="wird-bound-lbl">مِن</div>
-          <div class="wird-bound-val" id="wird-from-val">الجزء 1</div>
-          <div class="wird-bound-sub" id="wird-from-sub">صفحة 1</div>
-        </div>
-        <div class="wird-arrow">←</div>
-        <div class="wird-bound">
-          <div class="wird-bound-lbl">إلى</div>
-          <div class="wird-bound-val" id="wird-to-val">الجزء 1</div>
-          <div class="wird-bound-sub" id="wird-to-sub">صفحة 20</div>
-        </div>
-      </div>
-
-      <!-- Complete button / Done badge -->
-      <button class="wird-complete-btn" id="wird-complete-btn" onclick="completeWird()">
-        <span>✅</span> أنهيت وردي اليوم
-      </button>
-      <div class="wird-done-badge" id="wird-done-badge">
-        <span>✅</span>
-        <span>أحسنت — وردك اليوم مكتمل</span>
-        <span id="wird-done-time" style="font-size:12px;opacity:.7"></span>
-      </div>
-    </div>
-
-    <!-- ── Tomorrow's Wird (locked until today complete) ── -->
-    <div class="wird-tomorrow locked" id="wird-tomorrow-card">
-      <div class="wird-tomorrow-lock">🔒</div>
-      <div class="wird-tomorrow-header">
-        <div class="wird-tomorrow-ico">🌅</div>
-        <div class="wird-tomorrow-lbl" id="wird-tomorrow-lbl">ورد الغد — يُفتح بعد إتمام ورد اليوم</div>
-      </div>
-      <div class="wird-tomorrow-range">
-        <div class="wird-tomorrow-bound">
-          <div class="v" id="wird-tmr-from">—</div>
-          <div class="l">من</div>
-        </div>
-        <div style="color:var(--gold);font-size:18px;text-align:center">←</div>
-        <div class="wird-tomorrow-bound">
-          <div class="v" id="wird-tmr-to">—</div>
-          <div class="l">إلى</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── Quranic Text ── -->
-    <div class="section-title" style="margin-top:28px">
-      <span id="quran-display-title">من الورد — سورة الحج</span>
-    </div>
-    <div class="mushaf" id="mushaf-text" style="font-size:var(--qf-size)">
-      <div class="header"><span id="surah-name">سورة الحج</span><span id="surah-meta">الجزء 17 · الصفحة 332</span></div>
-      وَأَذِّن فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا وَعَلَىٰ كُلِّ ضَامِرٍ يَأْتِينَ مِن كُلِّ فَجٍّ عَمِيقٍ <span class="aya-num">27</span>
-      لِّيَشْهَدُوا مَنَافِعَ لَهُمْ وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَّعْلُومَاتٍ <span class="aya-num">28</span>
-      ثُمَّ لْيَقْضُوا تَفَثَهُمْ وَلْيُوفُوا نُذُورَهُمْ وَلْيَطَّوَّفُوا بِالْبَيْتِ الْعَتِيقِ <span class="aya-num">29</span>
-    </div>
-    <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-      <button class="btn btn-ghost">◀ السابقة</button>
-      <button class="btn btn-gold" onclick="showToast('💎 تدبّر: تعلّق بالبيت الحرام قلباً')">💎 تدبّر</button>
-      <button class="btn btn-ghost">التالية ▶</button>
-      <div style="display:flex;align-items:center;gap:10px;margin-right:auto">
-        <span style="font-size:13px;color:var(--muted)" data-i18n="mushaf.font">حجم الخط</span>
-        <input type="range" id="m-font" min="16" max="36" value="24"
-               style="accent-color:var(--green-deep);width:100px">
-      </div>
-    </div>
-
-    <!-- ── Khatma Progress ── -->
-    
-    <!-- ══ Quran Reader CTA ═══════════════════════════════════ -->
-    <a href="mushaf-quran.html" style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:16px;padding:18px 20px;text-decoration:none;margin-bottom:14px;color:#fff;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-      <span style="font-size:32px">📖</span>
+    <!-- ══ Open Mushaf CTA ════════════════════════════════════ -->
+    <a id="mushaf-cta" href="mushaf-quran.html" class="mushaf-hero">
+      <div class="mh-ico">🕋📖</div>
       <div>
-        <div style="font-family:'ThmanyahSans',sans-serif;font-size:16px;font-weight:800">افتح المصحف الشريف</div>
-        <div style="font-size:12px;opacity:.85;margin-top:3px">مصحف المدينة · 604 صفحة · اختر سورة أو جزء</div>
+        <div class="mh-title">افتح المصحف الشريف</div>
+        <div class="mh-sub" id="cta-sub">604 صفحة · تنقّل بسورة أو جزء · إشارات مرجعية</div>
       </div>
-      <span style="margin-right:auto;font-size:20px;opacity:.7">←</span>
+      <div class="mh-arrow">←</div>
     </a>
 
-<div class="section-title">تقدّمي في الختمة</div>
-    <div class="card">
-      <h3>📊 الختمة الكاملة</h3>
-      <div class="progress" style="margin-top:12px"><span id="m-prog-bar" style="width:0%"></span></div>
-      <div style="margin-top:8px;font-size:13px;color:var(--muted)" id="m-prog-txt">0 جزء / 30 جزء</div>
-      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn btn-primary" id="m-add-juz">+ أضف جزءاً مكتملاً</button>
-        <button class="btn btn-ghost" id="m-reset">إعادة تعيين</button>
+    <!-- ══ Mushaf Stats ═══════════════════════════════════════ -->
+    <div class="mushaf-stats">
+      <div class="ms-stat">
+        <div class="ms-val" id="stat-juz">0</div>
+        <div class="ms-lbl">جزء مكتمل</div>
       </div>
+      <div class="ms-stat">
+        <div class="ms-val" id="stat-pct">0%</div>
+        <div class="ms-lbl">من الختمة</div>
+      </div>
+      <div class="ms-stat">
+        <div class="ms-val" id="stat-days">0</div>
+        <div class="ms-lbl">أيام متتالية</div>
+      </div>
+    </div>
+
+    <!-- ══ Plan Selection ══════════════════════════════════════ -->
+    <div class="section-title">📋 اختر خطة القراءة</div>
+    <div class="plan-grid" id="plan-grid">
+      <div class="plan-card" data-plan="khatma-10">
+        <div class="pc-ico">🏃</div>
+        <div class="pc-title">ختمة في 10 أيام</div>
+        <div class="pc-sub">3 أجزاء يومياً</div>
+      </div>
+      <div class="plan-card" data-plan="daily-juz">
+        <div class="pc-ico">📗</div>
+        <div class="pc-title">جزء يومياً</div>
+        <div class="pc-sub">قراءة هادئة 30 يوماً</div>
+      </div>
+      <div class="plan-card" data-plan="half-juz">
+        <div class="pc-ico">🌅</div>
+        <div class="pc-title">نصف جزء يومياً</div>
+        <div class="pc-sub">مناسب للمبتدئين</div>
+      </div>
+      <div class="plan-card" data-plan="pages-5">
+        <div class="pc-ico">📄</div>
+        <div class="pc-title">5 صفحات يومياً</div>
+        <div class="pc-sub">خفيف وثابت</div>
+      </div>
+      <div class="plan-card" data-plan="gems">
+        <div class="pc-ico">💎</div>
+        <div class="pc-title">جواهر القرآن</div>
+        <div class="pc-sub">آيات العشر المنتقاة</div>
+      </div>
+      <div class="plan-card" data-plan="custom">
+        <div class="pc-ico">✏️</div>
+        <div class="pc-title">خطتي الخاصة</div>
+        <div class="pc-sub">حدد صفحتك يدوياً</div>
+      </div>
+    </div>
+
+    <!-- ══ Wird Card ══════════════════════════════════════════ -->
+    <div class="section-title" id="wird-title-el">📿 ورد اليوم</div>
+    <div class="wird-wrap">
+      <div class="wird-head">
+        <div class="wird-head-title" id="wird-head-txt">ورد اليوم</div>
+        <div class="wird-head-badge" id="wird-day-badge">اليوم 1</div>
+      </div>
+      <div class="wird-body">
+        <!-- Range display -->
+        <div class="wird-range">
+          <div class="wr-box">
+            <div class="wr-lbl">ابدأ من</div>
+            <div class="wr-val" id="w-from-val">الجزء 1</div>
+            <div class="wr-sub" id="w-from-sub">صفحة 1</div>
+          </div>
+          <div class="wr-arrow">←</div>
+          <div class="wr-box">
+            <div class="wr-lbl">إلى</div>
+            <div class="wr-val" id="w-to-val">الجزء 1</div>
+            <div class="wr-sub" id="w-to-sub">صفحة 20</div>
+          </div>
+        </div>
+
+        <!-- Done badge -->
+        <div class="wird-done" id="wird-done-badge">
+          ✅ ما شاء الله! ورد اليوم مكتمل
+          <span id="wird-done-time" style="font-size:11px;opacity:.7"></span>
+        </div>
+
+        <!-- Read button — links to mushaf-quran.html at exact page -->
+        <a id="wird-read-link" href="mushaf-quran.html" class="wird-read-btn">
+          📖 ابدأ القراءة من صفحة <span id="wird-page-num">1</span>
+        </a>
+
+        <!-- Complete button -->
+        <button class="wird-complete-btn" id="wird-complete-btn" onclick="completeWird()">
+          ☑️ سجّل إتمام ورد اليوم
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ Tomorrow's Wird ════════════════════════════════════ -->
+    <div class="tmr-card" id="tmr-card">
+      <div class="tmr-lock">🔒</div>
+      <div class="tmr-title" id="tmr-title">ورد الغد — يُفتح بعد إتمام ورد اليوم</div>
+      <div class="tmr-range">
+        <div class="tmr-b"><div class="v" id="tmr-from">—</div><div class="l">من</div></div>
+        <div style="color:var(--gold);font-size:16px;text-align:center">←</div>
+        <div class="tmr-b"><div class="v" id="tmr-to">—</div><div class="l">إلى</div></div>
+      </div>
+    </div>
+
+    <!-- ══ Custom Plan Input ═══════════════════════════════════ -->
+    <div id="custom-plan-wrap" style="display:none;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px">
+      <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:12px">✏️ خطتي الخاصة — حدد الصفحة اليدوياً</div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:4px">من صفحة</div>
+          <input id="custom-from" type="number" min="1" max="604" value="1" style="width:80px;padding:8px;border-radius:10px;border:1.5px solid var(--border);background:var(--sand);font-family:'ThmanyahSans',monospace;font-size:16px;font-weight:700;text-align:center;outline:none;direction:ltr">
+        </div>
+        <div style="color:var(--gold);font-size:20px;margin-top:16px">→</div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:4px">إلى صفحة</div>
+          <input id="custom-to" type="number" min="1" max="604" value="20" style="width:80px;padding:8px;border-radius:10px;border:1.5px solid var(--border);background:var(--sand);font-family:'ThmanyahSans',monospace;font-size:16px;font-weight:700;text-align:center;outline:none;direction:ltr">
+        </div>
+        <button onclick="applyCustomPlan()" style="margin-top:16px;padding:9px 18px;border-radius:10px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer">تطبيق</button>
+      </div>
+    </div>
+
+    <!-- ══ Progress ════════════════════════════════════════════ -->
+    <div class="section-title">📊 تقدّمي في الختمة</div>
+    <div class="progress-hero">
+      <div class="ph-ring" id="ph-ring">0%</div>
+      <div class="ph-info">
+        <div class="ph-title" id="ph-title">الختمة الكاملة</div>
+        <div class="ph-sub" id="ph-sub">0 جزء من 30</div>
+        <div class="ph-bar-wrap"><div class="ph-bar" id="ph-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+      <button class="btn btn-primary" id="m-add-juz" style="flex:1">+ أضف جزءاً</button>
+      <button class="btn btn-ghost" id="m-reset">↺ إعادة تعيين</button>
+    </div>
+
+    <!-- ══ Gems Section ════════════════════════════════════════ -->
+    <div class="section-title">💎 جواهر القرآن في العشر</div>
+    <div id="gems-container"></div>
+
+    <!-- ══ Quran Preview ══════════════════════════════════════ -->
+    <div class="section-title">
+      <span>معاينة الورد</span>
+      <div class="font-ctrl" style="margin-right:auto">
+        <button class="fc-btn" onclick="changeFontSize(-2)">A−</button>
+        <button class="fc-btn" onclick="changeFontSize(+2)">A+</button>
+      </div>
+    </div>
+    <div class="quran-preview" id="quran-preview">
+      <div class="qp-header">
+        <span id="qp-src">سورة الحج — الآية 27</span>
+        <span id="qp-meta">الجزء 17 · صفحة 332</span>
+      </div>
+      <span id="qp-text">وَأَذِّن فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا وَعَلَىٰ كُلِّ ضَامِرٍ يَأْتِينَ مِن كُلِّ فَجٍّ عَمِيقٍ</span>
     </div>
 
   </main>
-
-  <!-- Floating AI Button -->
-  <a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
+  <a href="ai.html" class="fab-ai">🤖</a>
 </div>
-  <script src="lang.js" defer></script>
-  <script src="js/app.js" defer></script>
-<script>
-/* ══ MUSHAF PAGE — Wird system ══════════════════════════════ */
 
-/* Reading plan definitions */
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script>
+/* ════════════════════════════════════════════════════════════
+   MUSHAF.HTML — Wird System + Plan Selection
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Juz page map ─────────────────────────────────────────── */
+const JUZ_START = [1,22,42,62,82,102,121,142,162,182,201,222,241,262,282,302,322,342,362,382,402,422,442,462,482,502,522,542,562,582];
+const JUZ_END   = [...JUZ_START.slice(1).map(p=>p-1), 604];
+
+/* ── Reading plans ────────────────────────────────────────── */
 const PLANS = {
   'khatma-10': {
-    label: '📅 خطة 10 أيام',
-    juzPerDay: 3,
-    ranges: Array.from({length:10}, (_,i) => ({
-      fromJuz: i*3+1, toJuz: i*3+3,
-      fromPage: i*60+1, toPage: Math.min(i*60+60, 604)
-    }))
+    label:'ختمة 10 أيام', juzPerDay:3,
+    getRange(juzDone) {
+      const from = Math.min(juzDone, 27) + 1;
+      const to   = Math.min(from + 2, 30);
+      return { fromJuz:from, toJuz:to, fromPage:JUZ_START[from-1], toPage:JUZ_END[to-1] };
+    }
   },
   'daily-juz': {
-    label: '📗 جزء يومياً',
-    juzPerDay: 1,
-    ranges: Array.from({length:30}, (_,i) => ({
-      fromJuz: i+1, toJuz: i+1,
-      fromPage: i*20+1, toPage: Math.min(i*20+20, 604)
-    }))
+    label:'جزء يومياً', juzPerDay:1,
+    getRange(juzDone) {
+      const j = Math.min(juzDone + 1, 30);
+      return { fromJuz:j, toJuz:j, fromPage:JUZ_START[j-1], toPage:JUZ_END[j-1] };
+    }
+  },
+  'half-juz': {
+    label:'نصف جزء يومياً', juzPerDay:0.5,
+    getRange(juzDone) {
+      const fullJuz = Math.floor(juzDone) + 1;
+      const isFirst = (juzDone % 1) < 0.5;
+      const j = Math.min(fullJuz, 30);
+      const mid = Math.round((JUZ_START[j-1] + JUZ_END[j-1]) / 2);
+      return isFirst
+        ? { fromJuz:j, toJuz:j, fromPage:JUZ_START[j-1], toPage:mid, label:'النصف الأول' }
+        : { fromJuz:j, toJuz:j, fromPage:mid+1, toPage:JUZ_END[j-1], label:'النصف الثاني' };
+    }
+  },
+  'pages-5': {
+    label:'5 صفحات يومياً', juzPerDay:0,
+    getRange(juzDone) {
+      const startPage = Math.min(Math.floor(juzDone * 20) + 1, 600);
+      return { fromJuz:'ص '+startPage, toJuz:'ص '+(startPage+4), fromPage:startPage, toPage:Math.min(startPage+4,604), label:'5 صفحات' };
+    }
   },
   'gems': {
-    label: '💎 جواهر القرآن',
-    juzPerDay: 0,
-    ranges: [
-      { fromJuz: 'البقرة',  toJuz: 'آل عمران', fromPage: 2, toPage: 50,  label: 'التوحيد والإيمان' },
-      { fromJuz: 'الحج',    toJuz: 'الحج',      fromPage: 332, toPage: 341, label: 'آيات الحج والنسك' },
-      { fromJuz: 'الكهف',   toJuz: 'الكهف',     fromPage: 293, toPage: 304, label: 'الفتنة والثبات' },
-      { fromJuz: 'الإخلاص', toJuz: 'الناس',     fromPage: 604, toPage: 604, label: 'الإخلاص والتوحيد' },
-    ]
+    label:'جواهر القرآن', juzPerDay:0,
+    getRange(juzDone) {
+      const GEMS_RANGES = [
+        { fromPage:2,   toPage:49,  label:'البقرة وآل عمران' },
+        { fromPage:332, toPage:341, label:'آيات الحج والنسك' },
+        { fromPage:293, toPage:304, label:'سورة الكهف' },
+        { fromPage:562, toPage:570, label:'سورتا الملك والقلم' },
+        { fromPage:604, toPage:604, label:'جواهر الختام' },
+      ];
+      const idx = Math.floor(juzDone) % GEMS_RANGES.length;
+      const r   = GEMS_RANGES[idx];
+      return { fromJuz:r.label, toJuz:'', fromPage:r.fromPage, toPage:r.toPage };
+    }
+  },
+  'custom': {
+    label:'خطتي الخاصة', juzPerDay:0,
+    getRange() {
+      const from = parseInt(localStorage.getItem('zad_custom_from') || '1');
+      const to   = parseInt(localStorage.getItem('zad_custom_to') || '20');
+      return { fromJuz:'ص '+from, toJuz:'ص '+to, fromPage:from, toPage:to };
+    }
   }
 };
 
-function getPlanDay() {
-  /* Use Dhul Hijjah day if in Ashra, otherwise use juz-based day */
-  const dhDay = getDhulHijjahDay ? getDhulHijjahDay() : null;
-  if (dhDay && dhDay >= 1 && dhDay <= 10) return dhDay - 1; /* 0-indexed */
-  /* fallback: use completed juz count */
-  const juz = STATE.mushaf?.juz || 0;
+function todayKey(){ return new Date().toISOString().split('T')[0]; }
+function isTodayDone(){ return !!(STATE.mushaf?.completedDates?.[todayKey()]); }
+
+function getJuzProgress(){
+  if (!STATE.mushaf) STATE.mushaf = { juz:0, plan:'daily-juz' };
+  return STATE.mushaf.juz || 0;
+}
+
+function getRange(){
   const plan = STATE.mushaf?.plan || 'daily-juz';
-  if (plan === 'khatma-10') return Math.floor(juz / 3);
-  if (plan === 'daily-juz') return juz;
-  return 0;
+  const P = PLANS[plan];
+  if (!P) return PLANS['daily-juz'].getRange(0);
+  return P.getRange(getJuzProgress());
 }
 
-function getWirdRange(plan, dayIdx) {
-  const p = PLANS[plan];
-  if (!p) return null;
-  if (plan === 'gems') {
-    const idx = dayIdx % p.ranges.length;
-    return p.ranges[idx];
-  }
-  const idx = Math.min(dayIdx, p.ranges.length - 1);
-  return p.ranges[idx] || p.ranges[p.ranges.length - 1];
+function getTmrRange(){
+  const plan = STATE.mushaf?.plan || 'daily-juz';
+  const P = PLANS[plan];
+  if (!P || plan === 'custom') return null;
+  const jpd = P.juzPerDay || 1;
+  return P.getRange(getJuzProgress() + jpd);
 }
 
-function isTodayComplete() {
-  const today = new Date().toISOString().split('T')[0];
-  return !!(STATE.mushaf?.completedDates?.[today]);
-}
-
+/* ── Render wird card ─────────────────────────────────────── */
 function renderWird() {
-  const plan = STATE.mushaf?.plan || 'daily-juz';
+  if (!STATE.mushaf) STATE.mushaf = { juz:0, plan:'daily-juz' };
+  const plan = STATE.mushaf.plan || 'daily-juz';
   const P    = PLANS[plan];
-  const day  = getPlanDay();
-  const r    = getWirdRange(plan, day);
-  const rTmr = getWirdRange(plan, day + 1);
-  const done = isTodayComplete();
+  const r    = getRange();
+  const done = isTodayDone();
+  const juz  = getJuzProgress();
 
-  /* Plan tag */
-  const tagEl = document.getElementById('wird-plan-tag');
-  if (tagEl) tagEl.textContent = P?.label || '';
-
-  /* Section title */
-  const titleEl = document.getElementById('wird-section-title');
-  if (titleEl) {
-    titleEl.innerHTML = plan === 'gems'
-      ? 'ورد اليوم — <span style="color:var(--gold)">جواهر القرآن</span>'
-      : 'ورد اليوم';
-  }
-
-  if (r) {
-    const fromVal = document.getElementById('wird-from-val');
-    const fromSub = document.getElementById('wird-from-sub');
-    const toVal   = document.getElementById('wird-to-val');
-    const toSub   = document.getElementById('wird-to-sub');
-
-    if (plan === 'gems') {
-      if (fromVal) fromVal.textContent = r.fromJuz;
-      if (fromSub) fromSub.textContent = r.label || '';
-      if (toVal)   toVal.textContent   = r.toJuz;
-      if (toSub)   toSub.textContent   = 'صفحة ' + r.toPage;
-    } else {
-      if (fromVal) fromVal.textContent = 'الجزء ' + r.fromJuz;
-      if (fromSub) fromSub.textContent = 'صفحة ' + r.fromPage;
-      if (toVal)   toVal.textContent   = 'الجزء ' + r.toJuz;
-      if (toSub)   toSub.textContent   = 'صفحة ' + r.toPage;
-    }
-  }
-
-  /* Complete button / done badge */
-  const btn    = document.getElementById('wird-complete-btn');
-  const badge  = document.getElementById('wird-done-badge');
-  const doneTime = document.getElementById('wird-done-time');
-  if (done) {
-    if (btn)   btn.style.display   = 'none';
-    if (badge) badge.style.display = 'flex';
-    const ts = STATE.mushaf?.completedDates?.[new Date().toISOString().split('T')[0]];
-    if (doneTime && ts) {
-      const d = new Date(ts);
-      doneTime.textContent = '— ' + d.toLocaleTimeString('ar', {hour:'2-digit',minute:'2-digit'});
-    }
-  } else {
-    if (btn)   btn.style.display   = 'flex';
-    if (badge) badge.style.display = 'none';
-  }
-
-  /* Tomorrow card */
-  const tmrCard = document.getElementById('wird-tomorrow-card');
-  const tmrLbl  = document.getElementById('wird-tomorrow-lbl');
-  const tmrFrom = document.getElementById('wird-tmr-from');
-  const tmrTo   = document.getElementById('wird-tmr-to');
-
-  if (tmrCard) tmrCard.classList.toggle('locked', !done);
-  if (tmrLbl) {
-    tmrLbl.textContent = done
-      ? 'ورد الغد — جاهز لاستقبالك'
-      : 'ورد الغد — يُفتح بعد إتمام ورد اليوم';
-  }
-
-  if (rTmr) {
-    if (plan === 'gems') {
-      if (tmrFrom) tmrFrom.textContent = rTmr.fromJuz;
-      if (tmrTo)   tmrTo.textContent   = rTmr.toJuz;
-    } else {
-      if (tmrFrom) tmrFrom.textContent = 'جزء ' + rTmr.fromJuz;
-      if (tmrTo)   tmrTo.textContent   = 'جزء ' + rTmr.toJuz;
-    }
-  }
-
-  /* Highlight active plan card */
+  /* Plan cards */
   document.querySelectorAll('.plan-card').forEach(c => {
     c.classList.toggle('active', c.dataset.plan === plan);
   });
+
+  /* Custom plan input */
+  const customWrap = document.getElementById('custom-plan-wrap');
+  if (customWrap) customWrap.style.display = plan === 'custom' ? 'block' : 'none';
+
+  /* Wird head */
+  const headTxt   = document.getElementById('wird-head-txt');
+  const dayBadge  = document.getElementById('wird-day-badge');
+  if (headTxt) headTxt.textContent = P?.label || 'ورد اليوم';
+  if (dayBadge) {
+    const dayNum = plan === 'daily-juz' ? juz + 1 :
+                   plan === 'khatma-10' ? Math.floor(juz/3) + 1 : '—';
+    dayBadge.textContent = typeof dayNum === 'number' ? `اليوم ${dayNum}` : '';
+  }
+
+  /* Range */
+  const fromVal = document.getElementById('w-from-val');
+  const fromSub = document.getElementById('w-from-sub');
+  const toVal   = document.getElementById('w-to-val');
+  const toSub   = document.getElementById('w-to-sub');
+  if (fromVal) fromVal.textContent = r.fromJuz || ('الجزء ' + r.fromPage);
+  if (fromSub) fromSub.textContent = plan.startsWith('pages') || plan === 'gems' || plan === 'custom' ? (r.label||'') : 'صفحة ' + r.fromPage;
+  if (toVal)   toVal.textContent   = r.toJuz   || ('صفحة ' + r.toPage);
+  if (toSub)   toSub.textContent   = 'صفحة ' + r.toPage;
+
+  /* Read link — open mushaf-quran.html at exact starting page */
+  const readLink  = document.getElementById('wird-read-link');
+  const pageNumEl = document.getElementById('wird-page-num');
+  if (readLink) readLink.href = `mushaf-quran.html?page=${r.fromPage}&to=${r.toPage}`;
+  if (pageNumEl) pageNumEl.textContent = r.fromPage;
+
+  /* CTA in hero */
+  const ctaSub = document.getElementById('cta-sub');
+  const ctaEl  = document.getElementById('mushaf-cta');
+  if (ctaSub && r.fromPage) ctaSub.textContent = `ورد اليوم يبدأ من صفحة ${r.fromPage} · اضغط للفتح`;
+  if (ctaEl) ctaEl.href = `mushaf-quran.html?page=${r.fromPage}`;
+
+  /* Done state */
+  const doneBadge = document.getElementById('wird-done-badge');
+  const complBtn  = document.getElementById('wird-complete-btn');
+  const doneTime  = document.getElementById('wird-done-time');
+  if (done) {
+    if (doneBadge) doneBadge.classList.add('show');
+    if (readLink)  { readLink.style.opacity='.7'; }
+    if (complBtn)  complBtn.classList.add('done');
+    const ts = STATE.mushaf?.completedDates?.[todayKey()];
+    if (doneTime && ts) doneTime.textContent = '— ' + new Date(ts).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'});
+  } else {
+    if (doneBadge) doneBadge.classList.remove('show');
+    if (readLink)  readLink.style.opacity = '';
+    if (complBtn)  complBtn.classList.remove('done');
+  }
+
+  /* Tomorrow card */
+  const tmrCard  = document.getElementById('tmr-card');
+  const tmrTitle = document.getElementById('tmr-title');
+  const tmrFrom  = document.getElementById('tmr-from');
+  const tmrTo    = document.getElementById('tmr-to');
+  const rTmr     = getTmrRange();
+  if (tmrCard) tmrCard.classList.toggle('unlocked', done);
+  if (tmrTitle) tmrTitle.textContent = done ? 'ورد الغد — جاهز 🌅' : 'ورد الغد — يُفتح بعد إتمام ورد اليوم';
+  if (rTmr) {
+    if (tmrFrom) tmrFrom.textContent = rTmr.fromJuz || ('ص ' + rTmr.fromPage);
+    if (tmrTo)   tmrTo.textContent   = rTmr.toJuz   || ('ص ' + rTmr.toPage);
+  }
+
+  /* Stats */
+  const statJuz  = document.getElementById('stat-juz');
+  const statPct  = document.getElementById('stat-pct');
+  const statDays = document.getElementById('stat-days');
+  if (statJuz)  statJuz.textContent  = juz;
+  if (statPct)  statPct.textContent  = Math.round(juz/30*100) + '%';
+  if (statDays) statDays.textContent = STATE.streak || 0;
+
+  /* Progress ring */
+  updateProgress();
 }
 
+/* ── Complete wird ────────────────────────────────────────── */
 function completeWird() {
   if (!STATE.mushaf) STATE.mushaf = { juz:0, plan:'daily-juz' };
   if (!STATE.mushaf.completedDates) STATE.mushaf.completedDates = {};
-  const today = new Date().toISOString().split('T')[0];
-  STATE.mushaf.completedDates[today] = new Date().toISOString();
 
-  /* Also increment juz counter based on plan */
   const plan = STATE.mushaf.plan || 'daily-juz';
-  const add  = plan === 'khatma-10' ? 3 : plan === 'daily-juz' ? 1 : 0;
-  if (add > 0) {
-    STATE.mushaf.juz = Math.min((STATE.mushaf.juz || 0) + add, 30);
-  }
+  const P    = PLANS[plan];
+  const add  = P?.juzPerDay || 0;
+  if (add > 0) STATE.mushaf.juz = Math.min((STATE.mushaf.juz || 0) + add, 30);
 
+  STATE.mushaf.completedDates[todayKey()] = new Date().toISOString();
   STATE.worship = STATE.worship || {};
   STATE.worship.mushaf_daily = true;
 
   saveState();
-  checkBadges();
+  checkBadges?.();
   renderWird();
-  updateProgress();
-  recordDailyProgress();
+  if (typeof recordDailyProgress === 'function') recordDailyProgress();
 
-  /* Confetti */
   if (typeof triggerConfetti === 'function') triggerConfetti();
-  showToast('🎉 ما شاء الله! ورد اليوم مكتمل — ورد الغد جاهز 🌅');
+  showToast('🎉 ورد اليوم مكتمل! جزاك الله خيراً 🌟');
 }
 window.completeWird = completeWird;
 
+/* ── Custom plan ──────────────────────────────────────────── */
+function applyCustomPlan() {
+  const from = parseInt(document.getElementById('custom-from')?.value || '1');
+  const to   = parseInt(document.getElementById('custom-to')?.value || '20');
+  localStorage.setItem('zad_custom_from', Math.max(1, Math.min(604, from)));
+  localStorage.setItem('zad_custom_to',   Math.max(1, Math.min(604, to)));
+  renderWird();
+  showToast('✅ تم تحديث الورد المخصص');
+}
+window.applyCustomPlan = applyCustomPlan;
+
+/* ── Font size ────────────────────────────────────────────── */
+function changeFontSize(delta) {
+  const cur  = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--qf-size')) || 24;
+  const next = Math.max(16, Math.min(36, cur + delta));
+  document.documentElement.style.setProperty('--qf-size', next + 'px');
+  if (typeof applyQuranFont === 'function') applyQuranFont(next);
+  else {
+    try { const s=JSON.parse(localStorage.getItem('zad_v2')||'{}'); s.quranFontSize=next; localStorage.setItem('zad_v2',JSON.stringify(s)); } catch(e) {}
+  }
+}
+window.changeFontSize = changeFontSize;
+
+/* ── Progress ring ────────────────────────────────────────── */
+function updateProgress() {
+  const juz  = STATE.mushaf?.juz || 0;
+  const pct  = Math.round(juz / 30 * 100);
+  const ring = document.getElementById('ph-ring');
+  const bar  = document.getElementById('ph-bar');
+  const sub  = document.getElementById('ph-sub');
+  if (ring) {
+    ring.style.background = `conic-gradient(var(--gold) ${pct}%, rgba(255,255,255,.1) ${pct}%)`;
+    ring.textContent = pct + '%';
+  }
+  if (bar) bar.style.width = pct + '%';
+  if (sub) sub.textContent = `${juz} جزء من 30`;
+  document.getElementById('m-prog-bar') && (document.getElementById('m-prog-bar').style.width = pct + '%');
+}
+
+/* ── Gems verses ──────────────────────────────────────────── */
+const GEMS = [
+  { src:'سورة الفجر 1-2', ar:'وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ', page:593 },
+  { src:'سورة الحج 27', ar:'وَأَذِّن فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا', page:332 },
+  { src:'سورة الحج 28', ar:'وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَّعْلُومَاتٍ', page:332 },
+  { src:'سورة الكوثر 1-2', ar:'إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ ۝ فَصَلِّ لِرَبِّكَ وَانْحَرْ', page:602 },
+];
+
+function renderGems() {
+  const cont = document.getElementById('gems-container');
+  if (!cont) return;
+  cont.innerHTML = GEMS.map(g => `
+    <div class="gems-verse" onclick="window.location='mushaf-quran.html?page=${g.page}'">
+      <div class="gv-src">${g.src}</div>
+      <div class="gv-ar">${g.ar}</div>
+      <div class="gv-link"><span>📖</span><span>افتح صفحة ${g.page} في المصحف</span><span style="margin-right:auto">←</span></div>
+    </div>`).join('');
+}
+
+/* ── Init ────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   renderWird();
-  initMushaf();
+  renderGems();
+  initMushaf?.();
+
   /* Plan card click */
   document.querySelectorAll('.plan-card').forEach(c => {
     c.addEventListener('click', () => {
@@ -525,15 +690,10 @@ document.addEventListener('DOMContentLoaded', () => {
       STATE.mushaf.plan = c.dataset.plan;
       saveState();
       renderWird();
-      showToast('✅ تم اختيار الخطة — ورد اليوم محدّث');
+      showToast('✅ ' + (PLANS[c.dataset.plan]?.label || 'تم اختيار الخطة'));
     });
   });
 });
 </script>
-  <!-- ═══ Visual Upgrade v2 ═══════════════════════════════ -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
-  <script src="animations.js" defer></script>
 </body>
 </html>

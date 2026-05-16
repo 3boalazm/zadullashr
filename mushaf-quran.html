@@ -217,8 +217,15 @@ html[data-theme="dark"] .bm-item b,html[data-theme="oled"] .bm-item b{color:var(
         <button class="fc-btn" onclick="changeFontSize(+2)" title="تكبير الخط">A+</button>
       </div>
       <button class="mt-btn" onclick="toggleThemeMushaf()">🌙</button>
-      <a href="mushaf.html" class="mt-btn">← رجوع</a>
+      <a id="back-btn" href="mushaf.html" class="mt-btn">← رجوع</a>
     </div>
+  </div>
+
+  <!-- Wird Banner (shown when opened from wird) -->
+  <div id="wird-banner" style="display:none;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));padding:8px 14px;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px">
+    <span>📿 ورد اليوم</span>
+    <span id="wird-range-txt" style="opacity:.8">صفحة 1 → 20</span>
+    <a id="wird-complete-link" href="mushaf.html" style="margin-right:auto;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:99px;padding:3px 12px;color:#fff;text-decoration:none;font-size:11px;white-space:nowrap">☑️ أنهيت الورد</a>
   </div>
 
   <!-- Nav Bar -->
@@ -290,7 +297,12 @@ const CACHE_KEY= 'zad_mpage_cache';
 const MAX_CACHE= 30; /* pages to cache */
 
 /* ── State ───────────────────────────────────────────────── */
-let _page      = parseInt(localStorage.getItem(PAGE_KEY) || '1');
+/* Read URL params: ?page=X or ?juz=X */
+const _urlParams = new URLSearchParams(location.search);
+const _urlPage   = parseInt(_urlParams.get('page') || '0');
+const _urlTo     = parseInt(_urlParams.get('to')   || '0');
+let _page      = _urlPage || parseInt(localStorage.getItem(PAGE_KEY) || '1');
+let _pageEnd   = _urlTo || 0; /* wird end page (optional) */
 let _bookmarks = JSON.parse(localStorage.getItem(BM_KEY) || '[]');
 let _pageCache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
 let _fontSize  = parseInt(localStorage.getItem('zad_mfont') || '24');
@@ -442,7 +454,15 @@ function renderAyahs(p, ayahs) {
     html += `</div>`;
   });
 
-  html += `<div class="page-footer"><span>صفحة ${toArabicNum(p)}</span><span>الجزء ${toArabicNum(juz)}</span></div>`;
+  /* Wird progress indicator */
+  let wirdProgress = '';
+  if (_pageEnd > 0 && p <= _pageEnd) {
+    const total = _pageEnd - (parseInt(_urlParams?.get('page')||p)) + 1;
+    const done  = p - (parseInt(_urlParams?.get('page')||p)) + 1;
+    const pct   = Math.round(done / total * 100);
+    wirdProgress = `<div style="flex:1;height:4px;background:rgba(201,161,74,.2);border-radius:99px;overflow:hidden;margin:0 10px"><div style="height:100%;background:var(--gold);border-radius:99px;width:${pct}%"></div></div><span style="font-size:10px;color:var(--gold-dark);font-weight:700;white-space:nowrap">${pct}% من الورد</span>`;
+  }
+  html += `<div class="page-footer"><span>صفحة ${toArabicNum(p)}</span>${wirdProgress}<span>الجزء ${toArabicNum(juz)}</span></div>`;
 
   contEl.innerHTML = html;
   contEl.style.display = 'block';
@@ -574,6 +594,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const o = document.createElement('option');
     o.value = j; o.textContent = 'الجزء '+j;
     js.appendChild(o);
+  }
+
+  /* Show wird banner if opened from mushaf.html with page param */
+  if (_urlPage > 0) {
+    const banner = document.getElementById('wird-banner');
+    const rangeTxt = document.getElementById('wird-range-txt');
+    if (banner) { banner.style.display = 'flex'; }
+    if (rangeTxt && _urlTo > 0) rangeTxt.textContent = `صفحة ${_urlPage} → ${_urlTo}`;
+    /* Scroll nav to show wird range */
+    const pageInp = document.getElementById('page-inp');
+    if (pageInp) pageInp.style.borderColor = 'var(--gold)';
   }
 
   loadPage(_page);
