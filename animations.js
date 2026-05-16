@@ -328,3 +328,76 @@ window.applyTheme = function(theme) {
     flash.remove();
   }
 };
+
+/* ═══════════════════════════════════════════════════════════
+   SWIPE GESTURE — double edge-swipe to open/close sidebar
+   RTL (Arabic): swipe RIGHT from right edge → open
+   LTR (English): swipe LEFT from left edge → open
+   ═══════════════════════════════════════════════════════════ */
+(function initSwipeGesture() {
+  const EDGE_ZONE   = 32;   /* px from screen edge */
+  const MIN_SWIPE   = 60;   /* minimum swipe length */
+  const DOUBLE_MS   = 450;  /* max ms between two swipes */
+
+  let _sx = 0, _sy = 0;
+  let _lastSwipeAt = 0;
+  let _inProgress  = false;
+
+  function getSidebar()  { return document.querySelector('.sidebar'); }
+  function getOverlay()  { return document.querySelector('.sidebar-overlay'); }
+  function isRTL()       { return document.documentElement.dir === 'rtl' || document.documentElement.lang === 'ar'; }
+
+  function isSidebarOpen() {
+    return getSidebar()?.classList.contains('open');
+  }
+
+  function openSidebar() {
+    getSidebar()?.classList.add('open');
+    getOverlay()?.classList.add('active');
+  }
+
+  function closeSidebar() {
+    getSidebar()?.classList.remove('open');
+    getOverlay()?.classList.remove('active');
+  }
+
+  function nearEdge(x) {
+    const w = window.innerWidth;
+    return isRTL()
+      ? x > w - EDGE_ZONE   /* right edge for RTL */
+      : x < EDGE_ZONE;       /* left edge for LTR */
+  }
+
+  document.addEventListener('touchstart', e => {
+    _sx = e.touches[0].clientX;
+    _sy = e.touches[0].clientY;
+    _inProgress = nearEdge(_sx) || isSidebarOpen();
+  }, { passive: true });
+
+  document.addEventListener('touchend', e => {
+    if (!_inProgress) return;
+    const dx  = e.changedTouches[0].clientX - _sx;
+    const dy  = e.changedTouches[0].clientY - _sy;
+    if (Math.abs(dy) > Math.abs(dx) * 1.2) return; /* mostly vertical */
+
+    const now = Date.now();
+
+    if (!isSidebarOpen()) {
+      /* Opening: swipe toward sidebar */
+      const isOpen = isRTL() ? dx > MIN_SWIPE : dx < -MIN_SWIPE;
+      if (isOpen) {
+        if (now - _lastSwipeAt < DOUBLE_MS) {
+          openSidebar();
+          _lastSwipeAt = 0;
+        } else {
+          _lastSwipeAt = now;
+        }
+      }
+    } else {
+      /* Closing: swipe away from sidebar */
+      const isClose = isRTL() ? dx < -MIN_SWIPE : dx > MIN_SWIPE;
+      if (isClose) closeSidebar();
+    }
+    _inProgress = false;
+  }, { passive: true });
+})();

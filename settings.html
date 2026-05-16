@@ -28,54 +28,56 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
 </script>
 </head>
 <body>
-<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
     <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
-      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:28px;height:28px;border-radius:6px"></div>
-      <div>
-        <div class="brand-name" data-i18n="brand.name">زاد العشر</div>
-        <div class="brand-sub" data-i18n="brand.sub">أفضل أيام الدنيا</div>
-      </div>
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
     <div class="theme-row">
-      <span data-i18n="common.darkMode">🌙 الوضع الداكن</span>
+      <span>🌙 الوضع الداكن</span>
       <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
-    <button class="sidebar-lang-btn" onclick="toggleLang()" id="sidebar-lang-btn">
-      <span class="slb-label" data-i18n="common.language">🌐 اللغة</span>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
+      <span class="slb-label">🌐 اللغة</span>
       <span class="slb-val" id="sidebar-lang-val">EN</span>
     </button>
     <nav class="nav">
-      <a href="index.html" ><span class="ico">🏠</span><span data-i18n="nav.dashboard">لوحة التحكم</span></a>
-      <a href="prayers.html" ><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
-      <a href="qibla.html" ><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
-      <a href="hijri.html" ><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
-      <a href="videos.html" ><span class="ico">🎬</span><span>محاضرات العشر</span></a>
-      <a href="fadael.html" ><span class="ico">✨</span><span data-i18n="nav.virtues">فضائل العشر</span></a>
-      <a href="worship.html" ><span class="ico">📿</span><span data-i18n="nav.worship">جدول العبادات</span></a>
-      <a href="mushaf-quran.html" ><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
-      <a href="mushaf.html" ><span class="ico">📖</span><span data-i18n="nav.mushaf">مصحف العشر</span></a>
-      <a href="takbeer.html" ><span class="ico">🕋</span><span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</span></a>
-      <a href="adhkar.html" ><span class="ico">🤲</span><span data-i18n="nav.adhkar">الأذكار والدعاء</span></a>
-      <a href="odhiya.html" ><span class="ico">🐏</span><span data-i18n="nav.odhiya">دليل الأضحية</span></a>
-      <a href="arafah.html" ><span class="ico">🌄</span><span data-i18n="nav.arafah">يوم عرفة</span></a>
-      <a href="sadaqah.html" ><span class="ico">💚</span><span data-i18n="nav.sadaqah">صدقة العشر</span></a>
-      <a href="badges.html" ><span class="ico">🏅</span><span data-i18n="nav.badges">أوسمتي</span></a>
-      <a href="hasad.html" ><span class="ico">📊</span><span data-i18n="nav.hasad">حصاد العشر</span></a>
-      <a href="summary.html" ><span class="ico">📈</span><span>إحصاء العشر</span></a>
-      <a href="kids.html" ><span class="ico">🧒</span><span data-i18n="nav.kids">وضع الأطفال</span></a>
-      <a href="tasmee.html" ><span class="ico">🎙️</span><span data-i18n="nav.tasmee">تسميع القرآن</span></a>
-      <a href="ai.html" ><span class="ico">🤖</span><span data-i18n="nav.ai">تدبّر بالذكاء</span></a>
-      <a href="settings.html" class="active"><span class="ico">⚙️</span><span data-i18n="nav.settings">الإعدادات</span></a>
-      <a href="report.html" ><span class="ico">🚩</span><span data-i18n="nav.report">بلاغ مشكلة</span></a>
-      <a href="about.html" ><span class="ico">👤</span><span data-i18n="nav.about">عن التطبيق</span></a>
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <div class="nav-sep">الصلاة والتقويم</div>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <div class="nav-sep">القرآن والعبادة</div>
+      <a href="mushaf.html"><span class="ico">📖</span><span>مصحف العشر</span></a>
+      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
+      <a href="takbeer.html"><span class="ico">📿</span><span>المُسبِّح والمُكبِّر</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
+      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
+      <div class="nav-sep">الحج والمناسك</div>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <div class="nav-sep">المتابعة</div>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <div class="nav-sep">التعلم والترفيه</div>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="kids.html"><span class="ico">🧒</span><span>وضع الأطفال</span></a>
+      <a href="tasmee.html"><span class="ico">🎙️</span><span>تسميع القرآن</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <div class="nav-sep">الإعدادات</div>
+      <a href="settings.html" class="active"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
     </nav>
-    <div class="side-foot"><span data-i18n="brand.name">زاد العشر</span> 2026 · <span data-i18n="common.noAds">بدون إعلانات 📴</span></div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
+      <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
       <div><div class="page-title"><span>الإعدادات</span></div>
       <div class="page-sub">الخصوصية أولاً — التخصيص لك وحدك</div></div>
       <div class="topbar-right">
