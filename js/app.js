@@ -90,111 +90,143 @@ function startCountdown() {
   tick();
   setInterval(tick, 1000);
 }
+/* ════════════════════════════════════════════════════════════
+   WORSHIP CHECKLIST & PROGRESS — FIXED
+   ════════════════════════════════════════════════════════════ */
+
 function initChecklist() {
   document.querySelectorAll('.check[data-key]').forEach(el => {
     const k = el.dataset.key;
-    if (STATE.worship[k]) el.classList.add('done');
+    if (STATE.worship?.[k]) el.classList.add('done');
+    
     el.addEventListener('click', () => {
       el.classList.toggle('done');
       STATE.worship[k] = el.classList.contains('done');
+      
       if (navigator.vibrate) navigator.vibrate(30);
-      if (STATE.worship[k]) showToast(typeof getSuccessMsg==='function' ? getSuccessMsg(k) : '✅ تم التسجيل — بارك الله فيك');
+      if (STATE.worship[k]) {
+        showToast(typeof getSuccessMsg === 'function' ? getSuccessMsg(k) : '✅ تم التسجيل — بارك الله فيك');
+      }
       saveState();
       updateProgress();
-      checkBadges();
-      checkDailyComplete();
-      recordDailyProgress();
+      checkBadges?.();
+      checkDailyComplete?.();
+      recordDailyProgress?.();
     });
   });
   updateProgress();
 }
+
 function updateProgress() {
   const bar = document.getElementById('prog-bar');
   const txt = document.getElementById('prog-txt');
+  const pctEl = document.getElementById('prog-pct');
+  
   const worshipKeys = ['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam',
                        'morning_dhikr','evening_dhikr','takbeer_100','tawbah'];
-  const done = worshipKeys.filter(k => STATE.worship[k]).length;
-  const pct  = Math.round((done / worshipKeys.length) * 100);
+  const done = worshipKeys.filter(k => STATE.worship?.[k]).length;
+  const pct = Math.round((done / worshipKeys.length) * 100);
+  
   if (bar) bar.style.width = pct + '%';
   if (txt) txt.textContent = done + ' من ' + worshipKeys.length + ' عبادة';
-  const pctEl = document.getElementById('prog-pct');
   if (pctEl) pctEl.textContent = pct + '%';
   if (typeof updateCircularRing === 'function') updateCircularRing(pct);
 }
+
+/* ════════════════════════════════════════════════════════════
+   FASTING TRACKER — FIXED (proper closure)
+   ════════════════════════════════════════════════════════════ */
+
 function initFasting() {
   document.querySelectorAll('.fast-day').forEach(el => {
     const day = +el.dataset.day;
-    if (STATE.fasting[day]) el.classList.add('done');
+    if (STATE.fasting?.[day]) el.classList.add('done');
+    
     el.addEventListener('click', () => {
       el.classList.toggle('done');
       STATE.fasting[day] = el.classList.contains('done');
+      
       if (navigator.vibrate) navigator.vibrate(40);
       if (STATE.fasting[day]) {
         showToast(day === 9 ? '⭐ صيام يوم عرفة — يكفّر سنتين!' : `🌙 يوم ${day} مُسجَّل!`);
       }
       saveState();
-      checkBadges();
+      checkBadges?.();
       updateDashStats();
     });
   });
-  
-/* ── دالة البحث الفوري لـ Quranpedia API المحدثة والنظيفة تماماً ── */
+} // ✅ إغلاق صحيح لـ initFasting
+
+/* ════════════════════════════════════════════════════════════
+   QURANPEDIA SEARCH — FIXED (standalone function)
+   ════════════════════════════════════════════════════════════ */
+
 async function performQuranpediaSearch() {
   const inputEl = document.getElementById('qp-search-input');
   const containerEl = document.getElementById('qp-search-results');
   const loadingEl = document.getElementById('qp-search-loading');
   
-  if (!inputEl || !containerEl || !loadingEl) return;
+  if (!inputEl || !containerEl || !loadingEl) {
+    console.warn('⚠️ عناصر البحث غير موجودة في الصفحة');
+    return;
+  }
   
   const keyword = inputEl.value.trim();
   
   if (keyword.length < 2) {
-    alert("برجاء كتابة كلمة بحث صحيحة (حرفين على الأقل)");
+    showToast('⚠️ اكتب كلمتين على الأقل للبحث');
+    inputEl.focus();
     return;
   }
   
-  // تفعيل مؤشر التحميل وتصفية النتائج السابقة
+  // تفعيل التحميل
   loadingEl.style.display = 'block';
   containerEl.innerHTML = '';
   
   try {
-    // جلب البيانات من الـ Endpoint للـ API
     const url = `https://api.quranpedia.net/v1/search/${encodeURIComponent(keyword)}/ayahs`;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
     
-    const response = await fetch(url);
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeout);
+    
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    
     const jsonResult = await response.json();
-    
     loadingEl.style.display = 'none';
     
-    // فحص وتوجيه المصفوفة بدقة بناءً على نظام الباجينيشن لـ Quranpedia
+    // استخراج قائمة الآيات بمرونة حسب هيكلية الـ API
     let ayahsList = [];
-    if (jsonResult && jsonResult.data && Array.isArray(jsonResult.data.data)) {
+    if (jsonResult?.data?.data && Array.isArray(jsonResult.data.data)) {
       ayahsList = jsonResult.data.data;
-    } else if (jsonResult && Array.isArray(jsonResult.data)) {
+    } else if (jsonResult?.data && Array.isArray(jsonResult.data)) {
       ayahsList = jsonResult.data;
-    } else if (jsonResult && jsonResult.ayahs && Array.isArray(jsonResult.ayahs)) {
+    } else if (jsonResult?.ayahs && Array.isArray(jsonResult.ayahs)) {
       ayahsList = jsonResult.ayahs;
     } else if (Array.isArray(jsonResult)) {
       ayahsList = jsonResult;
     }
     
-    if (ayahsList && ayahsList.length > 0) {
-      // إظهار ملخص بعدد نتائج البحث
-      let infoBar = `<div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;"> تم العثور على (${ayahsList.length}) موضع يحتوي على "${keyword}":</div>`;
-      containerEl.insertAdjacentHTML('beforeend', infoBar);
+    if (ayahsList.length > 0) {
+      // ملخص النتائج
+      containerEl.insertAdjacentHTML('beforeend', 
+        `<div style="font-size:12px;color:var(--muted);margin-bottom:6px">
+          تم العثور على (${ayahsList.length}) موضع يحتوي على "${keyword}":
+        </div>`
+      );
       
-      // بناء الكروت ديناميكياً
+      // بناء الكروت
       ayahsList.forEach(item => {
-        // فحص مسميات الحقول المختلفة لضمان القراءة في كل الأحوال
         const textContent = item.text || item.text_clean || item.content || '';
         const surahName = item.surah?.name || item.surah_name || (item.surah_id ? `سورة رقم ${item.surah_id}` : '');
         const ayahNum = item.ayah_number || item.numberInSurah || item.id || '';
         
         if (textContent) {
           const cardHtml = `
-            <div class="qp-result-item">
-              <span class="qp-text">« ${textContent} »</span>
-              <div class="qp-meta">
+            <div class="qp-result-item" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;transition:border-color .2s">
+              <span class="qp-text" style="font-family:'Amiri',serif;font-size:18px;line-height:1.8;color:var(--green-deep);display:block;margin-bottom:8px">« ${textContent} »</span>
+              <div class="qp-meta" style="font-size:12px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap">
                 <span>📖 ${surahName ? 'سورة ' + surahName : 'قرآن كريم'}</span>
                 <span>🔢 آية رقم: ${ayahNum}</span>
               </div>
@@ -205,41 +237,92 @@ async function performQuranpediaSearch() {
       });
       
     } else {
-      containerEl.innerHTML = `<div class="qp-no-results">لم نجد أي آيات تحتوي على الكلمة "${keyword}". جرب كلمة أخرى بدون تشكيل.</div>`;
+      containerEl.innerHTML = `
+        <div class="qp-no-results" style="text-align:center;padding:20px;color:var(--muted)">
+          لم نجد أي آيات تحتوي على "${keyword}"<br>
+          <small>جرب كلمة أخرى بدون تشكيل أو بحروف مختلفة</small>
+        </div>
+      `;
     }
     
   } catch (error) {
-    console.error("خطأ أثناء الاتصال بـ Quranpedia API:", error);
+    console.error('❌ خطأ في Quranpedia API:', error);
     loadingEl.style.display = 'none';
-    containerEl.innerHTML = `<div class="qp-no-results" style="color:red">حدث خطأ أثناء جلب البيانات، برجاء المحاولة مجدداً.</div>`;
+    containerEl.innerHTML = `
+      <div class="qp-no-results" style="text-align:center;padding:20px;color:var(--sys-red)">
+        ⚠️ تعذر الاتصال بالخادم<br>
+        <small>تحقق من اتصالك أو حاول لاحقاً</small>
+      </div>
+    `;
   }
 }
 
-// تشغيل البحث تلقائياً بمجرد ضغط Enter في خانة الإدخال
-document.getElementById('qp-search-input')?.addEventListener('keypress', function (e) {
-  if (e.key === 'Enter') {
-    performQuranpediaSearch();
-  }
-});
+/* ════════════════════════════════════════════════════════════
+   SEARCH EVENT LISTENER — INIT FUNCTION
+   ════════════════════════════════════════════════════════════ */
+
+function initQuranSearch() {
+  const inputEl = document.getElementById('qp-search-input');
+  if (!inputEl) return;
+  
+  // بحث عند ضغط Enter
+  inputEl.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      performQuranpediaSearch();
+    }
+  });
+  
+  // بحث فوري عند الكتابة (اختياري - مع Debounce)
+  let searchTimeout;
+  inputEl.addEventListener('input', () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      if (inputEl.value.trim().length >= 2) {
+        performQuranpediaSearch();
+      }
+    }, 500);
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   DASHBOARD STATS UPDATE — FIXED
+   ════════════════════════════════════════════════════════════ */
 
 function updateDashStats() {
-  const statTkbr  = document.getElementById('stat-takbeer');
-  const statJuz   = document.getElementById('stat-juz');
-  const statPray  = document.getElementById('stat-pray');
-  const statProg  = document.getElementById('stat-prog');
-  if (statTkbr)  statTkbr.textContent  = STATE.takbeer.total.toLocaleString('ar-EG');
-  if (statJuz)   statJuz.textContent   = STATE.mushaf.juz;
-  if (statProg)  {
+  const statTkbr = document.getElementById('stat-takbeer');
+  const statJuz  = document.getElementById('stat-juz');
+  const statPray = document.getElementById('stat-pray');
+  const statProg = document.getElementById('stat-prog');
+  
+  if (statTkbr) statTkbr.textContent = (STATE.takbeer?.total || 0).toLocaleString('ar-EG');
+  if (statJuz)  statJuz.textContent  = STATE.mushaf?.juz || 0;
+  
+  if (statProg) {
     const worshipKeys = ['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam',
                          'morning_dhikr','evening_dhikr','takbeer_100','tawbah'];
-    const done = worshipKeys.filter(k => STATE.worship[k]).length;
-    const pct  = Math.round((done / worshipKeys.length) * 100);
+    const done = worshipKeys.filter(k => STATE.worship?.[k]).length;
+    const pct = Math.round((done / worshipKeys.length) * 100);
     statProg.textContent = pct + '%';
   }
-  const prayers = ['fajr','zuhr','asr','maghrib','isha'];
-  const prayDone = prayers.filter(k => STATE.worship[k]).length;
-  if (statPray) statPray.textContent = prayDone + '/5';
+  
+  if (statPray) {
+    const prayers = ['fajr','zuhr','asr','maghrib','isha'];
+    const prayDone = prayers.filter(k => STATE.worship?.[k]).length;
+    statPray.textContent = prayDone + '/5';
+  }
 }
+
+/* ════════════════════════════════════════════════════════════
+   AUTO-INIT ON DOM READY
+   ════════════════════════════════════════════════════════════ */
+
+document.addEventListener('DOMContentLoaded', () => {
+  initChecklist();
+  initFasting();
+  initQuranSearch(); // ✅ تهيئة البحث
+  updateDashStats();
+});
 const phrases = [
   { label:'التكبير الثنائي',  text:'اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ', target:100, source:'مأثور عن ابن مسعود' },
   { label:'التكبير الثلاثي',  text:'اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ', target:100, source:'مأثور عن عمر بن الخطاب' },
