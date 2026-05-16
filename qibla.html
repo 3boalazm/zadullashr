@@ -217,7 +217,7 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
       </div>
     </div>
 
-    <div class="offline-pill" id="offline-pill" style="display:none">📵 آخر موقع محفوظ</div>
+    <div class="offline-pill" id="offline-pill" style="display:none">📡 آخر موقع محفوظ</div>
 
     <div class="qibla-hero">
       <div class="q-status idle" id="q-status">
@@ -367,7 +367,7 @@ html[data-theme="dark"] .qv-ar,html[data-theme="oled"] .qv-ar{color:var(--sys-ye
 <script>
 const KAABA = { lat: 21.4225, lng: 39.8262 };
 
-/* ── State ── */
+/* ── State ─ */
 let Q_angle = null;       /* القبلة من الشمال الحقيقي */
 let currentHeading = 0;   /* الزاوية الحالية المفلترة */
 let lastRawHeading = null;/* آخر زاوية خام قادمة من الحساس */
@@ -389,13 +389,23 @@ function angDiff(a, b) {
 /* ══ 1. START ════════════════════════════════════════════════ */
 function startQibla() {
   const btn = document.getElementById('q-start-btn');
-  if (btn) btn.disabled = true;
+  const statusBox = document.getElementById('q-status');
+  const statusTxt = document.getElementById('q-status-txt');
+  
+  console.log('🔵 startQibla called');
+  
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ جارٍ التحميل...';
+  }
+  
   setStatus('loading', 'جارٍ تحديد موقعك...');
 
   const cachedLat = parseFloat(localStorage.getItem('zad_lat'));
   const cachedLng = parseFloat(localStorage.getItem('zad_lng'));
 
   if (cachedLat && cachedLng) {
+    console.log('🟡 Using cached location:', cachedLat, cachedLng);
     Q_lat = cachedLat; Q_lng = cachedLng;
     document.getElementById('offline-pill').style.display = 'flex';
     fetchQibla(cachedLat, cachedLng, true);
@@ -403,13 +413,19 @@ function startQibla() {
   }
 
   if (!navigator.geolocation) {
+    console.error('🔴 Geolocation not supported');
     setStatus('error', 'المتصفح لا يدعم تحديد الموقع.');
-    if (btn) btn.disabled = false;
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '📍 تحديد الموقع وعرض القبلة';
+    }
     return;
   }
 
+  console.log('🟢 Requesting geolocation...');
   navigator.geolocation.getCurrentPosition(
     pos => {
+      console.log('✅ Position received:', pos.coords);
       Q_lat = pos.coords.latitude;
       Q_lng = pos.coords.longitude;
       localStorage.setItem('zad_lat', Q_lat);
@@ -418,9 +434,17 @@ function startQibla() {
       if (btn) btn.style.display = 'none';
     },
     err => {
-      if (cachedLat) { fetchQibla(cachedLat, cachedLng, true); return; }
+      console.error('🔴 Geolocation error:', err);
+      if (cachedLat) { 
+        console.log('🟡 Falling back to cached location');
+        fetchQibla(cachedLat, cachedLng, true); 
+        return; 
+      }
       setStatus('error', 'يجب تفعيل الـ GPS للسماح بحساب القبلة بدقة.');
-      if (btn) btn.disabled = false;
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = '📍 تحديد الموقع وعرض القبلة';
+      }
     },
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
   );
@@ -428,6 +452,7 @@ function startQibla() {
 
 /* ══ 2. FETCH QIBLA ANGLE (محلي بالكامل لسرعة استجابة فورية بدون لود) ════ */
 function fetchQibla(lat, lng, fromCache = false, accuracy = null) {
+  console.log('📍 Calculating Qibla for:', lat, lng);
   // حساب القبلة يدوياً فورياً لضمان العمل أوفلاين وسرعة التحميل
   const angle = calcQiblaManual(lat, lng);
   applyQibla(angle, lat, lng, accuracy);
@@ -454,6 +479,7 @@ function distToMecca(lat, lng) {
 
 /* ══ 4. APPLY QIBLA DATA TO UI ══════════════════════════════ */
 function applyQibla(angle, lat, lng, accuracy) {
+  console.log('🎯 Applying Qibla angle:', angle);
   Q_angle = angle;
   const dist = distToMecca(lat, lng);
 
@@ -480,29 +506,39 @@ function applyQibla(angle, lat, lng, accuracy) {
 
 /* ══ 5. COMPASS ENGINE (مع فلتر معالجة الرعشة واللاج) ═════════════ */
 function initCompass() {
+  console.log('🧭 Initializing compass...');
   isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  console.log('📱 Is iOS:', isIOS);
 
   if (isIOS) {
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      console.log('⚠️ iOS permission required');
       document.getElementById('perm-overlay').style.display = 'flex';
     } else {
+      console.log('✅ Adding iOS deviceorientation listener');
       window.addEventListener('deviceorientation', handleOrientation, { passive: true });
     }
   } else {
+    console.log('✅ Adding Android deviceorientationabsolute listener');
     window.addEventListener('deviceorientationabsolute', handleOrientation, { passive: true });
   }
 }
 
 function requestIOSPermission() {
+  console.log('🔑 Requesting iOS permission...');
   DeviceOrientationEvent.requestPermission()
     .then(response => {
+      console.log('🔑 Permission response:', response);
       if (response === 'granted') {
         window.addEventListener('deviceorientation', handleOrientation, { passive: true });
         closePermSheet();
       } else {
         setStatus('error', 'تم رفض إذن الحساسات.');
       }
-    }).catch(console.error);
+    }).catch(err => {
+      console.error('🔑 Permission error:', err);
+      setStatus('error', 'حدث خطأ في طلب الإذن.');
+    });
 }
 
 function handleOrientation(e) {
@@ -510,13 +546,19 @@ function handleOrientation(e) {
 
   if (e.webkitCompassHeading !== undefined) {
     heading = e.webkitCompassHeading; // لنظام iOS
+    console.log('📱 iOS heading:', heading);
   } else if (e.absolute === true && e.alpha !== null) {
     heading = 360 - e.alpha; // لنظام أندرويد (Absolute)
+    console.log('📱 Android absolute heading:', heading);
   } else if (e.alpha !== null) {
     heading = 360 - e.alpha; // كخيار احتياطي للـ أندرويد
+    console.log('📱 Android fallback heading:', heading);
   }
 
-  if (heading === null) return;
+  if (heading === null) {
+    console.warn('⚠️ No heading available');
+    return;
+  }
 
   // حل مشكلة القفز المفاجئ بين الزاويتين 0 و 360
   if (lastRawHeading === null) {
@@ -536,7 +578,10 @@ function handleOrientation(e) {
 
 /* ══ 6. UI RENDER ENGINE ══════════════════════════════════════ */
 function updateCompassUI() {
-  if (Q_angle === null) return;
+  if (Q_angle === null) {
+    console.warn('⚠️ Q_angle is null, skipping UI update');
+    return;
+  }
 
   // حساب الانحراف بدقة بين اتجاه الهاتف الحالي وزاوية الكعبة
   let diffWithQibla = angDiff(Q_angle, currentHeading);
@@ -592,6 +637,21 @@ function showCalibration() {
 }
 function closeCalibration() { document.getElementById('calib-overlay').style.display = 'none'; }
 function closePermSheet() { document.getElementById('perm-overlay').style.display = 'none'; }
+
+/* ══ 8. INIT ON LOAD ═════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('✅ DOMContentLoaded');
+  
+  // Check for cached location on load
+  const cachedLat = parseFloat(localStorage.getItem('zad_lat'));
+  const cachedLng = parseFloat(localStorage.getItem('zad_lng'));
+  
+  if (cachedLat && cachedLng) {
+    console.log('🟡 Found cached location, auto-starting...');
+    document.getElementById('offline-pill').style.display = 'flex';
+    startQibla();
+  }
+});
 </script>
 </body>
 </html>
