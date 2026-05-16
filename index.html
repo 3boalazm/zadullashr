@@ -10,7 +10,6 @@
 <link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
 <title>لوحة التحكم — زاد العشر</title>
-<!-- ThmanyahSans via css/style.css | IBM Plex + Amiri via Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
@@ -28,7 +27,7 @@
   <!-- ══ SIDEBAR ════════════════════════════════════════════ -->
   <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
-      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:28px;height:28px;border-radius:6px"></div>
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:42px;height:42px;border-radius:8px"></div>
       <div>
         <div class="brand-name" data-i18n="brand.name">زاد العشر</div>
         <div class="brand-sub" data-i18n="brand.sub">أفضل أيام الدنيا</div>
@@ -72,13 +71,12 @@
   <!-- ══ MAIN ═══════════════════════════════════════════════ -->
   <main class="main">
 
-    <!-- Topbar -->
+    <!-- Topbar - بدون التاريخ -->
     <div class="topbar">
       <a href="index.html" class="topbar-brand">
-        <div class="topbar-logo"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:22px;height:22px;border-radius:5px"></div>
+        <div class="topbar-logo"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:28px;height:28px;border-radius:6px"></div>
         <div style="min-width:0">
           <div class="page-title" data-i18n="brand.name">زاد العشر</div>
-          <div class="page-sub" id="topbar-date-sub">جارٍ تحميل التاريخ...</div>
         </div>
       </a>
 
@@ -117,13 +115,13 @@
     </div>
     <div class="badges-grid-mini" id="mini-badges-container" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px;margin-bottom:20px"></div>
 
-    <!-- Hero Countdown -->
+    <!-- Hero Countdown - العد التنازلي ليوم عرفة -->
     <section class="hero animate-in" style="margin-top:18px">
-      <div class="hero-eyebrow" id="hero-eyebrow">العد التنازلي لعشر ذي الحجة</div>
+      <div class="hero-eyebrow" id="hero-eyebrow">العد التنازلي ليوم عرفة</div>
       <h1 id="hero-heading">إلى يوم عرفة المبارك</h1>
       <p style="font-size:14px;color:rgba(255,255,255,.8)">اغتنم ساعات هذه الأيام المباركة — فما من أيام العمل الصالح أحبّ إلى الله من هذه الأيام العشر.</p>
       <div class="countdown" aria-live="polite" aria-label="العد التنازلي">
-        <div class="cd-box"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">أيام</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-days">08</div><div class="cd-lbl">أيام</div></div>
         <div class="cd-box"><div class="cd-num" id="cd-hrs">--</div><div class="cd-lbl">ساعات</div></div>
         <div class="cd-box"><div class="cd-num" id="cd-mins">--</div><div class="cd-lbl">دقائق</div></div>
         <div class="cd-box"><div class="cd-num" id="cd-secs">--</div><div class="cd-lbl">ثوانٍ</div></div>
@@ -181,7 +179,7 @@
       </div>
     </div>
 
-    <!-- ✅ FIXED: Verse Slider - Persistent & Improved -->
+    <!-- ✅ FIXED: Verse Slider - كل آية في تاب منفصل -->
     <div class="section-title">📖 آية اليوم</div>
     <div class="verse-slider-container" id="verse-slider-container" style="position:relative;overflow:hidden;margin-bottom:16px">
       <div class="verse-wrap" id="verse-wrap" style="display:flex;transition:transform 0.5s ease">
@@ -195,6 +193,47 @@
     </div>
     <div class="verse-counter" id="verse-counter" style="text-align:center;font-size:12px;color:var(--muted);margin-bottom:4px">1/3</div>
     <div id="verse-day-label" style="text-align:center;font-size:12px;color:var(--muted);margin-top:4px"></div>
+
+    <!-- ✅ NEW: Quick Worship Shortcuts -->
+    <div class="section-title" style="margin-top:18px">⚡ عبادات سريعة</div>
+    <div class="grid cols-2" style="margin-bottom:20px">
+      <div class="quick-worship-card" onclick="quickWorship('fajr')" style="background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all 0.3s ease">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--green-deep);margin-bottom:4px">🕌 صلاة الفجر</div>
+            <div style="font-size:12px;color:var(--muted)">في جماعة</div>
+          </div>
+          <div style="width:40px;height:40px;border-radius:10px;background:var(--gold-pale);display:grid;place-items:center;font-size:20px">🌅</div>
+        </div>
+      </div>
+      <div class="quick-worship-card" onclick="quickWorship('dhikr')" style="background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all 0.3s ease">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--green-deep);margin-bottom:4px">📿 أذكار الصباح</div>
+            <div style="font-size:12px;color:var(--muted)">3 دقائق</div>
+          </div>
+          <div style="width:40px;height:40px;border-radius:10px;background:var(--gold-pale);display:grid;place-items:center;font-size:20px">🌤️</div>
+        </div>
+      </div>
+      <div class="quick-worship-card" onclick="quickWorship('takbeer')" style="background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all 0.3s ease">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--green-deep);margin-bottom:4px"> التكبير</div>
+            <div style="font-size:12px;color:var(--muted)">10 تكبيرات</div>
+          </div>
+          <div style="width:40px;height:40px;border-radius:10px;background:var(--gold-pale);display:grid;place-items:center;font-size:20px">🔊</div>
+        </div>
+      </div>
+      <div class="quick-worship-card" onclick="quickWorship('fasting')" style="background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all 0.3s ease">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--green-deep);margin-bottom:4px">🌙 صيام اليوم</div>
+            <div style="font-size:12px;color:var(--muted)">تسجيل الصيام</div>
+          </div>
+          <div style="width:40px;height:40px;border-radius:10px;background:var(--gold-pale);display:grid;place-items:center;font-size:20px">🌅</div>
+        </div>
+      </div>
+    </div>
 
     <!-- Quick links -->
     <div class="section-title" style="margin-top:18px">ابدأ يومك الآن</div>
@@ -230,66 +269,50 @@ let _vi=0,_dayVerses=[],_hijriDay=1;
 /* ── Safe wrappers ───────────────────────────────────────── */
 function safeToggleTheme(){typeof toggleTheme==='function'?toggleTheme():null;}
 function safeShowToast(m){typeof showToast==='function'?showToast(m):console.log(m);}
+function quickWorship(type){
+  if(type==='fajr') window.location.href='worship.html';
+  else if(type==='dhikr') window.location.href='adhkar.html';
+  else if(type==='takbeer') window.location.href='takbeer.html';
+  else if(type==='fasting') window.location.href='worship.html';
+}
 
-/* ── 1. COUNTDOWN — Connected to Hijri API ───────────────── */
+/* ── 1. COUNTDOWN — Connected to Arafah Day ──────────────── */
 function startCountdown(){
   if(_cdTimer)clearInterval(_cdTimer);
   
   function tick(){
-    // Get current Hijri date from API or calculate
     const now=new Date();
-    const hijriDate = getHijriDateFromAPI() || calculateHijriDate(now);
+    // Arafah 2026 = May 26, 2026
+    const arafahDate=new Date(2026,4,26,0,0,0);
+    const diff=arafahDate-now;
     
-    if(!hijriDate || hijriDate.month !== 12){
-      // Not in Dhul Hijjah yet
-      const dh1Date = getNextDhulHijjahDate();
-      const diff = dh1Date - now;
-      updateCountdownDisplay(diff, 'إلى بداية ذي الحجة 🌙', 'العد التنازلي');
-      return;
-    }
-    
-    const day = hijriDate.day;
-    
-    if(day < 9){
-      // Before Arafah
-      const arafahDate = getArafahDateFromHijri(hijriDate.year);
-      const diff = arafahDate - now;
-      const dayText = ['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن'][day] || day;
-      updateCountdownDisplay(diff, `إلى يوم عرفة المبارك`, `اليوم ${dayText} من ذي الحجة`);
-    } else if(day === 9){
-      // Arafah Day
-      const eidDate = getEidDateFromHijri(hijriDate.year);
-      const diff = eidDate - now;
-      updateCountdownDisplay(diff, 'إلى عيد الأضحى 🎉', 'يوم عرفة المبارك ⭐');
-    } else if(day === 10){
-      // Eid Day
-      clearInterval(_cdTimer);
-      document.getElementById('cd-days').textContent='🎉';
-      document.getElementById('cd-hrs').textContent='🎉';
-      document.getElementById('cd-mins').textContent='🎉';
-      document.getElementById('cd-secs').textContent='🎉';
-      document.getElementById('hero-heading').textContent='عيد الأضحى المبارك 🎉';
-      document.getElementById('hero-eyebrow').textContent='تقبل الله منا ومنكم';
+    if(diff>0){
+      const pad=n=>String(Math.max(0,n)).padStart(2,'0');
+      const d=Math.floor(diff/86400000);
+      const h=Math.floor((diff%86400000)/3600000);
+      const m=Math.floor((diff%3600000)/60000);
+      const s=Math.floor((diff%60000)/1000);
+      
+      document.getElementById('cd-days').textContent=pad(d);
+      document.getElementById('cd-hrs').textContent=pad(h);
+      document.getElementById('cd-mins').textContent=pad(m);
+      document.getElementById('cd-secs').textContent=pad(s);
+      
+      if(d<=10){
+        document.getElementById('hero-eyebrow').textContent=`اليوم ${['،','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر'][d]||d} من ذي الحجة`;
+      }
+    }else{
+      document.getElementById('cd-days').textContent='00';
+      document.getElementById('cd-hrs').textContent='00';
+      document.getElementById('cd-mins').textContent='00';
+      document.getElementById('cd-secs').textContent='00';
+      document.getElementById('hero-heading').textContent='يوم عرفة المبارك ⭐';
+      document.getElementById('hero-eyebrow').textContent='اليوم هو يوم عرفة';
     }
   }
   
   tick();
   _cdTimer=setInterval(tick,1000);
-}
-
-function updateCountdownDisplay(diff, heading, eyebrow){
-  const pad=n=>String(Math.max(0,n)).padStart(2,'0');
-  const d=Math.floor(diff/86400000);
-  const h=Math.floor((diff%86400000)/3600000);
-  const m=Math.floor((diff%3600000)/60000);
-  const s=Math.floor((diff%60000)/1000);
-  
-  document.getElementById('cd-days').textContent=pad(d);
-  document.getElementById('cd-hrs').textContent=pad(h);
-  document.getElementById('cd-mins').textContent=pad(m);
-  document.getElementById('cd-secs').textContent=pad(s);
-  document.getElementById('hero-heading').textContent=heading;
-  document.getElementById('hero-eyebrow').textContent=eyebrow;
 }
 
 /* ── 2. HIJRI DATE from API ──────────────────────────────── */
@@ -317,11 +340,10 @@ async function initHijriBar(){
 
 function fallbackHijriDate(){
   const now=new Date();
-  const approxHijri=calculateHijriDate(now);
   applyHijriData({
-    day:approxHijri.day.toString(),
-    month:{number:approxHijri.month,ar:HIJRI_MONTHS_AR[approxHijri.month-1]},
-    year:approxHijri.year
+    day:'29',
+    month:{number:11,ar:'ذو القعدة'},
+    year:1447
   },now);
 }
 
@@ -388,10 +410,63 @@ function renderMiniBadges(){
   }).join('');
 }
 
-/* ── 4. FIXED VERSE SLIDER ───────────────────────────────── */
+/* ── 4. FIXED VERSE SLIDER - آيات مختلفة لكل يوم ────────── */
+const VERSES_FOR_10_DAYS={
+  1:[
+    {ar:'وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ',src:'الفجر: 1-2',note:'أقسم الله بعشر ذي الحجة'},
+    {ar:'وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَعْلُومَاتٍ',src:'الحج: 28',note:'الأيام المعلومات هي عشر ذي الحجة'},
+    {ar:'الْحَجُّ أَشْهُرٌ مَعْلُومَاتٌ',src:'البقرة: 197',note:'منها عشر ذي الحجة'}
+  ],
+  2:[
+    {ar:'وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَى',src:'البقرة: 197',note:'خير الزاد التقوى'},
+    {ar:'وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ',src:'البقرة: 196',note:'إتمام الحج والعمرة'},
+    {ar:'وَمَنْ تَطَوَّعَ خَيْرًا فَإِنَّ اللَّهَ شَاكِرٌ عَلِيمٌ',src:'البقرة: 158',note:'الله شاكر للمتطوع'}
+  ],
+  3:[
+    {ar:'لِيَشْهَدُوا مَنَافِعَ لَهُمْ',src:'الحج: 28',note:'منافع الحج'},
+    {ar:'فَكُلُوا مِنْهَا وَأَطْعِمُوا الْبَائِسَ الْفَقِيرَ',src:'الحج: 28',note:'إطعام الفقير'},
+    {ar:'وَاذْكُرُوا اللَّهَ فِي أَيَّامٍ مَعْدُودَاتٍ',src:'البقرة: 203',note:'الذكر في أيام التشريق'}
+  ],
+  4:[
+    {ar:'ذَلِكَ وَمَنْ يُعَظِّمْ شَعَائِرَ اللَّهِ',src:'الحج: 32',note:'تعظيم شعائر الله'},
+    {ar:'وَالْبُدْنَ جَعَلْنَاهَا لَكُمْ مِنْ شَعَائِرِ اللَّهِ',src:'الحج: 36',note:'الهدي من الشعائر'},
+    {ar:'فَاذْكُرُوا اسْمَ اللَّهِ عَلَيْهَا صَوَافَّ',src:'الحج: 36',note:'التسمية عند الذبح'}
+  ],
+  5:[
+    {ar:'لَنْ يَنَالَ اللَّهَ لُحُومُهَا وَلَا دِمَاؤُهَا',src:'الحج: 37',note:'التقوى هي المقصودة'},
+    {ar:'كَذَلِكَ سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا اللَّهَ',src:'الحج: 37',note:'التكبير على الهدى'},
+    {ar:'فَصَلِّ لِرَبِّكَ وَانْحَرْ',src:'الكوثر: 2',note:'الصلاة والنحر'}
+  ],
+  6:[
+    {ar:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً',src:'البقرة: 201',note:'دعاء الحج'},
+    {ar:'ثُمَّ أَفِيضُوا مِنْ حَيْثُ أَفَاضَ النَّاسُ',src:'البقرة: 199',note:'الاستغفار في الحج'},
+    {ar:'فَاذْكُرُوا اللَّهَ كَذِكْرِكُمْ آبَاءَكُمْ',src:'البقرة: 200',note:'الذكر بعد المناسك'}
+  ],
+  7:[
+    {ar:'إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ',src:'آل عمران: 96',note:'الكعبة أول بيت'},
+    {ar:'إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ',src:'البقرة: 158',note:'الشعائر'},
+    {ar:'وَمَنْ يُعَظِّمْ حُرُمَاتِ اللَّهِ',src:'الحج: 30',note:'تعظيم الحرمات'}
+  ],
+  8:[
+    {ar:'وَأَذِّنْ فِي النَّاسِ بِالْحَجِّ',src:'الحج: 27',note:'الدعوة للحج'},
+    {ar:'رَبَّنَا إِنِّي أَسْكَنْتُ مِنْ ذُرِّيَّتِي',src:'إبراهيم: 37',note:'دعاء إبراهيم'},
+    {ar:'وَإِذْ يَرْفَعُ إِبْرَاهِيمُ الْقَوَاعِدَ',src:'البقرة: 127',note:'بناء الكعبة'}
+  ],
+  9:[
+    {ar:'فَإِذَا أَفَضْتُمْ مِنْ عَرَفَاتٍ فَاذْكُرُوا اللَّهَ',src:'البقرة: 198',note:'الذكر في عرفة'},
+    {ar:'الْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ',src:'المائدة: 3',note:'إكمال الدين في عرفة'},
+    {ar:'وَاذْكُرُوهُ كَمَا هَدَاكُمْ',src:'البقرة: 198',note:'الشكر على الهداية'}
+  ],
+  10:[
+    {ar:'فَكُلُوا مِمَّا ذُكِرَ اسْمُ اللَّهِ عَلَيْهِ',src:'الأنعام: 118',note:'التسمية'},
+    {ar:'وَالْبُدْنَ جَعَلْنَاهَا لَكُمْ مِنْ شَعَائِرِ اللَّهِ',src:'الحج: 36',note:'شعائر الله'},
+    {ar:'وَلِكُلِّ أُمَّةٍ جَعَلْنَا مَنْسَكًا',src:'الحج: 34',note:'المناسك'}
+  ]
+};
+
 function loadVersesForDay(day){
   const d=Math.max(1,Math.min(10,day||1));
-  _dayVerses=VERSES_BY_DAY[d]||VERSES_BY_DAY[1];
+  _dayVerses=VERSES_FOR_10_DAYS[d]||VERSES_FOR_10_DAYS[1];
   _vi=0;
   
   const lbl=document.getElementById('verse-day-label');
@@ -406,10 +481,10 @@ function buildVerseSlider(){
   if(!track)return;
   
   track.innerHTML=_dayVerses.map(v=>`
-    <div class="verse-slide" style="min-width:100%;flex-shrink:0">
+    <div class="verse-slide" style="min-width:100%;flex-shrink:0;padding:0 8px">
       <div class="verse" style="background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1px solid var(--border);border-radius:var(--radius);padding:26px;text-align:center;box-shadow:var(--shadow)">
         <div class="src" style="color:var(--gold);font-weight:700;font-size:13px;margin-bottom:12px">${v.src}</div>
-        <div class="ar" style="font-family:Amiri,serif;font-size:22px;line-height:2;color:var(--green-deep);margin-bottom:12px">${v.ar}</div>
+        <div class="ar" style="font-family:Amiri,serif;font-size:24px;line-height:2;color:var(--green-deep);margin-bottom:12px">${v.ar}</div>
         <p style="font-size:13px;color:var(--muted);line-height:1.6">${v.note}</p>
       </div>
     </div>
@@ -428,7 +503,6 @@ function renderDots(){
   dots.innerHTML='';
   _dayVerses.forEach((_,i)=>{
     const d=document.createElement('div');
-    d.className='vd'+(i===_vi?' active':'');
     d.style.cssText=`width:${i===_vi?'24px':'8px'};height:8px;border-radius:4px;background:${i===_vi?'var(--gold)':'var(--sand-2)'};transition:all 0.3s ease;cursor:pointer`;
     d.onclick=()=>goVerse(i);
     dots.appendChild(d);
@@ -452,41 +526,6 @@ function goVerse(idx){
 window.slideVerse=dir=>goVerse(_vi+dir);
 
 /* ── Helper Functions ────────────────────────────────────── */
-function getHijriDateFromAPI(){
-  // This will be populated by initHijriBar
-  return null;
-}
-
-function calculateHijriDate(gregorianDate){
-  // Simple approximation
-  const hijriEpoch=1948439.5;
-  const jd=(gregorianDate.getTime()/86400000)+2440587.5;
-  const days=jd-hijriEpoch;
-  const years=Math.floor((days-1)/354.36707);
-  const dayOfYear=days-years*354.36707;
-  const month=Math.floor(dayOfYear/29.5)+1;
-  const day=Math.floor(dayOfYear%29.5)+1;
-  return {year:1447,month:12,day:30}; // Fallback
-}
-
-function getNextDhulHijjahDate(){
-  // Calculate next Dhul Hijjah
-  const now=new Date();
-  const target=new Date(2026,4,18); // May 18, 2026
-  return target;
-}
-
-function getArafahDateFromHijri(year){
-  // Arafah is 9 Dhul Hijjah
-  return new Date(2026,4,26); // May 26, 2026
-}
-
-function getEidDateFromHijri(year){
-  // Eid is 10 Dhul Hijjah
-  return new Date(2026,4,27); // May 27, 2026
-}
-
-/* ── Constants ───────────────────────────────────────────── */
 const HIJRI_MONTHS_AR=['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
 const MILADI_AR=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
 const WEEK_AR=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
@@ -496,19 +535,6 @@ const SPECIAL_DH={
   8:{ar:'يوم التروية 💧',cls:''},
   9:{ar:'يوم عرفة ⭐',cls:'arafah'},
   10:{ar:'عيد الأضحى المبارك 🎉',cls:'eid'}
-};
-
-const VERSES_BY_DAY={
-  1:[{ar:'وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ',src:'الفجر: 1-2',note:'القسم بعشر ذي الحجة'},{ar:'وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَعْلُومَاتٍ',src:'الحج: 28',note:'الأيام المعلومات هي عشر ذي الحجة'},{ar:'الْحَجُّ أَشْهُرٌ مَعْلُومَاتٌ فَمَنْ فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ',src:'البقرة: 197',note:'آداب الحج'}],
-  2:[{ar:'وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَى',src:'البقرة: 197',note:'خير الزاد التقوى'},{ar:'وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ',src:'البقرة: 196',note:'إتمام الحج والعمرة لله'},{ar:'وَمَنْ تَطَوَّعَ خَيْرًا فَإِنَّ اللَّهَ شَاكِرٌ عَلِيمٌ',src:'البقرة: 158',note:'الله شاكر لمن يتطوع'}],
-  3:[{ar:'لِيَشْهَدُوا مَنَافِعَ لَهُمْ وَيَذْكُرُوا اسْمَ اللَّهِ',src:'الحج: 28',note:'حكمة الحج'},{ar:'فَكُلُوا مِنْهَا وَأَطْعِمُوا الْبَائِسَ الْفَقِيرَ',src:'الحج: 28',note:'إطعام الفقير من الأضحية'},{ar:'وَاذْكُرُوا اللَّهَ فِي أَيَّامٍ مَعْدُودَاتٍ',src:'البقرة: 203',note:'ذكر الله في أيام التشريق'}],
-  4:[{ar:'ذَلِكَ وَمَنْ يُعَظِّمْ شَعَائِرَ اللَّهِ فَإِنَّهَا مِنْ تَقْوَى الْقُلُوبِ',src:'الحج: 32',note:'تعظيم شعائر الله'},{ar:'وَالْبُدْنَ جَعَلْنَاهَا لَكُمْ مِنْ شَعَائِرِ اللَّهِ لَكُمْ فِيهَا خَيْرٌ',src:'الحج: 36',note:'الهدي من شعائر الله'},{ar:'فَاذْكُرُوا اسْمَ اللَّهِ عَلَيْهَا صَوَافَّ',src:'الحج: 36',note:'التسمية عند الذبح'}],
-  5:[{ar:'لَنْ يَنَالَ اللَّهَ لُحُومُهَا وَلَا دِمَاؤُهَا وَلَكِنْ يَنَالُهُ التَّقْوَى مِنْكُمْ',src:'الحج: 37',note:'المقصود من الأضحية التقوى'},{ar:'كَذَلِكَ سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا اللَّهَ عَلَى مَا هَدَاكُمْ',src:'الحج: 37',note:'التكبير على ما هدانا الله'},{ar:'فَصَلِّ لِرَبِّكَ وَانْحَرْ',src:'الكوثر: 2',note:'الأمر بصلاة العيد والأضحية'}],
-  6:[{ar:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ',src:'البقرة: 201',note:'أبرز دعاء في الطواف'},{ar:'ثُمَّ أَفِيضُوا مِنْ حَيْثُ أَفَاضَ النَّاسُ وَاسْتَغْفِرُوا اللَّهَ',src:'البقرة: 199',note:'الاستغفار في الحج'},{ar:'فَإِذَا قَضَيْتُمْ مَنَاسِكَكُمْ فَاذْكُرُوا اللَّهَ كَذِكْرِكُمْ آبَاءَكُمْ أَوْ أَشَدَّ ذِكْرًا',src:'البقرة: 200',note:'الذكر بعد المناسك'}],
-  7:[{ar:'إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ مُبَارَكًا وَهُدًى لِلْعَالَمِينَ',src:'آل عمران: 96',note:'الكعبة أول بيت للناس'},{ar:'إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ',src:'البقرة: 158',note:'الصفا والمروة من شعائر الله'},{ar:'وَمَنْ يُعَظِّمْ حُرُمَاتِ اللَّهِ فَهُوَ خَيْرٌ لَهُ عِنْدَ رَبِّهِ',src:'الحج: 30',note:'تعظيم حرمات الله'}],
-  8:[{ar:'وَأَذِّنْ فِي النَّاسِ بِالْحَجِّ يَأْتُوكَ رِجَالًا',src:'الحج: 27',note:'الدعوة للحج'},{ar:'رَبَّنَا إِنِّي أَسْكَنْتُ مِنْ ذُرِّيَّتِي بِوَادٍ غَيْرِ ذِي زَرْعٍ عِنْدَ بَيْتِكَ الْمُحَرَّمِ',src:'إبراهيم: 37',note:'دعاء إبراهيم لذريته'},{ar:'وَإِذْ يَرْفَعُ إِبْرَاهِيمُ الْقَوَاعِدَ مِنَ الْبَيْتِ وَإِسْمَاعِيلُ رَبَّنَا تَقَبَّلْ مِنَّا',src:'البقرة: 127',note:'دعاء إبراهيم عند بناء الكعبة'}],
-  9:[{ar:'فَإِذَا أَفَضْتُمْ مِنْ عَرَفَاتٍ فَاذْكُرُوا اللَّهَ عِنْدَ الْمَشْعَرِ الْحَرَامِ',src:'البقرة: 198',note:'الذكر بعد الإفاضة من عرفات'},{ar:'الْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِي وَرَضِيتُ لَكُمُ الْإِسْلَامَ دِينًا',src:'المائدة: 3',note:'آية إكمال الدين — نزلت في عرفة'},{ar:'فَإِذَا أَفَضْتُمْ مِنْ عَرَفَاتٍ فَاذْكُرُوا اللَّهَ عِنْدَ الْمَشْعَرِ الْحَرَامِ وَاذْكُرُوهُ كَمَا هَدَاكُمْ',src:'البقرة: 198',note:'الذكر والهداية في عرفة'}],
-  10:[{ar:'فَكُلُوا مِمَّا ذُكِرَ اسْمُ اللَّهِ عَلَيْهِ',src:'الأنعام: 118',note:'الأكل مما ذُكر اسم الله عليه'},{ar:'وَالْبُدْنَ جَعَلْنَاهَا لَكُمْ مِنْ شَعَائِرِ اللَّهِ لَكُمْ فِيهَا خَيْرٌ',src:'الحج: 36',note:'خير في الهدي والأضحية'},{ar:'وَلِكُلِّ أُمَّةٍ جَعَلْنَا مَنْسَكًا لِيَذْكُرُوا اسْمَ اللَّهِ عَلَى مَا رَزَقَهُمْ',src:'الحج: 34',note:'التكبير والشكر على الرزق'}]
 };
 
 /* ── INIT ────────────────────────────────────────────────── */
