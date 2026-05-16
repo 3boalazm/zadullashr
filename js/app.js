@@ -2016,65 +2016,88 @@ async function performQuranSearch() {
   loadingEl.style.display = 'block';
   containerEl.innerHTML = '';
   
+/* ── دالة البحث الفوري والمعالجة الشاملة لـ Quranpedia API ── */
+async function performQuranpediaSearch() {
+  const inputEl = document.getElementById('qp-search-input');
+  const containerEl = document.getElementById('qp-search-results');
+  const loadingEl = document.getElementById('qp-search-loading');
+  
+  if (!inputEl || !containerEl) return;
+  
+  const keyword = inputEl.value.trim();
+  
+  // التحقق من طول الكلمة المطلوبة للبحث لضمان سرعة الاستجابة
+  if (keyword.length < 2) {
+    alert("برجاء كتابة كلمة بحث صحيحة (حرفين على الأقل)");
+    return;
+  }
+  
+  // تفعيل مؤشر التحميل وتصفية الحاوية
+  loadingEl.style.display = 'block';
+  containerEl.innerHTML = '';
+  
   try {
-    // بناء الرابط طبقاً لتوثيق Quranpedia API للبحث في الآيات
-    // Base URL: https://api.quranpedia.net/v1
+    // استدعاء الإندبوينت الرسمي لـ Quranpedia مع فلترة البحث للآيات (ayahs) فقط
     const url = `https://api.quranpedia.net/v1/search/${encodeURIComponent(keyword)}/ayahs`;
     
     const response = await fetch(url);
     const data = await response.json();
     
-    // إخفاء مؤشر التحميل
+    // إخفاء الـ Spinner فوراً
     loadingEl.style.display = 'none';
     
-    // التحقق من وجود نتائج (Quranpedia يرجع غالباً مصفوفة نتائج داخل الكائن أو مصفوفة مباشرة)
-    // قمنا بعمل فحص مرن للـ Array المتوقع رجوعه في الـ Pagination
-    const resultsArray = data.data || data.results || (Array.isArray(data) ? data : null);
+    // قراءة البيانات (سيرفر قورآن بيديا يرجع النتائج مباشرة داخل مصفوفة أو بداخل كائن pagination)
+    let ayahsList = [];
+    if (Array.isArray(data)) {
+      ayahsList = data;
+    } else if (data && Array.isArray(data.data)) {
+      ayahsList = data.data;
+    } else if (data && Array.isArray(data.results)) {
+      ayahsList = data.results;
+    }
     
-    if (resultsArray && resultsArray.length > 0) {
+    if (ayahsList && ayahsList.length > 0) {
+      // إظهار ملخص بعدد المواضع المكتشفة
+      let infoBar = `<div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;"> تم العثور على (${ayahsList.length}) موضع يحتوي على "${keyword}":</div>`;
+      containerEl.insertAdjacentHTML('beforeend', infoBar);
       
-      // عرض إجمالي عدد النتائج المكتشفة
-      const totalCount = data.total || resultsArray.length;
-      let summaryHtml = `<div style="font-size:12px; color:var(--muted); margin-bottom:6px"> تم العثور على (${totalCount}) موضع يحتوي على كلمة "${keyword}":</div>`;
-      containerEl.insertAdjacentHTML('beforeend', summaryHtml);
-      
-      // حلقة تكرارية لبناء كروت الآيات المكتشفة من السيرفر الجديد
-      resultsArray.forEach(item => {
-        // فحص مسميات الحقول في كائن الآية الراجع من Quranpedia
-        const ayahText = item.text || item.text_clean || item.content;
-        const surahName = item.surah?.name || item.surah_name || `رقم ${item.surah_id || ''}`;
-        const ayahNum = item.ayah_number || item.number || item.ayah_id || '';
+      // رندرة الكروت والآيات طردياً
+      ayahsList.forEach(item => {
+        // استخراج النص واسم السورة ورقم الآية ديناميكياً حسب بناء عناصر الـ API
+        const textContent = item.text || item.text_clean || item.content || '';
+        const surahName = item.surah?.name || item.surah_name || `سورة رقم ${item.surah_id || ''}`;
+        const ayahNum = item.ayah_number || item.numberInSurah || item.id || '';
         
-        if (ayahText) {
-          const itemHtml = `
-            <div class="search-result-item">
-              <span class="s-result-text">« ${ayahText} »</span>
-              <div class="s-result-meta">
-                <span>📖 سورة ${surahName}</span>
-                <span>🔢 رقم الآية: ${ayahNum}</span>
+        if (textContent) {
+          const cardHtml = `
+            <div class="qp-result-item">
+              <span class="qp-text">« ${textContent} »</span>
+              <div class="qp-meta">
+                <span>📖 ${surahName}</span>
+                <span>🔢 آية رقم: ${ayahNum}</span>
               </div>
             </div>
           `;
-          containerEl.insertAdjacentHTML('beforeend', itemHtml);
+          containerEl.insertAdjacentHTML('beforeend', cardHtml);
         }
       });
       
     } else {
-      // في حال لم يتم العثور على أي آيات تطابق الكلمة
-      containerEl.innerHTML = `<div class="search-no-results">لم نجد أي آيات تحتوي على "${keyword}". تأكد من كتابة الكلمة بشكل صحيح أو جرب كلمة أخرى.</div>`;
+      // التعامل مع حالة عدم وجود نتائج مطابقة للكلمة
+      containerEl.innerHTML = `<div class="qp-no-results">لم نجد أي آيات تحتوي على الكلمة "${keyword}". جرب البحث بكلمة أخرى (بدون حركات أو تشكيل مركّب).</div>`;
     }
     
   } catch (error) {
-    console.error("خطأ أثناء البحث في Quranpedia:", error);
+    console.error("خطأ أثناء الاتصال بـ Quranpedia API:", error);
     loadingEl.style.display = 'none';
-    containerEl.innerHTML = `<div class="search-no-results" style="color:red">عذراً، حدث خطأ في الاتصال بالسيرفر الجديد. حاول مجدداً لاحقاً.</div>`;
+    containerEl.innerHTML = `<div class="qp-no-results" style="color:red">حدث خطأ أثناء جلب البيانات من سيرفر Quranpedia، برجاء التحقق من اتصال الإنترنت والمحاولة مجدداً.</div>`;
   }
 }
 
-// تشغيل البحث تلقائياً عند ضغط زر Enter داخل مربع الإدخال لراحة المستخدم
-document.getElementById('quran-search-input')?.addEventListener('keypress', function (e) {
+// تشغيل البحث فوراً بمجرد قيام المستخدم بالضغط على زر Enter كاختصار سريع
+document.getElementById('qp-search-input')?.addEventListener('keypress', function (e) {
   if (e.key === 'Enter') {
-    performQuranSearch();
+    performQuranpediaSearch();
   }
 });
 
