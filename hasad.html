@@ -9,23 +9,140 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0e3b2e">
 <link rel="manifest" href="manifest.json">
-<!-- Async font loading — eliminates render-blocking -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" id="google-fonts"
-  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500:700&family=Tajawal:wght@400:700&family=Amiri:wght@400:700&display=swap"
   media="print" onload="this.media='all'">
-<noscript>
-  
-</noscript>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300:400:500:700&family=Tajawal:wght@400:700&family=Amiri:wght@400:700&display=swap"></noscript>
 <link rel="stylesheet" href="css/style.css">
+
+<style>
+/* ══ Page Title Font ═════════════════════════════════════ */
+.page-title,.section-title,.brand-name,h1,h2,h3,.sum-hero-num,.dc-num,.metric-val,.sv{font-family:'ThmanyahSans','Tajawal',sans-serif !important}
+
+/* ══ Hero Summary Card ═══════════════════════════════════ */
+.sum-hero{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:20px;padding:28px 24px;margin-bottom:20px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.sum-hero::after{content:'📈';position:absolute;right:16px;bottom:10px;font-size:64px;opacity:.12;pointer-events:none}
+.sum-hero-num{font-size:56px;font-weight:900;color:var(--gold2,#e6c97a);line-height:1}
+.sum-hero-lbl{font-size:14px;opacity:.8;margin-top:4px}
+.sum-hero-sub{font-size:13px;opacity:.65;margin-top:8px}
+
+/* ══ Zad Points Card ════════════════════════════════════ */
+.zad-card{background:linear-gradient(135deg,var(--brand-deep),var(--brand-mid));color:#fff;border-radius:var(--radius);padding:22px 20px;display:flex;align-items:center;gap:18px;box-shadow:var(--shadow);margin-bottom:20px;position:relative;overflow:hidden}
+.zad-card::before{content:"";position:absolute;inset:auto -40px -60px auto;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.2),transparent 70%);pointer-events:none}
+.zad-icon{font-size:36px;flex-shrink:0}
+.zad-info{flex:1}
+.zad-lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:.75}
+.zad-pts{font-size:38px;font-weight:900;color:var(--brand-gold-lt);font-feature-settings:"tnum";line-height:1.1}
+.zad-mult{font-size:12px;opacity:.8;margin-top:2px}
+.zad-streak{font-size:28px;font-weight:900;color:var(--brand-gold-lt);text-align:center;min-width:70px}
+.zad-streak-lbl{font-size:10px;opacity:.7}
+
+/* ══ 10-Day Grid ════════════════════════════════════════ */
+.day-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+.day-cell{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 10px;text-align:center;transition:all .2s;cursor:pointer;position:relative}
+.day-cell:hover{transform:translateY(-3px);border-color:var(--gold)}
+.day-cell.day-complete{border-color:rgba(52,199,89,.45);background:rgba(52,199,89,.06)}
+.day-cell.day-partial{border-color:rgba(201,161,74,.35);background:rgba(201,161,74,.06)}
+.day-cell.day-empty{opacity:.55}
+.day-cell.today-cell{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,161,74,.25)}
+.dc-num{font-size:20px;font-weight:900;color:var(--green-deep)}
+html[data-theme="dark"] .dc-num,html[data-theme="oled"] .dc-num{color:var(--sys-green)}
+.dc-pct{font-size:12px;font-weight:700;margin-top:4px}
+.dc-pct.high{color:var(--sys-green)}.dc-pct.mid{color:var(--gold)}.dc-pct.low{color:var(--muted)}
+.dc-dot{position:absolute;top:8px;right:8px;width:7px;height:7px;border-radius:50%}
+.dc-dot.green{background:var(--sys-green)}.dc-dot.gold{background:var(--gold)}.dc-dot.gray{background:var(--border)}
+.dc-special{font-size:9px;color:var(--gold);font-weight:700;margin-top:3px}
+.dc-fast{font-size:10px;margin-top:2px}
+
+/* ══ Heatmap Legend ═════════════════════════════════════ */
+.heatmap-legend{display:flex;gap:12px;margin-top:12px;font-size:11px;color:var(--muted);flex-wrap:wrap;justify-content:center}
+.heatmap-legend span{display:flex;align-items:center;gap:4px}
+.heatmap-legend span::before{content:"";width:14px;height:14px;border-radius:3px;display:inline-block}
+.heatmap-legend span:nth-child(1)::before{background:var(--sand-2)}
+.heatmap-legend span:nth-child(2)::before{background:#1a5d2a}
+.heatmap-legend span:nth-child(3)::before{background:#22a040}
+.heatmap-legend span:nth-child(4)::before{background:var(--sys-green)}
+
+/* ══ Stats Grid ═════════════════════════════════════════ */
+.sum-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.sum-stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;box-shadow:var(--shadow-sm);transition:transform .2s}
+.sum-stat:hover{transform:translateY(-2px)}
+.sum-stat .si{font-size:26px;margin-bottom:6px}
+.sum-stat .sv{font-size:28px;font-weight:900;color:var(--green-deep);line-height:1}
+html[data-theme="dark"] .sum-stat .sv,html[data-theme="oled"] .sum-stat .sv{color:var(--sys-green)}
+.sum-stat .sl{font-size:11px;color:var(--muted);margin-top:4px;font-weight:700}
+
+/* ══ Performance Bars ══════════════════════════════════ */
+.perf-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.perf-label{font-size:13px;font-weight:700;width:80px;flex-shrink:0;color:var(--ink)}
+.perf-bar-wrap{flex:1;height:8px;background:var(--sand-2);border-radius:99px;overflow:hidden}
+.perf-bar{height:100%;border-radius:99px;transition:width 1s var(--ease);background:linear-gradient(90deg,var(--green-soft),var(--gold))}
+.perf-val{font-size:12px;font-weight:700;color:var(--muted);width:38px;text-align:left}
+
+/* ══ Chart Container ═══════════════════════════════════ */
+.sum-chart{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:20px}
+.chart-container{position:relative;height:200px}
+
+/* ══ Insights ══════════════════════════════════════════ */
+.insight-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:20px}
+.insight-type{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.insight-type.insight-strength{color:var(--sys-green)}
+.insight-type.insight-improve{color:var(--sys-orange)}
+.insight-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.insight-row:last-child{border-bottom:none}
+.insight-ico{font-size:16px;flex-shrink:0;margin-top:2px}
+.insight-text{font-size:13px;line-height:1.5;color:var(--ink)}
+
+/* ══ Badges Cabinet ════════════════════════════════════ */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;margin-bottom:20px}
+.badge{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 12px;text-align:center;transition:transform .2s,box-shadow .2s}
+.badge:hover{transform:translateY(-3px)}
+.badge.earned{border-color:rgba(201,161,74,.45);box-shadow:0 0 0 1.5px rgba(201,161,74,.2)}
+.badge.locked{opacity:.6}
+.badge .medal{width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--brand-gold-lt),var(--brand-gold));display:grid;place-items:center;margin:0 auto 10px;font-size:24px;color:#3a2a08;box-shadow:inset 0 -4px 10px rgba(0,0,0,.15)}
+.badge.locked .medal{background:var(--sand-2);color:var(--muted);box-shadow:none;filter:grayscale(1)}
+.badge .name{font-weight:700;color:var(--green-deep);font-size:12px}
+.badge .desc{color:var(--muted);font-size:10px;margin-top:3px}
+
+/* ══ Share Card ════════════════════════════════════════ */
+.share-harvest-card{background:linear-gradient(135deg,var(--brand-deep),var(--brand-mid) 70%,#1a7a4a);border-radius:var(--radius);padding:24px;color:#fff;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden;margin-top:20px}
+.share-harvest-card::before{content:"";position:absolute;inset:auto -50px -80px auto;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.25),transparent 70%);pointer-events:none}
+.share-harvest-card h3{font-size:20px;font-weight:900;margin-bottom:6px}
+.share-harvest-card p{font-size:13px;opacity:.82;margin-bottom:14px}
+.share-harvest-btn{background:linear-gradient(135deg,var(--brand-gold),var(--brand-gold-lt));color:#3a2a08;border:none;padding:12px 28px;border-radius:99px;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px;display:inline-flex;align-items:center;gap:8px;transition:all .2s;box-shadow:0 4px 18px -4px rgba(201,161,74,.45)}
+.share-harvest-btn:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 8px 26px -4px rgba(201,161,74,.6)}
+html[data-theme="dark"] .share-harvest-btn,html[data-theme="oled"] .share-harvest-btn{background:var(--sys-green);color:#001a08}
+
+/* ══ Footer Note ═══════════════════════════════════════ */
+.foot-note{margin-top:30px;text-align:center;color:var(--muted);font-size:12px;padding:20px;border-top:1px dashed var(--border)}
+
+/* ══ Responsive ════════════════════════════════════════ */
+@media(max-width:768px){
+  .sum-hero{padding:22px 18px}
+  .sum-hero-num{font-size:44px}
+  .day-grid{grid-template-columns:repeat(5,1fr)}
+  .sum-stat-grid{grid-template-columns:repeat(2,1fr)}
+  .zad-card{flex-direction:column;text-align:center}
+  .zad-streak{margin-top:10px}
+}
+@media(max-width:480px){
+  .day-grid{grid-template-columns:repeat(5,1fr);gap:6px}
+  .day-cell{padding:10px 6px}
+  .dc-num{font-size:16px}
+  .sum-stat-grid{grid-template-columns:repeat(2,1fr)}
+  .perf-label{width:70px;font-size:12px}
+}
+</style>
+
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
 </head>
 <body>
 <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
-    <aside class="sidebar">
+  <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
       <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:28px;height:28px;border-radius:6px"></div>
       <div>
@@ -42,31 +159,31 @@
       <span class="slb-val" id="sidebar-lang-val">EN</span>
     </button>
     <nav class="nav">
-      <a href="index.html" ><span class="ico">🏠</span><span data-i18n="nav.dashboard">لوحة التحكم</span></a>
-      <a href="prayers.html" ><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
-      <a href="qibla.html" ><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
-      <a href="hijri.html" ><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
-      <a href="videos.html" ><span class="ico">🎬</span><span>محاضرات العشر</span></a>
-      <a href="fadael.html" ><span class="ico">✨</span><span data-i18n="nav.virtues">فضائل العشر</span></a>
-      <a href="worship.html" ><span class="ico">📿</span><span data-i18n="nav.worship">جدول العبادات</span></a>
-      <a href="mushaf.html" ><span class="ico">📖</span><span data-i18n="nav.mushaf">مصحف العشر</span></a>
-      <a href="takbeer.html" ><span class="ico">🕋</span><span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</span></a>
-      <a href="adhkar.html" ><span class="ico">🤲</span><span data-i18n="nav.adhkar">الأذكار والدعاء</span></a>
-      <a href="odhiya.html" ><span class="ico">🐏</span><span data-i18n="nav.odhiya">دليل الأضحية</span></a>
-      <a href="arafah.html" ><span class="ico">🌄</span><span data-i18n="nav.arafah">يوم عرفة</span></a>
-      <a href="sadaqah.html" ><span class="ico">💚</span><span data-i18n="nav.sadaqah">صدقة العشر</span></a>
-      <a href="badges.html" ><span class="ico">🏅</span><span data-i18n="nav.badges">أوسمتي</span></a>
+      <a href="index.html"><span class="ico">🏠</span><span data-i18n="nav.dashboard">لوحة التحكم</span></a>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="fadael.html"><span class="ico">✨</span><span data-i18n="nav.virtues">فضائل العشر</span></a>
+      <a href="worship.html"><span class="ico">📿</span><span data-i18n="nav.worship">جدول العبادات</span></a>
+      <a href="mushaf.html"><span class="ico">📖</span><span data-i18n="nav.mushaf">مصحف العشر</span></a>
+      <a href="takbeer.html"><span class="ico">🕋</span><span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span data-i18n="nav.adhkar">الأذكار والدعاء</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span data-i18n="nav.odhiya">دليل الأضحية</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span data-i18n="nav.arafah">يوم عرفة</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span data-i18n="nav.sadaqah">صدقة العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span data-i18n="nav.badges">أوسمتي</span></a>
       <a href="hasad.html" class="active"><span class="ico">📊</span><span data-i18n="nav.hasad">حصاد العشر</span></a>
-      <a href="summary.html" ><span class="ico">📈</span><span>إحصاء العشر</span></a>
-      <a href="kids.html" ><span class="ico">🧒</span><span data-i18n="nav.kids">وضع الأطفال</span></a>
-      <a href="tasmee.html" ><span class="ico">🎙️</span><span data-i18n="nav.tasmee">تسميع القرآن</span></a>
-      <a href="ai.html" ><span class="ico">🤖</span><span data-i18n="nav.ai">تدبّر بالذكاء</span></a>
-      <a href="settings.html" ><span class="ico">⚙️</span><span data-i18n="nav.settings">الإعدادات</span></a>
-      <a href="report.html" ><span class="ico">🚩</span><span data-i18n="nav.report">بلاغ مشكلة</span></a>
-      <a href="about.html" ><span class="ico">👤</span><span data-i18n="nav.about">عن التطبيق</span></a>
+      <a href="kids.html"><span class="ico">🧒</span><span data-i18n="nav.kids">وضع الأطفال</span></a>
+      <a href="tasmee.html"><span class="ico">🎙️</span><span data-i18n="nav.tasmee">تسميع القرآن</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span data-i18n="nav.ai">تدبّر بالذكاء</span></a>
+      <a href="settings.html"><span class="ico">⚙️</span><span data-i18n="nav.settings">الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span data-i18n="nav.report">بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span data-i18n="nav.about">عن التطبيق</span></a>
     </nav>
     <div class="side-foot"><span data-i18n="brand.name">زاد العشر</span> 2026 · <span data-i18n="common.noAds">بدون إعلانات 📴</span></div>
   </aside>
+
   <main class="main">
     <div class="topbar">
       <div>
@@ -74,176 +191,288 @@
         <div class="page-sub">ثمار عبادتك خلال أفضل أيام الدنيا</div>
       </div>
       <div class="topbar-right">
-        <div class="search">🔍 <input placeholder="ابحث..." data-i18n-ph="common.search" onfocus="openSearchOverlay()" aria-label="بحث" role="searchbox"></div>
-        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang()">EN</button>
-        <button class="btn-theme" onclick="toggleTheme()">🌙</button>
+        <div class="search">🔍 <input placeholder="ابحث..." data-i18n-ph="common.search" onfocus="openSearchOverlay?.()" aria-label="بحث" role="searchbox"></div>
+        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang?.()">EN</button>
+        <button class="btn-theme" onclick="safeToggleTheme?.()">🌙</button>
       </div>
     </div>
 
-    <!-- رصيد الزاد + Streak -->
-    <div class="zad-card" style="margin-bottom:22px">
+    <!-- Hero: Total Score -->
+    <div class="sum-hero">
+      <div class="sum-hero-num" id="sum-total-pct">0%</div>
+      <div class="sum-hero-lbl">متوسط الالتزام في العشر</div>
+      <div class="sum-hero-sub" id="sum-days-active">0 من 10 أيام مسجّلة</div>
+    </div>
+
+    <!-- Zad Points + Streak -->
+    <div class="zad-card">
       <div class="zad-icon">🌟</div>
       <div class="zad-info">
         <div class="zad-lbl">رصيد الزاد</div>
         <div class="zad-pts" id="zad-pts">0</div>
-        <div class="zad-mult" id="zad-mult">ابدأ Streak لزيادة نقاطك!</div>
+        <div class="zad-mult" id="zad-mult">ابدأ شريطاً لزيادة نقاطك!</div>
       </div>
-      <div style="text-align:center">
-        <div style="font-size:36px;font-weight:900;color:var(--brand-gold-lt)" id="zad-streak">0 🔥</div>
-        <div style="font-size:11px;opacity:.7;margin-top:2px">الشريط الزمني</div>
-      </div>
-    </div>
-
-    <!-- خريطة الحرارة -->
-    <div class="section-title">خريطة الأيام العشرة</div>
-    <div class="card" style="margin-bottom:6px">
-      <p style="font-size:13px;margin-bottom:10px">لون كل يوم يعكس نسبة إنجاز الورد</p>
-      <div class="heatmap-grid" id="heatmap-grid"></div>
-      <div style="display:flex;gap:12px;margin-top:12px;font-size:11px;color:var(--muted);flex-wrap:wrap">
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;border-radius:3px;background:var(--sand-2)"></span>لم يُسجل</span>
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;border-radius:3px;background:#1a5d2a"></span>25%</span>
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;border-radius:3px;background:#22a040"></span>75%</span>
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;border-radius:3px;background:var(--sys-green)"></span>مكتمل 🏆</span>
+      <div>
+        <div class="zad-streak" id="zad-streak">0 🔥</div>
+        <div class="zad-streak-lbl">أيام متتالية</div>
       </div>
     </div>
 
-    <!-- رسم بياني -->
-    <div class="section-title">مسار الأداء خلال العشر</div>
+    <!-- 10-Day Grid -->
+    <div class="section-title">📅 الأيام العشرة يوماً بيوم</div>
+    <div class="day-grid" id="day-grid"></div>
+    <div class="heatmap-legend">
+      <span>لم يُسجل</span>
+      <span>25%</span>
+      <span>75%</span>
+      <span>مكتمل 🏆</span>
+    </div>
+
+    <!-- Aggregate Stats -->
+    <div class="section-title">🏆 إجمالي العشر</div>
+    <div class="sum-stat-grid">
+      <div class="sum-stat"><div class="si">📿</div><div class="sv" id="sum-takbeer">0</div><div class="sl">تكبيرة</div></div>
+      <div class="sum-stat"><div class="si">📖</div><div class="sv" id="sum-juz">0</div><div class="sl">جزء قرآن</div></div>
+      <div class="sum-stat"><div class="si">🌙</div><div class="sv" id="sum-fasting">0</div><div class="sl">يوم صيام</div></div>
+      <div class="sum-stat"><div class="si">🔥</div><div class="sv" id="sum-streak">0</div><div class="sl">أطول شريط</div></div>
+      <div class="sum-stat"><div class="si">🕌</div><div class="sv" id="sum-prayers">0</div><div class="sl">صلاة جماعة</div></div>
+      <div class="sum-stat"><div class="si">🏅</div><div class="sv" id="sum-badges">0</div><div class="sl">وسام مكتسب</div></div>
+    </div>
+
+    <!-- Performance Breakdown -->
+    <div class="section-title">📋 تفصيل الأداء</div>
     <div class="card">
-      <div style="position:relative;height:220px">
-        <canvas id="activity-chart" role="img" aria-label="رسم بياني لنسبة إنجاز الورد خلال أيام العشر">بيانات الأداء اليومي</canvas>
+      <div class="perf-row">
+        <div class="perf-label">الصلوات</div>
+        <div class="perf-bar-wrap"><div class="perf-bar" id="pb-prayers" style="width:0%"></div></div>
+        <div class="perf-val" id="pv-prayers">0%</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-label">الصيام</div>
+        <div class="perf-bar-wrap"><div class="perf-bar" id="pb-fasting" style="width:0%"></div></div>
+        <div class="perf-val" id="pv-fasting">0%</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-label">القرآن</div>
+        <div class="perf-bar-wrap"><div class="perf-bar" id="pb-quran" style="width:0%"></div></div>
+        <div class="perf-val" id="pv-quran">0%</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-label">التكبير</div>
+        <div class="perf-bar-wrap"><div class="perf-bar" id="pb-takbeer" style="width:0%"></div></div>
+        <div class="perf-val" id="pv-takbeer">0%</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-label">الأذكار</div>
+        <div class="perf-bar-wrap"><div class="perf-bar" id="pb-dhikr" style="width:0%"></div></div>
+        <div class="perf-val" id="pv-dhikr">0%</div>
       </div>
     </div>
 
-    <!-- إحصائيات تفصيلية -->
-    <div class="section-title">ثمار العبادة</div>
-    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr))">
-      <div class="metric-card">
-        <div class="metric-ico">📖</div>
-        <div class="metric-val" id="m-juz">0</div>
-        <div class="metric-lbl">جزء قرآن</div>
-        <div class="metric-sub" id="m-juz-sub">0% من الختمة</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-ico">📿</div>
-        <div class="metric-val" id="m-tkbr">0</div>
-        <div class="metric-lbl">تكبيرة</div>
-        <div class="metric-sub" id="m-tkbr-sub">0 جلسة</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-ico">🌙</div>
-        <div class="metric-val" id="m-fast">0</div>
-        <div class="metric-lbl">يوم صيام</div>
-        <div class="metric-sub" id="m-fast-sub">9 أيام متبقية</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-ico">🤲</div>
-        <div class="metric-val" id="m-sujd">0</div>
-        <div class="metric-lbl">سجدة نافلة</div>
-        <div class="metric-sub" id="m-sujd-sub">تقرباً إلى الله</div>
+    <!-- Activity Chart -->
+    <div class="section-title">📊 منحنى الأداء خلال العشر</div>
+    <div class="sum-chart">
+      <div class="chart-container">
+        <canvas id="activity-chart"></canvas>
       </div>
     </div>
 
-    <!-- رؤى الذكاء -->
-    <div class="section-title">رؤى مخصصة لأدائك</div>
+    <!-- Insights -->
+    <div class="section-title">💡 رؤى مخصصة لأدائك</div>
     <div class="insight-card">
       <div id="insights-wrap"></div>
     </div>
 
-    <!-- خزانة الأوسمة -->
-    <div class="section-title">خزانة الأوسمة <span style="font-size:14px;font-weight:400;color:var(--muted)" id="earned-summary"></span></div>
+    <!-- Badges Cabinet -->
+    <div class="section-title">🏅 خزانة الأوسمة <span style="font-size:13px;font-weight:400;color:var(--muted)" id="earned-summary"></span></div>
     <div class="badges" id="badges-cabinet"></div>
 
-    <!-- مشاركة الحصاد -->
-    <div class="share-harvest-card" style="margin-top:28px">
-      <div style="position:relative;z-index:1">
-        <h3>🌟 شارك حصادك</h3>
-        <p>ألهم أحبابك برحلتك في أفضل أيام الدنيا</p>
-        <button class="btn btn-gold" style="font-size:15px;padding:13px 28px" onclick="shareHarvest()">
-          📤 مشاركة الحصاد
-        </button>
-      </div>
+    <!-- Share Card -->
+    <div class="share-harvest-card">
+      <h3>🌟 شارك حصادك</h3>
+      <p>ألهم أحبابك برحلتك في أفضل أيام الدنيا</p>
+      <button class="share-harvest-btn" onclick="shareHarvest()">
+        📤 مشاركة الحصاد
+      </button>
     </div>
 
-    <div class="foot-note">رصيد الزاد = الأعمال الصالحة المسجلة × مضاعف الشريط الزمني · الأجر الحقيقي عند الله وحده ❤️</div>
+    <div class="foot-note">رصيد الزاد = الأعمال الصالحة × مضاعف الشريط · الأجر الحقيقي عند الله وحده ❤️</div>
   </main>
 
-  <!-- Floating AI Button -->
-  <a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
+  <a href="ai.html" class="fab-ai" aria-label="AI Assistant">🤖</a>
 </div>
-  <script src="lang.js" defer></script>
-  <script src="js/app.js" defer></script>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
+<script src="animations.js" defer></script>
+
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  recordDailyProgress();
-  renderZadCard();
-  renderHeatmap();
-  renderActivityChart();
-  renderMetrics();
-  renderInsights();
-  renderBadgesCabinet();
-  // Confetti if just finished Arafah
-  if (isArafahDay() && STATE.arafah?.milestones) {
-    const done = Object.values(STATE.arafah.milestones).filter(Boolean).length;
-    if (done >= 5 && !STATE._arafahConfetti) {
-      STATE._arafahConfetti = true; saveState();
-      setTimeout(triggerConfetti, 500);
+/* ════════════════════════════════════════════════════════════
+   MERGED HARVEST PAGE — Complete 10-Day Stats Dashboard
+   ════════════════════════════════════════════════════════════ */
+
+const HIJRI_REF = { greg: new Date(2026, 4, 18), h_day: 1, h_month: 12, h_year: 1447 };
+const MONTH_LEN = [30,29,30,29,30,29,30,29,30,29,30,29];
+const DAY_NAMES = ['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر'];
+const SPECIAL_DAYS = { 8: 'التروية', 9: 'عرفة ⭐', 10: 'العيد 🎉' };
+
+/* ── Helpers ────────────────────────────────────────────── */
+function getDhulHijjahDayFor(dateStr) {
+  const date = new Date(dateStr + 'T12:00:00');
+  const ref = new Date(HIJRI_REF.greg); ref.setHours(12,0,0,0);
+  const diff = Math.round((date - ref) / 86400000);
+  const dayInMonth = 1 + diff;
+  return (dayInMonth >= 1 && dayInMonth <= 10) ? dayInMonth : null;
+}
+
+function computeTodayPct(state) {
+  const w = state.worship || {};
+  const keys = ['fajr','zuhr','asr','maghrib','isha','morning_dhikr','evening_dhikr','takbeer_100','qiyam'];
+  const done = keys.filter(k => w[k]).length;
+  return Math.round((done / keys.length) * 100);
+}
+
+function safeToggleTheme() { if (typeof toggleTheme === 'function') toggleTheme(); }
+function showToast(msg) { if (typeof window.showToast === 'function') window.showToast(msg); else console.log(msg); }
+
+/* ── Main Load Function ─────────────────────────────────── */
+function loadHarvestPage() {
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem('zad_v2') || '{}'); } catch(e) {}
+
+  const history = state.history || {};
+  const fasting = state.fasting || {};
+  const badges = state.badges || [];
+
+  /* Build day data */
+  const days = [];
+  for (let d = 1; d <= 10; d++) {
+    const gDate = new Date(HIJRI_REF.greg);
+    gDate.setDate(gDate.getDate() + (d - 1));
+    const dateKey = gDate.toISOString().substring(0, 10);
+    const hist = history[dateKey] || {};
+    const isToday = dateKey === new Date().toISOString().substring(0,10);
+    const pct = hist.pct || (isToday ? computeTodayPct(state) : 0);
+    const hasFast = fasting[d] || hist.fasting;
+    days.push({ day: d, dateKey, pct, hasFast, hist, isToday });
+  }
+
+  /* Render all sections */
+  renderHero(days);
+  renderZadCard(state);
+  renderDayGrid(days);
+  renderAggregateStats(days, state, badges);
+  renderPerformanceBars(days);
+  renderActivityChart(days);
+  renderInsights(state);
+  renderBadgesCabinet(badges);
+
+  /* Confetti if Arafah completed */
+  if (state.arafah?.milestones) {
+    const done = Object.values(state.arafah.milestones).filter(Boolean).length;
+    if (done >= 5 && !state._arafahConfetti) {
+      state._arafahConfetti = true;
+      if (typeof saveState === 'function') saveState();
+      setTimeout(() => { if (typeof triggerConfetti === 'function') triggerConfetti(); }, 500);
     }
   }
-});
-
-function renderZadCard() {
-  const { points, multiplier } = calcZadPoints();
-  const el   = document.getElementById('zad-pts');
-  const mult = document.getElementById('zad-mult');
-  const strk = document.getElementById('zad-streak');
-  if (el)   el.textContent   = points.toLocaleString('ar-EG');
-  if (mult) mult.innerHTML   = multiplier > 1
-    ? `مضاعف الـ Streak: <span>×${multiplier}</span>`
-    : `ابدأ Streak لزيادة نقاطك!`;
-  if (strk) strk.textContent = (STATE.streak || 0) + ' 🔥';
 }
 
-function renderHeatmap() {
-  const wrap = document.getElementById('heatmap-grid');
-  if (!wrap) return;
-  wrap.innerHTML = '';
-  const hist = STATE.history || {};
-  for (let d = 1; d <= 10; d++) {
-    // find entry for this Dhul Hijjah day
-    const entry = Object.values(hist).find(e => e.dhulHijja === d) || null;
-    const pct = entry?.pct || 0;
-    let cls = 'hm-0';
-    if (pct > 0)   cls = 'hm-25';
-    if (pct >= 50) cls = 'hm-50';
-    if (pct >= 75) cls = 'hm-75';
-    if (pct >= 90) cls = 'hm-90';
-    if (pct >=100) cls = 'hm-100';
-    const cell = document.createElement('div');
-    cell.className = 'hm-cell ' + cls;
-    cell.title = `اليوم ${d}: ${pct}%`;
-    cell.innerHTML = `<span class="hm-day">${d}</span><span class="hm-pct">${pct?pct+'%':'-'}</span>`;
-    wrap.appendChild(cell);
+/* ── Render Functions ───────────────────────────────────── */
+function renderHero(days) {
+  const activeDays = days.filter(d => d.pct > 0).length;
+  const avgPct = activeDays > 0 ? Math.round(days.reduce((s,d) => s + d.pct, 0) / 10) : 0;
+  const el = document.getElementById('sum-total-pct');
+  const sub = document.getElementById('sum-days-active');
+  if (el) el.textContent = avgPct + '%';
+  if (sub) sub.textContent = `${activeDays} من 10 أيام مسجّلة`;
+}
+
+function renderZadCard(state) {
+  if (typeof calcZadPoints === 'function') {
+    const { points, multiplier } = calcZadPoints();
+    const el = document.getElementById('zad-pts');
+    const mult = document.getElementById('zad-mult');
+    const strk = document.getElementById('zad-streak');
+    if (el) el.textContent = points.toLocaleString('ar-EG');
+    if (mult) mult.innerHTML = multiplier > 1 ? `مضاعف الشريط: <span>×${multiplier}</span>` : 'ابدأ شريطاً لزيادة نقاطك!';
+    if (strk) strk.textContent = (state.streak || 0) + ' 🔥';
   }
 }
 
-function renderActivityChart() {
+function renderDayGrid(days) {
+  const c = document.getElementById('day-grid');
+  if (!c) return;
+  c.innerHTML = days.map(({ day, pct, hasFast, isToday }) => {
+    const cls = pct >= 80 ? 'day-complete' : pct >= 40 ? 'day-partial' : 'day-empty';
+    const dot = pct >= 80 ? 'green' : pct >= 40 ? 'gold' : 'gray';
+    const pctCls = pct >= 80 ? 'high' : pct >= 40 ? 'mid' : 'low';
+    const special = SPECIAL_DAYS[day] || '';
+    return `<div class="day-cell ${cls} ${isToday?'today-cell':''}" title="اليوم ${DAY_NAMES[day]}: ${pct}%">
+      <div class="dc-dot ${dot}"></div>
+      <div class="dc-num">${day}</div>
+      <div class="dc-pct ${pctCls}">${pct > 0 ? pct+'%' : '—'}</div>
+      ${hasFast ? '<div class="dc-fast">🌙</div>' : ''}
+      ${special ? `<div class="dc-special">${special}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderAggregateStats(days, state, badges) {
+  const fastDays = days.filter(d => d.hasFast).length;
+  const maxStreak = state.streak || 0;
+  const takbeer = state.takbeer?.total || 0;
+  const totalJuz = days.reduce((s,d) => s + (d.hist.juz || 0), 0);
+  const totalPrayers = days.filter(d => d.hist.pct > 0).length * 5;
+
+  const metrics = [
+    { id:'sum-takbeer', val: takbeer.toLocaleString('ar-EG') },
+    { id:'sum-juz', val: totalJuz },
+    { id:'sum-fasting', val: fastDays },
+    { id:'sum-streak', val: maxStreak },
+    { id:'sum-prayers', val: totalPrayers },
+    { id:'sum-badges', val: badges.length }
+  ];
+  metrics.forEach(m => {
+    const el = document.getElementById(m.id);
+    if (el) el.textContent = m.val;
+  });
+}
+
+function renderPerformanceBars(days) {
+  function setBar(id, valId, pct) {
+    const bar = document.getElementById(id);
+    const val = document.getElementById(valId);
+    const p = Math.min(100, Math.round(pct));
+    setTimeout(() => { if (bar) bar.style.width = p + '%'; }, 300);
+    if (val) val.textContent = p + '%';
+  }
+  const active = days.filter(d => d.pct > 0);
+  const n = active.length || 1;
+  const avgPct = active.reduce((s,d) => s + d.pct, 0) / n;
+  const fastPct = (days.filter(d => d.hasFast).length / 9) * 100;
+
+  setBar('pb-prayers', 'pv-prayers', avgPct * 0.8);
+  setBar('pb-fasting', 'pv-fasting', fastPct);
+  setBar('pb-quran', 'pv-quran', avgPct * 0.6);
+  setBar('pb-takbeer', 'pv-takbeer', Math.min(100, active.length * 10));
+  setBar('pb-dhikr', 'pv-dhikr', avgPct * 0.7);
+}
+
+function renderActivityChart(days) {
   const ctx = document.getElementById('activity-chart');
   if (!ctx) return;
-  const hist = STATE.history || {};
-  const labels = Array.from({length:10},(_,i)=>['١','٢','٣','٤','٥','٦','٧','٨','٩','١٠'][i]);
-  const data   = Array.from({length:10},(_,i) => {
-    const entry = Object.values(hist).find(e => e.dhulHijja === i+1);
-    return entry?.pct || 0;
-  });
+  const labels = Array.from({length:10}, (_,i) => (i+1).toString());
+  const data = days.map(d => d.pct);
   const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-  const gridColor  = isDark ? 'rgba(255,255,255,.08)' : 'rgba(14,59,46,.08)';
-  const textColor  = isDark ? '#7a9a7a' : '#6b7a72';
-  const lineColor  = '#c9a14a';
-  const fillTop    = isDark ? 'rgba(201,161,74,.25)' : 'rgba(201,161,74,.18)';
-  const fillBot    = 'rgba(201,161,74,.02)';
+  const gridColor = isDark ? 'rgba(255,255,255,.08)' : 'rgba(14,59,46,.08)';
+  const textColor = isDark ? '#7a9a7a' : '#6b7a72';
+
   new Chart(ctx, {
     type: 'line',
     data: {
@@ -251,20 +480,20 @@ function renderActivityChart() {
       datasets: [{
         label: 'إنجاز الورد %',
         data,
-        borderColor: lineColor,
+        borderColor: '#c9a14a',
         borderWidth: 2.5,
-        pointBackgroundColor: lineColor,
-        pointRadius: 5,
-        pointHoverRadius: 7,
+        pointBackgroundColor: '#c9a14a',
+        pointRadius: 4,
+        pointHoverRadius: 6,
         tension: 0.4,
         fill: true,
         backgroundColor: (ctx2) => {
           const chart = ctx2.chart;
           const { ctx: c, chartArea } = chart;
-          if (!chartArea) return fillTop;
+          if (!chartArea) return 'rgba(201,161,74,.18)';
           const gradient = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          gradient.addColorStop(0, fillTop);
-          gradient.addColorStop(1, fillBot);
+          gradient.addColorStop(0, 'rgba(201,161,74,.25)');
+          gradient.addColorStop(1, 'rgba(201,161,74,.02)');
           return gradient;
         }
       }]
@@ -273,178 +502,139 @@ function renderActivityChart() {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: ctx3 => ' إنجاز اليوم: ' + ctx3.raw + '%'
-          }
-        }
+        tooltip: { callbacks: { label: ctx3 => ' إنجاز اليوم: ' + ctx3.raw + '%' } }
       },
       scales: {
-        x: {
-          ticks: { color: textColor, font: { family: 'Tajawal', size: 12 } },
-          grid:  { color: gridColor }
-        },
-        y: {
-          min: 0, max: 100,
-          ticks: { color: textColor, callback: v => v + '%', font: { family: 'Tajawal', size: 11 } },
-          grid:  { color: gridColor }
-        }
+        x: { ticks: { color: textColor, font: { family: 'Tajawal', size: 11 } }, grid: { color: gridColor } },
+        y: { min: 0, max: 100, ticks: { color: textColor, callback: v => v + '%', font: { family: 'Tajawal', size: 10 } }, grid: { color: gridColor } }
       }
     }
   });
 }
 
-function renderMetrics() {
-  // Worship count (sujood in nawafil)
-  const nawafil = ['rawatib','duha','qiyam'];
-  const sujood  = nawafil.filter(k => STATE.worship?.[k]).length * 8; // ~8 sujood per nawafil
-  const fasting = Object.values(STATE.fasting||{}).filter(Boolean).length;
-  const fastAr  = ['صفر','واحد','يومَين','ثلاثة','أربعة','خمسة','ستة','سبعة','ثمانية','تسعة'][fasting] || fasting;
+function renderInsights(state) {
+  if (typeof generateInsights === 'function') {
+    const { strength, improve } = generateInsights();
+    const wrap = document.getElementById('insights-wrap');
+    if (!wrap) return;
+    wrap.innerHTML = '';
 
-  const metrics = [
-    { id:'m-juz',    val: STATE.mushaf?.juz || 0,         lbl:'جزء قرآن', sub:`${Math.round(((STATE.mushaf?.juz||0)/30)*100)}% من الختمة` },
-    { id:'m-tkbr',   val: (STATE.takbeer?.total||0).toLocaleString('ar-EG'), lbl:'تكبيرة', sub:`${STATE.takbeer?.sessions||0} جلسة مكتملة` },
-    { id:'m-fast',   val: fasting,                         lbl:'يوم صيام', sub:fasting===9?'صمت الأيام التسعة 🏆':`${9-fasting} أيام متبقية` },
-    { id:'m-sujd',   val: sujood,                          lbl:'سجدة نافلة', sub:'تقرباً إلى الله' },
-  ];
-  metrics.forEach(m => {
-    const el = document.getElementById(m.id);
-    const sb = document.getElementById(m.id + '-sub');
-    if (el) el.textContent = m.val;
-    if (sb) sb.textContent = m.sub;
-  });
-}
-
-function renderInsights() {
-  const { strength, improve, points, multiplier, streak } = generateInsights();
-  const wrap = document.getElementById('insights-wrap');
-  if (!wrap) return;
-  wrap.innerHTML = '';
-
-  if (strength.length) {
-    const hdr = document.createElement('div');
-    hdr.className = 'insight-type insight-strength';
-    hdr.textContent = '✨ نقاط قوتك';
-    wrap.appendChild(hdr);
-    strength.forEach(s => {
-      const row = document.createElement('div');
-      row.className = 'insight-row';
-      row.innerHTML = `<span class="insight-ico">🌟</span><span class="insight-text">${s}</span>`;
-      wrap.appendChild(row);
-    });
-  }
-  if (improve.length) {
-    const hdr = document.createElement('div');
-    hdr.className = 'insight-type insight-improve';
-    hdr.style.marginTop = '12px';
-    hdr.textContent = '💡 فرص التحسين';
-    wrap.appendChild(hdr);
-    improve.forEach(s => {
-      const row = document.createElement('div');
-      row.className = 'insight-row';
-      row.innerHTML = `<span class="insight-ico">💡</span><span class="insight-text">${s}</span>`;
-      wrap.appendChild(row);
-    });
-  }
-  if (!strength.length && !improve.length) {
-    wrap.innerHTML = '<div class="insight-row"><span class="insight-ico">🌱</span><span class="insight-text">ابدأ وردك اليومي وستظهر هنا رؤى مخصصة لأدائك</span></div>';
+    if (strength.length) {
+      const hdr = document.createElement('div');
+      hdr.className = 'insight-type insight-strength';
+      hdr.textContent = '✨ نقاط قوتك';
+      wrap.appendChild(hdr);
+      strength.forEach(s => {
+        const row = document.createElement('div');
+        row.className = 'insight-row';
+        row.innerHTML = `<span class="insight-ico">🌟</span><span class="insight-text">${s}</span>`;
+        wrap.appendChild(row);
+      });
+    }
+    if (improve.length) {
+      const hdr = document.createElement('div');
+      hdr.className = 'insight-type insight-improve';
+      hdr.style.marginTop = '12px';
+      hdr.textContent = '💡 فرص التحسين';
+      wrap.appendChild(hdr);
+      improve.forEach(s => {
+        const row = document.createElement('div');
+        row.className = 'insight-row';
+        row.innerHTML = `<span class="insight-ico">💡</span><span class="insight-text">${s}</span>`;
+        wrap.appendChild(row);
+      });
+    }
+    if (!strength.length && !improve.length) {
+      wrap.innerHTML = '<div class="insight-row"><span class="insight-ico">🌱</span><span class="insight-text">ابدأ وردك اليومي وستظهر هنا رؤى مخصصة لأدائك</span></div>';
+    }
   }
 }
 
-function renderBadgesCabinet() {
+function renderBadgesCabinet(badges) {
   const wrap = document.getElementById('badges-cabinet');
   if (!wrap) return;
   const ALL_BADGES = [
-    { id:'mubakker', emoji:'🌅', name:'المبكّر',       desc:'الفجر في جماعة' },
-    { id:'dhaker',   emoji:'📿', name:'الذاكرون',     desc:'100 تكبيرة' },
-    { id:'saem',     emoji:'🌙', name:'الصائمون',     desc:'صيام 3 أيام' },
-    { id:'khatim',   emoji:'📖', name:'الخاتمون',     desc:'ختمة كاملة' },
-    { id:'musare',   emoji:'🕌', name:'المسارعون',    desc:'الصلوات الخمس جماعة' },
-    { id:'mukabbir', emoji:'📢', name:'المُكبِّرون',  desc:'1000 تكبيرة' },
-    { id:'sadiq',    emoji:'💚', name:'المتصدقون',    desc:'3 أعمال بر' },
-    { id:'kamil',    emoji:'👑', name:'جامع الخير',   desc:'5 أيام متتالية' },
-    { id:'saher',    emoji:'🌠', name:'فجر العشر',    desc:'5 أيام Streak' },
-    { id:'sabiq',    emoji:'⭐', name:'السابق',       desc:'جدول عرفة كاملاً' },
-    { id:'lisan',    emoji:'📣', name:'لسان ذاكر',   desc:'1000 تكبيرة' },
-    { id:'khatim2',  emoji:'📚', name:'الراسخون',    desc:'15 جزء قرآن' },
-    { id:'wasil',    emoji:'🤝', name:'الواصلون',    desc:'5 أعمال خير' },
+    { id:'mubakker', emoji:'🌅', name:'المبكّر', desc:'الفجر في جماعة' },
+    { id:'dhaker', emoji:'📿', name:'الذاكرون', desc:'100 تكبيرة' },
+    { id:'saem', emoji:'🌙', name:'الصائمون', desc:'صيام 3 أيام' },
+    { id:'khatim', emoji:'📖', name:'الخاتمون', desc:'ختمة كاملة' },
+    { id:'musare', emoji:'🕌', name:'المسارعون', desc:'الصلوات الخمس جماعة' },
+    { id:'mukabbir', emoji:'📢', name:'المُكبِّرون', desc:'1000 تكبيرة' },
+    { id:'sadiq', emoji:'💚', name:'المتصدقون', desc:'3 أعمال بر' },
+    { id:'kamil', emoji:'👑', name:'جامع الخير', desc:'5 أيام متتالية' },
+    { id:'saher', emoji:'🌠', name:'فجر العشر', desc:'5 أيام Streak' },
+    { id:'sabiq', emoji:'⭐', name:'السابق', desc:'جدول عرفة كاملاً' },
+    { id:'lisan', emoji:'📣', name:'لسان ذاكر', desc:'1000 تكبيرة' },
+    { id:'khatim2', emoji:'📚', name:'الراسخون', desc:'15 جزء قرآن' },
+    { id:'wasil', emoji:'🤝', name:'الواصلون', desc:'5 أعمال خير' },
   ];
-  const earned = STATE.badges || [];
+  const earned = badges || [];
   wrap.innerHTML = '';
   ALL_BADGES.forEach(b => {
     const done = earned.includes(b.id);
     const card = document.createElement('div');
     card.className = 'badge' + (done ? ' earned' : ' locked');
-    card.innerHTML = `
-      <div class="medal">${b.emoji}</div>
-      <div class="name">${b.name}</div>
-      <div class="desc">${done ? '✅ ' : ''}${b.desc}</div>`;
+    card.innerHTML = `<div class="medal">${b.emoji}</div><div class="name">${b.name}</div><div class="desc">${done ? '✅ ' : ''}${b.desc}</div>`;
     wrap.appendChild(card);
   });
   const earnedEl = document.getElementById('earned-summary');
   if (earnedEl) earnedEl.textContent = earned.length + ' / ' + ALL_BADGES.length;
 }
 
-/* ══ Share Harvest Image ══ */
-function buildHarvestCardHTML() {
-  const { points } = calcZadPoints();
-  const streak  = STATE.streak || 0;
-  const fasting = Object.values(STATE.fasting||{}).filter(Boolean).length;
-  const tkbr    = STATE.takbeer?.total || 0;
-  const juz     = STATE.mushaf?.juz || 0;
-  const { strength, improve } = generateInsights();
+/* ══ Share Harvest Image ═════════════════════════════════ */
+function buildHarvestCardHTML(state) {
+  const points = (typeof calcZadPoints === 'function') ? calcZadPoints().points : 0;
+  const streak = state.streak || 0;
+  const fasting = Object.values(state.fasting||{}).filter(Boolean).length;
+  const tkbr = state.takbeer?.total || 0;
+  const juz = state.mushaf?.juz || 0;
+  const insights = (typeof generateInsights === 'function') ? generateInsights() : { improve: [] };
 
-  const insightHTML = improve.slice(0,5).map(s => {
+  const insightHTML = (insights.improve || []).slice(0,5).map(s => {
     const ico = s.includes('قيام')?'🌙':s.includes('تكبير')?'📿':s.includes('قراءة')?'📖':s.includes('صيام')?'🌙':s.includes('أذكار')?'🌅':'💡';
     const parts = s.replace(/^[^\s]+ /,'').split(' — ');
-    return '<div style="display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border-radius:10px;margin-bottom:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">'
-      +'<span style="font-size:16px;flex-shrink:0;margin-top:1px">'+ico+'</span>'
-      +'<span style="font-size:12.5px;color:rgba(255,255,255,.78);line-height:1.55">'
-      +'<strong style="color:#e6c97a">'+(parts[0]||s)+'</strong>'+(parts[1]?' — '+parts[1]:'')+'</span></div>';
+    return `<div style="display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border-radius:10px;margin-bottom:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">
+      <span style="font-size:16px;flex-shrink:0;margin-top:1px">${ico}</span>
+      <span style="font-size:12.5px;color:rgba(255,255,255,.78);line-height:1.55">
+        <strong style="color:#e6c97a">${parts[0]||s}</strong>${parts[1]?' — '+parts[1]:''}
+      </span>
+    </div>`;
   }).join('') || '<div style="color:rgba(255,255,255,.5);font-size:13px;padding:12px;text-align:center">لا توجد تحسينات — إنجازك رائع! ✅</div>';
 
-  const strengthBadge = strength.length
-    ? '<div style="background:rgba(77,216,102,.12);border:1px solid rgba(77,216,102,.25);border-radius:99px;padding:4px 14px;font-size:11px;font-weight:700;color:#4dd866;display:inline-block;margin-top:4px">🏆 '+strength[0].replace(/^[^\s]+ /,'')+'</div>'
-    : '';
-
-  return '<div style="width:440px;background:#0a2218;border-radius:20px;overflow:hidden;font-family:Tajawal,sans-serif;direction:rtl;position:relative">'
-  +'<div style="position:relative;z-index:1">'
-  // Header
-  +'<div style="background:linear-gradient(135deg,#0e3b2e,#1a5d47);padding:26px 24px 20px;text-align:center;border-bottom:1px solid rgba(201,161,74,.2)">'
-  +'<div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px">'
-  +'<div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#e6c97a,#c9a14a);display:flex;align-items:center;justify-content:center;font-size:22px">🕋</div>'
-  +'<div><div style="font-size:20px;font-weight:800;color:#e6c97a">زاد العشر</div><div style="font-size:11px;color:rgba(255,255,255,.45)">أفضل أيام الدنيا</div></div></div>'
-  +'<div style="display:inline-flex;align-items:center;background:rgba(201,161,74,.15);border:1px solid rgba(201,161,74,.3);border-radius:99px;padding:5px 14px;font-size:12px;font-weight:700;color:#e6c97a;margin-bottom:8px">✦ حصاد عشر ذي الحجة 1447هـ ✦</div>'
-  +'<div style="font-family:serif;font-size:17px;color:rgba(201,161,74,.8);line-height:1.9">وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ</div>'
-  +strengthBadge+'</div>'
-  // Stats row 1
-  +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,161,74,.15);border-top:1px solid rgba(201,161,74,.15)">'
-  +[['🌟',points.toLocaleString(),'رصيد الزاد'],['🔥',streak,'أيام متتالية'],['🌙',fasting,'يوم صيام']]
-    .map(([i,v,l])=>'<div style="background:#0d2a1c;padding:14px 8px;text-align:center"><div style="font-size:22px;margin-bottom:4px">'+i+'</div><div style="font-size:20px;font-weight:800;color:#e6c97a;line-height:1">'+v+'</div><div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px">'+l+'</div></div>').join('')
-  +'</div>'
-  // Stats row 2
-  +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,161,74,.15);border-bottom:1px solid rgba(201,161,74,.15)">'
-  +'<div style="background:#0d2a1c;padding:14px 8px;text-align:center"><div style="font-size:22px;margin-bottom:4px">📿</div><div style="font-size:20px;font-weight:800;color:#e6c97a;line-height:1">'+tkbr.toLocaleString()+'</div><div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px">تكبيرة</div></div>'
-  +'<div style="background:#0d2a1c;padding:14px 8px;text-align:center"><div style="font-size:22px;margin-bottom:4px">📖</div><div style="font-size:20px;font-weight:800;color:#e6c97a;line-height:1">'+juz+'</div><div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px">جزء قرآن</div></div>'
-  +'<div style="background:linear-gradient(135deg,#0e3b2e,#1a3a28);padding:14px 8px;text-align:center"><div style="font-size:22px;margin-bottom:4px">🏅</div><div style="font-size:16px;font-weight:800;color:#e6c97a;line-height:1">'+(STATE.badges||[]).length+' وسام</div><div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px">الإنجازات</div></div>'
-  +'</div>'
-  // Divider
-  +'<div style="display:flex;align-items:center;gap:12px;padding:14px 20px"><div style="flex:1;height:1px;background:rgba(201,161,74,.18)"></div><div style="font-size:11px;font-weight:700;color:rgba(201,161,74,.7);white-space:nowrap">💡 أعمل عليها اليوم</div><div style="flex:1;height:1px;background:rgba(201,161,74,.18)"></div></div>'
-  +'<div style="padding:0 20px 10px">'+insightHTML+'</div>'
-  // CTA
-  +'<div style="margin:0 20px 16px;padding:12px 16px;border-radius:12px;background:rgba(201,161,74,.08);border:1px solid rgba(201,161,74,.2);text-align:center">'
-  +'<div style="font-size:13px;color:rgba(255,255,255,.7)">انضم إلي في تحدي العشر المباركة 👇</div>'
-  +'<div style="font-size:12px;color:#e6c97a;margin-top:3px;font-weight:700">«ما من أيام العمل الصالح فيهن أحب إلى الله»</div></div>'
-  // Footer
-  +'<div style="padding:14px 20px;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,161,74,.1)">'
-  +'<div><div style="font-size:13px;font-weight:700;color:#c9a14a">zadullashr.vercel.app</div>'
-  +'<div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:1px">رفيقك في أفضل أيام الدنيا</div></div>'
-  +'<div style="font-size:30px">📲</div></div>'
-  +'</div></div>';
+  return `<div style="width:440px;background:#0a2218;border-radius:20px;overflow:hidden;font-family:Tajawal,sans-serif;direction:rtl;position:relative">
+    <div style="position:relative;z-index:1">
+      <div style="background:linear-gradient(135deg,#0e3b2e,#1a5d47);padding:26px 24px 20px;text-align:center;border-bottom:1px solid rgba(201,161,74,.2)">
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px">
+          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#e6c97a,#c9a14a);display:flex;align-items:center;justify-content:center;font-size:22px">🕋</div>
+          <div><div style="font-size:20px;font-weight:800;color:#e6c97a">زاد العشر</div><div style="font-size:11px;color:rgba(255,255,255,.45)">أفضل أيام الدنيا</div></div>
+        </div>
+        <div style="display:inline-flex;align-items:center;background:rgba(201,161,74,.15);border:1px solid rgba(201,161,74,.3);border-radius:99px;padding:5px 14px;font-size:12px;font-weight:700;color:#e6c97a;margin-bottom:8px">✦ حصاد عشر ذي الحجة 1447هـ ✦</div>
+        <div style="font-family:serif;font-size:17px;color:rgba(201,161,74,.8);line-height:1.9">وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,161,74,.15);border-top:1px solid rgba(201,161,74,.15)">
+        ${[['🌟',points.toLocaleString(),'رصيد الزاد'],['🔥',streak,'أيام متتالية'],['🌙',fasting,'يوم صيام']].map(([i,v,l])=>`<div style="background:#0d2a1c;padding:14px 8px;text-align:center"><div style="font-size:22px;margin-bottom:4px">${i}</div><div style="font-size:20px;font-weight:800;color:#e6c97a;line-height:1">${v}</div><div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px">${l}</div></div>`).join('')}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,161,74,.15);border-bottom:1px solid rgba(201,161,74,.15)">
+        <div style="background:#0d2a1c;padding:14px 8px;text-align:center"><div style="font-size:22px;margin-bottom:4px">📿</div><div style="font-size:20px;font-weight:800;color:#e6c97a;line-height:1">${tkbr.toLocaleString()}</div><div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px">تكبيرة</div></div>
+        <div style="background:#0d2a1c;padding:14px 8px;text-align:center"><div style="font-size:22px;margin-bottom:4px">📖</div><div style="font-size:20px;font-weight:800;color:#e6c97a;line-height:1">${juz}</div><div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px">جزء قرآن</div></div>
+        <div style="background:linear-gradient(135deg,#0e3b2e,#1a3a28);padding:14px 8px;text-align:center"><div style="font-size:22px;margin-bottom:4px">🏅</div><div style="font-size:16px;font-weight:800;color:#e6c97a;line-height:1">${(state.badges||[]).length} وسام</div><div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px">الإنجازات</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:14px 20px"><div style="flex:1;height:1px;background:rgba(201,161,74,.18)"></div><div style="font-size:11px;font-weight:700;color:rgba(201,161,74,.7);white-space:nowrap">💡 أعمل عليها اليوم</div><div style="flex:1;height:1px;background:rgba(201,161,74,.18)"></div></div>
+      <div style="padding:0 20px 10px">${insightHTML}</div>
+      <div style="margin:0 20px 16px;padding:12px 16px;border-radius:12px;background:rgba(201,161,74,.08);border:1px solid rgba(201,161,74,.2);text-align:center">
+        <div style="font-size:13px;color:rgba(255,255,255,.7)">انضم إلي في تحدي العشر المباركة 👇</div>
+        <div style="font-size:12px;color:#e6c97a;margin-top:3px;font-weight:700">«ما من أيام العمل الصالح فيهن أحب إلى الله»</div>
+      </div>
+      <div style="padding:14px 20px;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,161,74,.1)">
+        <div><div style="font-size:13px;font-weight:700;color:#c9a14a">zadullashr.vercel.app</div><div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:1px">رفيقك في أفضل أيام الدنيا</div></div>
+        <div style="font-size:30px">📲</div>
+      </div>
+    </div>
+  </div>`;
 }
 
 async function shareHarvest() {
-  const btn = document.querySelector('.share-harvest-card .btn');
+  const btn = document.querySelector('.share-harvest-btn');
   const origHTML = btn ? btn.innerHTML : '';
   if (btn) { btn.innerHTML = '⏳ جارٍ إنشاء الصورة...'; btn.disabled = true; }
 
@@ -452,16 +642,17 @@ async function shareHarvest() {
     await document.fonts.ready;
     const wrap = document.createElement('div');
     wrap.style.cssText = 'position:fixed;top:-9999px;left:-9999px;z-index:-1;direction:rtl;';
-    wrap.innerHTML = buildHarvestCardHTML();
+    
+    let state = {};
+    try { state = JSON.parse(localStorage.getItem('zad_v2') || '{}'); } catch(e) {}
+    
+    wrap.innerHTML = buildHarvestCardHTML(state);
     document.body.appendChild(wrap);
     await new Promise(r => setTimeout(r, 350));
 
     const canvas = await html2canvas(wrap.firstElementChild, {
-      scale: 3,
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: '#0a2218',
-      logging: false,
+      scale: 3, useCORS: true, allowTaint: true,
+      backgroundColor: '#0a2218', logging: false
     });
     document.body.removeChild(wrap);
 
@@ -502,15 +693,15 @@ async function shareHarvest() {
     const w = document.querySelector('div[style*="top:-9999px"]');
     if (w) document.body.removeChild(w);
   }
-
   if (btn) { btn.innerHTML = origHTML; btn.disabled = false; }
 }
 window.shareHarvest = shareHarvest;
+
+/* ── Init ───────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof recordDailyProgress === 'function') recordDailyProgress();
+  loadHarvestPage();
+});
 </script>
-  <!-- ═══ Visual Upgrade v2 ═══════════════════════════════ -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
-  <script src="animations.js" defer></script>
 </body>
 </html>
