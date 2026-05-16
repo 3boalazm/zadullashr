@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>إحصاء العشر — زاد العشر</title>
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<noscript></noscript>
+<link rel="stylesheet" href="css/style.css">
+<style>
+.page-title,.hero h1,.section-title,.brand-name,h1,h2,h3{font-family:'ThmanyahSans','Tajawal',sans-serif}
+
+/* ══ Summary hero ══════════════════════════════════════════ */
+.sum-hero{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:20px;padding:28px 24px;margin-bottom:20px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.sum-hero::after{content:'📈';position:absolute;right:16px;bottom:10px;font-size:64px;opacity:.12}
+.sum-hero-num{font-size:56px;font-weight:900;color:var(--gold2,#e6c97a);line-height:1;font-family:'ThmanyahSans','Tajawal',sans-serif}
+.sum-hero-lbl{font-size:14px;opacity:.8;margin-top:4px}
+.sum-hero-sub{font-size:13px;opacity:.65;margin-top:8px}
+
+/* ══ Day grid ══════════════════════════════════════════════ */
+.day-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px;margin-bottom:20px}
+.day-cell{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px 8px;text-align:center;transition:all .2s;cursor:pointer;position:relative}
+.day-cell:hover{transform:translateY(-2px);border-color:var(--gold)}
+.day-cell.day-complete{border-color:rgba(52,199,89,.45);background:rgba(52,199,89,.06)}
+.day-cell.day-partial{border-color:rgba(201,161,74,.35);background:rgba(201,161,74,.06)}
+.day-cell.day-empty{opacity:.55}
+.day-cell.today-cell{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,161,74,.25)}
+.dc-num{font-size:22px;font-weight:900;color:var(--green-deep);font-family:'ThmanyahSans','Tajawal',sans-serif}
+html[data-theme="dark"] .dc-num,html[data-theme="oled"] .dc-num{color:var(--sys-green)}
+.dc-pct{font-size:13px;font-weight:700;margin-top:3px}
+.dc-pct.high{color:var(--sys-green)}.dc-pct.mid{color:var(--gold)}.dc-pct.low{color:var(--muted)}
+.dc-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%}
+.dc-dot.green{background:var(--sys-green)}.dc-dot.gold{background:var(--gold)}.dc-dot.gray{background:var(--border)}
+.dc-special{font-size:9px;color:var(--gold);font-weight:700;margin-top:2px}
+
+/* ══ Stats cards ═══════════════════════════════════════════ */
+.sum-stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+.sum-stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 16px;text-align:center;box-shadow:var(--shadow-sm)}
+.sum-stat .sv{font-size:36px;font-weight:900;color:var(--green-deep);font-family:'ThmanyahSans','Tajawal',sans-serif;line-height:1}
+html[data-theme="dark"] .sum-stat .sv,html[data-theme="oled"] .sum-stat .sv{color:var(--sys-green)}
+.sum-stat .sl{font-size:12px;color:var(--muted);margin-top:4px;font-weight:700}
+.sum-stat .si{font-size:28px;margin-bottom:6px}
+
+/* ══ Progress bars ═════════════════════════════════════════ */
+.perf-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.perf-label{font-size:13px;font-weight:700;width:90px;flex-shrink:0;color:var(--ink)}
+.perf-bar-wrap{flex:1;height:8px;background:var(--sand-2);border-radius:99px;overflow:hidden}
+.perf-bar{height:100%;border-radius:99px;transition:width 1s var(--ease);background:linear-gradient(90deg,var(--green-soft),var(--gold))}
+.perf-val{font-size:12px;font-weight:700;color:var(--muted);width:36px;text-align:left}
+
+/* ══ Chart ═════════════════════════════════════════════════ */
+.sum-chart{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:20px}
+.chart-bars{display:flex;align-items:flex-end;gap:6px;height:80px;margin-bottom:8px}
+.chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.chart-bar{width:100%;border-radius:4px 4px 0 0;transition:height 1s var(--ease);min-height:2px;background:linear-gradient(0deg,var(--green-deep),var(--green-soft))}
+.chart-bar.today{background:linear-gradient(0deg,var(--gold),var(--gold2))}
+.chart-lbl{font-size:9px;color:var(--muted);font-weight:700}
+
+/* ══ Share button ══════════════════════════════════════════ */
+.share-harvest-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;border:none;border-radius:16px;font-family:'ThmanyahSans','Tajawal',inherit;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px}
+.share-harvest-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(14,59,46,.35)}
+html[data-theme="dark"] .share-harvest-btn,html[data-theme="oled"] .share-harvest-btn{background:linear-gradient(135deg,var(--sys-green),#2eb84d);color:#001a08}
+
+@media(max-width:480px){
+  .sum-stat-grid{grid-template-columns:1fr 1fr}
+  .day-grid{grid-template-columns:repeat(5,1fr)}
+}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
+</head>
+<body>
+<button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+    <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:28px;height:28px;border-radius:6px"></div>
+      <div>
+        <div class="brand-name" data-i18n="brand.name">زاد العشر</div>
+        <div class="brand-sub" data-i18n="brand.sub">أفضل أيام الدنيا</div>
+      </div>
+    </a>
+    <div class="theme-row">
+      <span data-i18n="common.darkMode">🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <button class="sidebar-lang-btn" onclick="toggleLang()" id="sidebar-lang-btn">
+      <span class="slb-label" data-i18n="common.language">🌐 اللغة</span>
+      <span class="slb-val" id="sidebar-lang-val">EN</span>
+    </button>
+    <nav class="nav">
+      <a href="index.html" ><span class="ico">🏠</span><span data-i18n="nav.dashboard">لوحة التحكم</span></a>
+      <a href="prayers.html" ><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html" ><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html" ><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <a href="videos.html" ><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="fadael.html" ><span class="ico">✨</span><span data-i18n="nav.virtues">فضائل العشر</span></a>
+      <a href="worship.html" ><span class="ico">📿</span><span data-i18n="nav.worship">جدول العبادات</span></a>
+      <a href="mushaf.html" ><span class="ico">📖</span><span data-i18n="nav.mushaf">مصحف العشر</span></a>
+      <a href="takbeer.html" ><span class="ico">🕋</span><span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</span></a>
+      <a href="adhkar.html" ><span class="ico">🤲</span><span data-i18n="nav.adhkar">الأذكار والدعاء</span></a>
+      <a href="odhiya.html" ><span class="ico">🐏</span><span data-i18n="nav.odhiya">دليل الأضحية</span></a>
+      <a href="arafah.html" ><span class="ico">🌄</span><span data-i18n="nav.arafah">يوم عرفة</span></a>
+      <a href="sadaqah.html" ><span class="ico">💚</span><span data-i18n="nav.sadaqah">صدقة العشر</span></a>
+      <a href="badges.html" ><span class="ico">🏅</span><span data-i18n="nav.badges">أوسمتي</span></a>
+      <a href="hasad.html" ><span class="ico">📊</span><span data-i18n="nav.hasad">حصاد العشر</span></a>
+      <a href="summary.html" class="active"><span class="ico">📈</span><span>إحصاء العشر</span></a>
+      <a href="kids.html" ><span class="ico">🧒</span><span data-i18n="nav.kids">وضع الأطفال</span></a>
+      <a href="tasmee.html" ><span class="ico">🎙️</span><span data-i18n="nav.tasmee">تسميع القرآن</span></a>
+      <a href="ai.html" ><span class="ico">🤖</span><span data-i18n="nav.ai">تدبّر بالذكاء</span></a>
+      <a href="settings.html" ><span class="ico">⚙️</span><span data-i18n="nav.settings">الإعدادات</span></a>
+      <a href="report.html" ><span class="ico">🚩</span><span data-i18n="nav.report">بلاغ مشكلة</span></a>
+      <a href="about.html" ><span class="ico">👤</span><span data-i18n="nav.about">عن التطبيق</span></a>
+    </nav>
+    <div class="side-foot"><span data-i18n="brand.name">زاد العشر</span> 2026 · <span data-i18n="common.noAds">بدون إعلانات 📴</span></div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:10px;overflow:hidden;display:grid;place-items:center"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:32px;height:32px"></div>
+        <div>
+          <div class="page-title">إحصاء العشر</div>
+          <div class="page-sub">ملخص أدائك في أيام ذي الحجة</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang()">EN</button>
+        <button class="btn-theme" onclick="toggleTheme()" aria-label="تبديل المظهر">🌙</button>
+      </div>
+    </div>
+
+    <!-- Hero total score -->
+    <div class="sum-hero">
+      <div class="sum-hero-num" id="sum-total-pct">0%</div>
+      <div class="sum-hero-lbl">متوسط الالتزام في العشر</div>
+      <div class="sum-hero-sub" id="sum-days-active">0 من 10 أيام مسجّلة</div>
+    </div>
+
+    <!-- 10-day grid -->
+    <div class="section-title">📅 الأيام العشرة يوماً بيوم</div>
+    <div class="day-grid" id="day-grid"></div>
+
+    <!-- Performance chart -->
+    <div class="section-title">📊 منحنى الأداء</div>
+    <div class="sum-chart">
+      <div class="chart-bars" id="chart-bars"></div>
+      <div style="display:flex;gap:6px" id="chart-labels"></div>
+    </div>
+
+    <!-- Aggregate stats -->
+    <div class="section-title">🏆 إجمالي العشر</div>
+    <div class="sum-stat-grid">
+      <div class="sum-stat"><div class="si">📿</div><div class="sv" id="sum-takbeer">0</div><div class="sl">تكبيرة</div></div>
+      <div class="sum-stat"><div class="si">📖</div><div class="sv" id="sum-juz">0</div><div class="sl">جزء قرآن</div></div>
+      <div class="sum-stat"><div class="si">🌙</div><div class="sv" id="sum-fasting">0</div><div class="sl">يوم صيام</div></div>
+      <div class="sum-stat"><div class="si">🔥</div><div class="sv" id="sum-streak">0</div><div class="sl">أطول شريط</div></div>
+      <div class="sum-stat"><div class="si">🕌</div><div class="sv" id="sum-prayers">0</div><div class="sl">صلاة جماعة</div></div>
+      <div class="sum-stat"><div class="si">🏅</div><div class="sv" id="sum-badges">0</div><div class="sl">وسام مكتسب</div></div>
+    </div>
+
+    <!-- Performance breakdown -->
+    <div class="section-title">📋 تفصيل الأداء</div>
+    <div class="card">
+      <div class="perf-row">
+        <div class="perf-label">الصلوات</div>
+        <div class="perf-bar-wrap"><div class="perf-bar" id="pb-prayers" style="width:0%"></div></div>
+        <div class="perf-val" id="pv-prayers">0%</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-label">الصيام</div>
+        <div class="perf-bar-wrap"><div class="perf-bar" id="pb-fasting" style="width:0%"></div></div>
+        <div class="perf-val" id="pv-fasting">0%</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-label">القرآن</div>
+        <div class="perf-bar-wrap"><div class="perf-bar" id="pb-quran" style="width:0%"></div></div>
+        <div class="perf-val" id="pv-quran">0%</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-label">التكبير</div>
+        <div class="perf-bar-wrap"><div class="perf-bar" id="pb-takbeer" style="width:0%"></div></div>
+        <div class="perf-val" id="pv-takbeer">0%</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-label">الأذكار</div>
+        <div class="perf-bar-wrap"><div class="perf-bar" id="pb-dhikr" style="width:0%"></div></div>
+        <div class="perf-val" id="pv-dhikr">0%</div>
+      </div>
+    </div>
+
+    <!-- Share -->
+    <button class="share-harvest-btn" onclick="shareHarvest()">
+      📤 شارك حصادك في العشر
+    </button>
+    <a class="btn btn-ghost" href="hasad.html" style="display:flex;justify-content:center;margin-top:10px">
+      📊 عرض حصاد العشر المفصّل ←
+    </a>
+  </main>
+  <a href="ai.html" class="fab-ai" aria-label="AI Assistant">🤖</a>
+</div>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="animations.js" defer></script>
+<script>
+/* ════════════════════════════════════════════════════════════
+   SUMMARY PAGE — 10-Day Aggregate Stats
+   ════════════════════════════════════════════════════════════ */
+
+const HIJRI_REF_S = { greg: new Date(2026, 4, 18), h_day:1, h_month:12, h_year:1447 };
+const MONTH_LEN   = [30,29,30,29,30,29,30,29,30,29,30,29];
+
+function getDhulHijjahDayFor(dateStr) {
+  /* dateStr = 'YYYY-MM-DD' */
+  const date = new Date(dateStr + 'T12:00:00');
+  const ref  = new Date(HIJRI_REF_S.greg); ref.setHours(12,0,0,0);
+  const diff = Math.round((date - ref) / 86400000);
+  /* Only Dhul Hijjah days 1-10 */
+  const dayInMonth = 1 + diff;
+  if (dayInMonth >= 1 && dayInMonth <= 10) return dayInMonth;
+  return null;
+}
+
+const DAY_NAMES = ['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن التروية','عرفة ⭐','العيد 🎉'];
+
+function loadSummary() {
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem('zad_v2') || '{}'); } catch(e) {}
+
+  const history  = state.history || {};
+  const fasting  = state.fasting || {};
+  const worship  = state.worship || {};
+  const badges   = state.badges  || [];
+
+  /* Build day data for days 1-10 */
+  const days = [];
+  for (let d = 1; d <= 10; d++) {
+    /* Calculate Gregorian date for this Dhul Hijjah day */
+    const gDate = new Date(HIJRI_REF_S.greg);
+    gDate.setDate(gDate.getDate() + (d - 1));
+    const dateKey = gDate.toISOString().substring(0, 10);
+    const hist    = history[dateKey] || {};
+
+    const isToday = dateKey === new Date().toISOString().substring(0,10);
+    const pct     = hist.pct || (isToday ? computeTodayPct(state) : 0);
+    const hasFast = fasting[d] || hist.fasting;
+
+    days.push({ day: d, dateKey, pct, hasFast, hist, isToday });
+  }
+
+  renderDayGrid(days);
+  renderChart(days);
+  renderAggregateStats(days, state, badges);
+  renderPerformanceBars(days);
+}
+
+function computeTodayPct(state) {
+  const w = state.worship || {};
+  const keys = ['fajr','zuhr','asr','maghrib','isha','morning_dhikr','evening_dhikr','takbeer_100','qiyam'];
+  const done  = keys.filter(k => w[k]).length;
+  return Math.round((done / keys.length) * 100);
+}
+
+function renderDayGrid(days) {
+  const c = document.getElementById('day-grid');
+  if (!c) return;
+  c.innerHTML = days.map(({ day, pct, hasFast, isToday }) => {
+    const cls  = pct >= 80 ? 'day-complete' : pct >= 40 ? 'day-partial' : 'day-empty';
+    const dot  = pct >= 80 ? 'green' : pct >= 40 ? 'gold' : 'gray';
+    const pctCls = pct >= 80 ? 'high' : pct >= 40 ? 'mid' : 'low';
+    const special = day === 8 ? 'التروية' : day === 9 ? 'عرفة' : day === 10 ? 'العيد' : '';
+    return `<div class="day-cell ${cls} ${isToday?'today-cell':''}">
+      <div class="dc-dot ${dot}"></div>
+      <div class="dc-num">${day}</div>
+      <div class="dc-pct ${pctCls}">${pct > 0 ? pct+'%' : '—'}</div>
+      ${hasFast ? '<div style="font-size:11px">🌙</div>' : ''}
+      ${special ? `<div class="dc-special">${special}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderChart(days) {
+  const bars   = document.getElementById('chart-bars');
+  const labels = document.getElementById('chart-labels');
+  if (!bars) return;
+  const max = Math.max(...days.map(d => d.pct), 10);
+  bars.innerHTML = days.map(({ day, pct, isToday }) =>
+    `<div class="chart-bar-wrap">
+      <div class="chart-bar ${isToday?'today':''}" style="height:${Math.round((pct/max)*70)+4}px" title="${pct}%"></div>
+    </div>`).join('');
+  labels.innerHTML = days.map(d =>
+    `<div style="flex:1;text-align:center;font-size:9px;color:var(--muted);font-weight:700">${d.day}</div>`
+  ).join('');
+}
+
+function renderAggregateStats(days, state, badges) {
+  const activeDays  = days.filter(d => d.pct > 0).length;
+  const avgPct      = activeDays > 0 ? Math.round(days.reduce((s,d) => s+d.pct,0) / 10) : 0;
+  const fastDays    = days.filter(d => d.hasFast).length;
+  const maxStreak   = state.streak || 0;
+
+  /* Takbeer: read from STATE */
+  const takbeer = state.takbeer?.total || 0;
+  /* Juz: sum from history */
+  const totalJuz = days.reduce((s,d) => s + (d.hist.juz || 0), 0);
+  /* Prayers: fajr done × days */
+  const totalPrayers = days.filter(d => d.hist.pct > 0).length * 5;
+
+  document.getElementById('sum-total-pct').textContent = avgPct + '%';
+  document.getElementById('sum-days-active').textContent = `${activeDays} من 10 أيام مسجّلة`;
+  document.getElementById('sum-takbeer').textContent = takbeer.toLocaleString('ar-EG');
+  document.getElementById('sum-juz').textContent = totalJuz;
+  document.getElementById('sum-fasting').textContent = fastDays;
+  document.getElementById('sum-streak').textContent = maxStreak;
+  document.getElementById('sum-prayers').textContent = totalPrayers;
+  document.getElementById('sum-badges').textContent = badges.length;
+}
+
+function renderPerformanceBars(days) {
+  function setBar(id, valId, pct) {
+    const bar = document.getElementById(id);
+    const val = document.getElementById(valId);
+    const p   = Math.min(100, Math.round(pct));
+    setTimeout(() => { if (bar) bar.style.width = p + '%'; }, 300);
+    if (val) val.textContent = p + '%';
+  }
+  const active = days.filter(d => d.pct > 0);
+  const n      = active.length || 1;
+  const avgPct = active.reduce((s,d) => s + d.pct, 0) / n;
+  const fastPct = (days.filter(d => d.hasFast).length / 9) * 100;
+
+  setBar('pb-prayers',  'pv-prayers',  avgPct * 0.8);
+  setBar('pb-fasting',  'pv-fasting',  fastPct);
+  setBar('pb-quran',    'pv-quran',    avgPct * 0.6);
+  setBar('pb-takbeer',  'pv-takbeer',  Math.min(100, active.length * 10));
+  setBar('pb-dhikr',    'pv-dhikr',    avgPct * 0.7);
+}
+
+function shareHarvest() {
+  const pct  = document.getElementById('sum-total-pct')?.textContent || '0%';
+  const fast = document.getElementById('sum-fasting')?.textContent || '0';
+  const tak  = document.getElementById('sum-takbeer')?.textContent || '0';
+  const text = encodeURIComponent(`🕋 حصادي في عشر ذي الحجة مع زاد العشر:\n✅ متوسط الالتزام: ${pct}\n🌙 أيام الصيام: ${fast}\n📿 التكبير: ${tak} تكبيرة\n\nحمّل زاد العشر: https://zadullashr.vercel.app`);
+  const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+  window.open((isMobile ? 'whatsapp://send?text=' : 'https://web.whatsapp.com/send?text=') + text, '_blank');
+}
+
+document.addEventListener('DOMContentLoaded', loadSummary);
+</script>
+</body>
+</html>
