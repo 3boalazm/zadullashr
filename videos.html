@@ -266,85 +266,113 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
         </div>
       </div>
 
-      <!-- 3: الشيخ سمير مصطفى -->
-<div class="vid-card" data-tag="fiqh">
-  <div class="vid-thumb-wrap" onclick="openPlayer('OusUlCU5WBI','العَشر الأُوَل من ذي الحِجَّة — الشيخ سمير مصطفى')">
-    <!-- ✅ تم تحديث اللينك هنا ↓ -->
-    <img class="vid-thumb" 
-         src="https://img.youtube.com/vi/OusUlCU5WBI/hqdefault.jpg" 
-         onerror="this.src='https://img.youtube.com/vi/OusUlCU5WBI/mqdefault.jpg'" 
-         alt="العشر الأول" 
-         loading="lazy">
-    <div class="vid-thumb-overlay"></div>
-    <div class="vid-play-btn">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
-    </div>
-    <div class="vid-number-badge">2</div>
-  </div>
-  
-  <div class="vid-body">
-    <div class="vid-meta-row">
-      <div class="speaker-avatar">👳</div>
-      <div class="vid-meta-text">
-        <div class="speaker-name">الشيخ سمير مصطفى</div>
-        <div class="vid-category">⚖️ الفقه والأحكام</div>
+       <!-- 3: الشيخ سمير مصطفى -->
+      <div class="vid-card" data-tag="fiqh">
+        <div class="vid-thumb-wrap" onclick="openPlayer('OusUlCU5WBI','العَشر الأُوَل من ذي الحِجَّة — الشيخ سمير مصطفى')">
+          <!-- ✅ تم تحديث اللينك والرقم هنا ↓ -->
+          <img class="vid-thumb" 
+               src="https://img.youtube.com/vi/OusUlCU5WBI/hqdefault.jpg" 
+               onerror="this.src='https://img.youtube.com/vi/OusUlCU5WBI/mqdefault.jpg'" 
+               alt="العشر الأول" 
+               loading="lazy">
+          <div class="vid-thumb-overlay"></div>
+          <div class="vid-play-btn">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </div>
+          <!-- ✅ تم تغيير الرقم من 2 إلى 3 هنا ↓ -->
+          <div class="vid-number-badge">3</div>
+        </div>
+        
+        <div class="vid-body">
+          <div class="vid-meta-row">
+            <div class="speaker-avatar">👳</div>
+            <div class="vid-meta-text">
+              <div class="speaker-name">الشيخ سمير مصطفى</div>
+              <div class="vid-category">⚖️ الفقه والأحكام</div>
+            </div>
+          </div>
+          <div class="vid-title">العَشر الأُوَل من ذي الحِجَّة</div>
+          <div class="vid-desc">خطبة علمية شاملة في اصطفاء الأزمنة وأدلة فضل العشر من القرآن والسنة مع أحكام الأضحية والصيام</div>
+          
+          <button class="vid-points-toggle" onclick="togglePoints(this)">
+            <span>📌 النقاط الرئيسية</span>
+            <span class="toggle-ico">▼</span>
+          </button>
+          <div class="vid-points">
+            <div class="vid-points-inner">
+              <div class="vid-point">
+                <span class="vid-point-ico">🏆</span>
+                <div class="vid-point-text">
+                  <b>أفضل من العشر الأواخر</b>
+                  أيام عشر ذي الحجة أفضل من أيام رمضان لوجود عرفة والنحر
+                </div>
+              </div>
+              <div class="vid-point">
+                <span class="vid-point-ico">📖</span>
+                <div class="vid-point-text">
+                  <b>تفسير الشفع والوتر</b>
+                  "الشفع والوتر" = يوم النحر ويوم عرفة
+                </div>
+              </div>
+              <div class="vid-point">
+                <span class="vid-point-ico">🌙</span>
+                <div class="vid-point-text">
+                  <b>الصيام المستحب</b>
+                  صيام التسعة كاملة، ويوم عرفة يكفر سنتين
+                </div>
+              </div>
+              <div class="vid-point">
+                <span class="vid-point-ico">📿</span>
+                <div class="vid-point-text">
+                  <b>الباقيات الصالحات</b>
+                  سبحان الله، الحمد لله، لا إله إلا الله، الله أكبر
+                </div>
+              </div>
+              <div class="vid-point">
+                <span class="vid-point-ico">🐏</span>
+                <div class="vid-point-text">
+                  <b>شروط سن الأضحية</b>
+                  الإبل ٥ سنوات · البقر ٣ سنوات · المعز سنة · الضأن ٦ أشهر
+                </div>
+              </div>
+              <div class="vid-point">
+                <span class="vid-point-ico">⚠️</span>
+                <div class="vid-point-text">
+                  <b>استدراك رمضان</b>
+                  هذه الأيام فرصة لاستدراك ما فات في رمضان
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)">
+            <span>📖 عرض الملخص الكامل</span>
+            <span class="toggle-ico">▼</span>
+          </button>
+          <div class="vid-points vid-full-summary">
+            <div class="vid-points-inner">
+              <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>يوضح الشيخ أن الله عز وجل يخلق ما يشاء ويختار، وقد فضل بعض الرسل على بعض، وكذلك فضل بعض الأزمنة على بعض. ويشير إلى أن هذه الأيام هي أفضل أيام الدنيا، وينقل عن بعض أهل العلم فضلها حتى على العشر الأواخر من رمضان.</p></div>
+              <div class="vid-summary-section" style="margin-top:12px"><h4>💡 التفصيل في المقارنة</h4><ul><li>أيام عشر ذي الحجة أفضل من أيام رمضان لوجود يوم عرفة ويوم النحر</li><li>ليالي العشر الأواخر من رمضان أفضل لوجود ليلة القدر</li><li>الجمع بين الفضلين: صيام النهار في العشر + قيام الليل في رمضان</li></ul></div>
+              <div class="vid-summary-section" style="margin-top:12px"><h4>📖 الأدلة من القرآن والسنة</h4><p>فسر قوله تعالى (والفجر وليالي عشر) بأنها عشر ذي الحجة، وأن (الشفع والوتر) هما يوم النحر ويوم عرفة. واستشهد بحديث النبي ﷺ بأن العمل الصالح في هذه الأيام أحب إلى الله من الجهاد في سبيل الله، إلا من خرج بنفسه وماله ولم يرجع بشيء.</p></div>
+              <div class="vid-summary-section" style="margin-top:12px"><h4>📋 العبادات العملية في العشر</h4><div class="plan-grid"><div><b>الصيام:</b> استحب صيام الأيام التسعة كاملة، ويوم عرفة يكفر سنتين</div><div><b>الذكر:</b> الإكثار من "الباقيات الصالحات": سبحان الله، الحمد لله، لا إله إلا الله، الله أكبر</div><div><b>الأضحية:</b> فضلها وسنة النبي ﷺ فيها، وشروط سن الأضحية: الإبل ٥ سنوات، البقر ٣، المعز سنة، الضأن ٦ أشهر</div><div><b>قيام الليل:</b> عدم تركه في هذه الليالي العظيمة</div></div></div>
+              <div class="vid-summary-section" style="margin-top:12px"><h4>🕋 الحج والجانب الروحي</h4><p>دعا الحجاج إلى عدم الوقوف عند المعاني الفقهية الجافة فقط، بل استشعار الروحانيات وتذكر يوم الحشر وعقيدة الولاء والبراء عند رمي الجمرات.</p></div>
+              <div class="vid-summary-section" style="margin-top:12px"><h4>⚠️ التحذير من الغفلة</h4><p>شدد الشيخ على أن هذه الأيام فرصة لاستدراك ما فات في رمضان، وللوقاية من الفتن التي تموج في المجتمع.</p></div>
+            </div>
+          </div>
+          
+          <div class="vid-extra-actions">
+            <button class="vid-action-btn" onclick="saveVidNote('OusUlCU5WBI')">📝 ملاحظاتي</button>
+            <button class="vid-action-btn" onclick="copyVidSummary('OusUlCU5WBI')">📋 نسخ</button>
+            <button class="vid-action-btn" onclick="addToFavorites('OusUlCU5WBI')">❤️ مفضلة</button>
+          </div>
+        </div>
+        <div class="vid-footer">
+          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=OusUlCU5WBI" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
+          <button type="button" class="vid-share-btn" onclick="shareVid('OusUlCU5WBI','العَشر الأُوَل — الشيخ سمير مصطفى')">📤</button>
+        </div>
       </div>
-    </div>
-    <div class="vid-title">العَشر الأُوَل من ذي الحِجَّة</div>
-    <div class="vid-desc">خطبة علمية شاملة في اصطفاء الأزمنة وأدلة فضل العشر من القرآن والسنة مع أحكام الأضحية والصيام</div>
-    
-    <button class="vid-points-toggle" onclick="togglePoints(this)">
-      <span>📌 النقاط الرئيسية</span>
-      <span class="toggle-ico">▼</span>
-    </button>
-    <div class="vid-points">
-      <div class="vid-points-inner">
-        <div class="vid-point">
-          <span class="vid-point-ico">🏆</span>
-          <div class="vid-point-text">
-            <b>أفضل من العشر الأواخر</b>
-            أيام عشر ذي الحجة أفضل من أيام رمضان لوجود عرفة والنحر
-          </div>
-        </div>
-        <div class="vid-point">
-          <span class="vid-point-ico">📖</span>
-          <div class="vid-point-text">
-            <b>تفسير الشفع والوتر</b>
-            "الشفع والوتر" = يوم النحر ويوم عرفة
-          </div>
-        </div>
-        <div class="vid-point">
-          <span class="vid-point-ico">🌙</span>
-          <div class="vid-point-text">
-            <b>الصيام المستحب</b>
-            صيام التسعة كاملة، ويوم عرفة يكفر سنتين
-          </div>
-        </div>
-        <div class="vid-point">
-          <span class="vid-point-ico">📿</span>
-          <div class="vid-point-text">
-            <b>الباقيات الصالحات</b>
-            سبحان الله، الحمد لله، لا إله إلا الله، الله أكبر
-          </div>
-        </div>
-        <div class="vid-point">
-          <span class="vid-point-ico">🐏</span>
-          <div class="vid-point-text">
-            <b>شروط سن الأضحية</b>
-            الإبل ٥ سنوات · البقر ٣ سنوات · المعز سنة · الضأن ٦ أشهر
-          </div>
-        </div>
-        <div class="vid-point">
-          <span class="vid-point-ico">⚠️</span>
-          <div class="vid-point-text">
-            <b>استدراك رمضان</b>
-            هذه الأيام فرصة لاستدراك ما فات في رمضان
-          </div>
-        </div>
-      </div>
-    </div>
     
     <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)">
       <span>📖 عرض الملخص الكامل</span>
@@ -633,37 +661,47 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
         </div>
       </div>
 
-      <!-- 10: محاضرة مختارة -->
-      <div class="vid-card" data-tag="spiritual">
-        <div class="vid-thumb-wrap" onclick="openPlayer('smro5XFkoj0','عشر ذي الحجة — الفرصة الذهبية')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/smro5XFkoj0/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/smro5XFkoj0/mqdefault.jpg'" alt="الفرصة الذهبية" loading="lazy">
+            <!-- 10: الشيخ إبراهيم بشندي -->
+      <div class="vid-card" data-tag="fiqh">
+        <div class="vid-thumb-wrap" onclick="openPlayer('WvlMcmE92Fw','العمل الصالح — العشر الأول من ذي الحجة')">
+          <img class="vid-thumb" src="https://img.youtube.com/vi/WvlMcmE92Fw/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/WvlMcmE92Fw/mqdefault.jpg'" alt="العمل الصالح" loading="lazy">
           <div class="vid-thumb-overlay"></div>
           <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
           <div class="vid-number-badge">10</div>
         </div>
         <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar">🎤</div><div class="vid-meta-text"><div class="speaker-name">محاضرة مختارة</div><div class="vid-category">💚 التزكية والإيمان</div></div></div>
-          <div class="vid-title">عشر ذي الحجة — الفرصة الذهبية</div>
-          <div class="vid-desc">محاضرة إيمانية في كيفية استثمار هذه الأيام المباركة وتنمية الارتباط الروحاني بالله</div>
+          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#0e3b2e,#2a7a5f)">🎓</div><div class="vid-meta-text"><div class="speaker-name">الشيخ إبراهيم بشندي</div><div class="vid-category">⚖️ الفقه والأحكام / 💚 التزكية</div></div></div>
+          <div class="vid-title">العمل الصالح — العشر الأول من ذي الحجة</div>
+          <div class="vid-desc">فضل الأشهر الحرم وعشر ذي الحجة، مع التركيز على تعظيم العمل الصالح فيها ومقارنته بالجهاد ورمضان</div>
+          
           <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
           <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">💎</span><div class="vid-point-text"><b>الفرصة الذهبية</b>هذه الأيام لن تتكرر إلا بعد عام كامل</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🤲</span><div class="vid-point-text"><b>قوة الدعاء</b>أفضل الدعاء دعاء يوم عرفة</div></div>
+            <div class="vid-point"><span class="vid-point-ico">🏆</span><div class="vid-point-text"><b>أحد الأشهر الحرم</b>ذي الحجة من الأشهر الحرم التي تضاعف فيها الحسنات والسيئات</div></div>
+            <div class="vid-point"><span class="vid-point-ico">⭐</span><div class="vid-point-text"><b>أفضل من الجهاد</b>العمل الصالح في العشر أحب إلى الله من الجهاد إلا في حالة الشهادة</div></div>
+            <div class="vid-point"><span class="vid-point-ico">🌙</span><div class="vid-point-text"><b>قدسية الأيام</b>استحضر قدسية هذه الأيام في قلبك كما تستحضر قدسية رمضان</div></div>
+            <div class="vid-point"><span class="vid-point-ico">📿</span><div class="vid-point-text"><b>الذكر علامة الأيام</b>التكبير والتحميد والتهليل — كان الصحابة يكبرون في الأسواق</div></div>
+            <div class="vid-point"><span class="vid-point-ico">📖</span><div class="vid-point-text"><b>ختم القرآن</b>استحب ختم القرآن كل 3 أيام في العشر (10 أجزاء يومياً)</div></div>
+            <div class="vid-point"><span class="vid-point-ico">🤲</span><div class="vid-point-text"><b>بر الوالدين</b>الإكثار من الإحسان إليهما في هذه الأيام بزيادة التودد والخدمة</div></div>
           </div></div>
+          
           <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
           <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>محاضرة إيمانية شاملة تركّز على أن عشر ذي الحجة فرصة ذهبية لا تتكرر، وتدعو إلى استثمارها بصدق وعزم. تؤكد على أهمية العمل الصالح في هذه الأيام وأثره على النفس والقلب، وتحث على المبادرة وعدم التسويف.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>💡 التحفيز العملي</h4><ul><li>ابدأ الآن ولو بعمل واحد تداوم عليه</li><li>لا تنتظر الظروف المثالية — ابدأ من حيث أنت</li><li>كل لحظة تمر من العشر لا تعوّض</li></ul></div>
+            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>يوضح الشيخ أن ذي الحجة هو أحد الأشهر الحرم الأربعة التي تضاعف فيها الحسنات والسيئات. وينقل عن بعض السلف أن ذو الحجة هو أشد هذه الأشهر حرمة وأجلّها لأنه ختم به السنة، ولأن الدين كمل فيه بنزول آية "اليوم أكملت لكم دينكم" يوم عرفة، ولاشتماله على أعظم أيام الدنيا: يوم النحر ويوم عرفة.</p></div>
+            <div class="vid-summary-section" style="margin-top:12px"><h4>💡 العمل الصالح مقابل الجهاد</h4><p>انطلق الشيخ من حديث "ما من أيام العمل الصالح فيهن أحب إلى الله من هذه الأيام"، مبيناً أن الصحابة سألوا "ولا الجهاد؟" لعلمهم أن الجهاد هو ذروة سنام الإسلام. وأكد أن أي عمل صالح في هذه العشر (مثل ركعتين أو تسبيحة) يفضل الجهاد في سبيل الله، إلا في حالة واحدة وهي استشهاد الرجل وفقد ماله كله.</p></div>
+            <div class="vid-summary-section" style="margin-top:12px"><h4>⚠️ تصحيح مفهوم "القدسية"</h4><p>انتقد الشيخ "التربية الشرعية المغلوطة" التي جعلت الناس يقدسون رمضان ويجتهدون فيه، بينما يغفلون عن عشر ذي الحجة، مؤكداً أن هذه الأيام والعمل فيها أحب إلى الله من رمضان. ضرورة استحضار "قدسية" هذه الأيام في القلوب تماماً كما نستحضر قدسية رمضان.</p></div>
+            <div class="vid-summary-section" style="margin-top:12px"><h4>📋 الخطة العملية والأعمال المستحبة</h4><div class="plan-grid"><div><b>الذكر:</b> علامة هذه الأيام، خاصة التكبير والتحميد والتهليل — كان الصحابة يكبرون في الأسواق ليذكروا الناس</div><div><b>الصلاة:</b> الحفاظ على الفرائض في وقتها، والإكثار من النوافل وقيام الليل</div><div><b>القرآن:</b> استحب ختم القرآن كل 3 أيام في هذه العشر (بمعدل 10 أجزاء يومياً)</div><div><b>الصيام:</b> مستحب استحباباً شديداً لعموم الحديث "العمل الصالح"، ولثبوت صيام النبي ﷺ لها</div><div><b>بر الوالدين:</b> الإكثار من الإحسان إليهما في هذه الأيام بزيادة التودد والخدمة</div></div></div>
+            <div class="vid-summary-section" style="margin-top:12px"><h4>✨ فضل الذكر "سبق المفردون"</h4><p>أكد أن الذكر هو أفضل أعمال الإسلام، وبه يسبق "المفردون" غيرهم من أهل الأعمال، والذاكر لله أفضل ممن ينفق الذهب والفضة وهو غافل. الذكر يملأ الميزان ويرفع الدرجات ويقرّب من الرحمن.</p></div>
           </div></div>
+          
           <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('smro5XFkoj0')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('smro5XFkoj0')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('smro5XFkoj0')">❤️ مفضلة</button>
+            <button class="vid-action-btn" onclick="saveVidNote('WvlMcmE92Fw')">📝 ملاحظاتي</button>
+            <button class="vid-action-btn" onclick="copyVidSummary('WvlMcmE92Fw')">📋 نسخ</button>
+            <button class="vid-action-btn" onclick="addToFavorites('WvlMcmE92Fw')">❤️ مفضلة</button>
           </div>
         </div>
         <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=smro5XFkoj0" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('smro5XFkoj0','عشر ذي الحجة — الفرصة الذهبية')">📤</button>
+          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=WvlMcmE92Fw" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
+          <button type="button" class="vid-share-btn" onclick="shareVid('WvlMcmE92Fw','العمل الصالح — الشيخ إبراهيم بشندي')">📤</button>
         </div>
       </div>
 
