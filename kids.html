@@ -1,119 +1,743 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<title>وضع الأطفال — زاد العشر</title>
 <meta charset="UTF-8">
-<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0e3b2e">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a5d47">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/icon-192.svg">
-<!-- Async font loading — eliminates render-blocking -->
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>ثُريّا — وضع الأطفال · زاد العشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" id="google-fonts"
-  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
-  media="print" onload="this.media='all'">
-<noscript>
-  
-</noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/style.css">
-<script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name,.section-title,.kids-title{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+/* ══ Kids Theme ═════════════════════════════════════════════ */
+:root{
+  --k-green:#1a5d47;--k-gold:#c9a14a;--k-orange:#ff9500;
+  --k-purple:#5856d6;--k-pink:#ff6b85;--k-sky:#5aabff
+}
+
+/* ══ Hero Story ═════════════════════════════════════════════ */
+.story-hero{
+  background:linear-gradient(135deg,#1a5d47 0%,#c9a14a 100%);
+  border-radius:22px;padding:28px 22px;color:#fff;
+  position:relative;overflow:hidden;margin-bottom:20px
+}
+.story-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 20% 80%,rgba(255,255,255,.08),transparent 60%);
+  pointer-events:none
+}
+.story-eyebrow{font-size:11px;color:rgba(255,255,255,.75);letter-spacing:2px;font-weight:700;margin-bottom:8px}
+.story-ico-big{font-size:56px;margin-bottom:10px;display:block;text-align:center;
+  animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.story-title-txt{font-size:20px;font-weight:900;line-height:1.3;margin-bottom:12px;font-family:'ThmanyahSans',sans-serif}
+.story-body-txt{font-size:14px;line-height:1.8;color:rgba(255,255,255,.9)}
+.story-nav{display:flex;align-items:center;justify-content:space-between;margin-top:18px;flex-wrap:wrap;gap:8px}
+.story-btn{
+  padding:10px 20px;border-radius:99px;border:1.5px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.12);color:#fff;font-family:inherit;
+  font-size:13px;font-weight:700;cursor:pointer;transition:all .2s
+}
+.story-btn:hover{background:rgba(255,255,255,.25)}
+.story-btn.gold{background:var(--k-gold);border-color:var(--k-gold);color:#3a2a08}
+.story-dots{display:flex;gap:6px;align-items:center}
+.story-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);transition:all .3s;cursor:pointer}
+.story-dot.active{width:20px;border-radius:4px;background:#fff}
+.story-count{font-size:12px;color:rgba(255,255,255,.65)}
+
+/* ══ Moral badge ════════════════════════════════════════════ */
+.story-moral{
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+  border-radius:12px;padding:10px 14px;margin-top:14px;
+  font-size:12px;color:rgba(255,255,255,.85);line-height:1.6;
+  display:none
+}
+.story-moral.show{display:block}
+
+/* ══ Challenge Section ══════════════════════════════════════ */
+.challenge-hero{
+  background:linear-gradient(135deg,#ff9500,#e67e00);
+  border-radius:20px;padding:22px 18px;color:#fff;margin-bottom:16px;
+  position:relative;overflow:hidden
+}
+.challenge-hero::after{content:'🦁';position:absolute;left:16px;bottom:8px;font-size:56px;opacity:.2;line-height:1}
+.ch-title{font-size:20px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:4px}
+.ch-sub{font-size:13px;color:rgba(255,255,255,.85);margin-bottom:14px}
+.ch-progress-wrap{background:rgba(255,255,255,.2);border-radius:99px;height:10px;overflow:hidden;margin-bottom:6px}
+.ch-progress-bar{height:100%;background:#fff;border-radius:99px;transition:width .5s var(--ease)}
+.ch-progress-txt{font-size:12px;color:rgba(255,255,255,.85)}
+
+/* Task cards */
+.task-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.task-item{
+  display:flex;align-items:center;gap:12px;
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:14px;padding:14px 16px;cursor:pointer;
+  transition:all .25s;position:relative;overflow:hidden
+}
+.task-item.done{
+  border-color:rgba(52,199,89,.4);
+  background:linear-gradient(135deg,var(--card),rgba(52,199,89,.06))
+}
+.task-item:hover{transform:translateX(-4px);border-color:var(--k-gold)}
+.task-ico{font-size:28px;flex-shrink:0;transition:transform .3s}
+.task-item.done .task-ico{animation:spin-once .4s ease}
+@keyframes spin-once{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.task-info{flex:1;min-width:0}
+.task-name{font-size:14px;font-weight:700;color:var(--ink)}
+.task-desc{font-size:12px;color:var(--muted);margin-top:2px}
+.task-check{
+  width:28px;height:28px;border-radius:50%;
+  border:2px solid var(--border);background:var(--sand);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;transition:all .2s
+}
+.task-item.done .task-check{background:var(--sys-green);border-color:var(--sys-green);color:#fff}
+.task-item.done .task-name{text-decoration:line-through;opacity:.6}
+
+/* Badge earned toast */
+.badge-toast{
+  position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);
+  background:var(--green-deep);color:#fff;border-radius:14px;
+  padding:10px 20px;font-size:14px;font-weight:700;
+  z-index:300;opacity:0;transition:all .4s;pointer-events:none;
+  display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,.2)
+}
+.badge-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ══ My Badges ══════════════════════════════════════════════ */
+.badges-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;margin-bottom:20px}
+.badges-row::-webkit-scrollbar{display:none}
+.k-badge{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  min-width:72px;padding:12px 8px;border-radius:14px;
+  border:1.5px solid var(--border);background:var(--card);
+  flex-shrink:0;transition:all .2s;text-align:center
+}
+.k-badge.earned{
+  border-color:rgba(201,161,74,.5);
+  background:linear-gradient(160deg,var(--card),var(--gold-pale))
+}
+.k-badge-ico{font-size:28px;filter:grayscale(1);opacity:.3;transition:all .3s}
+.k-badge.earned .k-badge-ico{filter:none;opacity:1}
+.k-badge-name{font-size:10px;font-weight:700;color:var(--muted);font-family:'ThmanyahSans',sans-serif}
+.k-badge.earned .k-badge-name{color:var(--gold-dark)}
+
+/* ══ Dictionary / Accordion ═════════════════════════════════ */
+.dict-item{
+  border:1.5px solid var(--border);border-radius:14px;
+  overflow:hidden;margin-bottom:10px;transition:border-color .2s
+}
+.dict-item:hover{border-color:var(--k-gold)}
+.dict-header{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  cursor:pointer;background:var(--card)
+}
+.dict-ico{font-size:28px;flex-shrink:0}
+.dict-word{font-size:15px;font-weight:800;font-family:'ThmanyahSans',sans-serif;color:var(--ink)}
+.dict-hint{font-size:11px;color:var(--muted);margin-top:2px}
+.dict-arrow{margin-right:auto;font-size:12px;color:var(--muted);transition:transform .3s;flex-shrink:0}
+.dict-item.open .dict-arrow{transform:rotate(180deg)}
+.dict-body{
+  max-height:0;overflow:hidden;transition:max-height .35s ease;
+  background:linear-gradient(135deg,var(--card),var(--gold-pale))
+}
+.dict-item.open .dict-body{max-height:300px}
+.dict-content{padding:14px 16px 18px;font-size:13px;color:var(--ink);line-height:1.8}
+.dict-content b{color:var(--green-deep);font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .dict-content b,html[data-theme="oled"] .dict-content b{color:var(--sys-green)}
+
+/* ══ Quiz ═══════════════════════════════════════════════════ */
+.quiz-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px}
+.quiz-num{font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px}
+.quiz-q{font-size:16px;font-weight:800;color:var(--ink);line-height:1.5;margin-bottom:16px;font-family:'ThmanyahSans',sans-serif}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{
+  padding:12px 16px;border-radius:12px;border:1.5px solid var(--border);
+  background:var(--sand);color:var(--ink);font-family:inherit;
+  font-size:14px;font-weight:600;cursor:pointer;text-align:right;
+  transition:all .2s
+}
+.quiz-opt:hover:not(:disabled){border-color:var(--k-gold);background:var(--gold-pale)}
+.quiz-opt.correct{background:#dcfce7;border-color:#16a34a;color:#166534}
+.quiz-opt.wrong{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+.quiz-opt:disabled{cursor:not-allowed}
+.quiz-fb{
+  padding:12px 16px;border-radius:12px;font-size:14px;font-weight:700;
+  margin-top:10px;display:none
+}
+.quiz-fb.correct{background:#dcfce7;color:#166534;border:1px solid #16a34a}
+.quiz-fb.wrong{background:#fee2e2;color:#991b1b;border:1px solid #dc2626}
+.quiz-next-btn{
+  width:100%;padding:12px;border-radius:12px;border:none;
+  background:var(--green-deep);color:#fff;font-family:'ThmanyahSans',inherit;
+  font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;display:none;
+  transition:all .2s
+}
+html[data-theme="dark"] .quiz-next-btn,html[data-theme="oled"] .quiz-next-btn{background:var(--sys-green);color:#001a08}
+.quiz-score{
+  text-align:center;padding:20px;
+  font-size:16px;font-weight:700;color:var(--green-deep);display:none
+}
+html[data-theme="dark"] .quiz-score,html[data-theme="oled"] .quiz-score{color:var(--sys-green)}
+
+/* ══ Stars Section ══════════════════════════════════════════ */
+.stars-wrap{
+  background:linear-gradient(135deg,#120822,#200a3a);
+  border-radius:20px;padding:24px 20px;color:#fff;
+  text-align:center;margin-bottom:20px;position:relative;overflow:hidden
+}
+.stars-title{font-size:20px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:6px}
+.stars-sub{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:16px}
+.stars-display{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.star-item{
+  font-size:32px;transition:transform .3s;cursor:default;
+  filter:grayscale(1);opacity:.25
+}
+.star-item.earned{filter:none;opacity:1;animation:star-pop .4s ease}
+@keyframes star-pop{0%{transform:scale(0)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
+.stars-count{font-size:28px;font-weight:900;font-family:'ThmanyahSans',monospace;color:#e6c97a}
+.stars-total{font-size:13px;color:rgba(255,255,255,.6)}
+
+/* ══ Confetti keyframe ══════════════════════════════════════ */
+@keyframes confettiFall{
+  0%{transform:translateY(-10px) rotate(0deg);opacity:1}
+  100%{transform:translateY(100vh) rotate(720deg);opacity:0}
+}
+
+/* ══ Responsive ═════════════════════════════════════════════ */
+@media(max-width:480px){
+  .story-title-txt{font-size:17px}
+  .ch-title{font-size:17px}
+}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
+<div class="badge-toast" id="badge-toast">🏅 <span id="badge-toast-txt">وسام جديد!</span></div>
 <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
-    <aside class="sidebar">
+
+  <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
       <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:28px;height:28px;border-radius:6px"></div>
-      <div>
-        <div class="brand-name" data-i18n="brand.name">زاد العشر</div>
-        <div class="brand-sub" data-i18n="brand.sub">أفضل أيام الدنيا</div>
-      </div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
-    <div class="theme-row">
-      <span data-i18n="common.darkMode">🌙 الوضع الداكن</span>
-      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
-    </div>
-    <button class="sidebar-lang-btn" onclick="toggleLang()" id="sidebar-lang-btn">
-      <span class="slb-label" data-i18n="common.language">🌐 اللغة</span>
-      <span class="slb-val" id="sidebar-lang-val">EN</span>
-    </button>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
     <nav class="nav">
-      <a href="index.html" ><span class="ico">🏠</span><span data-i18n="nav.dashboard">لوحة التحكم</span></a>
-      <a href="prayers.html" ><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
-      <a href="qibla.html" ><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
-      <a href="hijri.html" ><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
-      <a href="videos.html" ><span class="ico">🎬</span><span>محاضرات العشر</span></a>
-      <a href="fadael.html" ><span class="ico">✨</span><span data-i18n="nav.virtues">فضائل العشر</span></a>
-      <a href="worship.html" ><span class="ico">📿</span><span data-i18n="nav.worship">جدول العبادات</span></a>
-      <a href="mushaf.html" ><span class="ico">📖</span><span data-i18n="nav.mushaf">مصحف العشر</span></a>
-      <a href="takbeer.html" ><span class="ico">🕋</span><span data-i18n="nav.tasbih">المُسبِّح والمُكبِّر</span></a>
-      <a href="adhkar.html" ><span class="ico">🤲</span><span data-i18n="nav.adhkar">الأذكار والدعاء</span></a>
-      <a href="odhiya.html" ><span class="ico">🐏</span><span data-i18n="nav.odhiya">دليل الأضحية</span></a>
-      <a href="arafah.html" ><span class="ico">🌄</span><span data-i18n="nav.arafah">يوم عرفة</span></a>
-      <a href="sadaqah.html" ><span class="ico">💚</span><span data-i18n="nav.sadaqah">صدقة العشر</span></a>
-      <a href="badges.html" ><span class="ico">🏅</span><span data-i18n="nav.badges">أوسمتي</span></a>
-      <a href="hasad.html" ><span class="ico">📊</span><span data-i18n="nav.hasad">حصاد العشر</span></a>
-      <a href="summary.html" ><span class="ico">📈</span><span>إحصاء العشر</span></a>
-      <a href="kids.html" class="active"><span class="ico">🧒</span><span data-i18n="nav.kids">وضع الأطفال</span></a>
-      <a href="tasmee.html" ><span class="ico">🎙️</span><span data-i18n="nav.tasmee">تسميع القرآن</span></a>
-      <a href="ai.html" ><span class="ico">🤖</span><span data-i18n="nav.ai">تدبّر بالذكاء</span></a>
-      <a href="settings.html" ><span class="ico">⚙️</span><span data-i18n="nav.settings">الإعدادات</span></a>
-      <a href="report.html" ><span class="ico">🚩</span><span data-i18n="nav.report">بلاغ مشكلة</span></a>
-      <a href="about.html" ><span class="ico">👤</span><span data-i18n="nav.about">عن التطبيق</span></a>
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="worship.html"><span class="ico">📿</span><span>جدول العبادات</span></a>
+      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
+      <a href="mushaf.html"><span class="ico">📖</span><span>مصحف العشر</span></a>
+      <a href="takbeer.html"><span class="ico">🕋</span><span>المسبّح</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="summary.html"><span class="ico">📈</span><span>إحصاء العشر</span></a>
+      <a href="kids.html" class="active"><span class="ico">🧒</span><span>وضع الأطفال</span></a>
+      <a href="tasmee.html"><span class="ico">🎙️</span><span>تسميع القرآن</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
     </nav>
-    <div class="side-foot"><span data-i18n="brand.name">زاد العشر</span> 2026 · <span data-i18n="common.noAds">بدون إعلانات 📴</span></div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
   </aside>
+
   <main class="main">
     <div class="topbar">
-      <div><div class="page-title">ثُريّا — <span>وضع الأطفال</span></div>
-      <div class="page-sub">علّم صغارك قصة الفداء وفضل العشر بطريقة ممتعة</div></div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="index.html" style="width:32px;height:32px;border-radius:10px;overflow:hidden;display:grid;place-items:center;text-decoration:none"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:32px;height:32px"></a>
+        <div>
+          <div class="page-title">ثُريّا — <span>وضع الأطفال</span></div>
+          <div class="page-sub">علّم صغارك قصة الفداء وفضل العشر</div>
+        </div>
+      </div>
       <div class="topbar-right">
-        <div class="search">🔍 <input placeholder="ابحث في التطبيق..." data-i18n-ph="common.search" onfocus="openSearchOverlay()" aria-label="بحث في التطبيق" role="searchbox"></div>
-        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang()">EN</button>
-        <button class="btn-theme" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
+        <button class="btn-theme" onclick="toggleTheme()">🌙</button>
       </div>
     </div>
-    <section class="hero" style="background:linear-gradient(135deg,#1a5d47,#c9a14a)">
-      <div class="hero-eyebrow">قصة العشر</div>
-      <h1 id="story-title">إبراهيم عليه السلام — النبي الخليل</h1>
-      <p id="story-body">كان سيدنا إبراهيم أحب الناس إلى الله وأعظمهم توحيداً...</p>
-      <div style="display:flex;gap:12px;margin-top:18px;align-items:center">
-        <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.4)" id="story-prev">◀ السابقة</button>
-        <span style="color:rgba(255,255,255,.7);font-size:13px" id="story-count">1 / 5</span>
-        <button class="btn btn-gold" id="story-next">التالية ▶</button>
-      </div>
-      <div style="font-size:36px;margin-top:14px" id="story-ico">🕌</div>
-    </section>
-    <div class="section-title">أنشطة تفاعلية</div>
-    <div class="grid cols-3">
-      <div class="card activity-card" data-act="quiz" style="cursor:pointer"><div class="ico-lg">🧩</div><h3>مسابقة العشر</h3><p>أسئلة ممتعة للصغار</p></div>
-      <div class="card activity-card" data-act="takbeer" style="cursor:pointer"><div class="ico-lg">🎵</div><h3>تكبيرات للصغار</h3><p>تعلّم التكبير وأنت مستمتع</p></div>
-      <div class="card activity-card" data-act="stars" style="cursor:pointer"><div class="ico-lg">⭐</div><h3>نجوم ثُريّا</h3><p>اجمع نجوماً بكل نشاط</p></div>
-    </div>
-    <div id="quiz-section" style="display:none;margin-top:18px">
-      <div class="card">
-        <div style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:16px;line-height:1.7" id="quiz-q">جارٍ التحميل...</div>
-        <div id="quiz-opts"></div>
-        <div id="quiz-fb" style="margin-top:10px;font-size:14px;font-weight:700;display:none"></div>
-        <button class="btn btn-primary" onclick="quizNext()" id="quiz-next" style="display:none;margin-top:14px">السؤال التالي ▶</button>
-      </div>
-    </div>
-  </main>
 
-  <!-- Floating AI Button -->
-  <a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
+    <!-- ══ SECTION 1: Story ════════════════════════════════════ -->
+    <div class="section-title">📖 قصة الموسم — قصة الفداء</div>
+
+    <div class="story-hero" id="story-hero">
+      <div class="story-eyebrow">🌟 اسمع القصة</div>
+      <div id="story-ico-big" class="story-ico-big">🕌</div>
+      <div class="story-title-txt" id="story-title">إبراهيم عليه السلام — النبي الخليل</div>
+      <div class="story-body-txt" id="story-body">كان سيدنا إبراهيم أحب الناس إلى الله وأعظمهم توحيداً. سمّاه الله "خليل الله" — يعني صديقه الأقرب! كان الله يختبره كثيراً، وفي كل مرة كان إبراهيم ينجح لأن حبه لله كان أكبر من كل شيء. 🌟</div>
+      <div class="story-moral" id="story-moral"></div>
+      <div class="story-nav">
+        <button class="story-btn" id="story-prev" onclick="storyNav(-1)">◀ السابقة</button>
+        <div>
+          <div class="story-dots" id="story-dots"></div>
+          <div class="story-count" id="story-count" style="text-align:center;margin-top:4px">1 / 5</div>
+        </div>
+        <button class="story-btn gold" id="story-next" onclick="storyNav(1)">التالية ▶</button>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 2: Hero Challenge ═════════════════════════ -->
+    <div class="challenge-hero">
+      <div class="ch-title">🦁 تحدي بطل العشر</div>
+      <div class="ch-sub">أنجز 8 مهام يومية واحصل على لقب البطل!</div>
+      <div class="ch-progress-wrap"><div class="ch-progress-bar" id="ch-bar" style="width:0%"></div></div>
+      <div class="ch-progress-txt" id="ch-txt">0 من 8 مهام مكتملة</div>
+    </div>
+
+    <div class="task-grid" id="task-grid"></div>
+
+    <!-- ══ SECTION 3: My Badges ═══════════════════════════════ -->
+    <div class="section-title">🏅 أوسمة البطل</div>
+    <div class="badges-row" id="kids-badges"></div>
+
+    <!-- ══ SECTION 4: Stars ═══════════════════════════════════ -->
+    <div class="stars-wrap">
+      <div class="stars-title">⭐ نجوم ثُريّا</div>
+      <div class="stars-sub">اجمع نجوماً بإنجاز المهام والإجابة على الأسئلة</div>
+      <div class="stars-display" id="stars-display"></div>
+      <div class="stars-count" id="stars-count">0</div>
+      <div class="stars-total">/ 20 نجمة</div>
+    </div>
+
+    <!-- ══ SECTION 5: Dictionary ══════════════════════════════ -->
+    <div class="section-title">📚 قاموس المصطلحات الصغير</div>
+    <div id="dict-container"></div>
+
+    <!-- ══ SECTION 6: Quiz ════════════════════════════════════ -->
+    <div class="section-title">🧩 مسابقة العشر</div>
+    <div class="quiz-wrap" id="quiz-wrap">
+      <div class="quiz-num" id="quiz-num">السؤال 1 من 7</div>
+      <div class="quiz-q" id="quiz-q">جارٍ التحميل...</div>
+      <div class="quiz-opts" id="quiz-opts"></div>
+      <div class="quiz-fb" id="quiz-fb"></div>
+      <button class="quiz-next-btn" id="quiz-next" onclick="quizNextQ()">السؤال التالي ▶</button>
+      <div class="quiz-score" id="quiz-score"></div>
+    </div>
+
+  </main>
+  <a href="ai.html" class="fab-ai" aria-label="AI">🤖</a>
 </div>
-  <script src="lang.js" defer></script>
-  <script src="js/app.js" defer></script>
-  <!-- ═══ Visual Upgrade v2 ═══════════════════════════════ -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
-  <script src="animations.js" defer></script>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script>
+/* ════════════════════════════════════════════════════════════
+   KIDS MODE — ثريا
+   Sections: Story · Challenge · Badges · Stars · Dict · Quiz
+   ════════════════════════════════════════════════════════════ */
+
+const KIDS_KEY = 'zad_kids_v2';
+let kState = JSON.parse(localStorage.getItem(KIDS_KEY) || '{"tasks":{},"stars":0,"badges":[]}');
+function saveKids(){ localStorage.setItem(KIDS_KEY, JSON.stringify(kState)); }
+
+/* ══ 1. STORY ═══════════════════════════════════════════════ */
+const STORIES = [
+  {
+    ico:'🕌', title:'إبراهيم عليه السلام — النبي الخليل',
+    body:'كان سيدنا إبراهيم أحب الناس إلى الله وأعظمهم توحيداً. سمّاه الله "خليل الله" — يعني صديقه الأقرب! كان الله يختبره كثيراً، وفي كل مرة كان إبراهيم ينجح لأن حبه لله كان أكبر من كل شيء. 🌟',
+    moral:''
+  },
+  {
+    ico:'🌙', title:'الاختبار الصعب — رؤيا في المنام',
+    body:'ذات يوم رأى سيدنا إبراهيم في حُلمه أنه يذبح ابنه الحبيب إسماعيل. ورؤيا الأنبياء حقٌّ وصِدق! فعَلِم إبراهيم أن هذا اختبار كبير من الله يريد أن يرى فيه مدى طاعته وحبه لخالقه. ترى، ماذا سيفعل؟ 🤔',
+    moral:''
+  },
+  {
+    ico:'💪', title:'البطل الصغير — رد إسماعيل',
+    body:'أخبر إبراهيم ابنه بما رأى، فما هرب إسماعيل ولا خاف! بل قال بشجاعة وإيمان عظيم: \n"يا أبتِ افعل ما تؤمر، ستجدني إن شاء الله من الصابرين" 💚\nيا له من جواب! أظهر إسماعيل أنه يحب الله أكثر من نفسه!',
+    moral:'✨ الدرس: بر الوالدين وطاعة الله حتى في الأشياء الصعبة — هذه هي الشجاعة الحقيقية!'
+  },
+  {
+    ico:'🐏', title:'المعجزة والفداء العظيم',
+    body:'وعندما استعد إبراهيم وإسماعيل لتنفيذ أمر الله... جاءت المعجزة! 🌟\nنادى ملاك من السماء: "يا إبراهيم قد صدّقت الرؤيا!"\nوأرسل الله كبشاً عظيماً من الجنة ليكون فداءً لإسماعيل.\nنجح الأب والابن في الاختبار الصعب بتفوق! 🎉',
+    moral:'🐏 من هنا بدأت الأضحية! نذبحها في العيد لنشكر الله على رحمته.'
+  },
+  {
+    ico:'🕋', title:'بناء بيت الله',
+    body:'بعدها، أمر الله إبراهيم وإسماعيل ببناء الكعبة المشرفة — بيت الله الحرام في مكة المكرمة! 🕋\nبنياها بأحجار جبل أبي قبيس وهما يدعوان:\n"ربنا تقبّل منا إنك أنت السميع العليم"\nولهذا ندور حول الكعبة في الحج ونذبح الأضحية في العيد! 💚',
+    moral:'📖 دعاء إبراهيم لما بنى الكعبة: «رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي» (إبراهيم: 40)'
+  }
+];
+
+let storyIdx = 0;
+
+function renderStory() {
+  const s = STORIES[storyIdx];
+  const icoEl   = document.getElementById('story-ico-big');
+  const titleEl = document.getElementById('story-title');
+  const bodyEl  = document.getElementById('story-body');
+  const moral   = document.getElementById('story-moral');
+  const countEl = document.getElementById('story-count');
+  const dotsEl  = document.getElementById('story-dots');
+
+  if (icoEl)   { icoEl.style.opacity='0'; setTimeout(()=>{icoEl.textContent=s.ico;icoEl.style.opacity='1';},150); }
+  if (titleEl) titleEl.textContent = s.title;
+  if (bodyEl)  bodyEl.textContent  = s.body;
+  if (moral)   { moral.textContent = s.moral; moral.classList.toggle('show', !!s.moral); }
+  if (countEl) countEl.textContent = `${storyIdx+1} / ${STORIES.length}`;
+
+  /* Dots */
+  if (dotsEl) {
+    dotsEl.innerHTML = '';
+    STORIES.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'story-dot' + (i === storyIdx ? ' active' : '');
+      d.onclick = () => { storyIdx = i; renderStory(); };
+      dotsEl.appendChild(d);
+    });
+  }
+
+  /* Disable prev on first */
+  const prev = document.getElementById('story-prev');
+  if (prev) prev.disabled = storyIdx === 0;
+}
+
+function storyNav(dir) {
+  storyIdx = Math.max(0, Math.min(STORIES.length - 1, storyIdx + dir));
+  renderStory();
+  /* Give star for completing story */
+  if (storyIdx === STORIES.length - 1 && !kState.story_done) {
+    kState.story_done = true; kState.stars += 2; saveKids();
+    updateStars(); showBadgeToast('🌟 أنهيت القصة! +2 نجمة');
+  }
+}
+
+/* ══ 2. CHALLENGE TASKS ══════════════════════════════════════ */
+const TASKS = [
+  { id:'dhikr',    ico:'📿', name:'الذكر اليومي',        desc:'قل سبحان الله والحمد لله ولا إله إلا الله والله أكبر ١٠ مرات',   badge:{ id:'dhaker',   name:'الذاكر',     ico:'📿' } },
+  { id:'prayer',   ico:'🕌', name:'صلاة مع أهلك',       desc:'صلِّ صلاة واحدة مع أبوك أو أمك اليوم',                           badge:{ id:'mubakker', name:'المصلي',     ico:'🕌' } },
+  { id:'parent',   ico:'💚', name:'برّ الوالدين',        desc:'ساعد أمك في شيء أو قبّل يد أبوك',                               badge:{ id:'bar',      name:'البار',      ico:'💚' } },
+  { id:'honest',   ico:'💎', name:'بطل الصِدق',         desc:'احرص على قول الصدق طوال اليوم',                                   badge:{ id:'sadiq',    name:'الصادق',     ico:'💎' } },
+  { id:'sadaqah',  ico:'🤝', name:'صدقة صغيرة',         desc:'أعطِ شيئاً بسيطاً للفقير أو اطعم طائراً',                       badge:{ id:'mutasadiq', name:'المتصدق',   ico:'🤝' } },
+  { id:'quran',    ico:'📖', name:'اقرأ سورة قصيرة',    desc:'اقرأ أو استمع لسورة قصيرة تحفظها',                              badge:{ id:'qari',     name:'القارئ',     ico:'📖' } },
+  { id:'takbeer',  ico:'🎵', name:'التكبير بصوت عالٍ',   desc:'قل الله أكبر الله أكبر لا إله إلا الله والله أكبر ولله الحمد',  badge:{ id:'mukabbir', name:'المكبّر',    ico:'🎵' } },
+  { id:'dua',      ico:'🤲', name:'ادعُ لأصدقائك',      desc:'اذكر ثلاثة أشخاص تحبهم في دعائك اليوم',                         badge:{ id:'daee',     name:'الداعي',     ico:'🤲' } },
+];
+
+function renderTasks() {
+  const grid = document.getElementById('task-grid');
+  if (!grid) return;
+  if (!kState.tasks) kState.tasks = {};
+  grid.innerHTML = '';
+  TASKS.forEach(t => {
+    const done = !!kState.tasks[t.id];
+    const div = document.createElement('div');
+    div.className = 'task-item' + (done ? ' done' : '');
+    div.innerHTML = `
+      <div class="task-ico">${t.ico}</div>
+      <div class="task-info">
+        <div class="task-name">${t.name}</div>
+        <div class="task-desc">${t.desc}</div>
+      </div>
+      <div class="task-check">${done ? '✅' : ''}</div>`;
+    div.onclick = () => toggleTask(t);
+    grid.appendChild(div);
+  });
+  updateChallenge();
+}
+
+function toggleTask(t) {
+  if (!kState.tasks) kState.tasks = {};
+  const wasDone = !!kState.tasks[t.id];
+  kState.tasks[t.id] = !wasDone;
+
+  if (!wasDone) {
+    /* Earn star + badge */
+    kState.stars = (kState.stars || 0) + 1;
+    if (!kState.badges) kState.badges = [];
+    if (!kState.badges.includes(t.badge.id)) {
+      kState.badges.push(t.badge.id);
+      showBadgeToast(`🏅 وسام ${t.badge.name}! +1 نجمة`);
+    } else {
+      showBadgeToast(`✅ ${t.name} مكتملة! +1 نجمة`);
+    }
+    if (navigator.vibrate) navigator.vibrate([50, 30, 80]);
+    triggerKidConfetti();
+  } else {
+    kState.stars = Math.max(0, (kState.stars || 1) - 1);
+  }
+
+  saveKids();
+  renderTasks();
+  updateStars();
+  renderBadges();
+}
+
+function updateChallenge() {
+  if (!kState.tasks) return;
+  const done = Object.values(kState.tasks).filter(Boolean).length;
+  const total = TASKS.length;
+  const pct = Math.round((done / total) * 100);
+  const bar = document.getElementById('ch-bar');
+  const txt = document.getElementById('ch-txt');
+  if (bar) bar.style.width = pct + '%';
+  if (txt) txt.textContent = `${done} من ${total} مهام مكتملة`;
+
+  if (done === total && !kState.hero_badge) {
+    kState.hero_badge = true; saveKids();
+    kState.stars += 5; saveKids(); updateStars();
+    showBadgeToast('🦁 مبروك! أنت بطل العشر! +5 نجوم');
+  }
+}
+
+/* ══ 3. BADGES ══════════════════════════════════════════════ */
+const ALL_BADGES = [
+  ...TASKS.map(t => t.badge),
+  { id:'hero', name:'بطل العشر', ico:'🦁' },
+  { id:'quiz_star', name:'نجم المسابقة', ico:'🧩' },
+];
+
+function renderBadges() {
+  const wrap = document.getElementById('kids-badges');
+  if (!wrap) return;
+  if (!kState.badges) kState.badges = [];
+  wrap.innerHTML = ALL_BADGES.map(b => {
+    const earned = kState.badges.includes(b.id) || (b.id === 'hero' && kState.hero_badge);
+    return `<div class="k-badge ${earned ? 'earned' : ''}">
+      <div class="k-badge-ico">${b.ico}</div>
+      <div class="k-badge-name">${b.name}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ══ 4. STARS ═══════════════════════════════════════════════ */
+const MAX_STARS = 20;
+function updateStars() {
+  const disp = document.getElementById('stars-display');
+  const cnt  = document.getElementById('stars-count');
+  if (!disp || !cnt) return;
+  const n = Math.min(kState.stars || 0, MAX_STARS);
+  disp.innerHTML = '';
+  for (let i = 0; i < 10; i++) {
+    const span = document.createElement('span');
+    span.className = 'star-item' + (i < Math.ceil(n / 2) ? ' earned' : '');
+    span.textContent = '⭐';
+    disp.appendChild(span);
+  }
+  cnt.textContent = n;
+}
+
+/* ══ 5. DICTIONARY ══════════════════════════════════════════ */
+const DICT = [
+  {
+    ico:'⛰️', word:'عرفة', hint:'يوم اللقاء الكبير',
+    body:'يوم عرفة هو اليوم الأجمل في السنة! فيه يقف الحجاج على جبل عرفات ويدعون الله بكل ما يحبون. هو يوم الدعاء وطلب المغفرة، ويكفّر ذنوب سنتين كاملتين! 🌟'
+  },
+  {
+    ico:'🎵', word:'التلبية', hint:'نشيد الحجاج',
+    body:'التلبية هي الكلمات الجميلة التي يقولها الحجاج بصوت عالٍ وهم في طريقهم لمكة:\n\n"لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ!"\n\nيعني: "يا ربي، أنا هنا لأسمع كلامك وأطيعك!" 💚'
+  },
+  {
+    ico:'🐏', word:'الأضحية', hint:'هدية العيد لله',
+    body:'الأضحية هي الخروف أو البقرة أو الجمل الذي نذبحه في عيد الأضحى. نفعل ذلك اقتداءً بسيدنا إبراهيم لما أطاع الله. الله لا يريد اللحم ولا الدم — بل يريد تقوى قلبنا! 💚'
+  },
+  {
+    ico:'🎉', word:'أيام التشريق', hint:'أيام الفرح الثلاثة',
+    body:'أيام التشريق هي الأيام الثلاثة التي تأتي بعد يوم العيد (11، 12، 13 من ذي الحجة). هي أيام الأكل والشرب والفرح والذكر وشكر الله على نعمه الكثيرة! 🌟'
+  },
+  {
+    ico:'🕋', word:'الكعبة', hint:'بيت الله الحرام',
+    body:'الكعبة هي أول بيت بُني للناس على الأرض! بناها سيدنا إبراهيم وابنه إسماعيل في مكة المكرمة بأمر الله. نصلي باتجاهها في كل صلاة ونطوف حولها في الحج! 🕋'
+  },
+  {
+    ico:'📿', word:'الباقيات الصالحات', hint:'أفضل الكلمات',
+    body:'الباقيات الصالحات هي أفضل الكلمات التي يقولها المسلم:\n🔵 سبحان الله  🟢 الحمد لله  🟡 لا إله إلا الله  🔴 الله أكبر\n\nهذه الكلمات تملأ الميزان يوم القيامة!'
+  }
+];
+
+function renderDict() {
+  const cont = document.getElementById('dict-container');
+  if (!cont) return;
+  cont.innerHTML = '';
+  DICT.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'dict-item';
+    div.innerHTML = `
+      <div class="dict-header" onclick="toggleDict(${i})">
+        <span class="dict-ico">${item.ico}</span>
+        <div><div class="dict-word">${item.word}</div><div class="dict-hint">${item.hint}</div></div>
+        <span class="dict-arrow">▼</span>
+      </div>
+      <div class="dict-body">
+        <div class="dict-content" style="white-space:pre-line">${item.body}</div>
+      </div>`;
+    cont.appendChild(div);
+  });
+}
+
+function toggleDict(i) {
+  const items = document.querySelectorAll('.dict-item');
+  items.forEach((el, idx) => {
+    if (idx === i) el.classList.toggle('open');
+    else el.classList.remove('open');
+  });
+  /* Give star on first open */
+  if (!kState[`dict_${i}`]) {
+    kState[`dict_${i}`] = true; kState.stars = (kState.stars||0) + 1; saveKids(); updateStars();
+  }
+}
+
+/* ══ 6. QUIZ ════════════════════════════════════════════════ */
+const QUIZ = [
+  { q:'كم عدد أيام العشر المباركة؟', opts:['5 أيام','7 أيام','10 أيام','15 يوماً'], a:2 },
+  { q:'ما اسم ابن سيدنا إبراهيم الذي اختبره الله به؟', opts:['إسحاق','إسماعيل','يوسف','موسى'], a:1 },
+  { q:'ماذا أرسل الله فداءً لإسماعيل؟', opts:['ملاكاً','كبشاً عظيماً','ناقة','طيراً أبابيل'], a:1 },
+  { q:'ما معنى "لبيك اللهم لبيك"؟', opts:['الله أكبر','يا ربي أنا هنا أطيعك','الحمد لله','سبحان الله'], a:1 },
+  { q:'ما اسم البيت الذي بناه إبراهيم وإسماعيل؟', opts:['المسجد النبوي','المسجد الأقصى','الكعبة المشرفة','مسجد قباء'], a:2 },
+  { q:'أيام التشريق هي كم يوم بعد العيد؟', opts:['يوم واحد','يومان','ثلاثة أيام','أربعة أيام'], a:2 },
+  { q:'ماذا نقول في التكبير المطلق؟', opts:['سبحان الله','لبيك اللهم','الله أكبر الله أكبر لا إله إلا الله','بسم الله الرحمن الرحيم'], a:2 },
+];
+
+let quizIdx = 0, quizScore = 0, quizAnswered = false;
+
+function renderQuiz() {
+  if (quizIdx >= QUIZ.length) {
+    /* Done */
+    document.getElementById('quiz-q').style.display = 'none';
+    document.getElementById('quiz-opts').style.display = 'none';
+    document.getElementById('quiz-fb').style.display = 'none';
+    document.getElementById('quiz-num').style.display = 'none';
+    const score = document.getElementById('quiz-score');
+    score.style.display = 'block';
+    const pct = Math.round(quizScore / QUIZ.length * 100);
+    const ico = pct >= 80 ? '🏆' : pct >= 60 ? '⭐' : '💪';
+    score.innerHTML = `${ico} أجبت صح على ${quizScore} من ${QUIZ.length}!<br><span style="font-size:13px;color:var(--muted)">درجتك: ${pct}%</span>`;
+    /* Give quiz badge + stars */
+    if (!kState.quiz_done) {
+      kState.quiz_done = true;
+      kState.stars = (kState.stars||0) + Math.min(quizScore + 1, 5);
+      if (!kState.badges) kState.badges = [];
+      if (!kState.badges.includes('quiz_star')) kState.badges.push('quiz_star');
+      saveKids(); updateStars(); renderBadges();
+      showBadgeToast(`🧩 نجم المسابقة! +${Math.min(quizScore+1,5)} نجوم`);
+    }
+    return;
+  }
+
+  const q = QUIZ[quizIdx];
+  quizAnswered = false;
+  const numEl  = document.getElementById('quiz-num');
+  const qEl    = document.getElementById('quiz-q');
+  const optsEl = document.getElementById('quiz-opts');
+  const fbEl   = document.getElementById('quiz-fb');
+  const nextEl = document.getElementById('quiz-next');
+
+  if (numEl)  numEl.textContent  = `السؤال ${quizIdx+1} من ${QUIZ.length}`;
+  if (qEl)    { qEl.style.display=''; qEl.textContent = q.q; }
+  if (fbEl)   { fbEl.style.display='none'; fbEl.className='quiz-fb'; }
+  if (nextEl) nextEl.style.display = 'none';
+  if (optsEl) {
+    optsEl.style.display = '';
+    optsEl.innerHTML = '';
+    q.opts.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-opt';
+      btn.textContent = opt;
+      btn.onclick = () => answerQ(i, btn);
+      optsEl.appendChild(btn);
+    });
+  }
+}
+
+function answerQ(idx, btn) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = QUIZ[quizIdx];
+  const correct = idx === q.a;
+  if (correct) { quizScore++; btn.classList.add('correct'); }
+  else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.quiz-opt')[q.a]?.classList.add('correct');
+  }
+  document.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+
+  const fbEl = document.getElementById('quiz-fb');
+  if (fbEl) {
+    fbEl.style.display = 'block';
+    fbEl.className = 'quiz-fb ' + (correct ? 'correct' : 'wrong');
+    fbEl.textContent = correct ? '✅ إجابة صحيحة! ما شاء الله 🌟' : `❌ الإجابة الصحيحة: ${q.opts[q.a]}`;
+  }
+  document.getElementById('quiz-next').style.display = 'block';
+}
+
+function quizNextQ() { quizIdx++; renderQuiz(); }
+
+/* ══ BADGE TOAST ════════════════════════════════════════════ */
+let toastTimer;
+function showBadgeToast(msg) {
+  const el = document.getElementById('badge-toast');
+  const txt = document.getElementById('badge-toast-txt');
+  if (!el || !txt) return;
+  txt.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+/* ══ CONFETTI ═══════════════════════════════════════════════ */
+function triggerKidConfetti() {
+  const colors = ['#c9a14a','#4dd866','#ffe54d','#ff6b85','#5aabff'];
+  for (let i = 0; i < 30; i++) {
+    const el = document.createElement('div');
+    const c = colors[Math.floor(Math.random() * colors.length)];
+    const s = 4 + Math.random() * 7;
+    el.style.cssText = `position:fixed;top:-10px;left:${Math.random()*100}%;width:${s}px;height:${s*1.5}px;background:${c};border-radius:2px;animation:confettiFall ${1.5+Math.random()*1.5}s ease-out forwards;z-index:500;transform:rotate(${Math.random()*360}deg);animation-delay:${Math.random()*0.3}s`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3000);
+  }
+}
+
+/* ══ INIT ═══════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderStory();
+  renderTasks();
+  renderBadges();
+  updateStars();
+  renderDict();
+  renderQuiz();
+
+  /* Build dots */
+  const dotsEl = document.getElementById('story-dots');
+  if (dotsEl) {
+    dotsEl.innerHTML = '';
+    STORIES.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'story-dot' + (i === 0 ? ' active' : '');
+      d.onclick = () => { storyIdx = i; renderStory(); };
+      dotsEl.appendChild(d);
+    });
+  }
+
+  /* Touch swipe on story */
+  let sx = 0;
+  const hero = document.getElementById('story-hero');
+  if (hero) {
+    hero.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, {passive:true});
+    hero.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 50) storyNav(dx > 0 ? -1 : 1);
+    }, {passive:true});
+  }
+});
+</script>
 </body>
 </html>
