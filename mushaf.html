@@ -205,24 +205,6 @@ html[data-theme="oled"] .wird-tomorrow-bound .v { color: var(--sys-green); }
     </nav>
     <div class="side-foot"><span data-i18n="brand.name">زاد العشر</span> 2026 · <span data-i18n="common.noAds">بدون إعلانات 📴</span></div>
   </aside>
-  <div class="card quran-search-card" style="margin-bottom:14px">
-  <div class="search-header">
-    <h3>🔍 البحث في القرآن الكريم</h3>
-    <small>ابحث بالكلمة أو الجملة في المصحف كاملاً فورياً</small>
-  </div>
-  
-  <div class="search-input-group">
-    <input type="text" id="quran-search-input" placeholder="اكتب كلمة البحث هنا (مثلاً: رمضان، الصلاة)..." />
-    <button id="quran-search-btn" onclick="performQuranSearch()">ابحَث</button>
-  </div>
-
-  <div id="search-loading" style="display:none; text-align:center; margin: 15px 0; color: var(--gold);">
-    ⏳ جاري البحث في آيات الذكر الحكيم...
-  </div>
-
-  <div id="search-results-container" class="search-results-list">
-    </div>
-</div>
   <main class="main">
     <div class="topbar">
       <div><div class="page-title"><span data-i18n="mushaf.title">مصحف العشر</span></div>
@@ -276,6 +258,25 @@ html[data-theme="oled"] .wird-tomorrow-bound .v { color: var(--sys-green); }
           <div class="wird-bound-sub" id="wird-to-sub">صفحة 20</div>
         </div>
       </div>
+
+      <div class="card quranpedia-search-card" style="margin-bottom:14px">
+  <div class="qp-search-header">
+    <h3>🔍 البحث في القرآن الكريم</h3>
+    <small>ابحث بالكلمة أو الجملة فورياً عبر قاعدة بيانات Quranpedia</small>
+  </div>
+  
+  <div class="qp-search-group">
+    <input type="text" id="qp-search-input" placeholder="اكتب كلمة البحث هنا (مثلاً: رمضان، الصلاة)..." />
+    <button id="qp-search-btn" onclick="performQuranpediaSearch()">ابحَث</button>
+  </div>
+
+  <div id="qp-search-loading" style="display:none; text-align:center; margin: 20px 0; color: var(--gold);">
+    <span class="qp-spinner">⏳</span> جاري البحث في آيات الذكر الحكيم...
+  </div>
+
+  <div id="qp-search-results" class="qp-results-list">
+    </div>
+</div>
 
       <!-- Complete button / Done badge -->
       <button class="wird-complete-btn" id="wird-complete-btn" onclick="completeWird()">
