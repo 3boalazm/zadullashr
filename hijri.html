@@ -53,10 +53,23 @@ html[data-theme="dark"] .cal-month-lbl,html[data-theme="oled"] .cal-month-lbl{co
 .cal-day.arafah-day{border-color:#ff9500;background:rgba(255,149,0,.1)}
 .cal-day.eid-day{border-color:#ff3b30;background:rgba(255,59,48,.1)}
 
-.cd-greg{font-size:15px;font-weight:700;color:var(--ink);line-height:1}
-.cd-hijri{font-size:10px;color:var(--muted);font-weight:600}
-.cal-day.today-day .cd-greg{color:var(--green-deep);font-size:16px}
-html[data-theme="dark"] .cal-day.today-day .cd-greg,html[data-theme="oled"] .cal-day.today-day .cd-greg{color:var(--sys-green)}
+/* Hijri mode: hijri number BIG, greg SMALL */
+.cd-primary{font-size:15px;font-weight:700;color:var(--ink);line-height:1}
+.cd-secondary{font-size:10px;color:var(--muted);font-weight:600}
+
+/* Greg mode: flip sizes */
+body[data-caltype="greg"] .cd-primary{font-size:10px;color:var(--muted);font-weight:600}
+body[data-caltype="greg"] .cd-secondary{font-size:15px;font-weight:700;color:var(--ink);line-height:1}
+
+.cal-day.today-day .cd-primary{color:var(--green-deep)}
+body[data-caltype="greg"] .cal-day.today-day .cd-secondary{color:var(--green-deep)}
+html[data-theme="dark"] .cal-day.today-day .cd-primary,
+html[data-theme="oled"] .cal-day.today-day .cd-primary{color:var(--sys-green)}
+html[data-theme="dark"] body[data-caltype="greg"] .cal-day.today-day .cd-secondary,
+html[data-theme="oled"] body[data-caltype="greg"] .cal-day.today-day .cd-secondary{color:var(--sys-green)}
+
+/* Keep old class names working */
+.cd-greg{} .cd-hijri{}
 .cd-badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:99px;margin-top:1px;font-family:'ThmanyahSans','Tajawal',sans-serif}
 .cd-badge.arafah{background:#ff9500;color:#fff}
 .cd-badge.eid{background:#ff3b30;color:#fff}
@@ -441,8 +454,8 @@ function renderHijriMonth(hy, hm) {
       : '';
 
     html += `<div class="${cls}" onclick="showDayPopup(${hy},${hm},${d})">
-      <div class="cd-greg">${greg.getDate()}</div>
-      <div class="cd-hijri">${d}</div>
+      <div class="cd-primary">${d}</div>
+      <div class="cd-secondary">${greg.getDate()}</div>
       ${badge}
     </div>`;
 
@@ -487,8 +500,8 @@ function renderGregMonth(gy, gm) {
     const badge = sp ? `<div class="cd-badge ${sp.cls}">${h.d===9?'عرفة':h.d===10?'عيد':''}</div>` : '';
 
     html += `<div class="${cls}" onclick="showDayPopupGreg(${gy},${gm-1},${d})">
-      <div class="cd-greg">${d}</div>
-      <div class="cd-hijri">${h.d} ${HIJRI_MONTHS_AR[h.m-1].substring(0,3)}</div>
+      <div class="cd-primary">${d}</div>
+      <div class="cd-secondary">${h.d} ${HIJRI_MONTHS_AR[h.m-1].substring(0,3)}</div>
       ${badge}
     </div>`;
 
@@ -574,6 +587,7 @@ function goToToday() {
 }
 function switchType(type) {
   calType = type;
+  document.body.setAttribute('data-caltype', type);
   document.getElementById('tab-hijri').classList.toggle('active', type==='hijri');
   document.getElementById('tab-greg').classList.toggle('active',  type==='greg');
   if (type === 'greg') {
@@ -590,6 +604,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   curHijriY = localH.y; curHijriM = localH.m;
   curGregY  = now.getFullYear(); curGregM = now.getMonth()+1;
 
+  document.body.setAttribute('data-caltype', calType);
   render(); /* Render immediately with local calc */
   await renderTodayBanner(); /* Then update with API */
 });
