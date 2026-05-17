@@ -2300,12 +2300,7 @@ function initContentArchitecture() {
     updateProgress();
   }
 
-  /* 2. Auto Drop Cap on first paragraph after each .section-title */
-  document.querySelectorAll('.section-title + p, .section-title + .card p:first-child').forEach(p => {
-    if (p.textContent.trim().length > 40 && !p.classList.contains('drop-cap')) {
-      p.classList.add('drop-cap');
-    }
-  });
+  /* Drop Cap: disabled — causes layout flash */
 
   /* 3. Upgrade section-title to outcome-heading style if not already done */
   document.querySelectorAll('.section-title').forEach(el => {

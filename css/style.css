@@ -408,7 +408,7 @@ html[data-font="lg"] .check .label,html[data-font="xl"] .check .label{font-size:
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
 @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.animate-in{animation:fadeUp .4s var(--ease) both}
+.animate-in{animation:fadeUp .6s var(--ease) both;will-change:opacity,transform}
 
 /* ── Responsive ────────────────────────────────────────── */
 @media (max-width:1020px){.cols-4{grid-template-columns:repeat(2,1fr)}.cols-3{grid-template-columns:repeat(2,1fr)}}
@@ -1929,3 +1929,39 @@ html[data-theme="oled"] .card {
   background: #0a0a0a;
   border-color: rgba(255,255,255,.07);
 }
+
+/* ══ Flash / layout shift prevention ═══════════════════════ */
+
+/* Prevent invisible elements from taking layout space */
+.section-title {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Stable height for JS-rendered containers */
+#verse-track:empty::after,
+#mini-badges-container:empty::after {
+  content: '';
+  display: block;
+  min-height: 20px;
+}
+
+/* Prevent hero flash */
+.hero.animate-in {
+  animation-fill-mode: both;
+  animation-delay: 0.05s;
+}
+
+/* Quick cards always visible */
+.quick-card { opacity: 1 !important; transform: none !important; }
+.grid.cols-3, .grid.cols-2 { opacity: 1 !important; }
+
+/* Prevent any section from being hidden by animation */
+.main > * { opacity: 1 !important; }
+.main > .section-title { opacity: 1 !important; transform: none !important; }
+
+/* Stable layout for stats */
+#stat-takbeer, #stat-juz, #stat-pray, #stat-prog { min-width: 24px; display: inline-block; }
+
+/* Video carousel: don't flash */
+.vc-track { min-height: 220px; }
