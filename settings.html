@@ -37,6 +37,10 @@
 /* Force-set correct VAPID key from Firebase Console */
 localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H1zri8aBn7dKAYX-ane9SgSztSxStJT6TKupW3zKAXg');
 </script>
+<style>
+.reminder-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.fs-btn{transition:all .2s}
+</style>
 </head>
 <body>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
@@ -118,639 +122,239 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
       </div>
     </div>
 
-    <div class="settings-group">
-              <!-- Language Row -->
-        <div class="settings-lang-row">
-          <div style="display:flex;align-items:center;gap:12px">
-            <span style="font-size:22px;width:34px;text-align:center">🌐</span>
-            <div>
-              <b style="display:block;font-size:14px;font-weight:700" data-i18n="settings.lang">اللغة / Language</b>
-              <small style="font-size:12px;color:var(--muted)" data-i18n="settings.langSub">اختر لغة التطبيق</small>
-            </div>
-          </div>
-          <div class="lang-toggle-wrap">
-            <button class="lang-option" id="lang-ar-btn" onclick="I18N.setLang('ar')">العربية</button>
-            <button class="lang-option" id="lang-en-btn" onclick="I18N.setLang('en')">English</button>
-          </div>
-        </div>
-        <div class="settings-group-title">المظهر</div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
-        <div class="ic">🌙</div>
-        <div class="lbl"><b>الوضع الداكن</b><small>مريح للعين أثناء قيام الليل</small></div>
-        <label class="sw"><input type="checkbox" id="dark-sw" class="dark-switch"><span class="sl"></span></label>
-      </div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
-        <div class="ic">⚫</div>
-        <div class="lbl"><b>وضع OLED</b><small>أسود حقيقي — يوفّر بطارية الشاشات AMOLED</small></div>
-        <label class="sw"><input type="checkbox" onchange="applyTheme(this.checked?'oled':'dark')" id="oled-sw"><span class="sl"></span></label>
-      </div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto" style="flex-wrap:wrap;gap:10px">
-        <div class="ic">🎨</div>
-        <div class="lbl"><b>ثيم المظهر</b></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <div class="card theme-card" data-theme="light" style="padding:8px 14px;cursor:pointer;font-size:13px;font-weight:700">☀️ فاتح</div>
-          <div class="card theme-card" data-theme="dark" style="padding:8px 14px;cursor:pointer;font-size:13px;font-weight:700">🌙 داكن</div>
-          <div class="card theme-card" data-theme="oled" style="padding:8px 14px;cursor:pointer;font-size:13px;font-weight:700">⚫ OLED</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="settings-group">
-      <div class="settings-group-title">إمكانية الوصول — حجم الخط</div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
-        <div class="ic">🔤</div>
-        <div class="lbl"><b>حجم الخط العام</b><small>لمن يعاني من صعوبة في القراءة</small></div>
-        <div style="display:flex;gap:6px">
-          <button class="btn btn-ghost font-size-opt" data-fs="sm" style="padding:7px 14px;font-size:12px" onclick="applyFontSize('sm')">صغير</button>
-          <button class="btn btn-ghost font-size-opt" data-fs="md" style="padding:7px 14px;font-size:13px" onclick="applyFontSize('md')">متوسط</button>
-          <button class="btn btn-ghost font-size-opt" data-fs="lg" style="padding:7px 14px;font-size:14px" onclick="applyFontSize('lg')">كبير</button>
-          <button class="btn btn-ghost" style="padding:7px 14px;font-size:13px" onclick="applyFontSize('xl')">أكبر</button>
-        </div>
-      </div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
-        <div class="ic">📏</div>
-        <div class="lbl"><b>حجم خط القرآن</b><small>اسحب لضبط الحجم</small></div>
-        <input type="range" id="font-slider" min="16" max="40" value="24" style="width:110px;accent-color:var(--green-deep)">
-      </div>
-      <div style="padding:16px 18px;border-bottom:1px solid var(--border)">
-        <p id="font-preview" style="font-family:Amiri,serif;font-size:24px;color:var(--green-deep);text-align:center;line-height:2">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-      </div>
-    </div>
-
-    <div class="settings-group">
-      <div class="settings-group-title">التنبيهات</div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
-        <div class="ic">🔔</div>
-        <div class="lbl"><b>تفعيل الإشعارات</b><small>تذكيرات الصلاة والورد اليومي</small></div>
-        <button class="btn btn-primary" style="padding:8px 16px;font-size:13px" onclick="requestNotifPermission()">تفعيل</button>
-      </div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
-        <div class="ic">📿</div>
-        <div class="lbl"><b>تذكير ورد العشر</b><small>صباحاً ومساءً</small></div>
-        <label class="sw"><input type="checkbox" class="notif-sw" checked><span class="sl"></span></label>
-      </div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
-        <div class="ic">🌄</div>
-        <div class="lbl"><b>تذكير ساعة إجابة عرفة</b><small>تنبيه مميز يوم عرفة</small></div>
-        <label class="sw"><input type="checkbox" class="notif-sw"><span class="sl"></span></label>
-      </div>
-    </div>
-
-    <div class="settings-group">
-      <div class="settings-group-title">التطبيق وPWA</div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
-        <div class="ic">📲</div>
-        <div class="lbl"><b>تثبيت التطبيق</b><small>يعمل بدون إنترنت في المصلى</small></div>
-        <button class="btn btn-gold" id="install-pwa-btn" style="padding:8px 16px;font-size:13px" onclick="installPWA()">تثبيت</button>
-      </div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
-        <div class="ic">🔗</div>
-        <div class="lbl"><b>مشاركة التطبيق</b><small>شارك زاد العشر مع أهلك وأصحابك</small></div>
-        <button class="btn btn-ghost" style="padding:8px 16px;font-size:13px" onclick="shareApp()">مشاركة</button>
-      </div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
-        <div class="ic">📴</div>
-        <div class="lbl"><b>وضع بدون إنترنت</b><small>Service Worker مفعّل تلقائياً</small></div>
-        <span class="tag gold">✔ مفعّل</span>
-      </div>
-    </div>
-
-    <div class="settings-group">
-      <div class="settings-group-title">الخصوصية والبيانات</div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
-        <div class="ic">🔒</div>
-        <div class="lbl"><b>بياناتك مشفّرة محلياً</b><small>localStorage فقط — لا سحابة</small></div>
-        <span class="tag gold">✔ آمن</span>
-      </div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
-        <div class="ic">🚫</div>
-        <div class="lbl"><b>صفر إعلانات</b><small>خشوع رقمي بلا مشتّتات</small></div>
-        <span class="tag gold">✔ دائماً</span>
-      </div>
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto" id="reset-all" style="cursor:pointer">
-        <div class="ic">🗑️</div>
-        <div class="lbl"><b style="color:#dc3545">مسح جميع البيانات</b><small>لا يمكن التراجع</small></div>
-        <span style="color:var(--muted)">›</span>
-      </div>
-    </div>
-    <div class="foot-note">زاد العشر 2026 · بدون إعلانات · يعمل بدون إنترنت 📴</div>
-
-    <!-- ══ Firebase ══════════════════════════════════════════ -->
-    <div class="section-title" style="margin-top:24px">🔥 Firebase</div>
-    <div class="settings-group" id="firebase-group">
-
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto" id="fb-row-conn">
-        <div class="ic">🔗</div>
-        <div class="lbl">
-          <b>حالة الاتصال</b>
-          <small id="fb-conn-sub">جارٍ الفحص...</small>
-        </div>
-        <span class="fb-badge" id="fb-conn-badge">⏳</span>
-      </div>
-
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto" id="fb-row-analytics">
-        <div class="ic">📊</div>
-        <div class="lbl">
-          <b>Analytics</b>
-          <small id="fb-analytics-sub">G-W6PZ48LXYJ</small>
-        </div>
-        <span class="fb-badge" id="fb-analytics-badge">⏳</span>
-      </div>
-
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto" id="fb-row-notif" id="fcm-enable-btn" onclick="window.fbEnableNotif?.()||window.doEnableNotif?.()" style="cursor:pointer">
-        <div class="ic">🔔</div>
-        <div class="lbl">
-          <b>إشعارات Push (FCM)</b>
-          <small id="fb-notif-sub">اضغط للتفعيل</small>
-        </div>
-        <span class="fb-badge" id="fb-notif-badge">—</span>
-      </div>
-
-      <div class="settings-row" style="flex-wrap:wrap;min-height:auto" id="fb-row-token" style="display:none">
-        <div class="ic">🎫</div>
-        <div class="lbl" style="min-width:0;overflow:hidden">
-          <b>FCM Token</b>
-          <small id="fb-token-val" style="direction:ltr;word-break:break-all;display:block;font-size:10px;opacity:.7">—</small>
-        </div>
-      </div>
-
-    </div>
-
-<style>
-.fb-badge{
-  display:inline-block;padding:4px 12px;border-radius:99px;
-  font-size:11px;font-weight:700;white-space:nowrap;flex-shrink:0;
-  background:var(--sand);color:var(--muted);transition:all .3s
-}
-.fb-badge.ok   {background:#dcfce7;color:#166534}
-.fb-badge.warn {background:#fef9c3;color:#854d0e}
-.fb-badge.err  {background:#fee2e2;color:#991b1b}
-.fb-badge.info {background:#dbeafe;color:#1e40af}
-</style>
-
-  </main>
-
-  <!-- Floating AI Button -->
-  <a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
-</div>
-  <script src="lang.js" defer></script>
-  <script src="js/app.js" defer></script>
-  <!-- ═══ Visual Upgrade v2 ═══════════════════════════════ -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
-  <script src="animations.js" defer></script>
-
-<script type="module">
-/* ════════════════════════════════════════════════════════════
-   SETTINGS PAGE — Firebase Status Check + FCM
-   ════════════════════════════════════════════════════════════ */
-
-import { initializeApp }         from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getAnalytics, isSupported as analyticsSupported } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js';
-import { getMessaging, getToken, isSupported as msgSupported } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js';
-
-const FB_CONFIG = {
-  apiKey:            'AIzaSyBgs8kMenbiTaJP4d1eEWv6zmp-kGoExqM',
-  authDomain:        'zadullashr.firebaseapp.com',
-  projectId:         'zadullashr',
-  storageBucket:     'zadullashr.firebasestorage.app',
-  messagingSenderId: '1001954401018',
-  appId:             '1:1001954401018:web:7271f17d574371ff018743',
-  measurementId:     'G-W6PZ48LXYJ'
-};
-
-function setBadge(id, text, type) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const colors = {
-    ok:      'background:#dcfce7;color:#166534',
-    warn:    'background:#fef9c3;color:#854d0e',
-    error:   'background:#fee2e2;color:#991b1b',
-    info:    'background:#dbeafe;color:#1e40af',
-    neutral: 'background:var(--sand);color:var(--muted)',
-  };
-  el.textContent = text;
-  el.style.cssText = `padding:4px 12px;border-radius:99px;font-size:11px;font-weight:700;${colors[type]||colors.neutral}`;
-}
-
-async function checkFirebase() {
-  const statusBadge = document.getElementById('fb-status-badge');
-  const statusText  = document.getElementById('fb-status-text');
-
-  try {
-    /* 1. Initialize */
-    const app = initializeApp(FB_CONFIG);
-    setBadge('fb-status-badge', '✅ متصل', 'ok');
-    if (statusText) statusText.textContent = 'Firebase متصل — zadullashr · App ID: 1001954401018';
-
-    /* 2. Analytics */
-    const analyticsOk = await analyticsSupported();
-    if (analyticsOk) {
-      const analytics = getAnalytics(app);
-      setBadge('fb-analytics-badge', '✅ فعّال', 'ok');
-      const atxt = document.getElementById('fb-analytics-text');
-      if (atxt) atxt.textContent = 'Firebase Analytics يعمل — measurementId: G-W6PZ48LXYJ';
-    } else {
-      setBadge('fb-analytics-badge', '⚠️ غير مدعوم', 'warn');
-    }
-
-    /* 3. Check existing FCM token */
-    const existingToken = localStorage.getItem('zad_fcm_token');
-    const tokenDate     = localStorage.getItem('zad_fcm_date');
-    if (existingToken) {
-      setBadge('fb-notif-badge', '✅ مفعّل', 'ok');
-      const ntxt = document.getElementById('fb-notif-text');
-      if (ntxt) ntxt.textContent = 'الإشعارات مفعّلة — ' + new Date(tokenDate).toLocaleDateString('ar');
-      showToken(existingToken);
-    } else if (Notification.permission === 'granted') {
-      setBadge('fb-notif-badge', '⚠️ مرخّص', 'warn');
-      const ntxt = document.getElementById('fb-notif-text');
-      if (ntxt) ntxt.textContent = 'الإذن ممنوح — اضغط لجلب الـ Token';
-    } else if (Notification.permission === 'denied') {
-      setBadge('fb-notif-badge', '❌ مرفوض', 'error');
-      const ntxt = document.getElementById('fb-notif-text');
-      if (ntxt) ntxt.textContent = 'رُفض الإذن — فعّله من إعدادات المتصفح';
-    } else {
-      setBadge('fb-notif-badge', '⭕ غير مفعّل', 'neutral');
-    }
-
-    /* Expose for button click */
-    window._fbApp       = app;
-    window._fbReady     = true;
-
-  } catch(e) {
-    setBadge('fb-status-badge', '❌ خطأ', 'error');
-    if (statusText) statusText.textContent = 'خطأ: ' + e.message;
-    setBadge('fb-analytics-badge', '❌', 'error');
-    setBadge('fb-notif-badge', '❌', 'error');
-  }
-}
-
-function showToken(token) {
-  const row = document.getElementById('fb-token-row');
-  const txt = document.getElementById('fb-token-text');
-  if (row) row.style.display = 'flex';
-  if (txt) txt.textContent = token.substring(0, 40) + '...';
-}
-
-window.fbRequestNotifications = async function() {
-  if (!window._fbApp) return;
-  const badge = document.getElementById('fb-notif-badge');
-  const ntxt  = document.getElementById('fb-notif-text');
-
-  setBadge('fb-notif-badge', '⏳ جارٍ...', 'info');
-
-  try {
-    const msgOk = await msgSupported();
-    if (!msgOk) {
-      setBadge('fb-notif-badge', '⚠️ غير مدعوم', 'warn');
-      if (ntxt) ntxt.textContent = 'FCM غير مدعوم في هذا المتصفح';
-      return;
-    }
-
-    const perm = await Notification.requestPermission();
-    if (perm !== 'granted') {
-      setBadge('fb-notif-badge', '❌ مرفوض', 'error');
-      if (ntxt) ntxt.textContent = 'فعّل الإشعارات من إعدادات المتصفح';
-      return;
-    }
-
-    /* Register service worker first */
-    let sw;
-    if ('serviceWorker' in navigator) {
-      sw = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
-    }
-
-    const messaging = getMessaging(window._fbApp);
-    /* VAPID KEY — from Firebase Console > Project Settings > Cloud Messaging > Web Push certificates */
-    const VAPID = localStorage.getItem('zad_vapid') || 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H1zri8aBn7dKAYX-ane9SgSztSxStJT6TKupW3zKAXg';
-
-    const token = await getToken(messaging, {
-      vapidKey:             VAPID,
-      serviceWorkerRegistration: sw
-    });
-
-    if (token) {
-      localStorage.setItem('zad_fcm_token', token);
-      localStorage.setItem('zad_fcm_date',  new Date().toISOString());
-      setBadge('fb-notif-badge', '✅ مفعّل', 'ok');
-      if (ntxt) ntxt.textContent = '✅ الإشعارات مفعّلة بنجاح!';
-      showToken(token);
-      if (typeof showToast === 'function') showToast('✅ إشعارات Firebase مفعّلة');
-    } else {
-      setBadge('fb-notif-badge', '⚠️ لا يوجد Token', 'warn');
-    }
-  } catch(e) {
-    setBadge('fb-notif-badge', '❌ ' + e.message.substring(0, 30), 'error');
-    console.error('FCM error:', e);
-  }
-};
-
-/* Run on load */
-document.addEventListener('DOMContentLoaded', checkFirebase);
-</script>
-
-
-<script type="module">
-/* ────────────────────────────────────────────────────────────
-   Firebase Settings — CDN SDK v10.12.2
-   Project: zadullashr | measurementId: G-W6PZ48LXYJ
-   ──────────────────────────────────────────────────────────── */
-import { initializeApp }
-  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getAnalytics, isSupported as analyticsOk }
-  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js';
-import { getMessaging, getToken, isSupported as messagingOk }
-  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js';
-
-const CFG = {
-  apiKey:            'AIzaSyBgs8kMenbiTaJP4d1eEWv6zmp-kGoExqM',
-  authDomain:        'zadullashr.firebaseapp.com',
-  projectId:         'zadullashr',
-  storageBucket:     'zadullashr.firebasestorage.app',
-  messagingSenderId: '1001954401018',
-  appId:             '1:1001954401018:web:7271f17d574371ff018743',
-  measurementId:     'G-W6PZ48LXYJ'
-};
-
-/* ── Badge helper ── */
-function badge(id, txt, type='neutral'){
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = txt;
-  el.className = 'fb-badge' + (type !== 'neutral' ? ' ' + type : '');
-}
-function sub(id, txt){ const el=document.getElementById(id); if(el) el.textContent=txt; }
-
-let _app, _analytics, _messaging;
-
-async function init() {
-  try {
-    /* 1. Init app */
-    _app = initializeApp(CFG);
-    badge('fb-conn-badge', '✅ متصل', 'ok');
-    sub('fb-conn-sub', 'Firebase متصل · App: 1001954401018 · Project: zadullashr');
-
-    /* 2. Analytics */
-    const canAnalytics = await analyticsOk();
-    if (canAnalytics) {
-      _analytics = getAnalytics(_app);
-      badge('fb-analytics-badge', '✅ فعّال', 'ok');
-      sub('fb-analytics-sub', 'تتبع الاستخدام فعّال · measurementId: G-W6PZ48LXYJ');
-    } else {
-      badge('fb-analytics-badge', '⚠️ غير مدعوم', 'warn');
-      sub('fb-analytics-sub', 'Analytics غير مدعوم في هذا المتصفح');
-    }
-
-    /* 3. FCM status from localStorage */
-    const storedToken = localStorage.getItem('zad_fcm_token');
-    const storedDate  = localStorage.getItem('zad_fcm_date');
-    const notifPerm   = Notification.permission;
-
-    if (storedToken) {
-      badge('fb-notif-badge', '✅ مفعّل', 'ok');
-      sub('fb-notif-sub', 'الإشعارات مفعّلة · ' + new Date(storedDate).toLocaleDateString('ar-EG'));
-      showToken(storedToken);
-    } else if (notifPerm === 'granted') {
-      badge('fb-notif-badge', '⚠️ مرخّص', 'warn');
-      sub('fb-notif-sub', 'الإذن ممنوح — اضغط لجلب الـ Token');
-    } else if (notifPerm === 'denied') {
-      badge('fb-notif-badge', '❌ مرفوض', 'err');
-      sub('fb-notif-sub', 'فعّل الإشعارات من إعدادات المتصفح ثم اضغط هنا');
-    } else {
-      badge('fb-notif-badge', '⭕ غير مفعّل', 'neutral');
-      sub('fb-notif-sub', 'اضغط لتفعيل إشعارات الصلاة والأذكار');
-    }
-
-    window._fbApp  = _app;
-    window._fbReady = true;
-
-  } catch(e) {
-    badge('fb-conn-badge', '❌ خطأ', 'err');
-    sub('fb-conn-sub', e.message);
-    badge('fb-analytics-badge', '❌', 'err');
-    badge('fb-notif-badge', '❌', 'err');
-  }
-}
-
-function showToken(token) {
-  const row = document.getElementById('fb-row-token');
-  const val = document.getElementById('fb-token-val');
-  if (row) row.style.display = 'flex';
-  if (val) val.textContent = token.substring(0,50) + '…';
-}
-
-/* ── Enable notifications (called from onclick) ── */
-/* ── VAPID INPUT UI ── */
-window.showVapidInput = function() {
-  const stored = localStorage.getItem('zad_vapid') || '';
-  const row = document.getElementById('fb-row-notif');
-  if (!row) return;
-  row.insertAdjacentHTML('afterend', `
-    <div id="vapid-input-row" style="padding:12px 14px;background:var(--sand);border-top:1px solid var(--border)">
-      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.7">
-        🔑 أدخل مفتاح VAPID من Firebase Console:<br>
-        <a href="https://console.firebase.google.com/project/zadullashr/settings/cloudmessaging"
-           target="_blank"
-           style="font-size:11px;direction:ltr;display:inline-block;margin-top:4px;
-                  color:var(--sys-blue);text-decoration:underline">
-          → افتح Firebase Console &gt; Cloud Messaging
-        </a><br>
-        <span style="font-size:11px;color:var(--muted-2)">
-          Web configuration → Web Push certificates → Generate key pair
-        </span>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <input id="vapid-key-input" type="text" placeholder="BEl62iUY..."
-          value="${stored}"
-          oninput="document.getElementById('vapid-len').textContent=this.value.trim().length+' حرف'"
-          style="flex:1;min-width:200px;padding:8px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);font-family:monospace;font-size:11px;direction:ltr;outline:none;transition:border-color .2s">
-        <button onclick="saveAndEnableNotif()" style="padding:8px 14px;border-radius:8px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">
-          ✅ تفعيل
-        </button>
-      </div>
-      <div style="font-size:10px;color:var(--muted);margin-top:4px;direction:ltr">
-        <span id="vapid-len">${stored ? stored.length : 0} حرف</span> — المفتاح الصحيح ~88 حرف ويبدأ بـ B
-      </div>
-    </div>`);
-}
-
-window.saveAndEnableNotif = async function() {
-  const input = document.getElementById('vapid-key-input');
-  if (!input) return;
-  const vapidKey = input.value.trim();
-  /* VAPID = base64url ~88 chars starting with B */
-  const validVapid = vapidKey.length >= 80 && /^[A-Za-z0-9_\-]+$/.test(vapidKey);
-  if (!validVapid) {
-    badge('fb-notif-badge', '❌ مفتاح غير صالح', 'err');
-    sub('fb-notif-sub', 'المفتاح يجب أن يكون ~88 حرف — تأكد من النسخ كاملاً من Firebase Console');
-    const inp = document.getElementById('vapid-key-input');
-    if (inp) inp.style.borderColor='var(--sys-red)';
-    return;
-  }
-  localStorage.setItem('zad_vapid', vapidKey);
-  const row = document.getElementById('vapid-input-row');
-  if (row) row.remove();
-  await doEnableNotif(vapidKey);
-}
-
-window.fbEnableNotif = async function () {
-  /* VAPID hardcoded from Firebase Console */
-  localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H1zri8aBn7dKAYX-ane9SgSztSxStJT6TKupW3zKAXg');
-  const storedVapid = localStorage.getItem('zad_vapid');
-  if (storedVapid && storedVapid.length >= 50) {
-    await doEnableNotif(storedVapid);
-  } else {
-    showVapidInput();
-  }
-};
-
-window.doEnableNotif = async function(vapidKey) {
-  if (!window._fbApp) { badge('fb-notif-badge', '❌ Firebase غير متصل', 'err'); return; }
-
-  badge('fb-notif-badge', '⏳', 'info');
-  sub('fb-notif-sub', 'جارٍ طلب الإذن...');
-
-  try {
-    const canMsg = await messagingOk();
-    if (!canMsg) {
-      badge('fb-notif-badge', '⚠️ غير مدعوم', 'warn');
-      sub('fb-notif-sub', 'FCM غير مدعوم في هذا المتصفح');
-      return;
-    }
-
-    const perm = await Notification.requestPermission();
-    if (perm !== 'granted') {
-      badge('fb-notif-badge', '❌ مرفوض', 'err');
-      sub('fb-notif-sub', 'فعّل الإشعارات من إعدادات المتصفح');
-      return;
-    }
-
-    sub('fb-notif-sub', 'جارٍ التسجيل...');
-    const sw = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
-    const messaging = getMessaging(window._fbApp);
-
-    sub('fb-notif-sub', 'جارٍ جلب الـ Token...');
-    const token = await getToken(messaging, {
-      vapidKey: vapidKey,
-      serviceWorkerRegistration: sw
-    });
-
-    if (token) {
-      localStorage.setItem('zad_fcm_token', token);
-      localStorage.setItem('zad_fcm_date',  new Date().toISOString());
-      badge('fb-notif-badge', '✅ مفعّل', 'ok');
-      sub('fb-notif-sub', '✅ تم التفعيل بنجاح!');
-      showToken(token);
-      if (typeof showToast === 'function') showToast('✅ إشعارات FCM مفعّلة');
-    } else {
-      badge('fb-notif-badge', '⚠️ لا token', 'warn');
-      sub('fb-notif-sub', 'تحقق من صحة مفتاح VAPID وحاول مجدداً');
-    }
-  } catch(e) {
-    /* ── Classify error type ── */
-    const isPushErr = e.message.includes('push service error')
-                   || e.message.includes('Registration failed')
-                   || e.message.includes('applicationServerKey')
-                   || e.message.includes('VAPID')
-                   || e.message.includes('AbortError');
-
-    if (isPushErr) {
-      /* Clear bad VAPID → force re-entry */
-      localStorage.removeItem('zad_vapid');
-      localStorage.removeItem('zad_fcm_token');
-      localStorage.removeItem('zad_fcm_date');
-      badge('fb-notif-badge', '⚠️ مفتاح خاطئ', 'warn');
-      sub('fb-notif-sub', '⚠️ مفتاح VAPID غير صحيح — اضغط هنا لإدخال مفتاح جديد');
-    } else {
-      badge('fb-notif-badge', '❌ ' + e.message.substring(0,35), 'err');
-      sub('fb-notif-sub', e.message);
-    }
-    console.error('FCM error:', e);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', init);
-</script>
-
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  /* Restore font scale buttons */
-  try {
-    const fs = JSON.parse(localStorage.getItem('zad_v2') || '{}').fontScale || 'md';
-    document.querySelectorAll('.font-size-opt').forEach(b => {
-      b.classList.toggle('active', b.dataset.fs === fs);
-      if (b.dataset.fs === fs) {
-        b.style.background = 'var(--green-deep)';
-        b.style.color = '#fff';
-        b.style.borderColor = 'var(--green-deep)';
-      }
-    });
-    document.querySelectorAll('.font-size-opt').forEach(b => {
-      b.addEventListener('click', () => {
-        document.querySelectorAll('.font-size-opt').forEach(x => {
-          x.style.background = '';  x.style.color = '';  x.style.borderColor = '';
-        });
-        b.style.background = 'var(--green-deep)';
-        b.style.color = '#fff';
-        b.style.borderColor = 'var(--green-deep)';
-      });
-    });
-  } catch(e){}
-
-  /* Notification button state */
-  const fcmBtn = document.getElementById('fcm-enable-btn');
-  if (fcmBtn && Notification.permission === 'granted') {
-    fcmBtn.innerHTML = '✅ مفعّلة';
-    fcmBtn.className = 'notif-enabled-badge';
-    fcmBtn.disabled = true;
-  }
-
-  /* Install button state */
-  const installBtn = document.getElementById('install-pwa-btn');
-  if (installBtn) {
-    const isInstalled = window.matchMedia('(display-mode: standalone)').matches ||
-                        window.navigator.standalone;
-    if (isInstalled) {
-      installBtn.textContent = '✅ مثبّت';
-      installBtn.disabled = true;
-      installBtn.style.opacity = '.6';
-    }
-  }
-});
-
-function shareApp() {
-  const shareData = {
-    title: 'زاد العشر 🌙',
-    text: 'تطبيق رفيق العبادة في عشر ذي الحجة — وردك، أذكارك، ومواعيد الصلاة',
-    url: 'https://zadullashr.vercel.app'
-  };
-  if (navigator.share) {
-    navigator.share(shareData).catch(() => {});
-  } else {
-    navigator.clipboard.writeText(shareData.url).then(() => {
-      if (typeof showToast === 'function') showToast('✅ تم نسخ الرابط للحافظة');
-    });
-  }
-}
-window.shareApp = shareApp;
-</script>
-</body>
-</html
-    <!-- Profile Section -->
+    <!-- ══ 0. Profile ═══════════════════════════════════════ -->
     <div class="section-title">👤 الملف الشخصي</div>
-    <div class="card" style="margin-bottom:16px" id="profile-settings-card">
+    <div class="card" style="margin-bottom:16px">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
         <div>
-          <div style="font-size:13px;font-weight:800;color:var(--ink)" id="settings-profile-name">جارٍ التحميل...</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:3px" id="settings-profile-type">—</div>
+          <div style="font-size:14px;font-weight:800;color:var(--ink)" id="settings-profile-name">—</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:3px" id="settings-profile-type">—</div>
         </div>
-        <button onclick="showProfileModal(true)" style="padding:9px 18px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--green-deep)">
-          ✏️ تعديل الملف
-        </button>
+        <button onclick="showProfileModal(true)" style="padding:9px 18px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--green-deep)">✏️ تعديل</button>
       </div>
     </div>
 
-    >
+    <!-- ══ 1. المظهر ════════════════════════════════════════ -->
+    <div class="section-title">🎨 المظهر</div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border)">
+        <div class="ic">🌙</div>
+        <div class="lbl"><b>الوضع الداكن</b><small>راحة للعينين</small></div>
+        <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+      </div>
+      <div style="padding-top:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">🔤 حجم الخط العام</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <button class="fs-btn" data-fs="sm" onclick="setFontScale('sm',this)" style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;font-size:12px;font-weight:700;color:var(--muted);text-align:center"><div style="font-size:15px;margin-bottom:4px">أ</div><div>صغير</div></button>
+          <button class="fs-btn" data-fs="md" onclick="setFontScale('md',this)" style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;font-size:13px;font-weight:700;color:var(--muted);text-align:center"><div style="font-size:19px;margin-bottom:4px">أ</div><div>متوسط</div></button>
+          <button class="fs-btn" data-fs="lg" onclick="setFontScale('lg',this)" style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;font-size:14px;font-weight:700;color:var(--muted);text-align:center"><div style="font-size:23px;margin-bottom:4px">أ</div><div>كبير</div></button>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:10px;text-align:center">لا يؤثر على خط القرآن الكريم</div>
+      </div>
+    </div>
+
+    <!-- ══ 2. الإشعارات ═════════════════════════════════════ -->
+    <div class="section-title">🔔 الإشعارات والتذكيرات</div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border)">
+        <div class="ic">🔔</div>
+        <div class="lbl"><b>تفعيل الإشعارات</b><small>لتلقي التذكيرات</small></div>
+        <button id="notif-toggle-btn" onclick="toggleNotifications()" style="padding:9px 16px;border-radius:10px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .25s">تفعيل</button>
+      </div>
+      <div style="padding-top:10px">
+        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">📿 ورد الصباح</div><div style="font-size:11px;color:var(--muted)">5:30 صباحاً</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="wird_morning" checked><span class="tgl-sl"></span></label></div>
+        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">🌙 ورد المساء</div><div style="font-size:11px;color:var(--muted)">5:00 مساءً</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="wird_evening" checked><span class="tgl-sl"></span></label></div>
+        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">☀️ أذكار الصباح</div><div style="font-size:11px;color:var(--muted)">بعد الفجر</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="adhkar_morning" checked><span class="tgl-sl"></span></label></div>
+        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">🌆 أذكار المساء</div><div style="font-size:11px;color:var(--muted)">بعد العصر</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="adhkar_evening" checked><span class="tgl-sl"></span></label></div>
+        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">⭐ يوم عرفة</div><div style="font-size:11px;color:var(--muted)">26 مايو 2026</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="arafah_reminder" checked><span class="tgl-sl"></span></label></div>
+        <div class="reminder-row" style="border-bottom:none"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">🎬 فيديو أسبوعي</div><div style="font-size:11px;color:var(--muted)">كل جمعة مساءً</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="video_weekly" checked><span class="tgl-sl"></span></label></div>
+      </div>
+    </div>
+
+    <!-- ══ 3. التطبيق ════════════════════════════════════════ -->
+    <div class="section-title">📲 التطبيق</div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border)">
+        <div class="ic">📲</div>
+        <div class="lbl"><b>تثبيت التطبيق</b><small>يعمل بدون إنترنت</small></div>
+        <button id="install-pwa-btn" onclick="installPWA()" style="padding:9px 16px;border-radius:10px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .25s">تثبيت</button>
+      </div>
+      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border)">
+        <div class="ic">🔗</div>
+        <div class="lbl"><b>مشاركة التطبيق</b><small>شارك مع أهلك</small></div>
+        <button onclick="shareApp()" style="padding:9px 16px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--ink)">مشاركة</button>
+      </div>
+      <div class="settings-row" style="border-bottom:none">
+        <div class="ic">⬇️</div>
+        <div class="lbl"><b>تحميل التطبيق</b><small>دليل التثبيت</small></div>
+        <button onclick="downloadApp()" style="padding:9px 16px;border-radius:10px;border:1.5px solid var(--gold);background:var(--gold-pale);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--gold-dark)">تحميل</button>
+      </div>
+    </div>
+
+    <!-- ══ 4. اللغة ══════════════════════════════════════════ -->
+    <div class="section-title">🌐 اللغة</div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="settings-row" style="border-bottom:none">
+        <div class="ic">🌐</div>
+        <div class="lbl"><b>لغة التطبيق</b><small>Language</small></div>
+        <button onclick="toggleLang?.()" style="padding:9px 18px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--ink)">العربية ⇄ EN</button>
+      </div>
+    </div>
+
+    <!-- ══ 5. البيانات ═══════════════════════════════════════ -->
+    <div class="section-title">💾 البيانات</div>
+    <div class="card" style="margin-bottom:20px">
+      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border)">
+        <div class="ic">📊</div>
+        <div class="lbl"><b>تصدير البيانات</b><small>نسخ احتياطي</small></div>
+        <button onclick="exportData()" style="padding:9px 16px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted)">تصدير</button>
+      </div>
+      <div class="settings-row" style="border-bottom:none">
+        <div class="ic">🗑️</div>
+        <div class="lbl"><b>مسح البيانات</b><small style="color:rgba(255,59,48,.7)">يمسح كل التقدم</small></div>
+        <button onclick="confirmResetData()" style="padding:9px 16px;border-radius:10px;border:1.5px solid rgba(255,59,48,.3);background:rgba(255,59,48,.05);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:rgba(255,59,48,.8)">مسح</button>
+      </div>
+    </div>
+
+    <div style="text-align:center;color:var(--muted);font-size:11px;margin-bottom:24px">
+      زاد العشر · الإصدار 2.0 · 1447هـ<br>
+      <a href="about.html" style="color:var(--gold-dark);text-decoration:none;font-weight:700">عن التطبيق والمطور</a>
+    </div>
+  </main>
+<a href="ai.html" class="fab-ai">🤖</a>
+</div>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script>
+const REMINDERS_KEY = 'zad_reminders';
+
+function setFontScale(size, btn) {
+  document.documentElement.setAttribute('data-fs', size);
+  document.documentElement.setAttribute('data-font', size);
+  document.querySelectorAll('.fs-btn').forEach(b => {
+    const on = b.dataset.fs === size;
+    b.style.borderColor = on ? 'var(--green-deep)' : 'var(--border)';
+    b.style.background  = on ? 'rgba(14,59,46,.08)' : 'var(--card)';
+    b.style.color       = on ? 'var(--green-deep)' : 'var(--muted)';
+  });
+  try{const s=JSON.parse(localStorage.getItem('zad_v2')||'{}');s.fontScale=size;localStorage.setItem('zad_v2',JSON.stringify(s));}catch(e){}
+  if(typeof showToast==='function') showToast({sm:'صغير',md:'متوسط',lg:'كبير'}[size] ? `🔤 حجم الخط: ${{sm:'صغير',md:'متوسط',lg:'كبير'}[size]}` : '');
+}
+
+function restoreFontScale(){
+  try{const s=JSON.parse(localStorage.getItem('zad_v2')||'{}');const size=s.fontScale||'md';document.querySelectorAll('.fs-btn').forEach(b=>{const on=b.dataset.fs===size;b.style.borderColor=on?'var(--green-deep)':'var(--border)';b.style.background=on?'rgba(14,59,46,.08)':'var(--card)';b.style.color=on?'var(--green-deep)':'var(--muted)';});}catch(e){}
+}
+
+function updateNotifBtn(){
+  const btn=document.getElementById('notif-toggle-btn');
+  if(!btn)return;
+  if(Notification.permission==='granted'){
+    btn.textContent='✅ مفعّلة';btn.style.background='rgba(52,199,89,.1)';btn.style.color='var(--sys-green)';btn.style.border='1.5px solid rgba(52,199,89,.3)';btn.disabled=true;
+  }
+}
+
+async function toggleNotifications(){
+  if(Notification.permission==='granted')return;
+  if(!('Notification' in window)){if(typeof showToast==='function')showToast('⚠️ المتصفح لا يدعم الإشعارات');return;}
+  const perm=await Notification.requestPermission();
+  if(perm==='granted'){updateNotifBtn();scheduleAllReminders();if(typeof showToast==='function')showToast('✅ تم تفعيل الإشعارات!');}
+  else{if(typeof showToast==='function')showToast('❌ فعّلها من إعدادات المتصفح');}
+}
+
+function loadReminderToggles(){
+  const saved=JSON.parse(localStorage.getItem(REMINDERS_KEY)||'{}');
+  document.querySelectorAll('.reminder-switch').forEach(sw=>{
+    sw.checked=saved[sw.dataset.key]!==false;
+    sw.addEventListener('change',()=>{
+      const cur=JSON.parse(localStorage.getItem(REMINDERS_KEY)||'{}');
+      cur[sw.dataset.key]=sw.checked;localStorage.setItem(REMINDERS_KEY,JSON.stringify(cur));
+      if(Notification.permission==='granted')scheduleAllReminders();
+      if(typeof showToast==='function')showToast(sw.checked?'🔔 تم تفعيل التذكير':'🔕 تم إيقاف التذكير');
+    });
+  });
+}
+
+function scheduleAllReminders(){
+  if(Notification.permission!=='granted')return;
+  const saved=JSON.parse(localStorage.getItem(REMINDERS_KEY)||'{}');
+  if(window._rTimers)window._rTimers.forEach(clearTimeout);
+  window._rTimers=[];
+  function at(h,m,title,body,key){
+    if(saved[key]===false)return;
+    const now=new Date(),t=new Date();t.setHours(h,m,0,0);
+    if(t<=now)t.setDate(t.getDate()+1);
+    const id=setTimeout(()=>{try{new Notification(title,{body,icon:'/icons/icon-192.svg',dir:'rtl'});}catch(e){}at(h,m,title,body,key);},t-now);
+    window._rTimers.push(id);
+  }
+  at(5,30,'📿 ورد الصباح','ابدأ وردك في أفضل أيام الدنيا','wird_morning');
+  at(17,0,'🌙 ورد المساء','لا تنسَ أذكار المساء','wird_evening');
+  at(6,15,'☀️ أذكار الصباح','3 دقائق تحمي يومك بإذن الله','adhkar_morning');
+  at(15,45,'🌆 أذكار المساء','حصّن نفسك قبل الغروب','adhkar_evening');
+  /* Arafa */
+  if(saved['arafah_reminder']!==false){
+    const af=new Date(2026,4,26,5,0,0),af2=new Date(2026,4,26,12,0,0),now=new Date();
+    if(af>now)window._rTimers.push(setTimeout(()=>{try{new Notification('⭐ يوم عرفة!',{body:'أكثر من الدعاء — خير الدعاء دعاء عرفة',icon:'/icons/icon-192.svg',dir:'rtl'});}catch(e){}},af-now));
+    if(af2>now)window._rTimers.push(setTimeout(()=>{try{new Notification('🌄 عرفة الظهر',{body:'لا تفوّت — صيامك يكفّر سنتين',icon:'/icons/icon-192.svg',dir:'rtl'});}catch(e){}},af2-now));
+  }
+  /* Weekly video — Friday 8pm */
+  if(saved['video_weekly']!==false){
+    const now=new Date(),fri=new Date(now);fri.setDate(now.getDate()+((5-now.getDay()+7)%7||7));fri.setHours(20,0,0,0);
+    window._rTimers.push(setTimeout(()=>{try{new Notification('🎬 محاضرة الجمعة',{body:'شاهد محاضرات العشر المختارة',icon:'/icons/icon-192.svg',dir:'rtl'});}catch(e){}},fri-now));
+  }
+}
+
+function updateInstallBtn(){
+  const btn=document.getElementById('install-pwa-btn');if(!btn)return;
+  if(window.matchMedia('(display-mode: standalone)').matches||navigator.standalone||document.referrer.includes('android-app://')){
+    btn.textContent='✅ مثبّت';btn.style.background='rgba(52,199,89,.1)';btn.style.color='var(--sys-green)';btn.style.border='1.5px solid rgba(52,199,89,.3)';btn.disabled=true;
+  }
+}
+
+function shareApp(){
+  const d={title:'🌙 زاد العشر',text:'رفيقك في أفضل أيام الدنيا',url:'https://zadullashr.vercel.app'};
+  if(navigator.share)navigator.share(d).catch(()=>{navigator.clipboard?.writeText(d.url);if(typeof showToast==='function')showToast('✅ تم نسخ الرابط');});
+  else{navigator.clipboard?.writeText(d.url);if(typeof showToast==='function')showToast('✅ تم نسخ الرابط');}
+}
+
+function downloadApp(){
+  const ua=navigator.userAgent.toLowerCase();
+  const msg=ua.includes('android')?'📱 Android: قائمة المتصفح (⋮) ← "إضافة للشاشة الرئيسية"':ua.includes('iphone')||ua.includes('ipad')?'📱 iPhone: زر المشاركة (⬆) ← "إضافة للشاشة الرئيسية"':'💻 Desktop: أيقونة التثبيت في شريط العنوان';
+  const p=document.createElement('div');p.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)';
+  p.innerHTML=`<div style="background:var(--card);border-radius:20px;padding:26px;max-width:320px;width:100%;text-align:center"><div style="font-size:40px;margin-bottom:12px">📲</div><div style="font-size:16px;font-weight:800;color:var(--ink);margin-bottom:10px">تثبيت زاد العشر</div><div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px">${msg}</div><button onclick="shareApp();this.closest('div[style]').remove()" style="width:100%;padding:12px;border-radius:12px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px">🔗 مشاركة الرابط</button><button onclick="this.closest('div[style]').remove()" style="width:100%;padding:10px;border:none;background:none;font-family:inherit;font-size:13px;cursor:pointer;color:var(--muted)">إغلاق</button></div>`;
+  document.body.appendChild(p);
+}
+
+function exportData(){
+  try{const d={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith('zad_'))d[k]=localStorage.getItem(k);}const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='zad-backup.json';a.click();if(typeof showToast==='function')showToast('✅ تم تصدير البيانات');}catch(e){if(typeof showToast==='function')showToast('❌ خطأ في التصدير');}
+}
+
+function confirmResetData(){
+  if(!confirm('هل أنت متأكد؟ سيُمسح كل التقدم نهائياً.'))return;
+  const profile=localStorage.getItem('zad_profile');
+  localStorage.clear();
+  if(profile)localStorage.setItem('zad_profile',profile);
+  if(typeof showToast==='function')showToast('🗑️ تم مسح البيانات');
+  setTimeout(()=>location.reload(),1200);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  restoreFontScale();updateNotifBtn();updateInstallBtn();loadReminderToggles();
+  try{
+    const p=JSON.parse(localStorage.getItem('zad_profile')||'null');
+    if(p){
+      const ne=document.getElementById('settings-profile-name');
+      const te=document.getElementById('settings-profile-type');
+      if(ne)ne.textContent=p.name||'—';
+      if(te)te.textContent=p.type==='child'?'🧒 وضع الطفل':'👤 وضع الراشد';
+    }
+  }catch(e){}
+  if(Notification.permission==='granted')scheduleAllReminders();
+  window.addEventListener('appinstalled',updateInstallBtn);
+});
+</script>
+</body>
+</html>

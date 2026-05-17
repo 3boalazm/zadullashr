@@ -875,18 +875,27 @@ function animateVerseTransition(callback) {
 window.animateVerseTransition = animateVerseTransition;
 /* Font scale: sm = 14px, md = 16px (default), lg = 19px */
 function applyFontSize(size) {
-  /* Accept old names */
   const map = { 'normal':'md', 'lg':'lg', 'xl':'lg', 'sm':'sm', 'md':'md' };
   size = map[size] || size;
   document.documentElement.setAttribute('data-font', size);
   document.documentElement.setAttribute('data-fs', size);
   STATE.fontScale = size;
   saveState();
-  /* Highlight active btn in settings */
-  document.querySelectorAll('.font-size-opt').forEach(b => {
+  document.querySelectorAll('.font-size-opt, .fs-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.fs === size);
   });
 }
+/* Restore font scale on every page load */
+(function restoreFontOnLoad(){
+  try {
+    const s = JSON.parse(localStorage.getItem('zad_v2') || '{}');
+    const size = s.fontScale || 'md';
+    if (size !== 'md') {
+      document.documentElement.setAttribute('data-fs', size);
+      document.documentElement.setAttribute('data-font', size);
+    }
+  } catch(e) {}
+})();
 window.applyFontSize = applyFontSize;
 window.applyTheme = function(theme) {
   STATE.theme = theme;
@@ -2616,3 +2625,10 @@ function initProfileSystem() {
 }
 window.showProfileModal = showProfileModal;
 window.initProfileSystem = initProfileSystem;
+
+/* Global scheduleReminders (called from app.js) delegates to settings scheduler if available */
+const _origScheduleReminders = window.scheduleReminders;
+window.scheduleReminders = function() {
+  if (typeof scheduleAllReminders === 'function') scheduleAllReminders();
+  else if (_origScheduleReminders) _origScheduleReminders();
+};
