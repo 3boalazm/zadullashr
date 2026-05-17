@@ -254,8 +254,17 @@ html[data-theme="dark"] body{background:#0a1409}
 
     <!-- Hero -->
     <div class="ghars-hero">
-      <div class="gh-title">🌱 غَـرس</div>
-      <div class="gh-sub">رحلة الحج والأيام العشر للأطفال<br>تعلّم ولعب وحكايات جميلة</div>
+      <div style="font-size:50px;margin-bottom:8px;position:relative;z-index:1">🕋</div>
+      <div class="gh-title">مغامرة "لبيك"</div>
+      <div class="gh-sub">رحلة الحب والطاعة لرب العالمين<br>
+        <span style="font-size:12px;opacity:.85;font-weight:600">خطوات صغيرة.. حسنات كبيرة.. وقصص لا تُنسى ✨</span>
+      </div>
+      <!-- Did you know -->
+      <div id="did-you-know" style="background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:10px 14px;margin:14px 0;text-align:right;position:relative;z-index:1;cursor:pointer" onclick="nextFact()">
+        <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,.7);margin-bottom:4px">💡 هل تعلم؟</div>
+        <div style="font-size:13px;font-weight:700;color:#fff" id="fact-text">الكعبة هي أول بيت بُني لعبادة الله في الأرض!</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:4px">← اضغط لمعلومة أخرى</div>
+      </div>
       <a href="kids.html" class="companion-cta">
         <span style="font-size:24px">🌟</span>
         <div>
@@ -284,17 +293,14 @@ html[data-theme="dark"] body{background:#0a1409}
       <a class="gnav-btn active" onclick="showSection('days',this)">
         <span class="gnav-ico">📅</span><div class="gnav-lbl">الأيام العشر</div>
       </a>
-      <a class="gnav-btn" onclick="showSection('stories',this)">
-        <span class="gnav-ico">📖</span><div class="gnav-lbl">الحكايات</div>
-      </a>
       <a class="gnav-btn" onclick="showSection('hajj',this)">
         <span class="gnav-ico">🕋</span><div class="gnav-lbl">خطوات الحج</div>
       </a>
-      <a class="gnav-btn" onclick="showSection('activities',this)">
-        <span class="gnav-ico">🎨</span><div class="gnav-lbl">أنشطة</div>
+      <a class="gnav-btn" onclick="showSection('why',this)">
+        <span class="gnav-ico">🤔</span><div class="gnav-lbl">لماذا؟</div>
       </a>
-      <a class="gnav-btn" onclick="showSection('nasheed',this)">
-        <span class="gnav-ico">🎵</span><div class="gnav-lbl">أناشيد</div>
+      <a class="gnav-btn" onclick="showSection('takbeer',this)">
+        <span class="gnav-ico">🔊</span><div class="gnav-lbl">التكبير</div>
       </a>
       <a class="gnav-btn" onclick="showSection('quiz',this)">
         <span class="gnav-ico">🧠</span><div class="gnav-lbl">اختبار</div>
@@ -304,71 +310,84 @@ html[data-theme="dark"] body{background:#0a1409}
     <!-- ══ SECTION: الأيام العشر ═══════════════════════════════ -->
     <div class="ghars-section active" id="sec-days">
       <div class="section-title">📅 كنوز الأيام العشر</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.7">اضغط على اليوم لتعرف فضله وتكسب نجمة ⭐</p>
+      <!-- Day 10 intro card -->
+      <div style="background:linear-gradient(135deg,rgba(201,161,74,.12),rgba(14,107,63,.08));border:1.5px solid rgba(201,161,74,.3);border-radius:16px;padding:16px;margin-bottom:14px">
+        <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:6px">🌟 لماذا هي أجمل أيام السنة؟</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.75">تخيّل أن لديك <strong>10 أيام فقط</strong> لتجمع فيها أكبر قدر من الكنوز! كل تسبيحة أو مساعدة لماما تُكتب لك بآلاف الحسنات 💛</div>
+        <div style="margin-top:10px;background:var(--card);border-radius:10px;padding:10px;font-family:'Amiri',serif;font-size:16px;color:var(--g-green,#0e6b3f);direction:rtl;text-align:center">وَلَيَالٍ عَشْرٍ</div>
+        <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:3px">الله أقسم بهذه الأيام في القرآن الكريم — سورة الفجر</div>
+      </div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">اضغط على اليوم لتعرف فضله وتكسب نجمة ⭐</p>
       <div class="days-grid" id="days-grid"></div>
+      <!-- Arafa special card -->
+      <div style="background:linear-gradient(135deg,#1a6040,#c9a14a);border-radius:16px;padding:18px;margin-top:14px;color:#fff;text-align:center">
+        <div style="font-size:36px;margin-bottom:8px">⭐</div>
+        <div style="font-size:17px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:6px">يوم عرفة — المعادلة السحرية!</div>
+        <div style="font-size:13px;opacity:.9;line-height:1.7;margin-bottom:12px">صيام يوم واحد = مسح ذنوب سنتين (اللي فاتت واللي جاية!) 🎁</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px;font-size:12px">
+          💡 <strong>تحدي الدعاء:</strong> اكتب قائمة بأمنياتك — الله يسمعك في هذا اليوم بشكل خاص!
+        </div>
+      </div>
     </div>
 
-    <!-- ══ SECTION: الحكايات ════════════════════════════════════ -->
-    <div class="ghars-section" id="sec-stories">
-      <div class="section-title">📖 حكايات من تاريخ مكة</div>
+    <!-- ══ SECTION: لماذا؟ ══════════════════════════════════════ -->
+    <div class="ghars-section" id="sec-why">
+      <div class="section-title">🤔 لماذا نفعل ذلك؟</div>
 
-      <div class="story-card">
-        <div class="story-header">
-          <div class="story-ico">🏗️</div>
-          <div>
-            <div class="story-title">إبراهيم وإسماعيل يبنيان الكعبة</div>
-            <span class="story-tag" style="background:#e8f4fd;color:#1a6b9a">القصة الأولى</span>
-          </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="card">
+          <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:8px">🕋 لماذا نطوف حول الكعبة؟</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.75">لأن الكعبة هي أول بيت بُني لعبادة الله، بناه إبراهيم وإسماعيل — فنطوف حولها نقول: "نحن هنا يا الله!" مثلما قالا هما.</div>
         </div>
-        <div class="story-body" id="story-1">
-          <p>🌟 كان سيدنا إبراهيم نبيّاً كريماً أحبّ الله كثيراً جداً...</p>
-          <p>يوماً ما، أمره الله أن يبني بيتاً كبيراً في مكة المكرمة، يسمى <strong>الكعبة المشرفة</strong> 🕋</p>
-          <p>فأتى إبراهيم بابنه الصغير <strong>إسماعيل</strong> 👦، وبدآ معاً يرفعان الحجارة...</p>
-          <p>كان إسماعيل يحمل الحجارة الصغيرة وأبوه يضعها في مكانها، وهما يقولان:<br>
-          <em style="font-size:16px;font-family:'Amiri',serif;color:var(--g-green)">"رَبَّنَا تَقَبَّلْ مِنَّا"</em></p>
-          <p>🎯 <strong>الدرس:</strong> عندما نعمل العمل الصالح نقول: "ربنا تقبل منا" — لأن قبول الله أهم شيء!</p>
-          <p>💡 <strong>هل تعلم؟</strong> الكعبة هي أول بيت بُني على الأرض لعبادة الله الواحد! وكل المسلمين في العالم يتجهون نحوها في صلاتهم.</p>
+
+        <div class="card">
+          <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:8px">⛰️ لماذا نسعى بين الصفا والمروة؟</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.75">لأن السيدة هاجر سعت بين الجبلين 7 مرات تبحث عن ماء لطفلها إسماعيل — فنحن نفعل مثلها لنقول: نحن نبذل جهدنا ونثق في الله!</div>
         </div>
-        <button class="story-toggle" onclick="toggleStory('story-1',this)">📖 اقرأ القصة ▼</button>
+
+        <div class="card">
+          <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:8px">🪨 لماذا نرمي الحصى؟</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.75">رمزاً لمقاومة الشيطان — تذكاراً لما فعله إبراهيم عليه السلام حين أمره الله. نحن نقول: "لا!" لكل فعل سيء.</div>
+        </div>
+
+        <div class="card">
+          <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:8px">🐏 لماذا نذبح الأضحية؟</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.75">تذكاراً لطاعة إبراهيم وإسماعيل — الله أرسل كبشاً فداءً لإسماعيل. نحن نذبح ونطعم الفقراء ونفرح بالعيد!</div>
+        </div>
+
+        <div class="card">
+          <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:8px">👔 لماذا الإحرام أبيض؟</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.75">لأن الإسلام يساوي بين جميع الناس — الغني والفقير يلبسان نفس اللباس. أمام الله الكل واحد! 🌍</div>
+        </div>
+
+        <div class="card" style="background:linear-gradient(135deg,rgba(14,107,63,.06),rgba(201,161,74,.04));border-color:rgba(201,161,74,.25)">
+          <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:8px">⭐ لماذا يوم عرفة هو الأهم؟</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.75">لأن الله ينزل رحمته على عباده فيه أكثر من أي يوم آخر — ويغفر لمن يدعوه. النبي ﷺ قال: <em style="color:var(--g-green,#0e6b3f)">"الحج عرفة"</em></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION: عداد التكبير ═══════════════════════════════ -->
+    <div class="ghars-section" id="sec-takbeer">
+      <div class="section-title">🔊 عداد التكبير</div>
+
+      <div style="background:linear-gradient(135deg,#c9a14a,#d4a843);border-radius:20px;padding:24px;text-align:center;color:#fff;margin-bottom:14px">
+        <div style="font-size:14px;font-weight:800;margin-bottom:6px;opacity:.9">صيغة التكبير</div>
+        <div style="font-family:'Amiri',serif;font-size:20px;line-height:2.2;margin-bottom:18px">
+          اللَّهُ أَكْبَرُ · اللَّهُ أَكْبَرُ<br>لَا إِلَهَ إِلَّا اللَّهُ<br>اللَّهُ أَكْبَرُ · اللَّهُ أَكْبَرُ<br>وَلِلَّهِ الْحَمْدُ
+        </div>
+        <div style="font-size:52px;font-weight:900;font-family:'ThmanyahSans',monospace;margin-bottom:16px" id="takbeer-count">0</div>
+        <button onclick="addTakbeer()" style="padding:18px;width:100%;border-radius:14px;border:none;background:rgba(255,255,255,.25);color:#fff;font-family:inherit;font-size:20px;font-weight:900;cursor:pointer;transition:all .2s;letter-spacing:1px" onmouseover="this.style.background='rgba(255,255,255,.4)'" onmouseout="this.style.background='rgba(255,255,255,.25)'">اضغط للتكبير 🔊</button>
+        <div style="font-size:11px;margin-top:10px;opacity:.8">الهدف: 100 تكبيرة يومياً في الأيام العشر</div>
       </div>
 
-      <div class="story-card">
-        <div class="story-header">
-          <div class="story-ico">💧</div>
-          <div>
-            <div class="story-title">هاجر وماء زمزم المعجزة</div>
-            <span class="story-tag" style="background:#e8fdf0;color:#1a6b3a">القصة الثانية</span>
-          </div>
+      <div class="card" style="text-align:center;padding:16px">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px">تقدمك نحو الهدف اليومي</div>
+        <div style="height:12px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:8px">
+          <div id="takbeer-bar" style="height:100%;background:linear-gradient(90deg,var(--g-green,#0e6b3f),#c9a14a);border-radius:99px;width:0%;transition:width .4s"></div>
         </div>
-        <div class="story-body" id="story-2">
-          <p>🌟 تخيّل أنك في صحراء حارة جداً... ولا يوجد ماء في أي مكان!</p>
-          <p>هذا ما حدث مع السيدة <strong>هاجر</strong> 👩 وطفلها الصغير <strong>إسماعيل</strong> 🍼 في مكة قديماً...</p>
-          <p>بدأت هاجر تجري بين جبلين: <strong>الصفا</strong> ⛰️ و<strong>المروة</strong> ⛰️ تبحث عن ماء...</p>
-          <p>جرت سبع مرات وهي لا تستسلم ولا تيأس — كانت تثق في الله تماماً! 💪</p>
-          <p>وفجأة... <strong>فار الماء من تحت قدمي إسماعيل الصغير!</strong> 💧✨</p>
-          <p>هذا هو ماء <strong>زمزم المبارك</strong> الذي يشربه الحجاج حتى اليوم!</p>
-          <p>🎯 <strong>الدرس:</strong> الله لا يترك من يثق فيه — حتى لو كان الأمر صعباً جداً، استمر وادعُ الله!</p>
-        </div>
-        <button class="story-toggle" onclick="toggleStory('story-2',this)">📖 اقرأ القصة ▼</button>
-      </div>
-
-      <div class="story-card">
-        <div class="story-header">
-          <div class="story-ico">🐏</div>
-          <div>
-            <div class="story-title">الطاعة العظمى — قصة الأضحية</div>
-            <span class="story-tag" style="background:#fff5e8;color:#8b5a00">القصة الثالثة</span>
-          </div>
-        </div>
-        <div class="story-body" id="story-3">
-          <p>🌟 رأى سيدنا إبراهيم في المنام أن الله يأمره بأمر صعب جداً...</p>
-          <p>أخبر ابنه إسماعيل بالرؤيا، فقال إسماعيل بثقة: <em>"يا أبتِ افعل ما تؤمر، ستجدني إن شاء الله من الصابرين"</em> 💪</p>
-          <p>وعندما استعدّا لتنفيذ أمر الله... نادى الله: "كفى يا إبراهيم! لقد صدّقت الرؤيا"</p>
-          <p>وأرسل الله كبشاً كبيراً من الجنة ليكون الفداء 🐏✨</p>
-          <p>🎯 <strong>الدرس:</strong> الطاعة الحقيقية = تحب الله أكثر من كل شيء، ولكن الله كريم ولا يريد لنا إلا الخير!</p>
-          <p>🐏 لهذا نحن نذبح الأضحية في عيد الأضحى — تذكّراً لطاعة إبراهيم وإسماعيل العظيمة!</p>
-        </div>
-        <button class="story-toggle" onclick="toggleStory('story-3',this)">📖 اقرأ القصة ▼</button>
+        <div id="takbeer-pct" style="font-size:13px;font-weight:700;color:var(--muted)">0 / 100</div>
+        <button onclick="resetTakbeer()" style="margin-top:10px;padding:7px 16px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:12px;cursor:pointer;color:var(--muted)">↺ إعادة تعيين</button>
       </div>
     </div>
 
@@ -379,43 +398,19 @@ html[data-theme="dark"] body{background:#0a1409}
       <div id="hajj-steps-list"></div>
     </div>
 
-    <!-- ══ SECTION: الأنشطة ════════════════════════════════════ -->
-    <div class="ghars-section" id="sec-activities">
-      <div class="section-title">🎨 أنشطتنا الممتعة</div>
-      <div class="activity-grid" id="activities-grid"></div>
-      <div class="card" style="margin-top:16px;text-align:center;padding:20px">
-        <div style="font-size:36px;margin-bottom:10px">🕌</div>
-        <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px">اصنع كعبتك في المنزل!</div>
-        <div style="font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:14px">خذ كرتوناً وغطّه بالورق الأسود، وزيّنه بشريط ذهبي — هكذا تصنع مجسم الكعبة المشرفة في البيت!</div>
-        <div style="background:var(--sand);border-radius:12px;padding:12px;font-size:12px;color:var(--muted);text-align:right">
-          <div style="font-weight:700;margin-bottom:6px;color:var(--ink)">📋 ما تحتاجه:</div>
-          <div>📦 كرتون أو علبة فارغة · 🎨 ورق أسود · ✂️ مقص ومقص · 🌟 شريط ذهبي</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ SECTION: الأناشيد ════════════════════════════════════ -->
-    <div class="ghars-section" id="sec-nasheed">
-      <div class="section-title">🎵 أناشيد الكعبة</div>
-      <div id="nasheed-list"></div>
-      <div class="card" style="margin-top:16px;text-align:center;padding:20px;background:linear-gradient(135deg,rgba(14,107,63,.06),rgba(201,161,74,.04))">
-        <div style="font-size:32px;margin-bottom:8px">🤲</div>
-        <div style="font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px">تلبية الحج</div>
-        <div style="font-family:'Amiri',serif;font-size:20px;color:var(--g-green);line-height:2;direction:rtl">
-          لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ<br>
-          لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ<br>
-          إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ<br>
-          لَا شَرِيكَ لَكَ
-        </div>
-        <div style="font-size:11px;color:var(--muted);margin-top:10px">يرددها الحجاج من بداية إحرامهم</div>
-      </div>
-    </div>
-
     <!-- ══ SECTION: الاختبار ════════════════════════════════════ -->
     <div class="ghars-section" id="sec-quiz">
       <div class="section-title">🧠 اختبار غرس</div>
       <div id="quiz-container"></div>
     </div>
+
+    
+      <!-- Link to ثريا -->
+      <a href="kids.html" style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#1a5d47,#2a7a5f);border-radius:14px;padding:14px;text-decoration:none;color:#fff;margin-bottom:16px">
+        <span style="font-size:28px">🌟</span>
+        <div><div style="font-size:14px;font-weight:800">ثُريّا — للقصص والأنشطة</div><div style="font-size:11px;opacity:.8">اصنعي كعبتك واسمعي أناشيد والعبي</div></div>
+        <span style="margin-right:auto;font-size:18px">←</span>
+      </a>
 
     <!-- Link back to ثريا -->
     <div style="margin-top:24px">
@@ -576,6 +571,14 @@ function renderNasheeds(){
       </div>
       <div class="nasheed-play">▶</div>
     </div>`).join('');
+  /* Takbeer counter */
+  el.insertAdjacentHTML('beforeend', `
+    <div style="background:linear-gradient(135deg,#c9a14a,#d4a843);border-radius:18px;padding:20px;text-align:center;margin-top:12px;color:#fff">
+      <div style="font-size:14px;font-weight:800;margin-bottom:12px">🔊 عداد التكبير — كبّر معنا!</div>
+      <div style="font-family:'Amiri',serif;font-size:18px;margin-bottom:14px;line-height:2">الله أكبر · الله أكبر · لا إله إلا الله<br>الله أكبر · الله أكبر · ولله الحمد</div>
+      <div style="font-size:40px;font-weight:900;font-family:'ThmanyahSans',monospace;margin-bottom:10px" id="takbeer-count">0</div>
+      <button onclick="addTakbeer()" style="padding:14px 32px;border-radius:12px;border:none;background:rgba(255,255,255,.25);color:#fff;font-family:inherit;font-size:16px;font-weight:800;cursor:pointer;transition:all .2s;width:100%" onmouseover="this.style.background='rgba(255,255,255,.35)'" onmouseout="this.style.background='rgba(255,255,255,.25)'">اضغط للتكبير 🔊</button>
+    </div>`);
 }
 
 function playNasheed(title){
@@ -667,9 +670,57 @@ function updateStars(){
   document.getElementById('g-done-count').textContent = total;
 }
 
+
+/* ─ Did You Know Facts ─────────────────────────────────── */
+const FACTS = [
+  'الكعبة هي أول بيت بُني لعبادة الله في الأرض!',
+  'المسلمون في كل بلاد العالم يلبسون نفس اللباس الأبيض في الحج — لأن الكل متساوٍ عند الله!',
+  'ماء زمزم ظهر منذ آلاف السنين وما زال موجوداً حتى اليوم! 💧',
+  'الحجاج يطوفون حول الكعبة 7 مرات — مثلما تطوف الملائكة حول العرش!',
+  'يوم عرفة = مسح ذنوب سنتين بصيام يوم واحد! ⭐',
+  'الحجر الأسود في ركن الكعبة أرسله الله من الجنة!',
+  'التلبية (لبيك اللهم لبيك) هي نداء الحاج لله — مثل قول: أنا هنا يا ربي!',
+];
+let factIdx = 0;
+function nextFact(){
+  factIdx = (factIdx + 1) % FACTS.length;
+  const el = document.getElementById('fact-text');
+  if (el) { el.style.opacity=0; setTimeout(()=>{el.textContent=FACTS[factIdx];el.style.opacity=1;},200); }
+}
+
+/* ─ Takbeer Counter in Days section ─────────────────────── */
+let takbeerCount = parseInt(localStorage.getItem('ghars_takbeer')||'0');
+function updateTakbeer(){
+  const el = document.getElementById('takbeer-count');
+  if (el) el.textContent = takbeerCount;
+}
+function addTakbeer(){
+  takbeerCount++;
+  localStorage.setItem('ghars_takbeer', takbeerCount);
+  updateTakbeer();
+  if (typeof showToast==='function' && takbeerCount % 10 === 0)
+    showToast(`🔊 ${takbeerCount} تكبيرة — ما شاء الله!`);
+  if (takbeerCount === 100 && typeof showToast==='function')
+    showToast('🎉 أنجزت 100 تكبيرة! ما شاء الله عليك!');
+}
+function resetTakbeer(){
+  takbeerCount = 0;
+  localStorage.setItem('ghars_takbeer', 0);
+  updateTakbeer();
+}
+function updateTakbeer(){
+  const el = document.getElementById('takbeer-count');
+  const bar = document.getElementById('takbeer-bar');
+  const pct = document.getElementById('takbeer-pct');
+  if(el) el.textContent = takbeerCount;
+  if(bar) bar.style.width = Math.min(100, takbeerCount) + '%';
+  if(pct) pct.textContent = takbeerCount + ' / 100';
+}
+
 /* ─ Init ──────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   renderDays(); renderHajjSteps(); renderActivities(); renderNasheeds(); renderQuiz();
+  updateTakbeer();
   updateStars();
   /* Sidebar hamburger */
   (function(){

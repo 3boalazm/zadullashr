@@ -348,6 +348,61 @@ html[data-theme="dark"] .quiz-score,html[data-theme="oled"] .quiz-score{color:va
     <div class="section-title">📚 قاموس المصطلحات الصغير</div>
     <div id="dict-container"></div>
 
+    <!-- ══ SECTION: Activities ══════════════════════ -->
+    <div id="tab-activities" class="kids-section" style="display:none">
+      <div class="kids-title">🎨 أنشطتنا الممتعة</div>
+
+      <div class="card" style="margin-bottom:14px">
+        <div style="font-size:15px;font-weight:800;color:var(--k-green);margin-bottom:12px">🕋 اصنعي كعبتك!</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px">خذي صندوقاً وغطّيه بالورق الأسود وشريط ذهبي — هكذا تصنعين مجسم الكعبة!</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="width:24px;height:24px;border-radius:50%;background:var(--k-green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">1</span>صندوق كرتون + ورق أسود</div>
+          <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="width:24px;height:24px;border-radius:50%;background:var(--k-green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">2</span>غلّفيه بالكامل وأضيفي الشريط الذهبي ✨</span></div>
+          <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="width:24px;height:24px;border-radius:50%;background:var(--k-gold,#c9a14a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">★</span>حوّليها حصالة صدقات الأيام العشر! 💰</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:14px">
+        <div style="font-size:15px;font-weight:800;color:var(--k-green);margin-bottom:10px">🐑 خروف العيد القطني</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7">ارسمي خروفاً على الكرتون، دهني الجسم بالصمغ، والصقي القطن ليكون الصوف الناعم! 🤍</div>
+      </div>
+
+      <div class="card" style="margin-bottom:14px">
+        <div style="font-size:15px;font-weight:800;color:var(--k-green);margin-bottom:10px">🏕️ خيمة منى المنزلية</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7">ضعي شرشفاً أبيض فوق الطاولة — خيمتك جاهزة! اقرئي القصص ورددي: <span style="font-family:'Amiri',serif;font-size:16px;color:var(--k-green)">لبيك اللهم لبيك</span></div>
+      </div>
+
+      <!-- Link to غرس for more -->
+      <a href="ghars.html" style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0e6b3f,#1a9a5a);border-radius:14px;padding:14px;text-decoration:none;color:#fff;margin-top:8px">
+        <span style="font-size:28px">🌱</span>
+        <div><div style="font-size:14px;font-weight:800">اكتشفي المزيد في غرس!</div><div style="font-size:11px;opacity:.8">خطوات الحج والأيام العشر والاختبارات</div></div>
+        <span style="margin-right:auto;font-size:18px">←</span>
+      </a>
+    </div>
+
+    <!-- ══ SECTION: Nasheed ══════════════════════════════════ -->
+    <div id="tab-nasheed" class="kids-section" style="display:none">
+      <div class="kids-title">🎵 أناشيد الكعبة</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:linear-gradient(135deg,#1a1060,#3a2a8a);border-radius:16px;padding:16px;color:#fff;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="if(typeof showToast==='function')showToast('🎵 قريباً: لبيك اللهم لبيك')">
+          <span style="font-size:32px">🕋</span><div><div style="font-size:14px;font-weight:800">لبيك اللهم لبيك</div><div style="font-size:11px;opacity:.7">نشيد التلبية</div></div><span style="margin-right:auto;font-size:20px">▶</span>
+        </div>
+        <div style="background:linear-gradient(135deg,#1a1060,#3a2a8a);border-radius:16px;padding:16px;color:#fff;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="if(typeof showToast==='function')showToast('🎵 قريباً: يا كعبتي')">
+          <span style="font-size:32px">🌟</span><div><div style="font-size:14px;font-weight:800">يا كعبتي يا قبلتي</div><div style="font-size:11px;opacity:.7">نشيد الكعبة المشرفة</div></div><span style="margin-right:auto;font-size:20px">▶</span>
+        </div>
+        <div style="background:linear-gradient(135deg,#1a1060,#3a2a8a);border-radius:16px;padding:16px;color:#fff;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="if(typeof showToast==='function')showToast('🎵 قريباً: عيد الأضحى')">
+          <span style="font-size:32px">🐏</span><div><div style="font-size:14px;font-weight:800">عيد الأضحى مبارك</div><div style="font-size:11px;opacity:.7">نشيد العيد</div></div><span style="margin-right:auto;font-size:20px">▶</span>
+        </div>
+      </div>
+      <!-- Talbiyah text -->
+      <div style="background:linear-gradient(135deg,rgba(14,107,63,.08),rgba(201,161,74,.06));border:1.5px solid rgba(201,161,74,.25);border-radius:16px;padding:20px;margin-top:14px;text-align:center">
+        <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:12px">🤲 التلبية — رددي معنا</div>
+        <div style="font-family:'Amiri',serif;font-size:20px;color:var(--k-green);line-height:2.2">
+          لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ<br>لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ
+        </div>
+      </div>
+    </div>
+
     <!-- ══ SECTION 6: Quiz ════════════════════════════════════ -->
     <div class="section-title">🧩 مسابقة العشر</div>
     <div class="quiz-wrap" id="quiz-wrap">
