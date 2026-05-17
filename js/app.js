@@ -722,6 +722,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchAndCacheHijriDate();
   initScrollTopBtn();
   _renderNotifBadge();
+  initContentArchitecture();
   initContextualDashboard();  
   startCountdown();
   initChecklist();
@@ -2265,3 +2266,55 @@ async function enablePushNotifications() {
   }
 }
 window.enablePushNotifications = enablePushNotifications;
+
+/* ════ Content Architecture Enhancement ═════════════════════
+   Auto-applies: reading progress, skimmable headings styling,
+   summary block detection
+   ════════════════════════════════════════════════════════════ */
+function initContentArchitecture() {
+  /* 1. Reading progress bar — inject if not present */
+  if (!document.getElementById('rpb')) {
+    const bar = document.createElement('div');
+    bar.className = 'reading-progress-bar';
+    bar.innerHTML = '<div class="reading-progress-fill" id="rpb"></div>';
+    document.body.prepend(bar);
+    const fill = document.getElementById('rpb');
+    function updateProgress() {
+      const h = document.documentElement;
+      const pct = h.scrollHeight <= h.clientHeight ? 100
+        : (window.scrollY / (h.scrollHeight - h.clientHeight)) * 100;
+      if (fill) fill.style.width = Math.min(100, pct) + '%';
+    }
+    window.addEventListener('scroll', updateProgress, {passive:true});
+    updateProgress();
+  }
+
+  /* 2. Auto Drop Cap on first paragraph after each .section-title */
+  document.querySelectorAll('.section-title + p, .section-title + .card p:first-child').forEach(p => {
+    if (p.textContent.trim().length > 40 && !p.classList.contains('drop-cap')) {
+      p.classList.add('drop-cap');
+    }
+  });
+
+  /* 3. Upgrade section-title to outcome-heading style if not already done */
+  document.querySelectorAll('.section-title').forEach(el => {
+    if (!el.querySelector('.outcome-heading') && !el.dataset.enhanced) {
+      el.dataset.enhanced = '1';
+      /* Subtle animation on scroll into view */
+      if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.style.opacity = '1';
+              e.target.style.transform = 'translateX(0)';
+              obs.unobserve(e.target);
+            }
+          });
+        }, {threshold: 0.2});
+        el.style.cssText += ';opacity:0;transform:translateX(8px);transition:opacity .4s,transform .4s';
+        obs.observe(el);
+      }
+    }
+  });
+}
+window.initContentArchitecture = initContentArchitecture;

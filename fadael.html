@@ -271,6 +271,7 @@ html[data-theme="dark"] .sb-points li,html[data-theme="oled"] .sb-points li{colo
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
   <aside class="sidebar">
@@ -379,7 +380,7 @@ html[data-theme="dark"] .sb-points li,html[data-theme="oled"] .sb-points li{colo
 
 
     <!-- 1. القرآن -->
-    <div class="section-title" id="sec-quran">📖 أدلة القرآن الكريم</div>
+    <div class="section-title" id="sec-quran"><div class="outcome-heading"><span class="oh-ico">📖</span><div class="oh-text">أدلة القرآن الكريم على فضل العشر<span class="oh-benefit">← اكتشف لماذا أقسم الله بهذه الأيام في القرآن الكريم</span></div></div></div>
     <div class="key-insight">
       <div class="ki-ico">⚡</div>
       <div class="ki-body">
@@ -411,7 +412,16 @@ html[data-theme="dark"] .sb-points li,html[data-theme="oled"] .sb-points li{colo
     </div>
 
     <!-- 2. السنة -->
-    <div class="section-title" id="sec-sunnah">🕌 من السنة النبوية الشريفة</div>
+    <div class="section-title" 
+    <div class="summary-block">
+      <div class="summary-block-title">خلاصة أدلة القرآن</div>
+      <ul>
+        <li>الله أقسم بليالٍ عشر — وهي عشر ذي الحجة بإجماع العلماء</li>
+        <li>الأيام المعلومات التي يُذكر فيها اسم الله هي هذه الأيام تحديداً</li>
+        <li>الأيام المعدودات في البقرة تشمل أيام التشريق الثلاثة</li>
+      </ul>
+    </div>
+    <div id="sec-sunnah"><div class="outcome-heading"><span class="oh-ico">🕌</span><div class="oh-text">كيف أكد النبي ﷺ فضل هذه الأيام بشكل لا يقبل الشك؟<span class="oh-benefit">← أحاديث صريحة تجعل الأيام العشر فرصة لا تعوّض</span></div></div></div>
     <div class="key-insight">
       <div class="ki-ico">⚡</div>
       <div class="ki-body">
@@ -449,7 +459,16 @@ html[data-theme="dark"] .sb-points li,html[data-theme="oled"] .sb-points li{colo
     </div>
 
     <!-- 3. لماذا؟ -->
-    <div class="section-title" id="sec-why">
+    <div class="section-title" 
+    <div class="summary-block">
+      <div class="summary-block-title">خلاصة الأدلة النبوية</div>
+      <ul>
+        <li>العمل الصالح في العشر أحب إلى الله من الجهاد — بنص الحديث الصحيح</li>
+        <li>صيام يوم عرفة يكفّر ذنوب سنتين ماضية وقادمة</li>
+        <li>التكبير والتحميد والتهليل مستحب جهراً في هذه الأيام</li>
+      </ul>
+    </div>
+    <div id="sec-why">
       <div class="sec-title-outcome">💡 لماذا يُضاعف الله الأجر في هذه الأيام دون سواها<span class="question-mark">؟</span></div>
       <div class="sec-subtitle">اكتشف السر الذي جعل العلماء يقولون: لا يعدلها أيام السنة</div>
     </div>
@@ -585,7 +604,7 @@ html[data-theme="dark"] .sb-points li,html[data-theme="oled"] .sb-points li{colo
       </ul>
     </div>
     <!-- 8. المواعيد -->
-    <div class="section-title" id="sec-dates">🗓️ مواعيد مهمة — 1447هـ / 2026م</div>
+    <div class="section-title" id="sec-dates"><div class="outcome-heading"><span class="oh-ico">🗓️</span><div class="oh-text">دليلك الزمني — لا تفوّت لحظة واحدة<span class="oh-benefit">← تواريخ الأيام الذهبية بالهجري والميلادي</span></div></div></div>
     <div class="card" style="padding:0;overflow:hidden">
       <div class="dates-grid">
         <div class="date-row">
@@ -826,6 +845,20 @@ function initScrollspy() {
 }
 
 document.addEventListener('DOMContentLoaded', initScrollspy);
+
+
+/* Reading progress bar */
+(function(){
+  const bar = document.getElementById('rpb');
+  if (!bar) return;
+  function update(){
+    const h = document.documentElement;
+    const pct = (window.scrollY / (h.scrollHeight - h.clientHeight)) * 100;
+    bar.style.width = Math.min(100, pct) + '%';
+  }
+  window.addEventListener('scroll', update, {passive:true});
+  update();
+})();
 
 </script>
 </body>

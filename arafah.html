@@ -21,6 +21,7 @@
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
 </head>
 <body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
     <aside class="sidebar">
@@ -125,7 +126,7 @@
     <!-- Progress -->
     <div class="af-prog-wrap">
       <div class="af-prog-info">
-        <strong>برنامج يوم عرفة</strong>
+        <strong><div class="outcome-heading"><span class="oh-ico">🌄</span><div class="oh-text">خطتك الكاملة ليوم عرفة المبارك<span class="oh-benefit">← ساعة بساعة — لا تضيع دقيقة من أفضل أيام الدعاء</span></div></div></strong>
         <span id="af-prog-txt">0 من 6 محطات مكتملة</span>
         <div class="progress" style="margin-top:8px"><span id="af-prog-bar" style="width:0%"></span></div>
       </div>
