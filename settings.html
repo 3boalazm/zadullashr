@@ -43,6 +43,10 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
       <span class="slb-label">🌐 اللغة</span>
       <span class="slb-val" id="sidebar-lang-val">EN</span>
     </button>
+    
+      <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+        📲 تثبيت / تحميل التطبيق
+      </button>
     <nav class="nav">
       <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
       <div class="nav-sep">الصلاة والتقويم</div>
@@ -130,8 +134,9 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
         <div class="ic">🔤</div>
         <div class="lbl"><b>حجم الخط العام</b><small>لمن يعاني من صعوبة في القراءة</small></div>
         <div style="display:flex;gap:6px">
-          <button class="btn btn-ghost" style="padding:7px 14px;font-size:13px" onclick="applyFontSize('normal')">عادي</button>
-          <button class="btn btn-ghost" style="padding:7px 14px;font-size:13px" onclick="applyFontSize('lg')">كبير</button>
+          <button class="btn btn-ghost font-size-opt" data-fs="sm" style="padding:7px 14px;font-size:12px" onclick="applyFontSize('sm')">صغير</button>
+          <button class="btn btn-ghost font-size-opt" data-fs="md" style="padding:7px 14px;font-size:13px" onclick="applyFontSize('md')">متوسط</button>
+          <button class="btn btn-ghost font-size-opt" data-fs="lg" style="padding:7px 14px;font-size:14px" onclick="applyFontSize('lg')">كبير</button>
           <button class="btn btn-ghost" style="padding:7px 14px;font-size:13px" onclick="applyFontSize('xl')">أكبر</button>
         </div>
       </div>
@@ -169,7 +174,12 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
       <div class="settings-row">
         <div class="ic">📲</div>
         <div class="lbl"><b>تثبيت التطبيق</b><small>يعمل بدون إنترنت في المصلى</small></div>
-        <button class="btn btn-gold" style="padding:8px 16px;font-size:13px" onclick="installPWA()">تثبيت</button>
+        <button class="btn btn-gold" id="install-pwa-btn" style="padding:8px 16px;font-size:13px" onclick="installPWA()">تثبيت</button>
+      </div>
+      <div class="settings-row">
+        <div class="ic">🔗</div>
+        <div class="lbl"><b>مشاركة التطبيق</b><small>شارك زاد العشر مع أهلك وأصحابك</small></div>
+        <button class="btn btn-ghost" style="padding:8px 16px;font-size:13px" onclick="shareApp()">مشاركة</button>
       </div>
       <div class="settings-row">
         <div class="ic">📴</div>
@@ -220,7 +230,7 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
         <span class="fb-badge" id="fb-analytics-badge">⏳</span>
       </div>
 
-      <div class="settings-row" id="fb-row-notif" onclick="fbEnableNotif()" style="cursor:pointer">
+      <div class="settings-row" id="fb-row-notif" id="fcm-enable-btn" onclick="window.fbEnableNotif?.()||window.doEnableNotif?.()" style="cursor:pointer">
         <div class="ic">🔔</div>
         <div class="lbl">
           <b>إشعارات Push (FCM)</b>
@@ -637,5 +647,68 @@ window.doEnableNotif = async function(vapidKey) {
 document.addEventListener('DOMContentLoaded', init);
 </script>
 
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  /* Restore font scale buttons */
+  try {
+    const fs = JSON.parse(localStorage.getItem('zad_v2') || '{}').fontScale || 'md';
+    document.querySelectorAll('.font-size-opt').forEach(b => {
+      b.classList.toggle('active', b.dataset.fs === fs);
+      if (b.dataset.fs === fs) {
+        b.style.background = 'var(--green-deep)';
+        b.style.color = '#fff';
+        b.style.borderColor = 'var(--green-deep)';
+      }
+    });
+    document.querySelectorAll('.font-size-opt').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.font-size-opt').forEach(x => {
+          x.style.background = '';  x.style.color = '';  x.style.borderColor = '';
+        });
+        b.style.background = 'var(--green-deep)';
+        b.style.color = '#fff';
+        b.style.borderColor = 'var(--green-deep)';
+      });
+    });
+  } catch(e){}
+
+  /* Notification button state */
+  const fcmBtn = document.getElementById('fcm-enable-btn');
+  if (fcmBtn && Notification.permission === 'granted') {
+    fcmBtn.innerHTML = '✅ مفعّلة';
+    fcmBtn.className = 'notif-enabled-badge';
+    fcmBtn.disabled = true;
+  }
+
+  /* Install button state */
+  const installBtn = document.getElementById('install-pwa-btn');
+  if (installBtn) {
+    const isInstalled = window.matchMedia('(display-mode: standalone)').matches ||
+                        window.navigator.standalone;
+    if (isInstalled) {
+      installBtn.textContent = '✅ مثبّت';
+      installBtn.disabled = true;
+      installBtn.style.opacity = '.6';
+    }
+  }
+});
+
+function shareApp() {
+  const shareData = {
+    title: 'زاد العشر 🌙',
+    text: 'تطبيق رفيق العبادة في عشر ذي الحجة — وردك، أذكارك، ومواعيد الصلاة',
+    url: 'https://zadullashr.vercel.app'
+  };
+  if (navigator.share) {
+    navigator.share(shareData).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(shareData.url).then(() => {
+      if (typeof showToast === 'function') showToast('✅ تم نسخ الرابط للحافظة');
+    });
+  }
+}
+window.shareApp = shareApp;
+</script>
 </body>
 </html>

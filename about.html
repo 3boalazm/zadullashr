@@ -85,6 +85,10 @@ html[data-theme="dark"] .app-stat .v,html[data-theme="oled"] .app-stat .v{color:
       <span class="slb-label">🌐 اللغة</span>
       <span class="slb-val" id="sidebar-lang-val">EN</span>
     </button>
+    
+      <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+        📲 تثبيت / تحميل التطبيق
+      </button>
     <nav class="nav">
       <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
       <div class="nav-sep">الصلاة والتقويم</div>
@@ -131,117 +135,111 @@ html[data-theme="dark"] .app-stat .v,html[data-theme="oled"] .app-stat .v{color:
       </div>
     </div>
 
-    <!-- Developer Hero -->
-    <div class="about-hero">
-      <div class="dev-avatar">👨‍💻</div>
-      <div class="dev-name">مصطفى أبو العزم</div>
-      <div class="dev-title">مصمم واجهات · مطور تطبيقات ويب · مبتكر تجربة المستخدم</div>
-      <div class="dev-badges">
-        <span class="dev-badge">🎨 UI/UX Designer</span>
-        <span class="dev-badge">💻 Web Developer</span>
-        <span class="dev-badge">📱 PWA Specialist</span>
-        <span class="dev-badge">🤖 AI Integration</span>
+    <!-- About Page Tabs -->
+    <div class="az-tabs" style="margin-bottom:20px">
+      <button class="az-tab active" onclick="switchAboutTab('app',this)"><span class="tab-ico">🌙</span>عن التطبيق</button>
+      <button class="az-tab" onclick="switchAboutTab('dev',this)"><span class="tab-ico">👨‍💻</span>عن المطور</button>
+    </div>
+
+    <!-- ══ TAB: عن التطبيق ══════════════════════════════════ -->
+    <div id="about-app-tab">
+      <div class="about-hero" style="background:linear-gradient(135deg,#0e3b2e,#1a5d47 60%,#c9a14a 160%);border-radius:22px;padding:28px;color:#fff;text-align:center;margin-bottom:20px;position:relative;overflow:hidden">
+        <div style="font-size:64px;margin-bottom:12px">🌙</div>
+        <div style="font-size:24px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:6px">زاد العشر</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.8);margin-bottom:16px">رفيقك الذكي في أفضل أيام الدنيا</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:4px 14px;font-size:11px;font-weight:700">PWA 2026</span>
+          <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:4px 14px;font-size:11px;font-weight:700">بدون إعلانات</span>
+          <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:4px 14px;font-size:11px;font-weight:700">مفتوح المصدر</span>
+        </div>
       </div>
-    </div>
 
-    <!-- Contact -->
-    <div class="section-title">📬 تواصل معي</div>
-    <div class="contact-grid">
-      <a href="mailto:Mustafaaboalazm@mail.ru" class="contact-card">
-        <div class="contact-ico">📧</div>
-        <div class="contact-lbl">البريد الإلكتروني</div>
-        <div class="contact-val">Mustafaaboalazm@mail.ru</div>
-      </a>
-      <a href="https://wa.me/201092500454" target="_blank" class="contact-card">
-        <div class="contact-ico">💬</div>
-        <div class="contact-lbl">واتساب</div>
-        <div class="contact-val">+20 109 250 0454</div>
-      </a>
-      <a href="tel:+201092500454" class="contact-card">
-        <div class="contact-ico">📞</div>
-        <div class="contact-lbl">هاتف</div>
-        <div class="contact-val">+20 109 250 0454</div>
-      </a>
-    </div>
-
-    <!-- Social -->
-    <div class="section-title">🌐 تابعني على</div>
-    <div class="social-grid">
-      <a href="https://www.behance.net/aboalazm" target="_blank" class="social-card behance">
-        <div class="social-ico">🎨</div>
-        <div class="social-name">Behance</div>
-      </a>
-      <a href="https://www.linkedin.com/in/aboalazm" target="_blank" class="social-card linkedin">
-        <div class="social-ico">💼</div>
-        <div class="social-name">LinkedIn</div>
-      </a>
-      <a href="https://www.facebook.com/3boalazm" target="_blank" class="social-card facebook">
-        <div class="social-ico">👥</div>
-        <div class="social-name">Facebook</div>
-      </a>
-      <a href="https://www.instagram.com/3boalazm" target="_blank" class="social-card instagram">
-        <div class="social-ico">📸</div>
-        <div class="social-name">Instagram</div>
-      </a>
-      <a href="https://www.tiktok.com/@mustafaaboalazm" target="_blank" class="social-card tiktok">
-        <div class="social-ico">🎵</div>
-        <div class="social-name">TikTok</div>
-      </a>
-    </div>
-
-    <!-- App Info -->
-    <div class="section-title">🕋 عن زاد العشر</div>
-    <div class="app-info-card">
-      <h3>رؤية التطبيق</h3>
-      <p style="color:var(--muted);font-size:14px;line-height:1.8">
-        زاد العشر رفيقٌ رقمي يعينك على استثمار أفضل أيام الدنيا — العشر من ذي الحجة — لحظة بلحظة.
-        صُمِّم وفق فلسفة <strong>«التقنية الهادئة»</strong> التي تُقلّل الحمل المعرفي وتُوجّه تركيزك
-        نحو العبادة بعيداً عن المشتتات، بدون إعلانات، وبدون تتبع لبياناتك.
-      </p>
-      <div class="app-stat-row">
-        <div class="app-stat"><div class="v">16</div><div class="l">صفحة</div></div>
-        <div class="app-stat"><div class="v">13</div><div class="l">وسام</div></div>
-        <div class="app-stat"><div class="v">9</div><div class="l">أيام محتوى</div></div>
-        <div class="app-stat"><div class="v">100%</div><div class="l">بدون إعلانات</div></div>
+      <div class="grid cols-2" style="margin-bottom:20px">
+        <div class="card" style="text-align:center">
+          <div style="font-size:32px;margin-bottom:8px">📖</div>
+          <div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:4px">مصحف شريف</div>
+          <div style="font-size:11px;color:var(--muted)">604 صفحة مع ورد يومي</div>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:32px;margin-bottom:8px">🕌</div>
+          <div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:4px">مواقيت دقيقة</div>
+          <div style="font-size:11px;color:var(--muted)">بحسب موقعك الفعلي</div>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:32px;margin-bottom:8px">🤖</div>
+          <div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:4px">ذكاء اصطناعي</div>
+          <div style="font-size:11px;color:var(--muted)">تدبّر الآيات والأحكام</div>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:32px;margin-bottom:8px">📲</div>
+          <div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:4px">يعمل أوفلاين</div>
+          <div style="font-size:11px;color:var(--muted)">بدون إنترنت في المصلى</div>
+        </div>
       </div>
-    </div>
 
-    <!-- Sources -->
-    <div class="section-title">📚 المصادر الشرعية</div>
-    <div class="card" style="margin-bottom:20px">
-      <ul class="sources-list">
-        <li><span class="s-ico">📖</span> القرآن الكريم — طبعة مجمع الملك فهد لطباعة المصحف الشريف</li>
-        <li><span class="s-ico">📘</span> صحيح البخاري ومسلم — الأحاديث المتعلقة بفضل العشر والأعمال</li>
-        <li><span class="s-ico">📗</span> تفسير ابن كثير والمختصر في التفسير</li>
-        <li><span class="s-ico">📙</span> سنن أبي داود والترمذي والنسائي وابن ماجه</li>
-        <li><span class="s-ico">🎓</span> فتاوى ابن باز وابن عثيمين رحمهما الله</li>
-      </ul>
-    </div>
-
-    <!-- Tech Stack -->
-    <div class="section-title">⚙️ التقنيات المستخدمة</div>
-    <div class="grid cols-3" style="margin-bottom:24px">
+      <div class="section-title">❤️ ادعم التطبيق</div>
       <div class="card" style="text-align:center">
-        <div style="font-size:32px;margin-bottom:8px">🌐</div>
-        <div style="font-weight:800;color:var(--green-deep)">PWA</div>
-        <p>يعمل أوفلاين داخل المساجد</p>
-      </div>
-      <div class="card" style="text-align:center">
-        <div style="font-size:32px;margin-bottom:8px">🤖</div>
-        <div style="font-weight:800;color:var(--green-deep)">Groq AI</div>
-        <p>Llama 3.3 70B — مجاني وسريع</p>
-      </div>
-      <div class="card" style="text-align:center">
-        <div style="font-size:32px;margin-bottom:8px">✨</div>
-        <div style="font-weight:800;color:var(--green-deep)">GSAP</div>
-        <p>أنيميشن سلس واحترافي</p>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px">هذا التطبيق وقفٌ خيري — لا إعلانات، لا اشتراكات. ادعم بدعوة صالحة أو مشاركة التطبيق.</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-gold" onclick="shareApp()">🔗 شارك التطبيق</button>
+          <a href="report.html" class="btn btn-ghost">🚩 بلاغ مشكلة</a>
+        </div>
       </div>
     </div>
 
-    <div class="foot-note">
-      صُنع بـ ❤️ لخدمة المسلمين في أفضل أيام الدنيا<br>
-      <strong>زاد العشر 2026</strong> · لا إعلانات · لا تتبع · مفتوح المصدر
+    <!-- ══ TAB: عن المطور ════════════════════════════════════ -->
+    <div id="about-dev-tab" style="display:none">
+      <div class="about-hero" style="background:linear-gradient(135deg,#1a1060,#3a2a8a);border-radius:22px;padding:28px;color:#fff;text-align:center;margin-bottom:20px">
+        <div style="font-size:64px;margin-bottom:12px">🎨</div>
+        <div style="font-size:24px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:4px">مصطفى أبو العزم</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.8);margin-bottom:16px;line-height:1.7">مصمم واجهات · مطور تطبيقات ويب<br><strong style="color:#e6c97a">Brand Identity Designer</strong></div>
+        <a href="https://aboalazm-visual-art.vercel.app/" target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:10px 20px;color:#fff;text-decoration:none;font-size:13px;font-weight:700;transition:all .2s"
+           onmouseover="this.style.background='rgba(255,255,255,.25)'"
+           onmouseout="this.style.background='rgba(255,255,255,.15)'">
+          🌐 aboalazm-visual-art.vercel.app ←
+        </a>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div style="font-size:15px;font-weight:800;color:var(--green-deep);margin-bottom:10px;font-family:'ThmanyahSans',sans-serif">💼 ماذا أفعل؟</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink)"><span>🎨</span><span>تصميم الهوية البصرية للعلامات التجارية</span></div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink)"><span>📱</span><span>تطوير تطبيقات الويب التفاعلية والـ PWA</span></div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink)"><span>🖥️</span><span>تصميم واجهات المستخدم وتجربة المستخدم</span></div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink)"><span>🤖</span><span>دمج الذكاء الاصطناعي في المنتجات الرقمية</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:15px;font-weight:800;color:var(--green-deep);margin-bottom:12px;font-family:'ThmanyahSans',sans-serif">🌐 تواصل معي</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <a href="https://aboalazm-visual-art.vercel.app/" target="_blank" rel="noopener"
+             style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--sand);border:1px solid var(--border);border-radius:12px;text-decoration:none;color:var(--ink);transition:all .2s"
+             onmouseover="this.style.borderColor='var(--gold)'"
+             onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:20px">🎨</span>
+            <div><div style="font-size:13px;font-weight:700">معرض الأعمال</div><div style="font-size:11px;color:var(--muted)">aboalazm-visual-art.vercel.app</div></div>
+            <span style="margin-right:auto;color:var(--muted)">←</span>
+          </a>
+        </div>
+      </div>
     </div>
+
+    <script>
+    function switchAboutTab(tab, btn) {
+      document.querySelectorAll('.az-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('about-app-tab').style.display = tab === 'app' ? '' : 'none';
+      document.getElementById('about-dev-tab').style.display = tab === 'dev' ? '' : 'none';
+    }
+    function shareApp() {
+      const d = { title:'زاد العشر 🌙', text:'تطبيق عبادة عشر ذي الحجة', url:'https://zadullashr.vercel.app' };
+      if (navigator.share) navigator.share(d);
+      else { navigator.clipboard.writeText(d.url); if(typeof showToast==='function') showToast('✅ تم نسخ الرابط'); }
+    }
+    </script>
+
   </main>
 </div>
 

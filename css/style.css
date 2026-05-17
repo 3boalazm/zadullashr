@@ -1300,3 +1300,81 @@ h3,h4,.section-title,.brand-name{font-weight:700 !important}
   .topbar .page-title{font-size:15px !important;font-weight:800}
   .topbar .page-sub{display:none}
 }
+
+/* ══ Floating topbar (glassmorphism, not fixed) ═══════════ */
+@media(max-width:768px){
+  .main{padding-top:10px !important}
+  .topbar{
+    position:relative !important;top:auto !important;
+    margin:10px 10px 16px 10px;
+    border-radius:18px !important;
+    width:calc(100% - 20px) !important;
+    background:rgba(var(--bg-rgb,250,246,236),.88) !important;
+    backdrop-filter:blur(18px) saturate(1.8) !important;
+    -webkit-backdrop-filter:blur(18px) saturate(1.8) !important;
+    border:1px solid var(--border) !important;
+    box-shadow:0 4px 24px -6px rgba(14,59,46,.14) !important;
+    padding:8px 12px !important;
+  }
+  html[data-theme="dark"] .topbar{
+    background:rgba(8,12,9,.88) !important;
+    border-color:rgba(255,255,255,.06) !important;
+  }
+  html[data-theme="oled"] .topbar{
+    background:rgba(0,0,0,.9) !important;
+    border-color:rgba(255,255,255,.04) !important;
+  }
+}
+
+/* ══ Hamburger: black in light mode ════════════════════════ */
+.hamburger{
+  background:rgba(0,0,0,.85) !important;
+  border:1px solid rgba(0,0,0,.15) !important;
+  color:#fff !important
+}
+html[data-theme="dark"] .hamburger,
+html[data-theme="oled"] .hamburger{
+  background:rgba(255,255,255,.12) !important;
+  border-color:rgba(255,255,255,.2) !important;
+}
+
+/* ══ Prayer pills — bigger touch targets ═══════════════════ */
+.prayer-pill{padding:12px 6px !important;min-height:62px;border-radius:14px !important}
+.pp-name{font-size:11px !important;font-weight:700 !important}
+.pp-time{font-size:15px !important;font-weight:900 !important;margin-top:5px}
+.pp-next .pp-name,.pp-next .pp-time{color:var(--gold-dark) !important}
+html[data-theme="dark"] .pp-next .pp-name,
+html[data-theme="dark"] .pp-next .pp-time{color:var(--sys-yellow) !important}
+
+/* ══ Font scale system ══════════════════════════════════════ */
+:root{--fs-base:1rem}
+html[data-fs="sm"]{font-size:14px}
+html[data-fs="md"]{font-size:16px}
+html[data-fs="lg"]{font-size:19px}
+html[data-fs="sm"] .nav a,html[data-fs="md"] .nav a{font-size:13px}
+html[data-fs="lg"] .nav a{font-size:15px}
+/* Exclude Quran text from font scale */
+.mushaf,.quran-preview,.quran-text,[style*="Amiri"]{font-size:revert}
+
+/* ══ Sidebar scroll preservation ══════════════════════════ */
+.sidebar{scroll-behavior:auto}
+
+/* ══ Install button in sidebar ═════════════════════════════ */
+.sidebar-install-btn{
+  display:flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,rgba(201,161,74,.18),rgba(201,161,74,.08));
+  border:1px solid rgba(201,161,74,.3);border-radius:12px;
+  padding:10px 14px;color:#e6c97a;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:inherit;width:100%;margin-bottom:8px;
+  transition:all .2s
+}
+.sidebar-install-btn:hover{background:rgba(201,161,74,.25)}
+.sidebar-install-btn.installed{opacity:.5;cursor:not-allowed;pointer-events:none}
+
+/* ══ Notif badge in settings ═══════════════════════════════ */
+.notif-enabled-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(52,199,89,.12);border:1px solid rgba(52,199,89,.3);
+  border-radius:99px;padding:5px 14px;font-size:12px;font-weight:700;
+  color:var(--sys-green)
+}

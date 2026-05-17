@@ -401,3 +401,91 @@ window.applyTheme = function(theme) {
     _inProgress = false;
   }, { passive: true });
 })();
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR SCROLL PRESERVATION
+   ═══════════════════════════════════════════════════════════ */
+(function initSidebarScrollSave() {
+  const SIDEBAR_SCROLL_KEY = 'zad_sidebar_scroll';
+
+  function getSidebar()  { return document.querySelector('.sidebar'); }
+  function getOverlay()  { return document.querySelector('.sidebar-overlay'); }
+
+  /* Save position before close */
+  function saveSidebarScroll() {
+    const sb = getSidebar();
+    if (sb) localStorage.setItem(SIDEBAR_SCROLL_KEY, sb.scrollTop);
+  }
+
+  /* Restore position after open */
+  function restoreSidebarScroll() {
+    const sb = getSidebar();
+    const saved = parseInt(localStorage.getItem(SIDEBAR_SCROLL_KEY) || '0');
+    if (sb && saved > 0) {
+      /* Use rAF to ensure DOM is painted */
+      requestAnimationFrame(() => { sb.scrollTop = saved; });
+    }
+  }
+
+  /* Hook into hamburger and overlay clicks */
+  document.addEventListener('click', e => {
+    if (e.target.closest('.hamburger')) {
+      const sb = getSidebar();
+      if (sb?.classList.contains('open')) saveSidebarScroll();
+      else setTimeout(restoreSidebarScroll, 50);
+    }
+    if (e.target.closest('.sidebar-overlay') || e.target.closest('.sidebar-overlay + *')) {
+      saveSidebarScroll();
+    }
+  });
+
+  /* Also save on nav link click (before navigation) */
+  document.addEventListener('click', e => {
+    if (e.target.closest('.nav a')) saveSidebarScroll();
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   BACK × N CLOSES APP (not navigates through history)
+   4 back-gestures (swipes) in ≤2s closes the app
+   ═══════════════════════════════════════════════════════════ */
+(function initBackClosesApp() {
+  const BACK_COUNT = 4;
+  const BACK_WINDOW = 2200;   /* ms */
+  let _swipesBack = [];
+
+  /* We hook into our existing swipe system —
+     swipe AWAY from sidebar when sidebar is CLOSED = "back" */
+  function isRTL() { return document.documentElement.dir === 'rtl'; }
+
+  let _sx2 = 0;
+  document.addEventListener('touchstart', e => {
+    _sx2 = e.touches[0].clientX;
+  }, { passive:true });
+
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - _sx2;
+    const sb = document.querySelector('.sidebar');
+    if (sb?.classList.contains('open')) return;  /* not when sidebar open */
+
+    /* RTL: swipe left (dx < -60) = back; LTR: swipe right (dx > 60) = back */
+    const isBack = isRTL() ? dx < -60 : dx > 60;
+    if (!isBack) return;
+
+    const now = Date.now();
+    /* Keep only recent swipes */
+    _swipesBack = _swipesBack.filter(t => now - t < BACK_WINDOW);
+    _swipesBack.push(now);
+
+    if (_swipesBack.length >= BACK_COUNT) {
+      _swipesBack = [];
+      /* Close / minimize the app */
+      if (window.history.length > 1) {
+        /* Try to go back to a non-app URL or close */
+        window.history.go(-(window.history.length));
+      }
+      /* Fallback: close the window */
+      setTimeout(() => { try { window.close(); } catch(e) {} }, 100);
+    }
+  }, { passive:true });
+})();

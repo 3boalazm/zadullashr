@@ -644,6 +644,35 @@ function showToast(msg) {
   toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
 }
 window.showToast = showToast;
+
+/* ════ Midnight auto-reset ════════════════════════════════ */
+function startMidnightWatcher() {
+  function checkMidnight() {
+    const now = new Date();
+    const today = now.toISOString().split('T')[0];
+    if (STATE.day && STATE.day !== today) {
+      STATE = checkDayReset(STATE);
+      saveState();
+      /* Refresh UI counters */
+      if (typeof updateDashStats === 'function') updateDashStats();
+      if (typeof initChecklist === 'function') initChecklist();
+      if (typeof renderWird === 'function') renderWird?.();
+      console.log('[ZadApp] Day reset at midnight');
+    }
+  }
+  /* Check every 60s */
+  setInterval(checkMidnight, 60000);
+}
+
+/* ════ Font scale restore on load ════════════════════════════ */
+(function restoreFontScale() {
+  const fs = STATE.fontScale;
+  if (fs) {
+    document.documentElement.setAttribute('data-fs', fs);
+    document.documentElement.setAttribute('data-font', fs);
+  }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme(STATE.theme);
   applyQuranFont(STATE.quranFontSize || 24);
@@ -672,6 +701,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAnimations();
   initPWA();
   initSearch();
+  startMidnightWatcher();
   initVerseRotator();
   initSpeechRecognition();
   initNotifBanner();
@@ -804,10 +834,19 @@ function animateVerseTransition(callback) {
   }, 220);
 }
 window.animateVerseTransition = animateVerseTransition;
+/* Font scale: sm = 14px, md = 16px (default), lg = 19px */
 function applyFontSize(size) {
+  /* Accept old names */
+  const map = { 'normal':'md', 'lg':'lg', 'xl':'lg', 'sm':'sm', 'md':'md' };
+  size = map[size] || size;
   document.documentElement.setAttribute('data-font', size);
+  document.documentElement.setAttribute('data-fs', size);
   STATE.fontScale = size;
   saveState();
+  /* Highlight active btn in settings */
+  document.querySelectorAll('.font-size-opt').forEach(b => {
+    b.classList.toggle('active', b.dataset.fs === size);
+  });
 }
 window.applyFontSize = applyFontSize;
 window.applyTheme = function(theme) {
@@ -871,12 +910,48 @@ async function requestNotifPermission() {
 }
 window.requestNotifPermission = requestNotifPermission;
 function scheduleReminders() {
-  const msg = (title, body) => {
-    if (Notification.permission === 'granted') {
-      new Notification(title, { body, icon: './icons/icon-192.svg', dir: 'rtl', lang: 'ar' });
-    }
-  };
-  setTimeout(() => msg('🕌 زاد العشر', 'لا تنس وردك اليومي — بارك الله فيك'), 30000);
+  if (Notification.permission !== 'granted') return;
+
+  function notify(title, body, delay) {
+    setTimeout(() => {
+      if (Notification.permission === 'granted') {
+        new Notification(title, { body, icon: './icons/icon-192.svg', dir:'rtl', lang:'ar', badge:'./icons/icon-192.svg' });
+      }
+    }, delay);
+  }
+
+  /* Immediate confirmation */
+  notify('✅ زاد العشر — التذكيرات مفعّلة', 'ستصلك تذكيرات بالورد والأذكار والمواعيد المهمة', 1000);
+
+  /* Morning adhkar — 6am */
+  const now = new Date();
+  const fajrMs = (() => {
+    const t = new Date(now); t.setHours(5,30,0,0);
+    return t > now ? t - now : t - now + 86400000;
+  })();
+  notify('🌅 أذكار الصباح', 'لا تفوّتك أذكار الصباح — دقائق تحميك طوال اليوم', fajrMs);
+
+  /* Evening adhkar — 5pm */
+  const asrMs = (() => {
+    const t = new Date(now); t.setHours(17,0,0,0);
+    return t > now ? t - now : t - now + 86400000;
+  })();
+  notify('🌇 أذكار المساء', 'حان وقت أذكار المساء — لا تُغفلها', asrMs);
+
+  /* Wird reminder — 9pm */
+  const wirdMs = (() => {
+    const t = new Date(now); t.setHours(21,0,0,0);
+    return t > now ? t - now : t - now + 86400000;
+  })();
+  notify('📖 ورد العشر', 'هل أتممت وردك اليوم؟ لا تنم قبل أن تُكمله', wirdMs);
+
+  /* Arafah day special (9 Dhul Hijjah = May 26, 2026) */
+  const arafah = new Date(2026, 4, 26, 4, 0, 0);
+  const arafahMs = arafah - now;
+  if (arafahMs > 0 && arafahMs < 86400000 * 30) {
+    notify('⭐ يوم عرفة', 'اليوم يوم عرفة — أفضل أيام الدعاء، أكثر من لا إله إلا الله', arafahMs);
+    notify('⭐ يوم عرفة — آخر الساعة الذهبية', 'اغتنم ما قبل المغرب في الدعاء والذكر', arafahMs + 43200000);
+  }
 }
 function initNotifBanner() {
   const btn = document.getElementById('enable-notif');
