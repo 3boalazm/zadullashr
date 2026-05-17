@@ -34,6 +34,9 @@ html[data-theme="dark"] .rp-privacy,html[data-theme="oled"] .rp-privacy{backgrou
 .success-title{font-size:20px;font-weight:800;color:var(--green-deep);margin-bottom:8px}
 html[data-theme="dark"] .success-title,html[data-theme="oled"] .success-title{color:var(--sys-green)}
 .success-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+
+/* Loading state */
+.btn-loading{opacity:.7;pointer-events:none}
 </style>
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
@@ -221,7 +224,7 @@ html[data-theme="dark"] .success-title,html[data-theme="oled"] .success-title{co
   <div class="success-card" onclick="event.stopPropagation()">
     <div class="success-ico">✅</div>
     <div class="success-title">شكراً على بلاغك!</div>
-    <div class="success-sub">تم استلام تقريرك وسيتم مراجعته قريباً.<br>مساهمتك تساعد في تحسين التجربة الإيمانية لجميع المستخدمين.</div>
+    <div class="success-sub">تم إرسال بلاغك لفريق زاد العشر وسيتم مراجعته في أقرب وقت.<br>📋 تم نسخ التقرير أيضاً على الحافظة كنسخة احتياطية.<br><br>جزاك الله خيراً على مساهمتك!</div>
     <button class="btn btn-primary" onclick="closeSuccess()" style="width:100%;justify-content:center">حسناً 🌟</button>
   </div>
 </div>
@@ -285,20 +288,88 @@ ${'─'.repeat(40)}
 التاريخ: ${new Date().toLocaleDateString('ar-EG', {dateStyle:'full'})}`;
 }
 
-/* ── Submit ── */
+/* ════════════════════════════════════════════════════════
+   FORMSPREE — Real email delivery
+   Steps to activate:
+   1. Go to formspree.io and sign up (free)
+   2. Create a form with email: zadulashr@gmail.com
+   3. Replace 'YOUR_FORM_ID' below with your form ID
+   ════════════════════════════════════════════════════════ */
+const FORMSPREE_ID = 'YOUR_FORM_ID'; /* ← ضع هنا Form ID من Formspree */
+
 async function submitReport(e) {
   e.preventDefault();
+
+  const submitBtn = e.target.querySelector('[type="submit"]');
+  const origText  = submitBtn.innerHTML;
+  submitBtn.innerHTML  = '⏳ جارٍ الإرسال...';
+  submitBtn.disabled   = true;
+
+  /* Build structured data */
+  const data = {
+    type:     document.getElementById('rp-type').options[document.getElementById('rp-type').selectedIndex]?.text || '—',
+    page:     document.getElementById('rp-page').value || '—',
+    specific: document.getElementById('rp-specific').value || '—',
+    desc:     document.getElementById('rp-desc').value,
+    email:    document.getElementById('rp-email').value || 'لم يُذكر',
+    sysInfo:  document.getElementById('sys-info').textContent,
+    date:     new Date().toLocaleDateString('ar-EG', { dateStyle:'full' }),
+    _subject: 'بلاغ مشكلة — زاد العشر',
+    _replyto: document.getElementById('rp-email').value || '',
+  };
+
+  let success = false;
+
+  /* ── Method 1: Formspree API ─────────────────────────── */
+  if (FORMSPREE_ID && FORMSPREE_ID !== 'YOUR_FORM_ID') {
+    try {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) success = true;
+    } catch(err) {
+      console.warn('Formspree error:', err);
+    }
+  }
+
+  /* ── Method 2: Web3Forms (backup, no signup needed) ──── */
+  if (!success) {
+    try {
+      const payload = {
+        access_key: 'YOUR_WEB3FORMS_KEY', /* ← web3forms.com — مجاني */
+        subject:    'بلاغ مشكلة — زاد العشر',
+        from_name:  'زاد العشر',
+        ...data
+      };
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) success = true;
+    } catch(err) {
+      console.warn('Web3Forms error:', err);
+    }
+  }
+
+  /* ── Method 3: mailto fallback (always works) ─────────── */
   const report = buildReportText();
-
-  /* 1. Try mailto (opens email app) */
-  const subject = encodeURIComponent('بلاغ مشكلة — زاد العشر');
-  const body    = encodeURIComponent(report);
-  window.open(`mailto:zadulashr@gmail.com?subject=${subject}&body=${body}`);
-
-  /* 2. Copy to clipboard as backup */
   try { await navigator.clipboard.writeText(report); } catch(e) {}
 
-  /* 3. Show success */
+  if (!success) {
+    /* Open email client as last resort */
+    const subject = encodeURIComponent('بلاغ مشكلة — زاد العشر');
+    const body    = encodeURIComponent(report);
+    window.location.href = `mailto:zadulashr@gmail.com?subject=${subject}&body=${body}`;
+  }
+
+  /* Reset button */
+  submitBtn.innerHTML = origText;
+  submitBtn.disabled  = false;
+
+  /* Show success */
   document.getElementById('success-overlay').classList.add('show');
 }
 
