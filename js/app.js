@@ -721,6 +721,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSidebar();
   fetchAndCacheHijriDate();
   initScrollTopBtn();
+  _renderNotifBadge();
   initContextualDashboard();  
   startCountdown();
   initChecklist();
@@ -2169,3 +2170,98 @@ function initScrollTopBtn() {
   if (main) main.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('scroll', onScroll, { passive: true });
 }
+
+/* ════ Notification Dropdown (global — all pages) ══════════ */
+const _NOTIF_KEY = 'zad_notifications';
+
+function _getNotifs() {
+  try { return JSON.parse(localStorage.getItem(_NOTIF_KEY) || '[]'); } catch(e) { return []; }
+}
+function _saveNotifs(list) {
+  localStorage.setItem(_NOTIF_KEY, JSON.stringify(list.slice(0, 30)));
+}
+function addNotif(ico, title, sub) {
+  const list = _getNotifs();
+  list.unshift({ id: Date.now(), ico, title, sub, read: false,
+    time: new Date().toLocaleTimeString('ar', {hour:'2-digit', minute:'2-digit'}) });
+  _saveNotifs(list);
+  _renderNotifBadge();
+}
+window.addNotif = addNotif;
+
+function _renderNotifBadge() {
+  const dot = document.getElementById('notif-dot');
+  const unread = _getNotifs().filter(n => !n.read).length;
+  if (dot) dot.className = 'notif-dot' + (unread > 0 ? ' show' : '');
+}
+
+function toggleNotifDropdown() {
+  let drop = document.getElementById('notif-dropdown');
+  if (!drop) return;
+
+  const isOpen = drop.classList.contains('open');
+  if (isOpen) { drop.classList.remove('open'); return; }
+
+  /* Render content */
+  const list = _getNotifs();
+  _saveNotifs(list.map(n => ({...n, read: true})));
+  _renderNotifBadge();
+
+  if (!list.length) {
+    drop.innerHTML = `
+      <div class="nd-header"><span>🔔 الإشعارات</span></div>
+      <div class="nd-empty">لا توجد إشعارات</div>
+      <div class="nd-footer"><button class="primary" onclick="enablePushNotifications()">🔔 تفعيل التنبيهات</button></div>`;
+  } else {
+    drop.innerHTML = `
+      <div class="nd-header">
+        <span>🔔 الإشعارات</span>
+        <button class="nd-clear" onclick="event.stopPropagation();_saveNotifs([]);toggleNotifDropdown();_renderNotifBadge()">مسح الكل</button>
+      </div>
+      ${list.map(n => `
+        <div class="nd-item">
+          <div class="nd-ico">${n.ico}</div>
+          <div class="nd-body">
+            <div class="nd-title">${n.title}</div>
+            <div class="nd-sub">${n.sub || ''}</div>
+            <div class="nd-time">${n.time}</div>
+          </div>
+        </div>`).join('')}
+      <div class="nd-footer">
+        <button onclick="closeNotifDropdown()">إغلاق</button>
+        <button class="primary" onclick="enablePushNotifications()">🔔 تفعيل</button>
+      </div>`;
+  }
+
+  drop.classList.add('open');
+  setTimeout(() => document.addEventListener('click', _closeNotifOutside, { once: true }), 10);
+}
+window.toggleNotifDropdown = toggleNotifDropdown;
+
+function _closeNotifOutside(e) {
+  const wrap = document.querySelector('.notif-wrap');
+  if (wrap && !wrap.contains(e.target)) closeNotifDropdown();
+}
+function closeNotifDropdown() {
+  document.getElementById('notif-dropdown')?.classList.remove('open');
+}
+window.closeNotifDropdown = closeNotifDropdown;
+window.showNotifPanel = toggleNotifDropdown;
+
+async function enablePushNotifications() {
+  closeNotifDropdown();
+  if (!('Notification' in window)) { addNotif('⚠️','غير مدعوم','هذا المتصفح لا يدعم الإشعارات'); return; }
+  if (Notification.permission === 'granted') {
+    addNotif('✅','مفعّلة','الإشعارات مفعّلة بالفعل');
+    if (typeof scheduleReminders === 'function') scheduleReminders();
+    return;
+  }
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') {
+    addNotif('✅','تم تفعيل الإشعارات','ستصلك تذكيرات بالورد والأذكار والمواعيد');
+    if (typeof scheduleReminders === 'function') scheduleReminders();
+  } else {
+    addNotif('❌','تم رفض الإشعارات','يمكنك تفعيلها من إعدادات المتصفح');
+  }
+}
+window.enablePushNotifications = enablePushNotifications;
