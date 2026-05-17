@@ -41,13 +41,18 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
 .reminder-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .fs-btn{transition:all .2s}
 </style>
-<div class="font-size-options" id="fontSizeOptions">
-  <button class="fs-btn" data-size="small"><span>أ</span><div>صغير</div></button>
-  <button class="fs-btn" data-size="medium"><span>أ</span><div>متوسط</div></button>
-  <button class="fs-btn" data-size="large"><span>أ</span><div>كبير</div></button>
-</div>
-<p class="hint">لا يؤثر على خط القرآن الكريم</p>
-<script>(function(){var s=localStorage.getItem('zad_font_size')||'medium';var map={small:0.875,medium:1,large:1.15};document.documentElement.style.setProperty('--font-scale',map[s]||1)})();</script>
+<style>
+  :root{--font-scale:1}
+  body{font-size:calc(1rem * var(--font-scale))}
+  .quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
+  .font-size-options{display:flex;gap:8px}
+  .font-size-options .fs-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;transition:all .2s;color:var(--ink)}
+  .font-size-options .fs-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff}
+  .fs-btn[data-size="small"]  span:first-child{font-size:14px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="medium"] span:first-child{font-size:19px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="large"]  span:first-child{font-size:24px;display:block;margin-bottom:4px}
+</style>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
   <!-- Open Graph / Social Media Thumbnail -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="زاد العشر">
@@ -171,6 +176,14 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
       </div>
       <div style="padding-top:14px">
         <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">🔤 حجم الخط العام</div>
+        <!-- Auto / System toggle -->
+        <button id="fs-auto-btn"
+          style="width:100%;padding:10px 16px;border-radius:12px;border:2px solid var(--border);
+                 background:transparent;font-family:inherit;cursor:pointer;margin-bottom:10px;
+                 display:flex;align-items:center;justify-content:space-between;transition:all .2s">
+          <span style="font-size:13px;font-weight:700;color:var(--ink)">⚙️ تلقائي — تابع إعدادات الجهاز</span>
+          <span id="fs-system-label" style="font-size:11px;color:var(--muted)">(النظام: متوسط)</span>
+        </button>
         <div class="font-size-options" id="fontSizeOptions">
           <button class="fs-btn" data-size="small"><span>أ</span><div>صغير</div></button>
           <button class="fs-btn" data-size="medium"><span>أ</span><div>متوسط</div></button>
@@ -387,15 +400,59 @@ document.addEventListener('DOMContentLoaded',()=>{
 <script>
 (function(){
   var map={small:0.875,medium:1,large:1.15};
-  var current=localStorage.getItem('zad_font_size')||'medium';
-  var btns=document.querySelectorAll('#fontSizeOptions .fs-btn');
-  function apply(size){
-    localStorage.setItem('zad_font_size',size);
-    document.documentElement.style.setProperty('--font-scale',map[size]);
-    btns.forEach(function(b){b.classList.toggle('active',b.dataset.size===size);});
+
+  /* Detect system font size once */
+  function detectSystemSize(){
+    var probe=document.createElement('div');
+    probe.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';
+    document.body.appendChild(probe);
+    var rem=parseFloat(getComputedStyle(probe).width)||16;
+    document.body.removeChild(probe);
+    return rem<=14?'small':rem>=18?'large':'medium';
   }
-  btns.forEach(function(b){b.addEventListener('click',function(){apply(b.dataset.size);});});
-  apply(current);
+
+  var systemSize = detectSystemSize();
+  var saved = localStorage.getItem('zad_font_size'); /* null = auto */
+  var isAuto = !saved || saved === 'system';
+  var current = isAuto ? systemSize : saved;
+
+  var btns=document.querySelectorAll('#fontSizeOptions .fs-btn');
+  var autoBtn=document.getElementById('fs-auto-btn');
+  var systemLabel=document.getElementById('fs-system-label');
+
+  /* Update system-detected label */
+  var sizeNames={small:'صغير',medium:'متوسط',large:'كبير'};
+  if(systemLabel) systemLabel.textContent='(النظام: '+sizeNames[systemSize]+')';
+
+  function apply(size, auto){
+    if(auto){
+      localStorage.removeItem('zad_font_size');
+      /* Keep 'system' marker so we know auto is selected */
+      localStorage.setItem('zad_font_size','system');
+    } else {
+      localStorage.setItem('zad_font_size',size);
+    }
+    document.documentElement.style.setProperty('--font-scale',map[size]||1);
+    document.documentElement.setAttribute('data-system-font',size);
+    /* Highlight buttons */
+    btns.forEach(function(b){b.classList.toggle('active',!auto&&b.dataset.size===size);});
+    if(autoBtn){
+      autoBtn.classList.toggle('active',auto);
+      autoBtn.style.borderColor=auto?'var(--gold)':'var(--border)';
+      autoBtn.style.background=auto?'rgba(201,161,74,.1)':'transparent';
+      autoBtn.style.color=auto?'var(--gold-dark)':'var(--muted)';
+    }
+  }
+
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){ apply(b.dataset.size, false); });
+  });
+  if(autoBtn){
+    autoBtn.addEventListener('click',function(){ apply(systemSize, true); });
+  }
+
+  /* Init */
+  apply(current, isAuto);
 })();
 </script>
 </body>
