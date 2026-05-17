@@ -100,7 +100,7 @@
       </div>
     </div>
 
-    <div class="hijri-bar" id="hijri-bar">
+    <a href="hijri.html" class="hijri-bar" id="hijri-bar" style="text-decoration:none;cursor:pointer" title="عرض التقويم الهجري">
       <div class="hijri-date">
         <span class="hd-hijri" id="hijri-full">جارٍ التحميل...</span>
         <span class="hd-miladi" id="miladi-full"></span>
@@ -109,10 +109,10 @@
         <span class="hijri-bar-ico">🗓️</span>
         <span class="hijri-day-name" id="special-day-name" style="display:none"></span>
       </div>
-    </div>
+    </a>
 
     <div class="card" style="margin-bottom:14px">
-      <div class="prayer-section-title">
+      <a href="prayers.html" style="text-decoration:none;color:inherit;display:block" id="prayer-link-wrap"><div class="prayer-section-title">
    <span class="section-title" style="margin:0;padding:0">🕌 مواقيت الصلاة</span>
    <span class="next-prayer-badge" id="next-prayer-label" style="display:none">التالية</span>
 </div>
@@ -126,9 +126,34 @@
         <div class="prayer-pill"><div class="pp-name">العصر</div><div class="pp-time" id="pt-asr">--:--</div></div>
         <div class="prayer-pill"><div class="pp-name">المغرب</div><div class="pp-time" id="pt-maghrib">--:--</div></div>
         <div class="prayer-pill"><div class="pp-name">العشاء</div><div class="pp-time" id="pt-isha">--:--</div></div>
+
+      </a>
+      <!-- Next Prayer Mini Bar -->
+      <div id="next-prayer-bar" style="display:none;margin-top:10px;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:12px;padding:10px 14px;display:none;align-items:center;justify-content:space-between;color:#fff">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:18px" id="np-ico">🕌</span>
+          <div>
+            <div style="font-size:10px;color:rgba(255,255,255,.7);margin-bottom:1px">الصلاة القادمة</div>
+            <div style="font-size:15px;font-weight:800;font-family:'ThmanyahSans',sans-serif" id="np-name">العصر</div>
+          </div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:20px;font-weight:900;font-family:'ThmanyahSans',monospace;color:var(--gold2,#e6c97a)" id="np-time">--:--</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.65)">يتبقى <span id="np-countdown">--:--</span></div>
+        </div>
+      </div>
       </div>
     </div>
 
+
+    <!-- ══ Video Carousel ══════════════════════════════════ -->
+    <div class="section-title" style="margin-top:20px;display:flex;align-items:center;justify-content:space-between">
+      <span>🎬 محاضرات العشر</span>
+      <a href="videos.html" style="font-size:12px;color:var(--gold-dark);font-weight:700;text-decoration:none">عرض الكل ←</a>
+    </div>
+    <div class="vid-carousel" id="vid-carousel">
+      <div class="vc-track" id="vc-track"></div>
+    </div>
     <div class="pwa-install-card" id="pwa-card" style="display:none" onclick="installPWA()">
       <div class="pwa-install-ico">📲</div>
       <div class="pwa-install-txt">
@@ -622,6 +647,8 @@ window.loadPrayerTimes=loadTopbarPrayers;
 /* ── 4️⃣ INIT ────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded',()=>{
   startCountdown(); startResetCountdown(); seedDailyNotifications(); renderNotifBadge();
+  initVideoCarousel();
+  hookPrayerData();
   initHijriBar();
   renderMiniBadges();
   loadTopbarPrayers(); // ← إضافة تحميل المواقيت وتفعيلها عند فتح التطبيق
@@ -842,6 +869,123 @@ function seedDailyNotifications() {
   }
 
   addNotif('📿','ذكّرك ربك','اجعل لسانك رطباً بذكر الله — سبّح وكبّر واستغفر','info');
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   VIDEO CAROUSEL
+   ═══════════════════════════════════════════════════════════ */
+const VC_VIDEOS = [
+  {id:'57p126d5w9k', title:'عشر ذي الحجة — التخطيط العملي', badge:'⭐ مميز'},
+  {id:'smro5XFkoj0', title:'لا تدخل العشر قبل مشاهدة هذا', badge:'🔥 مهم'},
+  {id:'OusUlCU5WBI', title:'العَشر الأُوَل من ذي الحِجَّة', badge:''},
+  {id:'YgKfcLUbu60', title:'أوائل ذي الحجة | أفضل أيام الدهر', badge:''},
+  {id:'ZSo0_0zxYHQ', title:'السر وراء يوم عرفة وعلاقته بالدعاء', badge:'🌄 عرفة'},
+  {id:'zetXiUuqkiY', title:'عشر ذي الحجة موسم الخواص', badge:''},
+  {id:'BMMa16hvRU8', title:'موسم العَشر والذكر: حِكَم وأسرار', badge:''},
+  {id:'Ul1FBSoszZk', title:'لقاء العشر من ذي الحجة', badge:''},
+];
+
+function initVideoCarousel() {
+  const track = document.getElementById('vc-track');
+  if (!track) return;
+
+  track.innerHTML = VC_VIDEOS.map(v => `
+    <a class="vc-card" href="https://youtu.be/${v.id}" target="_blank" rel="noopener">
+      <img class="vc-thumb" src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg"
+        onerror="this.src='https://img.youtube.com/vi/${v.id}/default.jpg'" alt="${v.title}" loading="lazy">
+      <div class="vc-info">
+        <div class="vc-title">${v.title}</div>
+        ${v.badge ? `<div class="vc-badge">${v.badge}</div>` : ''}
+      </div>
+    </a>`).join('');
+
+  /* Drag-to-scroll */
+  const car = document.getElementById('vid-carousel');
+  if (!car) return;
+  let isDown=false, startX=0, scrollLeft=0;
+  car.addEventListener('mousedown', e => { isDown=true; car.classList.add('grabbing'); startX=e.pageX-car.offsetLeft; scrollLeft=car.scrollLeft; });
+  car.addEventListener('mouseleave', () => { isDown=false; car.classList.remove('grabbing'); });
+  car.addEventListener('mouseup', () => { isDown=false; car.classList.remove('grabbing'); });
+  car.addEventListener('mousemove', e => { if(!isDown)return; e.preventDefault(); const x=e.pageX-car.offsetLeft; car.scrollLeft=scrollLeft-(x-startX)*1.5; });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NEXT PRAYER MINI BAR
+   ═══════════════════════════════════════════════════════════ */
+const NP_ICONS = {Fajr:'🌅',Sunrise:'☀️',Dhuhr:'🌞',Asr:'🌤️',Maghrib:'🌇',Isha:'🌙'};
+const NP_NAMES = {Fajr:'الفجر',Sunrise:'الشروق',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
+let _npTimer = null;
+
+function updateNextPrayerBar(timings) {
+  const bar = document.getElementById('next-prayer-bar');
+  if (!bar) return;
+  const now = new Date();
+  const keys = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+  let next = null, nextTime = null;
+
+  for (const k of keys) {
+    if (!timings[k]) continue;
+    const [hh, mm] = timings[k].split(':').map(Number);
+    const t = new Date(); t.setHours(hh, mm, 0, 0);
+    if (t > now) { next=k; nextTime=t; break; }
+  }
+  if (!next) { /* past Isha — show Fajr tomorrow */ next='Fajr'; }
+
+  if (!nextTime) return;
+  bar.style.display = 'flex';
+  const nameEl = document.getElementById('np-name');
+  const icoEl  = document.getElementById('np-ico');
+  const timeEl = document.getElementById('np-time');
+  if (nameEl) nameEl.textContent = NP_NAMES[next] || next;
+  if (icoEl)  icoEl.textContent  = NP_ICONS[next] || '🕌';
+  if (timeEl) timeEl.textContent = timings[next];
+
+  /* Countdown */
+  if (_npTimer) clearInterval(_npTimer);
+  _npTimer = setInterval(() => {
+    const diff = nextTime - new Date();
+    if (diff <= 0) { clearInterval(_npTimer); return; }
+    const hh = Math.floor(diff/3600000);
+    const mm = Math.floor((diff%3600000)/60000);
+    const ss = Math.floor((diff%60000)/1000);
+    const pad = n => String(n).padStart(2,'0');
+    const cdEl = document.getElementById('np-countdown');
+    if (cdEl) cdEl.textContent = hh>0 ? `${pad(hh)}:${pad(mm)}:${pad(ss)}` : `${pad(mm)}:${pad(ss)}`;
+  }, 1000);
+}
+
+/* Hook into prayer loading */
+const _origFetch = window.fetch;
+function hookPrayerData() {
+  /* Check if prayer times already loaded in localStorage */
+  try {
+    const cached = JSON.parse(localStorage.getItem('zad_prayer_cache') || 'null');
+    if (cached && cached.timings) {
+      updateNextPrayerBar(cached.timings);
+    }
+  } catch(e) {}
+
+  /* Also watch for DOM updates to pt-fajr */
+  const fajrEl = document.getElementById('pt-fajr');
+  if (fajrEl) {
+    const obs = new MutationObserver(() => {
+      const timings = {
+        Fajr:    document.getElementById('pt-fajr')?.textContent,
+        Sunrise: document.getElementById('pt-sunrise')?.textContent,
+        Dhuhr:   document.getElementById('pt-dhuhr')?.textContent,
+        Asr:     document.getElementById('pt-asr')?.textContent,
+        Maghrib: document.getElementById('pt-maghrib')?.textContent,
+        Isha:    document.getElementById('pt-isha')?.textContent,
+      };
+      if (timings.Fajr && timings.Fajr !== '--:--') {
+        obs.disconnect();
+        updateNextPrayerBar(timings);
+        localStorage.setItem('zad_prayer_cache', JSON.stringify({timings, ts: Date.now()}));
+      }
+    });
+    obs.observe(document.body, { childList:true, subtree:true, characterData:true });
+  }
 }
 
 </script>
