@@ -1410,9 +1410,9 @@ html[data-fs="lg"] .nav a{font-size:15px}
 @media(max-width:900px){
   .main{padding-top:8px}
   .topbar{
-    /* Floating glass pill */
-    position:sticky;top:8px;z-index:60;
-    margin:0 8px 14px 8px;
+    /* Floating glass pill — flows with page, NOT fixed */
+    position:relative;
+    margin:8px 8px 16px 8px;
     width:calc(100% - 16px);
     border-radius:20px;
     background:rgba(250,246,236,.92);
@@ -1423,7 +1423,7 @@ html[data-fs="lg"] .nav a{font-size:15px}
     padding:9px 12px;
     grid-template-columns:auto 1fr auto;
     gap:8px;
-    margin-bottom:0;
+    z-index:60;
   }
   html[data-theme="dark"] .topbar,html[data-theme="oled"] .topbar{
     background:rgba(8,12,9,.92);
@@ -1475,16 +1475,15 @@ html[data-theme="dark"] .hamburger,html[data-theme="oled"] .hamburger{
 
 /* ══ Notif dropdown ══════════════════════════════════════════ */
 .notif-dropdown{
-  position:absolute;top:calc(100% + 8px);left:0;
-  width:300px;max-height:380px;overflow-y:auto;
+  position:fixed;top:70px;left:50%;transform:translateX(-50%);
+  width:min(300px, calc(100vw - 24px));max-height:380px;overflow-y:auto;
   background:var(--card);border:1px solid var(--border);
-  border-radius:16px;box-shadow:0 12px 40px -8px rgba(0,0,0,.2);
-  z-index:400;display:none;flex-direction:column;
+  border-radius:16px;box-shadow:0 12px 40px -8px rgba(0,0,0,.3);
+  z-index:800;display:none;flex-direction:column;
   animation:dropIn .2s ease
 }
-@keyframes dropIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes dropIn{from{opacity:0;transform:translateX(-50%) translateY(-8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 .notif-dropdown.open{display:flex}
-html[dir="rtl"] .notif-dropdown{left:auto;right:0}
 .nd-header{
   padding:12px 14px;border-bottom:1px solid var(--border);
   font-size:13px;font-weight:800;color:var(--ink);
