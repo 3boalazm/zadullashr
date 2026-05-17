@@ -2374,8 +2374,15 @@ function applyProfile(profile) {
   const chip = document.getElementById('profile-chip');
   if (chip) {
     const ico = profile.type === 'child' ? '🧒' : '👤';
-    chip.innerHTML = `<span>${ico}</span><span>${profile.name}</span><button onclick="showProfileModal()" style="background:none;border:none;font-size:10px;color:var(--muted);cursor:pointer;padding:0 4px">تغيير</button>`;
+    chip.innerHTML = `
+      <span style="font-size:16px">${ico}</span>
+      <span style="flex:1;font-size:13px;font-weight:800;color:var(--ink)">${profile.name}</span>
+      <span style="font-size:10px;font-weight:700;background:var(--green-deep);color:#fff;border-radius:8px;padding:3px 9px;cursor:pointer;white-space:nowrap"
+        onclick="showProfileModal(true)">تغيير</span>
+    `;
     chip.style.display = 'flex';
+    chip.style.cursor  = 'pointer';
+    chip.onclick = (e) => { if(typeof showProfileModal==='function') showProfileModal(true); };
   }
 }
 
