@@ -72,6 +72,13 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
   <!-- WhatsApp / general -->
   <meta name="description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
   <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function() {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
@@ -169,29 +176,41 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
     <!-- ══ 1. المظهر ════════════════════════════════════════ -->
     <div class="section-title">🎨 المظهر</div>
     <div class="card" style="margin-bottom:16px">
-      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border)">
-        <div class="ic">🌙</div>
-        <div class="lbl"><b>الوضع الداكن</b><small>راحة للعينين</small></div>
-        <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+      <!-- Theme selector -->
+      <div style="padding-bottom:14px;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <div class="ic">🎨</div>
+          <div class="lbl"><b>المظهر</b><small>اختر وضع العرض</small></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <button onclick="setTheme('light')" id="theme-light"
+            style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
+            <div style="font-size:20px;margin-bottom:4px">☀️</div>
+            <div style="font-size:12px;font-weight:700;color:var(--ink)">فاتح</div>
+          </button>
+          <button onclick="setTheme('dark')" id="theme-dark"
+            style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
+            <div style="font-size:20px;margin-bottom:4px">🌙</div>
+            <div style="font-size:12px;font-weight:700;color:var(--ink)">داكن</div>
+          </button>
+          <button onclick="setTheme('oled')" id="theme-oled"
+            style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
+            <div style="font-size:20px;margin-bottom:4px">⚫</div>
+            <div style="font-size:12px;font-weight:700;color:var(--ink)">OLED</div>
+          </button>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center">OLED — أسود كامل لتوفير البطارية</div>
       </div>
       <div style="padding-top:14px">
-        <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px">🔤 حجم الخط العام</div>
-        <!-- Auto / System toggle -->
-        <button id="fs-auto-btn"
-          style="width:100%;padding:10px 16px;border-radius:12px;border:2px solid var(--border);
-                 background:transparent;font-family:inherit;cursor:pointer;margin-bottom:10px;
-                 display:flex;align-items:center;justify-content:space-between;transition:all .2s">
-          <span style="font-size:13px;font-weight:700;color:var(--ink)">⚙️ تلقائي — تابع إعدادات الجهاز</span>
-          <span id="fs-system-label" style="font-size:11px;color:var(--muted)">(النظام: متوسط)</span>
-        </button>
-        <div class="font-size-options" id="fontSizeOptions">
-          <button class="fs-btn" data-size="small"><span>أ</span><div>صغير</div></button>
-          <button class="fs-btn" data-size="medium"><span>أ</span><div>متوسط</div></button>
-          <button class="fs-btn" data-size="large"><span>أ</span><div>كبير</div></button>
+        <div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--sand);border-radius:12px;border:1px solid var(--border)">
+          <span style="font-size:22px">⚙️</span>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--ink)">حجم الخط — تلقائي</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">يتبع إعدادات حجم الخط في جهازك تلقائياً</div>
+          </div>
+          <span id="sys-font-badge" style="margin-right:auto;font-size:11px;font-weight:700;background:rgba(14,59,46,.1);color:var(--green-deep);border-radius:8px;padding:4px 10px">متوسط</span>
         </div>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center">لا يؤثر على خط القرآن الكريم</div><div>كبير</div></button>
-        </div>
-        <div style="font-size:11px;color:var(--muted);margin-top:10px;text-align:center">لا يؤثر على خط القرآن الكريم</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center">لتغيير الحجم: إعدادات الجهاز ← إمكانية الوصول ← حجم الخط</div>
       </div>
     </div>
 
@@ -248,8 +267,17 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
     <div class="card" style="margin-bottom:20px">
       <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border)">
         <div class="ic">📊</div>
-        <div class="lbl"><b>تصدير البيانات</b><small>نسخ احتياطي</small></div>
-        <button onclick="exportData()" style="padding:9px 16px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted)">تصدير</button>
+        <div class="lbl"><b>تصدير البيانات</b><small>حفظ نسخة احتياطية JSON</small></div>
+        <button onclick="exportData()" style="padding:9px 16px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted)">📤 تصدير</button>
+      </div>
+      <!-- Import backup -->
+      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px">
+        <div class="ic">📥</div>
+        <div class="lbl"><b>استيراد نسخة احتياطية</b><small>استعادة بياناتك من ملف JSON</small></div>
+        <label style="padding:9px 16px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted);display:flex;align-items:center;gap:6px">
+          📥 استيراد
+          <input type="file" id="import-file" accept=".json" onchange="importData(this)" style="display:none">
+        </label>
       </div>
       <div class="settings-row" style="border-bottom:none">
         <div class="ic">🗑️</div>
@@ -454,6 +482,83 @@ document.addEventListener('DOMContentLoaded',()=>{
   /* Init */
   apply(current, isAuto);
 })();
+
+/* ── Theme selector (3 states) ──────────────────────────── */
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  try {
+    const s = JSON.parse(localStorage.getItem('zad_v2') || '{}');
+    s.theme = t; localStorage.setItem('zad_v2', JSON.stringify(s));
+  } catch(e) {}
+  updateThemeBtns(t);
+  if (typeof showToast === 'function') {
+    const labels = { light:'☀️ الوضع الفاتح', dark:'🌙 الوضع الداكن', oled:'⚫ الوضع OLED' };
+    showToast(labels[t] || t);
+  }
+}
+function updateThemeBtns(t) {
+  ['light','dark','oled'].forEach(id => {
+    const btn = document.getElementById('theme-'+id);
+    if (!btn) return;
+    const active = id === t;
+    btn.style.borderColor = active ? 'var(--green-deep)' : 'var(--border)';
+    btn.style.background  = active ? 'rgba(14,59,46,.08)' : 'var(--card)';
+  });
+  /* Also sync the dark-switch toggle for backward compat */
+  document.querySelectorAll('.dark-switch').forEach(sw => { sw.checked = (t !== 'light'); });
+}
+
+/* ── Detect system font size ─────────────────────────────── */
+function detectAndShowSystemFont() {
+  try {
+    const p = document.createElement('div');
+    p.style.cssText = 'position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';
+    document.body.appendChild(p);
+    const rem = parseFloat(getComputedStyle(p).width) || 16;
+    document.body.removeChild(p);
+    const badge = document.getElementById('sys-font-badge');
+    if (badge) {
+      const label = rem <= 14 ? 'صغير' : rem >= 18 ? 'كبير' : 'متوسط';
+      badge.textContent = label;
+      /* Apply scale */
+      const scale = rem <= 14 ? 0.875 : rem >= 18 ? 1.15 : 1;
+      document.documentElement.style.setProperty('--font-scale', scale);
+    }
+  } catch(e) {}
+}
+
+/* ── Import backup ───────────────────────────────────────── */
+function importData(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      let count = 0;
+      Object.entries(data).forEach(([k, v]) => {
+        if (k.startsWith('zad_')) { localStorage.setItem(k, v); count++; }
+      });
+      if (typeof showToast === 'function') showToast(`✅ تم استيراد ${count} عنصر — جارٍ التحديث`);
+      setTimeout(() => location.reload(), 1200);
+    } catch(err) {
+      if (typeof showToast === 'function') showToast('❌ الملف غير صحيح — تأكد أنه ملف JSON من زاد العشر');
+    }
+  };
+  reader.readAsText(file);
+  input.value = ''; /* reset */
+}
+window.importData = importData;
+
+/* Init additions */
+document.addEventListener('DOMContentLoaded', () => {
+  /* Theme buttons */
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  updateThemeBtns(currentTheme);
+  /* System font badge */
+  detectAndShowSystemFont();
+});
+
 </script>
 </body>
 </html>

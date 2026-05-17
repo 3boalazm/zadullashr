@@ -48,8 +48,8 @@ let STATE = checkDayReset(loadState());
 function applyTheme(theme) {
   STATE.theme = theme;
   document.documentElement.setAttribute('data-theme', theme);
-  document.querySelectorAll('.dark-switch').forEach(el => { el.checked = theme === 'dark'; });
-  document.querySelectorAll('.btn-theme').forEach(btn => { btn.textContent = theme === 'dark' ? '☀️' : '🌙'; });
+  document.querySelectorAll('.dark-switch').forEach(el => { el.checked = theme !== 'light'; });
+  document.querySelectorAll('.btn-theme').forEach(btn => { btn.textContent = theme === 'light' ? '🌙' : theme === 'oled' ? '⚫' : '☀️'; });
   saveState();
 }
 function toggleTheme() {

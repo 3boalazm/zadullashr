@@ -1905,3 +1905,27 @@ html[dir="ltr"] .chapter-start-line:first-child {
 /* ══ Prayer card fix — no phantom height ══════════════════ */
 #prayer-bar[style*="display:none"]{ height:0; padding:0 !important; margin:0 !important; }
 #prayer-loc-btn[style*="display:none"]{ height:0; padding:0 !important; }
+
+/* ══ OLED Theme — pure black for OLED screens ══════════════ */
+html[data-theme="oled"] {
+  --bg:       #000000;
+  --card:     #0a0a0a;
+  --sand:     #0d0d0d;
+  --sand-2:   #111111;
+  --border:   rgba(255,255,255,.08);
+  --ink:      rgba(255,255,255,.92);
+  --muted:    rgba(255,255,255,.4);
+  --shadow:   0 4px 16px rgba(0,0,0,.9);
+  --shadow-sm:0 2px 8px rgba(0,0,0,.8);
+}
+html[data-theme="oled"] .topbar {
+  background: rgba(0,0,0,.97) !important;
+  border-color: rgba(255,255,255,.06) !important;
+}
+html[data-theme="oled"] .sidebar {
+  background: linear-gradient(180deg,#000,#050505);
+}
+html[data-theme="oled"] .card {
+  background: #0a0a0a;
+  border-color: rgba(255,255,255,.07);
+}
