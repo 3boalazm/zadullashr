@@ -283,6 +283,32 @@ function hijriToGreg(hy, hm, hd) {
 }
 
 function gregToHijri(date) {
+  /* Use cached API result if available and from today */
+  const cached = (() => {
+    try {
+      const c = JSON.parse(localStorage.getItem('zad_hijri_today') || 'null');
+      if (!c) return null;
+      const today = new Date().toISOString().split('T')[0];
+      if (c.greg !== today) return null; /* stale */
+      return c;
+    } catch(e) { return null; }
+  })();
+
+  if (cached) {
+    /* Calculate offset from today's known Hijri date */
+    const todayGreg = new Date();
+    todayGreg.setHours(0,0,0,0);
+    const targetGreg = new Date(date);
+    targetGreg.setHours(0,0,0,0);
+    const diffDays = Math.round((targetGreg - todayGreg) / 86400000);
+    let {y, m, d} = cached;
+    d += diffDays;
+    while (d > ML[(m-1)%12]) { d -= ML[(m-1)%12]; m++; if(m>12){m=1;y++;} }
+    while (d < 1) { m--; if(m<1){m=12;y--;} d+=ML[(m-1)%12]; }
+    return {y, m, d};
+  }
+
+  /* Fallback: reference-based calculation */
   const msPerDay = 86400000;
   const diff = Math.round((date - DH1) / msPerDay);
   let y=1447, m=12, d=1+diff;
@@ -306,21 +332,73 @@ function getSpecialKey(hy, hm, hd) {
   return `${hy}-${hm}-${hd}`;
 }
 
-/* ── Today banner ─────────────────────────────────────────── */
-function renderTodayBanner() {
-  const now  = new Date();
-  const h    = gregToHijri(now);
-  const key  = getSpecialKey(h.y, h.m, h.d);
-  const sp   = SPECIAL_DH[key];
+/* ── Global Hijri state (shared with app.js) ─────────────── */
+window._ZAD_HIJRI = null; /* {y, m, d} set by API */
 
-  document.getElementById('tb-day-num').textContent   = h.d;
-  document.getElementById('tb-hijri-full').textContent = `${h.d} ${HIJRI_MONTHS_AR[h.m-1]} ${h.y} هـ`;
-  document.getElementById('tb-greg-full').textContent  = `${now.getDate()} ${GREG_MONTHS_AR[now.getMonth()]} ${now.getFullYear()} م · ${WEEK_AR[now.getDay()]}`;
-  document.getElementById('hijri-page-sub').textContent = `${h.d} ${HIJRI_MONTHS_AR[h.m-1]} ${h.y} هـ`;
+/* ── Today banner — API first, local calc fallback ──────── */
+async function renderTodayBanner() {
+  const now = new Date();
 
-  const spEl = document.getElementById('tb-special-name');
-  if (sp) { spEl.textContent = sp.label; spEl.style.display = 'inline-flex'; }
-  else    { spEl.style.display = 'none'; }
+  /* Try Aladhan API for accurate Hijri date */
+  try {
+    const today = `${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}`;
+    const res   = await fetch(`https://api.aladhan.com/v1/gToH/${today}`, {
+      signal: AbortSignal.timeout(4000)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const hd   = data.data?.hijri;
+      if (hd) {
+        const apiH = { y: parseInt(hd.year), m: parseInt(hd.month.number), d: parseInt(hd.day) };
+        window._ZAD_HIJRI = apiH;
+        /* Store globally for other pages */
+        localStorage.setItem('zad_hijri_today', JSON.stringify({
+          ...apiH, ts: Date.now(),
+          greg: now.toISOString().split('T')[0]
+        }));
+        showBanner(apiH, now);
+        /* Update DH1 reference if on Dhul Hijjah */
+        if (apiH.m === 12) {
+          const offsetDays = apiH.d - 1;
+          const newDH1 = new Date(now);
+          newDH1.setDate(now.getDate() - offsetDays);
+          /* Update global reference */
+          window._ZAD_DH1 = newDH1;
+        }
+        return;
+      }
+    }
+  } catch(e) {
+    console.warn('[Hijri] API failed, using local calc');
+  }
+
+  /* Fallback: local calculation */
+  const h = gregToHijri(now);
+  showBanner(h, now);
+}
+
+function showBanner(h, now) {
+  const key = getSpecialKey(h.y, h.m, h.d);
+  const sp  = SPECIAL_DH[key];
+
+  const dayEl = document.getElementById('tb-day-num');
+  const hijEl = document.getElementById('tb-hijri-full');
+  const grEl  = document.getElementById('tb-greg-full');
+  const spEl  = document.getElementById('tb-special-name');
+
+  if (dayEl) dayEl.textContent = h.d;
+  if (hijEl) hijEl.textContent = `${h.d} ${HIJRI_MONTHS_AR[h.m-1]} ${h.y} هـ`;
+  if (grEl)  grEl.textContent  = `${now.getDate()} ${GREG_MONTHS_AR[now.getMonth()]} ${now.getFullYear()} م · ${WEEK_AR[now.getDay()]}`;
+  if (spEl) {
+    if (sp) { spEl.textContent = sp.label; spEl.style.display = 'inline-flex'; }
+    else    { spEl.style.display = 'none'; }
+  }
+
+  /* If we're still in Dhul Qa'dah, adjust calendar view */
+  if (h.m !== 12) {
+    curHijriY = h.y; curHijriM = h.m;
+    render();
+  }
 }
 
 /* ── Hijri calendar month ────────────────────────────────── */
@@ -505,9 +583,15 @@ function switchType(type) {
   render();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  renderTodayBanner();
-  render();
+document.addEventListener('DOMContentLoaded', async () => {
+  /* Set initial view to today's Hijri month */
+  const now = new Date();
+  const localH = gregToHijri(now);
+  curHijriY = localH.y; curHijriM = localH.m;
+  curGregY  = now.getFullYear(); curGregM = now.getMonth()+1;
+
+  render(); /* Render immediately with local calc */
+  await renderTodayBanner(); /* Then update with API */
 });
 </script>
 </body>

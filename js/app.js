@@ -616,6 +616,40 @@ function markCharityDone(el) {
   el.style.borderColor = 'var(--green-soft)';
   el.style.background  = 'var(--green-pale)';
 }
+/* ── Fetch real Hijri date from Aladhan API ──────────────── */
+async function fetchAndCacheHijriDate() {
+  try {
+    const today = new Date();
+    const key   = `zad_hijri_today`;
+    const todayStr = today.toISOString().split('T')[0];
+
+    /* Check if we already fetched today */
+    const cached = JSON.parse(localStorage.getItem(key) || 'null');
+    if (cached && cached.greg === todayStr) return; /* already fresh */
+
+    const d = today.getDate(), mo = today.getMonth()+1, y = today.getFullYear();
+    const res = await fetch(`https://api.aladhan.com/v1/gToH/${d}-${mo}-${y}`,
+      { signal: AbortSignal.timeout(5000) });
+    if (!res.ok) return;
+    const data = await res.json();
+    const hd   = data.data?.hijri;
+    if (!hd) return;
+    localStorage.setItem(key, JSON.stringify({
+      y: parseInt(hd.year), m: parseInt(hd.month.number), d: parseInt(hd.day),
+      greg: todayStr, ts: Date.now()
+    }));
+    /* Update UI elements showing Hijri date */
+    const els = document.querySelectorAll('#hijri-full, #miladi-full, .hd-hijri, .hd-miladi');
+    if (els.length) {
+      const h = getHijriDate();
+      const MONTHS = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+      document.querySelectorAll('#hijri-full, .hd-hijri').forEach(el => {
+        el.textContent = `${h.day} ${MONTHS[h.month-1]} ${h.year} هـ`;
+      });
+    }
+  } catch(e) {}
+}
+
 function initSidebar() {
   const hamburger = document.getElementById('hamburger');
   const sidebar   = document.querySelector('.sidebar');
@@ -685,6 +719,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sw.onchange = () => applyTheme(sw.checked ? 'dark' : 'light');
   });
   initSidebar();
+  fetchAndCacheHijriDate();
   initContextualDashboard();  
   startCountdown();
   initChecklist();
@@ -1181,6 +1216,26 @@ const HIJRI_REF = {
 };
 const HIJRI_MONTH_LEN = [30,29,30,29,30,29,30,29,30,29,30,29];
 function getHijriDate(date = new Date()) {
+  /* Use API-cached value from hijri.html if available and from today */
+  try {
+    const cached = JSON.parse(localStorage.getItem('zad_hijri_today') || 'null');
+    if (cached) {
+      const today = new Date().toISOString().split('T')[0];
+      if (cached.greg === today) {
+        const todayD = new Date(); todayD.setHours(0,0,0,0);
+        const targD  = new Date(date); targD.setHours(0,0,0,0);
+        const diff   = Math.round((targD - todayD) / 86400000);
+        const ML = [30,29,30,29,30,29,30,29,30,29,30,29];
+        let {y:year, m:month, d:day} = cached;
+        day += diff;
+        while (day > ML[(month-1)%12]) { day -= ML[(month-1)%12]; month++; if(month>12){month=1;year++;} }
+        while (day < 1) { month--; if(month<1){month=12;year--;} day+=ML[(month-1)%12]; }
+        return { year, month, day };
+      }
+    }
+  } catch(e) {}
+
+  /* Fallback: reference-based */
   const diffDays = Math.round((date - HIJRI_REF.greg) / 86400000);
   let { year, month, day } = HIJRI_REF;
   let d = (day - 1) + diffDays;
