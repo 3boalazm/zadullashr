@@ -2709,13 +2709,3 @@ document.addEventListener('DOMContentLoaded', () => {
   const main = document.querySelector('.main');
   if (main) obs.observe(main, { childList: true, subtree: true, characterData: true });
 });
-
-/* ── Service Worker update listener ── */
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.addEventListener('message', e => {
-    if (e.data && e.data.type === 'SW_UPDATED') {
-      if (typeof showToast === 'function')
-        showToast('✅ تم تحديث التطبيق — المحتوى أحدث إصدار');
-    }
-  });
-}
