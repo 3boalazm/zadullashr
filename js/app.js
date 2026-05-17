@@ -2338,7 +2338,7 @@ function getProfile() {
 }
 
 function saveProfile(name, type) {
-  const p = { name: name.trim(), type, since: Date.now() };
+  const p = { name: (name||"").trim(), type, since: Date.now() };
   localStorage.setItem(PROFILE_KEY, JSON.stringify(p));
   return p;
 }
@@ -2413,8 +2413,8 @@ function showProfileModal(forceNew = false) {
       <div style="padding:24px">
         <!-- Name input -->
         <div style="margin-bottom:20px">
-          <label style="font-size:13px;font-weight:700;color:var(--muted);display:block;margin-bottom:8px">اسمك الكريم</label>
-          <input id="pm-name" type="text" placeholder="أدخل اسمك..."
+          <label style="font-size:13px;font-weight:700;color:var(--muted);display:block;margin-bottom:8px">اسمك الكريم <span style="font-size:11px;font-weight:400;color:rgba(var(--muted-rgb,150,150,150),.7)">(اختياري)</span></label>
+          <input id="pm-name" type="text" placeholder="أدخل اسمك... (اختياري)"
             style="width:100%;padding:13px 16px;border-radius:12px;border:1.5px solid var(--border);
                    background:var(--sand);color:var(--ink);font-family:inherit;font-size:15px;
                    outline:none;box-sizing:border-box;direction:rtl"
@@ -2502,18 +2502,27 @@ function selectProfileType(type) {
   }
 
   validateProfileForm();
+
+  /* Auto-submit after 400ms when type chosen */
+  clearTimeout(window._autoT);
+  const _ah = document.getElementById('pm-auto-hint');
+  if (_ah) _ah.style.display = 'block';
+  const _sb = document.getElementById('pm-submit');
+  if (_sb) { _sb.style.opacity = '1'; _sb.disabled = false; }
+  window._autoT = setTimeout(submitProfile, 400);
 }
 
 function validateProfileForm() {
-  const name = document.getElementById('pm-name')?.value?.trim();
-  const btn  = document.getElementById('pm-submit');
-  const valid = name && name.length >= 2 && _selectedType;
+  const btn = document.getElementById('pm-submit');
+  /* Name optional — only need type selection */
+  const valid = !!_selectedType;
   if (btn) { btn.disabled = !valid; btn.style.opacity = valid ? '1' : '.4'; }
 }
 
 function submitProfile() {
-  const name = document.getElementById('pm-name')?.value?.trim();
-  if (!name || !_selectedType) return;
+  const nameEl = document.getElementById('pm-name');
+  const name = nameEl?.value?.trim() || ''; /* optional */
+  if (!_selectedType) return;
 
   const profile = saveProfile(name, _selectedType);
   document.getElementById('profile-modal')?.remove();
