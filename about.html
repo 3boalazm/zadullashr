@@ -201,6 +201,18 @@ html[data-theme="dark"] .cc-desc,html[data-theme="oled"] .cc-desc{color:rgba(255
 .skill-desc{font-size:11px;color:var(--muted);line-height:1.4}
 </style>
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<style>
+  :root{--font-scale:1}
+  body{font-size:calc(1rem * var(--font-scale))}
+  .quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
+  .font-size-options{display:flex;gap:8px}
+  .font-size-options .fs-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;transition:all .2s;color:var(--ink)}
+  .font-size-options .fs-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff}
+  .fs-btn[data-size="small"]  span:first-child{font-size:14px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="medium"] span:first-child{font-size:19px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="large"]  span:first-child{font-size:24px;display:block;margin-bottom:4px}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_font_size')||'medium';var map={small:0.875,medium:1,large:1.15};document.documentElement.style.setProperty('--font-scale',map[s]||1)})();</script>
 </head>
 <body>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
