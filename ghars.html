@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e6b3f">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>غرس — رحلة الحج للأطفال</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+
+/* ══ Ghars Theme ═════════════════════════════════════════════ */
+:root{
+  --g-green:#0e6b3f; --g-gold:#c9a14a; --g-sky:#4a9eff;
+  --g-orange:#ff7e00; --g-purple:#7c5cbf; --g-pink:#e85d8a;
+  --g-sand:#f5f0e8
+}
+body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;background:var(--g-sand)}
+html[data-theme="dark"] body{background:#0a1409}
+
+/* ══ Page Hero ═══════════════════════════════════════════════ */
+.ghars-hero{
+  background:linear-gradient(145deg,#0e6b3f,#1a9a5a 50%,#c9a14a);
+  border-radius:24px;padding:28px 22px;color:#fff;
+  text-align:center;margin-bottom:20px;position:relative;overflow:hidden
+}
+.ghars-hero::before{
+  content:'🌿🌱🌿';position:absolute;
+  bottom:-10px;right:-10px;font-size:80px;opacity:.12;
+  line-height:1;transform:rotate(-15deg)
+}
+.ghars-hero::after{
+  content:'🌙⭐';position:absolute;
+  top:10px;left:10px;font-size:40px;opacity:.15
+}
+.gh-title{
+  font-size:36px;font-weight:900;
+  font-family:'ThmanyahSans',sans-serif;
+  text-shadow:0 3px 12px rgba(0,0,0,.2);
+  position:relative;z-index:1;margin-bottom:4px
+}
+.gh-sub{font-size:14px;color:rgba(255,255,255,.85);position:relative;z-index:1;margin-bottom:18px;line-height:1.6}
+
+/* ══ Companion CTA ═══════════════════════════════════════════ */
+.companion-cta{
+  background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);
+  border-radius:14px;padding:12px 16px;
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;color:#fff;position:relative;z-index:1;
+  margin:0 auto;max-width:280px;transition:all .2s
+}
+.companion-cta:hover{background:rgba(255,255,255,.25)}
+
+/* ══ Section Navigation ══════════════════════════════════════ */
+.ghars-nav{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  margin-bottom:22px
+}
+@media(max-width:360px){.ghars-nav{grid-template-columns:1fr 1fr}}
+.gnav-btn{
+  background:var(--card);border:2px solid var(--border);
+  border-radius:16px;padding:14px 8px;text-align:center;
+  cursor:pointer;transition:all .2s;text-decoration:none;display:block
+}
+.gnav-btn:hover,.gnav-btn.active{border-color:var(--g-green);background:rgba(14,107,63,.06)}
+.gnav-ico{font-size:28px;margin-bottom:4px;display:block}
+.gnav-lbl{font-size:11px;font-weight:700;color:var(--ink)}
+
+/* ══ Sections ════════════════════════════════════════════════ */
+.ghars-section{display:none}
+.ghars-section.active{display:block}
+
+/* ══ Day Cards — الأيام العشر ════════════════════════════════ */
+.days-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.day-card{
+  background:var(--card);border:2px solid var(--border);
+  border-radius:16px;padding:14px;text-align:center;
+  transition:all .2s;cursor:pointer;position:relative;overflow:hidden
+}
+.day-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.day-card.done{border-color:var(--g-gold);background:rgba(201,161,74,.1)}
+.day-card.done::after{content:'✅';position:absolute;top:6px;left:8px;font-size:16px}
+.day-num{font-size:30px;font-weight:900;font-family:'ThmanyahSans',monospace;color:var(--g-green);line-height:1}
+.day-name{font-size:11px;font-weight:700;color:var(--muted);margin-top:3px}
+.day-ico{font-size:24px;margin-bottom:4px;display:block}
+.day-special{font-size:9px;font-weight:800;background:var(--g-gold);color:#fff;border-radius:99px;padding:2px 8px;display:inline-block;margin-top:3px}
+
+/* ══ Story Cards ═════════════════════════════════════════════ */
+.story-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:20px;overflow:hidden;margin-bottom:14px;
+  box-shadow:var(--shadow)
+}
+.story-header{
+  padding:18px 18px 14px;
+  display:flex;align-items:center;gap:14px
+}
+.story-ico{font-size:44px;line-height:1;flex-shrink:0}
+.story-title{font-size:17px;font-weight:900;font-family:'ThmanyahSans',sans-serif;color:var(--ink);margin-bottom:4px}
+.story-tag{font-size:10px;font-weight:700;border-radius:99px;padding:3px 10px;display:inline-block}
+.story-body{padding:0 18px 18px;font-size:14px;color:var(--ink);line-height:1.9;display:none}
+.story-body.open{display:block}
+.story-toggle{
+  width:100%;padding:11px;border:none;border-top:1px solid var(--border);
+  background:var(--sand);font-family:inherit;font-size:13px;font-weight:700;
+  cursor:pointer;color:var(--g-green);transition:all .2s
+}
+.story-toggle:hover{background:rgba(14,107,63,.08)}
+
+/* ══ Hajj Steps ══════════════════════════════════════════════ */
+.hajj-step{
+  display:flex;align-items:flex-start;gap:14px;
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:16px;padding:16px;margin-bottom:10px;
+  transition:all .2s;cursor:pointer
+}
+.hajj-step.done{border-color:var(--g-green);background:rgba(14,107,63,.05)}
+.step-num{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--g-green),#1a9a5a);
+  color:#fff;font-size:16px;font-weight:900;font-family:'ThmanyahSans',monospace;
+  display:flex;align-items:center;justify-content:center
+}
+.hajj-step.done .step-num{background:linear-gradient(135deg,var(--g-gold),#d4a843)}
+.step-ico{font-size:28px;flex-shrink:0;line-height:1;margin-top:4px}
+.step-title{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:3px;font-family:'ThmanyahSans',sans-serif}
+.step-desc{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* ══ Activity Cards ══════════════════════════════════════════ */
+.activity-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:380px){.activity-grid{grid-template-columns:1fr}}
+.act-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:18px;padding:18px 14px;text-align:center;
+  cursor:pointer;transition:all .2s;position:relative
+}
+.act-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.act-card.done{border-color:var(--g-gold);background:rgba(201,161,74,.08)}
+.act-ico{font-size:36px;margin-bottom:8px;display:block}
+.act-title{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:4px;font-family:'ThmanyahSans',sans-serif}
+.act-desc{font-size:11px;color:var(--muted);line-height:1.5}
+.act-done-badge{
+  position:absolute;top:8px;left:10px;
+  background:var(--g-gold);color:#fff;
+  font-size:10px;font-weight:800;border-radius:99px;
+  padding:2px 8px;display:none
+}
+.act-card.done .act-done-badge{display:block}
+
+/* ══ Stars ═══════════════════════════════════════════════════ */
+.stars-bar{
+  background:linear-gradient(135deg,var(--g-gold),#d4a843);
+  border-radius:14px;padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  color:#fff;margin-bottom:20px;box-shadow:var(--shadow)
+}
+.stars-count{font-size:24px;font-weight:900;font-family:'ThmanyahSans',monospace}
+.stars-ico{font-size:22px}
+
+/* ══ Nasheed / Sound ═════════════════════════════════════════ */
+.nasheed-card{
+  background:linear-gradient(135deg,#1a1060,#3a2a8a);
+  border-radius:18px;padding:18px;color:#fff;margin-bottom:12px;
+  display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s
+}
+.nasheed-card:hover{transform:translateX(-3px)}
+.nasheed-ico{font-size:36px;flex-shrink:0}
+.nasheed-title{font-size:14px;font-weight:800;font-family:'ThmanyahSans',sans-serif;margin-bottom:3px}
+.nasheed-sub{font-size:11px;color:rgba(255,255,255,.7)}
+.nasheed-play{
+  margin-right:auto;width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.3);
+  display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0
+}
+
+/* ══ Animations ══════════════════════════════════════════════ */
+@keyframes bounce-in{
+  0%{transform:scale(0.5);opacity:0}
+  60%{transform:scale(1.15)}
+  100%{transform:scale(1);opacity:1}
+}
+.star-pop{animation:bounce-in .4s ease}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <div class="nav-sep">الصلاة والتقويم</div>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <div class="nav-sep">القرآن والعبادة</div>
+      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
+      <a href="takbeer.html"><span class="ico">📿</span><span>المسبحة</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
+      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
+      <div class="nav-sep">الحج والمناسك</div>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <div class="nav-sep">المتابعة</div>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <div class="nav-sep">التعلم والترفيه</div>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
+      <a href="ghars.html" class="active"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <div class="nav-sep">الإعدادات</div>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center">
+        <div class="page-title">غرس <span>🌱</span></div>
+      </div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+        <button class="btn-theme" onclick="safeToggleTheme?.()||toggleTheme?.()">🌙</button>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="ghars-hero">
+      <div class="gh-title">🌱 غَـرس</div>
+      <div class="gh-sub">رحلة الحج والأيام العشر للأطفال<br>تعلّم ولعب وحكايات جميلة</div>
+      <a href="kids.html" class="companion-cta">
+        <span style="font-size:24px">🌟</span>
+        <div>
+          <div style="font-size:12px;font-weight:800">صديقتنا ثُريّا تنتظرك!</div>
+          <div style="font-size:10px;opacity:.8">للعبادات والتحديات اليومية</div>
+        </div>
+        <span style="font-size:18px;margin-right:auto">←</span>
+      </a>
+    </div>
+
+    <!-- Stars Bar -->
+    <div class="stars-bar">
+      <div>
+        <div style="font-size:11px;opacity:.85;margin-bottom:2px">نجوماتك في غرس</div>
+        <div class="stars-count" id="g-stars">⭐ 0</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:11px;opacity:.85;margin-bottom:2px">مكتملة</div>
+        <div class="stars-count" id="g-done-count">0</div>
+      </div>
+      <div class="stars-ico">🌱</div>
+    </div>
+
+    <!-- Section Navigation -->
+    <div class="ghars-nav">
+      <a class="gnav-btn active" onclick="showSection('days',this)">
+        <span class="gnav-ico">📅</span><div class="gnav-lbl">الأيام العشر</div>
+      </a>
+      <a class="gnav-btn" onclick="showSection('stories',this)">
+        <span class="gnav-ico">📖</span><div class="gnav-lbl">الحكايات</div>
+      </a>
+      <a class="gnav-btn" onclick="showSection('hajj',this)">
+        <span class="gnav-ico">🕋</span><div class="gnav-lbl">خطوات الحج</div>
+      </a>
+      <a class="gnav-btn" onclick="showSection('activities',this)">
+        <span class="gnav-ico">🎨</span><div class="gnav-lbl">أنشطة</div>
+      </a>
+      <a class="gnav-btn" onclick="showSection('nasheed',this)">
+        <span class="gnav-ico">🎵</span><div class="gnav-lbl">أناشيد</div>
+      </a>
+      <a class="gnav-btn" onclick="showSection('quiz',this)">
+        <span class="gnav-ico">🧠</span><div class="gnav-lbl">اختبار</div>
+      </a>
+    </div>
+
+    <!-- ══ SECTION: الأيام العشر ═══════════════════════════════ -->
+    <div class="ghars-section active" id="sec-days">
+      <div class="section-title">📅 كنوز الأيام العشر</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.7">اضغط على اليوم لتعرف فضله وتكسب نجمة ⭐</p>
+      <div class="days-grid" id="days-grid"></div>
+    </div>
+
+    <!-- ══ SECTION: الحكايات ════════════════════════════════════ -->
+    <div class="ghars-section" id="sec-stories">
+      <div class="section-title">📖 حكايات من تاريخ مكة</div>
+
+      <div class="story-card">
+        <div class="story-header">
+          <div class="story-ico">🏗️</div>
+          <div>
+            <div class="story-title">إبراهيم وإسماعيل يبنيان الكعبة</div>
+            <span class="story-tag" style="background:#e8f4fd;color:#1a6b9a">القصة الأولى</span>
+          </div>
+        </div>
+        <div class="story-body" id="story-1">
+          <p>🌟 كان سيدنا إبراهيم نبيّاً كريماً أحبّ الله كثيراً جداً...</p>
+          <p>يوماً ما، أمره الله أن يبني بيتاً كبيراً في مكة المكرمة، يسمى <strong>الكعبة المشرفة</strong> 🕋</p>
+          <p>فأتى إبراهيم بابنه الصغير <strong>إسماعيل</strong> 👦، وبدآ معاً يرفعان الحجارة...</p>
+          <p>كان إسماعيل يحمل الحجارة الصغيرة وأبوه يضعها في مكانها، وهما يقولان:<br>
+          <em style="font-size:16px;font-family:'Amiri',serif;color:var(--g-green)">"رَبَّنَا تَقَبَّلْ مِنَّا"</em></p>
+          <p>🎯 <strong>الدرس:</strong> عندما نعمل العمل الصالح نقول: "ربنا تقبل منا" — لأن قبول الله أهم شيء!</p>
+          <p>💡 <strong>هل تعلم؟</strong> الكعبة هي أول بيت بُني على الأرض لعبادة الله الواحد! وكل المسلمين في العالم يتجهون نحوها في صلاتهم.</p>
+        </div>
+        <button class="story-toggle" onclick="toggleStory('story-1',this)">📖 اقرأ القصة ▼</button>
+      </div>
+
+      <div class="story-card">
+        <div class="story-header">
+          <div class="story-ico">💧</div>
+          <div>
+            <div class="story-title">هاجر وماء زمزم المعجزة</div>
+            <span class="story-tag" style="background:#e8fdf0;color:#1a6b3a">القصة الثانية</span>
+          </div>
+        </div>
+        <div class="story-body" id="story-2">
+          <p>🌟 تخيّل أنك في صحراء حارة جداً... ولا يوجد ماء في أي مكان!</p>
+          <p>هذا ما حدث مع السيدة <strong>هاجر</strong> 👩 وطفلها الصغير <strong>إسماعيل</strong> 🍼 في مكة قديماً...</p>
+          <p>بدأت هاجر تجري بين جبلين: <strong>الصفا</strong> ⛰️ و<strong>المروة</strong> ⛰️ تبحث عن ماء...</p>
+          <p>جرت سبع مرات وهي لا تستسلم ولا تيأس — كانت تثق في الله تماماً! 💪</p>
+          <p>وفجأة... <strong>فار الماء من تحت قدمي إسماعيل الصغير!</strong> 💧✨</p>
+          <p>هذا هو ماء <strong>زمزم المبارك</strong> الذي يشربه الحجاج حتى اليوم!</p>
+          <p>🎯 <strong>الدرس:</strong> الله لا يترك من يثق فيه — حتى لو كان الأمر صعباً جداً، استمر وادعُ الله!</p>
+        </div>
+        <button class="story-toggle" onclick="toggleStory('story-2',this)">📖 اقرأ القصة ▼</button>
+      </div>
+
+      <div class="story-card">
+        <div class="story-header">
+          <div class="story-ico">🐏</div>
+          <div>
+            <div class="story-title">الطاعة العظمى — قصة الأضحية</div>
+            <span class="story-tag" style="background:#fff5e8;color:#8b5a00">القصة الثالثة</span>
+          </div>
+        </div>
+        <div class="story-body" id="story-3">
+          <p>🌟 رأى سيدنا إبراهيم في المنام أن الله يأمره بأمر صعب جداً...</p>
+          <p>أخبر ابنه إسماعيل بالرؤيا، فقال إسماعيل بثقة: <em>"يا أبتِ افعل ما تؤمر، ستجدني إن شاء الله من الصابرين"</em> 💪</p>
+          <p>وعندما استعدّا لتنفيذ أمر الله... نادى الله: "كفى يا إبراهيم! لقد صدّقت الرؤيا"</p>
+          <p>وأرسل الله كبشاً كبيراً من الجنة ليكون الفداء 🐏✨</p>
+          <p>🎯 <strong>الدرس:</strong> الطاعة الحقيقية = تحب الله أكثر من كل شيء، ولكن الله كريم ولا يريد لنا إلا الخير!</p>
+          <p>🐏 لهذا نحن نذبح الأضحية في عيد الأضحى — تذكّراً لطاعة إبراهيم وإسماعيل العظيمة!</p>
+        </div>
+        <button class="story-toggle" onclick="toggleStory('story-3',this)">📖 اقرأ القصة ▼</button>
+      </div>
+    </div>
+
+    <!-- ══ SECTION: خطوات الحج ══════════════════════════════════ -->
+    <div class="ghars-section" id="sec-hajj">
+      <div class="section-title">🕋 رحلة الحج — خطوة بخطوة</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">اضغط على كل خطوة لتفهمها وتكسب نجمة! ⭐</p>
+      <div id="hajj-steps-list"></div>
+    </div>
+
+    <!-- ══ SECTION: الأنشطة ════════════════════════════════════ -->
+    <div class="ghars-section" id="sec-activities">
+      <div class="section-title">🎨 أنشطتنا الممتعة</div>
+      <div class="activity-grid" id="activities-grid"></div>
+      <div class="card" style="margin-top:16px;text-align:center;padding:20px">
+        <div style="font-size:36px;margin-bottom:10px">🕌</div>
+        <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px">اصنع كعبتك في المنزل!</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:14px">خذ كرتوناً وغطّه بالورق الأسود، وزيّنه بشريط ذهبي — هكذا تصنع مجسم الكعبة المشرفة في البيت!</div>
+        <div style="background:var(--sand);border-radius:12px;padding:12px;font-size:12px;color:var(--muted);text-align:right">
+          <div style="font-weight:700;margin-bottom:6px;color:var(--ink)">📋 ما تحتاجه:</div>
+          <div>📦 كرتون أو علبة فارغة · 🎨 ورق أسود · ✂️ مقص ومقص · 🌟 شريط ذهبي</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION: الأناشيد ════════════════════════════════════ -->
+    <div class="ghars-section" id="sec-nasheed">
+      <div class="section-title">🎵 أناشيد الكعبة</div>
+      <div id="nasheed-list"></div>
+      <div class="card" style="margin-top:16px;text-align:center;padding:20px;background:linear-gradient(135deg,rgba(14,107,63,.06),rgba(201,161,74,.04))">
+        <div style="font-size:32px;margin-bottom:8px">🤲</div>
+        <div style="font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px">تلبية الحج</div>
+        <div style="font-family:'Amiri',serif;font-size:20px;color:var(--g-green);line-height:2;direction:rtl">
+          لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ<br>
+          لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ<br>
+          إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ<br>
+          لَا شَرِيكَ لَكَ
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:10px">يرددها الحجاج من بداية إحرامهم</div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION: الاختبار ════════════════════════════════════ -->
+    <div class="ghars-section" id="sec-quiz">
+      <div class="section-title">🧠 اختبار غرس</div>
+      <div id="quiz-container"></div>
+    </div>
+
+    <!-- Link back to ثريا -->
+    <div style="margin-top:24px">
+      <a href="kids.html" style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#1a5d47,#2a7a5f);border-radius:16px;padding:16px 18px;text-decoration:none;color:#fff;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+        <span style="font-size:32px">🌟</span>
+        <div>
+          <div style="font-size:15px;font-weight:800;font-family:'ThmanyahSans',sans-serif">صديقتنا ثُريّا</div>
+          <div style="font-size:12px;opacity:.8;margin-top:2px">سجّل عباداتك اليومية وكسب نجوم!</div>
+        </div>
+        <span style="font-size:20px;margin-right:auto;opacity:.7">←</span>
+      </a>
+    </div>
+
+  </main>
+</div>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script>
+/* ════ غرس — Ghars Kids Page JS ════════════════════════════ */
+const G_KEY = 'zad_ghars_v1';
+let gState = JSON.parse(localStorage.getItem(G_KEY) || '{"stars":0,"days":{},"hajj":{},"acts":{},"quiz":{}}');
+function saveG(){ localStorage.setItem(G_KEY, JSON.stringify(gState)); }
+
+/* ─ Days ──────────────────────────────────────────────── */
+const DAYS_DATA = [
+  {n:1,  ico:'🌙', name:'اليوم الأول',  fact:'أول يوم من الأيام العشر المباركة! الصلاة والتكبير 🕌'},
+  {n:2,  ico:'⭐', name:'اليوم الثاني', fact:'اقرأ القرآن ولو آيات قليلة — الله يحب سماع كلامه 📖'},
+  {n:3,  ico:'🤲', name:'اليوم الثالث', fact:'أكثر من الدعاء — الله يسمع كل كلمة تقولها 🌟'},
+  {n:4,  ico:'💚', name:'اليوم الرابع', fact:'الصدقة في هذه الأيام تضاعف الأجر كثيراً 💰'},
+  {n:5,  ico:'📿', name:'اليوم الخامس', fact:'قل: سبحان الله والحمد لله ولا إله إلا الله والله أكبر 100 مرة ✨'},
+  {n:6,  ico:'🕌', name:'اليوم السادس', fact:'صلِّ مع أهلك واجمع البيت على الصلاة 👨‍👩‍👧‍👦'},
+  {n:7,  ico:'🌅', name:'اليوم السابع', fact:'الحجاج الآن في مكة يستعدون للوقوف بعرفة 🕋'},
+  {n:8,  ico:'💧', name:'يوم التروية', fact:'الحجاج يذهبون إلى منى اليوم — يوم التروية الثامن 🏕️'},
+  {n:9,  ico:'⭐', name:'يوم عرفة',     fact:'أعظم يوم في السنة! الصيام يكفّر ذنوب سنتين 🌟', special:'الأعظم!'},
+  {n:10, ico:'🎉', name:'يوم العيد',    fact:'عيد الأضحى المبارك! نذبح الأضحية ونفرح بالعيد 🐏', special:'العيد!'},
+];
+
+function renderDays(){
+  const el = document.getElementById('days-grid');
+  el.innerHTML = DAYS_DATA.map(d => `
+    <div class="day-card ${gState.days[d.n]?'done':''}" onclick="earnDay(${d.n})">
+      <span class="day-ico">${d.ico}</span>
+      <div class="day-num">${d.n}</div>
+      <div class="day-name">${d.name}</div>
+      ${d.special ? `<div class="day-special">${d.special}</div>` : ''}
+    </div>`).join('');
+}
+
+function earnDay(n){
+  const d = DAYS_DATA.find(x=>x.n===n);
+  if (!d) return;
+  /* Show fact popup */
+  const popup = document.createElement('div');
+  popup.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)`;
+  popup.innerHTML = `
+    <div style="background:var(--card);border-radius:22px;padding:28px 22px;max-width:320px;width:100%;text-align:center;animation:bounce-in .4s ease">
+      <div style="font-size:52px;margin-bottom:12px">${d.ico}</div>
+      <div style="font-size:20px;font-weight:900;font-family:'ThmanyahSans',sans-serif;color:var(--ink);margin-bottom:10px">${d.name}</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:18px">${d.fact}</div>
+      ${!gState.days[n] ? '<div style="font-size:24px;color:#c9a14a;font-weight:900;margin-bottom:8px">⭐ كسبت نجمة!</div>' : ''}
+      <button onclick="this.closest(\'div[style*=fixed]\').remove()" style="padding:11px 28px;border-radius:12px;border:none;background:var(--g-green,#0e6b3f);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer">رائع! 👍</button>
+    </div>`;
+  document.body.appendChild(popup);
+
+  if (!gState.days[n]) {
+    gState.days[n] = true;
+    gState.stars = (gState.stars||0) + 1;
+    saveG(); updateStars(); renderDays();
+  }
+}
+
+/* ─ Hajj Steps ────────────────────────────────────────── */
+const HAJJ_STEPS = [
+  {n:1, ico:'🏠', title:'الإحرام',     desc:'الحاج يلبس ثوبين أبيضين ويقول: لبيك اللهم لبيك! الكل سواء أمام الله'},
+  {n:2, ico:'🕋', title:'الطواف',      desc:'يطوف حول الكعبة 7 مرات عكس عقارب الساعة — سبحان الله!'},
+  {n:3, ico:'⛰️', title:'السعي',       desc:'يسعى بين الصفا والمروة 7 مرات مثل هاجر رضي الله عنها'},
+  {n:4, ico:'🏕️', title:'منى',         desc:'يمبيت الحجاج في خيام في منى ليلة 8 ذي الحجة'},
+  {n:5, ico:'🌄', title:'عرفة',        desc:'أهم ركن في الحج! يقف الحجاج يدعون الله من بعد الظهر حتى الغروب'},
+  {n:6, ico:'🌙', title:'مزدلفة',      desc:'يبيت الحجاج في الهواء الطلق تحت النجوم — يجمعون الحصى هناك'},
+  {n:7, ico:'🪨', title:'رمي الجمرات', desc:'يرمون الحصى على 3 جدران — رمزاً لمقاومة الشيطان'},
+  {n:8, ico:'🐏', title:'الأضحية',     desc:'ذبح الأضحية تكريماً لسنة سيدنا إبراهيم عليه السلام'},
+  {n:9, ico:'✂️', title:'الحلق',       desc:'يحلق الحاج رأسه ويتحلل من الإحرام — ويعود للملابس العادية'},
+  {n:10,ico:'👋', title:'طواف الوداع', desc:'آخر طواف حول الكعبة للوداع قبل العودة للبيت'},
+];
+
+function renderHajjSteps(){
+  const el = document.getElementById('hajj-steps-list');
+  el.innerHTML = HAJJ_STEPS.map(s => `
+    <div class="hajj-step ${gState.hajj[s.n]?'done':''}" onclick="earnHajjStep(${s.n})">
+      <div class="step-num">${s.n}</div>
+      <div class="step-ico">${s.ico}</div>
+      <div>
+        <div class="step-title">${s.title}</div>
+        <div class="step-desc">${s.desc}</div>
+      </div>
+      ${gState.hajj[s.n]?'<span style="margin-right:auto;font-size:20px">✅</span>':''}
+    </div>`).join('');
+}
+
+function earnHajjStep(n){
+  if (!gState.hajj[n]) {
+    gState.hajj[n] = true;
+    gState.stars = (gState.stars||0) + 1;
+    saveG(); updateStars(); renderHajjSteps();
+    if (typeof showToast==='function') showToast('⭐ نجمة جديدة! فهمت خطوة الحج');
+  }
+}
+
+/* ─ Activities ────────────────────────────────────────── */
+const ACTS = [
+  {id:'kaaba',   ico:'🕋', title:'اصنع كعبتك',      desc:'مجسم الكعبة من الكرتون والورق الأسود'},
+  {id:'tents',   ico:'🏕️', title:'خيمة منى المنزلية',desc:'خيمة من البطانية تحت الطاولة'},
+  {id:'color',   ico:'🎨', title:'ورقة التلوين',     desc:'لوّن صور الحج والكعبة والخروف'},
+  {id:'dhikr',   ico:'📿', title:'تحدي الذكر',       desc:'قل سبحان الله 33 مرة اليوم'},
+  {id:'dua',     ico:'🤲', title:'دعاء يوم عرفة',    desc:'احفظ دعاء يوم عرفة مع أهلك'},
+  {id:'charity', ico:'💚', title:'صدقة يومية',       desc:'تصدق بشيء صغير كل يوم في العشر'},
+];
+
+function renderActivities(){
+  const el = document.getElementById('activities-grid');
+  el.innerHTML = ACTS.map(a => `
+    <div class="act-card ${gState.acts[a.id]?'done':''}" onclick="earnAct('${a.id}')">
+      <span class="act-done-badge">✅ مكتمل</span>
+      <span class="act-ico">${a.ico}</span>
+      <div class="act-title">${a.title}</div>
+      <div class="act-desc">${a.desc}</div>
+    </div>`).join('');
+}
+
+function earnAct(id){
+  if (!gState.acts[id]) {
+    gState.acts[id] = true;
+    gState.stars = (gState.stars||0) + 1;
+    saveG(); updateStars(); renderActivities();
+    if (typeof showToast==='function') showToast('🎨 رائع! أكملت النشاط وكسبت نجمة ⭐');
+  } else {
+    if (typeof showToast==='function') showToast('✅ أحسنت! هذا النشاط مكتمل بالفعل');
+  }
+}
+
+/* ─ Nasheeds ──────────────────────────────────────────── */
+const NASHEEDS = [
+  {ico:'🕋', title:'لبيك اللهم لبيك', sub:'نشيد التلبية', url:'#'},
+  {ico:'🌟', title:'يا كعبتي',         sub:'نشيد الكعبة المشرفة', url:'#'},
+  {ico:'🌙', title:'أيام الحج',        sub:'أنشودة للأطفال', url:'#'},
+  {ico:'🐏', title:'عيد الأضحى',       sub:'نشيد العيد المبارك', url:'#'},
+];
+
+function renderNasheeds(){
+  const el = document.getElementById('nasheed-list');
+  el.innerHTML = NASHEEDS.map(n => `
+    <div class="nasheed-card" onclick="playNasheed('${n.title}')">
+      <div class="nasheed-ico">${n.ico}</div>
+      <div>
+        <div class="nasheed-title">${n.title}</div>
+        <div class="nasheed-sub">${n.sub}</div>
+      </div>
+      <div class="nasheed-play">▶</div>
+    </div>`).join('');
+}
+
+function playNasheed(title){
+  if (typeof showToast==='function') showToast(`🎵 قريباً: "${title}"`);
+}
+
+/* ─ Quiz ──────────────────────────────────────────────── */
+const QUIZ_Q = [
+  {q:'كم مرة يطوف الحاج حول الكعبة؟', opts:['3','7','10','5'], ans:1},
+  {q:'ما اسم الماء المبارك في مكة؟',    opts:['النيل','دجلة','زمزم','الفرات'], ans:2},
+  {q:'في أي يوم يقف الحجاج بعرفة؟',    opts:['اليوم الثامن','اليوم التاسع','اليوم العاشر','اليوم السابع'], ans:1},
+  {q:'ماذا يلبس الحاج في الإحرام؟',    opts:['ملابس خضراء','ثوبان أبيضان','بدلة رسمية','ملابس حمراء'], ans:1},
+  {q:'من بنى الكعبة مع ابنه إسماعيل؟', opts:['محمد','موسى','إبراهيم','يوسف'], ans:2},
+];
+
+let quizIdx = 0, quizScore = 0;
+
+function renderQuiz(){
+  const el = document.getElementById('quiz-container');
+  if (quizIdx >= QUIZ_Q.length) {
+    const pct = Math.round(quizScore/QUIZ_Q.length*100);
+    el.innerHTML = `
+      <div class="card" style="text-align:center;padding:28px">
+        <div style="font-size:52px;margin-bottom:12px">${pct>=80?'🏆':pct>=50?'👍':'📚'}</div>
+        <div style="font-size:26px;font-weight:900;color:var(--g-green);margin-bottom:6px">${pct}%</div>
+        <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px">${pct>=80?'ممتاز!':pct>=50?'جيد جداً!':'تابع التعلم!'}</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:20px">${quizScore} من ${QUIZ_Q.length} أسئلة صحيحة</div>
+        <button onclick="restartQuiz()" style="padding:11px 24px;border-radius:12px;border:none;background:var(--g-green,#0e6b3f);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer">🔄 حاول مرة أخرى</button>
+      </div>`;
+    if (!gState.quiz.done) {
+      gState.quiz.done = true; gState.stars = (gState.stars||0) + 3;
+      saveG(); updateStars();
+      if (typeof showToast==='function') showToast('🧠 أنهيت الاختبار! كسبت 3 نجوم ⭐⭐⭐');
+    }
+    return;
+  }
+  const q = QUIZ_Q[quizIdx];
+  el.innerHTML = `
+    <div class="card" style="padding:20px">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:10px">سؤال ${quizIdx+1} من ${QUIZ_Q.length}</div>
+      <div style="font-size:16px;font-weight:800;color:var(--ink);margin-bottom:18px;line-height:1.6">${q.q}</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        ${q.opts.map((o,i) => `
+          <button onclick="answerQuiz(${i})" style="padding:12px 16px;border-radius:12px;border:2px solid var(--border);background:var(--sand);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-align:right;color:var(--ink);transition:all .2s;width:100%"
+            onmouseover="this.style.borderColor='var(--g-green)'"
+            onmouseout="this.style.borderColor='var(--border)'">${o}</button>`).join('')}
+      </div>
+    </div>`;
+}
+
+function answerQuiz(i){
+  const q = QUIZ_Q[quizIdx];
+  if (i === q.ans) { quizScore++; if(typeof showToast==='function') showToast('✅ صحيح! أحسنت'); }
+  else { if(typeof showToast==='function') showToast(`❌ الإجابة: ${q.opts[q.ans]}`); }
+  quizIdx++;
+  setTimeout(renderQuiz, 800);
+}
+
+function restartQuiz(){ quizIdx=0; quizScore=0; renderQuiz(); }
+
+/* ─ UI Helpers ────────────────────────────────────────── */
+function showSection(id, btn){
+  document.querySelectorAll('.ghars-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.gnav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleStory(id, btn){
+  const body = document.getElementById(id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open');
+  btn.textContent = isOpen ? '📖 اقرأ القصة ▼' : '📕 أخفِ القصة ▲';
+  if (!isOpen && !gState['story_'+id]) {
+    gState['story_'+id] = true;
+    gState.stars = (gState.stars||0) + 1;
+    saveG(); updateStars();
+    if(typeof showToast==='function') showToast('📖 ممتاز! قرأت القصة وكسبت نجمة ⭐');
+  }
+}
+
+function updateStars(){
+  const total = Object.keys(gState.days||{}).length +
+                Object.keys(gState.hajj||{}).length +
+                Object.keys(gState.acts||{}).length +
+                (gState.quiz?.done ? 3 : 0) +
+                Object.keys(gState).filter(k=>k.startsWith('story_')).length;
+  document.getElementById('g-stars').textContent = `⭐ ${gState.stars||0}`;
+  document.getElementById('g-done-count').textContent = total;
+}
+
+/* ─ Init ──────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  renderDays(); renderHajjSteps(); renderActivities(); renderNasheeds(); renderQuiz();
+  updateStars();
+  /* Sidebar hamburger */
+  (function(){
+    const burger = document.getElementById('hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    if(burger&&sidebar){ burger.addEventListener('click',e=>{e.stopPropagation();sidebar.classList.toggle('open');overlay&&overlay.classList.toggle('active');});overlay&&overlay.addEventListener('click',()=>{sidebar.classList.remove('open');overlay.classList.remove('active');});}
+  })();
+});
+</script>
+</body>
+</html>
