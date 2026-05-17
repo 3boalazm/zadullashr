@@ -84,12 +84,12 @@ html[data-theme="oled"] .sidebar{background:linear-gradient(180deg,#000000,#0505
 html[data-theme="dark"] .btn-theme:hover,html[data-theme="oled"] .btn-theme:hover{background:var(--sys-green);color:#000;border-color:var(--sys-green)}
 
 /* ── Cards ─────────────────────────────────────────────── */
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:background var(--t) var(--ease),border-color var(--t) var(--ease)}
+.card{min-height:unset;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:background var(--t) var(--ease),border-color var(--t) var(--ease)}
 .card h3{font-size:16px;color:var(--green-deep);margin-bottom:8px;display:flex;align-items:center;gap:8px}
 .card p{color:var(--muted);font-size:14px;line-height:1.7}
 .card .ico-lg{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--sand),var(--sand-2));display:grid;place-items:center;color:var(--brand-deep);font-size:22px;margin-bottom:14px}
 html[data-theme="dark"] .card .ico-lg,html[data-theme="oled"] .card .ico-lg{color:var(--sys-green)}
-a.card{display:block}
+a.card{min-height:unset;display:block}
 a.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
 
 /* ── Grid System ───────────────────────────────────────── */
@@ -436,7 +436,7 @@ html[data-font="lg"] .check .label,html[data-font="xl"] .check .label{font-size:
   .countdown{gap:6px}
   .cd-box{min-width:58px;padding:10px;border-radius:12px}
   .cd-num{font-size:26px}
-  .card{padding:16px 14px}
+  .card{min-height:unset;padding:16px 14px}
   .prog-ring-wrap{flex-direction:column;align-items:flex-start;gap:16px}
   .ts-ring-wrap{gap:12px}
   .ts-ring-svg{width:180px;height:180px}
@@ -581,7 +581,7 @@ html[data-theme="dark"] .badge.just-earned .medal,html[data-theme="oled"] .badge
 .hero .countdown .cd-box:nth-child(2){animation-delay:.20s}
 .hero .countdown .cd-box:nth-child(3){animation-delay:.25s}
 .hero .countdown .cd-box:nth-child(4){animation-delay:.30s}
-.card{transition:background var(--t),border-color var(--t),transform .2s var(--ease),box-shadow .2s var(--ease)}
+.card{min-height:unset;transition:background var(--t),border-color var(--t),transform .2s var(--ease),box-shadow .2s var(--ease)}
 a.card:hover,.card.hoverable:hover{transform:translateY(-4px);box-shadow:var(--shadow),0 0 0 1px rgba(77,216,102,.12)}
 html[data-theme="oled"] a.card:hover,html[data-theme="oled"] .card.hoverable:hover{box-shadow:var(--shadow),0 0 24px rgba(77,216,102,.15)}
 .settings-row{animation:slideInRight .3s var(--ease) both}
@@ -924,7 +924,7 @@ html[data-theme="dark"] .page-title span,html[data-theme="oled"] .page-title spa
 @keyframes barPulse{0%,100%{opacity:.75}50%{opacity:1}}
 
 /* ── Card Hover Effects ────────────────────────────────── */
-.card{overflow:hidden;transform:translateZ(0)}
+.card{min-height:unset;overflow:hidden;transform:translateZ(0)}
 .card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(110deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.09) 48%,rgba(255,255,255,0) 100%);transform:translateX(-120%);transition:transform .65s var(--ease);pointer-events:none}
 .card:hover::after{transform:translateX(120%)}
 html[data-theme="oled"] .card::after{background:linear-gradient(110deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.05) 48%,rgba(255,255,255,0) 100%)}
@@ -1901,3 +1901,7 @@ html[dir="ltr"] .chapter-start-line:first-child {
 }
 .skim-item-title { font-size:14px;font-weight:800;color:var(--ink);margin-bottom:3px; }
 .skim-item-desc  { font-size:12px;color:var(--muted);line-height:1.5; }
+
+/* ══ Prayer card fix — no phantom height ══════════════════ */
+#prayer-bar[style*="display:none"]{ height:0; padding:0 !important; margin:0 !important; }
+#prayer-loc-btn[style*="display:none"]{ height:0; padding:0 !important; }
