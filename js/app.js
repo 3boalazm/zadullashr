@@ -720,6 +720,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   initSidebar();
   fetchAndCacheHijriDate();
+  initScrollTopBtn();
   initContextualDashboard();  
   startCountdown();
   initChecklist();
@@ -2137,3 +2138,34 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   renderDailyContentCard();
 });
+/* ════ Scroll-to-top button ══════════════════════════════════ */
+function initScrollTopBtn() {
+  /* Create button */
+  const btn = document.createElement('button');
+  btn.className = 'scroll-top-btn';
+  btn.innerHTML = '↑';
+  btn.title = 'العودة لأعلى';
+  btn.setAttribute('aria-label', 'العودة لأعلى الصفحة');
+  document.body.appendChild(btn);
+
+  btn.addEventListener('click', () => {
+    /* Try .main scroll first, fallback to window */
+    const main = document.querySelector('.main');
+    if (main && main.scrollHeight > main.clientHeight) {
+      main.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
+  /* Show after scrolling 200px */
+  function onScroll() {
+    const main = document.querySelector('.main');
+    const scrolled = main ? main.scrollTop : window.scrollY;
+    btn.classList.toggle('show', scrolled > 200);
+  }
+
+  const main = document.querySelector('.main');
+  if (main) main.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', onScroll, { passive: true });
+}

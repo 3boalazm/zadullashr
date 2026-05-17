@@ -1411,8 +1411,9 @@ html[data-fs="lg"] .nav a{font-size:15px}
 @media(max-width:900px){
   .main{padding-top:8px}
   .topbar{
-    /* Floating glass pill — flows with page, NOT fixed */
-    position:relative;
+    /* Sticky floating glass pill */
+    position:sticky;
+    top:8px;
     margin:8px 8px 16px 8px;
     width:calc(100% - 16px);
     border-radius:20px;
@@ -1548,3 +1549,26 @@ html[data-theme="oled"] #next-reset-time{color:var(--sys-green)}
   display:none
 }
 .notif-dot.show{display:block}
+
+/* ══ Scroll-to-top button ══════════════════════════════════ */
+.scroll-top-btn{
+  position:fixed;
+  bottom:80px;left:16px;
+  width:42px;height:42px;
+  border-radius:14px;
+  background:var(--green-deep);
+  color:#fff;
+  border:none;
+  font-size:18px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(14,59,46,.3);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s,transform .25s;
+  transform:translateY(8px);
+  z-index:90
+}
+.scroll-top-btn.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+html[dir="ltr"] .scroll-top-btn{left:auto;right:16px}
+html[data-theme="dark"] .scroll-top-btn,
+html[data-theme="oled"] .scroll-top-btn{background:var(--sys-green);color:#001a08}
