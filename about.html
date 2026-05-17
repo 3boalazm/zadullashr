@@ -3,92 +3,216 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0e3b2e">
 <title>عن التطبيق — زاد العشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
-  media="print" onload="this.media='all'">
-<noscript></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/style.css">
 <style>
-.about-hero{background:linear-gradient(135deg,var(--green-deep),var(--green-mid) 60%,var(--green-soft));border-radius:22px;padding:40px 36px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow);margin-bottom:24px}
-.about-hero::before{content:"";position:absolute;inset:auto -60px -100px auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.28),transparent 68%);pointer-events:none}
-.dev-avatar{width:88px;height:88px;border-radius:24px;background:linear-gradient(135deg,var(--brand-gold-lt),var(--brand-gold));display:grid;place-items:center;font-size:42px;margin-bottom:18px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
-.dev-name{font-size:26px;font-weight:900;margin-bottom:4px}
-.dev-title{font-size:14px;opacity:.8;margin-bottom:16px}
-.dev-badges{display:flex;gap:8px;flex-wrap:wrap}
-.dev-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:5px 14px;border-radius:99px;font-size:12px;font-weight:700}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
 
-.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
-.contact-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;box-shadow:var(--shadow-sm);transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;gap:8px}
-.contact-card:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:var(--shadow)}
-.contact-ico{font-size:28px}
-.contact-lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.contact-val{font-size:13px;font-weight:700;color:var(--green-deep);direction:ltr}
-html[data-theme="dark"] .contact-val,html[data-theme="oled"] .contact-val{color:var(--sys-green)}
+/* ══ Tabs ═══════════════════════════════════════════════════ */
+.az-tabs{display:flex;background:var(--sand);border-radius:99px;padding:4px;margin-bottom:22px;width:fit-content;gap:0}
+.az-tab{padding:8px 22px;border-radius:99px;border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted);transition:all .25s;display:flex;align-items:center;gap:6px}
+.az-tab.active{background:var(--green-deep);color:#fff;box-shadow:0 2px 10px rgba(14,59,46,.3)}
+html[data-theme="dark"] .az-tab.active,html[data-theme="oled"] .az-tab.active{background:var(--sys-green);color:#001a08}
 
-.social-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px}
-.social-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;box-shadow:var(--shadow-sm);text-decoration:none;color:inherit;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:6px}
-.social-card:hover{transform:translateY(-3px)}
-.social-ico{font-size:24px}
-.social-name{font-size:11px;font-weight:700;color:var(--muted)}
-.social-card.behance:hover{border-color:#053eff}
-.social-card.linkedin:hover{border-color:#0077b5}
-.social-card.facebook:hover{border-color:#1877f2}
-.social-card.instagram:hover{border-color:#e4405f}
-.social-card.tiktok:hover{border-color:#010101}
+/* ══ App tab ════════════════════════════════════════════════ */
+.app-hero{background:linear-gradient(135deg,#0e3b2e,#1a5d47 60%,#c9a14a 160%);border-radius:22px;padding:28px 22px;color:#fff;text-align:center;margin-bottom:20px;position:relative;overflow:hidden}
+.app-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
 
-.app-info-card{background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1px solid rgba(201,161,74,.2);border-radius:var(--radius);padding:26px;margin-bottom:20px}
-.app-info-card h3{color:var(--gold-dark);margin-bottom:14px;font-size:17px}
-html[data-theme="dark"] .app-info-card h3,html[data-theme="oled"] .app-info-card h3{color:var(--sys-yellow)}
-.app-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
-.app-stat{background:var(--card);border-radius:12px;padding:12px;text-align:center;border:1px solid var(--border)}
-.app-stat .v{font-size:22px;font-weight:900;color:var(--green-deep)}
-html[data-theme="dark"] .app-stat .v,html[data-theme="oled"] .app-stat .v{color:var(--sys-green)}
-.app-stat .l{font-size:11px;color:var(--muted);margin-top:2px}
-
-.sources-list{list-style:none;display:flex;flex-direction:column;gap:8px}
-.sources-list li{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--card);border:1px solid var(--border);border-radius:11px;font-size:13px;color:var(--ink)}
-.sources-list li .s-ico{font-size:18px;flex-shrink:0}
-
-@media(max-width:768px){
-  .contact-grid{grid-template-columns:1fr 1fr}
-  .social-grid{grid-template-columns:repeat(3,1fr)}
-  .app-stat-row{grid-template-columns:repeat(2,1fr)}
-  .dev-name{font-size:20px}
+/* ══ Dev tab hero ════════════════════════════════════════════ */
+.dev-hero{
+  background:linear-gradient(160deg,#0d0220,#1e0a4a 40%,#2d1470);
+  border-radius:24px;padding:32px 22px 28px;color:#fff;
+  text-align:center;margin-bottom:20px;position:relative;overflow:hidden
 }
-@media(max-width:480px){
-  .contact-grid{grid-template-columns:1fr}
-  .social-grid{grid-template-columns:repeat(2,1fr)}
+/* Animated glow rings */
+.dev-hero::before{
+  content:'';position:absolute;
+  width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(138,43,226,.3),transparent 70%);
+  top:-60px;left:50%;transform:translateX(-50%);
+  animation:pulse-ring 4s ease-in-out infinite
 }
+.dev-hero::after{
+  content:'';position:absolute;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,161,74,.2),transparent 70%);
+  bottom:-40px;right:-20px;
+  animation:pulse-ring 4s ease-in-out infinite reverse
+}
+@keyframes pulse-ring{
+  0%,100%{transform:translateX(-50%) scale(1);opacity:.6}
+  50%{transform:translateX(-50%) scale(1.15);opacity:1}
+}
+
+/* App icon above photo */
+.dev-app-icon{
+  width:52px;height:52px;border-radius:14px;
+  margin:0 auto 14px;display:block;
+  box-shadow:0 4px 16px rgba(0,0,0,.4);
+  position:relative;z-index:2
+}
+
+/* Developer photo — decorative floating */
+.dev-photo-wrap{
+  position:relative;z-index:2;
+  width:120px;height:120px;
+  margin:0 auto 18px;
+}
+.dev-photo-glow{
+  position:absolute;inset:-12px;border-radius:50%;
+  background:conic-gradient(from 0deg,#c9a14a,#8a2be2,#c9a14a,#8a2be2,#c9a14a);
+  animation:spin-glow 4s linear infinite;
+  filter:blur(8px);opacity:.7
+}
+@keyframes spin-glow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.dev-photo-ring{
+  position:absolute;inset:-4px;border-radius:50%;
+  background:linear-gradient(135deg,#c9a14a,#8a2be2,#e6c97a);
+  padding:3px
+}
+.dev-photo-ring-inner{
+  width:100%;height:100%;border-radius:50%;
+  background:#1e0a4a;display:flex;align-items:center;justify-content:center
+}
+.dev-photo{
+  width:110px;height:110px;border-radius:50%;object-fit:cover;
+  display:block;position:relative;z-index:3;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  border:3px solid rgba(255,255,255,.15)
+}
+/* Fallback emoji if no image */
+.dev-photo-emoji{
+  width:110px;height:110px;border-radius:50%;
+  background:linear-gradient(135deg,#8a2be2,#4a1080);
+  display:flex;align-items:center;justify-content:center;
+  font-size:52px;position:relative;z-index:3
+}
+
+.dev-name{font-size:24px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:4px;position:relative;z-index:2}
+.dev-role{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6;margin-bottom:6px;position:relative;z-index:2}
+.dev-brand-title{
+  font-size:14px;font-weight:800;
+  background:linear-gradient(90deg,#e6c97a,#c9a14a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;position:relative;z-index:2;margin-bottom:18px
+}
+.dev-website-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(10px);border-radius:12px;
+  padding:10px 18px;color:#fff;text-decoration:none;
+  font-size:13px;font-weight:700;transition:all .25s;
+  position:relative;z-index:2
+}
+.dev-website-btn:hover{background:rgba(255,255,255,.2);transform:translateY(-2px)}
+
+/* ══ Portfolio section ══════════════════════════════════════ */
+.portfolio-section{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;margin-bottom:16px;
+  box-shadow:var(--shadow)
+}
+.portfolio-header{
+  background:linear-gradient(135deg,#1a1060,#3a2a8a);
+  padding:18px 20px;display:flex;align-items:center;gap:12px
+}
+.portfolio-header-ico{font-size:28px}
+.portfolio-header-title{font-size:16px;font-weight:800;color:#fff;font-family:'ThmanyahSans',sans-serif}
+.portfolio-header-sub{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
+.portfolio-body{padding:18px 20px}
+.portfolio-feature{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink)
+}
+.portfolio-feature:last-child{border-bottom:none}
+.portfolio-feature-ico{font-size:22px;flex-shrink:0;width:36px;text-align:center}
+.portfolio-link{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:16px;padding:13px 16px;
+  background:linear-gradient(135deg,rgba(138,43,226,.08),rgba(201,161,74,.05));
+  border:1px solid rgba(138,43,226,.2);border-radius:12px;
+  text-decoration:none;color:var(--ink);transition:all .2s
+}
+.portfolio-link:hover{border-color:rgba(138,43,226,.4);transform:translateX(-3px)}
+.portfolio-link-lbl{font-size:13px;font-weight:700}
+.portfolio-link-url{font-size:11px;color:var(--muted);direction:ltr;margin-top:2px}
+
+/* ══ Code & Canvas section ══════════════════════════════════ */
+.cc-section{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;margin-bottom:16px;
+  box-shadow:var(--shadow)
+}
+.cc-header{
+  background:linear-gradient(135deg,#0a1628,#1a2d4a,#0e4a3a);
+  padding:20px;display:flex;align-items:center;gap:14px
+}
+.cc-logo{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;
+  background:linear-gradient(135deg,#0e4a3a,#1a7a5f);
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+  box-shadow:0 4px 12px rgba(0,0,0,.3)
+}
+.cc-header-info{}
+.cc-title{font-size:18px;font-weight:900;color:#fff;font-family:'ThmanyahSans',sans-serif}
+.cc-subtitle{font-size:11px;color:rgba(255,255,255,.65);margin-top:3px}
+.cc-body{padding:20px}
+.cc-desc{
+  font-size:14px;color:var(--ink);line-height:1.75;
+  margin-bottom:18px;
+  border-right:3px solid var(--gold);
+  padding-right:14px
+}
+html[data-theme="dark"] .cc-desc,html[data-theme="oled"] .cc-desc{color:rgba(255,255,255,.8)}
+.cc-features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+@media(max-width:380px){.cc-features{grid-template-columns:1fr}}
+.cc-feature{
+  background:var(--sand);border:1px solid var(--border);
+  border-radius:12px;padding:12px;
+  display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;color:var(--ink)
+}
+.cc-feature-ico{font-size:20px;flex-shrink:0}
+.cc-cta{
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(135deg,#0e4a3a,#1a5d47);
+  border-radius:14px;padding:16px 18px;color:#fff;
+  text-decoration:none;transition:all .2s
+}
+.cc-cta:hover{opacity:.9;transform:translateX(-3px)}
+.cc-cta-title{font-size:14px;font-weight:800;font-family:'ThmanyahSans',sans-serif;margin-bottom:3px}
+.cc-cta-url{font-size:11px;color:rgba(255,255,255,.7);direction:ltr}
+.cc-cta-arrow{font-size:22px;opacity:.7}
+
+/* ══ Skills ════════════════════════════════════════════════ */
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+@media(max-width:380px){.skills-grid{grid-template-columns:1fr}}
+.skill-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px
+}
+.skill-ico{font-size:24px}
+.skill-name{font-size:13px;font-weight:700;color:var(--ink)}
+.skill-desc{font-size:11px;color:var(--muted);line-height:1.4}
 </style>
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
 <body>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
-    <aside class="sidebar">
+  <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
       <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
       <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
-    <div class="theme-row">
-      <span>🌙 الوضع الداكن</span>
-      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
-    </div>
-    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
-      <span class="slb-label">🌐 اللغة</span>
-      <span class="slb-val" id="sidebar-lang-val">EN</span>
-    </button>
-    
-      <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
-        📲 تثبيت / تحميل التطبيق
-      </button>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
     <nav class="nav">
       <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
       <div class="nav-sep">الصلاة والتقويم</div>
@@ -124,23 +248,16 @@ html[data-theme="dark"] .app-stat .v,html[data-theme="oled"] .app-stat .v{color:
 
   <main class="main">
     <div class="topbar">
-      <!-- LEFT: Burger + Logo -->
       <div class="tb-left">
         <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
-        <a href="index.html" class="tb-logo">
-          <img src="icons/icon-192.svg" alt="زاد العشر">
-        </a>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
       </div>
-      <!-- CENTER: Page name -->
       <div class="tb-center">
         <div class="page-title">عن <span>التطبيق</span></div>
       </div>
-      <!-- RIGHT: Notif + Lang + Theme -->
       <div class="tb-right">
         <div class="notif-wrap">
-          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">
-            🔔<span class="notif-dot" id="notif-dot"></span>
-          </button>
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
           <div class="notif-dropdown" id="notif-dropdown"></div>
         </div>
         <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang?.()">EN</button>
@@ -148,46 +265,31 @@ html[data-theme="dark"] .app-stat .v,html[data-theme="oled"] .app-stat .v{color:
       </div>
     </div>
 
-    <!-- About Page Tabs -->
-    <div class="az-tabs" style="margin-bottom:20px">
-      <button class="az-tab active" onclick="switchAboutTab('app',this)"><span class="tab-ico">🌙</span>عن التطبيق</button>
-      <button class="az-tab" onclick="switchAboutTab('dev',this)"><span class="tab-ico">👨‍💻</span>عن المطور</button>
+    <!-- Tabs -->
+    <div class="az-tabs">
+      <button class="az-tab active" onclick="switchAboutTab('app',this)">🌙 عن التطبيق</button>
+      <button class="az-tab" onclick="switchAboutTab('dev',this)">👨‍💻 عن المطور</button>
     </div>
 
     <!-- ══ TAB: عن التطبيق ══════════════════════════════════ -->
     <div id="about-app-tab">
-      <div class="about-hero" style="background:linear-gradient(135deg,#0e3b2e,#1a5d47 60%,#c9a14a 160%);border-radius:22px;padding:28px;color:#fff;text-align:center;margin-bottom:20px;position:relative;overflow:hidden">
-        <div style="font-size:64px;margin-bottom:12px">🌙</div>
-        <div style="font-size:24px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:6px">زاد العشر</div>
-        <div style="font-size:13px;color:rgba(255,255,255,.8);margin-bottom:16px">رفيقك الذكي في أفضل أيام الدنيا</div>
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-          <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:4px 14px;font-size:11px;font-weight:700">PWA 2026</span>
-          <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:4px 14px;font-size:11px;font-weight:700">بدون إعلانات</span>
-          <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:4px 14px;font-size:11px;font-weight:700">مفتوح المصدر</span>
+      <div class="app-hero">
+        <div style="font-size:64px;margin-bottom:14px;position:relative;z-index:2">🌙</div>
+        <div style="font-size:26px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:6px;position:relative;z-index:2">زاد العشر</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.8);margin-bottom:18px;line-height:1.6;position:relative;z-index:2">رفيقك الذكي في أفضل أيام الدنيا</div>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2">
+          <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:5px 14px;font-size:11px;font-weight:700">PWA 2026</span>
+          <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:5px 14px;font-size:11px;font-weight:700">بدون إعلانات</span>
+          <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:5px 14px;font-size:11px;font-weight:700">يعمل أوفلاين</span>
         </div>
       </div>
 
+      <!-- Features grid -->
       <div class="grid cols-2" style="margin-bottom:20px">
-        <div class="card" style="text-align:center">
-          <div style="font-size:32px;margin-bottom:8px">📖</div>
-          <div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:4px">مصحف شريف</div>
-          <div style="font-size:11px;color:var(--muted)">604 صفحة مع ورد يومي</div>
-        </div>
-        <div class="card" style="text-align:center">
-          <div style="font-size:32px;margin-bottom:8px">🕌</div>
-          <div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:4px">مواقيت دقيقة</div>
-          <div style="font-size:11px;color:var(--muted)">بحسب موقعك الفعلي</div>
-        </div>
-        <div class="card" style="text-align:center">
-          <div style="font-size:32px;margin-bottom:8px">🤖</div>
-          <div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:4px">ذكاء اصطناعي</div>
-          <div style="font-size:11px;color:var(--muted)">تدبّر الآيات والأحكام</div>
-        </div>
-        <div class="card" style="text-align:center">
-          <div style="font-size:32px;margin-bottom:8px">📲</div>
-          <div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:4px">يعمل أوفلاين</div>
-          <div style="font-size:11px;color:var(--muted)">بدون إنترنت في المصلى</div>
-        </div>
+        <div class="card" style="text-align:center"><div style="font-size:32px;margin-bottom:8px">📖</div><div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:4px">مصحف شريف</div><div style="font-size:11px;color:var(--muted)">604 صفحة مع ورد يومي</div></div>
+        <div class="card" style="text-align:center"><div style="font-size:32px;margin-bottom:8px">🕌</div><div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:4px">مواقيت دقيقة</div><div style="font-size:11px;color:var(--muted)">بحسب موقعك الفعلي</div></div>
+        <div class="card" style="text-align:center"><div style="font-size:32px;margin-bottom:8px">🤖</div><div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:4px">ذكاء اصطناعي</div><div style="font-size:11px;color:var(--muted)">تدبّر الآيات والأحكام</div></div>
+        <div class="card" style="text-align:center"><div style="font-size:32px;margin-bottom:8px">📊</div><div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:4px">إحصائيات وأوسمة</div><div style="font-size:11px;color:var(--muted)">تتبع إنجازاتك اليومية</div></div>
       </div>
 
       <div class="section-title">❤️ ادعم التطبيق</div>
@@ -202,65 +304,139 @@ html[data-theme="dark"] .app-stat .v,html[data-theme="oled"] .app-stat .v{color:
 
     <!-- ══ TAB: عن المطور ════════════════════════════════════ -->
     <div id="about-dev-tab" style="display:none">
-      <div class="about-hero" style="background:linear-gradient(135deg,#1a1060,#3a2a8a);border-radius:22px;padding:28px;color:#fff;text-align:center;margin-bottom:20px">
-        <div style="font-size:64px;margin-bottom:12px">🎨</div>
-        <div style="font-size:24px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:4px">مصطفى أبو العزم</div>
-        <div style="font-size:13px;color:rgba(255,255,255,.8);margin-bottom:16px;line-height:1.7">مصمم واجهات · مطور تطبيقات ويب<br><strong style="color:#e6c97a">Brand Identity Designer</strong></div>
-        <a href="https://aboalazm-visual-art.vercel.app/" target="_blank" rel="noopener"
-           style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:10px 20px;color:#fff;text-decoration:none;font-size:13px;font-weight:700;transition:all .2s"
-           onmouseover="this.style.background='rgba(255,255,255,.25)'"
-           onmouseout="this.style.background='rgba(255,255,255,.15)'">
+
+      <!-- Developer Hero Card -->
+      <div class="dev-hero">
+        <!-- App icon above photo -->
+        <img src="icons/icon-192.svg" alt="زاد العشر" class="dev-app-icon">
+
+        <!-- Developer photo with glow -->
+        <div class="dev-photo-wrap">
+          <div class="dev-photo-glow"></div>
+          <div style="position:relative;z-index:3;width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#c9a14a,#8a2be2);padding:3px">
+            <div style="width:100%;height:100%;border-radius:50%;overflow:hidden;background:#1e0a4a">
+              <!-- Replace icon.png with the actual photo path -->
+              <img src="icon.png" alt="مصطفى أبو العزم"
+                   style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <div style="display:none;width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#8a2be2,#4a1080);align-items:center;justify-content:center;font-size:50px">🎨</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dev-name">مصطفى أبو العزم</div>
+        <div class="dev-role">مصمم واجهات · مطور تطبيقات ويب</div>
+        <div class="dev-brand-title">Brand Identity Designer</div>
+
+        <a href="https://aboalazm-visual-art.vercel.app/" target="_blank" rel="noopener" class="dev-website-btn">
           🌐 aboalazm-visual-art.vercel.app ←
         </a>
       </div>
 
-      <div class="card" style="margin-bottom:16px">
-        <div style="font-size:15px;font-weight:800;color:var(--green-deep);margin-bottom:10px;font-family:'ThmanyahSans',sans-serif">💼 ماذا أفعل؟</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink)"><span>🎨</span><span>تصميم الهوية البصرية للعلامات التجارية</span></div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink)"><span>📱</span><span>تطوير تطبيقات الويب التفاعلية والـ PWA</span></div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink)"><span>🖥️</span><span>تصميم واجهات المستخدم وتجربة المستخدم</span></div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink)"><span>🤖</span><span>دمج الذكاء الاصطناعي في المنتجات الرقمية</span></div>
-        </div>
+      <!-- Skills -->
+      <div class="section-title">💼 مجالات العمل</div>
+      <div class="skills-grid">
+        <div class="skill-card"><div class="skill-ico">🎨</div><div class="skill-name">الهوية البصرية</div><div class="skill-desc">تصميم Brand Identity للعلامات التجارية</div></div>
+        <div class="skill-card"><div class="skill-ico">📱</div><div class="skill-name">تطوير الويب</div><div class="skill-desc">تطبيقات PWA تفاعلية وعصرية</div></div>
+        <div class="skill-card"><div class="skill-ico">🖥️</div><div class="skill-name">UI / UX Design</div><div class="skill-desc">تصميم واجهات وتجربة مستخدم</div></div>
+        <div class="skill-card"><div class="skill-ico">🤖</div><div class="skill-name">AI Integration</div><div class="skill-desc">دمج الذكاء الاصطناعي في المنتجات</div></div>
       </div>
 
-      <div class="card">
-        <div style="font-size:15px;font-weight:800;color:var(--green-deep);margin-bottom:12px;font-family:'ThmanyahSans',sans-serif">🌐 تواصل معي</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <a href="https://aboalazm-visual-art.vercel.app/" target="_blank" rel="noopener"
-             style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--sand);border:1px solid var(--border);border-radius:12px;text-decoration:none;color:var(--ink);transition:all .2s"
-             onmouseover="this.style.borderColor='var(--gold)'"
-             onmouseout="this.style.borderColor='var(--border)'">
-            <span style="font-size:20px">🎨</span>
-            <div><div style="font-size:13px;font-weight:700">معرض الأعمال</div><div style="font-size:11px;color:var(--muted)">aboalazm-visual-art.vercel.app</div></div>
-            <span style="margin-right:auto;color:var(--muted)">←</span>
+      <!-- ══ Portfolio Section ════════════════════════════════ -->
+      <div class="section-title">🎨 معرض الأعمال</div>
+      <div class="portfolio-section">
+        <div class="portfolio-header">
+          <div class="portfolio-header-ico">🖼️</div>
+          <div>
+            <div class="portfolio-header-title">Aboalazm Visual Art</div>
+            <div class="portfolio-header-sub">معرض أعمال التصميم والهوية البصرية</div>
+          </div>
+        </div>
+        <div class="portfolio-body">
+          <div class="portfolio-feature">
+            <div class="portfolio-feature-ico">🎨</div>
+            <div>تصميم هويات بصرية احترافية لعلامات تجارية متنوعة</div>
+          </div>
+          <div class="portfolio-feature">
+            <div class="portfolio-feature-ico">📐</div>
+            <div>مشاريع UI/UX لتطبيقات ويب ومواقع إلكترونية</div>
+          </div>
+          <div class="portfolio-feature">
+            <div class="portfolio-feature-ico">✨</div>
+            <div>أعمال إبداعية تجمع بين الفن والتقنية</div>
+          </div>
+          <a href="https://aboalazm-visual-art.vercel.app/" target="_blank" rel="noopener" class="portfolio-link">
+            <div>
+              <div class="portfolio-link-lbl">🌐 زيارة المعرض</div>
+              <div class="portfolio-link-url">aboalazm-visual-art.vercel.app</div>
+            </div>
+            <span style="font-size:20px;color:var(--muted)">←</span>
           </a>
         </div>
       </div>
-    </div>
 
-    <script>
-    function switchAboutTab(tab, btn) {
-      document.querySelectorAll('.az-tab').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('about-app-tab').style.display = tab === 'app' ? '' : 'none';
-      document.getElementById('about-dev-tab').style.display = tab === 'dev' ? '' : 'none';
-    }
-    function shareApp() {
-      const d = { title:'زاد العشر 🌙', text:'تطبيق عبادة عشر ذي الحجة', url:'https://zadullashr.vercel.app' };
-      if (navigator.share) navigator.share(d);
-      else { navigator.clipboard.writeText(d.url); if(typeof showToast==='function') showToast('✅ تم نسخ الرابط'); }
-    }
-    </script>
+      <!-- ══ Code & Canvas Section ════════════════════════════ -->
+      <div class="section-title">🏢 الاستوديو</div>
+      <div class="cc-section">
+        <div class="cc-header">
+          <div class="cc-logo">⚡</div>
+          <div class="cc-header-info">
+            <div class="cc-title">Code & Canvas</div>
+            <div class="cc-subtitle">Digital Creative Studio · استوديو إبداع رقمي</div>
+          </div>
+        </div>
+        <div class="cc-body">
+          <p class="cc-desc">
+            Code & Canvas استوديو متخصص في بناء التجارب الرقمية الإبداعية — يجمع بين دقة البرمجة وروح التصميم لإنتاج منتجات تقنية تفاعلية ذات هوية بصرية متميزة.
+          </p>
+          <div class="cc-features">
+            <div class="cc-feature"><span class="cc-feature-ico">💻</span><span>تطوير تطبيقات ويب</span></div>
+            <div class="cc-feature"><span class="cc-feature-ico">🎨</span><span>تصميم بصري إبداعي</span></div>
+            <div class="cc-feature"><span class="cc-feature-ico">📱</span><span>PWA & Mobile Apps</span></div>
+            <div class="cc-feature"><span class="cc-feature-ico">🤖</span><span>حلول الذكاء الاصطناعي</span></div>
+          </div>
+          <a href="https://codeandcanvas.net/" target="_blank" rel="noopener" class="cc-cta">
+            <div>
+              <div class="cc-cta-title">🚀 زيارة الاستوديو</div>
+              <div class="cc-cta-url">codeandcanvas.net</div>
+            </div>
+            <div class="cc-cta-arrow">←</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="card" style="text-align:center;padding:20px">
+        <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:14px">للتواصل والاستفسارات حول مشاريع التصميم والبرمجة</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <a href="https://aboalazm-visual-art.vercel.app/" target="_blank" rel="noopener" class="btn btn-primary">🎨 معرض الأعمال</a>
+          <a href="https://codeandcanvas.net/" target="_blank" rel="noopener" class="btn btn-gold">⚡ Code & Canvas</a>
+        </div>
+      </div>
+
+    </div><!-- /about-dev-tab -->
 
   </main>
 </div>
 
-<a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
+<a href="ai.html" class="fab-ai" aria-label="AI">🤖</a>
 
-  <script src="lang.js" defer></script>
-  <script src="js/app.js" defer></script>
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="animations.js" defer></script>
+<script>
+function switchAboutTab(tab, btn) {
+  document.querySelectorAll('.az-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('about-app-tab').style.display = tab === 'app' ? '' : 'none';
+  document.getElementById('about-dev-tab').style.display = tab === 'dev' ? '' : 'none';
+}
+function shareApp() {
+  const d = { title:'زاد العشر 🌙', text:'تطبيق عبادة عشر ذي الحجة', url:'https://zadullashr.vercel.app' };
+  if (navigator.share) navigator.share(d).catch(()=>{});
+  else { navigator.clipboard?.writeText(d.url); if(typeof showToast==='function') showToast('✅ تم نسخ الرابط'); }
+}
+</script>
 </body>
 </html>
