@@ -872,7 +872,9 @@ async function fetchPrayerTimes(lat,lng){
       Object.entries(prayers).forEach(([key,id])=>{
         const el=document.getElementById(id);
         if(el&&timings[key]){
-          el.textContent=timings[key].substring(0,5);
+          const t=timings[key].substring(0,5);
+          el.setAttribute('data-time24',t);
+          el.textContent=typeof formatPrayerTime==='function'?formatPrayerTime(t):t;
         }
       });
       
@@ -1185,7 +1187,10 @@ function updateNextPrayerBar(timings) {
   const timeEl = document.getElementById('np-time');
   if (nameEl) nameEl.textContent = NP_NAMES[next] || next;
   if (icoEl)  icoEl.textContent  = NP_ICONS[next] || '🕌';
-  if (timeEl) timeEl.textContent = timings[next];
+  if (timeEl) {
+    timeEl.setAttribute('data-time24', timings[next]);
+    timeEl.textContent = typeof formatPrayerTime==='function' ? formatPrayerTime(timings[next]) : timings[next];
+  }
 
   /* Countdown */
   if (_npTimer) clearInterval(_npTimer);

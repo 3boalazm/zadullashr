@@ -575,6 +575,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  /* Apply clock format after prayer times render */
+  setTimeout(() => { if(typeof applyClockFormat==="function") applyClockFormat(); }, 500);
+});
 </script>
 </body>
 </html>

@@ -2644,3 +2644,68 @@ window.scheduleReminders = function() {
   if (typeof scheduleAllReminders === 'function') scheduleAllReminders();
   else if (_origScheduleReminders) _origScheduleReminders();
 };
+
+/* ════ Clock Format — 12h / 24h ════════════════════════════
+   Usage: formatPrayerTime('16:35') → '4:35 PM' or '16:35'
+   ════════════════════════════════════════════════════════ */
+const TIME_FORMAT_KEY = 'zad_clock';
+
+function getClockFormat() {
+  return localStorage.getItem(TIME_FORMAT_KEY) || '24';
+}
+
+function formatPrayerTime(time24) {
+  if (!time24 || time24 === '--:--') return time24;
+  const fmt = getClockFormat();
+  if (fmt === '24') return time24.substring(0, 5);
+
+  /* Convert to 12h */
+  const [h, m] = time24.split(':').map(Number);
+  const ampm  = h >= 12 ? 'م' : 'ص'; /* Arabic AM/PM */
+  const h12   = h % 12 || 12;
+  return `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+window.formatPrayerTime = formatPrayerTime;
+
+/* Re-render all visible prayer time elements */
+function applyClockFormat() {
+  /* Collect raw 24h times stored in data-time24 */
+  document.querySelectorAll('[data-time24]').forEach(el => {
+    el.textContent = formatPrayerTime(el.getAttribute('data-time24'));
+  });
+
+  /* Also update any .pp-time elements that have a time value */
+  document.querySelectorAll('.pp-time, .pc-time').forEach(el => {
+    const raw = el.getAttribute('data-time24') || el.textContent.trim();
+    if (/^\d{1,2}:\d{2}/.test(raw)) {
+      if (!el.getAttribute('data-time24')) el.setAttribute('data-time24', raw);
+      el.textContent = formatPrayerTime(raw);
+    }
+  });
+
+  /* Update next-prayer bar time */
+  const npTime = document.getElementById('np-time');
+  if (npTime) {
+    const raw = npTime.getAttribute('data-time24') || npTime.textContent;
+    if (raw && /^\d{1,2}:\d{2}/.test(raw)) {
+      if (!npTime.getAttribute('data-time24')) npTime.setAttribute('data-time24', raw);
+      npTime.textContent = formatPrayerTime(raw);
+    }
+  }
+
+  /* Update countdown time display labels */
+  document.querySelectorAll('.hijri-time, .prayer-time-display').forEach(el => {
+    const raw = el.getAttribute('data-time24');
+    if (raw) el.textContent = formatPrayerTime(raw);
+  });
+}
+window.applyClockFormat = applyClockFormat;
+
+/* Apply on load */
+document.addEventListener('DOMContentLoaded', () => {
+  applyClockFormat();
+  /* Observer: re-apply when dynamic content changes times */
+  const obs = new MutationObserver(() => applyClockFormat());
+  const main = document.querySelector('.main');
+  if (main) obs.observe(main, { childList: true, subtree: true, characterData: true });
+});

@@ -31,6 +31,29 @@
     if (typeEl) typeEl.textContent = p.type === 'child' ? '🧒 وضع الطفل' : '👤 وضع الراشد';
   })();
 
+
+/* ── Clock format ────────────────────────────────────────── */
+function setClockFormat(fmt) {
+  localStorage.setItem('zad_clock', fmt);
+  updateClockBtns(fmt);
+  if (typeof applyClockFormat === 'function') applyClockFormat();
+  if (typeof showToast === 'function')
+    showToast(fmt === '12' ? '🕐 نظام 12 ساعة (ص/م)' : '🕐 نظام 24 ساعة');
+}
+function updateClockBtns(fmt) {
+  ['12','24'].forEach(id => {
+    const btn = document.getElementById('clock-'+id);
+    if (!btn) return;
+    const active = id === fmt;
+    btn.style.borderColor = active ? 'var(--green-deep)' : 'var(--border)';
+    btn.style.background  = active ? 'rgba(14,59,46,.08)' : 'var(--card)';
+  });
+}
+/* Init */
+document.addEventListener('DOMContentLoaded', () => {
+  updateClockBtns(localStorage.getItem('zad_clock') || '24');
+});
+
 </script>
 
 <script>
@@ -249,6 +272,29 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
         <div class="ic">⬇️</div>
         <div class="lbl"><b>تحميل التطبيق</b><small>دليل التثبيت</small></div>
         <button onclick="downloadApp()" style="padding:9px 16px;border-radius:10px;border:1.5px solid var(--gold);background:var(--gold-pale);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--gold-dark)">تحميل</button>
+      </div>
+    </div>
+
+
+    <!-- ══ Clock Format ═════════════════════════════════════ -->
+    <div class="section-title">🕐 نظام الساعة</div>
+    <div class="card" style="margin-bottom:16px">
+      <div style="margin-bottom:12px;font-size:12px;color:var(--muted)">يؤثر على مواقيت الصلاة في كل الصفحات</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <button id="clock-24" onclick="setClockFormat('24')"
+          style="padding:16px;border-radius:14px;border:2px solid var(--border);background:var(--card);
+                 font-family:inherit;cursor:pointer;transition:all .2s;text-align:center">
+          <div style="font-size:22px;font-weight:900;color:var(--ink);font-family:'ThmanyahSans',monospace;margin-bottom:6px">16:35</div>
+          <div style="font-size:13px;font-weight:700;color:var(--ink)">24 ساعة</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">النظام الدولي</div>
+        </button>
+        <button id="clock-12" onclick="setClockFormat('12')"
+          style="padding:16px;border-radius:14px;border:2px solid var(--border);background:var(--card);
+                 font-family:inherit;cursor:pointer;transition:all .2s;text-align:center">
+          <div style="font-size:22px;font-weight:900;color:var(--ink);font-family:'ThmanyahSans',monospace;margin-bottom:6px">4:35 م</div>
+          <div style="font-size:13px;font-weight:700;color:var(--ink)">12 ساعة</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">ص / م</div>
+        </button>
       </div>
     </div>
 
