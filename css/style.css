@@ -70,7 +70,7 @@ html[data-theme="oled"] .sidebar{background:linear-gradient(180deg,#000000,#0505
 .main{padding:34px 38px 60px;max-width:1260px;min-height:100vh}
 
 /* ── Topbar ────────────────────────────────────────────── */
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:14px;flex-wrap:wrap}
+.topbar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin-bottom:20px;padding:10px 16px}
 .page-title{font-size:28px;font-weight:800;color:var(--green-deep)}
 .page-title span{color:var(--gold)}
 .page-sub{color:var(--muted);font-size:14px;margin-top:3px}
@@ -414,6 +414,7 @@ html[data-font="lg"] .check .label,html[data-font="xl"] .check .label{font-size:
 @media (max-width:1020px){.cols-4{grid-template-columns:repeat(2,1fr)}.cols-3{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:768px){
   .app{grid-template-columns:1fr;min-height:100vh;overflow-x:hidden}
+  .main{padding:4px 12px 60px !important}
   .sidebar{position:fixed;top:0;right:-290px;height:100%;width:270px;z-index:200;overflow-y:auto;transition:right .3s var(--ease);-webkit-overflow-scrolling:touch}
   .sidebar.open{right:0;box-shadow:-6px 0 40px rgba(0,0,0,.45)}
   html[dir="ltr"] .sidebar{right:auto;left:-290px}
