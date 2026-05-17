@@ -111,9 +111,7 @@
       </div>
     </a>
 
-    <div class="card" style="margin-bottom:14px">
-      
-
+    <div class="card" style="margin-bottom:14px;padding:12px">
       <!-- Next Prayer Bar — full width, on top -->
       <a href="prayers.html" style="text-decoration:none" id="prayer-link-wrap">
         <div id="next-prayer-bar" style="display:none;background:linear-gradient(135deg,var(--green-deep) 0%,var(--green-mid) 100%);border-radius:14px;padding:12px 16px;margin-bottom:10px;align-items:center;justify-content:space-between;color:#fff;gap:10px">
@@ -952,7 +950,7 @@ function updateNextPrayerBar(timings) {
   if (!next) { /* past Isha — show Fajr tomorrow */ next='Fajr'; }
 
   if (!nextTime) return;
-  bar.style.display = 'flex';
+  bar.style.cssText += ';display:flex;align-items:center;justify-content:space-between;';
   const nameEl = document.getElementById('np-name');
   const icoEl  = document.getElementById('np-ico');
   const timeEl = document.getElementById('np-time');
