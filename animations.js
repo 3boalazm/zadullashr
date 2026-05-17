@@ -10,12 +10,15 @@ if (typeof gsap === 'undefined') {
   }
 })();
 function runAnimInit() {
-  if (typeof gsap !== 'undefined') {
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
     initPageEnter();
     initScrollReveal();
     initInteractiveGSAP();
     initHoverSparks();
+  } else if (typeof gsap !== 'undefined') {
+    /* GSAP loaded but no ScrollTrigger — basic animations only */
+    initPageEnter();
   }
   initAmbientOrbs();
   initGlassTopbar();
@@ -56,6 +59,7 @@ function initPageEnter() {
   }
 }
 function initScrollReveal() {
+  if (typeof ScrollTrigger === "undefined") return;
 gsap.utils.toArray('.card, .tl-item, .info-step, .af-milestone').forEach((el, i) => {
     el.style.animation = 'none';
     gsap.from(el, {
@@ -286,7 +290,7 @@ function overrideConfetti() {
   };
 }
 function initCounterAnimations() {
-  if (typeof gsap === 'undefined') return;
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   const statEls = document.querySelectorAll(
     '#stat-takbeer,#stat-juz,#stat-pray,#stat-prog,.metric-val,.zad-pts'
   );
