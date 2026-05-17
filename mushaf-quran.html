@@ -18,7 +18,7 @@
 html,body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif}
 
 /* ══ Quran Nav Bar ══════════════════════════════════════════ */
-.qnav{
+.qnav{max-width:100%;
   background:var(--card);border:1px solid var(--border);border-radius:14px;
   padding:10px 12px;display:flex;gap:8px;align-items:center;
   flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-bottom:14px
@@ -48,14 +48,14 @@ html,body{font-family:'IBM Plex Sans Arabic',system-ui,sans-serif}
 .qn-bm:hover,.qn-bm.marked{border-color:var(--gold);background:var(--gold-pale)}
 
 /* ══ Quran Text Area ════════════════════════════════════════ */
-.quran-area{
+.quran-area{overflow-x:hidden;
   background:linear-gradient(180deg,#fffaf0,#fbf2dc);
   border:1px solid rgba(201,161,74,.25);border-radius:16px;
   padding:20px;min-height:400px;position:relative;
   box-shadow:var(--shadow)
 }
-html[data-theme="dark"] .quran-area{background:linear-gradient(180deg,#1a1608,#141004);border-color:rgba(230,201,122,.2)}
-html[data-theme="oled"] .quran-area{background:linear-gradient(180deg,#0c0900,#080600);border-color:rgba(230,201,122,.15)}
+html[data-theme="dark"] .quran-area{overflow-x:hidden;background:linear-gradient(180deg,#1a1608,#141004);border-color:rgba(230,201,122,.2)}
+html[data-theme="oled"] .quran-area{overflow-x:hidden;background:linear-gradient(180deg,#0c0900,#080600);border-color:rgba(230,201,122,.15)}
 
 .qa-header{
   display:flex;justify-content:space-between;align-items:center;

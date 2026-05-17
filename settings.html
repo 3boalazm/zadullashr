@@ -121,17 +121,17 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
           </div>
         </div>
         <div class="settings-group-title">المظهر</div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
         <div class="ic">🌙</div>
         <div class="lbl"><b>الوضع الداكن</b><small>مريح للعين أثناء قيام الليل</small></div>
         <label class="sw"><input type="checkbox" id="dark-sw" class="dark-switch"><span class="sl"></span></label>
       </div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
         <div class="ic">⚫</div>
         <div class="lbl"><b>وضع OLED</b><small>أسود حقيقي — يوفّر بطارية الشاشات AMOLED</small></div>
         <label class="sw"><input type="checkbox" onchange="applyTheme(this.checked?'oled':'dark')" id="oled-sw"><span class="sl"></span></label>
       </div>
-      <div class="settings-row" style="flex-wrap:wrap;gap:10px">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto" style="flex-wrap:wrap;gap:10px">
         <div class="ic">🎨</div>
         <div class="lbl"><b>ثيم المظهر</b></div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -144,7 +144,7 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
 
     <div class="settings-group">
       <div class="settings-group-title">إمكانية الوصول — حجم الخط</div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
         <div class="ic">🔤</div>
         <div class="lbl"><b>حجم الخط العام</b><small>لمن يعاني من صعوبة في القراءة</small></div>
         <div style="display:flex;gap:6px">
@@ -154,7 +154,7 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
           <button class="btn btn-ghost" style="padding:7px 14px;font-size:13px" onclick="applyFontSize('xl')">أكبر</button>
         </div>
       </div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
         <div class="ic">📏</div>
         <div class="lbl"><b>حجم خط القرآن</b><small>اسحب لضبط الحجم</small></div>
         <input type="range" id="font-slider" min="16" max="40" value="24" style="width:110px;accent-color:var(--green-deep)">
@@ -166,17 +166,17 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
 
     <div class="settings-group">
       <div class="settings-group-title">التنبيهات</div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
         <div class="ic">🔔</div>
         <div class="lbl"><b>تفعيل الإشعارات</b><small>تذكيرات الصلاة والورد اليومي</small></div>
         <button class="btn btn-primary" style="padding:8px 16px;font-size:13px" onclick="requestNotifPermission()">تفعيل</button>
       </div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
         <div class="ic">📿</div>
         <div class="lbl"><b>تذكير ورد العشر</b><small>صباحاً ومساءً</small></div>
         <label class="sw"><input type="checkbox" class="notif-sw" checked><span class="sl"></span></label>
       </div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
         <div class="ic">🌄</div>
         <div class="lbl"><b>تذكير ساعة إجابة عرفة</b><small>تنبيه مميز يوم عرفة</small></div>
         <label class="sw"><input type="checkbox" class="notif-sw"><span class="sl"></span></label>
@@ -185,17 +185,17 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
 
     <div class="settings-group">
       <div class="settings-group-title">التطبيق وPWA</div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
         <div class="ic">📲</div>
         <div class="lbl"><b>تثبيت التطبيق</b><small>يعمل بدون إنترنت في المصلى</small></div>
         <button class="btn btn-gold" id="install-pwa-btn" style="padding:8px 16px;font-size:13px" onclick="installPWA()">تثبيت</button>
       </div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
         <div class="ic">🔗</div>
         <div class="lbl"><b>مشاركة التطبيق</b><small>شارك زاد العشر مع أهلك وأصحابك</small></div>
         <button class="btn btn-ghost" style="padding:8px 16px;font-size:13px" onclick="shareApp()">مشاركة</button>
       </div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
         <div class="ic">📴</div>
         <div class="lbl"><b>وضع بدون إنترنت</b><small>Service Worker مفعّل تلقائياً</small></div>
         <span class="tag gold">✔ مفعّل</span>
@@ -204,17 +204,17 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
 
     <div class="settings-group">
       <div class="settings-group-title">الخصوصية والبيانات</div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
         <div class="ic">🔒</div>
         <div class="lbl"><b>بياناتك مشفّرة محلياً</b><small>localStorage فقط — لا سحابة</small></div>
         <span class="tag gold">✔ آمن</span>
       </div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto">
         <div class="ic">🚫</div>
         <div class="lbl"><b>صفر إعلانات</b><small>خشوع رقمي بلا مشتّتات</small></div>
         <span class="tag gold">✔ دائماً</span>
       </div>
-      <div class="settings-row" id="reset-all" style="cursor:pointer">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto" id="reset-all" style="cursor:pointer">
         <div class="ic">🗑️</div>
         <div class="lbl"><b style="color:#dc3545">مسح جميع البيانات</b><small>لا يمكن التراجع</small></div>
         <span style="color:var(--muted)">›</span>
@@ -226,7 +226,7 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
     <div class="section-title" style="margin-top:24px">🔥 Firebase</div>
     <div class="settings-group" id="firebase-group">
 
-      <div class="settings-row" id="fb-row-conn">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto" id="fb-row-conn">
         <div class="ic">🔗</div>
         <div class="lbl">
           <b>حالة الاتصال</b>
@@ -235,7 +235,7 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
         <span class="fb-badge" id="fb-conn-badge">⏳</span>
       </div>
 
-      <div class="settings-row" id="fb-row-analytics">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto" id="fb-row-analytics">
         <div class="ic">📊</div>
         <div class="lbl">
           <b>Analytics</b>
@@ -244,7 +244,7 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
         <span class="fb-badge" id="fb-analytics-badge">⏳</span>
       </div>
 
-      <div class="settings-row" id="fb-row-notif" id="fcm-enable-btn" onclick="window.fbEnableNotif?.()||window.doEnableNotif?.()" style="cursor:pointer">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto" id="fb-row-notif" id="fcm-enable-btn" onclick="window.fbEnableNotif?.()||window.doEnableNotif?.()" style="cursor:pointer">
         <div class="ic">🔔</div>
         <div class="lbl">
           <b>إشعارات Push (FCM)</b>
@@ -253,7 +253,7 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
         <span class="fb-badge" id="fb-notif-badge">—</span>
       </div>
 
-      <div class="settings-row" id="fb-row-token" style="display:none">
+      <div class="settings-row" style="flex-wrap:wrap;min-height:auto" id="fb-row-token" style="display:none">
         <div class="ic">🎫</div>
         <div class="lbl" style="min-width:0;overflow:hidden">
           <b>FCM Token</b>
