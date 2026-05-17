@@ -723,6 +723,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollTopBtn();
   _renderNotifBadge();
   initContentArchitecture();
+  initProfileSystem();
   initContextualDashboard();  
   startCountdown();
   initChecklist();
@@ -2318,3 +2319,300 @@ function initContentArchitecture() {
   });
 }
 window.initContentArchitecture = initContentArchitecture;
+
+/* ════════════════════════════════════════════════════════════
+   PROFILE SYSTEM — First-visit onboarding
+   Stores: { name, type: 'adult'|'child', since }
+   ════════════════════════════════════════════════════════════ */
+
+const PROFILE_KEY = 'zad_profile';
+
+function getProfile() {
+  try { return JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null'); }
+  catch(e) { return null; }
+}
+
+function saveProfile(name, type) {
+  const p = { name: name.trim(), type, since: Date.now() };
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(p));
+  return p;
+}
+
+/* ── Apply profile to UI ─────────────────────────────────── */
+function applyProfile(profile) {
+  if (!profile) return;
+  document.body.setAttribute('data-profile', profile.type);
+
+  /* Greeting in topbar center if greeting el exists */
+  const greet = document.getElementById('profile-greeting');
+  if (greet) {
+    const hour = new Date().getHours();
+    const timeGreet = hour < 12 ? 'صباح النور' : hour < 17 ? 'طاب نهارك' : 'مساء الخير';
+    greet.textContent = `${timeGreet}، ${profile.name} 👋`;
+  }
+
+  /* Child mode: highlight kids nav links */
+  if (profile.type === 'child') {
+    document.querySelectorAll('a[href="kids.html"], a[href="ghars.html"]').forEach(a => {
+      a.style.background = 'rgba(201,161,74,.1)';
+      a.style.borderRadius = '10px';
+      a.style.fontWeight = '800';
+      a.style.color = 'var(--gold-dark)';
+    });
+  }
+
+  /* Show profile chip in sidebar if it exists */
+  const chip = document.getElementById('profile-chip');
+  if (chip) {
+    const ico = profile.type === 'child' ? '🧒' : '👤';
+    chip.innerHTML = `<span>${ico}</span><span>${profile.name}</span><button onclick="showProfileModal()" style="background:none;border:none;font-size:10px;color:var(--muted);cursor:pointer;padding:0 4px">تغيير</button>`;
+    chip.style.display = 'flex';
+  }
+}
+
+/* ── Onboarding Modal ────────────────────────────────────── */
+function showProfileModal(forceNew = false) {
+  const existing = getProfile();
+  if (existing && !forceNew) return; /* already set */
+
+  /* Remove any existing modal */
+  document.getElementById('profile-modal')?.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'profile-modal';
+  modal.style.cssText = `
+    position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    animation:fadeIn .3s ease;
+  `;
+
+  modal.innerHTML = `
+    <div style="background:var(--card);border-radius:24px;width:100%;max-width:400px;
+                overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:slideUp .35s ease">
+      <!-- Header -->
+      <div style="background:linear-gradient(135deg,#0e3b2e,#1a5d47);padding:28px 24px;text-align:center;color:#fff;position:relative">
+        <div style="font-size:52px;margin-bottom:10px">🌙</div>
+        <div style="font-size:22px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:4px">مرحباً بك في زاد العشر</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.75)">رفيقك في أفضل أيام الدنيا</div>
+      </div>
+
+      <!-- Body -->
+      <div style="padding:24px">
+        <!-- Name input -->
+        <div style="margin-bottom:20px">
+          <label style="font-size:13px;font-weight:700;color:var(--muted);display:block;margin-bottom:8px">اسمك الكريم</label>
+          <input id="pm-name" type="text" placeholder="أدخل اسمك..."
+            style="width:100%;padding:13px 16px;border-radius:12px;border:1.5px solid var(--border);
+                   background:var(--sand);color:var(--ink);font-family:inherit;font-size:15px;
+                   outline:none;box-sizing:border-box;direction:rtl"
+            oninput="validateProfileForm()"
+            onfocus="this.style.borderColor='var(--gold)'"
+            onblur="this.style.borderColor='var(--border)'">
+        </div>
+
+        <!-- Profile type -->
+        <div style="margin-bottom:20px">
+          <label style="font-size:13px;font-weight:700;color:var(--muted);display:block;margin-bottom:10px">اختر وضعك</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+
+            <!-- Adult card -->
+            <div id="pm-adult" onclick="selectProfileType('adult')"
+              style="border:2px solid var(--border);border-radius:16px;padding:16px;text-align:center;cursor:pointer;transition:all .2s">
+              <div style="font-size:36px;margin-bottom:8px">👤</div>
+              <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px">راشد</div>
+              <div style="font-size:11px;color:var(--muted);line-height:1.5">جدول العبادات الكامل · فضائل العشر · المصحف · التدبر</div>
+            </div>
+
+            <!-- Child card -->
+            <div id="pm-child" onclick="selectProfileType('child')"
+              style="border:2px solid var(--border);border-radius:16px;padding:16px;text-align:center;cursor:pointer;transition:all .2s">
+              <div style="font-size:36px;margin-bottom:8px">🧒</div>
+              <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px">طفل</div>
+              <div style="font-size:11px;color:var(--muted);line-height:1.5">قصص الأنبياء · رحلة الحج · أنشطة · أناشيد · اختبارات</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Difference hint -->
+        <div id="pm-hint" style="background:rgba(201,161,74,.08);border:1px solid rgba(201,161,74,.2);border-radius:12px;padding:12px;margin-bottom:18px;font-size:12px;color:var(--muted);line-height:1.7;display:none">
+          <span id="pm-hint-text"></span>
+        </div>
+
+        <!-- Submit -->
+        <button id="pm-submit" onclick="submitProfile()" disabled
+          style="width:100%;padding:14px;border-radius:14px;border:none;
+                 background:linear-gradient(135deg,#0e3b2e,#1a5d47);color:#fff;
+                 font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;
+                 opacity:.4;transition:all .2s;font-family:'ThmanyahSans',inherit">
+          ابدأ رحلتك →
+        </button>
+
+        ${existing ? `<button onclick="document.getElementById('profile-modal').remove()" style="width:100%;padding:10px;border:none;background:none;font-family:inherit;font-size:13px;color:var(--muted);cursor:pointer;margin-top:8px">إلغاء</button>` : ''}
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  /* Pre-fill existing data */
+  if (existing) {
+    document.getElementById('pm-name').value = existing.name;
+    if (existing.type) selectProfileType(existing.type);
+  }
+
+  document.getElementById('pm-name').focus();
+}
+
+let _selectedType = null;
+
+function selectProfileType(type) {
+  _selectedType = type;
+  const adultCard = document.getElementById('pm-adult');
+  const childCard = document.getElementById('pm-child');
+  const hint      = document.getElementById('pm-hint');
+  const hintText  = document.getElementById('pm-hint-text');
+
+  if (adultCard) {
+    adultCard.style.borderColor = type === 'adult' ? 'var(--green-deep)' : 'var(--border)';
+    adultCard.style.background  = type === 'adult' ? 'rgba(14,59,46,.06)' : '';
+  }
+  if (childCard) {
+    childCard.style.borderColor = type === 'child' ? 'var(--gold)' : 'var(--border)';
+    childCard.style.background  = type === 'child' ? 'rgba(201,161,74,.06)' : '';
+  }
+
+  if (hint && hintText) {
+    hint.style.display = '';
+    hintText.textContent = type === 'adult'
+      ? '🧑 وضع الراشد: كامل الميزات — جدول عبادات، فضائل، مصحف، تدبر بالذكاء الاصطناعي، وكل صفحات زاد العشر.'
+      : '🧒 وضع الطفل: نفس الموقع بالكامل مع إبراز صفحات ثُريّا وغرس — قصص الأنبياء، خطوات الحج، أنشطة، وأناشيد للأطفال.';
+  }
+
+  validateProfileForm();
+}
+
+function validateProfileForm() {
+  const name = document.getElementById('pm-name')?.value?.trim();
+  const btn  = document.getElementById('pm-submit');
+  const valid = name && name.length >= 2 && _selectedType;
+  if (btn) { btn.disabled = !valid; btn.style.opacity = valid ? '1' : '.4'; }
+}
+
+function submitProfile() {
+  const name = document.getElementById('pm-name')?.value?.trim();
+  if (!name || !_selectedType) return;
+
+  const profile = saveProfile(name, _selectedType);
+  document.getElementById('profile-modal')?.remove();
+  applyProfile(profile);
+
+  /* Redirect child to ثريا on first visit */
+  const isFirstVisit = !getProfile()?.since || (Date.now() - getProfile().since < 5000);
+  if (_selectedType === 'child' && !window.location.href.includes('kids.html') && !window.location.href.includes('ghars.html')) {
+    if (typeof showToast === 'function') showToast(`أهلاً ${name}! 🌟 تم تفعيل وضع الأطفال`);
+  } else {
+    if (typeof showToast === 'function') showToast(`أهلاً ${name}! 🌙 مرحباً بك في زاد العشر`);
+  }
+}
+
+/* ── Add profile chip to sidebar ─────────────────────────── */
+function injectProfileChip() {
+  const sidebar = document.querySelector('.sidebar .brand');
+  if (!sidebar || document.getElementById('profile-chip')) return;
+
+  const chip = document.createElement('div');
+  chip.id = 'profile-chip';
+  chip.style.cssText = `
+    display:none;align-items:center;gap:8px;
+    background:var(--sand);border:1px solid var(--border);
+    border-radius:10px;padding:8px 12px;margin-top:-4px;margin-bottom:4px;
+    font-size:12px;font-weight:700;color:var(--ink);cursor:pointer;
+  `;
+  sidebar.parentNode.insertBefore(chip, sidebar.nextSibling);
+}
+
+/* ── Index child mode: inject kids shortcut ──────────────── */
+function injectKidsShortcut(profile) {
+  if (profile.type !== 'child') return;
+  const main = document.querySelector('.main');
+  if (!main || document.getElementById('kids-shortcut-bar')) return;
+
+  /* Find topbar end to insert after */
+  const topbar = main.querySelector('.topbar');
+  if (!topbar) return;
+
+  const bar = document.createElement('div');
+  bar.id = 'kids-shortcut-bar';
+  bar.style.cssText = 'margin-bottom:16px';
+  bar.innerHTML = `
+    <div style="background:linear-gradient(135deg,#1a5d47,#0e6b3f,#c9a14a);border-radius:18px;padding:16px;color:#fff;position:relative;overflow:hidden">
+      <div style="position:absolute;top:-10px;left:-10px;font-size:80px;opacity:.1">🌟</div>
+      <div style="font-size:13px;font-weight:800;margin-bottom:12px;position:relative;z-index:1">
+        أهلاً ${profile.name}! 👋 ماذا تريد اليوم؟
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1">
+        <a href="kids.html" style="background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.25);border-radius:14px;padding:14px 12px;text-decoration:none;color:#fff;text-align:center;transition:all .2s;display:block">
+          <div style="font-size:28px;margin-bottom:6px">🌟</div>
+          <div style="font-size:12px;font-weight:800">ثُريّا</div>
+          <div style="font-size:10px;opacity:.8;margin-top:2px">قصص وأنشطة</div>
+        </a>
+        <a href="ghars.html" style="background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.25);border-radius:14px;padding:14px 12px;text-decoration:none;color:#fff;text-align:center;transition:all .2s;display:block">
+          <div style="font-size:28px;margin-bottom:6px">🌱</div>
+          <div style="font-size:12px;font-weight:800">غرس</div>
+          <div style="font-size:10px;opacity:.8;margin-top:2px">الحج والعشر</div>
+        </a>
+      </div>
+    </div>`;
+
+  topbar.parentNode.insertBefore(bar, topbar.nextSibling);
+}
+
+/* ── Modal CSS injection ─────────────────────────────────── */
+function injectProfileCSS() {
+  if (document.getElementById('profile-css')) return;
+  const style = document.createElement('style');
+  style.id = 'profile-css';
+  style.textContent = `
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes slideUp { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+    /* Child mode: highlight kids links in sidebar */
+    body[data-profile="child"] .sidebar a[href="kids.html"],
+    body[data-profile="child"] .sidebar a[href="ghars.html"] {
+      background: linear-gradient(135deg,rgba(201,161,74,.1),rgba(14,107,63,.06)) !important;
+      border: 1px solid rgba(201,161,74,.25) !important;
+      border-radius: 10px !important;
+      font-weight: 800 !important;
+    }
+    body[data-profile="child"] .sidebar a[href="kids.html"] .ico,
+    body[data-profile="child"] .sidebar a[href="ghars.html"] .ico {
+      font-size: 18px;
+    }
+
+    /* Smooth profile modal input */
+    #pm-name { transition: border-color .2s; }
+    #pm-adult, #pm-child { transition: all .2s; }
+  `;
+  document.head.appendChild(style);
+}
+
+/* ── Init (called from DOMContentLoaded) ─────────────────── */
+function initProfileSystem() {
+  injectProfileCSS();
+  injectProfileChip();
+  const profile = getProfile();
+
+  if (!profile) {
+    /* First visit — show modal after 600ms */
+    setTimeout(() => showProfileModal(false), 600);
+  } else {
+    applyProfile(profile);
+    /* If on index, inject kids shortcut if child */
+    if (window.location.pathname.includes('index') || window.location.pathname === '/') {
+      injectKidsShortcut(profile);
+    }
+  }
+}
+window.showProfileModal = showProfileModal;
+window.initProfileSystem = initProfileSystem;
