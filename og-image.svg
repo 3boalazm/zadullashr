@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0e3b2e"/>
+      <stop offset="60%" style="stop-color:#1a5d47"/>
+      <stop offset="100%" style="stop-color:#c9a14a"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e6c97a"/>
+      <stop offset="100%" style="stop-color:#c9a14a"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="1100" cy="80" r="180" fill="rgba(201,161,74,0.07)"/>
+  <circle cx="100" cy="560" r="200" fill="rgba(255,255,255,0.03)"/>
+  <circle cx="600" cy="315" r="500" fill="rgba(255,255,255,0.02)"/>
+
+  <!-- Star pattern top right -->
+  <text x="1060" y="140" font-size="60" fill="rgba(201,161,74,0.15)" text-anchor="middle">⭐</text>
+  <text x="1130" y="60" font-size="40" fill="rgba(201,161,74,0.1)" text-anchor="middle">🌙</text>
+
+  <!-- Logo icon area -->
+  <rect x="80" y="200" width="140" height="140" rx="32" fill="rgba(255,255,255,0.12)"/>
+  <rect x="84" y="204" width="132" height="132" rx="28" fill="rgba(14,59,46,0.6)"/>
+  <text x="150" y="288" font-size="72" text-anchor="middle" filter="url(#glow)">🌙</text>
+
+  <!-- Main title - Arabic -->
+  <text x="260" y="260" font-size="96" font-weight="900" fill="white"
+    font-family="'Noto Sans Arabic', 'Arial', sans-serif"
+    text-anchor="start">زاد العشر</text>
+
+  <!-- Subtitle -->
+  <text x="260" y="315" font-size="36" fill="rgba(255,255,255,0.75)"
+    font-family="'Noto Sans Arabic', 'Arial', sans-serif"
+    text-anchor="start">أفضل أيام الدنيا</text>
+
+  <!-- Divider line -->
+  <line x1="260" y1="340" x2="900" y2="340" stroke="url(#gold)" stroke-width="2" opacity="0.5"/>
+
+  <!-- Feature pills -->
+  <rect x="260" y="365" width="180" height="48" rx="24" fill="rgba(255,255,255,0.1)"/>
+  <text x="350" y="395" font-size="22" fill="white" text-anchor="middle"
+    font-family="'Noto Sans Arabic', 'Arial', sans-serif">🕌 مواقيت الصلاة</text>
+
+  <rect x="455" y="365" width="175" height="48" rx="24" fill="rgba(255,255,255,0.1)"/>
+  <text x="542" y="395" font-size="22" fill="white" text-anchor="middle"
+    font-family="'Noto Sans Arabic', 'Arial', sans-serif">📖 ورد العشر</text>
+
+  <rect x="645" y="365" width="175" height="48" rx="24" fill="rgba(255,255,255,0.1)"/>
+  <text x="732" y="395" font-size="22" fill="white" text-anchor="middle"
+    font-family="'Noto Sans Arabic', 'Arial', sans-serif">📿 المسبحة</text>
+
+  <rect x="835" y="365" width="175" height="48" rx="24" fill="rgba(255,255,255,0.1)"/>
+  <text x="922" y="395" font-size="22" fill="white" text-anchor="middle"
+    font-family="'Noto Sans Arabic', 'Arial', sans-serif">🤖 تدبر الآيات</text>
+
+  <!-- Bottom bar -->
+  <rect x="0" y="555" width="1200" height="75" fill="rgba(0,0,0,0.3)"/>
+  <text x="600" y="602" font-size="28" fill="rgba(255,255,255,0.6)" text-anchor="middle"
+    font-family="Arial, sans-serif">zadullashr.vercel.app</text>
+
+  <!-- Gold accent line bottom -->
+  <rect x="0" y="550" width="1200" height="3" fill="url(#gold)"/>
+</svg>
