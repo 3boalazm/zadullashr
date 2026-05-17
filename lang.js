@@ -490,3 +490,220 @@ const I18N = {
 window.I18N = I18N;
 window.toggleLang = () => I18N.toggle();
 document.addEventListener('DOMContentLoaded', () => I18N.init());
+
+/* ════════════════════════════════════════════════════════════
+   EXTENDED TRANSLATIONS — Full site coverage
+   Strategy: text-node swapping via selector maps per page
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Universal UI strings ─────────────────────────────────── */
+const UI_MAP = {
+  /* Nav links */
+  'لوحة التحكم':          'Dashboard',
+  'مواقيت الصلاة':        'Prayer Times',
+  'اتجاه القبلة':         'Qibla Direction',
+  'التقويم الهجري':       'Hijri Calendar',
+  'ورد العشر':            'Daily Quran Wird',
+  'المصحف الشريف':        'Holy Quran',
+  'المسبحة':              'Tasbih Counter',
+  'الأذكار والدعاء':      'Dhikr & Supplications',
+  'جدول العبادات':        'Worship Tracker',
+  'فضائل العشر':          'Virtues of the 10 Days',
+  'يوم عرفة':             'Day of Arafah',
+  'دليل الأضحية':         'Sacrifice Guide',
+  'صدقة العشر':           'Charity in the 10 Days',
+  'حصاد العشر':           'Worship Harvest',
+  'أوسمتي':               'My Badges',
+  'محاضرات العشر':        'Lectures of the 10 Days',
+  'ثُريّا — وضع الأطفال': 'Thuraya — Kids Mode',
+  'غرس — رحلة الحج':     'Ghars — Hajj Journey',
+  'تدبّر بالذكاء':        'AI Reflection',
+  'الإعدادات':            'Settings',
+  'بلاغ مشكلة':          'Report Issue',
+  'عن التطبيق':          'About',
+  /* Nav separators */
+  'الصلاة والتقويم':     'Prayer & Calendar',
+  'القرآن والعبادة':     'Quran & Worship',
+  'الحج والمناسك':       'Hajj & Rites',
+  'المتابعة':            'Tracking',
+  'التعلم والترفيه':    'Learning & Entertainment',
+  /* Common */
+  'زاد العشر':           'Zad Al-Ashr',
+  'أفضل أيام الدنيا':    'The Best Days on Earth',
+  'الوضع الداكن':        'Dark Mode',
+  'تثبيت / تحميل التطبيق': 'Install App',
+  /* Page titles */
+  'لوحة': 'Dashboard', 'التحكم': '',
+  'مواقيت': 'Prayer', 'الصلاة': 'Times',
+  'جدول': 'Worship', 'العبادات': 'Tracker',
+  'الأذكار': 'Dhikr &', 'والدعاء': 'Supplications',
+  'فضائل': 'Virtues of', 'العشر': 'the 10 Days',
+  'حصاد': 'Worship', 'تدبّر': 'AI', 'بالذكاء': 'Reflection',
+  'إحصائيات': 'Today\'s', 'اليوم': 'Stats',
+  'أوسمة': 'Badges', 'عن': 'About',
+  /* Section titles */
+  'ابدأ يومك الآن':              'Start Your Day Now',
+  'مؤشر الالتزام الروحاني':      'Spiritual Commitment Index',
+  '📖 آية اليوم':                '📖 Verse of the Day',
+  '⚡ عبادات سريعة':             '⚡ Quick Worship',
+  '🕌 الفرائض':                  '🕌 Obligatory Prayers',
+  '⭐ السنن والنوافل':           '⭐ Sunnah & Optional Prayers',
+  '📿 الذكر والاستغفار':        '📿 Dhikr & Repentance',
+  '🌙 الصيام والعطاء':          '🌙 Fasting & Giving',
+  '📅 تتبع الصيام — الأيام التسعة': '📅 Fasting Tracker — Nine Days',
+  '📖 خطة الختمة — 10 أيام':   '📖 Quran Completion Plan — 10 Days',
+  '🤲 تحدي الدعاء والعطاء':    '🤲 Dua & Giving Challenge',
+  '✨ إحياء السنن اليومية':     '✨ Daily Sunnah Revival',
+  '🚫 لصوص العشر':              '🚫 Time Thieves',
+  '📊 إحصائيات اليوم':         '📊 Today\'s Stats',
+  '🏅 أوسمتي':                  '🏅 My Badges',
+  '🎬 محاضرات العشر':          '🎬 Lectures of the 10 Days',
+  /* Buttons */
+  'تفعيل':                    'Activate',
+  'مشاركة':                   'Share',
+  'تحميل':                    'Download',
+  'تثبيت':                    'Install',
+  'إرسال':                    'Send',
+  'إغلاق':                    'Close',
+  'عرض الكل ←':              'View all ←',
+  'ملخص العشر ←':            'Summary ←',
+  'تذكيرات':                  'Reminders',
+  'تغيير':                    'Change',
+  /* Days / times */
+  'يتجدد في':                 'Resets at',
+  'صفحة':                     'Page',
+  'الجزء':                    'Juz',
+  'آية':                       'Verse',
+};
+
+/* ── Page-title translation map ───────────────────────────── */
+const PAGE_TITLES = {
+  'index.html':       ['زاد', 'Zad', 'العشر', 'Al-Ashr'],
+  'prayers.html':     ['مواقيت', 'Prayer', 'الصلاة', 'Times'],
+  'worship.html':     ['جدول', 'Worship', 'العبادات', 'Tracker'],
+  'adhkar.html':      ['الأذكار', 'Dhikr &', 'والدعاء', 'Supplications'],
+  'fadael.html':      ['فضائل', 'Virtues of the', 'العشر', '10 Days'],
+  'hasad.html':       ['حصاد', 'Worship', 'العشر', 'Harvest'],
+  'badges.html':      ['أوسمتي', 'My', '', 'Badges'],
+  'ai.html':          ['تدبّر', 'AI', 'بالذكاء', 'Reflection'],
+  'videos.html':      ['محاضرات', 'Lectures of', 'العشر', 'the 10 Days'],
+  'settings.html':    ['الإعدادات', '', '', 'Settings'],
+  'about.html':       ['عن', 'About', 'التطبيق', 'the App'],
+  'mushaf.html':      ['ورد', 'Daily', 'العشر', 'Wird'],
+  'takbeer.html':     ['المسبحة', '', '', 'Tasbih'],
+  'mushaf-quran.html':['المصحف', 'Holy', 'الشريف', 'Quran'],
+  'arafah.html':      ['يوم', 'Day of', 'عرفة', 'Arafah'],
+  'odhiya.html':      ['دليل', 'Sacrifice', 'الأضحية', 'Guide'],
+  'sadaqah.html':     ['صدقة', 'Charity in the', 'العشر', '10 Days'],
+  'hijri.html':       ['التقويم', 'Hijri', 'الهجري', 'Calendar'],
+  'kids.html':        ['ثُريّا', '', '', 'Thuraya'],
+  'ghars.html':       ['غرس', '', '', 'Ghars'],
+  'report.html':      ['بلاغ', 'Report', 'مشكلة', 'Issue'],
+};
+
+/* ── Extended apply: swap text nodes site-wide ────────────── */
+const _origApply = I18N.apply.bind(I18N);
+I18N.apply = function() {
+  _origApply();
+
+  const isEn = this.current === 'en';
+
+  /* 1. Sidebar brand */
+  const bn = document.querySelector('.brand-name');
+  const bs = document.querySelector('.brand-sub');
+  if (bn) bn.textContent = isEn ? 'Zad Al-Ashr' : 'زاد العشر';
+  if (bs) bs.textContent = isEn ? 'The Best Days on Earth' : 'أفضل أيام الدنيا';
+
+  /* 2. Nav links — match Arabic text → English */
+  document.querySelectorAll('.nav a span:last-child, .nav .nav-sep').forEach(el => {
+    const txt = el.textContent.trim();
+    if (isEn && UI_MAP[txt]) el.textContent = UI_MAP[txt];
+    else if (!isEn) {
+      /* Restore Arabic from data-ar */
+      if (el.dataset.ar) el.textContent = el.dataset.ar;
+      else { /* store Arabic on first run */ el.dataset.ar = txt; }
+    }
+    /* Store Arabic on first toggle */
+    if (!el.dataset.ar && isEn) el.dataset.ar = txt;
+  });
+
+  /* 3. Section titles */
+  document.querySelectorAll('.section-title, .kids-title').forEach(el => {
+    if (el.children.length > 0) return; /* skip complex elements */
+    const txt = el.textContent.trim();
+    if (!el.dataset.ar) el.dataset.ar = txt;
+    if (isEn && UI_MAP[txt]) el.textContent = UI_MAP[txt];
+    else if (!isEn && el.dataset.ar) el.textContent = el.dataset.ar;
+  });
+
+  /* 4. Page title (topbar center) */
+  const pageTitleEl = document.querySelector('.page-title');
+  if (pageTitleEl) {
+    const page = location.pathname.split('/').pop() || 'index.html';
+    const map  = PAGE_TITLES[page];
+    if (map) {
+      if (isEn) {
+        pageTitleEl.childNodes[0].textContent = map[1] + ' ';
+        const span = pageTitleEl.querySelector('span');
+        if (span) span.textContent = map[3];
+      } else {
+        pageTitleEl.childNodes[0].textContent = map[0];
+        const span = pageTitleEl.querySelector('span');
+        if (span && map[2]) span.textContent = map[2];
+      }
+    }
+  }
+
+  /* 5. Common buttons */
+  document.querySelectorAll('button:not([data-i18n]):not(.hamburger):not(.notif-btn):not(.btn-theme)').forEach(btn => {
+    const txt = btn.textContent.trim();
+    if (!btn.dataset.ar) btn.dataset.ar = txt;
+    if (isEn && UI_MAP[txt]) btn.textContent = UI_MAP[txt];
+    else if (!isEn && btn.dataset.ar) btn.textContent = btn.dataset.ar;
+  });
+
+  /* 6. Direction + HTML lang */
+  document.documentElement.dir  = isEn ? 'ltr' : 'rtl';
+  document.documentElement.lang = isEn ? 'en'  : 'ar';
+
+  /* 7. RTL/LTR aware layout fixes */
+  document.body.setAttribute('data-lang', isEn ? 'en' : 'ar');
+
+  /* 8. Sidebar install button */
+  const instBtn = document.getElementById('sidebar-install-btn');
+  if (instBtn) instBtn.textContent = isEn ? '📲 Install App' : '📲 تثبيت / تحميل التطبيق';
+
+  /* 9. Theme row label */
+  document.querySelectorAll('.theme-row span:first-child').forEach(el => {
+    if (!el.dataset.ar) el.dataset.ar = el.textContent;
+    el.textContent = isEn ? '🌙 Dark Mode' : (el.dataset.ar || '🌙 الوضع الداكن');
+  });
+};
+
+/* ── CSS for LTR layout adjustments ──────────────────────── */
+(function(){
+  const style = document.createElement('style');
+  style.id = 'i18n-ltr-css';
+  style.textContent = `
+    body[data-lang="en"] { direction: ltr; text-align: left; }
+    body[data-lang="en"] .sidebar { right: auto; left: -290px; }
+    body[data-lang="en"] .sidebar.open { left: 0; right: auto; }
+    body[data-lang="en"] .sidebar-overlay { direction: ltr; }
+    body[data-lang="en"] .check .label { text-align: left; }
+    body[data-lang="en"] .nav a { flex-direction: row-reverse; justify-content: flex-end; }
+    body[data-lang="en"] .notif-dropdown { left: 0; right: auto; }
+    body[data-lang="en"] .hijri-bar { direction: ltr; }
+    body[data-lang="en"] .quran-text, body[data-lang="en"] .ts-ayah-text,
+    body[data-lang="en"] .basmala-txt { direction: rtl !important; }
+  `;
+  document.head.appendChild(style);
+  /* Apply immediately if lang=en was stored */
+  if ((localStorage.getItem('zad_lang')||'ar') === 'en') {
+    document.body?.setAttribute('data-lang','en');
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    if ((localStorage.getItem('zad_lang')||'ar') === 'en') {
+      document.body.setAttribute('data-lang','en');
+    }
+  });
+})();

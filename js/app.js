@@ -650,6 +650,7 @@ async function fetchAndCacheHijriDate() {
   } catch(e) {}
 }
 
+window.toggleLang = () => { if(typeof I18N !== "undefined") I18N.toggle(); };
 function initSidebar() {
   const hamburger = document.getElementById('hamburger');
   const sidebar   = document.querySelector('.sidebar');
