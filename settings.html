@@ -41,17 +41,12 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
 .reminder-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .fs-btn{transition:all .2s}
 </style>
-<style>
-  :root{--font-scale:1}
-  body{font-size:calc(1rem * var(--font-scale))}
-  .quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
-  .font-size-options{display:flex;gap:8px}
-  .font-size-options .fs-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;transition:all .2s;color:var(--ink)}
-  .font-size-options .fs-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff}
-  .fs-btn[data-size="small"]  span:first-child{font-size:14px;display:block;margin-bottom:4px}
-  .fs-btn[data-size="medium"] span:first-child{font-size:19px;display:block;margin-bottom:4px}
-  .fs-btn[data-size="large"]  span:first-child{font-size:24px;display:block;margin-bottom:4px}
-</style>
+<div class="font-size-options" id="fontSizeOptions">
+  <button class="fs-btn" data-size="small"><span>أ</span><div>صغير</div></button>
+  <button class="fs-btn" data-size="medium"><span>أ</span><div>متوسط</div></button>
+  <button class="fs-btn" data-size="large"><span>أ</span><div>كبير</div></button>
+</div>
+<p class="hint">لا يؤثر على خط القرآن الكريم</p>
 <script>(function(){var s=localStorage.getItem('zad_font_size')||'medium';var map={small:0.875,medium:1,large:1.15};document.documentElement.style.setProperty('--font-scale',map[s]||1)})();</script>
   <!-- Open Graph / Social Media Thumbnail -->
   <meta property="og:type" content="website">
