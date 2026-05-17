@@ -47,7 +47,7 @@
       <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
       <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
       <div class="nav-sep">القرآن والعبادة</div>
-      <a href="mushaf.html"><span class="ico">📖</span><span>مصحف العشر</span></a>
+      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
       <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
       <a href="takbeer.html"><span class="ico">📿</span><span>المُسبِّح والمُكبِّر</span></a>
       <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
@@ -76,12 +76,30 @@
   <main class="main">
 
     <div class="topbar">
-      <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
-      <a href="index.html" class="topbar-brand">
-        <div class="topbar-logo"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:54px;height:54px;border-radius:12px"></div>
-        <div style="min-width:0">
-          <div class="page-title" data-i18n="brand.name">زاد العشر</div>
+      <!-- LEFT: Burger + Logo -->
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo">
+          <img src="icons/icon-192.svg" alt="زاد العشر">
+        </a>
+      </div>
+      <!-- CENTER: Page name -->
+      <div class="tb-center">
+        <div class="page-title">زاد <span>العشر</span></div>
+      </div>
+      <!-- RIGHT: Notif + Lang + Theme -->
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">
+            🔔<span class="notif-dot" id="notif-dot"></span>
+          </button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
         </div>
+        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang?.()">EN</button>
+        <button class="btn-theme" onclick="safeToggleTheme?.()||toggleTheme?.()" aria-label="تبديل المظهر">🌙</button>
+      </div>
+    </div>
+
       </a>
 
       <div class="topbar-right">
@@ -614,13 +632,229 @@ window.loadPrayerTimes=loadTopbarPrayers;
 
 /* ── 4️⃣ INIT ────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded',()=>{
-  startCountdown();
+  startCountdown(); startResetCountdown(); seedDailyNotifications(); renderNotifBadge();
   initHijriBar();
   renderMiniBadges();
   loadTopbarPrayers(); // ← إضافة تحميل المواقيت وتفعيلها عند فتح التطبيق
   
   // هنا يمكنك إضافة بقية كود الـ Init الخاص بـ زاد إن وُجد
 });
+
+/* ═══════════════════════════════════════════════════════════
+   NOTIFICATION DROPDOWN + PUSH NOTIFICATIONS
+   ═══════════════════════════════════════════════════════════ */
+
+/* Smart notification store */
+const NOTIF_KEY = 'zad_notifications';
+
+function getNotifs() {
+  try { return JSON.parse(localStorage.getItem(NOTIF_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveNotifs(list) {
+  localStorage.setItem(NOTIF_KEY, JSON.stringify(list.slice(0,30)));
+}
+
+function addNotif(ico, title, sub, type='info') {
+  const list = getNotifs();
+  list.unshift({
+    id: Date.now(), ico, title, sub, type,
+    time: new Date().toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'}),
+    read: false
+  });
+  saveNotifs(list);
+  renderNotifBadge();
+}
+window.addNotif = addNotif;
+
+function renderNotifBadge() {
+  const dot = document.getElementById('notif-dot');
+  const unread = getNotifs().filter(n => !n.read).length;
+  if (dot) dot.className = 'notif-dot' + (unread > 0 ? ' show' : '');
+}
+
+function renderNotifDropdown() {
+  const drop = document.getElementById('notif-dropdown');
+  if (!drop) return;
+  const list = getNotifs();
+
+  if (!list.length) {
+    drop.innerHTML = `
+      <div class="nd-header"><span>🔔 الإشعارات</span></div>
+      <div class="nd-empty">لا توجد إشعارات بعد</div>
+      <div class="nd-footer">
+        <button class="primary" onclick="enablePushNotifications()">🔔 تفعيل الإشعارات</button>
+      </div>`;
+    return;
+  }
+
+  const itemsHtml = list.map(n => `
+    <div class="nd-item ${n.read?'':'unread'}" onclick="markNotifRead(${n.id})">
+      <div class="nd-ico">${n.ico}</div>
+      <div class="nd-body">
+        <div class="nd-title">${n.title}</div>
+        <div class="nd-sub">${n.sub}</div>
+        <div class="nd-time">${n.time}</div>
+      </div>
+    </div>`).join('');
+
+  drop.innerHTML = `
+    <div class="nd-header">
+      <span>🔔 الإشعارات <span style="font-size:11px;color:var(--muted);font-weight:500">(${list.filter(n=>!n.read).length} جديد)</span></span>
+      <button class="nd-clear" onclick="clearAllNotifs()">مسح الكل</button>
+    </div>
+    ${itemsHtml}
+    <div class="nd-footer">
+      <button onclick="closeNotifDropdown()">إغلاق</button>
+      <button class="primary" onclick="enablePushNotifications()">🔔 تفعيل التنبيهات</button>
+    </div>`;
+}
+
+function toggleNotifDropdown() {
+  const drop = document.getElementById('notif-dropdown');
+  if (!drop) return;
+  const isOpen = drop.classList.contains('open');
+  if (!isOpen) {
+    renderNotifDropdown();
+    drop.classList.add('open');
+    markAllNotifRead();
+    /* Close on outside click */
+    setTimeout(() => {
+      document.addEventListener('click', closeOnOutside, { once:true });
+    }, 10);
+  } else {
+    drop.classList.remove('open');
+  }
+}
+window.toggleNotifDropdown = toggleNotifDropdown;
+
+function closeOnOutside(e) {
+  const wrap = document.querySelector('.notif-wrap');
+  if (wrap && !wrap.contains(e.target)) closeNotifDropdown();
+}
+
+function closeNotifDropdown() {
+  document.getElementById('notif-dropdown')?.classList.remove('open');
+}
+window.closeNotifDropdown = closeNotifDropdown;
+
+function markNotifRead(id) {
+  const list = getNotifs().map(n => n.id === id ? {...n, read:true} : n);
+  saveNotifs(list);
+  renderNotifBadge();
+  renderNotifDropdown();
+}
+window.markNotifRead = markNotifRead;
+
+function markAllNotifRead() {
+  saveNotifs(getNotifs().map(n => ({...n, read:true})));
+  renderNotifBadge();
+}
+
+function clearAllNotifs() {
+  saveNotifs([]);
+  renderNotifDropdown();
+  renderNotifBadge();
+}
+window.clearAllNotifs = clearAllNotifs;
+
+async function enablePushNotifications() {
+  closeNotifDropdown();
+  if (!('Notification' in window)) {
+    addNotif('⚠️','غير مدعوم','هذا المتصفح لا يدعم الإشعارات','warn');
+    return;
+  }
+  if (Notification.permission === 'granted') {
+    addNotif('✅','الإشعارات مفعّلة','أنت تتلقى الإشعارات بالفعل','success');
+    if (typeof scheduleReminders === 'function') scheduleReminders();
+    return;
+  }
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') {
+    addNotif('✅','تم تفعيل الإشعارات','ستصلك تذكيرات بالورد والأذكار والمواعيد المهمة','success');
+    if (typeof scheduleReminders === 'function') scheduleReminders();
+    if (typeof showToast === 'function') showToast('✅ الإشعارات مفعّلة — سيبدأ إرسال التذكيرات');
+  } else {
+    addNotif('❌','تم رفض الإشعارات','يمكنك تفعيلها من إعدادات المتصفح','error');
+  }
+}
+window.enablePushNotifications = enablePushNotifications;
+window.showNotifPanel = toggleNotifDropdown; /* backward compat */
+
+/* ═══════════════════════════════════════════════════════════
+   LIVE RESET COUNTDOWN + MIDNIGHT AUTO-RESET
+   ═══════════════════════════════════════════════════════════ */
+function startResetCountdown() {
+  const el = document.getElementById('next-reset-time');
+  if (!el) return;
+
+  function tick() {
+    const now  = new Date();
+    const next = new Date();
+    next.setHours(24, 0, 0, 0);  /* Next midnight */
+    const diff = next - now;
+    const hh   = Math.floor(diff / 3600000);
+    const mm   = Math.floor((diff % 3600000) / 60000);
+    const ss   = Math.floor((diff % 60000) / 1000);
+    const pad  = n => String(n).padStart(2,'0');
+    el.textContent = `${pad(hh)}:${pad(mm)}:${pad(ss)}`;
+
+    /* Check for midnight cross → reset state */
+    const today = now.toISOString().split('T')[0];
+    try {
+      const raw = localStorage.getItem('zad_v2');
+      if (raw) {
+        const s = JSON.parse(raw);
+        if (s.day && s.day !== today) {
+          /* New day — reset worship + charityDone */
+          s.day = today;
+          s.worship = {};
+          s.charityDone = [];
+          /* Update streak */
+          const yesterday = new Date(now);
+          yesterday.setDate(yesterday.getDate()-1);
+          const yd = yesterday.toISOString().split('T')[0];
+          if (s.lastActive === yd) {
+            s.streak = (s.streak||0)+1;
+          } else if (s.lastActive !== today) {
+            s.streak = 1;
+          }
+          s.lastActive = today;
+          localStorage.setItem('zad_v2', JSON.stringify(s));
+          /* Refresh UI */
+          if (typeof updateDashStats === 'function') updateDashStats();
+          if (typeof initChecklist === 'function') initChecklist();
+          addNotif('🌅','يوم جديد مبارك','تجدّدت إحصائيات اليوم — ابدأ وردك من جديد','info');
+        }
+      }
+    } catch(e) {}
+  }
+
+  tick();
+  setInterval(tick, 1000);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DAILY SMART NOTIFICATIONS (added once per day)
+   ═══════════════════════════════════════════════════════════ */
+function seedDailyNotifications() {
+  const KEY = 'zad_notif_seed_day';
+  const today = new Date().toISOString().split('T')[0];
+  if (localStorage.getItem(KEY) === today) return;
+  localStorage.setItem(KEY, today);
+
+  /* Check Dhul Hijjah day */
+  const dhDay = typeof getDhulHijjahDay === 'function' ? getDhulHijjahDay() : null;
+
+  if (dhDay === 9) {
+    addNotif('⭐','يوم عرفة المبارك','أكثر من الدعاء والذكر — خير الدعاء دعاء يوم عرفة','info');
+  } else if (dhDay && dhDay >= 1 && dhDay <= 10) {
+    const names = ['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر'];
+    addNotif('🌙',`اليوم ${names[dhDay]} من عشر ذي الحجة`,'اغتنم هذا اليوم — كل عمل صالح فيه أحب إلى الله','info');
+  }
+
+  addNotif('📿','ذكّرك ربك','اجعل لسانك رطباً بذكر الله — سبّح وكبّر واستغفر','info');
+}
+
 </script>
 </body>
 </html>

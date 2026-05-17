@@ -47,7 +47,7 @@
       <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
       <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
       <div class="nav-sep">القرآن والعبادة</div>
-      <a href="mushaf.html"><span class="ico">📖</span><span>مصحف العشر</span></a>
+      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
       <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
       <a href="takbeer.html"><span class="ico">📿</span><span>المُسبِّح والمُكبِّر</span></a>
       <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
@@ -74,11 +74,30 @@
   </aside>
   <main class="main">
     <div class="topbar">
-      <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
-      <div>
-        <div class="page-title">يوم <span>عرفة</span></div>
-        <div class="page-sub">ربيع القلوب وعتق الرقاب</div>
+      <!-- LEFT: Burger + Logo -->
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo">
+          <img src="icons/icon-192.svg" alt="زاد العشر">
+        </a>
       </div>
+      <!-- CENTER: Page name -->
+      <div class="tb-center">
+        <div class="page-title">يوم <span>عرفة</span></div>
+      </div>
+      <!-- RIGHT: Notif + Lang + Theme -->
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">
+            🔔<span class="notif-dot" id="notif-dot"></span>
+          </button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang?.()">EN</button>
+        <button class="btn-theme" onclick="safeToggleTheme?.()||toggleTheme?.()" aria-label="تبديل المظهر">🌙</button>
+      </div>
+    </div>
+
       <div class="topbar-right">
         <div class="search">🔍 <input placeholder="ابحث..." data-i18n-ph="common.search" onfocus="openSearchOverlay()" aria-label="بحث" role="searchbox"></div>
         <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang()">EN</button>

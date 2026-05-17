@@ -1256,7 +1256,7 @@ h3,h4,.section-title,.brand-name{font-weight:700 !important}
   .pp-time{font-size:12px}
 }
 
-/* ══ Inline hamburger in topbar ════════════════════════════════ */
+
 @media(max-width:768px){
   .hamburger{display:flex}
   .topbar{padding:8px 12px !important;gap:8px !important}
@@ -1288,7 +1288,7 @@ h3,h4,.section-title,.brand-name{font-weight:700 !important}
   .prayer-pill{padding:7px 3px}
 }
 
-/* ══ Topbar hamburger + brand flex group ═══════════════════ */
+
 .topbar{align-items:center}
 .topbar > .hamburger{flex-shrink:0}
 .topbar > .topbar-brand{flex:1;min-width:0}
@@ -1301,7 +1301,7 @@ h3,h4,.section-title,.brand-name{font-weight:700 !important}
   .topbar .page-sub{display:none}
 }
 
-/* ══ Floating topbar (glassmorphism, not fixed) ═══════════ */
+
 @media(max-width:768px){
   .main{padding-top:10px !important}
   .topbar{
@@ -1326,7 +1326,7 @@ h3,h4,.section-title,.brand-name{font-weight:700 !important}
   }
 }
 
-/* ══ Hamburger: black in light mode ════════════════════════ */
+
 .hamburger{
   background:rgba(0,0,0,.85) !important;
   border:1px solid rgba(0,0,0,.15) !important;
@@ -1378,3 +1378,172 @@ html[data-fs="lg"] .nav a{font-size:15px}
   border-radius:99px;padding:5px 14px;font-size:12px;font-weight:700;
   color:var(--sys-green)
 }
+
+/* ══════════════════════════════════════════════════════════
+   NEW TOPBAR LAYOUT:
+   [🍔 burger] [LOGO] ... [page name] ... [lang] [🌙] [🔔]
+   LEFT                  CENTER           RIGHT
+   ══════════════════════════════════════════════════════════ */
+
+/* Desktop: keep topbar sticky inside .main */
+.topbar{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:10px;
+  margin-bottom:20px;
+  padding:10px 16px;
+}
+/* Left: burger + logo */
+.tb-left{display:flex;align-items:center;gap:10px;flex-shrink:0}
+/* Center: page name */
+.tb-center{text-align:center;min-width:0;overflow:hidden}
+.tb-center .page-title{
+  font-size:17px;font-weight:800;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.tb-center .page-sub{display:none}
+/* Right: notif + lang + theme */
+.tb-right{display:flex;align-items:center;gap:7px;flex-shrink:0;justify-content:flex-end}
+
+/* ══ Mobile: FLOATING glass bar ════════════════════════════ */
+@media(max-width:900px){
+  .main{padding-top:8px}
+  .topbar{
+    position:sticky !important;top:0 !important;z-index:60 !important;
+    margin:8px 8px 16px 8px !important;
+    width:calc(100% - 16px) !important;
+    border-radius:20px !important;
+    background:rgba(250,246,236,.92) !important;
+    backdrop-filter:blur(20px) saturate(2) !important;
+    -webkit-backdrop-filter:blur(20px) saturate(2) !important;
+    border:1px solid rgba(201,161,74,.15) !important;
+    box-shadow:0 6px 28px -8px rgba(14,59,46,.18) !important;
+    padding:9px 12px !important;
+    grid-template-columns:auto 1fr auto;
+    gap:8px;
+  }
+  html[data-theme="dark"] .topbar,html[data-theme="oled"] .topbar{
+    background:rgba(8,12,9,.92) !important;
+    border-color:rgba(255,255,255,.07) !important;
+    box-shadow:0 6px 28px -8px rgba(0,0,0,.5) !important;
+  }
+  .tb-center .page-title{font-size:15px}
+  /* Remove the old search bar on mobile */
+  .topbar-right .search{display:none}
+}
+
+/* ══ Desktop: normal topbar ════════════════════════════════ */
+@media(min-width:901px){
+  .hamburger{display:none !important}
+  .topbar{
+    grid-template-columns:auto 1fr auto;
+    margin-bottom:24px;
+    border-radius:0;
+    background:transparent;
+    padding:0 0 16px;
+    border-bottom:1px solid var(--border);
+  }
+}
+
+/* ══ Hamburger: always dark/contrast ═══════════════════════ */
+.hamburger{
+  width:38px !important;height:38px !important;
+  border-radius:11px !important;
+  background:#1a1a1a !important;
+  color:#fff !important;
+  border:none !important;
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px !important;cursor:pointer;flex-shrink:0;
+  transition:background .2s;box-shadow:none !important
+}
+.hamburger:hover{background:#333 !important}
+html[data-theme="dark"] .hamburger,html[data-theme="oled"] .hamburger{
+  background:#e0e0e0 !important;color:#111 !important
+}
+
+/* ══ Logo in topbar ═════════════════════════════════════════ */
+.tb-logo{
+  display:flex;align-items:center;
+  text-decoration:none;gap:0
+}
+.tb-logo img{
+  width:44px;height:44px;border-radius:11px;
+  display:block
+}
+
+/* ══ Notif dropdown ══════════════════════════════════════════ */
+.notif-dropdown{
+  position:absolute;top:calc(100% + 8px);left:0;
+  width:300px;max-height:380px;overflow-y:auto;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;box-shadow:0 12px 40px -8px rgba(0,0,0,.2);
+  z-index:400;display:none;flex-direction:column;
+  animation:dropIn .2s ease
+}
+@keyframes dropIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.notif-dropdown.open{display:flex}
+html[dir="rtl"] .notif-dropdown{left:auto;right:0}
+.nd-header{
+  padding:12px 14px;border-bottom:1px solid var(--border);
+  font-size:13px;font-weight:800;color:var(--ink);
+  display:flex;align-items:center;justify-content:space-between
+}
+.nd-clear{font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:none;font-family:inherit}
+.nd-clear:hover{color:var(--sys-red)}
+.nd-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:11px 14px;border-bottom:1px solid var(--border);
+  transition:background .15s;cursor:pointer
+}
+.nd-item:hover{background:var(--green-pale)}
+.nd-item:last-of-type{border-bottom:none}
+.nd-item.unread{background:var(--gold-pale)}
+.nd-ico{font-size:22px;flex-shrink:0;margin-top:1px}
+.nd-body{flex:1}
+.nd-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.nd-sub{font-size:11px;color:var(--muted);line-height:1.5}
+.nd-time{font-size:10px;color:var(--muted-2);margin-top:3px}
+.nd-empty{text-align:center;padding:24px;color:var(--muted);font-size:13px}
+.nd-footer{
+  padding:10px 14px;border-top:1px solid var(--border);
+  display:flex;gap:8px;flex-wrap:wrap
+}
+.nd-footer button{
+  flex:1;padding:9px;border-radius:10px;border:1.5px solid var(--border);
+  background:none;font-family:inherit;font-size:12px;font-weight:700;
+  cursor:pointer;color:var(--muted);transition:all .2s
+}
+.nd-footer button:hover{border-color:var(--green-soft);color:var(--green-deep);background:var(--green-pale)}
+.nd-footer button.primary{background:var(--green-deep);color:#fff;border-color:var(--green-deep)}
+html[data-theme="dark"] .nd-footer button.primary,
+html[data-theme="oled"] .nd-footer button.primary{background:var(--sys-green);color:#001a08}
+
+/* notif wrapper needs relative positioning */
+.notif-wrap{position:relative;display:inline-block}
+
+/* ══ Reset info live counter ════════════════════════════════ */
+.reset-info{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--muted);padding:6px 0 2px;
+  border-top:1px dashed var(--border);margin-top:4px
+}
+.reset-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--sys-green);animation:pulse 2s infinite;flex-shrink:0
+}
+#next-reset-time{
+  font-family:'ThmanyahSans',monospace;font-weight:800;
+  color:var(--green-deep);font-size:13px;letter-spacing:.5px
+}
+html[data-theme="dark"] #next-reset-time,
+html[data-theme="oled"] #next-reset-time{color:var(--sys-green)}
+
+/* ══ Notif badge on button ══════════════════════════════════ */
+.notif-dot{
+  position:absolute;top:5px;right:5px;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--sys-red);border:2px solid var(--card);
+  display:none
+}
+.notif-dot.show{display:block}
