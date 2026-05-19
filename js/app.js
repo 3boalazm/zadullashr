@@ -5,8 +5,12 @@ function loadState() {
     return raw ? JSON.parse(raw) : defaultState();
   } catch (e) { return defaultState(); }
 }
+let _saveTimer;
 function saveState() {
-  try { localStorage.setItem(KEY, JSON.stringify(STATE)); } catch (e) {}
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => {
+    try { localStorage.setItem(KEY, JSON.stringify(STATE)); } catch (e) {}
+  }, 300);
 }
 function defaultState() {
   return {
@@ -69,6 +73,8 @@ window.applyQuranFont = applyQuranFont;
 function startCountdown() {
   /* Hijri-linked countdown — confirmed dates:
      1 DH = May 18 | 9 DH (Arafah) = May 26 | 10 DH (Eid) = May 27 */
+  /* FIX: Prevent multiple intervals if called twice */
+  if (window._mainCountdownInterval) clearInterval(window._mainCountdownInterval);
   const daysEl  = document.getElementById('cd-days');
   const hrsEl   = document.getElementById('cd-hrs');
   const minsEl  = document.getElementById('cd-mins');
@@ -122,7 +128,7 @@ function startCountdown() {
   }
 
   tick();
-  setInterval(tick, 1000);
+  window._mainCountdownInterval = setInterval(tick, 1000);
 }
 function initChecklist() {
   document.querySelectorAll('.check[data-key]').forEach(el => {
@@ -428,15 +434,24 @@ const AI_SYSTEM = `أنت مساعد إسلامي متخصص في فضائل و�
 اقتصر على أسئلة متعلقة بـ: عشر ذي الحجة، يوم عرفة، الأضحية، التكبير، الصيام في العشر، فضائل الأعمال في هذه الأيام. إذا سُئلت عن شيء خارج هذا الإطار، بيّن أنك متخصص في موضوع العشر فقط.
 اجعل إجاباتك موجزة (3-6 جمل) ما لم يطلب المستخدم التفصيل.`;
 let chatHistory = [];
+let _aiRequestInFlight = false;
 async function sendAIMessage(userMsg) {
   const chatWrap = document.getElementById('chat-wrap');
   const input    = document.getElementById('chat-input');
   const sendBtn  = document.getElementById('chat-send');
   if (!chatWrap || !userMsg.trim()) return;
+  /* FIX: Prevent concurrent requests */
+  if (_aiRequestInFlight) return;
+  /* FIX: Check online status before attempting */
+  if (!navigator.onLine) {
+    appendMsg('bot', '📴 أنت غير متصل بالإنترنت — تحقق من الاتصال وحاول مجدداً');
+    return;
+  }
   appendMsg('user', userMsg);
   chatHistory.push({ role: 'user', content: userMsg });
   if (input) input.value = '';
   if (sendBtn) sendBtn.disabled = true;
+  _aiRequestInFlight = true;
   const typingId = 'typing-' + Date.now();
   chatWrap.insertAdjacentHTML('beforeend', `
     <div class="msg bot" id="${typingId}">
@@ -456,6 +471,7 @@ async function sendAIMessage(userMsg) {
     const data = await res.json();
     const reply = data.text || data.error || 'عذراً، حدث خطأ في الاتصال.';
     chatHistory.push({ role: 'assistant', content: reply });
+    if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
     const typing = document.getElementById(typingId);
     if (typing) typing.remove();
     appendMsg('bot', reply);
@@ -465,6 +481,7 @@ async function sendAIMessage(userMsg) {
     appendMsg('bot', 'عذراً، تعذّر الاتصال. تحقق من اتصالك بالإنترنت وحاول مجدداً.');
   }
   if (sendBtn) sendBtn.disabled = false;
+  _aiRequestInFlight = false;
   chatWrap.scrollTop = chatWrap.scrollHeight;
 }
 function appendMsg(role, text) {
@@ -696,7 +713,8 @@ function startMidnightWatcher() {
     }
   }
   /* Check every 60s */
-  setInterval(checkMidnight, 60000);
+  if (window._midnightInterval) clearInterval(window._midnightInterval);
+  window._midnightInterval = setInterval(checkMidnight, 60000);
 }
 
 /* ════ Font scale restore on load ════════════════════════════ */
@@ -746,7 +764,36 @@ document.addEventListener('DOMContentLoaded', () => {
   initSpeechRecognition();
   initNotifBanner();
   if (STATE.fontScale) applyFontSize(STATE.fontScale);
+  /* FIX: Merged from removed standalone DOMContentLoaded blocks */
+  initSoundHooks();
+  initClockFormat();
+  /* FIX: Online/Offline detection */
+  initNetworkDetection();
 });
+
+/* ════ Online / Offline Detection ════════════════════════════
+   FIX: Was completely missing — added here
+   ════════════════════════════════════════════════════════════ */
+function initNetworkDetection() {
+  function onOnline() {
+    showToast('✅ عاد الاتصال بالإنترنت');
+    document.body.classList.remove('is-offline');
+    /* Trigger a background sync attempt */
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.ready.then(reg => {
+        if ('sync' in reg) reg.sync.register('zad-sync-worship').catch(() => {});
+      });
+    }
+  }
+  function onOffline() {
+    showToast('📴 أنت غير متصل — يعمل وضع عدم الاتصال');
+    document.body.classList.add('is-offline');
+  }
+  window.addEventListener('online',  onOnline);
+  window.addEventListener('offline', onOffline);
+  /* Check current state on load */
+  if (!navigator.onLine) onOffline();
+}
 function initAnimations() {
   document.querySelectorAll('.grid:not(.no-stagger)').forEach(g => {
     g.classList.add('stagger');
@@ -916,10 +963,78 @@ window.applyTheme = function(theme) {
   saveState();
 };
 let deferredInstall = null;
+/* ── Geolocation singleton — prevents double GPS call ── */
+let _geoPromise = null;
+function getGeoLocation(opts = { timeout: 8000 }) {
+  if (_geoPromise) return _geoPromise;
+  if (!navigator.geolocation) return Promise.reject(new Error('no-geo'));
+  _geoPromise = new Promise((res, rej) =>
+    navigator.geolocation.getCurrentPosition(res, rej, opts)
+  ).finally(() => { _geoPromise = null; }); /* reset after settle */
+  return _geoPromise;
+}
+window._getGeoLocation = getGeoLocation;
+
+/* ── Offline / Online detection ── */
+function initOfflineDetection() {
+  const showOfflineBanner = () => {
+    let b = document.getElementById('offline-banner');
+    if (!b) {
+      b = document.createElement('div');
+      b.id = 'offline-banner';
+      b.style.cssText = [
+        'position:fixed;top:0;left:0;right:0;z-index:9999',
+        'background:#1a3a28;color:#c9e8b4;font-size:13px',
+        'padding:8px 16px;text-align:center;direction:rtl',
+        'border-bottom:1px solid #2d6b45;transition:transform .3s',
+      ].join(';');
+      b.innerHTML = '📴 وضع بدون إنترنت — البيانات محفوظة وستُرسَل عند عودة الاتصال';
+      document.body.insertAdjacentElement('afterbegin', b);
+    }
+    b.style.transform = 'translateY(0)';
+  };
+
+  const hideOfflineBanner = () => {
+    const b = document.getElementById('offline-banner');
+    if (b) b.style.transform = 'translateY(-100%)';
+    showToast('✅ عاد الاتصال بالإنترنت');
+    /* Tell SW to cache current page for next offline visit */
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'CACHE_URLS',
+        urls: [window.location.href],
+      });
+    }
+  };
+
+  if (!navigator.onLine) showOfflineBanner();
+  window.addEventListener('offline', showOfflineBanner);
+  window.addEventListener('online',  hideOfflineBanner);
+}
+
 function initPWA() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => {
+        /* Listen for SW updates */
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker?.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              showToast('🔄 تحديث متاح — أعد تحميل الصفحة للحصول على أحدث نسخة');
+            }
+          });
+        });
+      })
+      .catch(() => {});
+    /* Listen for SW messages */
+    navigator.serviceWorker.addEventListener('message', e => {
+      if (e.data?.type === 'SW_UPDATED') {
+        console.log('[SW] Updated to:', e.data.ver);
+      }
+    });
   }
+  initOfflineDetection();
   window.addEventListener('beforeinstallprompt', e => {
     e.preventDefault();
     deferredInstall = e;
@@ -1121,7 +1236,8 @@ function initVerseRotator() {
       renderVerse();
     }
   }
-  setInterval(() => {
+  if (window._verseInterval) clearInterval(window._verseInterval);
+  window._verseInterval = setInterval(() => {
     verseIdx = (verseIdx+1) % DAILY_VERSES.length;
     renderVerseAnimated();
   }, 8000);
@@ -1295,7 +1411,7 @@ function getApproxMaghrib(lat = 24.7) {
 }
 async function fetchPrayerTimesIfPossible() {
   try {
-    const pos = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, {timeout:5000}));
+    const pos = await (window._getGeoLocation ? window._getGeoLocation({ timeout: 8000 }) : new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, {timeout:8000})));
     const { latitude: lat, longitude: lng } = pos.coords;
     const today = new Date().toLocaleDateString('en-CA'); 
     const url = `https://api.aladhan.com/v1/timings/${today}?latitude=${lat}&longitude=${lng}&method=4`;
@@ -1502,7 +1618,8 @@ function initTimeBackground() {
   const [c1, c2] = phase.gradient.split(',');
   bgEl.style.background = `linear-gradient(160deg, ${c1}, ${c2})`;
   bgEl.querySelector('.time-phase-lbl').textContent = `${phase.emoji} ${phase.label}`;
-  setInterval(() => {
+  if (window._timePhaseInterval) clearInterval(window._timePhaseInterval);
+  window._timePhaseInterval = setInterval(() => {
     const p = getTimePhase();
     const [g1, g2] = p.gradient.split(',');
     bgEl.style.background = `linear-gradient(160deg, ${g1}, ${g2})`;
@@ -2144,13 +2261,13 @@ function playClickSound() {
 }
 window.playClickSound = playClickSound;
 
-/* ── Hook sound to checklist ── */
-document.addEventListener('DOMContentLoaded', () => {
+/* ── Hook sound to checklist — called from main DOMContentLoaded ── */
+function initSoundHooks() {
   document.querySelectorAll('.check[data-key]').forEach(el => {
     el.addEventListener('click', () => { if (el.classList.contains('done')) playClickSound(); });
   });
   renderDailyContentCard();
-});
+}
 /* ════ Scroll-to-top button ══════════════════════════════════ */
 function initScrollTopBtn() {
   /* Create button */
@@ -2701,11 +2818,14 @@ function applyClockFormat() {
 }
 window.applyClockFormat = applyClockFormat;
 
-/* Apply on load */
-document.addEventListener('DOMContentLoaded', () => {
+/* Apply on load — merged into main DOMContentLoaded via initClockFormat() */
+function initClockFormat() {
   applyClockFormat();
-  /* Observer: re-apply when dynamic content changes times */
-  const obs = new MutationObserver(() => applyClockFormat());
+  /* FIX: Less aggressive observer — only childList, no characterData subtree watch */
+  const obs = new MutationObserver(() => {
+    clearTimeout(window._clockFmtTimer);
+    window._clockFmtTimer = setTimeout(applyClockFormat, 200);
+  });
   const main = document.querySelector('.main');
-  if (main) obs.observe(main, { childList: true, subtree: true, characterData: true });
-});
+  if (main) obs.observe(main, { childList: true, subtree: true });
+}
