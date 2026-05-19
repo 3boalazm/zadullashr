@@ -7,6 +7,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0e3b2e">
 <link rel="manifest" href="manifest.json">
+<!-- FIX: Preload only the 2 most-used fonts to reduce FOUT -->
+<link rel="preload" href="fonts/thmanyahsans-Regular.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="fonts/thmanyahsans-Bold.otf" as="font" type="font/otf" crossorigin>
 <link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
 <title>لوحة التحكم — زاد العشر</title>
@@ -916,10 +919,33 @@ function formatTime(sec){
 
 <script src="lang.js" defer></script>
 <script src="js/app.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
-<script src="animations.js" defer></script>
+<!-- FIX: Smart loader — skip heavy animations on low-end devices -->
+<script>
+(function() {
+  /* Skip GSAP on low-end devices (1-2 cores, save CPU) */
+  var lowEnd = navigator.hardwareConcurrency <= 2;
+  /* Skip on Save-Data mode */
+  var saveData = navigator.connection && navigator.connection.saveData;
+  if (lowEnd || saveData) {
+    window._skipAnimations = true;
+    return;
+  }
+  function loadScript(src, cb) {
+    var s = document.createElement('script');
+    s.src = src; s.defer = true;
+    if (cb) s.onload = cb;
+    document.head.appendChild(s);
+  }
+  /* Load GSAP → then ScrollTrigger → then animations.js */
+  loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', function() {
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', function() {
+      loadScript('animations.js');
+    });
+  });
+  /* Confetti loads independently */
+  loadScript('https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js');
+})();
+</script>
 
 <script>
 /* ════════════════════════════════════════════════════════════
@@ -940,55 +966,7 @@ function quickWorship(type){
   else if(type==='fasting') window.location.href='worship.html';
 }
 
-/* ── 2️⃣ 1. COUNTDOWN — Fixed for Arafah Day ──────────────── */
-function startCountdown(){
-  if(_cdTimer)clearInterval(_cdTimer);
-  
-  function tick(){
-    const now=new Date();
-    
-    // Arafah 2026 = May 26, 2026 (9 Dhul Hijjah 1447)
-    const arafahDate=new Date(2026,4,26,0,0,0); // شهر 4 = مايو (الشهور بتبدأ من 0)
-    const diff=arafahDate-now;
-    
-    if(diff>0){
-      const pad=n=>String(Math.max(0,n)).padStart(2,'0');
-      const d=Math.floor(diff/86400000);
-      const h=Math.floor((diff%86400000)/3600000);
-      const m=Math.floor((diff%3600000)/60000);
-      const s=Math.floor((diff%60000)/1000);
-      
-      document.getElementById('cd-days').textContent=pad(d);
-      document.getElementById('cd-hrs').textContent=pad(h);
-      document.getElementById('cd-mins').textContent=pad(m);
-      document.getElementById('cd-secs').textContent=pad(s);
-      
-      // تحديث النص بناءً على عدد الأيام
-      const heroEye=document.getElementById('hero-eyebrow');
-      const heroHead=document.getElementById('hero-heading');
-      
-      if(d<=10 && d>=1){
-        const dayNames=['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر'];
-        heroEye.textContent=`اليوم ${dayNames[10-d]} من ذي الحجة`;
-        heroHead.textContent='إلى يوم عرفة المبارك';
-      }else if(d>10){
-        heroEye.textContent='العد التنازلي لعشر ذي الحجة';
-        heroHead.textContent='إلى يوم عرفة المبارك';
-      }
-    }else{
-      // يوم عرفة وصل
-      document.getElementById('cd-days').textContent='00';
-      document.getElementById('cd-hrs').textContent='00';
-      document.getElementById('cd-mins').textContent='00';
-      document.getElementById('cd-secs').textContent='00';
-      document.getElementById('hero-heading').textContent='يوم عرفة المبارك ⭐';
-      document.getElementById('hero-eyebrow').textContent='اليوم هو يوم عرفة';
-    }
-  }
-  
-  tick();
-  _cdTimer=setInterval(tick,1000);
-}
+/* ── COUNTDOWN: Handled by app.js startCountdown() — removed duplicate ── */
 
 /* ── 2. HIJRI DATE from API ──────────────────────────────── */
 async function initHijriBar(){
@@ -1392,27 +1370,7 @@ function clearAllNotifs() {
 }
 window.clearAllNotifs = clearAllNotifs;
 
-async function enablePushNotifications() {
-  closeNotifDropdown();
-  if (!('Notification' in window)) {
-    addNotif('⚠️','غير مدعوم','هذا المتصفح لا يدعم الإشعارات','warn');
-    return;
-  }
-  if (Notification.permission === 'granted') {
-    addNotif('✅','الإشعارات مفعّلة','أنت تتلقى الإشعارات بالفعل','success');
-    if (typeof scheduleReminders === 'function') scheduleReminders();
-    return;
-  }
-  const perm = await Notification.requestPermission();
-  if (perm === 'granted') {
-    addNotif('✅','تم تفعيل الإشعارات','ستصلك تذكيرات بالورد والأذكار والمواعيد المهمة','success');
-    if (typeof scheduleReminders === 'function') scheduleReminders();
-    if (typeof showToast === 'function') showToast('✅ الإشعارات مفعّلة — سيبدأ إرسال التذكيرات');
-  } else {
-    addNotif('❌','تم رفض الإشعارات','يمكنك تفعيلها من إعدادات المتصفح','error');
-  }
-}
-window.enablePushNotifications = enablePushNotifications;
+/* enablePushNotifications: defined in app.js — removed duplicate from index.html */
 window.showNotifPanel = toggleNotifDropdown; /* backward compat */
 
 /* ═══════════════════════════════════════════════════════════
