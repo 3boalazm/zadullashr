@@ -1,82 +1,118 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<title>الإعدادات — زاد العشر</title>
-<meta charset="UTF-8">
-<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0e3b2e">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/icon-192.svg">
-<!-- Async font loading — eliminates render-blocking -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" id="google-fonts"
-  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
-  media="print" onload="this.media='all'">
-<noscript>
-  
-</noscript>
-<link rel="stylesheet" href="css/style.css">
-<script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();
-  /* Profile settings display */
-  (function(){
-    const p = typeof getProfile==='function' ? getProfile() : JSON.parse(localStorage.getItem('zad_profile')||'null');
-    if (!p) return;
-    const nameEl = document.getElementById('settings-profile-name');
-    const typeEl = document.getElementById('settings-profile-type');
-    if (nameEl) nameEl.textContent = p.name || '—';
-    if (typeEl) typeEl.textContent = p.type === 'child' ? '🧒 وضع الطفل' : '👤 وضع الراشد';
-  })();
+  <title>الإعدادات — زاد العشر</title>
+  <meta charset="UTF-8">
+  <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0e3b2e">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.svg">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" id="google-fonts" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap">
+  </noscript>
+  <link rel="stylesheet" href="css/style.css">
 
-/* ── Clock format ────────────────────────────────────────── */
-function setClockFormat(fmt) {
-  localStorage.setItem('zad_clock', fmt);
-  updateClockBtns(fmt);
-  if (typeof applyClockFormat === 'function') applyClockFormat();
-  if (typeof showToast === 'function')
-    showToast(fmt === '12' ? '🕐 نظام 12 ساعة (ص/م)' : '🕐 نظام 24 ساعة');
-}
-function updateClockBtns(fmt) {
-  ['12','24'].forEach(id => {
-    const btn = document.getElementById('clock-'+id);
-    if (!btn) return;
-    const active = id === fmt;
-    btn.style.borderColor = active ? 'var(--green-deep)' : 'var(--border)';
-    btn.style.background  = active ? 'rgba(14,59,46,.08)' : 'var(--card)';
-  });
-}
-/* Init */
-document.addEventListener('DOMContentLoaded', () => {
-  updateClockBtns(localStorage.getItem('zad_clock') || '24');
-});
+  <style>
+    :root { --font-scale: 1; }
+    body { font-size: calc(1rem * var(--font-scale)); }
+    .quran-text, .quran, [data-quran], .mushaf, .ayah, .ts-ayah-text, .basmala-txt, .surah-title-box { font-size: revert !important; }
+    
+    .reminder-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .fs-btn { transition: all .2s; }
+    
+    .font-size-options { display: flex; gap: 8px; }
+    .font-size-options .fs-btn { flex: 1; padding: 12px; border: 2px solid var(--border); border-radius: 12px; background: transparent; cursor: pointer; font-family: inherit; transition: all .2s; color: var(--ink); }
+    .font-size-options .fs-btn.active { border-color: var(--green-deep); background: var(--green-deep); color: #fff; }
+    .fs-btn[data-size="small"] span:first-child { font-size: 14px; display: block; margin-bottom: 4px; }
+    .fs-btn[data-size="medium"] span:first-child { font-size: 19px; display: block; margin-bottom: 4px; }
+    .fs-btn[data-size="large"] span:first-child { font-size: 24px; display: block; margin-bottom: 4px; }
 
-</script>
+    .settings-search-wrap { margin: 14px 0 20px; }
+    .settings-search-wrap input { width: 100%; padding: 14px; border-radius: 14px; border: 1px solid var(--border); background: var(--card); font-family: inherit; color: var(--ink); }
+    
+    .settings-hub { display: flex; flex-direction: column; gap: 14px; }
+    .settings-accordion { background: var(--card); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+    .settings-accordion summary { padding: 18px; cursor: pointer; font-size: 15px; font-weight: 800; list-style: none; user-select: none; }
+    
+    .setting-item { display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; }
+    .setting-item select, .setting-item input[type="text"], .setting-item input[type="range"] { padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--sand); color: var(--ink); font-family: inherit; }
+    
+    .danger-btn { margin: 10px 18px; padding: 12px; width: calc(100% - 36px); border: none; border-radius: 12px; font-family: inherit; font-weight: 700; cursor: pointer; text-align: center; }
+    .red { background: #ff3b30; color: #fff; }
 
-<script>
-/* Force-set correct VAPID key from Firebase Console */
-localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H1zri8aBn7dKAYX-ane9SgSztSxStJT6TKupW3zKAXg');
-</script>
-<style>
-.reminder-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
-.fs-btn{transition:all .2s}
-</style>
-<style>
-  :root{--font-scale:1}
-  body{font-size:calc(1rem * var(--font-scale))}
-  .quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
-  .font-size-options{display:flex;gap:8px}
-  .font-size-options .fs-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;transition:all .2s;color:var(--ink)}
-  .font-size-options .fs-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff}
-  .fs-btn[data-size="small"]  span:first-child{font-size:14px;display:block;margin-bottom:4px}
-  .fs-btn[data-size="medium"] span:first-child{font-size:19px;display:block;margin-bottom:4px}
-  .fs-btn[data-size="large"]  span:first-child{font-size:24px;display:block;margin-bottom:4px}
-</style>
-<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
-  <!-- Open Graph / Social Media Thumbnail -->
+    /* تخصيص المظهر المتقدم والتبديل (Toggles) */
+    .stx-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 16px; padding: 6px 16px; margin-bottom: 14px; box-shadow: var(--shadow-sm); }
+    .stx-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 18px; border-bottom: 1px solid var(--border); }
+    .stx-row:last-child { border-bottom: none; }
+    .stx-row .lbl { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+    .stx-row .lbl small { display: block; font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 2px; line-height: 1.6; }
+    
+    .stx-toggle { position: relative; width: 46px; height: 26px; flex-shrink: 0; cursor: pointer; }
+    .stx-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .stx-toggle .sl { position: absolute; inset: 0; background: var(--sand-2); border-radius: 99px; transition: .25s; }
+    .stx-toggle .sl::before { content: ''; position: absolute; width: 20px; height: 20px; border-radius: 50%; background: #fff; top: 3px; right: 3px; transition: .25s; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+    .stx-toggle input:checked + .sl { background: var(--green-soft); }
+    .stx-toggle input:checked + .sl::before { transform: translateX(-20px); }
+    
+    .stx-seg { display: flex; gap: 6px; }
+    .stx-seg button { border: 1.5px solid var(--border); background: var(--card); color: var(--muted); border-radius: 9px; padding: 6px 12px; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer; transition: all .2s; }
+    .stx-seg button.on { border-color: var(--green-soft); background: var(--green-pale); color: var(--green-deep); }
+    html[data-theme="dark"] .stx-seg button.on, html[data-theme="oled"] .stx-seg button.on { color: var(--sys-green); }
+    
+    .stx-accents { display: flex; gap: 10px; }
+    .stx-accent { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: .2s; position: relative; }
+    .stx-accent.on { border-color: var(--ink); transform: scale(1.08); }
+    
+    .stx-goal { display: flex; align-items: center; gap: 10px; padding: 13px 0; }
+    .stx-goal input[type=range] { flex: 1; }
+    .stx-goal .val { font-size: 16px; font-weight: 900; color: var(--green-deep); font-family: monospace; min-width: 64px; text-align: center; }
+    html[data-theme="dark"] .stx-goal .val, html[data-theme="oled"] .stx-goal .val { color: var(--sys-green); }
+    .stx-presets { display: flex; }
+  </style>
+
+  <script>
+    (function(){
+      var s = localStorage.getItem('zad_v2');
+      var t = 'light', fs = 24;
+      try {
+        var p = JSON.parse(s);
+        t = p.theme || 'light';
+        fs = p.quranFontSize || 24;
+      } catch(e){}
+      document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.style.setProperty('--qf-size', fs + 'px');
+    })();
+
+    (function(){
+      var saved = localStorage.getItem('zad_font_size');
+      var map = {small: 0.875, medium: 1, large: 1.15};
+      if(!saved || saved === 'system'){
+        var scale = 1;
+        try {
+          var p = document.createElement('div');
+          p.style.cssText = 'position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';
+          (document.head || document.documentElement).appendChild(p);
+          var rem = parseFloat(getComputedStyle(p).width) || 16;
+          (document.head || document.documentElement).removeChild(p);
+          scale = rem <= 14 ? 0.875 : rem >= 18 ? 1.15 : 1;
+        } catch(e){}
+        document.documentElement.style.setProperty('--font-scale', scale);
+      } else {
+        document.documentElement.style.setProperty('--font-scale', map[saved] || 1);
+      }
+    })();
+    
+    // إعداد الـ VAPID Key الافتراضي
+    localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H1zri8aBn7dKAYX-ane9SgSztSxStJT6TKupW3zKAXg');
+  </script>
+
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="زاد العشر">
   <meta property="og:url" content="https://zadullashr.vercel.app/settings.html">
@@ -87,31 +123,26 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="زاد العشر — تطبيق العبادة في عشر ذي الحجة">
   <meta property="og:locale" content="ar_SA">
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="زاد العشر — أفضل أيام الدنيا">
   <meta name="twitter:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
   <meta name="twitter:image" content="https://zadullashr.vercel.app/og-image.png">
-  <!-- WhatsApp / general -->
   <meta name="description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
-  <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
-  <!-- Vercel Web Analytics -->
+  
   <script>
-    window.va = window.va || function() {
-      (window.vaq = window.vaq || []).push(arguments);
-    };
+    window.va = window.va || function() { (window.vaq = window.vaq || []).push(arguments); };
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
-    <aside class="sidebar">
+  
+  <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
       <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
       <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
-    <!-- Profile chip injected by JS -->
     <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
     <div class="theme-row">
       <span>🌙 الوضع الداكن</span>
@@ -121,10 +152,9 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
       <span class="slb-label">🌐 اللغة</span>
       <span class="slb-val" id="sidebar-lang-val">EN</span>
     </button>
-    
-      <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
-        📲 تثبيت / تحميل التطبيق
-      </button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+      📲 تثبيت / تحميل التطبيق
+    </button>
     <nav class="nav">
       <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
       <div class="nav-sep">الصلاة والتقويم</div>
@@ -158,20 +188,16 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
     </nav>
     <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
   </aside>
+
   <main class="main">
     <div class="topbar">
-      <!-- LEFT: Burger + Logo -->
       <div class="tb-left">
         <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
-        <a href="index.html" class="tb-logo">
-          <img src="icons/icon-192.svg" alt="زاد العشر">
-        </a>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
       </div>
-      <!-- CENTER: Page name -->
       <div class="tb-center">
         <div class="page-title">الإعدادات</div>
       </div>
-      <!-- RIGHT: Notif + Lang + Theme -->
       <div class="tb-right">
         <div class="notif-wrap">
           <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">
@@ -182,8 +208,10 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
       </div>
     </div>
 
+    <div class="settings-search-wrap">
+      <input type="text" id="settingsSearch" placeholder="ابحث في الإعدادات... مثال: القرآن، الأذان، الزكاة">
+    </div>
 
-    <!-- ══ 0. Profile ═══════════════════════════════════════ -->
     <div class="section-title">👤 الملف الشخصي</div>
     <div class="card" style="margin-bottom:16px">
       <div style="display:flex;align-items:center;gap:14px;padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:14px">
@@ -206,33 +234,28 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
       </div>
     </div>
 
-    <!-- ══ 1. المظهر ════════════════════════════════════════ -->
     <div class="section-title">🎨 المظهر</div>
     <div class="card" style="margin-bottom:16px">
-      <!-- Theme selector -->
       <div style="padding-bottom:14px;border-bottom:1px solid var(--border)">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
           <div class="ic">🎨</div>
           <div class="lbl"><b>المظهر</b><small>اختر وضع العرض</small></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-          <button onclick="setTheme('light')" id="theme-light"
-            style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
+          <button onclick="setTheme('light')" id="theme-light" style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
             <div style="font-size:20px;margin-bottom:4px">☀️</div>
             <div style="font-size:12px;font-weight:700;color:var(--ink)">فاتح</div>
           </button>
-          <button onclick="setTheme('dark')" id="theme-dark"
-            style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
+          <button onclick="setTheme('dark')" id="theme-dark" style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
             <div style="font-size:20px;margin-bottom:4px">🌙</div>
             <div style="font-size:12px;font-weight:700;color:var(--ink)">داكن</div>
           </button>
-          <button onclick="setTheme('oled')" id="theme-oled"
-            style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
+          <button onclick="setTheme('oled')" id="theme-oled" style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
             <div style="font-size:20px;margin-bottom:4px">⚫</div>
             <div style="font-size:12px;font-weight:700;color:var(--ink)">OLED</div>
           </button>
         </div>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center">OLED — أسود كامل لتوفير البطارية</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center">OLED — أسود كامل لتوفير استهلاك شاشات الهواتف للبطارية</div>
       </div>
       <div style="padding-top:14px">
         <div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--sand);border-radius:12px;border:1px solid var(--border)">
@@ -243,526 +266,273 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
           </div>
           <span id="sys-font-badge" style="margin-right:auto;font-size:11px;font-weight:700;background:rgba(14,59,46,.1);color:var(--green-deep);border-radius:8px;padding:4px 10px">متوسط</span>
         </div>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center">لتغيير الحجم: إعدادات الجهاز ← إمكانية الوصول ← حجم الخط</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center">لتغيير الحجم: إعدادات النظام للـ جهاز ← إمكانية الوصول ← حجم الخط</div>
       </div>
     </div>
 
-    <!-- ══ 2. الإشعارات ═════════════════════════════════════ -->
+    <div class="section-title">🎛️ تخصيص العبادة والمحرك الفني</div>
+    <div class="settings-hub" style="margin-bottom: 24px;">
+
+      <details class="settings-accordion" open>
+        <summary>📖 تجربة القرآن المخصصة</summary>
+        <div class="setting-item">
+          <label>نوع الرسم والمصحف</label>
+          <select id="scriptStyle">
+            <option value="uthmani">الرسم العثماني (المدينة النبوية)</option>
+            <option value="indoPak">الرسم الهندي / الباكستاني</option>
+            <option value="nastaliq">رسم نستعليق (التركي)</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>القارئ الافتراضي</label>
+          <select id="reciter">
+            <option>مشاري بن راشد العفاسي</option>
+            <option>عبد الباسط عبد الصمد</option>
+            <option>ياسر الدوسري</option>
+            <option>عبد الرحمن السديس</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>سرعة التلاوة الصوتية</label>
+          <input type="range" id="playbackSpeed" min="0.5" max="1.5" step=".25" value="1">
+          <span id="speedVal" style="font-weight:700; text-align:center;">1x</span>
+        </div>
+        <div class="stx-row">
+          <span class="lbl">
+            وضع الحفظ والتسميع
+            <small>إخفاء نصوص الآيات حتى يتم الضغط عليها للتأكد</small>
+          </span>
+          <span class="stx-toggle">
+            <input type="checkbox" id="hifzMode">
+            <span class="sl"></span>
+          </span>
+        </div>
+      </details>
+
+      <details class="settings-accordion">
+        <summary>🕌 محرك الصلاة والزمان</summary>
+        <div class="setting-item">
+          <label>طريقة حساب المواقيت</label>
+          <select id="prayerMethod">
+            <option>الهيئة المصرية العامة للمساحة</option>
+            <option>جامعة أم القرى (مكة المكرمة)</option>
+            <option>رابطة العالم الإسلامي</option>
+            <option>JAKIM (ماليزيا)</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>تنبيه مسبق قبل الأذان</label>
+          <select id="beforeAdhan">
+            <option value="0">إيقاف التنبيه</option>
+            <option value="5">قبل بـ 5 دقائق</option>
+            <option value="10">قبل بـ 10 دقائق</option>
+            <option value="15">قبل بـ 15 دقيقة</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>تعديل التقويم الهجري الإداري</label>
+          <input type="range" id="hijriAdjust" min="-2" max="2" value="0">
+        </div>
+      </details>
+
+      <details class="settings-accordion">
+        <summary>💰 الحساب المالي والزكاة</summary>
+        <div class="setting-item">
+          <label>العملة المحلية الافتراضية</label>
+          <select id="currency">
+            <option>EGP (جنيه مصري)</option>
+            <option>SAR (ريال سعودي)</option>
+            <option>USD (دولار أمريكي)</option>
+          </select>
+        </div>
+        <div class="stx-row">
+          <span class="lbl">تحديث أسعار نصاب الذهب حياً (Live Gold API)</span>
+          <span class="stx-toggle">
+            <input type="checkbox" id="goldLive">
+            <span class="sl"></span>
+          </span>
+        </div>
+      </details>
+
+      <details class="settings-accordion">
+        <summary>🔐 الخصوصية والأمان الفائق</summary>
+        <div class="stx-row">
+          <span class="lbl">
+            مزامنة محلية منعزلة
+            <small>حفظ البيانات على المتصفح فقط وتعطيل النسخ السحابي</small>
+          </span>
+          <span class="stx-toggle">
+            <input type="checkbox" id="localOnly">
+            <span class="sl"></span>
+          </span>
+        </div>
+        <button class="danger-btn" style="background:var(--sand); color:var(--ink)" onclick="generateEncryptionKey()">🔑 توليد مفتاح تشفير البيانات</button>
+        <button class="danger-btn" style="background:var(--sand); color:var(--ink)" onclick="exportPDF()">📄 تصدير سجلات العبادة كـ PDF</button>
+        <button class="danger-btn red" onclick="wipeEverything()">🗑️ مسح وحذف شامل لجميع البيانات نهائياً</button>
+      </details>
+
+      <details class="settings-accordion">
+        <summary>🧪 إعدادات متقدمة للمطورين</summary>
+        <div class="setting-item">
+          <button style="padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--sand); cursor: pointer; font-family: inherit; font-weight:700; color:var(--ink)" onclick="clearCache()">🧹 تنظيف ذاكرة التخزين المؤقت (Cache)</button>
+        </div>
+        <div class="setting-item">
+          <label>دقة مستشعر الموقع الفضائي GPS</label>
+          <select>
+            <option>نمط اقتصادي متوازن (توفير طاقة)</option>
+            <option>نمط متوازن شبكي</option>
+            <option>نمط عالي الدقة والتحقق والسرعة</option>
+          </select>
+        </div>
+      </details>
+    </div>
+
     <div class="section-title">🔔 الإشعارات والتذكيرات</div>
     <div class="card" style="margin-bottom:16px">
-      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border)">
-        <div class="ic">🔔</div>
-        <div class="lbl"><b>تفعيل الإشعارات</b><small>لتلقي التذكيرات</small></div>
+      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="ic">🔔</div>
+          <div class="lbl"><b>تفعيل الإشعارات والنظام الفوري</b><small>لتلقي التذكيرات على جهازك</small></div>
+        </div>
         <button id="notif-toggle-btn" onclick="toggleNotifications()" style="padding:9px 16px;border-radius:10px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .25s">تفعيل</button>
       </div>
       <div style="padding-top:10px">
-        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">📿 ورد الصباح</div><div style="font-size:11px;color:var(--muted)">5:30 صباحاً</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="wird_morning" checked><span class="tgl-sl"></span></label></div>
-        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">🌙 ورد المساء</div><div style="font-size:11px;color:var(--muted)">5:00 مساءً</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="wird_evening" checked><span class="tgl-sl"></span></label></div>
-        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">☀️ أذكار الصباح</div><div style="font-size:11px;color:var(--muted)">بعد الفجر</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="adhkar_morning" checked><span class="tgl-sl"></span></label></div>
-        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">🌆 أذكار المساء</div><div style="font-size:11px;color:var(--muted)">بعد العصر</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="adhkar_evening" checked><span class="tgl-sl"></span></label></div>
-        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">⭐ يوم عرفة</div><div style="font-size:11px;color:var(--muted)">26 مايو 2026</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="arafah_reminder" checked><span class="tgl-sl"></span></label></div>
-        <div class="reminder-row" style="border-bottom:none"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">🎬 فيديو أسبوعي</div><div style="font-size:11px;color:var(--muted)">كل جمعة مساءً</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="video_weekly" checked><span class="tgl-sl"></span></label></div>
+        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">📿 ورد الصباح القرآني</div><div style="font-size:11px;color:var(--muted)">5:30 صباحاً</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="wird_morning" checked><span class="tgl-sl"></span></label></div>
+        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">🌙 ورد المساء القرآني</div><div style="font-size:11px;color:var(--muted)">5:00 مساءً</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="wird_evening" checked><span class="tgl-sl"></span></label></div>
+        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">☀️ أذكار الصباح الشرعية</div><div style="font-size:11px;color:var(--muted)">بعد صلاة الفجر</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="adhkar_morning" checked><span class="tgl-sl"></span></label></div>
+        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">🌆 أذكار المساء الشرعية</div><div style="font-size:11px;color:var(--muted)">بعد صلاة العصر</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="adhkar_evening" checked><span class="tgl-sl"></span></label></div>
+        <div class="reminder-row"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">⭐ التنبيه بيوم عرفة العظيم</div><div style="font-size:11px;color:var(--muted)">26 مايو 2026</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="arafah_reminder" checked><span class="tgl-sl"></span></label></div>
+        <div class="reminder-row" style="border-bottom:none"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--ink)">🎬 التذكير بالمحاضرة والفيديو الأسبوعي</div><div style="font-size:11px;color:var(--muted)">كل جمعة مساءً</div></div><label class="toggle-pill"><input type="checkbox" class="reminder-switch" data-key="video_weekly" checked><span class="tgl-sl"></span></label></div>
       </div>
     </div>
 
-    <!-- ══ 3. التطبيق ════════════════════════════════════════ -->
-    <div class="section-title">📲 التطبيق</div>
+    <div class="section-title">📲 التطبيق والجاهزية الافتراضية</div>
     <div class="card" style="margin-bottom:16px">
-      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border)">
-        <div class="ic">📲</div>
-        <div class="lbl"><b>تثبيت التطبيق</b><small>يعمل بدون إنترنت</small></div>
+      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="ic">📲</div>
+          <div class="lbl"><b>تثبيت التطبيق على الشاشة الرئيسية</b><small>يعمل بكامل المزايا أوفلاين دون إنترنت</small></div>
+        </div>
         <button id="install-pwa-btn" onclick="installPWA()" style="padding:9px 16px;border-radius:10px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .25s">تثبيت</button>
       </div>
-      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border)">
-        <div class="ic">🔗</div>
-        <div class="lbl"><b>مشاركة التطبيق</b><small>شارك مع أهلك</small></div>
+      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="ic">🔗</div>
+          <div class="lbl"><b>نشر ومشاركة التطبيق للآخرين</b><small>شارك الدال على الخير مع عائلتك وأصدقائك</small></div>
+        </div>
         <button onclick="shareApp()" style="padding:9px 16px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--ink)">مشاركة</button>
       </div>
-      <div class="settings-row" style="border-bottom:none">
-        <div class="ic">⬇️</div>
-        <div class="lbl"><b>تحميل التطبيق</b><small>دليل التثبيت</small></div>
+      <div class="settings-row" style="border-bottom:none; display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="ic">⬇️</div>
+          <div class="lbl"><b>تحميل ملفات التطبيق الأصلية</b><small>دليل تفعيل ميزات التثبيت المتقدمة</small></div>
+        </div>
         <button onclick="downloadApp()" style="padding:9px 16px;border-radius:10px;border:1.5px solid var(--gold);background:var(--gold-pale);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--gold-dark)">تحميل</button>
       </div>
     </div>
 
-
-    <!-- ══ Clock Format ═════════════════════════════════════ -->
-    <div class="section-title">🕐 نظام الساعة</div>
+    <div class="section-title">🕐 نظام عرض الساعة</div>
     <div class="card" style="margin-bottom:16px">
-      <div style="margin-bottom:12px;font-size:12px;color:var(--muted)">يؤثر على مواقيت الصلاة في كل الصفحات</div>
+      <div style="margin-bottom:12px;font-size:12px;color:var(--muted)">يؤثر بشكل مباشر على تهيئة وعرض مواقيت الصلاة في كافة جداول وواجهات التطبيق الأساسية</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <button id="clock-24" onclick="setClockFormat('24')"
-          style="padding:16px;border-radius:14px;border:2px solid var(--border);background:var(--card);
-                 font-family:inherit;cursor:pointer;transition:all .2s;text-align:center">
+        <button id="clock-24" onclick="setClockFormat('24')" style="padding:16px;border-radius:14px;border:2px solid var(--border);background:var(--card); font-family:inherit;cursor:pointer;transition:all .2s;text-align:center">
           <div style="font-size:22px;font-weight:900;color:var(--ink);font-family:'ThmanyahSans',monospace;margin-bottom:6px">16:35</div>
-          <div style="font-size:13px;font-weight:700;color:var(--ink)">24 ساعة</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px">النظام الدولي</div>
+          <div style="font-size:13px;font-weight:700;color:var(--ink)">نظام 24 ساعة</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">النظام والنسق الدولي القياسي</div>
         </button>
-        <button id="clock-12" onclick="setClockFormat('12')"
-          style="padding:16px;border-radius:14px;border:2px solid var(--border);background:var(--card);
-                 font-family:inherit;cursor:pointer;transition:all .2s;text-align:center">
+        <button id="clock-12" onclick="setClockFormat('12')" style="padding:16px;border-radius:14px;border:2px solid var(--border);background:var(--card); font-family:inherit;cursor:pointer;transition:all .2s;text-align:center">
           <div style="font-size:22px;font-weight:900;color:var(--ink);font-family:'ThmanyahSans',monospace;margin-bottom:6px">4:35 م</div>
-          <div style="font-size:13px;font-weight:700;color:var(--ink)">12 ساعة</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px">ص / م</div>
+          <div style="font-size:13px;font-weight:700;color:var(--ink)">نظام 12 ساعة</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">صيغة التوقيت الصباحي والمسائي (ص/م)</div>
         </button>
       </div>
     </div>
 
-    <!-- ══ 4. اللغة ══════════════════════════════════════════ -->
-    <div class="section-title">🌐 اللغة</div>
+    <div class="section-title">🌐 اللغة — Language</div>
     <div class="card" style="margin-bottom:16px">
-      <div class="settings-row" style="border-bottom:none">
-        <div class="ic">🌐</div>
-        <div class="lbl"><b>لغة التطبيق</b><small>Language</small></div>
+      <div class="settings-row" style="border-bottom:none; display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="ic">🌐</div>
+          <div class="lbl"><b>لغة عرض التطبيق الافتراضية</b><small>تغيير لغة النصوص والواجهات بالكامل</small></div>
+        </div>
         <button onclick="toggleLang?.()" style="padding:9px 18px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--ink)">العربية ⇄ EN</button>
       </div>
     </div>
 
-    <!-- ══ 5. البيانات ═══════════════════════════════════════ -->
-    <div class="section-title">💾 البيانات</div>
+    <div class="section-title">💾 إدارة قواعد البيانات المحلية وبث النسخ الاحتياطية</div>
     <div class="card" style="margin-bottom:20px">
-      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border)">
-        <div class="ic">📊</div>
-        <div class="lbl"><b>تصدير البيانات</b><small>حفظ نسخة احتياطية JSON</small></div>
+      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="ic">📊</div>
+          <div class="lbl"><b>تصدير كامل بيانات تقدمك الحالية</b><small>حفظ نسخة أمان احتياطية مشفرة بصيغة ملف JSON خارج المتصفح</small></div>
+        </div>
         <button onclick="exportData()" style="padding:9px 16px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted)">📤 تصدير</button>
       </div>
-      <!-- Import backup -->
-      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px">
-        <div class="ic">📥</div>
-        <div class="lbl"><b>استيراد نسخة احتياطية</b><small>استعادة بياناتك من ملف JSON</small></div>
+      <div class="settings-row" style="padding-bottom:14px;border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="ic">📥</div>
+          <div class="lbl"><b>استيراد نسخة أمان ومزامنة سابقة</b><small>استرجاع وإحياء الإحصاءات والأوسمة والتقدم من ملف JSON محفوظ سابقاً</small></div>
+        </div>
         <label style="padding:9px 16px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted);display:flex;align-items:center;gap:6px">
-          📥 استيراد
+          📥 استيراد ملف
           <input type="file" id="import-file" accept=".json" onchange="importData(this)" style="display:none">
         </label>
       </div>
-      <div class="settings-row" style="border-bottom:none">
-        <div class="ic">🗑️</div>
-        <div class="lbl"><b>مسح البيانات</b><small style="color:rgba(255,59,48,.7)">يمسح كل التقدم</small></div>
-        <button onclick="confirmResetData()" style="padding:9px 16px;border-radius:10px;border:1.5px solid rgba(255,59,48,.3);background:rgba(255,59,48,.05);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:rgba(255,59,48,.8)">مسح</button>
-      </div>
-    </div>
-
-    <div class="section-title">🎛️ تخصيص العبادة والمظهر</div>
-    <style>
-      .stx-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:6px 16px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
-      .stx-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--border)}
-      .stx-row:last-child{border-bottom:none}
-      .stx-row .lbl{font-size:13.5px;font-weight:700;color:var(--ink)}
-      .stx-row .lbl small{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-top:2px;line-height:1.6}
-      .stx-toggle{position:relative;width:46px;height:26px;flex-shrink:0;cursor:pointer}
-      .stx-toggle input{opacity:0;width:0;height:0;position:absolute}
-      .stx-toggle .sl{position:absolute;inset:0;background:var(--sand-2);border-radius:99px;transition:.25s}
-      .stx-toggle .sl::before{content:'';position:absolute;width:20px;height:20px;border-radius:50%;background:#fff;top:3px;right:3px;transition:.25s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
-      .stx-toggle input:checked + .sl{background:var(--green-soft)}
-      .stx-toggle input:checked + .sl::before{transform:translateX(-20px)}
-      .stx-seg{display:flex;gap:6px}
-      .stx-seg button{border:1.5px solid var(--border);background:var(--card);color:var(--muted);border-radius:9px;padding:6px 12px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
-      .stx-seg button.on{border-color:var(--green-soft);background:var(--green-pale);color:var(--green-deep)}
-      html[data-theme="dark"] .stx-seg button.on,html[data-theme="oled"] .stx-seg button.on{color:var(--sys-green)}
-      .stx-accents{display:flex;gap:10px}
-      .stx-accent{width:38px;height:38px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:.2s;position:relative}
-      .stx-accent.on{border-color:var(--ink);transform:scale(1.08)}
-      .stx-goal{display:flex;align-items:center;gap:10px;padding:13px 0}
-      .stx-goal input[type=range]{flex:1}
-      .stx-goal .val{font-size:16px;font-weight:900;color:var(--green-deep);font-family:monospace;min-width:64px;text-align:center}
-      html[data-theme="dark"] .stx-goal .val,html[data-theme="oled"] .stx-goal .val{color:var(--sys-green)}
-      .stx-presets{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
-      .stx-presets button{border:1.5px solid var(--border);background:var(--card);border-radius:9px;padding:5px 11px;font-family:inherit;font-size:11.5px;font-weight:700;color:var(--ink);cursor:pointer}
-      .stx-presets button.on{border-color:var(--gold);background:var(--gold-pale)}
-    </style>
-
-    <div style="font-size:12px;color:var(--muted);font-weight:700;margin:2px 0 8px">📖 تجربة القرآن</div>
-    <div class="stx-card">
-      <div style="padding:13px 0 4px">
-        <div class="lbl" style="font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px">هدف الورد اليومي</div>
-        <div class="stx-presets" id="stx-goal-presets">
-          <button data-g="60">ختمة/10 أيام (60)</button><button data-g="30">ختمة/30 (30)</button>
-          <button data-g="10">ختمة/60 (10)</button>
+      <div class="settings-row" style="border-bottom:none; display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="ic">🗑️</div>
+          <div class="lbl"><b>تصفير وحذف الذاكرة الكلي</b><small style="color:rgba(255,59,48,.7)">سيؤدي هذا لمسح كلي لتقدمك وأوسمتك وسجل الأذكار والتقدم</small></div>
         </div>
-        <div class="stx-goal"><input type="range" id="stx-goal" min="1" max="604" value="20"><span class="val"><span id="stx-goal-v">20</span> ص</span></div>
+        <button onclick="confirmResetData()" style="padding:9px 16px;border-radius:10px;border:1.5px solid rgba(255,59,48,.3);background:rgba(255,59,48,.05);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:rgba(255,59,48,.8)">مسح الذاكرة</button>
       </div>
-      <label class="stx-row"><span class="lbl">معجم الجذور (Word-by-Word)<small>الضغط المطوّل على كلمةٍ يفتح بطاقة جذرها</small></span><span class="stx-toggle"><input type="checkbox" id="stx-rootdict"><span class="sl"></span></span></label>
-      <label class="stx-row"><span class="lbl">وضع الحفظ<small>إخفاء الآيات وكشفُها للمراجعة الذاتية</small></span><span class="stx-toggle"><input type="checkbox" id="stx-memorize"><span class="sl"></span></span></label>
     </div>
 
-    <div style="font-size:12px;color:var(--muted);font-weight:700;margin:2px 0 8px">🤚 الحواس والصوت</div>
-    <div class="stx-card">
-      <div class="stx-row"><span class="lbl">شدة الاهتزاز</span><span class="stx-seg" id="stx-haptic"><button data-h="off">إيقاف</button><button data-h="light">خفيف</button><button data-h="medium">متوسط</button><button data-h="strong">قوي</button></span></div>
-      <label class="stx-row"><span class="lbl">صوت التكبير<small>نغمةٌ قصيرةٌ مع كل دورة تكبير</small></span><span class="stx-toggle"><input type="checkbox" id="stx-tksound"><span class="sl"></span></span></label>
-    </div>
-
-    <div style="font-size:12px;color:var(--muted);font-weight:700;margin:2px 0 8px">🎨 المظهر</div>
-    <div class="stx-card">
-      <div class="stx-row"><span class="lbl">لون السمة</span><span class="stx-accents" id="stx-accents">
-        <span class="stx-accent" data-accent="gold"    title="ذهبي عشري"  style="background:#c9a14a"></span>
-        <span class="stx-accent" data-accent="emerald" title="أخضر زمردي" style="background:#1B6B4A"></span>
-        <span class="stx-accent" data-accent="royal"   title="أزرق ملكي"  style="background:#2952c9"></span>
-      </span></div>
-      <label class="stx-row"><span class="lbl">تأثير الزجاج (Glassmorphism)<small>عمقٌ بصريٌّ خفيف خلف البطاقات</small></span><span class="stx-toggle"><input type="checkbox" id="stx-glass"><span class="sl"></span></span></label>
-    </div>
-
-    <div style="text-align:center;color:var(--muted);font-size:11px;margin-bottom:24px">
-      زاد العشر · الإصدار 2.0 · 1447هـ<br>
-      <a href="about.html" style="color:var(--gold-dark);text-decoration:none;font-weight:700">عن التطبيق والمطور</a>
-    </div>
   </main>
-<a href="ai.html" class="fab-ai">🤖</a>
 </div>
 
-<script src="lang.js" defer></script>
-<script src="js/app.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="animations.js" defer></script>
 <script>
-const REMINDERS_KEY = 'zad_reminders';
-
-function setFontScale(size, btn) {
-  document.documentElement.setAttribute('data-fs', size);
-  document.documentElement.setAttribute('data-font', size);
-  document.querySelectorAll('.fs-btn').forEach(b => {
-    const on = b.dataset.fs === size;
-    b.style.borderColor = on ? 'var(--green-deep)' : 'var(--border)';
-    b.style.background  = on ? 'rgba(14,59,46,.08)' : 'var(--card)';
-    b.style.color       = on ? 'var(--green-deep)' : 'var(--muted)';
-  });
-  try{const s=JSON.parse(localStorage.getItem('zad_v2')||'{}');s.fontScale=size;localStorage.setItem('zad_v2',JSON.stringify(s));}catch(e){}
-  if(typeof showToast==='function') showToast({sm:'صغير',md:'متوسط',lg:'كبير'}[size] ? `🔤 حجم الخط: ${{sm:'صغير',md:'متوسط',lg:'كبير'}[size]}` : '');
-}
-
-function restoreFontScale(){
-  try{const s=JSON.parse(localStorage.getItem('zad_v2')||'{}');const size=s.fontScale||'md';document.querySelectorAll('.fs-btn').forEach(b=>{const on=b.dataset.fs===size;b.style.borderColor=on?'var(--green-deep)':'var(--border)';b.style.background=on?'rgba(14,59,46,.08)':'var(--card)';b.style.color=on?'var(--green-deep)':'var(--muted)';});}catch(e){}
-}
-
-function updateNotifBtn(){
-  const btn=document.getElementById('notif-toggle-btn');
-  if(!btn)return;
-  if(Notification.permission==='granted'){
-    btn.textContent='✅ مفعّلة';btn.style.background='rgba(52,199,89,.1)';btn.style.color='var(--sys-green)';btn.style.border='1.5px solid rgba(52,199,89,.3)';btn.disabled=true;
-  }
-}
-
-async function toggleNotifications(){
-  if(Notification.permission==='granted')return;
-  if(!('Notification' in window)){if(typeof showToast==='function')showToast('⚠️ المتصفح لا يدعم الإشعارات');return;}
-  const perm=await Notification.requestPermission();
-  if(perm==='granted'){updateNotifBtn();scheduleAllReminders();if(typeof showToast==='function')showToast('✅ تم تفعيل الإشعارات!');}
-  else{if(typeof showToast==='function')showToast('❌ فعّلها من إعدادات المتصفح');}
-}
-
-function loadReminderToggles(){
-  const saved=JSON.parse(localStorage.getItem(REMINDERS_KEY)||'{}');
-  document.querySelectorAll('.reminder-switch').forEach(sw=>{
-    sw.checked=saved[sw.dataset.key]!==false;
-    sw.addEventListener('change',()=>{
-      const cur=JSON.parse(localStorage.getItem(REMINDERS_KEY)||'{}');
-      cur[sw.dataset.key]=sw.checked;localStorage.setItem(REMINDERS_KEY,JSON.stringify(cur));
-      if(Notification.permission==='granted')scheduleAllReminders();
-      if(typeof showToast==='function')showToast(sw.checked?'🔔 تم تفعيل التذكير':'🔕 تم إيقاف التذكير');
-    });
-  });
-}
-
-function scheduleAllReminders(){
-  if(Notification.permission!=='granted')return;
-  const saved=JSON.parse(localStorage.getItem(REMINDERS_KEY)||'{}');
-  if(window._rTimers)window._rTimers.forEach(clearTimeout);
-  window._rTimers=[];
-  function at(h,m,title,body,key){
-    if(saved[key]===false)return;
-    const now=new Date(),t=new Date();t.setHours(h,m,0,0);
-    if(t<=now)t.setDate(t.getDate()+1);
-    const id=setTimeout(()=>{try{new Notification(title,{body,icon:'/icons/icon-192.svg',dir:'rtl'});}catch(e){}at(h,m,title,body,key);},t-now);
-    window._rTimers.push(id);
-  }
-  at(5,30,'📿 ورد الصباح','ابدأ وردك في أفضل أيام الدنيا','wird_morning');
-  at(17,0,'🌙 ورد المساء','لا تنسَ أذكار المساء','wird_evening');
-  at(6,15,'☀️ أذكار الصباح','3 دقائق تحمي يومك بإذن الله','adhkar_morning');
-  at(15,45,'🌆 أذكار المساء','حصّن نفسك قبل الغروب','adhkar_evening');
-  /* Arafa */
-  if(saved['arafah_reminder']!==false){
-    const af=new Date(2026,4,26,5,0,0),af2=new Date(2026,4,26,12,0,0),now=new Date();
-    if(af>now)window._rTimers.push(setTimeout(()=>{try{new Notification('⭐ يوم عرفة!',{body:'أكثر من الدعاء — خير الدعاء دعاء عرفة',icon:'/icons/icon-192.svg',dir:'rtl'});}catch(e){}},af-now));
-    if(af2>now)window._rTimers.push(setTimeout(()=>{try{new Notification('🌄 عرفة الظهر',{body:'لا تفوّت — صيامك يكفّر سنتين',icon:'/icons/icon-192.svg',dir:'rtl'});}catch(e){}},af2-now));
-  }
-  /* Weekly video — Friday 8pm */
-  if(saved['video_weekly']!==false){
-    const now=new Date(),fri=new Date(now);fri.setDate(now.getDate()+((5-now.getDay()+7)%7||7));fri.setHours(20,0,0,0);
-    window._rTimers.push(setTimeout(()=>{try{new Notification('🎬 محاضرة الجمعة',{body:'شاهد محاضرات العشر المختارة',icon:'/icons/icon-192.svg',dir:'rtl'});}catch(e){}},fri-now));
-  }
-}
-
-function updateInstallBtn(){
-  const btn=document.getElementById('install-pwa-btn');if(!btn)return;
-  if(window.matchMedia('(display-mode: standalone)').matches||navigator.standalone||document.referrer.includes('android-app://')){
-    btn.textContent='✅ مثبّت';btn.style.background='rgba(52,199,89,.1)';btn.style.color='var(--sys-green)';btn.style.border='1.5px solid rgba(52,199,89,.3)';btn.disabled=true;
-  }
-}
-
-function shareApp(){
-  const d={title:'🌙 زاد العشر',text:'رفيقك في أفضل أيام الدنيا',url:'https://zadullashr.vercel.app'};
-  if(navigator.share)navigator.share(d).catch(()=>{navigator.clipboard?.writeText(d.url);if(typeof showToast==='function')showToast('✅ تم نسخ الرابط');});
-  else{navigator.clipboard?.writeText(d.url);if(typeof showToast==='function')showToast('✅ تم نسخ الرابط');}
-}
-
-function downloadApp(){
-  const ua=navigator.userAgent.toLowerCase();
-  const msg=ua.includes('android')?'📱 Android: قائمة المتصفح (⋮) ← "إضافة للشاشة الرئيسية"':ua.includes('iphone')||ua.includes('ipad')?'📱 iPhone: زر المشاركة (⬆) ← "إضافة للشاشة الرئيسية"':'💻 Desktop: أيقونة التثبيت في شريط العنوان';
-  const p=document.createElement('div');p.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)';
-  p.innerHTML=`<div style="background:var(--card);border-radius:20px;padding:26px;max-width:320px;width:100%;text-align:center"><div style="font-size:40px;margin-bottom:12px">📲</div><div style="font-size:16px;font-weight:800;color:var(--ink);margin-bottom:10px">تثبيت زاد العشر</div><div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px">${msg}</div><button onclick="shareApp();this.closest('div[style]').remove()" style="width:100%;padding:12px;border-radius:12px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px">🔗 مشاركة الرابط</button><button onclick="this.closest('div[style]').remove()" style="width:100%;padding:10px;border:none;background:none;font-family:inherit;font-size:13px;cursor:pointer;color:var(--muted)">إغلاق</button></div>`;
-  document.body.appendChild(p);
-}
-
-function exportData(){
-  try{const d={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith('zad_'))d[k]=localStorage.getItem(k);}const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='zad-backup.json';a.click();if(typeof showToast==='function')showToast('✅ تم تصدير البيانات');}catch(e){if(typeof showToast==='function')showToast('❌ خطأ في التصدير');}
-}
-
-function confirmResetData(){
-  if(!confirm('هل أنت متأكد؟ سيُمسح كل التقدم نهائياً.'))return;
-  const profile=localStorage.getItem('zad_profile');
-  localStorage.clear();
-  if(profile)localStorage.setItem('zad_profile',profile);
-  if(typeof showToast==='function')showToast('🗑️ تم مسح البيانات');
-  setTimeout(()=>location.reload(),1200);
-}
-
-document.addEventListener('DOMContentLoaded',()=>{
-  restoreFontScale();updateNotifBtn();updateInstallBtn();loadReminderToggles();
-  try{
-    const p=JSON.parse(localStorage.getItem('zad_profile')||'null');
-    if(p){
-      const ne=document.getElementById('settings-profile-name');
-      const te=document.getElementById('settings-profile-type');
-      if(ne)ne.textContent=p.name||'—';
-      if(te)te.textContent=p.type==='child'?'🧒 وضع الطفل':'👤 وضع الراشد';
-    }
-  }catch(e){}
-  if(Notification.permission==='granted')scheduleAllReminders();
-  window.addEventListener('appinstalled',updateInstallBtn);
-});
-</script>
-<script>
-(function(){
-  var map={small:0.875,medium:1,large:1.15};
-
-  /* Detect system font size once */
-  function detectSystemSize(){
-    var probe=document.createElement('div');
-    probe.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';
-    document.body.appendChild(probe);
-    var rem=parseFloat(getComputedStyle(probe).width)||16;
-    document.body.removeChild(probe);
-    return rem<=14?'small':rem>=18?'large':'medium';
-  }
-
-  var systemSize = detectSystemSize();
-  var saved = localStorage.getItem('zad_font_size'); /* null = auto */
-  var isAuto = !saved || saved === 'system';
-  var current = isAuto ? systemSize : saved;
-
-  var btns=document.querySelectorAll('#fontSizeOptions .fs-btn');
-  var autoBtn=document.getElementById('fs-auto-btn');
-  var systemLabel=document.getElementById('fs-system-label');
-
-  /* Update system-detected label */
-  var sizeNames={small:'صغير',medium:'متوسط',large:'كبير'};
-  if(systemLabel) systemLabel.textContent='(النظام: '+sizeNames[systemSize]+')';
-
-  function apply(size, auto){
-    if(auto){
-      localStorage.removeItem('zad_font_size');
-      /* Keep 'system' marker so we know auto is selected */
-      localStorage.setItem('zad_font_size','system');
-    } else {
-      localStorage.setItem('zad_font_size',size);
-    }
-    document.documentElement.style.setProperty('--font-scale',map[size]||1);
-    document.documentElement.setAttribute('data-system-font',size);
-    /* Highlight buttons */
-    btns.forEach(function(b){b.classList.toggle('active',!auto&&b.dataset.size===size);});
-    if(autoBtn){
-      autoBtn.classList.toggle('active',auto);
-      autoBtn.style.borderColor=auto?'var(--gold)':'var(--border)';
-      autoBtn.style.background=auto?'rgba(201,161,74,.1)':'transparent';
-      autoBtn.style.color=auto?'var(--gold-dark)':'var(--muted)';
-    }
-  }
-
-  btns.forEach(function(b){
-    b.addEventListener('click',function(){ apply(b.dataset.size, false); });
-  });
-  if(autoBtn){
-    autoBtn.addEventListener('click',function(){ apply(systemSize, true); });
-  }
-
-  /* Init */
-  apply(current, isAuto);
-})();
-
-/* ── Theme selector (3 states) ──────────────────────────── */
-function setTheme(t) {
-  document.documentElement.setAttribute('data-theme', t);
-  try {
-    const s = JSON.parse(localStorage.getItem('zad_v2') || '{}');
-    s.theme = t; localStorage.setItem('zad_v2', JSON.stringify(s));
-  } catch(e) {}
-  updateThemeBtns(t);
-  if (typeof showToast === 'function') {
-    const labels = { light:'☀️ الوضع الفاتح', dark:'🌙 الوضع الداكن', oled:'⚫ الوضع OLED' };
-    showToast(labels[t] || t);
-  }
-}
-function updateThemeBtns(t) {
-  ['light','dark','oled'].forEach(id => {
-    const btn = document.getElementById('theme-'+id);
-    if (!btn) return;
-    const active = id === t;
-    btn.style.borderColor = active ? 'var(--green-deep)' : 'var(--border)';
-    btn.style.background  = active ? 'rgba(14,59,46,.08)' : 'var(--card)';
-  });
-  /* Also sync the dark-switch toggle for backward compat */
-  document.querySelectorAll('.dark-switch').forEach(sw => { sw.checked = (t !== 'light'); });
-}
-
-/* ── Detect system font size ─────────────────────────────── */
-function detectAndShowSystemFont() {
-  try {
-    const p = document.createElement('div');
-    p.style.cssText = 'position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';
-    document.body.appendChild(p);
-    const rem = parseFloat(getComputedStyle(p).width) || 16;
-    document.body.removeChild(p);
-    const badge = document.getElementById('sys-font-badge');
-    if (badge) {
-      const label = rem <= 14 ? 'صغير' : rem >= 18 ? 'كبير' : 'متوسط';
-      badge.textContent = label;
-      /* Apply scale */
-      const scale = rem <= 14 ? 0.875 : rem >= 18 ? 1.15 : 1;
-      document.documentElement.style.setProperty('--font-scale', scale);
-    }
-  } catch(e) {}
-}
-
-/* ── Import backup ───────────────────────────────────────── */
-function importData(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const data = JSON.parse(e.target.result);
-      let count = 0;
-      Object.entries(data).forEach(([k, v]) => {
-        if (k.startsWith('zad_')) { localStorage.setItem(k, v); count++; }
-      });
-      if (typeof showToast === 'function') showToast(`✅ تم استيراد ${count} عنصر — جارٍ التحديث`);
-      setTimeout(() => location.reload(), 1200);
-    } catch(err) {
-      if (typeof showToast === 'function') showToast('❌ الملف غير صحيح — تأكد أنه ملف JSON من زاد العشر');
-    }
-  };
-  reader.readAsText(file);
-  input.value = ''; /* reset */
-}
-window.importData = importData;
-
-/* Init additions */
-document.addEventListener('DOMContentLoaded', () => {
-  /* Theme buttons */
-  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-  updateThemeBtns(currentTheme);
-  /* System font badge */
-  detectAndShowSystemFont();
-});
-
-</script>
-<script>
-/* تخصيص العبادة والمظهر (settings) — zad_v2.prefs / accent / mushaf goal */
-(function(){
-  'use strict';
-  var ZKEY='zad_v2';
-  var ACCENTS={gold:['#c9a14a','#a07b2e'],emerald:['#1B6B4A','#14563b'],royal:['#2952c9','#1f3fa0']};
-  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
-  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
-  function prefs(){var s=read();s.prefs=s.prefs||{};return s;}
-  function applyAccent(a){var c=ACCENTS[a]||ACCENTS.gold;document.documentElement.style.setProperty('--gold',c[0]);document.documentElement.style.setProperty('--gold-dark',c[1]);}
-  function applyGlass(on){document.body.classList.toggle('glass-on',!!on);}
-
-  /* هدف الورد */
-  var goal=document.getElementById('stx-goal'),goalV=document.getElementById('stx-goal-v');
-  function setGoal(v){v=Math.min(604,Math.max(1,v|0));goal.value=v;goalV.textContent=v;var s=read();s.mushaf=s.mushaf||{};s.mushaf.dailyPages=s.mushaf.dailyPages||{day:new Date().toISOString().split('T')[0],count:0};s.mushaf.dailyPages.target=v;write(s);
-    document.querySelectorAll('#stx-goal-presets button').forEach(function(b){b.classList.toggle('on',+b.dataset.g===v);});}
-  goal.addEventListener('input',function(){setGoal(+goal.value);});
-  document.querySelectorAll('#stx-goal-presets button').forEach(function(b){b.addEventListener('click',function(){setGoal(+b.dataset.g);});});
-
-  /* toggles */
-  function bindToggle(id,key){var el=document.getElementById(id);el.addEventListener('change',function(){var s=prefs();s.prefs[key]=el.checked;write(s);});return el;}
-  var rd=bindToggle('stx-rootdict','rootDict'), mz=bindToggle('stx-memorize','memorize'), tk=bindToggle('stx-tksound','takbeerSound');
-  var gl=document.getElementById('stx-glass');
-  gl.addEventListener('change',function(){var s=prefs();s.prefs.glass=gl.checked;write(s);applyGlass(gl.checked);});
-
-  /* haptic segment */
-  document.querySelectorAll('#stx-haptic button').forEach(function(b){b.addEventListener('click',function(){
-    var s=prefs();s.prefs.haptic=b.dataset.h;write(s);
-    document.querySelectorAll('#stx-haptic button').forEach(function(x){x.classList.toggle('on',x===b);});
-    if(b.dataset.h!=='off'&&navigator.vibrate)navigator.vibrate(b.dataset.h==='strong'?40:b.dataset.h==='medium'?25:12);
-  });});
-
-  /* accents */
-  document.querySelectorAll('#stx-accents .stx-accent').forEach(function(el){el.addEventListener('click',function(){
-    var a=el.dataset.accent;var s=read();s.accent=a;write(s);applyAccent(a);
-    document.querySelectorAll('#stx-accents .stx-accent').forEach(function(x){x.classList.toggle('on',x===el);});
-  });});
-
-  /* init from stored */
+  /* إدارة واجهة وعرض بيانات الحساب الشخصي وتعديل الرتب */
   (function(){
-    var s=prefs();
-    var g=(s.mushaf&&s.mushaf.dailyPages&&s.mushaf.dailyPages.target)||20; goal.value=g;goalV.textContent=g;
-    document.querySelectorAll('#stx-goal-presets button').forEach(function(b){b.classList.toggle('on',+b.dataset.g===g);});
-    rd.checked=!!s.prefs.rootDict; mz.checked=!!s.prefs.memorize; tk.checked=!!s.prefs.takbeerSound; gl.checked=!!s.prefs.glass;
-    var hap=s.prefs.haptic||'medium';
-    document.querySelectorAll('#stx-haptic button').forEach(function(b){b.classList.toggle('on',b.dataset.h===hap);});
-    var acc=s.accent||'gold';
-    document.querySelectorAll('#stx-accents .stx-accent').forEach(function(b){b.classList.toggle('on',b.dataset.accent===acc);});
-    applyAccent(acc); applyGlass(!!s.prefs.glass);
+    const p = typeof getProfile === 'function' ? getProfile() : JSON.parse(localStorage.getItem('zad_profile') || 'null');
+    if (!p) return;
+    const nameEl = document.getElementById('settings-profile-name');
+    const typeEl = document.getElementById('settings-profile-type');
+    if (nameEl) nameEl.textContent = p.name || '—';
+    if (typeEl) typeEl.textContent = p.type === 'child' ? '🧒 وضع الطفل' : '👤 وضع الراشد';
   })();
-})();
-</script>
-<script>
-/* صورة الحساب — تُصغَّر وتُحفظ base64 محلياً (zad_v2.profile.avatar) */
-(function(){
-  'use strict';
-  var ZKEY='zad_v2';
-  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
-  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
-  var input=document.getElementById('av-input'), prev=document.getElementById('av-preview'), rm=document.getElementById('av-remove');
-  if(!input||!prev) return;
-  function paint(){
-    var s=read(); var a=s.profile&&s.profile.avatar;
-    if(a){ prev.style.backgroundImage='url('+a+')'; prev.textContent=''; rm.style.display='inline-block'; }
-    else { prev.style.backgroundImage=''; prev.textContent='🙂'; rm.style.display='none'; }
+
+  /* تهيئة وتطبيق وضبط نمط الساعات وعرض الوقت القياسي */
+  function setClockFormat(fmt) {
+    localStorage.setItem('zad_clock', fmt);
+    updateClockBtns(fmt);
+    if (typeof applyClockFormat === 'function') applyClockFormat();
+    if (typeof showToast === 'function')
+      showToast(fmt === '12' ? '🕐 نظام 12 ساعة (ص/م)' : '🕐 نظام 24 ساعة الدولي');
   }
-  input.addEventListener('change',function(){
-    var file=input.files&&input.files[0]; if(!file) return;
-    if(!/^image\//.test(file.type)){ if(window.showToast)window.showToast('اختر ملف صورة'); return; }
-    var fr=new FileReader();
-    fr.onload=function(){
-      var img=new Image();
-      img.onload=function(){
-        var sz=160, c=document.createElement('canvas'); c.width=c.height=sz;
-        var ctx=c.getContext('2d');
-        var m=Math.min(img.width,img.height), sx=(img.width-m)/2, sy=(img.height-m)/2;
-        ctx.drawImage(img,sx,sy,m,m,0,0,sz,sz);
-        var data=c.toDataURL('image/jpeg',0.8);
-        var s=read(); s.profile=s.profile||{}; s.profile.avatar=data; write(s); paint();
-        if(window.showToast)window.showToast('✅ تم حفظ صورة الحساب');
-      };
-      img.src=fr.result;
-    };
-    fr.readAsDataURL(file);
+
+  function updateClockBtns(fmt) {
+    ['12','24'].forEach(id => {
+      const btn = document.getElementById('clock-'+id);
+      if (!btn) return;
+      const active = id === fmt;
+      btn.style.borderColor = active ? 'var(--green-deep)' : 'var(--border)';
+      btn.style.background  = active ? 'rgba(14,59,46,.08)' : 'var(--card)';
+    });
+  }
+
+  /* الاستماع لحدث اكتمال شجرة الـ DOM وحقن التمكين */
+  document.addEventListener('DOMContentLoaded', () => {
+    updateClockBtns(localStorage.getItem('zad_clock') || '24');
+    
+    // ربط محرك عرض سرعة الصوتيات الفوري عند تحريك الـ Slider
+    const speedInput = document.getElementById('playbackSpeed');
+    const speedValLabel = document.getElementById('speedVal');
+    if (speedInput && speedValLabel) {
+      speedInput.addEventListener('input', (e) => {
+        speedValLabel.textContent = e.target.value + 'x';
+      });
+    }
   });
-  rm.addEventListener('click',function(){ var s=read(); if(s.profile){delete s.profile.avatar;write(s);} paint(); });
-  paint();
-})();
 </script>
-  <script src="menu.js" defer></script></body>
+</body>
 </html>
