@@ -273,16 +273,19 @@ html[data-theme="dark"] .hc-vow .n,html[data-theme="oled"] .hc-vow .n{background
   var $=function(id){return document.getElementById(id);};
   function isLiked(id){return !!likes().kidsHeroes.likes[id];}
   function paintLike(){
-    var btn=$('hs-like'), on=isLiked(cur);
+    var btn=$('hs-like'); if(!btn) return;
+    var on=isLiked(cur);
     btn.classList.toggle('liked',on);
-    btn.querySelector('.ai').textContent=on?'❤️':'🤍';
-    $('hs-like-t').textContent=on?'أُعجبتُ بها':'إعجاب';
+    var ai=btn.querySelector('.ai'); if(ai) ai.textContent=on?'❤️':'🤍';
+    var t=$('hs-like-t'); if(t) t.textContent=on?'أُعجبتُ بها':'إعجاب';
     var card=document.querySelector('.hero-btn[data-hero="'+cur+'"]');
     if(card){var old=card.querySelector('.liked');if(on&&!old){var sp=document.createElement('span');sp.className='liked';sp.textContent='❤️';card.appendChild(sp);}else if(!on&&old)old.remove();}
   }
   function open(id){
     var st=STORIES[id]; if(!st)return; cur=id;
-    $('hs-emoji').textContent=st.e; $('hs-name').textContent=st.n; $('hs-cat').textContent=st.c;
+    if($('hs-emoji'))$('hs-emoji').textContent=st.e;
+    if($('hs-name'))$('hs-name').textContent=st.n;
+    if($('hs-cat'))$('hs-cat').textContent=st.c;
     /* لون رأس البوب-اب حسب البطل */
     var head=document.querySelector('.hs-head');
     if(head&&st.color){ head.style.background=st.color; }
