@@ -71,6 +71,106 @@ html[data-theme="dark"] .k-task.done .kb,html[data-theme="oled"] .k-task.done .k
 .k-reward{display:none;text-align:center;background:linear-gradient(135deg,var(--gold-pale),var(--card));border:1.5px solid rgba(201,161,74,.4);border-radius:15px;padding:16px;font-size:15px;font-weight:800;color:var(--gold-dark);margin-top:6px}
 html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--sys-yellow)}
 .k-reward.show{display:block;animation:zadFadeUp .5s ease both}
+
+/* ═══ الرحلات التفاعلية ═══ */
+.jr-progress{display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px 16px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+.jr-progress-bar{flex:1;height:10px;background:var(--sand);border-radius:99px;overflow:hidden;position:relative}
+.jr-progress-fill{height:100%;background:linear-gradient(90deg,var(--green-soft),var(--gold));border-radius:99px;width:0;transition:width .5s cubic-bezier(.34,1.56,.64,1)}
+.jr-progress-txt{font-size:12px;font-weight:800;color:var(--green-deep);white-space:nowrap}
+html[data-theme="dark"] .jr-progress-txt,html[data-theme="oled"] .jr-progress-txt{color:var(--sys-green)}
+.jr-stars{font-size:14px;letter-spacing:1px}
+
+.jr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:11px;margin-bottom:8px}
+.jr-step{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:15px 12px;cursor:pointer;text-align:center;transition:all .25s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.jr-step:hover{transform:translateY(-3px);border-color:var(--green-soft);box-shadow:0 8px 20px -6px rgba(14,59,46,.25)}
+.jr-step:active{transform:scale(.97)}
+.jr-step .jr-num{position:absolute;top:7px;right:9px;font-size:11px;font-weight:900;color:var(--muted);background:var(--sand);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.jr-step .jr-e{font-size:38px;line-height:1;margin-bottom:8px;display:block;filter:drop-shadow(0 3px 6px rgba(0,0,0,.15))}
+.jr-step .jr-t{font-size:12.5px;font-weight:800;color:var(--ink);line-height:1.4}
+.jr-step.done{background:linear-gradient(135deg,var(--green-pale),var(--card));border-color:var(--green-soft)}
+.jr-step.done::after{content:'✓';position:absolute;top:7px;left:9px;width:22px;height:22px;border-radius:50%;background:var(--green-deep);color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;animation:jrPop .4s cubic-bezier(.34,1.56,.64,1)}
+html[data-theme="dark"] .jr-step.done::after,html[data-theme="oled"] .jr-step.done::after{background:var(--sys-green);color:#001a08}
+@keyframes jrPop{0%{transform:scale(0)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+
+/* بوب-اب الخطوة */
+.jr-modal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:24px 22px 30px;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.jr-modal.open{display:flex;animation:jrFade .25s ease}
+@keyframes jrFade{from{opacity:0}to{opacity:1}}
+.jr-box{background:var(--card);border-radius:24px;max-width:430px;width:100%;max-height:84vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 28px 80px -16px rgba(0,0,0,.6),0 0 0 1px rgba(201,161,74,.15);animation:jrBoxIn .42s cubic-bezier(.34,1.56,.64,1)}
+@keyframes jrBoxIn{0%{transform:translateY(40px) scale(.92);opacity:0}60%{transform:translateY(-4px) scale(1.01)}100%{transform:none;opacity:1}}
+.jr-head{background:linear-gradient(135deg,#1a5d47,#2a7a5f 60%,#c9a14a 150%);color:#fff;padding:24px 20px 18px;text-align:center;position:relative}
+.jr-head::after{content:'';position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:200px;height:200px;background:radial-gradient(circle,rgba(255,255,255,.22),transparent 65%);pointer-events:none;animation:jrGlow 3s ease-in-out infinite}
+@keyframes jrGlow{0%,100%{opacity:.5;transform:translateX(-50%) scale(1)}50%{opacity:.9;transform:translateX(-50%) scale(1.15)}}
+.jr-head .jr-he{font-size:50px;line-height:1;animation:jrEmoji .6s cubic-bezier(.34,1.56,.64,1) .1s both;position:relative;z-index:1}
+@keyframes jrEmoji{0%{transform:scale(0) rotate(-15deg);opacity:0}60%{transform:scale(1.2) rotate(8deg)}100%{transform:scale(1);opacity:1}}
+.jr-head h3{font-size:19px;font-weight:900;margin-top:8px;position:relative;z-index:1}
+.jr-head .jr-sub{display:inline-block;margin-top:6px;font-size:11.5px;font-weight:800;background:rgba(255,255,255,.2);border-radius:99px;padding:3px 12px;position:relative;z-index:1}
+.jr-close{position:absolute;top:13px;left:14px;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.2);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+.jr-body{padding:18px 20px;overflow-y:auto}
+.jr-detail{font-size:14px;line-height:2;color:var(--ink);white-space:pre-line;margin-bottom:14px}
+.jr-say{background:linear-gradient(135deg,var(--gold-pale),var(--card));border:1.5px solid rgba(201,161,74,.4);border-radius:13px;padding:13px 15px;margin-bottom:12px;text-align:center}
+html[data-theme="dark"] .jr-say,html[data-theme="oled"] .jr-say{background:rgba(201,161,74,.08)}
+.jr-say .jr-say-lbl{font-size:10.5px;font-weight:800;color:var(--gold-dark);letter-spacing:1px;display:block;margin-bottom:5px}
+html[data-theme="dark"] .jr-say .jr-say-lbl,html[data-theme="oled"] .jr-say .jr-say-lbl{color:var(--sys-yellow)}
+.jr-say .jr-say-txt{font-family:'Amiri',serif;font-size:17px;font-weight:700;color:var(--green-deep);line-height:1.9}
+html[data-theme="dark"] .jr-say .jr-say-txt,html[data-theme="oled"] .jr-say .jr-say-txt{color:var(--sys-green)}
+.jr-tip{background:var(--green-pale);border-radius:12px;padding:11px 14px;font-size:13px;font-weight:700;color:var(--green-deep);line-height:1.8;display:flex;gap:8px}
+html[data-theme="dark"] .jr-tip,html[data-theme="oled"] .jr-tip{background:rgba(77,216,102,.08);color:var(--sys-green)}
+.jr-done-btn{margin:16px 20px 18px;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card);border:2px solid var(--gold);border-radius:13px;padding:13px;font-family:inherit;font-size:14px;font-weight:800;color:var(--gold-dark);cursor:pointer;transition:all .25s}
+.jr-done-btn:hover{background:var(--gold-pale);transform:translateY(-2px)}
+.jr-done-btn.done{background:linear-gradient(135deg,#1f5e4b,#2a7a5f);border-color:transparent;color:#fff}
+
+/* أسرار الخشوع */
+.jr-secrets{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:8px}
+.jr-secret{background:var(--card);border:1.5px solid var(--border);border-radius:15px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.jr-secret-lbl{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;font-size:12.5px;font-weight:800;padding:9px 13px;text-align:center}
+.jr-secret-body{padding:13px}
+.jr-secret-row{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.7;padding:7px 0}
+.jr-secret-row.ok{color:var(--ink)}
+.jr-secret-row.bad{color:var(--muted);border-top:1px dashed var(--border)}
+.jr-secret-ico{flex-shrink:0;font-size:15px}
+
+/* الكويز */
+.jr-quiz-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;margin-bottom:11px;box-shadow:var(--shadow-sm)}
+.jr-quiz-q{font-size:14px;font-weight:800;color:var(--ink);line-height:1.7;margin-bottom:12px;display:flex;gap:8px}
+.jr-quiz-q .jr-qn{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--green-mid));color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.jr-quiz-opts{display:flex;flex-direction:column;gap:8px}
+.jr-quiz-opt{background:var(--sand);border:1.5px solid var(--border);border-radius:11px;padding:11px 14px;font-family:inherit;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .2s;text-align:right}
+.jr-quiz-opt:hover{border-color:var(--green-soft)}
+.jr-quiz-opt.correct{background:var(--green-pale);border-color:var(--green-soft);color:var(--green-deep)}
+.jr-quiz-opt.wrong{background:rgba(255,59,48,.08);border-color:rgba(255,59,48,.4);color:var(--sys-red)}
+/* ترتيب */
+.jr-order-items{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.jr-order-item{display:flex;align-items:center;gap:10px;background:var(--sand);border:1.5px solid var(--border);border-radius:11px;padding:10px 14px;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .2s}
+.jr-order-item .jr-order-pick{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:var(--muted);flex-shrink:0}
+.jr-order-item.picked{border-color:var(--green-soft);background:var(--green-pale)}
+.jr-order-item.picked .jr-order-pick{background:var(--green-deep);color:#fff;border-color:var(--green-deep)}
+.jr-quiz-answer{display:none;margin-top:12px;background:var(--gold-pale);border:1px solid rgba(201,161,74,.4);border-radius:11px;padding:12px 14px;font-size:13px;font-weight:700;color:var(--gold-dark);line-height:1.85}
+html[data-theme="dark"] .jr-quiz-answer,html[data-theme="oled"] .jr-quiz-answer{color:var(--sys-yellow);background:rgba(201,161,74,.08)}
+.jr-quiz-answer.show{display:block;animation:jrFade .3s ease}
+.jr-check-btn{margin-top:10px;width:100%;background:var(--green-deep);color:#fff;border:none;border-radius:11px;padding:10px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
+.jr-check-btn:hover{background:var(--green-mid)}
+html[data-theme="dark"] .jr-check-btn,html[data-theme="oled"] .jr-check-btn{background:var(--sys-green);color:#001a08}
+
+/* وسام الإتمام */
+.jr-medal{display:none;text-align:center;background:linear-gradient(135deg,var(--gold-pale),var(--card));border:2px solid rgba(201,161,74,.45);border-radius:18px;padding:20px;margin-bottom:8px}
+.jr-medal.show{display:block;animation:jrBoxIn .5s cubic-bezier(.34,1.56,.64,1)}
+.jr-medal .jr-medal-ico{font-size:50px;animation:jrEmoji .6s cubic-bezier(.34,1.56,.64,1)}
+.jr-medal .jr-medal-t{font-size:17px;font-weight:900;color:var(--gold-dark);margin-top:6px}
+html[data-theme="dark"] .jr-medal .jr-medal-t,html[data-theme="oled"] .jr-medal .jr-medal-t{color:var(--sys-yellow)}
+.jr-medal .jr-medal-s{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.7}
+
+@media(max-width:480px){
+  .jr-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:9px}
+  .jr-step{padding:13px 8px}
+  .jr-step .jr-e{font-size:32px}
+  .jr-step .jr-t{font-size:11.5px}
+  .jr-secrets{grid-template-columns:1fr}
+  .jr-box{max-height:86vh}
+  .jr-head .jr-he{font-size:44px}
+  .jr-head h3{font-size:17px}
+  .jr-detail{font-size:13.5px}
+}
 </style>
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
 <script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
@@ -105,9 +205,24 @@ html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--
       <div class="k-intro">كونُك مسلماً صغيراً يعني أن تكونَ صاحبَ خُلُقٍ جميلٍ وعبادةٍ صحيحة. سنتعلّمُ كيف نتوضّأ ونصلّي كما فعل نبيُّنا ﷺ، وكيف نجعلُ الصدقَ والأمانةَ صفاتِنا الدائمة. هيّا بنا ننمو ونرتقي!</div>
     </div>
     <div class="k-sec-title">💧 رحلتي مع الوضوء</div>
-    <div class="k-card"><ul class="k-steps"><li>غَسلُ الكفّين ثلاثاً</li><li>المضمضةُ والاستنشاق</li><li>غَسلُ الوجه</li><li>غَسلُ اليدين إلى المرفقين</li><li>مسحُ الرأس والأذنين</li><li>غَسلُ الرجلين إلى الكعبين</li><li>الترتيبُ والموالاة</li></ul></div>
+    <div class="k-card" style="padding:14px 16px">
+      <p style="margin-bottom:12px">اضغط على كلِّ محطّةٍ لتتعلّمها، واجمع النجوم حتى تكمل رحلتك! ✨</p>
+      <div class="jr-progress"><span class="jr-stars" id="wudu-stars">⚪⚪⚪⚪⚪⚪⚪</span><div class="jr-progress-bar"><div class="jr-progress-fill" id="wudu-fill"></div></div><span class="jr-progress-txt" id="wudu-txt">0/7</span></div>
+      <div class="jr-grid"><div class="jr-step" data-j="wudu" data-i="0"><span class="jr-num">1</span><span class="jr-e">❤️</span><span class="jr-t">النيّة والتسمية</span></div><div class="jr-step" data-j="wudu" data-i="1"><span class="jr-num">2</span><span class="jr-e">🤲</span><span class="jr-t">غسل الكفّين والمضمضة والاستنشاق</span></div><div class="jr-step" data-j="wudu" data-i="2"><span class="jr-num">3</span><span class="jr-e">😊</span><span class="jr-t">غسل الوجه</span></div><div class="jr-step" data-j="wudu" data-i="3"><span class="jr-num">4</span><span class="jr-e">💪</span><span class="jr-t">غسل اليدين إلى المرفقين</span></div><div class="jr-step" data-j="wudu" data-i="4"><span class="jr-num">5</span><span class="jr-e">💆</span><span class="jr-t">مسح الرأس والأذنين</span></div><div class="jr-step" data-j="wudu" data-i="5"><span class="jr-num">6</span><span class="jr-e">🦶</span><span class="jr-t">غسل الرجلين إلى الكعبين</span></div><div class="jr-step" data-j="wudu" data-i="6"><span class="jr-num">7</span><span class="jr-e">🤲</span><span class="jr-t">الترتيب والموالاة والدعاء</span></div></div>
+      <div class="jr-medal" id="wudu-medal"><div class="jr-medal-ico">💧</div><div class="jr-medal-t">مبروك! وضوءٌ صحيح ✨</div><div class="jr-medal-s">أكملت كلَّ محطّات الوضوء! من توضّأ فأحسن الوضوء تساقطت ذنوبُه مع آخر قطرة ماء.</div></div>
+    </div>
     <div class="k-sec-title">🕌 رحلتي مع الصلاة</div>
-    <div class="k-card"><p>أركانُ الصلاة بالترتيب:</p><ul class="k-list"><li>تكبيرةُ الإحرام</li><li>القيام</li><li>قراءةُ الفاتحة</li><li>الركوع</li><li>السجود</li><li>التشهّد</li><li>التسليم</li></ul></div>
+    <div class="k-card" style="padding:14px 16px">
+      <p style="margin-bottom:12px">نتعلّم صفة صلاة النبي ﷺ خطوة بخطوة.. اضغط كلَّ خطوةٍ لتكتشفها! 🌟</p>
+      <div class="jr-progress"><span class="jr-stars" id="salah-stars"></span><div class="jr-progress-bar"><div class="jr-progress-fill" id="salah-fill"></div></div><span class="jr-progress-txt" id="salah-txt">0/11</span></div>
+      <div class="jr-grid"><div class="jr-step" data-j="salah" data-i="0"><span class="jr-num">1</span><span class="jr-e">🔑</span><span class="jr-t">مفتاح الصلاة (الاستعداد)</span></div><div class="jr-step" data-j="salah" data-i="1"><span class="jr-num">2</span><span class="jr-e">🖐️</span><span class="jr-t">تكبيرة الإحرام</span></div><div class="jr-step" data-j="salah" data-i="2"><span class="jr-num">3</span><span class="jr-e">📖</span><span class="jr-t">القيام والقراءة</span></div><div class="jr-step" data-j="salah" data-i="3"><span class="jr-num">4</span><span class="jr-e">🙇</span><span class="jr-t">الركوع (الانحناء لله)</span></div><div class="jr-step" data-j="salah" data-i="4"><span class="jr-num">5</span><span class="jr-e">🌿</span><span class="jr-t">الرفع من الركوع</span></div><div class="jr-step" data-j="salah" data-i="5"><span class="jr-num">6</span><span class="jr-e">✨</span><span class="jr-t">السجود (أقرب ما تكون لله)</span></div><div class="jr-step" data-j="salah" data-i="6"><span class="jr-num">7</span><span class="jr-e">🤲</span><span class="jr-t">الجلسة الهادئة والاستغفار</span></div><div class="jr-step" data-j="salah" data-i="7"><span class="jr-num">8</span><span class="jr-e">🔄</span><span class="jr-t">السجدة الثانية والنهوض</span></div><div class="jr-step" data-j="salah" data-i="8"><span class="jr-num">9</span><span class="jr-e">☝️</span><span class="jr-t">التشهّد والصلاة الإبراهيمية</span></div><div class="jr-step" data-j="salah" data-i="9"><span class="jr-num">10</span><span class="jr-e">🕊️</span><span class="jr-t">التسليم (نشر السلام)</span></div><div class="jr-step" data-j="salah" data-i="10"><span class="jr-num">11</span><span class="jr-e">🔁</span><span class="jr-t">خريطة الركعة (تذكّرها دائماً!)</span></div></div>
+      <div class="jr-medal" id="salah-medal"><div class="jr-medal-ico">⭐</div><div class="jr-medal-t">مبارك! أنت الآن صديق الصلاة 🎉</div><div class="jr-medal-s">تعلّمت صفة صلاة النبي ﷺ! الصلاة تجعل قلبك نظيفاً ووجهك مضيئاً، والله يحبّك أكثر. ❤️</div></div>
+    </div>
+    <div class="k-sec-title">🦸 أسرار بطل الصلاة (الخشوع)</div>
+    <div class="jr-secrets"><div class="jr-secret"><div class="jr-secret-lbl">🕊️ سرّ الهدوء</div><div class="jr-secret-body"><div class="jr-secret-row ok"><span class="jr-secret-ico">✅</span><span>أنا هادئ: أطمئنّ في كل حركة ولا أستعجل (كالطائر الذي يرفرف بهدوء).</span></div><div class="jr-secret-row bad"><span class="jr-secret-ico">⛔</span><span>احذر من سباق الزمن! الصلاة ليست سباقاً، من يسرع يفقد الخشوع.</span></div></div></div><div class="jr-secret"><div class="jr-secret-lbl">👁️ سرّ التركيز</div><div class="jr-secret-body"><div class="jr-secret-row ok"><span class="jr-secret-ico">✅</span><span>عيني في مكانها: أنظر لمكان سجودي فقط لأركّز مع الله.</span></div><div class="jr-secret-row bad"><span class="jr-secret-ico">⛔</span><span>احذر من النظر للسماء أو الالتفات يميناً ويساراً أثناء اللقاء.</span></div></div></div></div>
+    <div class="k-sec-title">🧠 جرس الإنذار! تحدّيات الذكاء</div>
+    <div class="k-card" style="padding:14px 16px;margin-bottom:8px"><p>أكملت المحطّات! لكن هل وضوؤك صحيحٌ 100%؟ إليك ٣ تحدّيات لاختبار ذكائك! 🚨</p></div>
+    <div class="jr-quiz-card"><div class="jr-quiz-q"><span class="jr-qn">1</span><span>هل الترتيب مهمٌّ في الوضوء؟ رتّب الأعضاء بالترتيب الصحيح:</span></div><div class="jr-order-items" id="quiz-order-0"><div class="jr-order-item" data-q="0" data-val="الوجه"><span class="jr-order-pick">—</span><span>الوجه</span></div><div class="jr-order-item" data-q="0" data-val="اليدين للمرفقين"><span class="jr-order-pick">—</span><span>اليدين للمرفقين</span></div><div class="jr-order-item" data-q="0" data-val="الرأس"><span class="jr-order-pick">—</span><span>الرأس</span></div><div class="jr-order-item" data-q="0" data-val="القدم"><span class="jr-order-pick">—</span><span>القدم</span></div></div><button class="jr-check-btn" data-q="0" data-type="order">تحقّق من الترتيب ✓</button><div class="jr-quiz-answer" id="quiz-ans-0">الترتيب ركنٌ أساسي! يجب أن نغسل الأعضاء بنفس الترتيب الذي ذكرناه، وإلا فإن وضوءنا غير صحيح.</div></div><div class="jr-quiz-card"><div class="jr-quiz-q"><span class="jr-qn">2</span><span>ماذا لو توقّفنا للعب أثناء الوضوء (بعد 15 دقيقة)؟</span></div><div class="jr-quiz-opts"><button class="jr-quiz-opt" data-q="1" data-opt="0">نُكمل من حيث وقفنا عادي</button><button class="jr-quiz-opt" data-q="1" data-opt="1">نعيد الوضوء من البداية</button></div><div class="jr-quiz-answer" id="quiz-ans-1">هذا يُسمّى «قطع الموالاة»! الموالاة تعني أن نغسل العضو التالي قبل أن يجفّ العضو الذي قبله. إذا تأخّرنا طويلاً، يجب أن نعيد الوضوء من البداية!</div></div><div class="jr-quiz-card"><div class="jr-quiz-q"><span class="jr-qn">3</span><span>أين الخلل؟ طفلٌ توضّأ لكنّه ترك جزءاً صغيراً جدّاً (مثل موضع ظُفر) لم يصله الماء. هل وضوؤه صحيح؟</span></div><div class="jr-quiz-opts"><button class="jr-quiz-opt" data-q="2" data-opt="0">صحيح، الجزء صغير جدّاً</button><button class="jr-quiz-opt" data-q="2" data-opt="1">غير صحيح، لم يصح وضوؤه</button></div><div class="jr-quiz-answer" id="quiz-ans-2">من ترك جزءاً صغيراً جدّاً (مثل موضع ظُفر) لم يصله الماء، لم يصح وضوؤه! يجب أن يصل الماءُ لكلِّ جزء.</div></div>
     <div class="k-sec-title">🌟 أركانُ الإسلام الخمسة</div>
     <div class="k-card"><ul class="k-list"><li>🕋 الشهادتان</li><li>🕌 الصلاة</li><li>💚 الزكاة</li><li>🌙 الصوم</li><li>🧳 الحج</li></ul></div>
     <div class="k-sec-title">🌳 بستانُ الأخلاق</div>
@@ -121,10 +236,132 @@ html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--
   </main>
 </div>
 
+
+  <div class="jr-modal" id="jr-modal">
+    <div class="jr-box" role="dialog" aria-modal="true">
+      <div class="jr-head">
+        <button class="jr-close" id="jr-close" aria-label="إغلاق">✕</button>
+        <div class="jr-he" id="jr-he">💧</div>
+        <h3 id="jr-name">—</h3>
+        <span class="jr-sub" id="jr-sub">—</span>
+      </div>
+      <div class="jr-body" id="jr-body"></div>
+      <button class="jr-done-btn" id="jr-done">✓ تعلّمتُها!</button>
+    </div>
+  </div>
+
 <script src="lang.js" defer></script>
 <script src="js/app.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="animations.js" defer></script>
 <script src="menu.js" defer></script>
+
+<script>
+(function(){
+  'use strict';
+  var ZKEY='zad_v2';
+  var JR={"wudu": [{"e": "❤️", "t": "النيّة والتسمية", "sub": "القلب ينوي واللسان يسمّي", "detail": "النيّةُ مكانها القلب: تنوي أنك تتوضّأ لتصلّيَ لله. ثم تقول بلسانك: «بِسْمِ اللهِ» قبل أن تبدأ.", "tip": "تذكّر يا بطل: لا تُسرف في الماء أبداً، حتى لو كنت على نهرٍ جارٍ! 💧", "say": "بِسْمِ اللهِ"}, {"e": "🤲", "t": "غسل الكفّين والمضمضة والاستنشاق", "sub": "نظافة الكفّين والفم والأنف", "detail": "اغسل كفّيك ثلاثَ مرّات. ثم تمضمض (تأخذ ماءً في فمك) ثلاثاً، وتستنشق (تأخذ ماءً بأنفك ثم تُخرجه) ثلاثاً.", "tip": "من السنّة أن تأخذ الماءَ للفم والأنف من غُرفةٍ (حَفنةٍ) واحدة! 💧", "say": "٣ مرّات لكلٍّ منها"}, {"e": "😊", "t": "غسل الوجه", "sub": "الوجه المنير بحدوده الصحيحة", "detail": "اغسل وجهك كاملاً ثلاثَ مرّات: من مَنبت الشعر (أعلى الجبهة) إلى أسفل الذقن، ومن شحمة الأذن اليمنى إلى شحمة الأذن اليسرى.", "tip": "اغسل الوجهَ بالكامل ليتساقطَ كلُّ خطأٍ فعلناه مع قطرات الماء! ✨", "say": "٣ مرّات"}, {"e": "💪", "t": "غسل اليدين إلى المرفقين", "sub": "من أطراف الأصابع إلى المرفقين", "detail": "اغسل يدك اليمنى من أطراف الأصابع إلى ما بعد المِرفق ثلاثَ مرّات، ثم اليسرى ثلاثاً. يجب أن يصل الماءُ إلى ما بعد عظمة المرفق!", "tip": "خطأ يجب تجنّبه: لا تغسل حتى الرسغ فقط — لا بدّ من المرفق كاملاً! ⛔", "say": "٣ مرّات لكلِّ يد"}, {"e": "💆", "t": "مسح الرأس والأذنين", "sub": "مسحة واحدة فقط", "detail": "بلّل يديك، وامسح رأسك مرّةً واحدة: من مقدّمة الرأس إلى مؤخّرته ثم ترجع. ثم امسح أذنيك: السبّابة في الداخل والإبهام في الخارج.", "tip": "انتبه! هذا الجزء نمسحه مرّةً واحدة فقط بالماء (لا نغسله ثلاثاً)! ☝️", "say": "مرّة واحدة"}, {"e": "🦶", "t": "غسل الرجلين إلى الكعبين", "sub": "مع تخليل الأصابع", "detail": "اغسل رجلك اليمنى ثلاثاً ثم اليسرى ثلاثاً، إلى ما بعد الكعبين (العظمتان البارزتان على جانبي القدم). وخلّل بين أصابع قدميك ليصلَ الماءُ كلَّها.", "tip": "حذّرنا النبيُّ ﷺ من ترك مؤخّرة القدم بلا غسل: «وَيْلٌ لِلأَعقابِ من النار»! اغسلها جيّداً! 🦶", "say": "٣ مرّات لكلِّ رِجل"}, {"e": "🤲", "t": "الترتيب والموالاة والدعاء", "sub": "النهاية المباركة", "detail": "اغسل الأعضاءَ بالترتيب الذي تعلّمناه دون أن تتوقّفَ طويلاً (الموالاة). وفي النهاية ارفع نظرك للسماء وقُل الدعاءَ السريّ الجميل.", "tip": "من توضّأ فأحسن الوضوء، تساقطت ذنوبُه مع آخر قطرة ماء، وفُتحت له أبوابُ الجنّة الثمانية! 🚪", "say": "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. اللَّهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ"}], "salah": [{"e": "🔑", "t": "مفتاح الصلاة (الاستعداد)", "sub": "الوضوء + القبلة + النيّة", "detail": "قبل أن نصلّي نستعدّ بثلاثة أشياء:\n• الوضوء: نغسل أعضاءنا لنتطهّر، فالله يحبّ الوضوء الجميل! 💧\n• القبلة: نوجّه وجوهنا وأجسامنا نحو الكعبة المشرّفة. 🕋\n• النيّة: سرٌّ صغيرٌ في قلبك — أنت تنوي الصلاة لأنك تحبّ الله! ❤️", "say": ""}, {"e": "🖐️", "t": "تكبيرة الإحرام", "sub": "بداية اللقاء العظيم", "detail": "نقف باعتدالٍ وهدوء، ونرفع أيدينا بجوار أكتافنا أو آذاننا (والأصابع ممدودة براحة)، ونقول بصوتٍ واضح: اللَّهُ أَكْبَر.\n\nالآن.. بدأ اللقاءُ العظيمُ مع الله! ✨", "say": "اللَّهُ أَكْبَر"}, {"e": "📖", "t": "القيام والقراءة", "sub": "دعاء الاستفتاح + الفاتحة", "detail": "نضع يدنا اليمنى فوق اليسرى على صدرنا، وعينُنا تنظر إلى مكان سجودنا فقط.\n• دعاء الاستفتاح: سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ...\n• سورة الفاتحة: ركنٌ مهمٌّ جدّاً، لا صلاة بدونها!\n• سورة قصيرة: نقرأ ما نحفظه ونحبّه من القرآن.", "say": "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، وَتَبَارَكَ اسْمُكَ، وَتَعَالَى جَدُّكَ، وَلَا إِلَهَ غَيْرُكَ"}, {"e": "🙇", "t": "الركوع (الانحناء لله)", "sub": "سُبْحَانَ رَبِّيَ الْعَظِيم", "detail": "نكبّر (اللَّهُ أَكْبَر) وننحني بهدوء، ونضع أيدينا على ركبتينا (ونفرّق أصابعنا قليلاً). نجعل ظهرنا مستقيماً — تخيّل أن هناك كوبَ ماءٍ على ظهرك لن ينسكب! 🥛", "say": "سُبْحَانَ رَبِّيَ الْعَظِيم (ثلاث مرّات)"}, {"e": "🌿", "t": "الرفع من الركوع", "sub": "سمع الله لمن حمده", "detail": "أثناء الحركة (ونحن نرفع باعتدالٍ وهدوء) نقول: سَمِعَ اللَّهُ لِمَنْ حَمِدَه.\nوعندما نقف ونستقرّ تماماً نقول: رَبَّنَا وَلَكَ الْحَمْد.", "say": "سَمِعَ اللَّهُ لِمَنْ حَمِدَه — رَبَّنَا وَلَكَ الْحَمْد"}, {"e": "✨", "t": "السجود (أقرب ما تكون لله)", "sub": "على سبعة أعضاء", "detail": "نكبّر ونسجد. نتأكّد من لمس الأعضاء السبعة المضيئة للأرض:\n١- الجبهة والأنف، ٢-٣ اليدان، ٤-٥ الركبتان، ٦-٧ أطراف القدمين.\nنُبعِد أذرعنا عن جوانبنا قليلاً.", "tip": "سرٌّ صغير: في السجود يمكنك أن تدعو اللهَ بكلِّ ما تحبّ، فهو يسمعك! 🤲", "say": "سُبْحَانَ رَبِّيَ الْأَعْلَى (ثلاث مرّات)"}, {"e": "🤲", "t": "الجلسة الهادئة والاستغفار", "sub": "بين السجدتين", "detail": "نرفع من السجود ونحن نقول (اللَّهُ أَكْبَر). نجلس بهدوء، ونضع أيدينا على فخذينا.\n(انظر للقدمين: نجلس على اليسرى، وننصب اليمنى إذا استطعنا).", "say": "رَبِّ اغْفِرْ لِي"}, {"e": "🔄", "t": "السجدة الثانية والنهوض", "sub": "إتمام الركعة", "detail": "نكبّر (اللَّهُ أَكْبَر) ونسجد مرّةً ثانية، ونفعل تماماً مثل السجدة الأولى.\nثم نقف للركعة التالية ونحن نقول (اللَّهُ أَكْبَر).. ونصلّي الركعة الثانية بنفس الخطوات! (ولكن بدون دعاء الاستفتاح).", "say": "اللَّهُ أَكْبَر"}, {"e": "☝️", "t": "التشهّد والصلاة الإبراهيمية", "sub": "الجلسة الأخيرة", "detail": "بعد الركعة الثانية (أو في نهاية الصلاة)، نجلس بهدوء للتشهّد.\nنشير بإصبعنا السبّابة اليمنى (إصبع التوحيد ✨).\nنقرأ التحيّات: التَّحِيَّاتُ لِلَّهِ، وَالصَّلَوَاتُ، وَالطَّيِّبَاتُ...\nوقبل إنهاء الصلاة نضيف الصلاة على النبي ﷺ: اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ...", "say": "التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ، السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ..."}, {"e": "🕊️", "t": "التسليم (نشر السلام)", "sub": "نهاية اللقاء", "detail": "ننهي صلاتنا بنشر السلام:\n• نلتفت يميناً ونقول: السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ.\n• ثم نلتفت يساراً ونقول: السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ.\n\nتقبّل اللهُ صلاتك يا بطل! لقد أكملت اللقاء بنجاح. 🏆", "say": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّه"}, {"e": "🔁", "t": "خريطة الركعة (تذكّرها دائماً!)", "sub": "دورة الركعة الواحدة", "detail": "كلُّ ركعةٍ هي دورةٌ جميلة تتكرّر:\nقيام ← ركوع ← اعتدال (رفع) ← سجود ← جلوس ← سجود.\nثم تقوم للركعة الجديدة وتعيد الدورة. احفظ هذه الخريطة وستصلّي بسهولة! 🔄", "say": ""}], "secrets": [{"icon": "🕊️", "ok": "أنا هادئ: أطمئنّ في كل حركة ولا أستعجل (كالطائر الذي يرفرف بهدوء).", "bad": "احذر من سباق الزمن! الصلاة ليست سباقاً، من يسرع يفقد الخشوع.", "label": "سرّ الهدوء"}, {"icon": "👁️", "ok": "عيني في مكانها: أنظر لمكان سجودي فقط لأركّز مع الله.", "bad": "احذر من النظر للسماء أو الالتفات يميناً ويساراً أثناء اللقاء.", "label": "سرّ التركيز"}], "quiz": [{"q": "هل الترتيب مهمٌّ في الوضوء؟ رتّب الأعضاء بالترتيب الصحيح:", "type": "order", "items": ["الوجه", "اليدين للمرفقين", "الرأس", "القدم"], "answer": "الترتيب ركنٌ أساسي! يجب أن نغسل الأعضاء بنفس الترتيب الذي ذكرناه، وإلا فإن وضوءنا غير صحيح."}, {"q": "ماذا لو توقّفنا للعب أثناء الوضوء (بعد 15 دقيقة)؟", "type": "choice", "options": ["نُكمل من حيث وقفنا عادي", "نعيد الوضوء من البداية"], "correct": 1, "answer": "هذا يُسمّى «قطع الموالاة»! الموالاة تعني أن نغسل العضو التالي قبل أن يجفّ العضو الذي قبله. إذا تأخّرنا طويلاً، يجب أن نعيد الوضوء من البداية!"}, {"q": "أين الخلل؟ طفلٌ توضّأ لكنّه ترك جزءاً صغيراً جدّاً (مثل موضع ظُفر) لم يصله الماء. هل وضوؤه صحيح؟", "type": "choice", "options": ["صحيح، الجزء صغير جدّاً", "غير صحيح، لم يصح وضوؤه"], "correct": 1, "answer": "من ترك جزءاً صغيراً جدّاً (مثل موضع ظُفر) لم يصله الماء، لم يصح وضوؤه! يجب أن يصل الماءُ لكلِّ جزء."}]};
+  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
+  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
+  function getDone(j){var s=read();return (s.kidsSchool&&s.kidsSchool[j])||{};}
+  function setDone(j,i,v){var s=read();s.kidsSchool=s.kidsSchool||{};s.kidsSchool[j]=s.kidsSchool[j]||{};if(v)s.kidsSchool[j][i]=1;else delete s.kidsSchool[j][i];write(s);}
+  var $=function(id){return document.getElementById(id);};
+  var modal=$('jr-modal'), curJ=null, curI=null;
+
+  function paintProgress(j){
+    var arr=JR[j], done=getDone(j), n=Object.keys(done).length, total=arr.length;
+    var fill=$(j+'-fill'), txt=$(j+'-txt'), stars=$(j+'-stars'), medal=$(j+'-medal');
+    if(fill)fill.style.width=(n/total*100)+'%';
+    if(txt)txt.textContent=n+'/'+total;
+    if(stars){var s='';for(var k=0;k<total;k++)s+=done[k]?'⭐':'⚪';stars.textContent=s;}
+    document.querySelectorAll('.jr-step[data-j="'+j+'"]').forEach(function(el){
+      el.classList.toggle('done', !!done[el.dataset.i]);
+    });
+    if(medal)medal.classList.toggle('show', n===total);
+  }
+
+  function openStep(j,i){
+    curJ=j; curI=i;
+    var st=JR[j][i];
+    $('jr-he').textContent=st.e;
+    $('jr-name').textContent=st.t;
+    $('jr-sub').textContent=st.sub||'';
+    var html='<div class="jr-detail">'+st.detail+'</div>';
+    if(st.say) html+='<div class="jr-say"><span class="jr-say-lbl">📿 نقول</span><span class="jr-say-txt">'+st.say+'</span></div>';
+    if(st.tip) html+='<div class="jr-tip"><span>💡</span><span>'+st.tip+'</span></div>';
+    $('jr-body').innerHTML=html;
+    $('jr-body').scrollTop=0;
+    var done=getDone(j)[i];
+    var btn=$('jr-done');
+    btn.classList.toggle('done',!!done);
+    btn.textContent=done?'✓ تعلّمتُها! (اضغط للإلغاء)':'✓ تعلّمتُها!';
+    modal.classList.add('open'); document.body.style.overflow='hidden';
+  }
+  function closeModal(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+
+  document.querySelectorAll('.jr-step').forEach(function(el){
+    el.addEventListener('click',function(){ openStep(el.dataset.j, +el.dataset.i); });
+  });
+  $('jr-close').addEventListener('click',closeModal);
+  modal.addEventListener('click',function(e){if(e.target===modal)closeModal();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeModal();});
+
+  $('jr-done').addEventListener('click',function(){
+    var done=getDone(curJ)[curI];
+    setDone(curJ,curI,!done);
+    var nowDone=!done;
+    this.classList.toggle('done',nowDone);
+    this.textContent=nowDone?'✓ تعلّمتُها! (اضغط للإلغاء)':'✓ تعلّمتُها!';
+    if(nowDone){
+      if(navigator.vibrate)navigator.vibrate([15,30,20]);
+      var n=Object.keys(getDone(curJ)).length, total=JR[curJ].length;
+      if(n===total){ try{if(window.confetti)window.confetti({particleCount:90,spread:70,origin:{y:.6},colors:['#0e3b2e','#c9a14a','#4dd862','#fff']});}catch(e){}
+        if(window.showToast)window.showToast(curJ==='wudu'?'💧 مبروك! وضوءٌ صحيح':'⭐ مبروك! أنت صديق الصلاة'); }
+      else if(window.showToast)window.showToast('⭐ أحسنت! +نجمة');
+    }
+    paintProgress(curJ);
+  });
+
+  /* ═══ الكويز ═══ */
+  document.querySelectorAll('.jr-quiz-opt').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var qi=+btn.dataset.q, oi=+btn.dataset.opt, q=JR.quiz[qi];
+      var opts=document.querySelectorAll('.jr-quiz-opt[data-q="'+qi+'"]');
+      opts.forEach(function(o){o.classList.remove('correct','wrong');});
+      if(oi===q.correct){ btn.classList.add('correct'); if(navigator.vibrate)navigator.vibrate(20); try{if(window.confetti)window.confetti({particleCount:40,spread:55,origin:{y:.7}});}catch(e){} }
+      else btn.classList.add('wrong');
+      $('quiz-ans-'+qi).classList.add('show');
+    });
+  });
+  /* ترتيب */
+  var orderState={};
+  document.querySelectorAll('.jr-order-item').forEach(function(it){
+    it.addEventListener('click',function(){
+      var qi=it.dataset.q; orderState[qi]=orderState[qi]||[];
+      var val=it.dataset.val, idx=orderState[qi].indexOf(val);
+      if(idx>-1){ orderState[qi].splice(idx,1); it.classList.remove('picked'); }
+      else { orderState[qi].push(val); it.classList.add('picked'); }
+      /* أعد ترقيم المختارة */
+      document.querySelectorAll('.jr-order-item[data-q="'+qi+'"]').forEach(function(el){
+        var p=orderState[qi].indexOf(el.dataset.val);
+        el.querySelector('.jr-order-pick').textContent = p>-1?(p+1):'—';
+      });
+    });
+  });
+  document.querySelectorAll('.jr-check-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var qi=+btn.dataset.q, q=JR.quiz[qi];
+      var picked=orderState[qi]||[];
+      var correct = JSON.stringify(picked)===JSON.stringify(q.items);
+      var items=document.querySelectorAll('.jr-order-item[data-q="'+qi+'"]');
+      if(correct){ items.forEach(function(el){el.style.borderColor='var(--green-soft)';el.style.background='var(--green-pale)';}); if(navigator.vibrate)navigator.vibrate(25); try{if(window.confetti)window.confetti({particleCount:50,spread:60,origin:{y:.7}});}catch(e){} if(window.showToast)window.showToast('🎉 ترتيب صحيح!'); }
+      else { if(window.showToast)window.showToast('🔄 جرّب تاني! تذكّر: وجه ← يدين ← رأس ← قدم'); }
+      $('quiz-ans-'+qi).classList.add('show');
+    });
+  });
+
+  paintProgress('wudu'); paintProgress('salah');
+})();
+</script>
 </body>
 </html>

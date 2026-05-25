@@ -847,41 +847,52 @@ html[data-theme="oled"] .stream-error-banner { background: rgba(239,68,68,.12); 
 @media (max-width: 768px) {
   .sidebar { transform: translateX(100%); transition: transform .3s var(--ease); }
   .sidebar.open { transform: translateX(0); }
-  .main { margin-right: 0; padding: 0 12px 130px; }
+  .main { margin-right: 0; padding: 0 16px 140px; }
   .hamburger { display: flex; }
   .tb-logo img { display: block; }
   .volume-wrap { display: none; }
   .np-controls .ctrl-btn:not(.play-main) { display: none; }
-  .stations-grid { grid-template-columns: 1fr; gap: 12px; }
+  .stations-grid { grid-template-columns: 1fr; gap: 14px; }
   .prefs-grid { grid-template-columns: 1fr; }
-  .now-playing { flex-wrap: wrap; padding: 14px 16px; gap: 10px; }
+  .now-playing { flex-wrap: wrap; padding: 16px; gap: 12px; }
   .bb-controls .bb-btn:not(.bb-play):not(#bb-prev):not(#bb-next) { display: none; }
   /* الهيرو أصغر وأنسب */
-  .radio-hero { padding: 22px 18px 20px; }
-  .radio-hero p { font-size: 12.5px; }
+  .radio-hero { padding: 24px 20px 22px; border-radius: 20px; }
+  .radio-hero h1 { font-size: 24px; }
+  .radio-hero p { font-size: 13px; line-height: 1.6; }
   /* الإحصائيات تتوزّع بالتساوي */
-  .hero-stats { gap: 8px; }
-  .hero-stat { flex: 1; min-width: 0; padding: 8px 6px; }
-  .hero-stat-num { font-size: 18px; }
-  .hero-stat-lbl { font-size: 10px; }
+  .hero-stats { gap: 10px; margin-top: 16px; }
+  .hero-stat { flex: 1; min-width: 0; padding: 10px 8px; }
+  .hero-stat-num { font-size: 20px; }
+  .hero-stat-lbl { font-size: 11px; }
   /* الفلاتر تنساب أفقياً */
-  .filter-tabs { gap: 6px; margin-bottom: 16px; }
-  .ftab { padding: 7px 13px; font-size: 12px; }
+  .filter-tabs { gap: 8px; margin-bottom: 18px; overflow-x: auto; padding-bottom: 4px; }
+  .ftab { padding: 8px 14px; font-size: 13px; flex-shrink: 0; }
+  .station-card { padding: 16px; }
+  .toolbar-row { flex-direction: column; gap: 10px; }
+  .search-wrap { min-width: 100%; }
+  .topbar { padding: 12px 0 16px; }
 }
 @media (max-width: 480px) {
-  .main { padding: 0 10px 130px; }
-  .radio-hero { padding: 18px 15px 16px; border-radius: 16px; }
-  .radio-hero h1 { font-size: 19px; }
+  .main { padding: 0 12px 140px; }
+  .radio-hero { padding: 20px 16px 18px; border-radius: 16px; }
+  .radio-hero h1 { font-size: 20px; }
   .radio-hero p { font-size: 12px; -webkit-line-clamp: 3; display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden; }
   .hero-eyebrow { font-size: 10px; letter-spacing: 1px; }
-  .toolbar-row { flex-direction: column; align-items: stretch; }
-  .search-wrap { min-width: unset; }
+  .toolbar-row { flex-direction: column; align-items: stretch; gap: 8px; }
+  .search-wrap { min-width: 100%; }
   .bottom-bar { padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); gap: 8px; }
-  .now-playing { padding: 12px 14px; }
-  .np-disk { width: 46px; height: 46px; font-size: 20px; }
+  .now-playing { padding: 14px; flex-direction: column; }
+  .np-disk { width: 50px; height: 50px; font-size: 22px; }
   .np-station { font-size: 14px; }
+  .np-info { width: 100%; }
+  .visualizer { width: 100%; }
+  .np-controls { width: 100%; }
   /* الكروت أكثر إحكاماً */
   .station-card { padding: 14px; }
+  .hero-stats { gap: 8px; }
+  .hero-stat { padding: 8px 6px; }
+  .hero-stat-num { font-size: 18px; }
 }
 </style>
 </head>
