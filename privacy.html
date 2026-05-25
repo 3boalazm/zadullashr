@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a5d47">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>صندوق الخصوصية · زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+.pv-hero{background:linear-gradient(135deg,#0e3b2e,#1a5d47 70%);border-radius:22px;padding:26px 22px;color:#fff;margin-bottom:18px;position:relative;overflow:hidden}
+.pv-hero::after{content:'🛡️';position:absolute;top:14px;left:18px;font-size:54px;opacity:.15}
+.pv-hero h1{font-size:24px;font-weight:900;margin-bottom:8px}
+.pv-hero p{font-size:13.5px;color:rgba(255,255,255,.85);line-height:1.9;max-width:560px}
+.pv-tool{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+.pv-tool h3{font-size:15px;font-weight:800;color:var(--green-deep);margin-bottom:5px;display:flex;align-items:center;gap:8px}
+html[data-theme="dark"] .pv-tool h3,html[data-theme="oled"] .pv-tool h3{color:var(--sys-green)}
+.pv-tool p{font-size:12.5px;color:var(--muted);line-height:1.8;margin-bottom:10px}
+.pv-btn{display:inline-flex;align-items:center;gap:7px;border:none;border-radius:11px;padding:10px 16px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:filter .2s;text-decoration:none}
+.pv-btn.green{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff}
+.pv-btn.ghost{background:var(--sand);color:var(--ink);border:1.5px solid var(--border)}
+.pv-btn.danger{background:rgba(255,59,48,.1);color:var(--sys-red);border:1.5px solid rgba(255,59,48,.3)}
+.pv-btn:hover{filter:brightness(1.05)}
+.pv-row{display:flex;gap:8px;flex-wrap:wrap}
+.pv-report{display:none;margin-top:10px;background:var(--sand);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:12.5px;line-height:2}
+.pv-report.show{display:block}
+.pv-report .kv{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--border);padding:4px 0}
+.pv-report .kv:last-child{border-bottom:none}
+.pv-report .kv b{color:var(--green-deep);font-weight:800}
+html[data-theme="dark"] .pv-report .kv b,html[data-theme="oled"] .pv-report .kv b{color:var(--sys-green)}
+.pv-unknown{margin-top:8px;font-size:12px;color:var(--muted);background:var(--green-pale);border-radius:10px;padding:10px 12px;line-height:1.8}
+html[data-theme="dark"] .pv-unknown,html[data-theme="oled"] .pv-unknown{background:rgba(77,216,102,.08)}
+.pv-princ{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.pv-princ{grid-template-columns:1fr}}
+.pv-princ .p{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:13px 14px}
+.pv-princ .p b{display:block;font-size:13px;color:var(--ink);font-weight:800;margin-bottom:3px}
+.pv-princ .p small{font-size:11.5px;color:var(--muted);line-height:1.7}
+.pv-modal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:24px}
+.pv-modal.open{display:flex}
+.pv-modal .box{background:var(--card);border-radius:18px;padding:24px;max-width:380px;width:100%;text-align:center}
+.pv-modal h3{font-size:18px;font-weight:900;color:var(--sys-red);margin-bottom:8px}
+.pv-modal p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:16px}
+
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+</head>
+<body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav"></nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left"><button class="hamburger" id="hamburger" aria-label="القائمة">☰</button><a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a></div>
+      <div class="tb-center"><div class="page-title">صندوق <span>الخصوصية</span></div></div>
+      <div class="tb-right">
+      </div>
+    </div>
+<div class="pv-hero"><h1>🛡️ صندوق الخصوصية</h1><p>عباداتُك أمانةٌ في جهازك. لا إعلانات، لا تتبّع، لا حسابَ مطلوب — وأنت المتحكّم الكامل في بياناتك. هنا ترى بالضبط ما يعرفه التطبيق، وتُصدّر بياناتك أو تمحوها متى شئت.</p></div><div class="section-title">🔍 أدواتُ التحكم ببياناتك</div><div class="pv-tool"><h3>📊 تقرير الشفافية اليومي</h3><p>«ماذا يعرف التطبيق عنّي؟» — اضغط لترى كلَّ ما هو محفوظٌ على جهازك.</p>
+<button class="pv-btn green" id="pv-report-btn">اعرف ماذا نعرف عنك</button>
+<div class="pv-report" id="pv-report"></div>
+<div class="pv-unknown">🔒 <b>ما لا نعرفه عنك إطلاقاً:</b> اسمُك الحقيقي · بريدُك · رقمُ هاتفك · موقعُك التاريخي · تفاصيلُ عباداتك. كلُّ ذلك يبقى على جهازك فقط.</div></div><div class="pv-tool"><h3>📤 تصدير البيانات</h3><p>احتفظ بنسخةٍ من كلِّ بياناتك (المهام، التكبيرات، الورد، الأوسمة) — تُولَّد محلياً ولا تمرّ بخادم.</p>
+<button class="pv-btn ghost" id="pv-export">⬇️ تنزيل بياناتي (JSON)</button></div><div class="pv-tool"><h3>🧹 الحذف الجزئي</h3><p>امحُ نوعاً واحداً من البيانات دون المساس بالباقي.</p>
+<div class="pv-row"><button class="pv-btn ghost" id="pv-del-groups">حذف بيانات المجموعة</button><button class="pv-btn ghost" id="pv-del-zakat">حذف بيانات الزكاة والأضحية</button></div></div><div class="pv-tool" style="border-color:rgba(255,59,48,.3)"><h3 style="color:var(--sys-red)">🗑️ الحذف النهائي الكامل</h3><p>مسحُ كلِّ شيءٍ من هذا الجهاز نهائياً. لا يمكن التراجع بعد التأكيد.</p>
+<button class="pv-btn danger" id="pv-del-all">مسح كل شيء</button></div><div class="section-title">🔐 مبادئُ الخصوصية المطلقة</div><div class="pv-princ">
+<div class="p"><b>صفر إعلانات</b><small>لا أيّ SDK إعلاني في التطبيق إطلاقاً.</small></div>
+<div class="p"><b>صفر تتبّع</b><small>لا Analytics ولا أدوات تتبّع سلوكي.</small></div>
+<div class="p"><b>الأدعية الشخصية</b><small>مشفّرةٌ محلياً ولا تُرفع للسحابة أبداً.</small></div>
+<div class="p"><b>بيانات الموقع</b><small>للحساب الفوري فقط — لا تُخزَّن ولا تُرفع.</small></div>
+<div class="p"><b>التشفير أثناء النقل</b><small>TLS 1.3 — رفضُ الاتصالات الأقل أماناً.</small></div>
+<div class="p"><b>التشفير في السحابة</b><small>AES-256-GCM لكلِّ السجلات المُزامَنة.</small></div>
+</div>
+<div class="pv-unknown" style="margin-top:12px">الحذفُ على جهازك <b>فوريٌّ ونهائي</b>. وفي حال الربط السحابي مستقبلاً، تُحذف السجلات السحابية خلال 30 يوماً من الطلب.</div>
+  </main>
+</div>
+<div class="pv-modal" id="pv-modal"><div class="box"><h3>⚠️ تأكيد المسح الكامل</h3><p id="pv-modal-msg">سيُحذف كلُّ شيءٍ من هذا الجهاز نهائياً ولا يمكن التراجع. هل أنت متأكد؟</p><div style="display:flex;gap:10px"><button class="pv-btn ghost" id="pv-cancel" style="flex:1;justify-content:center">إلغاء</button><button class="pv-btn danger" id="pv-confirm" style="flex:1;justify-content:center">نعم، امسح</button></div></div></div>
+<script>
+(function(){
+  'use strict';
+  var ZKEY='zad_v2';
+  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
+  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
+  function pct(){var w=read().worship||{};var K=['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam','morning_dhikr','evening_dhikr','takbeer_100','tawbah'];return Math.round(K.filter(function(k){return w[k];}).length/K.length*100);}
+  function uuid(){var s=read();if(s.groups&&s.groups.me&&s.groups.me.id)return s.groups.me.id;if(!s._uuid){s._uuid=(crypto&&crypto.randomUUID)?crypto.randomUUID():'anon-'+Math.random().toString(36).slice(2);write(s);}return s._uuid;}
+  /* تقرير الشفافية */
+  document.getElementById('pv-report-btn').addEventListener('click',function(){
+    var s=read(),box=document.getElementById('pv-report');
+    var rows=[
+      ['المعرّف المجهول', (uuid()||'').slice(0,18)+'…'],
+      ['نسبة إنجاز اليوم', pct()+'%'],
+      ['إجمالي التكبير', ((s.takbeer&&s.takbeer.total)||0).toLocaleString('ar-EG')],
+      ['صفحات العشر', ((s.mushaf&&s.mushaf.totalPages)||0).toLocaleString('ar-EG')],
+      ['أيام اللهب', s.streak||0],
+      ['المجموعات', (s.groups&&s.groups.list&&s.groups.list.length)||0]
+    ];
+    box.innerHTML=rows.map(function(r){return '<div class="kv"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>';}).join('');
+    box.classList.add('show');
+  });
+  /* تصدير JSON */
+  document.getElementById('pv-export').addEventListener('click',function(){
+    var data=localStorage.getItem(ZKEY)||'{}';
+    var blob=new Blob([JSON.stringify(JSON.parse(data),null,2)],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='zad-data-backup.json';a.click();
+    try{if(window.showToast)window.showToast('⬇️ تم تنزيل نسخة بياناتك');}catch(e){}
+  });
+  function clearKeys(keys,msg){var s=read();keys.forEach(function(k){delete s[k];});write(s);try{if(window.showToast)window.showToast(msg);}catch(e){}}
+  document.getElementById('pv-del-groups').addEventListener('click',function(){ if(confirm('حذف بيانات المجموعة فقط؟')) clearKeys(['groups'],'تم حذف بيانات المجموعة'); });
+  document.getElementById('pv-del-zakat').addEventListener('click',function(){ if(confirm('حذف بيانات الزكاة والأضحية؟')) clearKeys(['zakat','odhiya'],'تم حذف بيانات الزكاة والأضحية'); });
+  /* الحذف الكامل عبر Modal */
+  var modal=document.getElementById('pv-modal');
+  document.getElementById('pv-del-all').addEventListener('click',function(){modal.classList.add('open');});
+  document.getElementById('pv-cancel').addEventListener('click',function(){modal.classList.remove('open');});
+  document.getElementById('pv-confirm').addEventListener('click',function(){
+    try{localStorage.removeItem(ZKEY);}catch(e){}
+    modal.classList.remove('open');
+    alert('تم مسح كل البيانات من هذا الجهاز.');
+    location.href='index.html';
+  });
+})();
+</script>
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+</body>
+</html>

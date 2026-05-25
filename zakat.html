@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>حاسبة الزكاة والأضحية — زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+.zk-hero{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 60%,#c9a14a 150%);border-radius:22px;padding:30px 26px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.zk-hero::after{content:'💰';position:absolute;top:16px;left:24px;font-size:54px;opacity:.12;line-height:1}
+.zk-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:3px;font-weight:700;margin-bottom:8px}
+.zk-title{font-size:27px;font-weight:900;line-height:1.25;margin-bottom:8px;font-family:'ThmanyahSans',sans-serif}
+.zk-sub{font-size:13.5px;color:rgba(255,255,255,.82);line-height:1.8;max-width:560px}
+
+.zk-offline{display:flex;align-items:center;gap:10px;background:var(--green-pale);border:1px solid rgba(42,122,95,.22);border-radius:14px;padding:11px 16px;font-size:12.5px;color:var(--green-deep);font-weight:600;margin-bottom:16px}
+html[data-theme="dark"] .zk-offline,html[data-theme="oled"] .zk-offline{color:var(--sys-green)}
+
+.zk-sec-title{display:flex;align-items:center;gap:10px;margin:22px 0 12px;font-size:16px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .zk-sec-title,html[data-theme="oled"] .zk-sec-title{color:var(--sys-green)}
+.zk-sec-title::before{content:"";width:5px;height:18px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+
+/* rate + currency bar */
+.zk-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow-sm);margin-bottom:6px}
+.zk-rate-grp{display:flex;gap:6px;background:var(--sand);border-radius:11px;padding:4px}
+.zk-rate-grp button{padding:8px 14px;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--muted);background:none;transition:all .2s}
+.zk-rate-grp button.active{background:var(--green-deep);color:#fff}
+.zk-cur-wrap{display:flex;align-items:center;gap:6px;margin-inline-start:auto;font-size:12.5px;color:var(--muted);font-weight:600}
+.zk-cur-wrap input{width:64px;padding:7px 9px;border:1.5px solid var(--border);border-radius:9px;background:var(--sand);color:var(--ink);font-family:inherit;font-size:12.5px;text-align:center}
+
+/* asset rows */
+.zk-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:6px 16px;box-shadow:var(--shadow-sm)}
+.zk-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--border)}
+.zk-row:last-child{border-bottom:none}
+.zk-row .zk-ico{font-size:20px;flex-shrink:0;width:26px;text-align:center}
+.zk-row .zk-meta{flex:1;min-width:0}
+.zk-row .zk-name{font-size:13.5px;font-weight:700;color:var(--ink)}
+.zk-row .zk-hint{font-size:11px;color:var(--muted);margin-top:1px}
+.zk-row .zk-inputs{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.zk-inp{width:96px;padding:9px 10px;border:1.5px solid var(--border);border-radius:10px;background:var(--sand);color:var(--ink);font-family:inherit;font-size:13.5px;font-weight:600;text-align:end;-moz-appearance:textfield}
+.zk-inp::-webkit-outer-spin-button,.zk-inp::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.zk-inp:focus{outline:none;border-color:var(--green-soft);background:var(--card)}
+.zk-times{color:var(--muted);font-size:13px;font-weight:700}
+.zk-sub-amt{font-size:11px;color:var(--green-deep);font-weight:700;min-width:84px;text-align:end}
+html[data-theme="dark"] .zk-sub-amt,html[data-theme="oled"] .zk-sub-amt{color:var(--sys-green)}
+@media(max-width:620px){
+  .zk-row{flex-wrap:wrap}
+  .zk-inputs{width:100%;justify-content:flex-end;margin-top:4px}
+  .zk-inp{flex:1;max-width:120px}
+}
+
+.zk-row.liab .zk-name{color:var(--sys-red)}
+.zk-row.liab .zk-sub-amt{color:var(--sys-red)}
+
+/* result */
+.zk-result{background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1.5px solid rgba(201,161,74,.3);border-radius:18px;padding:22px;margin-top:16px;box-shadow:var(--shadow-sm)}
+.zk-result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:520px){.zk-result-grid{grid-template-columns:1fr}}
+.zk-stat{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:13px 15px}
+.zk-stat .l{font-size:11.5px;color:var(--muted);margin-bottom:4px;font-weight:600}
+.zk-stat .v{font-size:21px;font-weight:900;color:var(--green-deep);font-family:'ThmanyahSans',monospace}
+html[data-theme="dark"] .zk-stat .v,html[data-theme="oled"] .zk-stat .v{color:var(--sys-green)}
+.zk-stat .v small{font-size:12px;font-weight:600;color:var(--muted)}
+.zk-due{text-align:center;padding:18px;border-radius:14px;background:var(--green-deep);color:#fff;margin-top:4px}
+.zk-due .l{font-size:13px;opacity:.85;margin-bottom:4px}
+.zk-due .v{font-size:34px;font-weight:900;font-family:'ThmanyahSans',monospace;line-height:1.1}
+html[data-theme="dark"] .zk-due,html[data-theme="oled"] .zk-due{color:#001a08}
+.zk-nisab-note{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.7;color:var(--muted);background:var(--sand);border-radius:11px;padding:11px 13px;margin-top:14px}
+.zk-nisab-note b{color:var(--ink)}
+.zk-belowNisab{background:var(--sand-2)!important;color:var(--ink)!important}
+
+.zk-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.zk-btn{flex:1;min-width:130px;padding:12px 0;border-radius:12px;border:1.5px solid var(--border);background:var(--card);color:var(--ink);font-family:inherit;font-size:13px;font-weight:700;transition:all .2s}
+.zk-btn:hover{border-color:var(--green-soft);background:var(--green-pale)}
+.zk-btn.primary{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;border:none}
+
+/* udhiya */
+.zk-udhiya{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px 18px 6px;box-shadow:var(--shadow-sm)}
+.zk-ud-link{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit}
+.zk-ud-link:last-child{border-bottom:none}
+.zk-ud-link .i{font-size:22px}
+.zk-ud-link .t{flex:1}
+.zk-ud-link .t b{font-size:14px;color:var(--green-deep);font-weight:800}
+html[data-theme="dark"] .zk-ud-link .t b,html[data-theme="oled"] .zk-ud-link .t b{color:var(--sys-green)}
+.zk-ud-link .t small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.zk-ud-link .arr{color:var(--muted)}
+
+.closing-banner{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:18px;padding:24px;text-align:center;color:#fff;margin-top:16px;position:relative;overflow:hidden}
+.closing-txt{font-family:'Amiri',serif;font-size:17px;line-height:2;color:rgba(255,255,255,.95)}
+.closing-src{font-size:12px;color:rgba(255,255,255,.6);margin-top:6px}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+</head>
+<body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
+      <span class="slb-label">🌐 اللغة</span>
+      <span class="slb-val" id="sidebar-lang-val">EN</span>
+    </button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav"></nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">حاسبة <span>الزكاة</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zk-hero">
+      <div class="zk-eyebrow">💰 العبادة المالية</div>
+      <div class="zk-title">حاسبة الزكاة والأضحية</div>
+      <div class="zk-sub">احسب زكاة مالك في ثوانٍ — ذهبٌ وفضةٌ ونقدٌ وأسهمٌ وصناديق — مع التحقق من بلوغ النِّصاب آلياً. تعمل بالكامل بدون إنترنت بآخر أسعارٍ تحفظها بنفسك.</div>
+    </div>
+
+    <div class="zk-offline">📴 تعمل أوفلاين: أدخِل سعر جرام الذهب/الفضة بعملتك مرّةً، وتُحفظ لك — والحساب فوري دون شبكة.</div>
+
+    <!-- Controls: rate + currency -->
+    <div class="zk-sec-title">⚙️ إعدادات الحساب</div>
+    <div class="zk-controls">
+      <div class="zk-rate-grp" id="rate-grp">
+        <button data-rate="2.5"   class="active">سنة هجرية · 2.5%</button>
+        <button data-rate="2.577">سنة ميلادية · 2.577%</button>
+      </div>
+      <div class="zk-cur-wrap">العملة: <input id="zk-cur" type="text" maxlength="6" placeholder="ج.م" value="ج.م"></div>
+    </div>
+
+    <!-- Assets -->
+    <div class="zk-sec-title">📥 الأصول الزكوية</div>
+    <div class="zk-card" id="assets-card">
+      <div class="zk-row">
+        <span class="zk-ico">🥇</span>
+        <div class="zk-meta"><div class="zk-name">الذهب</div><div class="zk-hint">الوزن (جرام) × سعر الجرام</div></div>
+        <div class="zk-inputs">
+          <input class="zk-inp" type="number" inputmode="decimal" id="gold-g" placeholder="جرام" min="0">
+          <span class="zk-times">×</span>
+          <input class="zk-inp" type="number" inputmode="decimal" id="gold-p" placeholder="سعر/جم" min="0">
+        </div>
+      </div>
+      <div class="zk-row"><span class="zk-ico"></span><div class="zk-meta"></div><div class="zk-sub-amt" id="gold-amt">0</div></div>
+
+      <div class="zk-row">
+        <span class="zk-ico">🥈</span>
+        <div class="zk-meta"><div class="zk-name">الفضة</div><div class="zk-hint">الوزن (جرام) × سعر الجرام</div></div>
+        <div class="zk-inputs">
+          <input class="zk-inp" type="number" inputmode="decimal" id="silver-g" placeholder="جرام" min="0">
+          <span class="zk-times">×</span>
+          <input class="zk-inp" type="number" inputmode="decimal" id="silver-p" placeholder="سعر/جم" min="0">
+        </div>
+      </div>
+      <div class="zk-row"><span class="zk-ico"></span><div class="zk-meta"></div><div class="zk-sub-amt" id="silver-amt">0</div></div>
+
+      <div class="zk-row">
+        <span class="zk-ico">💵</span>
+        <div class="zk-meta"><div class="zk-name">النقد والأرصدة</div><div class="zk-hint">كاش + حسابات بنكية</div></div>
+        <div class="zk-inputs"><input class="zk-inp" type="number" inputmode="decimal" id="cash" placeholder="القيمة" min="0"></div>
+      </div>
+      <div class="zk-row">
+        <span class="zk-ico">📈</span>
+        <div class="zk-meta"><div class="zk-name">الأسهم</div><div class="zk-hint">القيمة السوقية الحالية</div></div>
+        <div class="zk-inputs"><input class="zk-inp" type="number" inputmode="decimal" id="stocks" placeholder="القيمة" min="0"></div>
+      </div>
+      <div class="zk-row">
+        <span class="zk-ico">🏦</span>
+        <div class="zk-meta"><div class="zk-name">الصناديق الاستثمارية</div><div class="zk-hint">قيمة الوحدات الحالية</div></div>
+        <div class="zk-inputs"><input class="zk-inp" type="number" inputmode="decimal" id="funds" placeholder="القيمة" min="0"></div>
+      </div>
+      <div class="zk-row">
+        <span class="zk-ico">🛍️</span>
+        <div class="zk-meta"><div class="zk-name">عروض التجارة</div><div class="zk-hint">بضائع بنيّة البيع</div></div>
+        <div class="zk-inputs"><input class="zk-inp" type="number" inputmode="decimal" id="trade" placeholder="القيمة" min="0"></div>
+      </div>
+    </div>
+
+    <!-- Liabilities -->
+    <div class="zk-sec-title">📤 الخصوم (تُطرح)</div>
+    <div class="zk-card">
+      <div class="zk-row liab">
+        <span class="zk-ico">➖</span>
+        <div class="zk-meta"><div class="zk-name">الديون المستحقة الآن</div><div class="zk-hint">ديونٌ حالّة عليك</div></div>
+        <div class="zk-inputs"><input class="zk-inp" type="number" inputmode="decimal" id="debts" placeholder="القيمة" min="0"></div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="zk-result">
+      <div class="zk-result-grid">
+        <div class="zk-stat"><div class="l">إجمالي الوعاء الزكوي</div><div class="v"><span id="r-pool">0</span> <small id="r-cur1">ج.م</small></div></div>
+        <div class="zk-stat"><div class="l">النصاب المعتمد (الأدنى)</div><div class="v"><span id="r-nisab">—</span> <small id="r-cur2">ج.م</small></div></div>
+      </div>
+      <div class="zk-due" id="due-box">
+        <div class="l" id="due-label">زكاتك المستحقة</div>
+        <div class="v"><span id="r-zakat">0</span> <small id="r-cur3" style="font-size:15px"></small></div>
+      </div>
+      <div class="zk-nisab-note" id="nisab-note">
+        <span>ℹ️</span>
+        <div><b>النصاب:</b> 85 جرام ذهب أو 595 جرام فضة. يُعتمد الأدنى منهما احتياطاً للفقير. تجب الزكاة فقط إذا بلغ مالُك النصاب وحال عليه الحول.</div>
+      </div>
+      <div class="zk-actions">
+        <button class="zk-btn primary" id="save-btn">💾 حفظ الحساب</button>
+        <button class="zk-btn" id="reset-btn">↺ تفريغ الحقول</button>
+      </div>
+    </div>
+
+    <!-- Udhiya -->
+    <div class="zk-sec-title">🐏 ركن الأضحية</div>
+    <div class="zk-udhiya">
+      <a class="zk-ud-link" href="odhiya.html">
+        <span class="i">📖</span>
+        <div class="t"><b>دليل أحكام الأضحية</b><small>الشروط، السن، التوزيع، وما يُجتنب في العشر</small></div>
+        <span class="arr">←</span>
+      </a>
+      <a class="zk-ud-link" href="sadaqah.html">
+        <span class="i">💚</span>
+        <div class="t"><b>صدقة العشر</b><small>وجِّه أضحيتك وصدقتك حيث تنفع</small></div>
+        <span class="arr">←</span>
+      </a>
+    </div>
+
+    <div class="closing-banner">
+      <div class="closing-txt">«وأقيموا الصلاةَ وآتوا الزكاةَ وأقرِضوا اللهَ قرضًا حسنًا»</div>
+      <div class="closing-src">المزمل: 20</div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   حاسبة الزكاة — أوفلاين بالكامل، تُخزَّن في zad_v2.zakat
+   • النِّصاب: 85جم ذهب / 595جم فضة (يُعتمد الأدنى)
+   • المعدّل: 2.5% هجري / 2.577% ميلادي
+   • لا تتعامل مع أي عملات رقمية.
+   ══════════════════════════════════════════════════════════ */
+const ZKEY='zad_v2';
+const NISAB_GOLD_G=85, NISAB_SILVER_G=595;
+const FIELDS=['gold-g','gold-p','silver-g','silver-p','cash','stocks','funds','trade','debts'];
+let RATE=2.5, CUR='ج.م';
+
+function readZ(){ try{ const s=JSON.parse(localStorage.getItem(ZKEY)||'{}'); return (s&&s.zakat)?s.zakat:{}; }catch(e){ return {}; } }
+function writeZ(z){ let s={}; try{ s=JSON.parse(localStorage.getItem(ZKEY)||'{}')||{}; }catch(e){ s={}; } s.zakat=z; try{ localStorage.setItem(ZKEY,JSON.stringify(s)); }catch(e){} if(window.STATE) window.STATE.zakat=z; }
+
+function num(id){ const v=parseFloat(document.getElementById(id).value); return isNaN(v)||v<0?0:v; }
+function fmt(n){ return (Math.round(n*100)/100).toLocaleString('ar-EG',{maximumFractionDigits:2}); }
+
+function recompute(){
+  const goldG=num('gold-g'), goldP=num('gold-p'), silverG=num('silver-g'), silverP=num('silver-p');
+  const goldVal=goldG*goldP, silverVal=silverG*silverP;
+  document.getElementById('gold-amt').textContent='= '+fmt(goldVal)+' '+CUR;
+  document.getElementById('silver-amt').textContent='= '+fmt(silverVal)+' '+CUR;
+
+  const cash=num('cash'), stocks=num('stocks'), funds=num('funds'), trade=num('trade'), debts=num('debts');
+  const pool=Math.max(0, goldVal+silverVal+cash+stocks+funds+trade-debts);
+
+  /* النصاب: قيمة 85جم ذهب وقيمة 595جم فضة — يُعتمد الأدنى المتوفّر سعره */
+  const nisabGold   = goldP>0   ? NISAB_GOLD_G*goldP     : null;
+  const nisabSilver = silverP>0 ? NISAB_SILVER_G*silverP : null;
+  let nisab=null;
+  if(nisabGold!=null && nisabSilver!=null) nisab=Math.min(nisabGold,nisabSilver);
+  else nisab = nisabGold!=null ? nisabGold : nisabSilver;
+
+  const meets = nisab!=null && pool>=nisab;
+  const zakat = meets ? pool*(RATE/100) : 0;
+
+  document.getElementById('r-pool').textContent=fmt(pool);
+  document.getElementById('r-nisab').textContent = nisab!=null ? fmt(nisab) : 'أدخِل سعر الذهب/الفضة';
+  document.getElementById('r-zakat').textContent=fmt(zakat);
+  [['r-cur1',CUR],['r-cur2',CUR],['r-cur3',CUR]].forEach(([id,v])=>document.getElementById(id).textContent=v);
+
+  const dueBox=document.getElementById('due-box'), dueLbl=document.getElementById('due-label');
+  if(nisab==null){ dueBox.classList.add('zk-belowNisab'); dueLbl.textContent='أدخِل سعر الجرام لتحديد النصاب'; }
+  else if(!meets){ dueBox.classList.add('zk-belowNisab'); dueLbl.textContent='مالُك دون النصاب — لا زكاة'; }
+  else { dueBox.classList.remove('zk-belowNisab'); dueLbl.textContent='زكاتك المستحقة ('+RATE+'%)'; }
+}
+
+function persist(){
+  const z={ rate:RATE, cur:CUR };
+  FIELDS.forEach(id=>z[id]=document.getElementById(id).value);
+  writeZ(z);
+}
+
+function restore(){
+  const z=readZ();
+  if(z.cur){ CUR=z.cur; document.getElementById('zk-cur').value=CUR; }
+  if(z.rate){ RATE=parseFloat(z.rate)||2.5; document.querySelectorAll('#rate-grp button').forEach(b=>b.classList.toggle('active', parseFloat(b.dataset.rate)===RATE)); }
+  FIELDS.forEach(id=>{ if(z[id]!=null) document.getElementById(id).value=z[id]; });
+}
+
+function toast(msg){
+  try{ if(typeof window.showToast==='function'){ window.showToast(msg); return; } }catch(e){}
+  let t=document.getElementById('zk-toast');
+  if(!t){ t=document.createElement('div'); t.id='zk-toast'; t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green-deep);color:#fff;padding:12px 22px;border-radius:99px;font-size:13px;font-weight:700;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;transition:all .3s'; document.body.appendChild(t); }
+  t.textContent=msg; requestAnimationFrame(()=>{ t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+  clearTimeout(t._h); t._h=setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; },2000);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  restore(); recompute();
+  FIELDS.forEach(id=>document.getElementById(id).addEventListener('input',()=>{ recompute(); persist(); }));
+  document.getElementById('zk-cur').addEventListener('input',e=>{ CUR=(e.target.value||'').trim()||'ج.م'; recompute(); persist(); });
+  document.querySelectorAll('#rate-grp button').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('#rate-grp button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); RATE=parseFloat(b.dataset.rate); recompute(); persist();
+  }));
+  document.getElementById('save-btn').addEventListener('click',()=>{ persist(); if(navigator.vibrate)navigator.vibrate(30); toast('💾 تم حفظ حسابك — متاح أوفلاين'); });
+  document.getElementById('reset-btn').addEventListener('click',()=>{ FIELDS.forEach(id=>document.getElementById(id).value=''); recompute(); persist(); toast('↺ تم تفريغ الحقول'); });
+});
+</script>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+</body>
+</html>

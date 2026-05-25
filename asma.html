@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>أسماء الله الحسنى — زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<!-- OG -->
+<meta property="og:title" content="أسماء الله الحسنى — زاد العشر">
+<meta property="og:description" content="تدبّر في أسماء الله الحسنى الـ 99 — فهم، ذكر، تعبّد">
+<meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+/* ══ Page-specific CSS ═══════════════════════════════════════ */
+
+/* Filter tabs */
+.asma-filter-wrap {
+  display:flex;gap:8px;overflow-x:auto;
+  scrollbar-width:none;padding-bottom:2px;margin-bottom:20px
+}
+.asma-filter-wrap::-webkit-scrollbar{display:none}
+.asma-tab {
+  padding:9px 18px;border-radius:99px;
+  border:1.5px solid var(--border);background:var(--card);
+  font-family:inherit;font-size:13px;font-weight:700;
+  cursor:pointer;white-space:nowrap;transition:all .2s;
+  color:var(--muted)
+}
+.asma-tab.active {
+  background:var(--green-deep);color:#fff;border-color:var(--green-deep)
+}
+.asma-tab[data-cat="jalal"].active{background:#7a1a1a;border-color:#7a1a1a}
+.asma-tab[data-cat="jamal"].active{background:#1a6040;border-color:#1a6040}
+.asma-tab[data-cat="kamal"].active{background:#1a3a7a;border-color:#1a3a7a}
+
+/* Hero — اسم اليوم */
+.asma-hero {
+  background:linear-gradient(135deg,var(--card),rgba(201,161,74,.06));
+  border:1.5px solid rgba(201,161,74,.25);
+  border-radius:22px;padding:24px;margin-bottom:20px;
+  position:relative;overflow:hidden;cursor:pointer;
+  transition:transform .2s,box-shadow .2s
+}
+.asma-hero:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.asma-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 85% 15%,rgba(201,161,74,.1),transparent 55%);
+  pointer-events:none
+}
+.asma-hero-header{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:8px;margin-bottom:14px
+}
+.asma-hero-label{
+  font-size:11px;font-weight:800;
+  background:rgba(201,161,74,.12);border:1px solid rgba(201,161,74,.25);
+  color:var(--gold-dark,#8b6914);border-radius:99px;padding:4px 12px
+}
+.asma-hero-date{font-size:11px;color:var(--muted)}
+.asma-hero-name{
+  font-family:'Amiri',serif;font-size:3.2em;font-weight:900;
+  color:var(--green-deep);text-align:center;margin:8px 0;
+  line-height:1.2
+}
+html[data-theme="dark"] .asma-hero-name,
+html[data-theme="oled"] .asma-hero-name{color:var(--sys-green,#4ade80)}
+
+.asma-hero-trans{
+  text-align:center;font-size:12px;color:var(--muted);
+  letter-spacing:.5px;direction:ltr;margin-bottom:14px
+}
+
+/* Meaning block */
+.asma-meaning{
+  background:var(--sand);border-radius:14px;padding:16px;
+  margin-bottom:16px;position:relative
+}
+html[data-theme="dark"] .asma-meaning,
+html[data-theme="oled"] .asma-meaning{background:rgba(255,255,255,.04)}
+.asma-meaning .ml{
+  display:block;padding-right:20px;position:relative;
+  font-size:13.5px;line-height:1.9;color:var(--ink);margin-bottom:6px
+}
+.asma-meaning .ml::before{
+  content:'•';position:absolute;right:0;
+  color:var(--gold-dark,#8b6914);font-weight:900;font-size:16px
+}
+.asma-meaning .ml.quran{
+  font-family:'Amiri',serif;font-size:16px;
+  color:var(--green-deep);background:rgba(14,59,46,.05);
+  border-radius:10px;padding:10px 16px 10px 10px;
+  border-right:3px solid rgba(14,59,46,.25)
+}
+html[data-theme="dark"] .asma-meaning .ml.quran,
+html[data-theme="oled"] .asma-meaning .ml.quran{color:var(--sys-green,#4ade80);background:rgba(74,222,128,.06)}
+.asma-meaning .ml.quran::before{display:none}
+.asma-meaning .ml.practical{
+  background:rgba(201,161,74,.1);border-radius:10px;
+  padding:10px 16px 10px 10px;font-weight:700;
+  color:var(--green-deep);border-right:3px solid rgba(201,161,74,.4)
+}
+.asma-meaning .ml.worship{
+  background:rgba(14,59,46,.06);border-radius:10px;
+  padding:10px 16px 10px 10px;font-style:italic;
+  color:var(--green-deep)
+}
+html[data-theme="dark"] .asma-meaning .ml.practical,
+html[data-theme="oled"] .asma-meaning .ml.practical{background:rgba(201,161,74,.08)}
+html[data-theme="dark"] .asma-meaning .ml.worship,
+html[data-theme="oled"] .asma-meaning .ml.worship{background:rgba(255,255,255,.04)}
+
+/* Hero actions */
+.asma-hero-actions{
+  display:flex;gap:8px;flex-wrap:wrap
+}
+.asma-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 16px;border-radius:12px;border:none;
+  font-family:inherit;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .2s
+}
+.asma-btn-primary{background:var(--green-deep);color:#fff}
+.asma-btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+.asma-btn-primary.done{background:var(--gold)}
+.asma-btn-ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--border)}
+.asma-btn-ghost:hover{border-color:var(--gold)}
+
+/* Progress bar */
+.asma-progress{margin-top:16px;text-align:center}
+.asma-progress-text{font-size:12px;color:var(--muted);margin-bottom:6px}
+.asma-progress-bar{height:5px;background:var(--border);border-radius:99px;overflow:hidden}
+.asma-progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--green-mid),var(--gold));
+  border-radius:99px;transition:width .5s ease
+}
+
+/* Names grid */
+.asma-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:12px;padding-bottom:20px
+}
+@media(max-width:400px){.asma-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* Name card */
+.asma-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:16px;padding:16px 12px;text-align:center;
+  cursor:pointer;transition:all .22s;position:relative;
+  box-shadow:var(--shadow-sm)
+}
+.asma-card:hover{transform:translateY(-3px);border-color:rgba(201,161,74,.4);box-shadow:var(--shadow)}
+.asma-card.active{
+  border-color:var(--green-deep);border-width:2px;
+  background:linear-gradient(135deg,var(--card),rgba(14,59,46,.06))
+}
+.asma-card.reflected{
+  border-color:rgba(201,161,74,.35);
+  background:linear-gradient(135deg,var(--card),rgba(201,161,74,.05))
+}
+.asma-card.reflected::after{
+  content:'✓';position:absolute;top:7px;left:9px;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--gold);color:#fff;font-size:10px;font-weight:900;
+  display:grid;place-items:center
+}
+.asma-card.fav{box-shadow:0 0 0 1.5px var(--gold),var(--shadow-sm)}
+
+.asma-card-ar{
+  font-family:'Amiri',serif;font-size:1.55em;font-weight:900;
+  color:var(--green-deep);margin-bottom:4px;line-height:1.2
+}
+html[data-theme="dark"] .asma-card-ar,
+html[data-theme="oled"] .asma-card-ar{color:var(--sys-green,#4ade80)}
+.asma-card-trans{font-size:11px;color:var(--muted);direction:ltr;margin-bottom:4px}
+.asma-card-cat{
+  font-size:10px;font-weight:800;padding:2px 8px;border-radius:99px;
+  display:inline-block;margin-top:3px
+}
+.cat-jalal{background:rgba(122,26,26,.1);color:#7a1a1a}
+.cat-jamal{background:rgba(26,96,64,.1);color:#1a6040}
+.cat-kamal{background:rgba(26,58,122,.1);color:#1a3a7a}
+html[data-theme="dark"] .cat-jalal,.asma-card:hover .cat-jalal{background:rgba(200,0,0,.12)}
+html[data-theme="dark"] .cat-jamal,.asma-card:hover .cat-jamal{background:rgba(0,160,80,.1)}
+html[data-theme="dark"] .cat-kamal,.asma-card:hover .cat-kamal{background:rgba(60,120,220,.1)}
+
+.asma-card-actions{
+  display:flex;justify-content:center;gap:6px;margin-top:8px
+}
+.asma-card-btn{
+  background:none;border:none;font-size:14px;
+  cursor:pointer;opacity:.55;transition:.15s;padding:3px
+}
+.asma-card-btn:hover{opacity:1;transform:scale(1.15)}
+.asma-card-btn.on{opacity:1}
+
+/* Bottom sheet */
+.asma-sheet-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);
+  z-index:800;display:none;backdrop-filter:blur(4px)
+}
+.asma-sheet-overlay.open{display:block}
+.asma-sheet{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--card);border-radius:22px 22px 0 0;
+  padding:20px 20px 32px;z-index:801;
+  transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);
+  max-height:80vh;overflow-y:auto;
+  box-shadow:0 -8px 40px rgba(0,0,0,.2)
+}
+.asma-sheet.open{transform:translateY(0)}
+.asma-sheet-handle{
+  width:36px;height:4px;background:var(--border);
+  border-radius:2px;margin:0 auto 16px
+}
+.asma-sheet-name{
+  font-family:'Amiri',serif;font-size:2.2em;font-weight:900;
+  color:var(--green-deep);text-align:center;margin-bottom:6px
+}
+.asma-sheet-trans{
+  text-align:center;font-size:12px;color:var(--muted);
+  direction:ltr;margin-bottom:16px
+}
+.asma-sheet-actions{
+  display:flex;gap:8px;margin-top:16px;flex-wrap:wrap
+}
+
+/* Popup (desktop) */
+.asma-popup{
+  position:fixed;z-index:900;
+  background:var(--card);border:1.5px solid rgba(201,161,74,.3);
+  border-radius:16px;padding:16px;width:280px;
+  box-shadow:0 12px 40px rgba(0,0,0,.18);
+  display:none;pointer-events:none;
+  animation:fadeUp .15s ease
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.asma-popup-name{
+  font-family:'Amiri',serif;font-size:1.6em;font-weight:900;
+  color:var(--green-deep);text-align:center;margin-bottom:10px
+}
+
+/* Worship tips */
+.asma-tips{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:18px;padding:20px;margin:20px 0
+}
+.asma-tips-title{
+  font-size:14px;font-weight:800;color:var(--ink);margin-bottom:14px;
+  display:flex;align-items:center;gap:8px
+}
+.asma-tip-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:10px 0;border-bottom:1px solid var(--border);
+  font-size:13px;line-height:1.7;color:var(--ink)
+}
+.asma-tip-item:last-child{border-bottom:none}
+.asma-tip-ico{font-size:18px;flex-shrink:0;margin-top:2px}
+
+/* Quran verse footer */
+.asma-footer-verse{
+  background:linear-gradient(135deg,rgba(14,59,46,.06),rgba(201,161,74,.04));
+  border:1px solid rgba(201,161,74,.2);border-radius:16px;
+  padding:20px;text-align:center;margin:20px 0
+}
+.asma-footer-ar{
+  font-family:'Amiri',serif;font-size:20px;color:var(--green-deep);
+  line-height:2;margin-bottom:6px
+}
+.asma-footer-ref{font-size:11px;color:var(--muted)}
+</style>
+
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t);var fs=JSON.parse(s||'{}').fontScale||'md';document.documentElement.setAttribute('data-fs',fs);document.documentElement.setAttribute('data-font',fs)})();</script>
+<script>(function(){var saved=localStorage.getItem("zad_font_size");var map={small:0.875,medium:1,large:1.15};if(!saved||saved==="system"){var scale=1;try{var p=document.createElement("div");p.style.cssText="position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem";(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty("--font-scale",scale);}else{document.documentElement.style.setProperty("--font-scale",map[saved]||1);}})();</script>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <div class="nav-sep">الصلاة والتقويم</div>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <div class="nav-sep">القرآن والعبادة</div>
+      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
+      <a href="takbeer.html"><span class="ico">📿</span><span>المسبحة</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
+      <a href="nawawi.html"><span class="ico">📜</span><span>الأربعون النووية</span></a>
+      <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
+      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
+      <div class="nav-sep">الحج والمناسك</div>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <div class="nav-sep">المتابعة</div>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <div class="nav-sep">التعلم والترفيه</div>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <a href="asma.html" class="active"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
+      <div class="nav-sep">الإعدادات</div>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center">
+        <div class="page-title">أسماء الله <span>الحسنى</span></div>
+      </div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ Filter Tabs ══════════════════════════════════════ -->
+    <div class="asma-filter-wrap" id="asmaFilter">
+      <button class="asma-tab active" data-cat="all">الكل (100)</button>
+      <button class="asma-tab" data-cat="jalal">🔴 الجلال</button>
+      <button class="asma-tab" data-cat="jamal">🟢 الجمال</button>
+      <button class="asma-tab" data-cat="kamal">🔵 الكمال</button>
+      <button class="asma-tab" data-cat="fav">❤️ المفضلة</button>
+      <button class="asma-tab" data-cat="reflected">✅ المتدبَّر</button>
+    </div>
+
+    <!-- ══ Hero — اسم اليوم ══════════════════════════════ -->
+    <div class="asma-hero" id="asmaHero" onclick="heroClick()">
+      <div class="asma-hero-header">
+        <span class="asma-hero-label">✨ اسم اليوم للتدبر</span>
+        <span class="asma-hero-date" id="heroDate"></span>
+      </div>
+      <div class="asma-hero-name" id="heroName">الله</div>
+      <div class="asma-hero-trans" id="heroTrans">Allāh</div>
+      <div class="asma-meaning" id="heroMeaning"></div>
+      <div class="asma-hero-actions">
+        <button class="asma-btn asma-btn-primary" id="btnReflect" onclick="event.stopPropagation();toggleReflectHero()">
+          🤲 تم التدبر
+        </button>
+        <button class="asma-btn asma-btn-ghost" onclick="event.stopPropagation();randomName()">🎲 عشوائي</button>
+        <button class="asma-btn asma-btn-ghost" onclick="event.stopPropagation();shareHero()">📤 مشاركة</button>
+        <button class="asma-btn asma-btn-ghost" onclick="event.stopPropagation();playAudio(currentHeroIdx)">🔊 نطق</button>
+      </div>
+      <div class="asma-progress">
+        <div class="asma-progress-text">تقدمك في التدبر: <strong id="progCount">0</strong> / 100</div>
+        <div class="asma-progress-bar"><div class="asma-progress-fill" id="progFill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- ══ Names Grid ════════════════════════════════════ -->
+    <div class="section-title" style="margin-bottom:14px">📜 الأسماء الحسنى</div>
+    <div class="asma-grid" id="asmaGrid"></div>
+
+    <!-- ══ How to worship ════════════════════════════════ -->
+    <div class="asma-tips">
+      <div class="asma-tips-title">💫 كيف نتعبد بالأسماء؟</div>
+      <div class="asma-tip-item"><span class="asma-tip-ico">🎯</span><span><strong>افهم:</strong> اقرأ معنى الاسم بتمعّن قبل التدبر</span></div>
+      <div class="asma-tip-item"><span class="asma-tip-ico">🤲</span><span><strong>ادعُ:</strong> ادعُ الله بالاسم — "يا رحيم ارحمني"</span></div>
+      <div class="asma-tip-item"><span class="asma-tip-ico">💡</span><span><strong>طبّق:</strong> "الرحيم" → كن رحيماً مع من حولك</span></div>
+      <div class="asma-tip-item"><span class="asma-tip-ico">📝</span><span><strong>سجّل:</strong> اضغط "تم التدبر" ليُحفظ في سجلك</span></div>
+    </div>
+
+    <!-- Quran verse -->
+    <div class="asma-footer-verse">
+      <div class="asma-footer-ar">﴿وَلِلَّهِ الْأَسْمَاءُ الْحُسْنَىٰ فَادْعُوهُ بِهَا﴾</div>
+      <div class="asma-footer-ref">سورة الأعراف — آية 180</div>
+    </div>
+  </main>
+</div>
+
+<!-- Bottom sheet (mobile) -->
+<div class="asma-sheet-overlay" id="asmaOverlay" onclick="closeSheet()"></div>
+<div class="asma-sheet" id="asmaSheet">
+  <div class="asma-sheet-handle"></div>
+  <div class="asma-sheet-name" id="sheetName"></div>
+  <div class="asma-sheet-trans" id="sheetTrans"></div>
+  <div class="asma-meaning" id="sheetMeaning"></div>
+  <div class="asma-sheet-actions">
+    <button class="asma-btn asma-btn-primary" onclick="reflectFromSheet()">🤲 تم التدبر</button>
+    <button class="asma-btn asma-btn-ghost" onclick="promoteFromSheet()">⬆️ ترقية لاسم اليوم</button>
+    <button class="asma-btn asma-btn-ghost" onclick="shareFromSheet()">📤 مشاركة</button>
+    <button class="asma-btn asma-btn-ghost" onclick="closeSheet()">✕ إغلاق</button>
+  </div>
+</div>
+
+<!-- Popup (desktop) -->
+<div class="asma-popup" id="asmaPopup">
+  <div class="asma-popup-name" id="popupName"></div>
+  <div class="asma-meaning" id="popupMeaning"></div>
+</div>
+
+<a href="ai.html" class="fab-ai">🤖</a>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+
+<script>
+/* ════ أسماء الله الحسنى — Full Script ════════════════════ */
+const NAMES = [
+  {ar:"الله",       tr:"Allāh",            en:"The One True God",       cat:"kamal", m:"هو الاسم الأعظم الجامع لجميع معاني الألوهية.<br>﴿اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ﴾ البقرة:255<br>هو المستحق للعبادة وحده لا شريك له.<br>💡 اجعل الله غايتك في كل قول وفعل.<br>🤲 أكثر من ذكر (الله الله) بقلب حاضر."},
+  {ar:"الرَّحْمَنُ",tr:"al-Raḥmān",        en:"The Most Gracious",      cat:"jamal", m:"ذو الرحمة الواسعة الشاملة لجميع الخلائق.<br>﴿الرَّحْمَٰنُ عَلَّمَ الْقُرْآنَ﴾ الرحمن:1<br>تتجلى رحمته في كل نعمة تحيط بك.<br>💡 استشعر رحمته في أدق تفاصيل يومك.<br>🤲 كن رحيماً بمن حولك يرحمك الرحمن."},
+  {ar:"الرَّحِيمُ", tr:"al-Raḥīm",         en:"The Most Merciful",      cat:"jamal", m:"الرحيم بالمؤمنين، يخصهم برحمته في الآخرة.<br>﴿وَكَانَ بِالْمُؤْمِنِينَ رَحِيمًا﴾ الأحزاب:43<br>يرحم ضعفك ويجبر كسرك ويثيبك على طاعتك.<br>💡 لا تيأس من رحمة الله مهما عظمت ذنوبك.<br>🤲 ادعُه (يا رحيم ارحم ضعفي وتولني)."},
+  {ar:"الْمَلِكُ",  tr:"al-Malik",          en:"The King",               cat:"jalal", m:"المتصرف في ملكه بما يشاء، لا معقب لحكمه.<br>﴿قُلِ اللَّهُمَّ مَالِكَ الْمُلْكِ﴾ آل عمران:26<br>له الملك كله، وله الحمد كله.<br>💡 فوّض أمرك لله فهو خير المدبرين.<br>🤲 أكثر من قول (حسبي الله ونعم الوكيل)."},
+  {ar:"الْقُدُّوسُ",tr:"al-Quddūs",         en:"The Most Holy",          cat:"kamal", m:"المنزّه عن كل نقص، الطاهر في ذاته وصفاته.<br>﴿هُوَ اللَّهُ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْمَلِكُ الْقُدُّوسُ﴾ الحشر:23<br>قدّس نفسه عن الشريك والولد والمثيل.<br>💡 طهّر قلبك من الحقد والحسد والكبر.<br>🤲 سبّح الله قدوساً في صلاتك وذكرك."},
+  {ar:"السَّلَامُ", tr:"al-Salām",          en:"The Source of Peace",    cat:"jamal", m:"سلم من كل آفة، ويُسلّم عباده من المخاوف.<br>﴿هُوَ اللَّهُ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ... السَّلَامُ﴾ الحشر:23<br>جعل الجنة دار سلام لعباده المتقين.<br>💡 كن سبباً في سلام الناس وأمنهم.<br>🤲 افشِ السلام تُحبّ وتُؤجر."},
+  {ar:"الْمُؤْمِنُ",tr:"al-Muʾmin",         en:"The Granter of Security",cat:"jamal", m:"آمن عباده من ظلمه، وأمّن خائفهم يوم القيامة.<br>يؤمن قلوب المؤمنين بالسكينة والطمأنينة.<br>💡 اجعل الناس يأمنون شرّك.<br>🤲 ادعُ الله أن يؤمن روعك ويثبت قلبك."},
+  {ar:"الْمُهَيْمِنُ",tr:"al-Muhaymin",    en:"The Guardian",           cat:"kamal", m:"الرقيب على كل شيء، الشهيد على خلقه بأعمالهم.<br>أحاط علمه بكل خفية وجلية.<br>💡 راقب الله في سرك وعلانيتك.<br>🤲 استعن به على مراقبة نفسك ومحاسبتها."},
+  {ar:"الْعَزِيزُ", tr:"al-ʿAzīz",         en:"The Almighty",           cat:"jalal", m:"الغالب الذي لا يُغلب، القوي الذي لا يردّ بأسه.<br>﴿وَلِلَّهِ الْعِزَّةُ وَلِرَسُولِهِ وَلِلْمُؤْمِنِينَ﴾ المنافقون:8<br>💡 اطلب العزة بطاعة الله لا بمعصيته.<br>🤲 قل (اللهم إني أعوذ بك من الذل)."},
+  {ar:"الْجَبَّارُ",tr:"al-Jabbār",         en:"The Compeller",          cat:"jalal", m:"قهر الخلق على ما أراد، وجبر كسر المنكسرين.<br>يجبر القلوب الحزينة والنفوس الكسيرة.<br>💡 إذا انكسرت فافزع لجبار القلوب.<br>🤲 ادعُه (يا جبار اجبر كسري)."},
+  {ar:"الْمُتَكَبِّرُ",tr:"al-Mutakabbir",  en:"The Supreme",            cat:"jalal", m:"المتعظم عن صفات الخلق، المتفرد بالكبرياء والعظمة.<br>الكبرياء ردائه، والعظمة إزاره.<br>💡 تواضع لله يرفعك، ولا تتكبر على أحد.<br>🤲 أكثر من قول (سبحان ذي الكبرياء والعظمة)."},
+  {ar:"الْخَالِقُ", tr:"al-Khāliq",         en:"The Creator",            cat:"kamal", m:"أوجد الأشياء من العدم، وقدّر مقاديرها.<br>﴿هُوَ اللَّهُ الْخَالِقُ الْبَارِئُ الْمُصَوِّرُ﴾ الحشر:24<br>💡 تأمل في خلق الله لتزداد إيماناً.<br>🤲 سبّح الخالق في كل لحظة."},
+  {ar:"الْبَارِئُ", tr:"al-Bāriʾ",          en:"The Evolver",            cat:"kamal", m:"برأ الخلق من العدم، وأخرجهم إلى الوجود.<br>برأ الأرواح قبل الأجساد.<br>💡 اطلب من الله أن يبرئك من كل داء.<br>🤲 احمد الله على نعمة الخلق والإيجاد."},
+  {ar:"الْمُصَوِّرُ",tr:"al-Muṣawwir",      en:"The Fashioner",          cat:"kamal", m:"صور الخلق على أشكال مختلفة بحكمته.<br>صور الأجنة في الأرحام أطواراً.<br>💡 احسن صورتك الخُلقية قبل الخَلقية.<br>🤲 ادعُ الله أن يحسن صورتك في الدنيا والآخرة."},
+  {ar:"الْغَفَّارُ",tr:"al-Ghaffār",         en:"The All-Forgiving",      cat:"jamal", m:"يستر الذنوب في الدنيا، ويغفرها في الآخرة.<br>﴿قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا... إِنَّهُ غَفَّارٌ﴾ الزمر:53<br>💡 لا تقنط من رحمة الله مهما عظمت ذنوبك.<br>🤲 أكثر من الاستغفار في الليل والنهار."},
+  {ar:"الْقَهَّارُ",tr:"al-Qahhār",          en:"The Subduer",            cat:"jalal", m:"قهر الخلق بسلطانه، وخضعت له الرقاب.<br>قهر الجبابرة والمتكبرين.<br>💡 اخضع لله قبل أن يُقهرك.<br>🤲 قل (أعوذ بعزة الله وقدرته من شر ما أجد)."},
+  {ar:"الْوَهَّابُ",tr:"al-Wahhāb",          en:"The Bestower",           cat:"jamal", m:"يعطي العطايا الجزيلة بلا عوض ولا استحقاق.<br>﴿رَبَّنَا لَا تُزِغْ قُلُوبَنَا... إِنَّكَ أَنتَ الْوَهَّابُ﴾ آل عمران:8<br>💡 كن وهّاباً للخير مع الناس.<br>🤲 ادعُ الله (يا وهّاب هب لي علماً نافعاً)."},
+  {ar:"الرَّزَّاقُ",tr:"al-Razzāq",          en:"The Provider",           cat:"jamal", m:"تكفّل برزق كل دابة، وسخر الأسباب.<br>﴿إِنَّ اللَّهَ هُوَ الرَّزَّاقُ ذُو الْقُوَّةِ الْمَتِينُ﴾ الذاريات:58<br>💡 اطلب الرزق الحلال بالطرق المشروعة.<br>🤲 توكل على الرزّاق واطمئن."},
+  {ar:"الْفَتَّاحُ",tr:"al-Fattāḥ",          en:"The Opener",             cat:"jamal", m:"يفتح المغلق من الأمور، ويفتح أبواب الرحمة.<br>﴿رَبَّنَا افْتَحْ بَيْنَنَا وَبَيْنَ قَوْمِنَا بِالْحَقِّ﴾ الأعراف:89<br>💡 استعن بالله لفتح كل أمر عسر.<br>🤲 أكثر من دعاء (رب اشرح لي صدري)."},
+  {ar:"الْعَلِيمُ", tr:"al-ʿAlīm",           en:"The All-Knowing",        cat:"kamal", m:"أحاط علمه بكل شيء، ظاهراً وباطناً.<br>﴿وَعِندَهُ مَفَاتِحُ الْغَيْبِ لَا يَعْلَمُهَا إِلَّا هُوَ﴾ الأنعام:59<br>💡 اعمل لله كأنك تراه، فإنه يراك.<br>🤲 اسأله العلم النافع في كل وقت."},
+  {ar:"الْقَابِضُ",tr:"al-Qābiḍ",            en:"The Withholder",         cat:"jalal", m:"يقبض الأرواح، ويقبض الرزق عن من يشاء بحكمته.<br>يعلم متى يعطي ومتى يمنع.<br>💡 ارضَ بقسمة الله ولا تجزع.<br>🤲 ادعُه (يا قابض اقبض عني ما يشغلني عنك)."},
+  {ar:"الْبَاسِطُ",tr:"al-Bāsiṭ",            en:"The Extender",           cat:"jamal", m:"يبسط الرزق لعباده، ويبسط رحمته للتائبين.<br>يبسط يده بالليل ليتوب مسيء النهار.<br>💡 كن سبباً في بسط الخير للآخرين.<br>🤲 اشكر الله على كل نعمة بسطها لك."},
+  {ar:"الْخَافِضُ",tr:"al-Khāfiḍ",           en:"The Abaser",             cat:"jalal", m:"يخفض الأصوات له، ويخفض الكافرين بذنوبهم.<br>يخفض كل متكبر جبار.<br>💡 تواضع لله يرفعك، ولا تتكبر.<br>🤲 قل (سبحان من تواضع لعظمته كل شيء)."},
+  {ar:"الرَّافِعُ", tr:"al-Rāfiʿ",            en:"The Exalter",            cat:"jamal", m:"يرفع المؤمنين بالإيمان، ويرفع السماوات بغير عمد.<br>يرفع الدرجات للمؤمنين في الدنيا والآخرة.<br>💡 ارفع همّك إلى الله فهو أكرم الأكرمين.<br>🤲 ادعُه (يا رافع السماوات ارفع ذكري عندك)."},
+  {ar:"الْمُعِزُّ",  tr:"al-Muʿizz",           en:"The Honorer",            cat:"jamal", m:"يعزّ من يشاء بطاعته، ويذلّ من يشاء بمعصيته.<br>العزة كلها لله ولرسوله وللمؤمنين.<br>💡 اطلب العزة بطاعة الله لا بمعصيته.<br>🤲 قل (اللهم أعزّ الإسلام والمسلمين)."},
+  {ar:"الْمُذِلُّ", tr:"al-Mudhill",           en:"The Humiliator",         cat:"jalal", m:"يذلّ الكافرين والمتكبرين بعصيانهم.<br>يذلّ كل جبار عنيد.<br>💡 لا تذلّ أحداً، فالله هو المذلّ.<br>🤲 استعذ بالله من الذل والمسكنة."},
+  {ar:"السَّمِيعُ", tr:"al-Samīʿ",            en:"The All-Hearing",        cat:"kamal", m:"يسمع كل صوت، خفيّاً وجليّاً.<br>﴿إِنَّ اللَّهَ سَمِيعٌ بَصِيرٌ﴾ الحج:75<br>يسمع دعاء المضطر إذا دعاه.<br>💡 احفظ لسانك، فالله يسمع كل كلمة.<br>🤲 أكثر من الدعاء، فهو يسمع ويستجيب."},
+  {ar:"الْبَصِيرُ", tr:"al-Baṣīr",            en:"The All-Seeing",         cat:"kamal", m:"يرى كل شيء، دقيقاً وجليلاً.<br>﴿وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ﴾ الحديد:4<br>يرى خائنة الأعين وما تخفي الصدور.<br>💡 اعمل لله كأنك تراه، فإنه يراك.<br>🤲 استحيِ من الله حق الحياء."},
+  {ar:"الْحَكَمُ",  tr:"al-Ḥakam",            en:"The Judge",              cat:"jalal", m:"يحكم بين عباده بالحق، لا رادّ لقضائه.<br>﴿أَفَغَيْرَ اللَّهِ أَبْتَغِي حَكَمًا﴾ الأنعام:114<br>💡 احكم بين الناس بالعدل.<br>🤲 ادعُه (يا حكم احكم لي بالحق)."},
+  {ar:"الْعَدْلُ",  tr:"al-ʿAdl",             en:"The Just",               cat:"kamal", m:"وضع الميزان، وأمر بالعدل في كل شيء.<br>﴿إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالْإِحْسَانِ﴾ النحل:90<br>💡 اعدل في حكمك وقولك وفعلك.<br>🤲 احمد الله على عدله في قضائه."},
+  {ar:"اللَّطِيفُ", tr:"al-Laṭīf",            en:"The Subtle",             cat:"jamal", m:"يلطف بعباده في خفاء، ويدبّر أمورهم بحكمة.<br>﴿اللَّهُ لَطِيفٌ بِعِبَادِهِ﴾ الشورى:19<br>💡 تلطّف في معاملة الناس.<br>🤲 ادعُه (يا لطيف الطف بي في أمري كله)."},
+  {ar:"الْخَبِيرُ", tr:"al-Khabīr",           en:"The All-Aware",          cat:"kamal", m:"يعلم باطن الأمور، ويعلم خفايا القلوب ونياتها.<br>﴿أَلَا يَعْلَمُ مَنْ خَلَقَ وَهُوَ اللَّطِيفُ الْخَبِيرُ﴾ الملك:14<br>💡 اجعل نيتك خالصة لله.<br>🤲 اسأله أن يهديك لما فيه الخير."},
+  {ar:"الْحَلِيمُ", tr:"al-Ḥalīm",            en:"The Forbearing",         cat:"jamal", m:"لا يعجّل بالعقوبة، ويمهل للتوبة.<br>﴿إِنَّ اللَّهَ لَغَفُورٌ حَلِيمٌ﴾ البقرة:235<br>💡 تحلّم على من أساء إليك.<br>🤲 اشكر الله على حلمه عنك."},
+  {ar:"الْعَظِيمُ", tr:"al-ʿAẓīm",            en:"The Magnificent",        cat:"jalal", m:"العظيم في ذاته، العظيم في صفاته وأفعاله.<br>﴿وَهُوَ الْعَلِيُّ الْعَظِيمُ﴾ البقرة:255<br>💡 عظّم شعائر الله في قلبك.<br>🤲 سبّحه بقولك (سبحان الله العظيم)."},
+  {ar:"الْغَفُورُ", tr:"al-Ghafūr",            en:"The Oft-Forgiving",      cat:"jamal", m:"يكثر من مغفرة الذنوب، ويقبل التوبة.<br>﴿وَإِنِّي لَغَفَّارٌ لِّمَن تَابَ﴾ طه:82<br>💡 لا تقنط من رحمة الله.<br>🤲 أكثر من الاستغفار في كل وقت."},
+  {ar:"الشَّكُورُ", tr:"al-Shakūr",            en:"The Appreciative",       cat:"jamal", m:"يشكر القليل من العمل، ويضاعف الأجر.<br>﴿إِنَّ اللَّهَ شَاكِرٌ عَلِيمٌ﴾ النساء:147<br>💡 اشكر الله على نعمه.<br>🤲 قل (الحمد لله) في كل حال."},
+  {ar:"الْعَلِيُّ",  tr:"al-ʿAlī",             en:"The Most High",          cat:"jalal", m:"العالي بذاته وقهره ومكانته.<br>﴿وَهُوَ الْعَلِيُّ الْكَبِيرُ﴾ سبأ:23<br>💡 ارفع همّك إلى العليّ.<br>🤲 سبّحه بقولك (سبحان الله العلي العظيم)."},
+  {ar:"الْكَبِيرُ", tr:"al-Kabīr",             en:"The Most Great",         cat:"jalal", m:"الكبير في كل شيء، لا يُقاس بعظمته أحد.<br>﴿عَالِمُ الْغَيْبِ وَالشَّهَادَةِ الْكَبِيرُ الْمُتَعَالِ﴾ الرعد:9<br>💡 عظّم الله في قلبك.<br>🤲 كبّر الله في صلاتك وذكرك."},
+  {ar:"الْحَفِيظُ", tr:"al-Ḥafīẓ",            en:"The Preserver",          cat:"kamal", m:"يحفظ السماوات والأرض، ويحفظ عباده المؤمنين.<br>﴿وَرَبُّكَ عَلَىٰ كُلِّ شَيْءٍ حَفِيظٌ﴾ هود:57<br>💡 احفظ لسانك وجوارحك.<br>🤲 ادعُه (يا حفيظ احفظني من كل سوء)."},
+  {ar:"الْمُقِيتُ", tr:"al-Muqīt",             en:"The Sustainer",          cat:"jamal", m:"يدبّر أرزاق الخلائق بحكمة بالغة.<br>هو الرزّاق ذو القوة المتين.<br>💡 ارضَ برزق الله ولا تحسد.<br>🤲 توكل على الله في رزقك."},
+  {ar:"الْحَسِيبُ", tr:"al-Ḥasīb",             en:"The Reckoner",           cat:"kamal", m:"يكفي عباده، وهو الحسيب في الحساب.<br>﴿وَكَفَىٰ بِاللَّهِ حَسِيبًا﴾ النساء:6<br>💡 توكل على الله في كل أمر.<br>🤲 قل (حسبي الله ونعم الوكيل)."},
+  {ar:"الْجَلِيلُ", tr:"al-Jalīl",             en:"The Majestic",           cat:"jalal", m:"الجليل في صفاته وأفعاله.<br>﴿وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو الْجَلَالِ وَالْإِكْرَامِ﴾ الرحمن:27<br>💡 اجعل لله الجلال في قلبك.<br>🤲 سبّحه بقولك (سبحان ذي الجلال والإكرام)."},
+  {ar:"الْكَرِيمُ", tr:"al-Karīm",             en:"The Most Generous",      cat:"jamal", m:"الكريم الذي يعطي بلا سؤال، ويغفر بلا استحقاق.<br>﴿يَا أَيُّهَا الْإِنسَانُ مَا غَرَّكَ بِرَبِّكَ الْكَرِيمِ﴾ الانفطار:6<br>💡 كن كريماً مع الناس.<br>🤲 ادعُه (يا كريم أكرمني بطاعتك)."},
+  {ar:"الرَّقِيبُ", tr:"al-Raqīb",             en:"The Watchful",           cat:"kamal", m:"الرقيب الذي لا يغفل، يراقب كل شيء.<br>﴿إِنَّ اللَّهَ كَانَ عَلَيْكُمْ رَقِيبًا﴾ النساء:1<br>💡 راقب الله في سرك وعلانيتك.<br>🤲 استعن به على مراقبة نفسك."},
+  {ar:"الْمُجِيبُ", tr:"al-Mujīb",             en:"The Responsive",         cat:"jamal", m:"يجيب دعاء الداعين، ولا يردّ سائل.<br>﴿أَمَّن يُجِيبُ الْمُضْطَرَّ﴾ النمل:62<br>💡 ألحّ في الدعاء مع اليقين.<br>🤲 أكثر من الدعاء في أوقات الإجابة."},
+  {ar:"الْوَاسِعُ", tr:"al-Wāsiʿ",             en:"The All-Encompassing",   cat:"jamal", m:"واسع في رحمته وعلمه ورزقه.<br>﴿وَسِعَ رَبُّنَا كُلَّ شَيْءٍ عِلْمًا﴾ الأعراف:89<br>💡 وسّع على الناس بخُلقك.<br>🤲 اشكر الله على سعة رحمته."},
+  {ar:"الْحَكِيمُ", tr:"al-Ḥakīm",             en:"The All-Wise",           cat:"kamal", m:"يضع الأمور في مواضعها بحكمة بالغة.<br>﴿وَكَانَ اللَّهُ عَلِيمًا حَكِيمًا﴾ النساء:11<br>💡 سلّم أمرك للحكيم ولا تعترض.<br>🤲 احمد الله على حكمته في كل حال."},
+  {ar:"الْوَدُودُ", tr:"al-Wadūd",              en:"The Loving",             cat:"jamal", m:"يحبّ عباده المؤمنين ويحبونه.<br>﴿إِنَّ رَبِّي وَدُودٌ رَّحِيمٌ﴾ هود:90<br>💡 كن ودوداً مع الناس.<br>🤲 ادعُه (يا ودود اجعلني من أحبابك)."},
+  {ar:"الْمَجِيدُ", tr:"al-Majīd",              en:"The Glorious",           cat:"jalal", m:"المجيد في صفاته وأفعاله.<br>﴿ذُو الْعَرْشِ الْمَجِيدُ﴾ البروج:15<br>💡 عظّم الله في قلبك.<br>🤲 سبّحه بقولك (سبحان الله المجيد)."},
+  {ar:"الْبَاعِثُ", tr:"al-Bāʿith",             en:"The Resurrector",        cat:"kamal", m:"يبعث الخلائق من القبور للحساب.<br>﴿ثُمَّ إِنَّكُمْ يَوْمَ الْقِيَامَةِ تُبْعَثُونَ﴾ المؤمنون:16<br>💡 اعمل ليوم البعث.<br>🤲 ادعُه (يا باعث ابعث في قلبي الإيمان)."},
+  {ar:"الشَّهِيدُ", tr:"al-Shahīd",             en:"The Witness",            cat:"kamal", m:"شهيد على كل شيء، لا يخفى عليه خافية.<br>﴿وَاللَّهُ عَلَىٰ كُلِّ شَيْءٍ شَهِيدٌ﴾ المائدة:117<br>💡 اجعل الله شهيداً على كل فعل.<br>🤲 اعمل لله كأنك تراه."},
+  {ar:"الْحَقُّ",   tr:"al-Ḥaqq",              en:"The Truth",              cat:"kamal", m:"الحق في وجوده ووعده وقضائه.<br>﴿ذَٰلِكَ بِأَنَّ اللَّهَ هُوَ الْحَقُّ﴾ الحج:6<br>💡 التزم الصدق في كل أمر.<br>🤲 ادعُه (يا حقّ ثبتني على الحق)."},
+  {ar:"الْوَكِيلُ", tr:"al-Wakīl",              en:"The Trustee",            cat:"jamal", m:"يكفي عباده، يفوّضون إليه أمورهم.<br>﴿وَتَوَكَّلْ عَلَى اللَّهِ وَكَفَىٰ بِاللَّهِ وَكِيلًا﴾ الأحزاب:3<br>💡 فوّض أمرك لله.<br>🤲 أكثر من قول (حسبي الله ونعم الوكيل)."},
+  {ar:"الْقَوِيُّ", tr:"al-Qawī",               en:"The Most Strong",        cat:"jalal", m:"القوي الذي لا يُغلب، الشديد الذي لا يُقاوم.<br>﴿إِنَّ اللَّهَ هُوَ الرَّزَّاقُ ذُو الْقُوَّةِ الْمَتِينُ﴾ الذاريات:58<br>💡 استعن بالله على كل أمر.<br>🤲 ادعُه (يا قوي قوّني على طاعتك)."},
+  {ar:"الْمَتِينُ", tr:"al-Matīn",              en:"The Firm",               cat:"jalal", m:"المتين في قوته وعزمه، لا ينقض عهده.<br>متين في خلقه، متين في وعده.<br>💡 كن متيناً في إيمانك.<br>🤲 ادعُه (يا متين متّن إيماني)."},
+  {ar:"الْوَلِيُّ", tr:"al-Walī",               en:"The Protecting Friend",  cat:"jamal", m:"يتولّى المؤمنين، وينصرهم.<br>﴿اللَّهُ وَلِيُّ الَّذِينَ آمَنُوا﴾ البقرة:257<br>💡 تولَّ الله في كل أمر.<br>🤲 ادعُه (يا وليّ تولّ أمري كله)."},
+  {ar:"الْحَمِيدُ", tr:"al-Ḥamīd",              en:"The Praiseworthy",       cat:"kamal", m:"الحميد في كل حال، المحمود على كل نعمة.<br>﴿وَلِلَّهِ الْحَمْدُ﴾ إبراهيم:39<br>💡 احمد الله في كل حال.<br>🤲 أكثر من قول (الحمد لله)."},
+  {ar:"الْمُحْصِي",tr:"al-Muḥṣī",              en:"The Accounter",          cat:"kamal", m:"أحصى كل شيء عدداً، لا يفوته شيء.<br>﴿وَأَحْصَىٰ كُلَّ شَيْءٍ عَدَدًا﴾ الجن:28<br>💡 احسن عملك، فهو محصٍ.<br>🤲 ادعُه (يا محصي احصِ لي حسناتي)."},
+  {ar:"الْمُبْدِئُ",tr:"al-Mubdiʾ",             en:"The Originator",         cat:"kamal", m:"أبدع الخلق من غير مثال سابق.<br>﴿بَدِيعُ السَّمَاوَاتِ وَالْأَرْضِ﴾ البقرة:117<br>💡 تأمّل في إبداع خلق الله.<br>🤲 سبّح المبدع في كل لحظة."},
+  {ar:"الْمُعِيدُ", tr:"al-Muʿīd",              en:"The Restorer",           cat:"kamal", m:"يعيد الخلق بعد الفناء للجزاء.<br>﴿كَمَا بَدَأْنَا أَوَّلَ خَلْقٍ نُّعِيدُهُ﴾ الأنبياء:104<br>💡 اعمل ليوم المعاد.<br>🤲 ادعُه (يا معيد أعدني إليك تائباً)."},
+  {ar:"الْمُحْيِي",tr:"al-Muḥyī",              en:"The Giver of Life",      cat:"jamal", m:"يحيي القلوب بالإيمان، والأجساد بالأرواح.<br>﴿وَهُوَ الَّذِي يُحْيِي وَيُمِيتُ﴾ الأعراف:158<br>💡 احْيِ قلبك بذكر الله.<br>🤲 ادعُه (يا محيي أحيِ قلبي بذكرك)."},
+  {ar:"الْمُمِيتُ",tr:"al-Mumīt",              en:"The Taker of Life",      cat:"jalal", m:"يميت الأرواح بأجلها، لا يتأخر ولا يتقدم.<br>﴿كُلُّ نَفْسٍ ذَائِقَةُ الْمَوْتِ﴾ آل عمران:185<br>💡 تذكّر الموت في كل لحظة.<br>🤲 ادعُه (يا مميت توفّني مسلماً)."},
+  {ar:"الْحَيُّ",   tr:"al-Ḥayy",              en:"The Ever-Living",        cat:"kamal", m:"الحي الذي لا يموت، الدائم الذي لا يفنى.<br>﴿اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ﴾ البقرة:255<br>💡 احْيِ وقتك بطاعة الحيّ.<br>🤲 ادعُه (يا حيّ يا قيوم برحمتك أستغيث)."},
+  {ar:"الْقَيُّومُ",tr:"al-Qayyūm",             en:"The Self-Subsisting",    cat:"kamal", m:"قام بنفسه، وقام به كل شيء.<br>﴿اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ﴾ البقرة:255<br>💡 توكل على القيوم في كل أمر.<br>🤲 ادعُه (يا حيّ يا قيوم برحمتك أستغيث)."},
+  {ar:"الْوَاحِدُ",tr:"al-Wāḥid",              en:"The One",                cat:"kamal", m:"الواحد في ذاته وصفاته وأفعاله.<br>﴿قُلْ هُوَ اللَّهُ أَحَدٌ﴾ الإخلاص:1<br>💡 أخلص عبادتك للواحد.<br>🤲 أكثر من قول (لا إله إلا الله)."},
+  {ar:"الْأَحَدُ",  tr:"al-Aḥad",              en:"The Unique",             cat:"kamal", m:"الأحد الذي لا يُثنى، لا نظير له ولا مثيل.<br>﴿لَمْ يَلِدْ وَلَمْ يُولَدْ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾ الإخلاص:3<br>💡 اجعل الله أحدَ همّك.<br>🤲 أكثر من قول (الله أحد)."},
+  {ar:"الصَّمَدُ", tr:"al-Ṣamad",              en:"The Eternal Refuge",     cat:"kamal", m:"الصمد الذي يصمد إليه الخلائق في حوائجهم.<br>﴿اللَّهُ الصَّمَدُ﴾ الإخلاص:2<br>💡 اقصد الله في كل حاجة.<br>🤲 ادعُه (يا صمد اصمد لي في أمري)."},
+  {ar:"الْقَادِرُ", tr:"al-Qādir",              en:"The Able",               cat:"jalal", m:"القادر على كل شيء، لا يعجزه شيء في الأرض ولا في السماء.<br>﴿إِنَّ اللَّهَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ﴾ البقرة:20<br>💡 توكل على القادر.<br>🤲 ادعُه (يا قادر اقدر لي الخير)."},
+  {ar:"الْمُقْتَدِرُ",tr:"al-Muqtadir",         en:"The Powerful",           cat:"jalal", m:"المقتدر الذي يقدر على كل شيء، ويدبّر الأمر بحكمة.<br>﴿إِنَّا كُلَّ شَيْءٍ خَلَقْنَاهُ بِقَدَرٍ﴾ القمر:49<br>💡 ارضَ بقدر الله.<br>🤲 ادعُه (يا مقتدر اقدر لي ما فيه خيري)."},
+  {ar:"الْمُقَدِّمُ",tr:"al-Muqaddim",          en:"The Expediter",          cat:"jamal", m:"يقدّم من يشاء برحمته، ويؤخّر من يشاء بحكمته.<br>تقديمه وتأخيره بحكمة.<br>💡 اعمل ليقدّمك الله.<br>🤲 ادعُه (يا مقدم قدّمني إلى رضوانك)."},
+  {ar:"الْمُؤَخِّرُ",tr:"al-Muʾakhkhir",        en:"The Delayer",            cat:"jalal", m:"يؤخّر من يشاء بحكمته، لا يعجّل بالعقوبة.<br>يؤخّر التوبة لعل العبد يرجع.<br>💡 لا تغترّ بتأخير العقوبة.<br>🤲 ادعُه (يا مؤخر لا تؤخر توبتي)."},
+  {ar:"الْأَوَّلُ", tr:"al-Awwal",              en:"The First",              cat:"kamal", m:"الأول الذي لا بداية لوجوده، كان ولا شيء قبله.<br>﴿هُوَ الْأَوَّلُ وَالْآخِرُ﴾ الحديد:3<br>💡 اجعل الله أولَ همّك.<br>🤲 ادعُه (يا أول ابدأ بي الخير)."},
+  {ar:"الْآخِرُ",  tr:"al-Ākhir",              en:"The Last",               cat:"kamal", m:"الآخر الذي لا نهاية لوجوده، يبقى بعد فناء كل شيء.<br>﴿هُوَ الْأَوَّلُ وَالْآخِرُ﴾ الحديد:3<br>💡 اعمل للآخرة.<br>🤲 ادعُه (يا آخر اختم لي بالحسنى)."},
+  {ar:"الظَّاهِرُ", tr:"al-Ẓāhir",              en:"The Manifest",           cat:"kamal", m:"الظاهر بآياته وخلقه وحكمته.<br>﴿هُوَ الْأَوَّلُ وَالْآخِرُ وَالظَّاهِرُ وَالْبَاطِنُ﴾ الحديد:3<br>💡 تأمّل في آيات الله الظاهرة.<br>🤲 سبّح الظاهر في كل لحظة."},
+  {ar:"الْبَاطِنُ", tr:"al-Bāṭin",              en:"The Hidden",             cat:"kamal", m:"الباطن الذي يخفى على الأبصار، ولا يخفى على البصائر.<br>﴿وَهُوَ الْبَاطِنُ﴾ الحديد:3<br>💡 اخْلِص نيتك لله.<br>🤲 ادعُه (يا باطن اطّلع على قلبي)."},
+  {ar:"الْوَالِي",  tr:"al-Wālī",               en:"The Governor",           cat:"jamal", m:"يتولّى أمر الخلائق، ويدبّر شؤونهم.<br>﴿وَمَا لَكُم مِّن دُونِ اللَّهِ مِن وَلِيٍّ﴾ الشورى:31<br>💡 تولَّ الله في كل أمر.<br>🤲 ادعُه (يا والِ تولّ أمري)."},
+  {ar:"الْمُتَعَالِي",tr:"al-Mutaʿālī",          en:"The Most Exalted",       cat:"jalal", m:"المتعالي عن صفات الخلق، المتعالي في عظمته.<br>﴿عَالِمُ الْغَيْبِ وَالشَّهَادَةِ الْكَبِيرُ الْمُتَعَالِ﴾ الرعد:9<br>💡 عظّم الله في قلبك.<br>🤲 سبّحه بقولك (سبحان الله المتعال)."},
+  {ar:"الْبَرُّ",   tr:"al-Barr",               en:"The Source of Goodness", cat:"jamal", m:"يبرّ عباده بالإحسان، ويصلهم بالرحمة.<br>﴿إِنَّهُ هُوَ الْبَرُّ الرَّحِيمُ﴾ الطور:28<br>💡 كن باراً بوالديك والناس.<br>🤲 ادعُه (يا برّ ابرر لي في أمري)."},
+  {ar:"التَّوَّابُ",tr:"al-Tawwāb",              en:"The Acceptor of Repentance",cat:"jamal",m:"يقبل توبة عباده، ويرحم منابهم.<br>﴿وَهُوَ الَّذِي يَقْبَلُ التَّوْبَةَ عَنْ عِبَادِهِ﴾ الشورى:25<br>💡 لا تؤخّر التوبة.<br>🤲 أكثر من قول (أستغفر الله وأتوب إليه)."},
+  {ar:"الْمُنْتَقِمُ",tr:"al-Muntaqim",          en:"The Avenger",            cat:"jalal", m:"المنتقم من الظالمين، لا يضيع حقّ مظلوم.<br>﴿إِنَّا مِنَ الْمُجْرِمِينَ مُنتَقِمُونَ﴾ السجدة:22<br>💡 لا تظلم أحداً.<br>🤲 ادعُه (يا منتقم انتقم للضعفاء)."},
+  {ar:"الْعَفُوُّ",  tr:"al-ʿAfuww",             en:"The Pardoner",           cat:"jamal", m:"يعفو عن الذنوب، ويمحو السيئات.<br>﴿إِنَّ اللَّهَ لَعَفُوٌّ غَفُورٌ﴾ الحج:60<br>💡 اعفُ عمن ظلمك.<br>🤲 ادعُه (يا عفو اعفُ عني)."},
+  {ar:"الرَّؤُوفُ", tr:"al-Raʾūf",              en:"The Most Kind",          cat:"jamal", m:"يرقّ على عباده، ويرحم ضعفهم.<br>﴿إِنَّ اللَّهَ بِالنَّاسِ لَرَءُوفٌ رَّحِيمٌ﴾ البقررة:143<br>💡 كن رءوفاً بالضعفاء.<br>🤲 ادعُه (يا رءوف ارقق قلبي)."},
+  {ar:"مَالِكُ الْمُلْكِ",tr:"Mālik al-Mulk",   en:"Owner of All Sovereignty",cat:"jalal",m:"مالك الملك كله، لا شريك له في ملكه.<br>﴿قُلِ اللَّهُمَّ مَالِكَ الْمُلْكِ﴾ آل عمران:26<br>💡 لا تتعلق بملك الدنيا.<br>🤲 ادعُه (يا مالك الملك املأ قلبي منك)."},
+  {ar:"ذُو الْجَلَالِ",tr:"Dhū al-Jalāl",       en:"Lord of Majesty & Bounty",cat:"jalal",m:"ذو الجلال في عظمته، ذو الإكرام في كرمه.<br>﴿وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو الْجَلَالِ وَالْإِكْرَامِ﴾ الرحمن:27<br>💡 عظّم الله في قلبك.<br>🤲 سبّحه بقولك (سبحان ذي الجلال والإكرام)."},
+  {ar:"الْمُقْسِطُ",tr:"al-Muqsiṭ",             en:"The Equitable",          cat:"kamal", m:"يعدل في قضائه، لا يظلم أحداً.<br>﴿إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالْإِحْسَانِ﴾ النحل:90<br>💡 اعدل في حكمك.<br>🤲 ادعُه (يا مقسط اقضِ لي بالحق)."},
+  {ar:"الْجَامِعُ", tr:"al-Jāmiʿ",              en:"The Gatherer",           cat:"kamal", m:"يجمع الخلائق ليوم لا ريب فيه.<br>﴿رَبَّنَا إِنَّكَ جَامِعُ النَّاسِ لِيَوْمٍ لَّا رَيْبَ فِيهِ﴾ آل عمران:9<br>💡 اعمل ليوم الجمع.<br>🤲 ادعُه (يا جامع اجمعني مع الصالحين)."},
+  {ar:"الْغَنِيُّ", tr:"al-Ghanī",               en:"The Self-Sufficient",    cat:"kamal", m:"لا يحتاج لأحد، وكل شيء يحتاج إليه.<br>﴿يَا أَيُّهَا النَّاسُ أَنتُمُ الْفُقَرَاءُ إِلَى اللَّهِ﴾ فاطر:15<br>💡 افتقر إلى الله في كل حال.<br>🤲 ادعُه (يا غنيّ أغنني بحلالك عن حرامك)."},
+  {ar:"الْمُغْنِي",tr:"al-Mughnī",              en:"The Enricher",           cat:"jamal", m:"يغني من يشاء بغناه، ويفقر من يشاء بحكمته.<br>﴿وَأَنَّ اللَّهَ هُوَ يُغْنِي وَيُفْقِرُ﴾ النجم:48<br>💡 ارضَ بما قسم الله لك.<br>🤲 ادعُه (يا مغني أغنني بطاعتك)."},
+  {ar:"الْمَانِعُ", tr:"al-Māniʿ",              en:"The Preventer",          cat:"jalal", m:"يمنع العطاء عن من يشاء بحكمته.<br>منعُه قد يكون رحمة لا نقمة.<br>💡 ارضَ بمنع الله.<br>🤲 ادعُه (يا مانع امنع عني كل سوء)."},
+  {ar:"الضَّارُّ",  tr:"al-Ḍārr",               en:"The Distresser",         cat:"jalal", m:"يضرّ من يشاء بحكمته، لا ظلماً.<br>ضرّه قد يكون رحمة.<br>💡 لا تضرّ أحداً.<br>🤲 ادعُه (يا ضارّ اصرف عني الضر)."},
+  {ar:"النَّافِعُ", tr:"al-Nāfiʿ",              en:"The Benefactor",         cat:"jamal", m:"ينفع من يشاء بنفعه، ويهدي من يشاء.<br>﴿قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا﴾ التوبة:51<br>💡 كن نافعاً للناس.<br>🤲 ادعُه (يا نافع انفعني بما علمتني)."},
+  {ar:"النُّورُ",   tr:"al-Nūr",                en:"The Light",              cat:"kamal", m:"ينوّر السماوات والأرض، وينوّر قلوب المؤمنين.<br>﴿اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ﴾ النور:35<br>💡 انوّر قلبك بذكر الله.<br>🤲 ادعُه (يا نور نوّر قلبي)."},
+  {ar:"الْهَادِي", tr:"al-Hādī",               en:"The Guide",              cat:"jamal", m:"يهدي من يشاء إلى صراطه المستقيم.<br>﴿إِنَّكَ لَا تَهْدِي مَنْ أَحْبَبْتَ﴾ القصص:56<br>💡 اطلب الهداية من الله دائماً.<br>🤲 ادعُه (يا هادِ اهدني صراطك المستقيم)."},
+  {ar:"الْبَدِيعُ", tr:"al-Badīʿ",              en:"The Incomparable",       cat:"kamal", m:"أبدع الخلق من غير مثال سابق.<br>﴿بَدِيعُ السَّمَاوَاتِ وَالْأَرْضِ﴾ البقرة:117<br>💡 تأمّل في بديع خلق الله.<br>🤲 سبّح البديع في كل لحظة."},
+  {ar:"الْبَاقِي", tr:"al-Bāqī",               en:"The Everlasting",        cat:"kamal", m:"لا يفنى، يدوم وجوده إلى الأبد.<br>﴿كُلُّ شَيْءٍ هَالِكٌ إِلَّا وَجْهَهُ﴾ القصص:88<br>💡 اعمل لما يبقى.<br>🤲 ادعُه (يا باقي أبقِ لي عملاً صالحاً)."},
+  {ar:"الْوَارِثُ",tr:"al-Wārith",              en:"The Inheritor",          cat:"jalal", m:"يرث السماوات والأرض ومن فيهن.<br>﴿إِنَّا نَحْنُ نَرِثُ الْأَرْضَ وَمَنْ عَلَيْهَا﴾ مريم:40<br>💡 لا تتعلق بزينة الدنيا.<br>🤲 ادعُه (يا وارث اجعلني من ورثة جنتك)."},
+  {ar:"الرَّشِيدُ",tr:"al-Rashīd",              en:"The Guide to Right",     cat:"kamal", m:"يرشد عباده إلى ما فيه صلاحهم.<br>﴿قَدْ تَبَيَّنَ الرُّشْدُ مِنَ الْغَيِّ﴾ البقرة:256<br>💡 اطلب الرشد من الله.<br>🤲 ادعُه (يا رشيد ارشدني لما فيه خيري)."},
+  {ar:"الصَّبُورُ", tr:"al-Ṣabūr",              en:"The Patient",            cat:"jamal", m:"لا يعجّل بالعقوبة، ويمهل للتوبة.<br>﴿وَاصْبِرْ لِحُكْمِ رَبِّكَ﴾ الطور:48<br>💡 تحلّى بالصبر في البلاء.<br>🤲 ادعُه (يا صبور أعنّي على صبري)."}
+];
+
+/* ── State ────────────────────────────────────────────────── */
+const KEY_REFLECT = 'asma_reflected';
+const KEY_FAV     = 'asma_fav';
+let currentHeroIdx = 0;
+let currentSheetIdx = null;
+
+function getReflected(){ return JSON.parse(localStorage.getItem(KEY_REFLECT)||'[]'); }
+function getFavs(){ return JSON.parse(localStorage.getItem(KEY_FAV)||'[]'); }
+
+/* ── Format meaning ───────────────────────────────────────── */
+function formatMeaning(m) {
+  return m.split('<br>').map(line => {
+    const t = line.trim();
+    if (!t) return '';
+    if (t.startsWith('💡')) return `<span class="ml practical">💡 ${t.slice(2).replace(/^الزاد العملي:/,'').trim()}</span>`;
+    if (t.startsWith('🤲')) return `<span class="ml worship">🤲 ${t.slice(2).replace(/^العبادة:/,'').trim()}</span>`;
+    if (t.startsWith('﴿'))   return `<span class="ml quran">${t}</span>`;
+    return `<span class="ml">${t}</span>`;
+  }).join('');
+}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+function setHero(idx) {
+  currentHeroIdx = idx;
+  const n = NAMES[idx];
+  document.getElementById('heroName').textContent  = n.ar;
+  document.getElementById('heroTrans').textContent = n.tr + ' — ' + n.en;
+  document.getElementById('heroMeaning').innerHTML = formatMeaning(n.m);
+  const reflected = getReflected();
+  const btn = document.getElementById('btnReflect');
+  if (btn) {
+    btn.textContent = reflected.includes(idx) ? '✅ تم التدبر' : '🤲 تم التدبر';
+    btn.classList.toggle('done', reflected.includes(idx));
+  }
+  /* Mark active card */
+  document.querySelectorAll('.asma-card').forEach(c => {
+    c.classList.toggle('active', +c.dataset.idx === idx);
+  });
+}
+
+window.heroClick = function() {
+  /* Nothing on hero click — prevent accidental resets */
+};
+window.randomName = function() {
+  const r = Math.floor(Math.random() * NAMES.length);
+  setHero(r);
+  document.getElementById('asmaHero').scrollIntoView({behavior:'smooth',block:'start'});
+  if (typeof showToast === 'function') showToast(`✨ "${NAMES[r].ar}"`);
+};
+window.shareHero = function() {
+  const n = NAMES[currentHeroIdx];
+  const txt = `🌺 "${n.ar}" — ${n.en}\n\n${n.m.split('<br>').slice(0,2).join('\n')}\n\nمن تطبيق زاد العشر: zadullashr.vercel.app`;
+  if (navigator.share) navigator.share({title:'أسماء الله الحسنى',text:txt});
+  else { navigator.clipboard?.writeText(txt); if(typeof showToast==='function') showToast('✅ تم نسخ الاسم'); }
+};
+window.toggleReflectHero = function() { toggleReflect(currentHeroIdx); };
+
+/* ── Reflect ──────────────────────────────────────────────── */
+function toggleReflect(idx) {
+  let arr = getReflected();
+  if (!arr.includes(idx)) {
+    arr.push(idx);
+    localStorage.setItem(KEY_REFLECT, JSON.stringify(arr));
+    if(typeof showToast === 'function') showToast('🤲 بارك الله فيك، تم حفظ التدبر');
+    checkBadges(arr.length);
+  }
+  updateProgress();
+  setHero(currentHeroIdx);
+  renderGrid(currentFilter());
+}
+
+function checkBadges(count) {
+  let badges = JSON.parse(localStorage.getItem('zad_badges_asma') || '[]');
+  const grant = (id, msg) => { if (!badges.includes(id)) { badges.push(id); localStorage.setItem('zad_badges_asma', JSON.stringify(badges)); if(typeof showToast==='function') showToast(msg); } };
+  if (count >= 10)  grant('asma_10', '🏅 وسام: تدبّر 10 أسماء!');
+  if (count >= 50)  grant('asma_50', '🏅 وسام: المتدبر المتقدم — 50 اسماً!');
+  if (count >= 99)  grant('asma_99', '🏆 أتممت الأسماء الحسنى! ما شاء الله!');
+}
+
+function updateProgress() {
+  const arr = getReflected();
+  const count = arr.length, pct = Math.min(100, Math.round(count/NAMES.length*100));
+  document.getElementById('progCount').textContent = count;
+  document.getElementById('progFill').style.width = pct + '%';
+}
+
+/* ── Favorites ────────────────────────────────────────────── */
+function toggleFav(idx, e) {
+  e?.stopPropagation();
+  let arr = getFavs();
+  arr.includes(idx) ? arr.splice(arr.indexOf(idx),1) : arr.push(idx);
+  localStorage.setItem(KEY_FAV, JSON.stringify(arr));
+  if(typeof showToast==='function') showToast(arr.includes(idx) ? '❤️ أضيف للمفضلة' : '🤍 أُزيل من المفضلة');
+  renderGrid(currentFilter());
+}
+
+/* ── Play audio ───────────────────────────────────────────── */
+window.playAudio = function(idx, e) {
+  e?.stopPropagation();
+  if (!('speechSynthesis' in window)) return;
+  const n = NAMES[idx];
+  const u = new SpeechSynthesisUtterance(n.ar);
+  u.lang = 'ar-SA'; u.rate = 0.8;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+};
+
+/* ── Grid render ──────────────────────────────────────────── */
+function currentFilter() {
+  return document.querySelector('.asma-tab.active')?.dataset.cat || 'all';
+}
+
+function filteredNames(cat) {
+  const ref = getReflected(), fav = getFavs();
+  if (cat === 'all')       return NAMES.map((n,i) => ({...n,i}));
+  if (cat === 'reflected') return NAMES.map((n,i) => ({...n,i})).filter(n => ref.includes(n.i));
+  if (cat === 'fav')       return NAMES.map((n,i) => ({...n,i})).filter(n => fav.includes(n.i));
+  return NAMES.map((n,i) => ({...n,i})).filter(n => n.cat === cat);
+}
+
+function renderGrid(cat) {
+  const grid = document.getElementById('asmaGrid');
+  const ref = getReflected(), fav = getFavs();
+  const list = filteredNames(cat);
+
+  if (list.length === 0) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px;font-size:14px">
+      ${cat==='reflected'?'لم تتدبّر أي اسم بعد — ابدأ الآن!':cat==='fav'?'لا يوجد أسماء في المفضلة بعد':'لا توجد نتائج'}
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map(n => `
+    <div class="asma-card${ref.includes(n.i)?' reflected':''}${fav.includes(n.i)?' fav':''}${n.i===currentHeroIdx?' active':''}"
+      data-idx="${n.i}" onclick="cardClick(${n.i})">
+      <div class="asma-card-ar">${n.ar}</div>
+      <div class="asma-card-trans">${n.tr}</div>
+      <div class="asma-card-cat cat-${n.cat}">${n.cat==='jalal'?'جلال':n.cat==='jamal'?'جمال':'كمال'}</div>
+      <div class="asma-card-actions">
+        <button class="asma-card-btn${fav.includes(n.i)?' on':''}"
+          onclick="toggleFav(${n.i},event)" title="مفضلة">
+          ${fav.includes(n.i)?'❤️':'🤍'}
+        </button>
+        <button class="asma-card-btn" onclick="playAudio(${n.i},event)" title="نطق">🔊</button>
+        ${ref.includes(n.i)?'<span title="تم التدبر" style="font-size:14px">✅</span>':''}
+      </div>
+    </div>`).join('');
+}
+
+/* ── Card click → sheet (mobile) / popup (desktop) ────────── */
+function cardClick(idx) {
+  setHero(idx);
+  if (window.innerWidth <= 768) {
+    openSheet(idx);
+  } else {
+    document.getElementById('asmaHero').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+
+/* ── Bottom Sheet ─────────────────────────────────────────── */
+function openSheet(idx) {
+  currentSheetIdx = idx;
+  const n = NAMES[idx];
+  document.getElementById('sheetName').textContent  = n.ar;
+  document.getElementById('sheetTrans').textContent = n.tr + ' — ' + n.en;
+  document.getElementById('sheetMeaning').innerHTML = formatMeaning(n.m);
+  document.getElementById('asmaSheet').classList.add('open');
+  document.getElementById('asmaOverlay').classList.add('open');
+}
+window.closeSheet = function() {
+  document.getElementById('asmaSheet').classList.remove('open');
+  document.getElementById('asmaOverlay').classList.remove('open');
+  currentSheetIdx = null;
+};
+window.reflectFromSheet   = function() { if(currentSheetIdx!==null) toggleReflect(currentSheetIdx); closeSheet(); };
+window.promoteFromSheet   = function() { if(currentSheetIdx!==null) setHero(currentSheetIdx); closeSheet(); };
+window.shareFromSheet     = function() { if(currentSheetIdx!==null){const old=currentHeroIdx;setHero(currentSheetIdx);shareHero();setHero(old);} };
+
+/* Swipe down to close */
+let shY=0;
+const sh = document.getElementById('asmaSheet');
+if(sh){sh.addEventListener('touchstart',e=>shY=e.touches[0].clientY,{passive:true});sh.addEventListener('touchmove',e=>{if(e.touches[0].clientY-shY>60)closeSheet();},{passive:true});}
+
+/* ── Filter tabs ──────────────────────────────────────────── */
+document.querySelectorAll('.asma-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.asma-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderGrid(tab.dataset.cat);
+  });
+});
+
+/* ── Hijri date ───────────────────────────────────────────── */
+(function() {
+  try {
+    const d = new Intl.DateTimeFormat('ar-EG-u-ca-islamic', {day:'numeric',month:'long',year:'numeric'}).format(new Date());
+    document.getElementById('heroDate').textContent = d;
+  } catch(e) {}
+})();
+
+/* ── Set today's name (day-based rotation) ────────────────── */
+const dayIdx = Math.floor(Date.now() / 86400000) % NAMES.length;
+setHero(dayIdx);
+updateProgress();
+renderGrid('all');
+</script>
+  <script src="menu.js" defer></script>
+</body>
+</html>

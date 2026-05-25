@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a5d47">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>نادي الإبداع · زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+.k-hero{background:linear-gradient(135deg,#1a5d47 0%,#2a7a5f 50%,#c9a14a 145%);border-radius:24px;padding:30px 26px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.k-hero::after{content:'🎨';position:absolute;top:14px;left:20px;font-size:60px;opacity:.16;line-height:1}
+.k-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:2px;font-weight:700;margin-bottom:8px}
+.k-htitle{font-size:27px;font-weight:900;line-height:1.25;margin-bottom:10px;font-family:'ThmanyahSans',sans-serif}
+.k-intro{font-size:14px;color:rgba(255,255,255,.88);line-height:2;max-width:580px}
+.k-sec-title{display:flex;align-items:center;gap:10px;margin:24px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .k-sec-title,html[data-theme="oled"] .k-sec-title{color:var(--sys-green)}
+.k-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+.k-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow-sm);margin-bottom:12px}
+.k-card p{font-size:13.5px;color:var(--muted);line-height:1.9}
+.k-list{list-style:none;display:flex;flex-wrap:wrap;gap:9px;margin-top:6px}
+.k-list li{background:var(--sand);border:1px solid var(--border);border-radius:13px;padding:9px 14px;font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:7px}
+.k-steps{list-style:none;counter-reset:s;margin-top:6px}
+.k-steps li{counter-increment:s;display:flex;gap:11px;align-items:flex-start;font-size:13.5px;color:var(--ink);line-height:1.8;padding:8px 0;border-bottom:1px dashed var(--border)}
+.k-steps li:last-child{border-bottom:none}
+.k-steps li::before{content:counter(s);flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--green-pale);color:var(--green-deep);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+html[data-theme="dark"] .k-steps li::before,html[data-theme="oled"] .k-steps li::before{background:rgba(77,216,102,.12);color:var(--sys-green)}
+.k-res{display:flex;align-items:center;gap:13px;background:var(--card);border:1.5px solid var(--border);border-radius:15px;padding:14px 16px;box-shadow:var(--shadow-sm);text-decoration:none;color:inherit;transition:all .2s;margin-bottom:10px}
+.k-res:hover{border-color:var(--green-soft);transform:translateY(-2px)}
+.k-res .ri{width:44px;height:44px;border-radius:12px;background:var(--green-pale);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+html[data-theme="dark"] .k-res .ri,html[data-theme="oled"] .k-res .ri{background:rgba(77,216,102,.1)}
+.k-res .rt{flex:1;min-width:0}
+.k-res .rt b{font-size:14px;color:var(--green-deep);font-weight:800;display:block}
+html[data-theme="dark"] .k-res .rt b,html[data-theme="oled"] .k-res .rt b{color:var(--sys-green)}
+.k-res .rt small{font-size:11.5px;color:var(--muted);display:block;margin-top:2px;line-height:1.6}
+.k-res .rarr{color:var(--muted);font-size:15px;flex-shrink:0}
+.k-foot{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:18px;padding:22px;text-align:center;color:#fff;margin-top:18px}
+.k-foot .ft{font-family:'Amiri',serif;font-size:17px;line-height:1.9}
+/* quiz */
+.k-quiz .k-q{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all .2s}
+.k-quiz .k-q:hover{border-color:var(--gold)}
+.k-quiz .k-q .qq{font-size:13.5px;font-weight:700;color:var(--ink);display:flex;justify-content:space-between;gap:10px;align-items:center}
+.k-quiz .k-q .qa{max-height:0;overflow:hidden;transition:max-height .3s;font-size:13px;color:var(--green-deep);font-weight:800}
+html[data-theme="dark"] .k-quiz .k-q .qa,html[data-theme="oled"] .k-quiz .k-q .qa{color:var(--sys-green)}
+.k-quiz .k-q.open .qa{max-height:60px;margin-top:8px}
+.k-quiz .k-q.open .qi{transform:rotate(180deg)}
+.k-quiz .qi{transition:transform .3s;color:var(--muted)}
+/* routine */
+.k-prog{height:12px;background:var(--sand-2);border-radius:99px;overflow:hidden;margin:10px 0 4px}
+.k-prog i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green-soft),var(--gold));transition:width .5s var(--ease)}
+.k-prog-txt{font-size:12px;color:var(--muted);font-weight:700;text-align:center;margin-bottom:12px}
+.k-task{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;transition:all .2s}
+.k-task:hover{border-color:var(--green-soft)}
+.k-task.done{background:linear-gradient(135deg,var(--card),var(--green-pale));border-color:rgba(77,216,102,.4)}
+.k-task .kb{width:26px;height:26px;border-radius:8px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent;flex-shrink:0;transition:all .2s}
+.k-task.done .kb{background:var(--sys-green);border-color:var(--sys-green);color:#fff}
+html[data-theme="dark"] .k-task.done .kb,html[data-theme="oled"] .k-task.done .kb{color:#001a08}
+.k-task .kt{flex:1;min-width:0}
+.k-task .kt b{font-size:13.5px;color:var(--ink);font-weight:700}
+.k-task.done .kt b{text-decoration:line-through;opacity:.6}
+.k-task .kt small{font-size:11px;color:var(--muted);display:block;margin-top:1px}
+.k-reward{display:none;text-align:center;background:linear-gradient(135deg,var(--gold-pale),var(--card));border:1.5px solid rgba(201,161,74,.4);border-radius:15px;padding:16px;font-size:15px;font-weight:800;color:var(--gold-dark);margin-top:6px}
+html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--sys-yellow)}
+.k-reward.show{display:block;animation:zadFadeUp .5s ease both}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+</head>
+<body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav"></nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left"><button class="hamburger" id="hamburger" aria-label="القائمة">☰</button><a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a></div>
+      <div class="tb-center"><div class="page-title">نادي <span>الإبداع</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap"><button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button><div class="notif-dropdown" id="notif-dropdown"></div></div>
+      </div>
+    </div>
+    <div class="k-hero">
+      <div class="k-eyebrow">🎨 طبّق وتعلّم</div>
+      <div class="k-htitle">نادي الإبداع</div>
+      <div class="k-intro">حان وقتُ العمل يا أبطال! سنحوّلُ ما تعلّمناه إلى مشاريعَ فنيةٍ وألعابٍ ذكية. استعدّوا لتزيين المنزل، والمشاركة في المسابقات، واكتشاف عجائب الطبيعة!</div>
+    </div>
+    <div class="k-sec-title">🛠️ مشاريعُ منزليةٌ ممتعة</div>
+    <div class="k-card"><p><b>🎁 علبةُ الأعمال الصالحة:</b> زيّن علبةً وضع فيها مهاماً يومية (ابتسامة، مساعدة الأهل، «سبحان الله» 10 مرات) واسحب ورقةً كل يومٍ لتنفّذها.</p></div><div class="k-card"><p><b>⛺ خيمةُ الاعتكاف المنزلي:</b> اصنع ركناً هادئاً للقراءة والذكر بالأغطية والوسائد والأنوار الهادئة.</p></div><div class="k-card"><p><b>📮 صندوقُ البريد العائلي:</b> تبادلوا رسائلَ الشكر والتشجيع بين أفراد الأسرة لتعزيز الحب والترابط.</p></div>
+    <div class="k-sec-title">🍃 مختبرُ الطبيعة</div>
+    <div class="k-card"><p><b>تأمّل ورقة الشجر:</b> اجمع أوراقَ الشجر المتساقطة، تأمّل ألوانها وعروقها، وتذكّر أنّ الله يعلمُ سقوطَ كلِّ ورقة: <span style="font-family:Amiri,serif;color:var(--green-deep);font-weight:700">«وَمَا تَسْقُطُ مِنْ وَرَقَةٍ إِلَّا يَعْلَمُهَا»</span> (الأنعام: 59) — ثم اصنع منها لوحةً فنية.</p></div>
+    <div class="k-sec-title">🧠 تحدّي الذكاء</div>
+    <div class="k-quiz" id="k-quiz"></div>
+    <div class="k-sec-title">🌟 روتينُ البطل اليومي</div>
+    <div class="k-card"><p>أنجِز مهامَّ يومِك واضغط على كلِّ مهمةٍ بعد إتمامها — ويتجدّد كلَّ صباح:</p><div class="k-prog"><i id="k-prog-bar" style="width:0%"></i></div><div class="k-prog-txt" id="k-prog-txt">0 / 8</div><div id="k-routine"></div><div class="k-reward" id="k-reward">🎉 أحسنت يا بطل! أتممتَ مهامك اليوم بنجاح</div></div>
+    <div class="k-sec-title">🎮 ألعابٌ هادفة</div>
+    <a class="k-res" href="https://www.youtube.com/results?search_query=deen+quiz+%D8%A3%D8%B7%D9%81%D8%A7%D9%84" target="_blank" rel="noopener noreferrer"><span class="ri">🧩</span><div class="rt"><b>Deen Quiz</b><small>اختبر معلوماتك الدينية بأسلوبٍ مشوّق</small></div><span class="rarr">↗</span></a><a class="k-res" href="http://www.estrogenat.com/" target="_blank" rel="noopener noreferrer"><span class="ri">🎨</span><div class="rt"><b>استروجينات</b><small>مزيدٌ من الأنشطة والمشاريع الإبداعية</small></div><span class="rarr">↗</span></a>
+
+    <div class="k-foot"><div class="ft">«تذكّر يا بطل أنّ أحبّ الأعمال إلى الله أدومُها وإن قلّ — ابدأ بخطوةٍ صغيرةٍ اليوم!»</div></div>
+  </main>
+</div>
+<script>
+(function(){
+  'use strict';
+  var ZKEY='zad_v2';
+  function today(){return new Date().toISOString().split('T')[0];}
+  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
+  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
+  /* تحدي الذكاء */
+  var QS=[
+    {q:'ما اسمُ الغار الذي تعبّد فيه النبي ﷺ؟',a:'غارُ حِراء'},
+    {q:'ما اسمُ الوادي الذي تكلّمت فيه النملة؟',a:'وادي النَّمل'},
+    {q:'من النبيُّ الذي نجّاه الله في السفينة؟',a:'نوحٌ عليه السلام'},
+    {q:'من الصحابيُّ الذي صبر على التعذيب؟',a:'بلالُ بن رباح رضي الله عنه'},
+    {q:'ما اسمُ ناقة الرسول ﷺ؟',a:'القَصواء'}
+  ];
+  var qw=document.getElementById('k-quiz');
+  if(qw){ qw.innerHTML=QS.map(function(o,i){return '<div class="k-q" data-i="'+i+'"><div class="qq"><span>'+o.q+'</span><span class="qi">▾</span></div><div class="qa">✅ '+o.a+'</div></div>';}).join('');
+    qw.querySelectorAll('.k-q').forEach(function(el){el.addEventListener('click',function(){el.classList.toggle('open');});}); }
+  /* روتين البطل */
+  var TASKS=[
+    {ic:'🌅',t:'أذكارُ الصباح',s:'مدرستي الجميلة'},
+    {ic:'📚',t:'مختبرُ اللغة — قصةُ عصافير',s:'شاشة المرح'},
+    {ic:'🕌',t:'رحلتي مع الصلاة',s:'مدرستي الجميلة'},
+    {ic:'🎁',t:'صندوقُ الأعمال الصالحة',s:'نادي الإبداع'},
+    {ic:'🎬',t:'شاهد وتعلّم — حلقةٌ هادفة',s:'شاشة المرح'},
+    {ic:'🧠',t:'مسابقةُ اليوم',s:'نادي الإبداع'},
+    {ic:'🌙',t:'حكايةُ بطل قبل النوم',s:'عرين الأبطال'},
+    {ic:'⭐',t:'أذكارُ النوم',s:'مدرستي الجميلة'}
+  ];
+  function st(){var s=read();s.kidsRoutine=s.kidsRoutine||{};if(s.kidsRoutine.day!==today())s.kidsRoutine={day:today(),done:{}};write(s);return s;}
+  function render(){
+    var s=st(),done=s.kidsRoutine.done||{};
+    var wrap=document.getElementById('k-routine');if(!wrap)return;
+    wrap.innerHTML=TASKS.map(function(o,i){var d=!!done[i];return '<div class="k-task '+(d?'done':'')+'" data-i="'+i+'"><span class="kb">✓</span><span style="font-size:18px">'+o.ic+'</span><div class="kt"><b>'+o.t+'</b><small>'+o.s+'</small></div></div>';}).join('');
+    wrap.querySelectorAll('.k-task').forEach(function(el){el.addEventListener('click',function(){
+      var i=el.dataset.i,s=st();s.kidsRoutine.done=s.kidsRoutine.done||{};
+      if(s.kidsRoutine.done[i])delete s.kidsRoutine.done[i];else s.kidsRoutine.done[i]=true;
+      write(s);if(navigator.vibrate)navigator.vibrate(16);paint();
+    });});
+    paint();
+  }
+  function paint(){
+    var s=st(),done=s.kidsRoutine.done||{};var n=Object.keys(done).filter(function(k){return done[k];}).length;
+    var bar=document.getElementById('k-prog-bar'),txt=document.getElementById('k-prog-txt'),rw=document.getElementById('k-reward');
+    if(bar)bar.style.width=Math.round(n/TASKS.length*100)+'%';
+    if(txt)txt.textContent=n+' / '+TASKS.length;
+    document.querySelectorAll('.k-task').forEach(function(el){el.classList.toggle('done',!!done[el.dataset.i]);});
+    if(rw){var full=n>=TASKS.length;rw.classList.toggle('show',full);if(full){try{if(window.confetti)window.confetti({particleCount:80,spread:75,origin:{y:.6}});}catch(e){}}}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
+})();
+</script>
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>السنن المهجورة — زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.section-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+/* ══ Hero ══════════════════════════════════════════════ */
+.sunan-hero{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 55%,#c9a14a 150%);border-radius:22px;padding:34px 28px;color:#fff;position:relative;overflow:hidden;margin-bottom:22px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.sunan-hero::before{content:'';position:absolute;inset:auto -80px -100px auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.3),transparent 70%);pointer-events:none}
+.sunan-hero::after{content:'🌙';position:absolute;top:18px;left:26px;font-size:60px;opacity:.12;line-height:1}
+.hero-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:3px;font-weight:700;margin-bottom:8px}
+.hero-title{font-size:30px;font-weight:900;line-height:1.25;margin-bottom:10px;font-family:'ThmanyahSans',sans-serif}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.82);line-height:1.8;max-width:560px;margin-bottom:22px}
+.hero-stats{display:flex;gap:12px;flex-wrap:wrap}
+.hstat{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:11px 16px;text-align:center;min-width:70px}
+.hstat-num{font-size:26px;font-weight:900;font-family:'ThmanyahSans',monospace;color:#e6c97a;line-height:1}
+.hstat-lbl{font-size:10px;color:rgba(255,255,255,.65);margin-top:4px}
+
+/* ══ Sticky progress + search ══════════════════════════ */
+.revive-bar{position:sticky;top:0;z-index:45;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 18px;margin-bottom:16px;box-shadow:var(--shadow-sm);backdrop-filter:saturate(140%) blur(6px)}
+.rb-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.rb-title{font-size:13px;font-weight:800;color:var(--green-deep);display:flex;align-items:center;gap:8px}
+html[data-theme="dark"] .rb-title,html[data-theme="oled"] .rb-title{color:var(--sys-green)}
+.rb-count{font-size:13px;font-weight:800;color:var(--gold-dark);font-family:'ThmanyahSans',monospace}
+html[data-theme="dark"] .rb-count,html[data-theme="oled"] .rb-count{color:var(--sys-yellow)}
+.rb-progress{height:9px;background:var(--sand-2);border-radius:99px;overflow:hidden}
+.rb-progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green-soft),var(--gold));border-radius:99px;transition:width .7s var(--ease)}
+.rb-search{margin-top:12px;display:flex;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:99px;padding:8px 14px}
+.rb-search input{border:0;outline:0;background:transparent;flex:1;font-family:inherit;font-size:13px;color:var(--ink)}
+.rb-search input::placeholder{color:var(--muted-2)}
+
+/* ══ TOC ═══════════════════════════════════════════════ */
+.toc-bar{position:sticky;top:0;z-index:40;background:var(--card);border-bottom:1px solid var(--border);padding:0 4px;margin:0 -4px 18px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;box-shadow:0 4px 14px -6px rgba(14,59,46,.1)}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{padding:12px 15px;border:none;background:none;font-family:inherit;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;border-bottom:2.5px solid transparent;transition:all .2s}
+.toc-btn:hover{color:var(--green-deep);border-bottom-color:rgba(14,59,46,.3)}
+.toc-btn.active{color:var(--green-deep);border-bottom-color:var(--gold)}
+html[data-theme="dark"] .toc-btn.active,html[data-theme="oled"] .toc-btn.active{color:var(--sys-green);border-bottom-color:var(--sys-yellow)}
+
+/* ══ Fiqh intro card ═══════════════════════════════════ */
+.fiqh-card{background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1px solid rgba(201,161,74,.22);border-right:4px solid var(--gold);border-radius:18px;padding:20px 22px;margin-bottom:22px;box-shadow:var(--shadow-sm)}
+.fiqh-card h3{font-size:15px;font-weight:800;color:var(--gold-dark);margin-bottom:8px;display:flex;align-items:center;gap:8px;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .fiqh-card h3,html[data-theme="oled"] .fiqh-card h3{color:var(--sys-yellow)}
+.fiqh-card p{font-size:13px;color:var(--muted);line-height:1.9}
+
+/* ══ Category section ══════════════════════════════════ */
+.cat-section{margin-bottom:30px;scroll-margin-top:120px}
+.cat-head{display:flex;align-items:center;gap:11px;margin:0 0 14px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .cat-head,html[data-theme="oled"] .cat-head{color:var(--sys-green)}
+.cat-head .cat-emoji{font-size:22px}
+.cat-head .cat-pill{margin-inline-start:auto;font-size:11px;font-weight:700;color:var(--muted);background:var(--sand);border-radius:99px;padding:4px 12px}
+
+/* ══ Sunnah card ═══════════════════════════════════════ */
+.sunan-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:760px){.sunan-grid{grid-template-columns:1fr}}
+.sn-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:18px 18px 16px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:border-color .25s,transform .25s,box-shadow .25s}
+.sn-card:hover{border-color:rgba(201,161,74,.4);transform:translateY(-2px);box-shadow:var(--shadow)}
+.sn-card.revived{border-color:rgba(77,216,102,.45);background:linear-gradient(135deg,var(--card),var(--green-pale))}
+.sn-card.revived::after{content:'✓ أُحييت';position:absolute;top:0;left:0;background:var(--sys-green);color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-bottom-right-radius:12px;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .sn-card.revived::after,html[data-theme="oled"] .sn-card.revived::after{color:#001a08}
+
+.sn-top{display:flex;align-items:flex-start;gap:11px;margin-bottom:12px}
+.sn-num{width:30px;height:30px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;font-family:'ThmanyahSans',monospace}
+html[data-theme="dark"] .sn-num,html[data-theme="oled"] .sn-num{color:#001a08;background:linear-gradient(135deg,var(--sys-green),#2eb84d)}
+.sn-icon{font-size:20px;line-height:1.4;flex-shrink:0}
+.sn-title{flex:1;min-width:0;font-size:15px;font-weight:800;color:var(--green-deep);line-height:1.45;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .sn-title,html[data-theme="oled"] .sn-title{color:var(--ink)}
+
+/* toggle */
+.sn-toggle{flex-shrink:0;width:30px;height:30px;border-radius:9px;border:2px solid var(--green-soft);background:var(--card);display:grid;place-items:center;color:transparent;font-size:14px;font-weight:900;cursor:pointer;transition:all .2s;user-select:none}
+.sn-toggle:hover{border-color:var(--gold);background:var(--gold-pale)}
+.sn-card.revived .sn-toggle{background:var(--sys-green);border-color:var(--sys-green);color:#fff}
+html[data-theme="dark"] .sn-card.revived .sn-toggle,html[data-theme="oled"] .sn-card.revived .sn-toggle{color:#001a08}
+
+.sn-hadith{font-family:'Amiri',serif;font-size:16px;color:var(--green-deep);line-height:2;margin:2px 0 10px;padding-right:12px;border-right:2px solid var(--gold-pale)}
+html[data-theme="dark"] .sn-hadith,html[data-theme="oled"] .sn-hadith{color:var(--sys-yellow)}
+.sn-src{display:inline-flex;align-items:center;gap:5px;background:var(--sand);color:var(--muted);font-size:11px;font-weight:700;padding:3px 11px;border-radius:99px;margin-bottom:12px}
+.sn-grade{display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px;margin-inline-start:6px}
+.sn-grade.q{background:rgba(42,122,95,.12);color:var(--green-soft)}
+.sn-grade.f{background:rgba(201,161,74,.16);color:var(--gold-dark)}
+.sn-grade.t{background:rgba(0,122,255,.12);color:var(--sys-blue)}
+html[data-theme="dark"] .sn-grade.f,html[data-theme="oled"] .sn-grade.f{color:var(--sys-yellow)}
+
+.sn-notes{display:flex;flex-direction:column;gap:8px}
+.sn-note{font-size:12px;line-height:1.7;color:var(--muted);background:var(--sand);border-radius:11px;padding:9px 12px}
+.sn-note b{color:var(--ink);font-weight:800}
+.sn-note.apply{border-right:3px solid var(--green-soft)}
+.sn-note.fruit{border-right:3px solid var(--gold)}
+
+/* ══ Closing ═══════════════════════════════════════════ */
+.closing-banner{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:18px;padding:26px;text-align:center;color:#fff;margin-top:8px;position:relative;overflow:hidden}
+.closing-banner::before{content:"";position:absolute;inset:auto -60px -80px auto;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.25),transparent 70%);pointer-events:none}
+.closing-txt{font-family:'Amiri',serif;font-size:18px;line-height:2;color:rgba(255,255,255,.95)}
+.closing-src{font-size:12px;color:rgba(255,255,255,.6);margin-top:8px}
+
+/* ══ Sources footer ════════════════════════════════════ */
+.src-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px;margin-top:18px}
+.src-card h3{font-size:14px;font-weight:800;color:var(--green-deep);margin-bottom:10px;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .src-card h3,html[data-theme="oled"] .src-card h3{color:var(--sys-green)}
+.src-list{display:flex;flex-wrap:wrap;gap:8px}
+.src-chip{font-size:11px;font-weight:700;color:var(--muted);background:var(--sand);border-radius:99px;padding:5px 13px}
+.src-note{font-size:12px;color:var(--muted-2);line-height:1.7;margin-top:10px}
+
+.empty-msg{text-align:center;color:var(--muted);font-size:14px;padding:30px 10px;display:none}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+</head>
+<body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
+      <span class="slb-label">🌐 اللغة</span>
+      <span class="slb-val" id="sidebar-lang-val">EN</span>
+    </button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+      📲 تثبيت / تحميل التطبيق
+    </button>
+    <nav class="nav"></nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center">
+        <div class="page-title">السنن <span>المهجورة</span></div>
+      </div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">
+            🔔<span class="notif-dot" id="notif-dot"></span>
+          </button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="sunan-hero">
+      <div class="hero-eyebrow">🌙 إحياء السُّنّة</div>
+      <div class="hero-title">السنن النبوية المهجورة</div>
+      <div class="hero-sub">من أحيا سُنّةً من سُنَّتي قد أُميتت بعدي فإنّ له من الأجر مثلَ مَن عمِل بها… أربعون سُنّةً صحيحة هجَرها كثيرٌ من الناس، أحْيِها في عشرك يكُن لك أجرها وأجرُ من عمِل بها.</div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-num" id="hs-total">40</div><div class="hstat-lbl">سُنّة صحيحة</div></div>
+        <div class="hstat"><div class="hstat-num">6</div><div class="hstat-lbl">أبواب</div></div>
+        <div class="hstat"><div class="hstat-num" id="hs-revived">0</div><div class="hstat-lbl">أحييتها</div></div>
+      </div>
+    </div>
+
+    <!-- Sticky progress + search -->
+    <div class="revive-bar">
+      <div class="rb-top">
+        <div class="rb-title">🔥 رحلة إحياء السُّنّة</div>
+        <div class="rb-count"><span id="rb-done">0</span> / 40 سُنّة</div>
+      </div>
+      <div class="rb-progress"><span id="rb-fill"></span></div>
+      <div class="rb-search">
+        <span>🔎</span>
+        <input type="text" id="sn-search" placeholder="ابحث عن سُنّة… (مثال: السواك، الاستخارة، السلام)" aria-label="بحث">
+      </div>
+    </div>
+
+    <!-- TOC -->
+    <div class="toc-bar" id="toc-bar"></div>
+
+    <!-- Fiqh intro -->
+    <div class="fiqh-card">
+      <h3>📜 فقه إحياء السُّنّة</h3>
+      <p>إحياء السُّنّة يكون بالحكمة والتدرّج؛ فابدأ بنفسك، ثم انشُرها برِفق بين أهلك بلا إنكارٍ على الناس ولا تشويش، وراعِ ما قد يستنكره بعضهم لجهلهم بها فمهِّد له علمياً قبل تطبيقه. والسُّنن هنا كلُّها ثابتة صحيحة، صُنِّفت بحسب مواضعها لتسهيل العمل بها يومياً. علِّمها لمن تحب يكُن لك أجرُ الدلالة على الخير.</p>
+    </div>
+
+    <!-- Sections render here -->
+    <div id="sunan-root"></div>
+    <div class="empty-msg" id="empty-msg">لا توجد سُنّة تطابق بحثك — جرّب كلمة أخرى.</div>
+
+    <!-- Closing -->
+    <div class="closing-banner">
+      <div class="closing-txt">«مَن دَلَّ على خَيرٍ فله مِثلُ أجرِ فاعِلِه»</div>
+      <div class="closing-src">رواه مسلم</div>
+    </div>
+
+    <!-- Sources -->
+    <div class="src-card">
+      <h3>🔖 المصادر والتوثيق</h3>
+      <div class="src-list">
+        <span class="src-chip">صحيح البخاري</span>
+        <span class="src-chip">صحيح مسلم</span>
+        <span class="src-chip">سنن أبي داود</span>
+        <span class="src-chip">سنن الترمذي</span>
+        <span class="src-chip">سنن النسائي</span>
+        <span class="src-chip">سنن ابن ماجه</span>
+        <span class="src-chip">تحقيقات الألباني</span>
+      </div>
+      <div class="src-note">جميع السنن الواردة صحيحة أو حسنة الإسناد. عند اختلاف الفقهاء في تفصيلٍ ما، يُرجَع لأهل العلم الموثوقين. هذه الصفحة للتذكير والعمل، لا للفتوى.</div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   بيانات السنن المهجورة — 40 سُنّة صحيحة في 6 أبواب
+   grade: q=قولية · f=فعلية · t=تقريرية
+   ══════════════════════════════════════════════════════════════ */
+const SUNAN_CATS = [
+  { id:'tahara',   emoji:'💧', label:'الطهارة والوضوء' },
+  { id:'salah',    emoji:'🕌', label:'الأذان والصلاة' },
+  { id:'sleep',    emoji:'🌙', label:'النوم والاستيقاظ' },
+  { id:'food',     emoji:'🍽️', label:'الأكل والشرب' },
+  { id:'social',   emoji:'🤝', label:'الاجتماع والتعامل' },
+  { id:'misc',     emoji:'✨', label:'سنن متنوعة' },
+];
+
+const SUNAN = [
+  /* ── 1) الطهارة والوضوء ── */
+  { cat:'tahara', icon:'🤲', grade:'f', title:'التيمُّن في الشأن كله',
+    hadith:'كان النبي ﷺ يُعجبه التيمُّن في تَنعُّلِه وتَرجُّلِه وطَهورِه، وفي شأنه كله.',
+    src:'متفق عليه',
+    apply:'ابدأ باليمين في الوضوء، لبس الحذاء، تمشيط الشعر، الدخول للمسجد، والإطعام.',
+    fruit:'محبة الله ورسوله، واستحضار السُّنّة في كل حركة يومية.' },
+  { cat:'tahara', icon:'🪥', grade:'q', title:'السواك عند كل صلاة',
+    hadith:'لولا أن أشُقَّ على أمتي لأمرتُهم بالسواك عند كل صلاة.',
+    src:'متفق عليه',
+    apply:'استعمل السواك أو فرشاة الأسنان عند الوضوء وقبل كل صلاة وعند تغيُّر رائحة الفم.',
+    fruit:'مَطهَرة للفم، مَرضاة للرب، ومضاعفة أجر الصلاة.' },
+  { cat:'tahara', icon:'💦', grade:'f', title:'المضمضة والاستنشاق من كفٍّ واحدة',
+    hadith:'وصف الصحابةُ وضوءَه ﷺ، فجمَع المضمضة والاستنشاق من غَرفةٍ (كفٍّ) واحدة.',
+    src:'رواه البخاري ومسلم',
+    apply:'اغرف ماءً واحداً تتمضمض منه وتستنشق، تنويعاً للسُّنّة الثابتة في صفة الوضوء.',
+    fruit:'إصابة السُّنّة في صفة الوضوء، واقتصاد في الماء.' },
+  { cat:'tahara', icon:'☝️', grade:'q', title:'الشهادة والدعاء بعد الوضوء',
+    hadith:'مَن توضأ فأحسن الوضوء ثم قال: أشهد أن لا إله إلا الله وحده لا شريك له وأشهد أن محمداً عبده ورسوله… فُتحت له أبواب الجنة الثمانية.',
+    src:'رواه مسلم',
+    apply:'بعد إتمام الوضوء، انظر للسماء واذكر الشهادتين ودعاء «اللهم اجعلني من التوابين واجعلني من المتطهرين».',
+    fruit:'فتح أبواب الجنة الثمانية يدخل من أيها شاء.' },
+  { cat:'tahara', icon:'🙏', grade:'f', title:'ركعتا الوضوء (سُنّة الوضوء)',
+    hadith:'قال ﷺ لبلال: ما توضأتَ وضوءاً في ساعةِ ليلٍ أو نهارٍ إلا صلّيتُ بذلك الوضوء ما كُتب لي أن أصلي.',
+    src:'متفق عليه',
+    apply:'بعد كل وضوء صلِّ ركعتين بخشوع، تُكتب لك بها مغفرة وثناءٌ من الله.',
+    fruit:'سببٌ لدخول الجنة كما بُشِّر بلال بخَشْفِ نَعليه فيها.' },
+  { cat:'tahara', icon:'🌜', grade:'f', title:'وضوء الجُنُب قبل النوم والأكل',
+    hadith:'كان النبي ﷺ إذا أراد أن ينام وهو جُنُبٌ توضأ وضوءَه للصلاة.',
+    src:'متفق عليه',
+    apply:'إن أردتَ النوم أو الأكل وأنت على جنابة، فتوضأ وضوء الصلاة تخفيفاً.',
+    fruit:'نظافة وراحة، واتباع لهديه ﷺ في أحواله الخاصة.' },
+  { cat:'tahara', icon:'❄️', grade:'q', title:'إسباغ الوضوء على المكاره',
+    hadith:'ألا أدلُّكم على ما يَمحو الله به الخطايا ويرفع به الدرجات؟ إسباغُ الوضوء على المكاره…',
+    src:'رواه مسلم',
+    apply:'أتمِّ الوضوء وأسبغه حتى في البرد الشديد أو التعب، دون تفريط في غسل الأعضاء.',
+    fruit:'محو الخطايا ورفع الدرجات، ورباطٌ في سبيل الله.' },
+
+  /* ── 2) الأذان والصلاة ── */
+  { cat:'salah', icon:'📣', grade:'q', title:'ترديد الأذان والدعاء بعده',
+    hadith:'إذا سمعتم المؤذِّن فقولوا مثل ما يقول… ثم اسألوا الله لي الوسيلة.',
+    src:'رواه مسلم',
+    apply:'ردِّد خلف المؤذن، ثم صلِّ على النبي ﷺ، ثم ادعُ بدعاء الوسيلة الثابت.',
+    fruit:'حلّت له الشفاعة يوم القيامة، وإجابةُ الدعاء بين الأذان والإقامة.' },
+  { cat:'salah', icon:'⏳', grade:'q', title:'ركعتان بين الأذان والإقامة',
+    hadith:'بين كلِّ أذانين صلاة، بين كل أذانين صلاة — لمن شاء.',
+    src:'متفق عليه',
+    apply:'صلِّ ركعتين بعد الأذان وقبل إقامة الصلاة، فهذا وقتُ نافلةٍ وإجابة.',
+    fruit:'اغتنام وقت إجابة الدعاء، وزيادة في الحسنات قبل الفريضة.' },
+  { cat:'salah', icon:'🧱', grade:'q', title:'اتخاذ السُّترة والدنو منها',
+    hadith:'إذا صلّى أحدُكم فليُصلِّ إلى سُترةٍ وليَدنُ منها.',
+    src:'رواه أبو داود وصححه الألباني',
+    apply:'صلِّ إلى جدار أو عمود أو كرسي قريب يمنع المرور أمامك، ولو في البيت.',
+    fruit:'حفظ الصلاة من القطع، وجمعُ القلب على الخشوع.' },
+  { cat:'salah', icon:'🌬️', grade:'f', title:'تنويع أدعية الاستفتاح',
+    hadith:'ثبتت عنه ﷺ صيغٌ متعددة للاستفتاح: «سبحانك اللهم وبحمدك…»، «اللهم باعِد بيني وبين خطاياي…»، «وجّهتُ وجهي…».',
+    src:'الصحيحان والسنن',
+    apply:'نوِّع بين صيغ الاستفتاح الثابتة في صلواتك، إحياءً للسنن المتعددة.',
+    fruit:'إحياء أكثر من سُنّة، واستحضارٌ للمعاني المتنوعة في مطلع الصلاة.' },
+  { cat:'salah', icon:'🦶', grade:'t', title:'الإقعاء بين السجدتين أحياناً',
+    hadith:'سُئل ابنُ عباس عن الإقعاء (نصبِ القدمين والجلوسِ على العَقِبَين) فقال: هي السُّنّة.',
+    src:'رواه مسلم',
+    apply:'يجوز أحياناً الجلوسُ على العقِبَين بين السجدتين، تنويعاً للسُّنّة الثابتة.',
+    fruit:'إحياء سُنّةٍ في الجلوس قَلَّ من يعرفها أو يعمل بها.' },
+  { cat:'salah', icon:'🧎', grade:'f', title:'التورُّك في التشهد الأخير',
+    hadith:'وصف أبو حُميدٍ صلاتَه ﷺ: فإذا جلس في الركعة الأخيرة قدَّم رِجلَه اليسرى ونصَب الأخرى وقعَد على مَقعدته.',
+    src:'رواه البخاري',
+    apply:'في التشهد الأخير من الثلاثية والرباعية، اجلس متورِّكاً على وَرِكك الأيسر.',
+    fruit:'إصابة صفة جلوسه ﷺ في الصلاة بدقة.' },
+  { cat:'salah', icon:'🛡️', grade:'q', title:'الاستعاذة من أربعٍ قبل السلام',
+    hadith:'إذا تشهَّد أحدُكم فليستعِذ بالله من أربع: من عذاب جهنم، ومن عذاب القبر، ومن فتنة المحيا والممات، ومن شرِّ المسيح الدجال.',
+    src:'رواه مسلم',
+    apply:'بعد التشهد الأخير وقبل التسليم، استعِذ بهذا الدعاء الجامع.',
+    fruit:'حصنٌ من أعظم الفتن، ووقايةٌ من عذاب القبر والنار.' },
+  { cat:'salah', icon:'🔀', grade:'q', title:'الفصل بين الفريضة والنافلة',
+    hadith:'أمرَنا ﷺ ألا نُوصِل صلاةً بصلاة حتى نتكلم أو نخرج.',
+    src:'رواه مسلم',
+    apply:'بعد الفريضة، افصِل قبل نافلتك بذكرٍ أو كلامٍ أو تحوُّلٍ عن مكانك.',
+    fruit:'تمييز الفرض عن النفل، واتباعٌ لأمره ﷺ.' },
+  { cat:'salah', icon:'🏠', grade:'q', title:'أداء النافلة في البيت',
+    hadith:'أفضلُ صلاةِ المرء في بيته إلا المكتوبة. واجعلوا من صلاتكم في بيوتكم ولا تتخذوها قبوراً.',
+    src:'متفق عليه',
+    apply:'صلِّ الرواتب والنوافل في بيتك ما أمكن، خاصةً سنة المغرب والعشاء والفجر.',
+    fruit:'حياةٌ للبيت بالعبادة، وأبعدُ عن الرياء، وأعظمُ أجراً.' },
+  { cat:'salah', icon:'🤲', grade:'f', title:'سجود الشكر عند النِّعَم',
+    hadith:'كان النبي ﷺ إذا أتاه أمرٌ يَسُرُّه — أو بُشِّر به — خرَّ ساجداً شكراً لله.',
+    src:'رواه أبو داود والترمذي وحسنه',
+    apply:'عند نعمةٍ مفاجئة (نجاح، شفاء، مولود، اندفاع بلاء) اسجد سجدةً شُكراً لله.',
+    fruit:'مزيدٌ من النعم، وتعويدُ القلب على نسبة الفضل لله.' },
+
+  /* ── 3) النوم والاستيقاظ ── */
+  { cat:'sleep', icon:'🚿', grade:'q', title:'الوضوء قبل النوم',
+    hadith:'إذا أتيتَ مَضجعك فتوضأ وضوءك للصلاة.',
+    src:'متفق عليه',
+    apply:'توضأ قبل نومك ونم على طهارة، ثم ادعُ بدعاء النوم.',
+    fruit:'مَن بات طاهراً بات في شِعار مَلَك يستغفر له، ورؤيا أصدق.' },
+  { cat:'sleep', icon:'🛏️', grade:'q', title:'نفض الفراش والتسمية',
+    hadith:'إذا أوى أحدُكم إلى فراشه فلْيَنفُضْه بداخلة إزاره ولْيُسمِّ الله، فإنه لا يدري ما خلَفه عليه.',
+    src:'متفق عليه',
+    apply:'انفض فراشك ثلاثاً مع التسمية قبل أن تستلقي.',
+    fruit:'سلامةٌ من الأذى، وبركةٌ بذكر الله عند المنام.' },
+  { cat:'sleep', icon:'➡️', grade:'q', title:'النوم على الشِّقِّ الأيمن',
+    hadith:'…ثم اضطجِع على شِقِّك الأيمن، وقل: اللهم أسلمتُ نفسي إليك…',
+    src:'متفق عليه',
+    apply:'نَم على جنبك الأيمن واضعاً يدك تحت خدك، مع ذكر النوم الثابت.',
+    fruit:'موافقة هديه ﷺ، وفوائد صحية للقلب والهضم.' },
+  { cat:'sleep', icon:'🌬️', grade:'f', title:'قراءة المعوِّذات والنفث',
+    hadith:'كان ﷺ إذا أوى إلى فراشه نفَث في كفَّيه وقرأ المعوِّذات ومسَح بهما ما استطاع من جسده.',
+    src:'رواه البخاري',
+    apply:'اقرأ الإخلاص والمعوذتين، انفُث في كفَّيك، وامسح بهما رأسك ووجهك وجسدك ثلاثاً.',
+    fruit:'حِفظٌ وتحصينٌ من كل شرٍّ طوال الليل.' },
+  { cat:'sleep', icon:'👃', grade:'q', title:'الاستنثار ثلاثاً عند الاستيقاظ',
+    hadith:'إذا استيقظ أحدُكم من نومه فلْيستنثِر ثلاثاً، فإن الشيطان يبيتُ على خَيشومه.',
+    src:'متفق عليه',
+    apply:'عند الاستيقاظ، استنشق ماءً وأخرِجه (انثُر) ثلاث مرات قبل الوضوء.',
+    fruit:'طردٌ لما يبيته الشيطان، وتنشيطٌ للبدن.' },
+  { cat:'sleep', icon:'😴', grade:'f', title:'مسح أثر النوم عن الوجه',
+    hadith:'قام النبي ﷺ من الليل فجعل يمسح النوم عن وجهه بيده، ثم قرأ خواتيم آل عمران.',
+    src:'متفق عليه',
+    apply:'عند القيام من النوم امسح وجهك بيدك، واقرأ الآيات الثابتة عند الاستيقاظ.',
+    fruit:'تنبُّهٌ للعبادة، واقتداءٌ بقيامه ﷺ من الليل.' },
+
+  /* ── 4) الأكل والشرب ── */
+  { cat:'food', icon:'🍴', grade:'q', title:'التسمية أول الطعام والحمد آخره',
+    hadith:'إذا أكل أحدُكم فلْيذكُر اسم الله، فإن نسِيَ فلْيقل: بسم الله أوله وآخره.',
+    src:'رواه أبو داود والترمذي وصححه',
+    apply:'قل «بسم الله» قبل الأكل، واحمد الله بعده «الحمد لله الذي أطعمني هذا…».',
+    fruit:'بركةٌ في الطعام، وحرمانٌ للشيطان من المشاركة فيه.' },
+  { cat:'food', icon:'🍞', grade:'q', title:'إماطة الأذى عن اللقمة الساقطة وأكلها',
+    hadith:'إذا سقطت لقمةُ أحدِكم فلْيُمِط عنها الأذى ولْيأكلها، ولا يدَعْها للشيطان.',
+    src:'رواه مسلم',
+    apply:'إذا سقطت لقمتك، نظِّفها وكُلها ولا ترمِها، فلا تدري في أي طعامك البركة.',
+    fruit:'حفظٌ للنِّعمة، وعدمُ ترك الخير للشيطان.' },
+  { cat:'food', icon:'👌', grade:'q', title:'لعق الأصابع والصَّحفة',
+    hadith:'إذا أكل أحدُكم فلا يمسح يده حتى يَلعقها أو يُلعِقها. وأمر بلعق الصَّحفة وقال: لا تدرون في أيِّه البركة.',
+    src:'رواه مسلم',
+    apply:'بعد الأكل، نظِّف أصابعك بلعقها واجمَع ما بقي في الصحن قبل غسله.',
+    fruit:'إدراكٌ للبركة، وشكرٌ للنعمة، وتواضعٌ مع الطعام.' },
+  { cat:'food', icon:'🥛', grade:'f', title:'الجلوس عند الشرب والتنفُّس ثلاثاً',
+    hadith:'نهى ﷺ عن الشرب قائماً، وكان يتنفَّس في الشراب ثلاثاً (خارج الإناء).',
+    src:'رواه مسلم ومتفق عليه',
+    apply:'اجلس عند الشرب، واشرب على ثلاث دفعات تتنفَّس بينها بعيداً عن الكأس.',
+    fruit:'أهنأ وأمرأ وأبرأ، وأبعدُ عن الضرر، واتباعٌ للسُّنّة.' },
+  { cat:'food', icon:'🐄', grade:'f', title:'المضمضة بعد شرب اللبن',
+    hadith:'شرب النبي ﷺ لبناً ثم تمضمض وقال: إن له دَسَماً.',
+    src:'متفق عليه',
+    apply:'بعد شرب الحليب أو ما له دسم، تمضمض بالماء.',
+    fruit:'نظافة الفم، واتباعٌ لسُنّةٍ خفيّة في الطعام.' },
+
+  /* ── 5) الاجتماع والتعامل ── */
+  { cat:'social', icon:'👋', grade:'q', title:'توديع المسافر بالدعاء',
+    hadith:'كان ﷺ إذا ودَّع رجلاً قال: أستودِعُ اللهَ دينَك وأمانتَك وخواتيمَ عملك.',
+    src:'رواه أبو داود والترمذي وصححه',
+    apply:'إذا سافر قريبٌ أو صديق، ودِّعه بهذا الدعاء الجامع بدل الكلام المعتاد.',
+    fruit:'حفظ الله للمسافر في دينه وأهله، وأثرُ المحبة بين المسلمين.' },
+  { cat:'social', icon:'⛰️', grade:'f', title:'التكبير عند الصعود والتسبيح عند النزول',
+    hadith:'كنا إذا صَعِدنا كبَّرنا، وإذا نزَلنا سبَّحنا.',
+    src:'رواه البخاري',
+    apply:'عند صعود مرتفع أو سُلَّم أو طائرة كبِّر، وعند النزول والهبوط سبِّح.',
+    fruit:'عمارة الأوقات بالذكر، وربطُ الحركة بتعظيم الله.' },
+  { cat:'social', icon:'🕌', grade:'f', title:'ركعتان في المسجد للقادم من سفر',
+    hadith:'كان النبي ﷺ إذا قدِم من سفرٍ بدأ بالمسجد فصلّى فيه ركعتين.',
+    src:'متفق عليه',
+    apply:'إذا عدتَ من سفر، ابدأ بالمسجد قبل بيتك وصلِّ ركعتين شكراً لله.',
+    fruit:'شكرٌ لله على السلامة، وبدءٌ للعودة بالطاعة.' },
+  { cat:'social', icon:'🪑', grade:'q', title:'دعاء كفّارة المجلس',
+    hadith:'مَن جلس في مجلسٍ كثُر فيه لَغَطُه فقال قبل أن يقوم: سبحانك اللهم وبحمدك أشهد أن لا إله إلا أنت أستغفرك وأتوب إليك — غُفر له ما كان في مجلسه.',
+    src:'رواه الترمذي وصححه',
+    apply:'اختم كل مجلس (حتى اجتماع العمل) بهذا الدعاء قبل أن تقوم.',
+    fruit:'مغفرةٌ لِما يقع في المجلس من لَغوٍ وزَلَل.' },
+  { cat:'social', icon:'🕊️', grade:'q', title:'إفشاء السلام عند الدخول والمغادرة',
+    hadith:'أوَلا أدلُّكم على شيءٍ إذا فعلتموه تحاببتم؟ أفشوا السلام بينكم. وإذا انتهى أحدكم إلى المجلس فلْيُسلِّم، وإذا أراد أن يقوم فلْيُسلِّم.',
+    src:'رواه مسلم وأبو داود',
+    apply:'سلِّم على من تعرف ومن لا تعرف، عند الدخول وعند الانصراف.',
+    fruit:'سببُ المحبة ودخولِ الجنة، ونشرٌ للأمان بين الناس.' },
+  { cat:'social', icon:'💞', grade:'q', title:'إخبار المسلم أخاه أنه يحبه في الله',
+    hadith:'إذا أحبَّ أحدُكم أخاه فلْيُعلِمه أنه يحبه.',
+    src:'رواه أبو داود والترمذي وحسنه',
+    apply:'قل لمن تحبه من إخوانك: «إني أحبك في الله»، فيردّ: «أحبَّك الذي أحببتني له».',
+    fruit:'تثبيتٌ للمودّة، ومحبةٌ يظلّهم الله بها يوم القيامة.' },
+  { cat:'social', icon:'🤝', grade:'q', title:'المصافحة وعدم سحب اليد أولاً',
+    hadith:'ما من مسلمَين يلتقيان فيتصافحان إلا غُفر لهما قبل أن يفترقا.',
+    src:'رواه أبو داود والترمذي',
+    apply:'صافِح أخاك عند اللقاء، ولا تنزِع يدك حتى يكون هو من يبدأ بنزعها.',
+    fruit:'تساقُط الذنوب، وزيادةُ المودّة والتواضع.' },
+  { cat:'social', icon:'🌧️', grade:'f', title:'التعرُّض للمطر عند نزوله',
+    hadith:'حسَر النبي ﷺ ثوبَه حتى أصابه من المطر، فقال: إنه حديثُ عهدٍ بربه.',
+    src:'رواه مسلم',
+    apply:'عند نزول المطر، اكشف شيئاً من بدنك ليصيبه الماء، وادعُ «اللهم صيِّباً نافعاً».',
+    fruit:'تبرُّكٌ بما هو حديث عهدٍ بخلق الله، ووقتُ إجابةٍ للدعاء.' },
+
+  /* ── 6) سنن متنوعة ── */
+  { cat:'misc', icon:'🌗', grade:'q', title:'صيام الأيام البيض (٣ من كل شهر)',
+    hadith:'أوصاني خليلي ﷺ بثلاث: صيامِ ثلاثة أيامٍ من كل شهر… وصيامُ ثلاثةِ أيامٍ من كل شهرٍ صيامُ الدهر.',
+    src:'متفق عليه',
+    apply:'صُم الثالث عشر والرابع عشر والخامس عشر من كل شهرٍ هجري (الأيام البيض).',
+    fruit:'أجرُ صيام الدهر كله، وتعويدُ النفس على الطاعة المستمرة.' },
+  { cat:'misc', icon:'📜', grade:'q', title:'كتابة الوصية',
+    hadith:'ما حقُّ امرئٍ مسلمٍ له شيءٌ يريد أن يوصي فيه يبيتُ ليلتين إلا ووصيتُه مكتوبةٌ عنده.',
+    src:'متفق عليه',
+    apply:'اكتب وصيتك (ديونك، حقوق الناس، توجيهاتك) واحفظها في مكانٍ معلوم لأهلك.',
+    fruit:'حفظُ الحقوق، وراحةُ القلب، واستعدادٌ دائمٌ للقاء الله.' },
+  { cat:'misc', icon:'🤲', grade:'q', title:'صلاة الاستخارة عند الهمِّ بالأمر',
+    hadith:'كان النبي ﷺ يُعلِّمنا الاستخارةَ في الأمور كلها كما يُعلِّمنا السورةَ من القرآن.',
+    src:'رواه البخاري',
+    apply:'قبل أيِّ قرارٍ مهم (زواج، عمل، سفر) صلِّ ركعتين ثم ادعُ بدعاء الاستخارة الثابت.',
+    fruit:'تفويضٌ لله، وطمأنينةٌ وبركةٌ في الاختيار.' },
+  { cat:'misc', icon:'💧', grade:'q', title:'صلاة التوبة بعد الذنب',
+    hadith:'ما من رجلٍ يُذنب ذنباً ثم يقوم فيتطهَّر ثم يصلي ثم يستغفر الله إلا غفَر الله له.',
+    src:'رواه أبو داود والترمذي وحسنه',
+    apply:'إذا وقعتَ في ذنب، توضأ وصلِّ ركعتين بخشوع ثم استغفر الله بصدق.',
+    fruit:'مغفرةٌ معجَّلة، وتجديدٌ للعهد مع الله.' },
+];
+
+/* ══════════════════════════════════════════════════════════════
+   حالة "أحييتها" — تُخزَّن داخل zad_v2 بدون المساس بـ app.js
+   ══════════════════════════════════════════════════════════════ */
+const ZKEY = 'zad_v2';
+function readRevived(){
+  try{
+    const s = JSON.parse(localStorage.getItem(ZKEY) || '{}');
+    return (s && s.sunan && typeof s.sunan === 'object') ? s.sunan : {};
+  }catch(e){ return {}; }
+}
+function writeRevived(map){
+  let s = {};
+  try{ s = JSON.parse(localStorage.getItem(ZKEY) || '{}') || {}; }catch(e){ s = {}; }
+  s.sunan = map;
+  try{ localStorage.setItem(ZKEY, JSON.stringify(s)); }catch(e){}
+  /* أبقِ الحالة الحية لـ app.js متوافقة إن وُجدت */
+  if (window.STATE && typeof window.STATE === 'object') window.STATE.sunan = map;
+}
+
+let REVIVED = readRevived();
+
+function sunanId(s, i){ return s.cat + '-' + i; }
+
+function toast(msg){
+  try{
+    if (typeof window.showToast === 'function'){ window.showToast(msg); return; }
+  }catch(e){}
+  /* fallback toast */
+  let t = document.getElementById('sn-toast');
+  if (!t){
+    t = document.createElement('div');
+    t.id = 'sn-toast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green-deep);color:#fff;padding:12px 22px;border-radius:99px;font-size:13px;font-weight:700;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;transition:all .3s';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  requestAnimationFrame(()=>{ t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+  clearTimeout(t._h);
+  t._h = setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 2200);
+}
+
+const GRADE_LABEL = { q:'سُنّة قولية', f:'سُنّة فعلية', t:'سُنّة تقريرية' };
+
+function gradeChip(g){
+  return `<span class="sn-grade ${g}">${GRADE_LABEL[g] || ''}</span>`;
+}
+
+function cardHTML(s, i){
+  const id = sunanId(s, i);
+  const on = !!REVIVED[id];
+  const n  = i + 1;
+  return `
+  <article class="sn-card ${on?'revived':''}" data-id="${id}" data-search="${(s.title+' '+s.hadith+' '+s.apply).replace(/"/g,'')}">
+    <div class="sn-top">
+      <span class="sn-num">${n}</span>
+      <span class="sn-icon">${s.icon}</span>
+      <h3 class="sn-title">${s.title}</h3>
+      <button class="sn-toggle" data-id="${id}" title="علِّمها كأنك أحييتها" aria-label="إحياء السُّنّة">✓</button>
+    </div>
+    <p class="sn-hadith">«${s.hadith}»</p>
+    <div><span class="sn-src">📖 ${s.src}</span>${gradeChip(s.grade)}</div>
+    <div class="sn-notes">
+      <div class="sn-note apply"><b>🌿 كيف تطبّقها اليوم:</b> ${s.apply}</div>
+      <div class="sn-note fruit"><b>🎁 الثمرة:</b> ${s.fruit}</div>
+    </div>
+  </article>`;
+}
+
+function render(){
+  const root = document.getElementById('sunan-root');
+  const toc  = document.getElementById('toc-bar');
+  let html = '';
+  let tocHtml = '';
+  SUNAN_CATS.forEach((c, ci) => {
+    const items = SUNAN.map((s, i) => ({ s, i })).filter(o => o.s.cat === c.id);
+    tocHtml += `<button class="toc-btn ${ci===0?'active':''}" data-target="sec-${c.id}">${c.emoji} ${c.label}</button>`;
+    html += `<section class="cat-section" id="sec-${c.id}">
+      <h2 class="cat-head"><span class="cat-emoji">${c.emoji}</span>${c.label}<span class="cat-pill">${items.length} سُنن</span></h2>
+      <div class="sunan-grid">${items.map(o => cardHTML(o.s, o.i)).join('')}</div>
+    </section>`;
+  });
+  root.innerHTML = html;
+  toc.innerHTML = tocHtml;
+  bindToggles();
+  bindTOC();
+  updateProgress();
+}
+
+function bindToggles(){
+  document.querySelectorAll('.sn-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      const card = btn.closest('.sn-card');
+      REVIVED[id] = !REVIVED[id];
+      if (!REVIVED[id]) delete REVIVED[id];
+      writeRevived(REVIVED);
+      card.classList.toggle('revived', !!REVIVED[id]);
+      if (navigator.vibrate) navigator.vibrate(REVIVED[id] ? 30 : 15);
+      if (REVIVED[id]) toast('🌙 أحييتَ سُنّةً — تقبّل الله منك');
+      updateProgress();
+    });
+  });
+}
+
+function bindTOC(){
+  const btns = document.querySelectorAll('.toc-btn');
+  btns.forEach(b => b.addEventListener('click', () => {
+    const el = document.getElementById(b.dataset.target);
+    if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+  }));
+  /* تمييز القسم النشط أثناء التمرير */
+  const sections = [...document.querySelectorAll('.cat-section')];
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        const id = e.target.id;
+        btns.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => obs.observe(s));
+}
+
+function updateProgress(){
+  const total = SUNAN.length;
+  const done  = Object.keys(REVIVED).filter(k => REVIVED[k]).length;
+  const pct   = Math.round((done / total) * 100);
+  const fill = document.getElementById('rb-fill');
+  if (fill) fill.style.width = pct + '%';
+  const rbDone = document.getElementById('rb-done'); if (rbDone) rbDone.textContent = done;
+  const hsRev  = document.getElementById('hs-revived'); if (hsRev) hsRev.textContent = done;
+}
+
+/* البحث/الفلترة */
+function bindSearch(){
+  const inp = document.getElementById('sn-search');
+  const empty = document.getElementById('empty-msg');
+  if (!inp) return;
+  inp.addEventListener('input', () => {
+    const q = inp.value.trim();
+    const cards = document.querySelectorAll('.sn-card');
+    let visible = 0;
+    cards.forEach(c => {
+      const match = !q || (c.dataset.search || '').includes(q);
+      c.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    /* أخفِ القسم الفارغ كاملاً */
+    document.querySelectorAll('.cat-section').forEach(sec => {
+      const any = [...sec.querySelectorAll('.sn-card')].some(c => c.style.display !== 'none');
+      sec.style.display = any ? '' : 'none';
+    });
+    if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  render();
+  bindSearch();
+});
+</script>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+</body>
+</html>

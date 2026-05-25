@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>إذاعات القرآن الكريم — زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap"></noscript>
+
+<script>
+/* ── Instant theme restore ── */
+(function(){
+  var s = localStorage.getItem('zad_v2');
+  var t = 'light';
+  try { var p = JSON.parse(s); t = p.theme || 'light'; } catch(e){}
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+
+<style>
+/* ════════════════════════════════════════════════
+   DESIGN TOKENS — matching zad al-ashr exactly
+════════════════════════════════════════════════ */
+:root {
+  --green-deep:  #0e3b2e;
+  --green-mid:   #1f5e4b;
+  --green-soft:  #2a7a5e;
+  --green-pale:  #eaf5f0;
+  --gold:        #c9a14a;
+  --gold-dark:   #8b6914;
+  --gold-pale:   #fef5e6;
+  --gold-glow:   rgba(201,161,74,.15);
+  --ink:         #1a2218;
+  --muted:       #5c6e65;
+  --card:        #ffffff;
+  --card-2:      #f7faf8;
+  --sand:        #f4f0e8;
+  --sand-2:      #ede8dc;
+  --border:      #d8e6df;
+  --bg-soft:     #f2f6f3;
+  --shadow:      0 4px 20px rgba(14,59,46,.08), 0 1px 4px rgba(14,59,46,.06);
+  --shadow-lg:   0 12px 48px rgba(14,59,46,.12), 0 4px 12px rgba(14,59,46,.08);
+  --radius:      18px;
+  --radius-sm:   12px;
+  --ease:        cubic-bezier(.4,0,.2,1);
+  --sys-green:   #4dd862;
+  --sys-pink:    #ff375f;
+}
+html[data-theme="dark"], html[data-theme="oled"] {
+  --green-deep:  #0a2a20;
+  --green-mid:   #164f3c;
+  --green-soft:  #1e6b52;
+  --green-pale:  rgba(77,216,102,.06);
+  --gold-pale:   rgba(201,161,74,.08);
+  --ink:         #e2ede8;
+  --muted:       #7a9e8e;
+  --card:        #141f1c;
+  --card-2:      #1a2622;
+  --sand:        #1a2420;
+  --sand-2:      #1f2e28;
+  --border:      #2a3f38;
+  --bg-soft:     #0f1c18;
+  --shadow:      0 4px 20px rgba(0,0,0,.25), 0 1px 4px rgba(0,0,0,.15);
+  --shadow-lg:   0 12px 48px rgba(0,0,0,.35), 0 4px 12px rgba(0,0,0,.2);
+}
+html[data-theme="oled"] {
+  --bg-soft: #000;
+  --card: #0a0f0d;
+  --card-2: #0f1610;
+}
+
+/* ════════════════════════════════════════════════
+   RESET & BASE
+════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: 'IBM Plex Sans Arabic', 'Tajawal', system-ui, sans-serif;
+  background: var(--bg-soft);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+  transition: background .25s var(--ease), color .25s var(--ease);
+}
+
+/* ════════════════════════════════════════════════
+   LAYOUT
+════════════════════════════════════════════════ */
+.app { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 260px;
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  position: fixed;
+  right: 0; top: 0; bottom: 0;
+  padding: 20px 14px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 100;
+  overflow-y: auto;
+  transition: transform .3s var(--ease), background .25s;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.main {
+  flex: 1;
+  margin-right: 260px;
+  padding: 0 28px 120px;
+  min-height: 100vh;
+  transition: margin .3s var(--ease);
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5);
+  backdrop-filter: blur(4px);
+  z-index: 99;
+  transition: opacity .3s;
+}
+.sidebar-overlay.open { display: block; }
+
+/* ════════════════════════════════════════════════
+   SIDEBAR BRAND & NAV
+════════════════════════════════════════════════ */
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: inherit;
+  padding: 4px 2px;
+}
+.brand-mark {
+  width: 42px; height: 42px; border-radius: 13px;
+  background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+  display: grid; place-items: center;
+  overflow: hidden; flex-shrink: 0;
+}
+.brand-mark img { width: 36px; height: 36px; border-radius: 9px; }
+.brand-name { font-size: 15px; font-weight: 700; color: var(--ink); }
+.brand-sub  { font-size: 10px; color: var(--muted); margin-top: 1px; }
+
+.theme-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 10px;
+  background: var(--sand);
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600; color: var(--ink);
+}
+.toggle-pill {
+  width: 46px; height: 24px;
+  background: var(--border);
+  border-radius: 24px;
+  position: relative; cursor: pointer;
+  transition: background .2s;
+}
+.toggle-pill input { opacity: 0; width: 0; height: 0; }
+.toggle-pill input:checked + .tgl-sl { transform: translateX(-22px); background: var(--gold); }
+.tgl-sl {
+  position: absolute;
+  top: 2px; right: 2px;
+  width: 20px; height: 20px;
+  background: #fff; border-radius: 50%;
+  transition: transform .2s, background .2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+
+.nav { display: flex; flex-direction: column; gap: 2px; }
+.nav-sep {
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  color: var(--muted); padding: 10px 10px 4px;
+  text-transform: uppercase;
+}
+.nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: var(--radius-sm);
+  color: var(--ink); text-decoration: none;
+  font-size: 13px; font-weight: 500;
+  transition: all .18s var(--ease);
+}
+.nav a:hover { background: var(--gold-pale); color: var(--green-deep); }
+.nav a.active {
+  background: var(--green-pale);
+  color: var(--green-deep); font-weight: 700;
+  border-right: 3px solid var(--green-deep);
+}
+html[data-theme="dark"] .nav a.active,
+html[data-theme="oled"] .nav a.active { color: var(--sys-green); }
+.nav a .ico { font-size: 16px; width: 26px; flex-shrink: 0; }
+
+.sidebar-lang-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: 8px 12px;
+  background: var(--sand); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 600; color: var(--ink);
+  transition: all .18s;
+}
+.sidebar-lang-btn:hover { border-color: var(--gold); }
+.sidebar-install-btn {
+  width: 100%; padding: 9px 12px;
+  background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+  border: none; border-radius: var(--radius-sm); cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 700; color: #fff;
+  transition: all .2s;
+}
+.sidebar-install-btn:hover { opacity: .9; transform: translateY(-1px); }
+.side-foot {
+  margin-top: auto; font-size: 11px;
+  text-align: center; color: var(--muted); padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* ════════════════════════════════════════════════
+   TOPBAR
+════════════════════════════════════════════════ */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 0 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+  gap: 12px;
+}
+.tb-left  { display: flex; align-items: center; gap: 10px; }
+.tb-center { flex: 1; text-align: center; }
+.tb-right  { display: flex; align-items: center; gap: 8px; }
+.page-title {
+  font-size: 22px; font-weight: 900;
+  color: var(--green-deep);
+  line-height: 1.2;
+}
+html[data-theme="dark"] .page-title,
+html[data-theme="oled"] .page-title { color: var(--sys-green); }
+.page-title span { color: var(--gold); }
+.hamburger {
+  display: none;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--green-deep); color: #fff;
+  border: none; font-size: 18px; cursor: pointer;
+  align-items: center; justify-content: center;
+  transition: all .2s; flex-shrink: 0;
+}
+.hamburger:hover { background: var(--green-mid); }
+.tb-logo img {
+  width: 32px; height: 32px; border-radius: 9px;
+  display: none;
+}
+.lang-btn, .btn-theme {
+  padding: 7px 14px; border-radius: 99px;
+  border: 1.5px solid var(--border);
+  background: var(--card); color: var(--ink);
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all .18s;
+}
+.lang-btn:hover, .btn-theme:hover { border-color: var(--gold); color: var(--green-deep); }
+
+/* ════════════════════════════════════════════════
+   HERO BANNER
+════════════════════════════════════════════════ */
+.radio-hero {
+  background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 55%, #1a7a4a 100%);
+  border-radius: var(--radius);
+  padding: 28px 28px 24px;
+  margin-bottom: 20px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.radio-hero::before {
+  content: '📻';
+  position: absolute; left: -10px; bottom: -10px;
+  font-size: 110px; opacity: .07; line-height: 1;
+  pointer-events: none;
+  animation: float 6s ease-in-out infinite;
+}
+.radio-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 90% 20%, rgba(201,161,74,.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+.hero-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  color: #e6c97a; margin-bottom: 8px; text-transform: uppercase;
+}
+.radio-hero h1 {
+  font-family: 'Amiri', serif;
+  font-size: clamp(22px, 4vw, 34px);
+  font-weight: 700; margin-bottom: 6px; line-height: 1.3;
+  position: relative; z-index: 1;
+}
+.radio-hero p {
+  font-size: 13px; color: rgba(255,255,255,.78);
+  line-height: 1.7; max-width: 500px;
+  position: relative; z-index: 1;
+}
+.hero-stats {
+  display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;
+  position: relative; z-index: 1;
+}
+.hero-stat {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px; text-align: center;
+}
+.hero-stat-num { font-size: 22px; font-weight: 900; color: #e6c97a; line-height: 1; }
+.hero-stat-lbl { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 2px; }
+
+/* ════════════════════════════════════════════════
+   NOW PLAYING PANEL
+════════════════════════════════════════════════ */
+.now-playing {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--shadow);
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+}
+.now-playing::before {
+  content: '';
+  position: absolute; top: 0; right: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, var(--green-deep), var(--gold), var(--green-deep));
+  background-size: 200% 100%;
+  animation: shimmer-bar 3s ease-in-out infinite;
+}
+@keyframes shimmer-bar { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+.np-disk {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+  border: 2px solid var(--border);
+  position: relative;
+  transition: all .3s;
+  box-shadow: 0 4px 16px rgba(14,59,46,.2);
+}
+.np-disk.spinning { animation: disk-spin 4s linear infinite; }
+@keyframes disk-spin { to { transform: rotate(360deg); } }
+.np-disk::after {
+  content: '';
+  position: absolute; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--bg-soft);
+  border: 1.5px solid var(--border);
+}
+
+.np-info { flex: 1; min-width: 0; }
+.np-label {
+  font-size: 9px; font-weight: 800; letter-spacing: 2px;
+  color: var(--green-deep); text-transform: uppercase; margin-bottom: 3px;
+  display: flex; align-items: center; gap: 5px;
+}
+html[data-theme="dark"] .np-label,
+html[data-theme="oled"] .np-label { color: var(--sys-green); }
+.np-station { font-size: 15px; font-weight: 700; color: var(--ink); }
+.np-country { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* Live dot */
+.live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #ef4444; display: inline-block;
+  animation: blink 1.2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+/* Visualizer */
+.visualizer {
+  display: flex; align-items: flex-end; gap: 3px;
+  height: 28px; padding: 0 4px;
+}
+.vis-bar {
+  width: 3.5px; border-radius: 2px;
+  background: linear-gradient(to top, var(--green-deep), var(--gold));
+  transition: height .1s ease;
+  opacity: .8;
+}
+.visualizer.paused .vis-bar { height: 3px !important; opacity: .25; }
+
+/* Controls */
+.np-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.ctrl-btn {
+  width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--border);
+  background: var(--sand); color: var(--green-deep);
+  font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .18s;
+}
+.ctrl-btn:hover { border-color: var(--green-soft); background: var(--green-pale); transform: scale(1.05); }
+.ctrl-btn.play-main {
+  width: 48px; height: 48px; font-size: 18px;
+  background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+  color: #fff; border: none;
+  box-shadow: 0 4px 16px rgba(14,59,46,.3);
+}
+.ctrl-btn.play-main:hover { transform: scale(1.06); box-shadow: 0 6px 24px rgba(14,59,46,.4); }
+
+.volume-wrap { display: flex; align-items: center; gap: 6px; }
+.vol-icon { font-size: 14px; color: var(--muted); }
+input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  width: 80px; height: 4px; border-radius: 99px;
+  background: linear-gradient(90deg, var(--green-deep) var(--val, 80%), var(--border) var(--val, 80%));
+  outline: none; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--green-deep);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 6px rgba(14,59,46,.4);
+  transition: transform .15s;
+}
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+html[data-theme="dark"] input[type=range],
+html[data-theme="oled"] input[type=range] {
+  background: linear-gradient(90deg, var(--sys-green) var(--val, 80%), var(--border) var(--val, 80%));
+}
+html[data-theme="dark"] input[type=range]::-webkit-slider-thumb,
+html[data-theme="oled"] input[type=range]::-webkit-slider-thumb { background: var(--sys-green); }
+
+/* Sleep timer pill */
+.sleep-pill {
+  font-size: 11px; color: var(--gold-dark); font-weight: 700;
+  background: var(--gold-pale); border: 1px solid rgba(201,161,74,.3);
+  border-radius: 99px; padding: 3px 10px;
+  display: none;
+}
+.sleep-pill.on { display: inline-flex; align-items: center; gap: 4px; }
+html[data-theme="dark"] .sleep-pill,
+html[data-theme="oled"] .sleep-pill { color: var(--gold); background: rgba(201,161,74,.1); }
+
+/* ════════════════════════════════════════════════
+   TOOLBAR ROW (tabs / search / quality)
+════════════════════════════════════════════════ */
+.toolbar-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px; flex-wrap: wrap;
+}
+.search-wrap {
+  position: relative; flex: 1; min-width: 200px;
+}
+.search-wrap input {
+  width: 100%; padding: 9px 14px 9px 36px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border);
+  background: var(--card); color: var(--ink);
+  font-family: inherit; font-size: 13px;
+  outline: none; transition: all .2s;
+}
+.search-wrap input:focus { border-color: var(--green-soft); box-shadow: 0 0 0 3px rgba(14,59,46,.08); }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 15px; color: var(--muted); pointer-events: none; }
+
+.quality-select {
+  padding: 8px 12px; border-radius: 99px;
+  border: 1.5px solid var(--border);
+  background: var(--card); color: var(--ink);
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  outline: none; cursor: pointer; transition: all .2s;
+  -webkit-appearance: none; appearance: none;
+}
+.quality-select:focus { border-color: var(--gold); }
+
+.action-btn-sm {
+  padding: 8px 14px; border-radius: 99px;
+  border: 1.5px solid var(--border);
+  background: var(--card); color: var(--ink);
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  cursor: pointer; white-space: nowrap; transition: all .18s;
+}
+.action-btn-sm:hover { border-color: var(--green-soft); color: var(--green-deep); background: var(--green-pale); }
+
+/* Filter tabs */
+.filter-tabs {
+  display: flex; gap: 6px;
+  overflow-x: auto; scrollbar-width: none;
+  padding-bottom: 2px; margin-bottom: 20px;
+}
+.filter-tabs::-webkit-scrollbar { display: none; }
+.ftab {
+  padding: 7px 16px; border-radius: 99px;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  color: var(--muted); cursor: pointer;
+  white-space: nowrap; flex-shrink: 0;
+  transition: all .18s;
+}
+.ftab:hover { border-color: var(--green-soft); color: var(--green-deep); background: var(--green-pale); }
+.ftab.active { background: var(--green-deep); border-color: var(--green-deep); color: #fff; }
+html[data-theme="dark"] .ftab.active,
+html[data-theme="oled"] .ftab.active { background: var(--sys-green); border-color: var(--sys-green); color: #001a08; }
+
+/* ════════════════════════════════════════════════
+   STATIONS GRID
+════════════════════════════════════════════════ */
+.stations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 14px;
+}
+
+.station-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: all .22s var(--ease);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.station-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(14,59,46,.25);
+}
+.station-card.active {
+  border-color: var(--green-deep);
+  background: linear-gradient(135deg, var(--green-pale), var(--card));
+  box-shadow: var(--shadow-lg), 0 0 0 3px rgba(14,59,46,.1);
+}
+html[data-theme="dark"] .station-card.active,
+html[data-theme="oled"] .station-card.active {
+  border-color: var(--sys-green);
+  box-shadow: var(--shadow-lg), 0 0 0 3px rgba(77,216,102,.12);
+}
+
+/* Active accent bar */
+.station-card.active::before {
+  content: '';
+  position: absolute; top: 0; right: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, var(--green-deep), var(--gold));
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.station-logo {
+  width: 46px; height: 46px; border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+.station-meta { flex: 1; min-width: 0; }
+.station-name {
+  font-size: 14px; font-weight: 700; color: var(--ink);
+  margin-bottom: 3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: color .18s;
+}
+.station-card.active .station-name { color: var(--green-deep); }
+html[data-theme="dark"] .station-card.active .station-name,
+html[data-theme="oled"] .station-card.active .station-name { color: var(--sys-green); }
+.station-sub {
+  font-size: 11px; color: var(--muted);
+  display: flex; align-items: center; gap: 5px;
+}
+.dot-live { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: blink 1.5s ease-in-out infinite; }
+
+.station-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+
+.card-footer { display: flex; align-items: center; justify-content: space-between; }
+.quality-badge {
+  font-size: 10px; font-weight: 800; padding: 2px 9px; border-radius: 99px;
+  background: var(--green-pale);
+  color: var(--green-deep);
+  border: 1px solid rgba(14,59,46,.15);
+}
+html[data-theme="dark"] .quality-badge,
+html[data-theme="oled"] .quality-badge { background: rgba(77,216,102,.1); color: var(--sys-green); border-color: rgba(77,216,102,.2); }
+.card-actions { display: flex; align-items: center; gap: 6px; }
+.fav-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--sand); cursor: pointer;
+  font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .18s; color: var(--muted);
+}
+.fav-btn:hover, .fav-btn.active { color: #f59e0b; border-color: rgba(245,158,11,.35); background: rgba(245,158,11,.1); }
+.play-card-btn {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--sand); color: var(--green-deep);
+  cursor: pointer; font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .18s;
+}
+.play-card-btn:hover,
+.station-card.active .play-card-btn {
+  background: var(--green-deep); color: #fff; border-color: var(--green-deep);
+  transform: scale(1.05);
+}
+html[data-theme="dark"] .play-card-btn:hover,
+html[data-theme="dark"] .station-card.active .play-card-btn,
+html[data-theme="oled"] .play-card-btn:hover,
+html[data-theme="oled"] .station-card.active .play-card-btn {
+  background: var(--sys-green); color: #001a08; border-color: var(--sys-green);
+}
+
+/* Loading spinner on card */
+.loading-ring {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid rgba(14,59,46,.2); border-top-color: var(--green-deep);
+  animation: spin .7s linear infinite; display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ════════════════════════════════════════════════
+   EMPTY FAVORITES
+════════════════════════════════════════════════ */
+.empty-state {
+  text-align: center; padding: 56px 20px; color: var(--muted);
+  background: var(--card); border-radius: var(--radius);
+  border: 1.5px dashed var(--border);
+}
+.empty-state .empty-ico { font-size: 40px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.empty-state small { font-size: 12px; opacity: .65; }
+
+/* ════════════════════════════════════════════════
+   SETTINGS PANEL
+════════════════════════════════════════════════ */
+.prefs-panel {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 20px 20px 16px;
+  margin-bottom: 18px; box-shadow: var(--shadow);
+  display: none;
+}
+.prefs-panel.open { display: block; animation: slide-down .25s ease; }
+@keyframes slide-down { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.prefs-title {
+  font-size: 13px; font-weight: 800; color: var(--green-deep);
+  margin-bottom: 14px; display: flex; align-items: center; gap: 6px;
+}
+html[data-theme="dark"] .prefs-title,
+html[data-theme="oled"] .prefs-title { color: var(--sys-green); }
+.prefs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.pref-item label { font-size: 11px; font-weight: 700; color: var(--muted); display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px; }
+.pref-toggle { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pref-toggle span { font-size: 11px; color: var(--muted); line-height: 1.4; }
+.toggle-sm {
+  width: 40px; height: 22px; border-radius: 99px; border: none;
+  cursor: pointer; background: var(--border); position: relative;
+  transition: background .2s; flex-shrink: 0;
+}
+.toggle-sm.on { background: var(--green-soft); }
+.toggle-sm::after {
+  content: ''; position: absolute;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; top: 3px; right: 3px;
+  transition: transform .2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.25);
+}
+.toggle-sm.on::after { transform: translateX(-18px); }
+
+/* ════════════════════════════════════════════════
+   MODAL (Sleep Timer)
+════════════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.6); backdrop-filter: blur(8px);
+  z-index: 1000; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+  padding: 20px;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 24px;
+  width: min(400px, 100%);
+  box-shadow: var(--shadow-lg);
+  transform: scale(.96); transition: transform .25s;
+}
+.modal-overlay.open .modal { transform: scale(1); }
+.modal-title { font-size: 17px; font-weight: 800; color: var(--green-deep); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+html[data-theme="dark"] .modal-title,
+html[data-theme="oled"] .modal-title { color: var(--sys-green); }
+.modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.timer-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.timer-btn {
+  padding: 7px 14px; border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--sand); color: var(--ink);
+  font-family: inherit; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all .18s;
+}
+.timer-btn:hover { border-color: var(--green-soft); color: var(--green-deep); background: var(--green-pale); }
+.timer-btn.active { background: var(--green-deep); border-color: var(--green-deep); color: #fff; }
+html[data-theme="dark"] .timer-btn.active,
+html[data-theme="oled"] .timer-btn.active { background: var(--sys-green); border-color: var(--sys-green); color: #001a08; }
+.timer-status { font-size: 12px; color: var(--green-deep); font-weight: 700; min-height: 20px; margin-bottom: 14px; }
+html[data-theme="dark"] .timer-status,
+html[data-theme="oled"] .timer-status { color: var(--sys-green); }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.btn { padding: 9px 20px; border-radius: var(--radius-sm); border: none; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: all .18s; }
+.btn-ghost { background: none; border: 1.5px solid var(--border); color: var(--muted); }
+.btn-ghost:hover { border-color: var(--green-soft); color: var(--green-deep); }
+.btn-primary { background: linear-gradient(135deg, var(--green-deep), var(--green-mid)); color: #fff; }
+.btn-primary:hover { opacity: .9; transform: translateY(-1px); }
+html[data-theme="dark"] .btn-primary,
+html[data-theme="oled"] .btn-primary { background: var(--sys-green); color: #001a08; }
+
+/* ════════════════════════════════════════════════
+   STICKY BOTTOM PLAYER BAR
+════════════════════════════════════════════════ */
+.bottom-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  padding: 10px 20px 10px calc(20px + env(safe-area-inset-left));
+  display: flex; align-items: center;
+  gap: 12px; z-index: 500;
+  transition: background .25s;
+}
+html[data-theme="dark"] .bottom-bar,
+html[data-theme="oled"] .bottom-bar {
+  background: rgba(20,31,28,.97);
+}
+.bb-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.bb-logo {
+  width: 38px; height: 38px; border-radius: 11px;
+  font-size: 18px; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+  flex-shrink: 0;
+}
+.bb-info { min-width: 0; }
+.bb-name {
+  font-size: 13px; font-weight: 700; color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.bb-status { font-size: 10px; color: var(--muted); }
+
+/* Mini equalizer for bottom bar */
+.eq { display: flex; align-items: flex-end; gap: 2px; height: 18px; }
+.eq span {
+  width: 3px; border-radius: 1px;
+  background: var(--green-deep); animation: eq-ani 1s ease-in-out infinite;
+}
+html[data-theme="dark"] .eq span,
+html[data-theme="oled"] .eq span { background: var(--sys-green); }
+.eq span:nth-child(1){animation-delay:0s}
+.eq span:nth-child(2){animation-delay:.15s}
+.eq span:nth-child(3){animation-delay:.3s}
+.eq span:nth-child(4){animation-delay:.45s}
+.eq span:nth-child(5){animation-delay:.6s}
+@keyframes eq-ani {
+  0%,100%{ height:3px; opacity:.4 }
+  50%{ height:15px; opacity:1 }
+}
+.eq.paused span { height:2px !important; animation:none; opacity:.25; }
+
+.bb-controls { display: flex; align-items: center; gap: 8px; }
+.bb-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--sand); color: var(--green-deep);
+  font-size: 13px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .18s;
+}
+.bb-btn:hover { background: var(--green-pale); border-color: var(--green-soft); }
+.bb-play {
+  width: 42px; height: 42px; font-size: 17px;
+  background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+  color: #fff; border: none;
+  box-shadow: 0 3px 12px rgba(14,59,46,.3);
+}
+.bb-play:hover { opacity: .9; transform: scale(1.05); }
+html[data-theme="dark"] .bb-play,
+html[data-theme="oled"] .bb-play { background: var(--sys-green); color: #001a08; }
+
+/* ════════════════════════════════════════════════
+   TOAST
+════════════════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 72px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--green-deep); color: #fff;
+  border-radius: 99px; padding: 10px 22px;
+  font-size: 13px; font-weight: 700;
+  box-shadow: 0 8px 32px rgba(14,59,46,.35);
+  z-index: 2000; transition: transform .3s cubic-bezier(.22,.68,0,1.2);
+  white-space: nowrap; pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+html[data-theme="dark"] .toast,
+html[data-theme="oled"] .toast { background: var(--sys-green); color: #001a08; }
+
+/* ════════════════════════════════════════════════
+   CARD ANIMATIONS
+════════════════════════════════════════════════ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Stream error banner ── */
+.stream-error-banner {
+  background: rgba(239,68,68,.07);
+  border: 1.5px solid rgba(239,68,68,.22);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px; color: #ef4444;
+  display: none; align-items: center; gap: 10px;
+  margin-bottom: 14px; flex-wrap: wrap;
+}
+html[data-theme="dark"] .stream-error-banner,
+html[data-theme="oled"] .stream-error-banner { background: rgba(239,68,68,.12); }
+.stream-error-banner.show { display: flex; }
+.stream-error-banner a { color: var(--gold); text-decoration: underline; font-size: 12px; white-space: nowrap; }
+.retry-btn {
+  margin-right: auto; padding: 5px 14px;
+  border-radius: 99px; border: 1.5px solid rgba(239,68,68,.3);
+  background: none; color: #ef4444;
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all .18s; white-space: nowrap; flex-shrink: 0;
+}
+.retry-btn:hover { background: rgba(239,68,68,.1); }
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(100%); transition: transform .3s var(--ease); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-right: 0; padding: 0 12px 130px; }
+  .hamburger { display: flex; }
+  .tb-logo img { display: block; }
+  .volume-wrap { display: none; }
+  .np-controls .ctrl-btn:not(.play-main) { display: none; }
+  .stations-grid { grid-template-columns: 1fr; gap: 12px; }
+  .prefs-grid { grid-template-columns: 1fr; }
+  .now-playing { flex-wrap: wrap; padding: 14px 16px; gap: 10px; }
+  .bb-controls .bb-btn:not(.bb-play):not(#bb-prev):not(#bb-next) { display: none; }
+  /* الهيرو أصغر وأنسب */
+  .radio-hero { padding: 22px 18px 20px; }
+  .radio-hero p { font-size: 12.5px; }
+  /* الإحصائيات تتوزّع بالتساوي */
+  .hero-stats { gap: 8px; }
+  .hero-stat { flex: 1; min-width: 0; padding: 8px 6px; }
+  .hero-stat-num { font-size: 18px; }
+  .hero-stat-lbl { font-size: 10px; }
+  /* الفلاتر تنساب أفقياً */
+  .filter-tabs { gap: 6px; margin-bottom: 16px; }
+  .ftab { padding: 7px 13px; font-size: 12px; }
+}
+@media (max-width: 480px) {
+  .main { padding: 0 10px 130px; }
+  .radio-hero { padding: 18px 15px 16px; border-radius: 16px; }
+  .radio-hero h1 { font-size: 19px; }
+  .radio-hero p { font-size: 12px; -webkit-line-clamp: 3; display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden; }
+  .hero-eyebrow { font-size: 10px; letter-spacing: 1px; }
+  .toolbar-row { flex-direction: column; align-items: stretch; }
+  .search-wrap { min-width: unset; }
+  .bottom-bar { padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); gap: 8px; }
+  .now-playing { padding: 12px 14px; }
+  .np-disk { width: 46px; height: 46px; font-size: 20px; }
+  .np-station { font-size: 14px; }
+  /* الكروت أكثر إحكاماً */
+  .station-card { padding: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<div class="app">
+  <!-- ═══════════════ SIDEBAR ═══════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit">
+      <div class="brand-mark">
+        <img src="icons/icon-192.svg" alt="زاد العشر" onerror="this.style.display='none';this.parentNode.innerHTML='🕋'">
+      </div>
+      <div>
+        <div class="brand-name">زاد العشر</div>
+        <div class="brand-sub">أفضل أيام الدنيا</div>
+      </div>
+    </a>
+
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill">
+        <input type="checkbox" class="dark-switch" id="dark-switch" onchange="toggleTheme()">
+        <span class="tgl-sl"></span>
+      </label>
+    </div>
+
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
+      <span>🌐 اللغة</span>
+      <span id="sidebar-lang-val">EN</span>
+    </button>
+
+    <button class="sidebar-install-btn" id="sidebar-install-btn" style="display:none" onclick="installPWA?.()">
+      📲 تثبيت / تحميل التطبيق
+    </button>
+
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <div class="nav-sep">الصلاة والتقويم</div>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <div class="nav-sep">القرآن والعبادة</div>
+      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
+      <a href="takbeer.html"><span class="ico">📿</span><span>المسبحة</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
+      <a href="nawawi.html"><span class="ico">📜</span><span>الأربعون النووية</span></a>
+      <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
+      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
+      <div class="nav-sep">الحج والمناسك</div>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <div class="nav-sep">المتابعة</div>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <div class="nav-sep">التعلم والترفيه</div>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="Quran-radio.HTML" class="active"><span class="ico">📻</span><span>إذاعات القرآن</span></a>
+      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
+      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <div class="nav-sep">الإعدادات</div>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <!-- ═══════════════ MAIN ═══════════════ -->
+  <main class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center">
+        <div class="page-title">إذاعات <span>القرآن</span></div>
+      </div>
+      <div class="tb-right">
+        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang?.()">EN</button>
+        <button class="btn-theme" onclick="toggleTheme()" aria-label="تبديل المظهر">🌙</button>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="radio-hero">
+      <div class="hero-eyebrow">📻 بث مباشر</div>
+      <h1>إذاعات القرآن الكريم</h1>
+      <p>استمع لأعذب الأصوات القرآنية بثاً مباشراً على مدار الساعة من أبرز الإذاعات الإسلامية حول العالم</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="stat-total">12</div>
+          <div class="hero-stat-lbl">إذاعة</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="stat-online">17</div>
+          <div class="hero-stat-lbl">متاحة الآن</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">24/7</div>
+          <div class="hero-stat-lbl">بث مستمر</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Now Playing Panel -->
+    <div class="now-playing" id="now-playing">
+      <div class="np-disk" id="np-disk">🕋</div>
+      <div class="np-info">
+        <div class="np-label">
+          <span class="live-dot" id="live-dot" style="display:none"></span>
+          يُشغَّل الآن
+        </div>
+        <div class="np-station" id="np-name">اختر إذاعة للبدء</div>
+        <div class="np-country" id="np-country">اضغط على أي إذاعة أدناه</div>
+      </div>
+
+      <div class="visualizer paused" id="visualizer">
+        <div class="vis-bar" style="height:6px"></div>
+        <div class="vis-bar" style="height:12px"></div>
+        <div class="vis-bar" style="height:18px"></div>
+        <div class="vis-bar" style="height:9px"></div>
+        <div class="vis-bar" style="height:16px"></div>
+        <div class="vis-bar" style="height:8px"></div>
+        <div class="vis-bar" style="height:20px"></div>
+      </div>
+
+      <div class="np-controls">
+        <span class="sleep-pill" id="sleep-pill">⏱ <span id="sleep-txt">—</span></span>
+        <button class="ctrl-btn" onclick="openSleepModal()" title="مؤقت النوم">⏱</button>
+        <button class="ctrl-btn" onclick="prevStation()" title="السابق">⏮</button>
+        <button class="ctrl-btn play-main" id="main-play-btn" onclick="togglePlay()">▶</button>
+        <button class="ctrl-btn" onclick="nextStation()" title="التالي">⏭</button>
+        <div class="volume-wrap">
+          <span class="vol-icon">🔊</span>
+          <input type="range" id="vol-slider" min="0" max="100" value="80" oninput="setVolume(this.value)">
+        </div>
+      </div>
+    </div>
+
+    <!-- Stream Error Banner -->
+    <div class="stream-error-banner" id="stream-error-banner">
+      <span id="stream-error-msg">⚠️ تعذّر الاتصال بالبث</span>
+      <a id="stream-open-link" href="#" target="_blank" rel="noopener" style="display:none">فتح مباشرةً ↗</a>
+      <button class="retry-btn" onclick="retryCurrentStation()">↺ إعادة المحاولة</button>
+    </div>
+
+    <!-- Toolbar Row -->
+    <div class="toolbar-row">
+      <button class="action-btn-sm" onclick="togglePrefs()" id="prefs-toggle-btn">⚙️ التفضيلات</button>
+      <button class="action-btn-sm" onclick="openSleepModal()">⏱ مؤقت النوم</button>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="ابحث عن إذاعة..." id="search-input" oninput="filterStations(this.value)">
+      </div>
+      <select class="quality-select" id="quality-select" onchange="changeQuality(this.value)">
+        <option value="high">جودة عالية</option>
+        <option value="medium">متوسطة</option>
+        <option value="low">منخفضة</option>
+      </select>
+    </div>
+
+    <!-- Prefs Panel -->
+    <div class="prefs-panel" id="prefs-panel">
+      <div class="prefs-title">⚙️ إعدادات التشغيل</div>
+      <div class="prefs-grid">
+        <div class="pref-item">
+          <label>استئناف تلقائي عند الاتصال</label>
+          <div class="pref-toggle">
+            <span>يستأنف البث تلقائياً عند عودة الإنترنت</span>
+            <button class="toggle-sm on" id="toggle-auto-resume" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+        <div class="pref-item">
+          <label>إعادة الاتصال التلقائي</label>
+          <div class="pref-toggle">
+            <span>إعادة الاتصال تلقائياً عند الانقطاع</span>
+            <button class="toggle-sm on" id="toggle-reconnect" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+        <div class="pref-item">
+          <label>آخر إذاعة مستمعة</label>
+          <div class="pref-toggle">
+            <span>استئناف الإذاعة السابقة عند الفتح</span>
+            <button class="toggle-sm" id="toggle-last" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+        <div class="pref-item">
+          <label>مستوى الصوت الافتراضي</label>
+          <input type="range" id="default-vol" min="0" max="100" value="80"
+            style="width:100%;margin-top:8px"
+            oninput="document.getElementById('default-vol-val').textContent=this.value+'%'">
+          <span id="default-vol-val" style="font-size:11px;color:var(--green-deep);font-weight:700">80%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+      <button class="ftab active" onclick="setTab(this,'all')">🌍 الكل</button>
+      <button class="ftab" onclick="setTab(this,'quran')">📜 تلاوات القرّاء</button>
+      <button class="ftab" onclick="setTab(this,'egypt')">🇪🇬 مصر</button>
+      <button class="ftab" onclick="setTab(this,'saudi')">🇸🇦 السعودية</button>
+      <button class="ftab" onclick="setTab(this,'varied')">✨ متخصصة</button>
+      <button class="ftab" onclick="setTab(this,'favorites')">⭐ المفضلة</button>
+    </div>
+
+    <!-- Stations Grid -->
+    <div class="stations-grid" id="stations-grid"></div>
+
+    <!-- Empty Favorites -->
+    <div id="fav-empty" style="display:none">
+      <div class="empty-state">
+        <div class="empty-ico">⭐</div>
+        <p>لا توجد إذاعات مفضلة بعد</p>
+        <small>اضغط على ★ في أي إذاعة لإضافتها للمفضلة</small>
+      </div>
+    </div>
+
+  </main>
+</div><!-- /app -->
+
+<!-- ═══════════════ BOTTOM BAR ═══════════════ -->
+<div class="bottom-bar" id="bottom-bar">
+  <div class="bb-left">
+    <div class="bb-logo" id="bb-logo">📻</div>
+    <div class="bb-info">
+      <div class="bb-name" id="bb-name">لا يوجد بث</div>
+      <div class="bb-status" id="bb-status">اختر إذاعة للبدء</div>
+    </div>
+  </div>
+  <div class="eq paused" id="bb-eq">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="bb-controls">
+    <button class="bb-btn" id="bb-prev" onclick="prevStation()">⏮</button>
+    <button class="bb-btn bb-play" id="bb-play-btn" onclick="togglePlay()">▶</button>
+    <button class="bb-btn" id="bb-next" onclick="nextStation()">⏭</button>
+    <div style="display:flex;align-items:center;gap:5px">
+      <span style="font-size:13px;color:var(--muted)">🔊</span>
+      <input type="range" id="bb-vol-slider" min="0" max="100" value="80"
+        style="width:65px" oninput="setVolume(this.value)">
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SLEEP TIMER MODAL ═══════════════ -->
+<div class="modal-overlay" id="sleep-modal">
+  <div class="modal">
+    <div class="modal-title">⏱ مؤقت النوم</div>
+    <div class="modal-sub">سيتوقف التشغيل تلقائياً بعد:</div>
+    <div class="timer-btns">
+      <button class="timer-btn" onclick="setSleepTimer(15,this)">15 دقيقة</button>
+      <button class="timer-btn" onclick="setSleepTimer(30,this)">30 دقيقة</button>
+      <button class="timer-btn" onclick="setSleepTimer(45,this)">45 دقيقة</button>
+      <button class="timer-btn" onclick="setSleepTimer(60,this)">ساعة</button>
+      <button class="timer-btn" onclick="setSleepTimer(90,this)">ساعة ونصف</button>
+      <button class="timer-btn" onclick="setSleepTimer(120,this)">ساعتان</button>
+    </div>
+    <div class="timer-status" id="timer-status"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="cancelSleep()">إلغاء المؤقت</button>
+      <button class="btn btn-primary" onclick="closeSleepModal()">تم</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Hidden audio element -->
+<audio id="player" preload="none"></audio>
+
+<!-- ═══════════════ JAVASCRIPT ═══════════════ -->
+<script>
+/* ════════════════════════════════════════
+   STATIONS DATA
+════════════════════════════════════════ */
+/*
+ * كل إذاعة لها مصفوفة urls[] — يجرب المشغّل الأول فإن فشل ينتقل للتالي تلقائياً
+ * المصادر المعتمدة: radiojar.com · zeno.fm · snrtlive.ma · islamicity.org
+ */
+const STATIONS = [
+  // ─── إذاعات رسمية / متنوعة ────────────────────────────────────────────
+  {
+    id:1, name:'إذاعة القرآن الكريم المصرية', country:'مصر', flag:'🇪🇬', cat:'egypt',
+    icon:'🕌', quality:'HQ',
+    desc:'الإذاعة الرسمية للقرآن الكريم من القاهرة — بث متواصل تعلوه تلاوات كبار المشايخ',
+    urls:[
+      'https://stream.radiojar.com/8s5u5tpdtwzuv',
+      'https://n0d.radiojar.com/quranfm.aac',
+      'https://stream.zeno.fm/GPhDTR',
+      'https://qurango.net/radio/mix',
+    ],
+    logoBg:'linear-gradient(135deg,#0e3b2e,#1f5e4b)'
+  },
+  {
+    id:2, name:'إذاعة تلاوات خاشعة منوّعة', country:'متنوع', flag:'🌍', cat:'varied',
+    icon:'🎙️', quality:'HQ',
+    desc:'تلاوات مرتّلة منتقاة لأشهر القراء على مدار الساعة',
+    urls:[
+      'https://qurango.net/radio/tarateel',
+      'https://backup.qurango.net/radio/tarateel',
+      'https://stream.zeno.fm/fn3uwrm0h3zuv',
+    ],
+    logoBg:'linear-gradient(135deg,#1f5e4b,#2a7a5e)'
+  },
+  {
+    id:3, name:'إذاعة القرآن الكريم السعودية', country:'السعودية', flag:'🇸🇦', cat:'saudi',
+    icon:'🕋', quality:'HQ',
+    desc:'البث الرسمي لإذاعة القرآن الكريم من المملكة العربية السعودية',
+    urls:[
+      'https://stream.radiojar.com/quran.mp3',
+      'https://qurango.net/radio/mix',
+      'https://backup.qurango.net/radio/mix',
+    ],
+    logoBg:'linear-gradient(135deg,#006c35,#004d26)'
+  },
+  // ─── المصاحف المرتّلة ─────────────────────────────────────────────────
+  {
+    id:4, name:'المصحف المرتّل — عبد الباسط عبد الصمد', country:'مصر', flag:'🇪🇬', cat:'quran',
+    icon:'📜', quality:'HQ',
+    desc:'تلاوة عطرة مرتّلة لجميع سور القرآن الكريم بصوت الشيخ عبد الباسط',
+    urls:[
+      'https://qurango.net/radio/abdulbasit_abdulsamad_mojawwad',
+      'https://backup.qurango.net/radio/abdulbasit_abdulsamad_mojawwad',
+    ],
+    logoBg:'linear-gradient(135deg,#0e3b2e,#1f5e4b)'
+  },
+  {
+    id:5, name:'المصحف المرتّل — محمد صديق المنشاوي', country:'مصر', flag:'🇪🇬', cat:'quran',
+    icon:'🎙️', quality:'HQ',
+    desc:'القرآن الكريم كاملاً برواية حفص عن عاصم بصوت الشيخ المنشاوي',
+    urls:[
+      'https://qurango.net/radio/mohammed_siddiq_alminshawi',
+      'https://backup.qurango.net/radio/mohammed_siddiq_alminshawi',
+    ],
+    logoBg:'linear-gradient(135deg,#1f5e4b,#2a7a5e)'
+  },
+  {
+    id:6, name:'المصحف المرتّل — محمود خليل الحصري', country:'مصر', flag:'🇪🇬', cat:'quran',
+    icon:'📖', quality:'HQ',
+    desc:'التلاوة المتقنة المجوّدة لشيخ عموم المقارئ المصرية الشيخ الحصري',
+    urls:[
+      'https://qurango.net/radio/mahmoud_khalil_alhussary',
+      'https://backup.qurango.net/radio/mahmoud_khalil_alhussary',
+    ],
+    logoBg:'linear-gradient(135deg,#0e3b2e,#1a5d47)'
+  },
+  {
+    id:7, name:'المصحف المرتّل — ماهر المعيقلي', country:'السعودية', flag:'🇸🇦', cat:'quran',
+    icon:'🕋', quality:'HQ',
+    desc:'تلاوات خاشعة من الحرم المكي بصوت الشيخ ماهر المعيقلي',
+    urls:[
+      'https://qurango.net/radio/maher_almuaiqly',
+      'https://backup.qurango.net/radio/maher_almuaiqly',
+    ],
+    logoBg:'linear-gradient(135deg,#006c35,#004d26)'
+  },
+  {
+    id:8, name:'المصحف المرتّل — مشاري العفاسي', country:'الكويت', flag:'🇰🇼', cat:'quran',
+    icon:'🎧', quality:'HQ',
+    desc:'القرآن الكريم كاملاً بصوت الشيخ مشاري بن راشد العفاسي',
+    urls:[
+      'https://qurango.net/radio/mishary_rashid_alafasy',
+      'https://backup.qurango.net/radio/mishary_rashid_alafasy',
+      'https://n0d.radiojar.com/kuwait-quran.aac',
+    ],
+    logoBg:'linear-gradient(135deg,#007a3d,#005228)'
+  },
+  {
+    id:9, name:'المصحف المرتّل — سعد الغامدي', country:'السعودية', flag:'🇸🇦', cat:'quran',
+    icon:'📚', quality:'HQ',
+    desc:'تلاوات خاشعة كاملة بصوت الشيخ سعد الغامدي',
+    urls:[
+      'https://qurango.net/radio/saad_alghamidi',
+      'https://backup.qurango.net/radio/saad_alghamidi',
+    ],
+    logoBg:'linear-gradient(135deg,#006c35,#004d26)'
+  },
+  {
+    id:10, name:'المصحف المرتّل — أحمد العجمي', country:'السعودية', flag:'🇸🇦', cat:'quran',
+    icon:'🎵', quality:'HQ',
+    desc:'القرآن الكريم كاملاً بصوت الشيخ أحمد بن علي العجمي',
+    urls:[
+      'https://qurango.net/radio/ahmad_alajmy',
+      'https://backup.qurango.net/radio/ahmad_alajmy',
+    ],
+    logoBg:'linear-gradient(135deg,#0e3b2e,#1f5e4b)'
+  },
+  {
+    id:11, name:'المصحف المرتّل — عبد الرحمن السديس', country:'السعودية', flag:'🇸🇦', cat:'quran',
+    icon:'🕋', quality:'HQ',
+    desc:'تلاوات إمام الحرم المكي الشيخ عبد الرحمن السديس',
+    urls:[
+      'https://qurango.net/radio/abdulrahman_alsudaes',
+      'https://backup.qurango.net/radio/abdulrahman_alsudaes',
+    ],
+    logoBg:'linear-gradient(135deg,#006c35,#004d26)'
+  },
+  {
+    id:12, name:'المصحف المرتّل — سعود الشريم', country:'السعودية', flag:'🇸🇦', cat:'quran',
+    icon:'📖', quality:'HQ',
+    desc:'تلاوات إمام الحرم المكي الشيخ سعود الشريم',
+    urls:[
+      'https://qurango.net/radio/saud_alshuraim',
+      'https://backup.qurango.net/radio/saud_alshuraim',
+    ],
+    logoBg:'linear-gradient(135deg,#1f5e4b,#2a7a5e)'
+  },
+  {
+    id:13, name:'المصحف المرتّل — ياسر الدوسري', country:'السعودية', flag:'🇸🇦', cat:'quran',
+    icon:'🎙️', quality:'HQ',
+    desc:'تلاوات خاشعة بصوت الشيخ ياسر الدوسري إمام الحرم المكي',
+    urls:[
+      'https://qurango.net/radio/yasser_aldosari',
+      'https://backup.qurango.net/radio/yasser_aldosari',
+    ],
+    logoBg:'linear-gradient(135deg,#006c35,#004d26)'
+  },
+  {
+    id:14, name:'المصحف المرتّل — أبو بكر الشاطري', country:'السعودية', flag:'🇸🇦', cat:'quran',
+    icon:'📿', quality:'HQ',
+    desc:'القرآن الكريم كاملاً بصوت الشيخ أبو بكر الشاطري',
+    urls:[
+      'https://qurango.net/radio/abu_bakr_alshatri',
+      'https://backup.qurango.net/radio/abu_bakr_alshatri',
+    ],
+    logoBg:'linear-gradient(135deg,#0e3b2e,#1a5d47)'
+  },
+  // ─── إذاعات متخصصة ────────────────────────────────────────────────────
+  {
+    id:15, name:'إذاعة تفسير القرآن الكريم', country:'متنوع', flag:'🌍', cat:'varied',
+    icon:'💡', quality:'HQ',
+    desc:'تفسير وخواطر حول آيات الذكر الحكيم على مدار الساعة',
+    urls:[
+      'https://qurango.net/radio/tafser',
+      'https://backup.qurango.net/radio/tafser',
+    ],
+    logoBg:'linear-gradient(135deg,#8b6914,#c9a14a)'
+  },
+  {
+    id:16, name:'إذاعة الرقية الشرعية', country:'متنوع', flag:'🌍', cat:'varied',
+    icon:'🛡️', quality:'HQ',
+    desc:'آيات الرقية الشرعية والأدعية المأثورة على مدار الساعة',
+    urls:[
+      'https://qurango.net/radio/roqiah',
+      'https://backup.qurango.net/radio/roqiah',
+    ],
+    logoBg:'linear-gradient(135deg,#1f5e4b,#0e3b2e)'
+  },
+  {
+    id:17, name:'إذاعة أذكار وتكبيرات', country:'متنوع', flag:'🌍', cat:'varied',
+    icon:'🌙', quality:'HQ',
+    desc:'أذكار الصباح والمساء وتكبيرات العيد على مدار الساعة',
+    urls:[
+      'https://qurango.net/radio/azkar',
+      'https://backup.qurango.net/radio/azkar',
+      'https://backup.qurango.net/radio/eid',
+    ],
+    logoBg:'linear-gradient(135deg,#2a7a5e,#1f5e4b)'
+  },
+];
+
+/* ════════════════════════════════════════
+   STATE
+════════════════════════════════════════ */
+let current        = null;   // current station object
+let currentUrlIdx  = 0;      // which URL in station.urls[] we're trying
+let isPlaying      = false;
+let currentTab     = 'all';
+let searchQuery    = '';
+let favorites      = JSON.parse(localStorage.getItem('zad_radio_favs') || '[]');
+let sleepTimer     = null;
+let sleepEnd       = null;
+let sleepInterval  = null;
+let reconnectCount = 0;
+let reconnectTimer = null;
+let visInterval    = null;
+
+const audio = document.getElementById('player');
+
+/* Backward-compat: convert .url → .urls[] if needed */
+STATIONS.forEach(s => { if (!s.urls) s.urls = [s.url].filter(Boolean); });
+
+/* ════════════════════════════════════════
+   THEME
+════════════════════════════════════════ */
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme') || 'light';
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  try {
+    const saved = JSON.parse(localStorage.getItem('zad_v2') || '{}');
+    saved.theme = next;
+    localStorage.setItem('zad_v2', JSON.stringify(saved));
+  } catch(e) {
+    localStorage.setItem('zad_theme', next);
+  }
+  const sw = document.getElementById('dark-switch');
+  if (sw) sw.checked = next === 'dark';
+}
+
+/* Sync dark-switch checkbox on load */
+(function(){
+  const t = document.documentElement.getAttribute('data-theme');
+  const sw = document.getElementById('dark-switch');
+  if (sw && t === 'dark') sw.checked = true;
+})();
+
+/* ════════════════════════════════════════
+   SIDEBAR
+════════════════════════════════════════ */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+}
+
+/* ════════════════════════════════════════
+   PLAYBACK — multi-URL fallback engine
+════════════════════════════════════════ */
+function playStation(station) {
+  // Toggle pause if same station already playing
+  if (current?.id === station.id && isPlaying) { pauseAudio(); return; }
+  current       = station;
+  currentUrlIdx = 0;      // always start from first URL
+  reconnectCount = 0;
+  clearRetry();
+  // Hide any previous error banner
+  document.getElementById('stream-error-banner')?.classList.remove('show');
+  loadAndPlay();
+  updateUI();
+}
+
+function currentStreamUrl() {
+  return current?.urls?.[currentUrlIdx] || null;
+}
+
+function loadAndPlay() {
+  if (!current) return;
+  const url = currentStreamUrl();
+  if (!url) { showStreamError(); return; }
+
+  const urlNum = currentUrlIdx + 1;
+  const total  = current.urls.length;
+  setStatus(`جارٍ الاتصال… (مصدر ${urlNum}/${total})`);
+
+  audio.src    = url;
+  audio.volume = getVolume();
+  audio.load();
+
+  audio.play().then(() => {
+    isPlaying = true;
+    reconnectCount = 0;
+    setStatus('بث مباشر 🔴');
+    updatePlayBtns(true);
+    startVisualizer();
+    saveLastStation();
+    updateMediaSession();
+  }).catch(err => {
+    console.warn(`Stream ${urlNum}/${total} failed:`, url, err.message || err);
+    tryNextUrl();
+  });
+}
+
+function tryNextUrl() {
+  // Try next URL in the list, then show error if all exhausted
+  currentUrlIdx++;
+  if (currentUrlIdx < current.urls.length) {
+    setStatus(`مصدر البث غير متاح — يجرب بديلاً… (${currentUrlIdx + 1}/${current.urls.length})`);
+    setTimeout(loadAndPlay, 800);
+  } else {
+    showStreamError();
+  }
+}
+
+function showStreamError() {
+  isPlaying = false;
+  updatePlayBtns(false);
+  stopVisualizer();
+
+  const url = current?.urls?.[0] || '';
+
+  // Update now-playing status
+  if (current) setStatus('البث غير متاح حالياً');
+  document.getElementById('bb-status').textContent = 'البث غير متاح — جرّب إذاعة أخرى';
+
+  // Show error banner
+  const banner  = document.getElementById('stream-error-banner');
+  const msgEl   = document.getElementById('stream-error-msg');
+  const linkEl  = document.getElementById('stream-open-link');
+  if (banner) {
+    msgEl.textContent = `⚠️ جميع مصادر "${current?.name || 'الإذاعة'}" غير متاحة حالياً`;
+    if (url && linkEl) { linkEl.href = url; linkEl.style.display = 'inline'; }
+    banner.classList.add('show');
+  }
+  showToast('⚠️ تعذّر الاتصال — جرّب إذاعة أخرى');
+}
+
+function retryCurrentStation() {
+  if (!current) return;
+  document.getElementById('stream-error-banner')?.classList.remove('show');
+  currentUrlIdx  = 0;
+  reconnectCount = 0;
+  loadAndPlay();
+}
+
+function pauseAudio() {
+  audio.pause();
+  isPlaying = false;
+  updatePlayBtns(false);
+  stopVisualizer();
+  setStatus('متوقف مؤقتاً');
+}
+
+function togglePlay() {
+  if (!current) { showToast('اختر إذاعة أولاً'); return; }
+  if (isPlaying) {
+    pauseAudio();
+  } else {
+    // Try to resume; if it fails restart from first URL
+    audio.play().then(() => {
+      isPlaying = true;
+      updatePlayBtns(true);
+      startVisualizer();
+      setStatus('بث مباشر 🔴');
+      updateMediaSession();
+    }).catch(() => {
+      currentUrlIdx = 0;
+      reconnectCount = 0;
+      loadAndPlay();
+    });
+  }
+}
+
+function clearRetry() {
+  clearTimeout(reconnectTimer);
+  reconnectTimer = null;
+}
+
+function filteredStations() {
+  let list = STATIONS;
+  if (currentTab === 'favorites') list = list.filter(s => favorites.includes(s.id));
+  else if (currentTab !== 'all')  list = list.filter(s => s.cat === currentTab);
+  if (searchQuery) list = list.filter(s =>
+    s.name.includes(searchQuery) || s.country.includes(searchQuery) || s.desc.includes(searchQuery)
+  );
+  return list;
+}
+
+function prevStation() {
+  const list = filteredStations();
+  if (!list.length) return;
+  const idx = current ? list.findIndex(s => s.id === current.id) : 0;
+  playStation(list[(idx - 1 + list.length) % list.length]);
+}
+function nextStation() {
+  const list = filteredStations();
+  if (!list.length) return;
+  const idx = current ? list.findIndex(s => s.id === current.id) : -1;
+  playStation(list[(idx + 1) % list.length]);
+}
+
+/* ════════════════════════════════════════
+   AUDIO EVENT HANDLERS
+════════════════════════════════════════ */
+audio.addEventListener('error', (e) => {
+  if (!current) return;
+  const code = audio.error?.code;
+  console.warn('Audio error code', code, 'on URL', currentStreamUrl());
+  isPlaying = false;
+  updatePlayBtns(false);
+  stopVisualizer();
+  // MEDIA_ERR_SRC_NOT_SUPPORTED (4) or MEDIA_ERR_NETWORK (2) → try next URL
+  tryNextUrl();
+});
+
+audio.addEventListener('stalled',  () => {
+  if (current) setStatus('انتظار البيانات…');
+});
+audio.addEventListener('waiting',  () => {
+  if (current) setStatus('جارٍ التحميل…');
+});
+audio.addEventListener('playing',  () => {
+  setStatus('بث مباشر 🔴');
+  isPlaying = true;
+  updatePlayBtns(true);
+  startVisualizer();
+  reconnectCount = 0;
+});
+
+/* ════════════════════════════════════════
+   VOLUME
+════════════════════════════════════════ */
+function getVolume() { return (document.getElementById('vol-slider')?.value || 80) / 100; }
+function setVolume(v) {
+  audio.volume = v / 100;
+  ['vol-slider','bb-vol-slider'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.value = v; el.style.setProperty('--val', v + '%'); }
+  });
+}
+setVolume(80);
+
+/* ════════════════════════════════════════
+   UI UPDATES
+════════════════════════════════════════ */
+function updateUI() {
+  if (!current) return;
+  document.getElementById('np-name').textContent    = current.name;
+  document.getElementById('np-country').textContent = current.flag + ' ' + current.country;
+  document.getElementById('np-disk').textContent    = current.icon;
+  document.getElementById('np-disk').style.background = current.logoBg;
+  document.getElementById('bb-logo').textContent    = current.icon;
+  document.getElementById('bb-logo').style.background = current.logoBg;
+  document.getElementById('bb-name').textContent    = current.name;
+  renderGrid();
+}
+
+function updatePlayBtns(playing) {
+  const sym = playing ? '⏸' : '▶';
+  document.getElementById('main-play-btn').textContent = sym;
+  document.getElementById('bb-play-btn').textContent   = sym;
+  document.getElementById('np-disk').classList.toggle('spinning', playing);
+  document.getElementById('bb-eq').classList.toggle('paused', !playing);
+  const liveDot = document.getElementById('live-dot');
+  if (liveDot) liveDot.style.display = playing ? 'inline-block' : 'none';
+}
+
+function setStatus(txt) {
+  if (current) {
+    document.getElementById('np-country').textContent = current.flag + ' ' + current.country + ' — ' + txt;
+  }
+  document.getElementById('bb-status').textContent = txt;
+}
+
+/* ════════════════════════════════════════
+   RENDER GRID
+════════════════════════════════════════ */
+function renderGrid() {
+  const list = filteredStations();
+  const grid = document.getElementById('stations-grid');
+  const empty = document.getElementById('fav-empty');
+
+  if (currentTab === 'favorites' && list.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = list.map((s, i) => {
+    const isActive = current?.id === s.id;
+    const isFav    = favorites.includes(s.id);
+    return `
+    <div class="station-card ${isActive ? 'active' : ''}"
+         style="animation:fade-up .3s ease ${i * 45}ms both"
+         onclick="playStation(STATIONS.find(x=>x.id===${s.id}))">
+      <div class="card-top">
+        <div class="station-logo" style="background:${s.logoBg}">${s.icon}</div>
+        <div class="station-meta">
+          <div class="station-name">${s.name}</div>
+          <div class="station-sub">
+            <span class="dot-live"></span>
+            <span>${s.flag} ${s.country}</span>
+          </div>
+        </div>
+      </div>
+      <div class="station-desc">${s.desc}</div>
+      <div class="card-footer">
+        <span class="quality-badge">${s.quality}</span>
+        <div class="card-actions">
+          <button class="fav-btn ${isFav ? 'active' : ''}"
+            onclick="event.stopPropagation();toggleFav(${s.id})"
+            title="${isFav ? 'إزالة من المفضلة' : 'أضف للمفضلة'}">${isFav ? '★' : '☆'}</button>
+          <button class="play-card-btn"
+            onclick="event.stopPropagation();playStation(STATIONS.find(x=>x.id===${s.id}))"
+          >${isActive && isPlaying ? '⏸' : '▶'}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ════════════════════════════════════════
+   TABS & SEARCH
+════════════════════════════════════════ */
+function setTab(btn, tab) {
+  currentTab = tab;
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+function filterStations(q) {
+  searchQuery = q.trim();
+  renderGrid();
+}
+
+/* ════════════════════════════════════════
+   FAVORITES
+════════════════════════════════════════ */
+function toggleFav(id) {
+  if (favorites.includes(id)) {
+    favorites = favorites.filter(x => x !== id);
+    showToast('تمت الإزالة من المفضلة');
+  } else {
+    favorites.push(id);
+    showToast('✅ تمت الإضافة للمفضلة');
+  }
+  localStorage.setItem('zad_radio_favs', JSON.stringify(favorites));
+  renderGrid();
+}
+
+/* ════════════════════════════════════════
+   SLEEP TIMER
+════════════════════════════════════════ */
+function setSleepTimer(minutes, btn) {
+  document.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  sleepEnd = Date.now() + minutes * 60000;
+  clearInterval(sleepInterval);
+  clearTimeout(sleepTimer);
+
+  sleepTimer = setTimeout(() => {
+    pauseAudio();
+    showToast('⏱ انتهى المؤقت — تم إيقاف التشغيل');
+    document.getElementById('sleep-pill').classList.remove('on');
+    clearInterval(sleepInterval);
+  }, minutes * 60000);
+
+  document.getElementById('sleep-pill').classList.add('on');
+  sleepInterval = setInterval(() => {
+    const rem = Math.max(0, sleepEnd - Date.now());
+    const m = Math.floor(rem / 60000);
+    const s = Math.floor((rem % 60000) / 1000);
+    document.getElementById('sleep-txt').textContent = `${m}:${s.toString().padStart(2, '0')}`;
+    if (rem <= 0) clearInterval(sleepInterval);
+  }, 1000);
+  document.getElementById('timer-status').textContent = `⏱ سيتوقف التشغيل بعد ${minutes} دقيقة`;
+}
+
+function cancelSleep() {
+  clearTimeout(sleepTimer);
+  clearInterval(sleepInterval);
+  sleepTimer = null;
+  document.getElementById('sleep-pill').classList.remove('on');
+  document.getElementById('timer-status').textContent = 'تم إلغاء المؤقت';
+  document.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active'));
+}
+
+function openSleepModal()  { document.getElementById('sleep-modal').classList.add('open'); }
+function closeSleepModal() { document.getElementById('sleep-modal').classList.remove('open'); }
+document.getElementById('sleep-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('sleep-modal')) closeSleepModal();
+});
+
+/* ════════════════════════════════════════
+   PREFS PANEL
+════════════════════════════════════════ */
+function togglePrefs() {
+  document.getElementById('prefs-panel').classList.toggle('open');
+}
+
+/* ════════════════════════════════════════
+   QUALITY CHANGE
+════════════════════════════════════════ */
+function changeQuality(q) {
+  const labels = { high:'عالية', medium:'متوسطة', low:'منخفضة' };
+  showToast(`جودة البث: ${labels[q] || q}`);
+}
+
+/* ════════════════════════════════════════
+   VISUALIZER
+════════════════════════════════════════ */
+function startVisualizer() {
+  const vis = document.getElementById('visualizer');
+  vis.classList.remove('paused');
+  if (visInterval) return;
+  visInterval = setInterval(() => {
+    vis.querySelectorAll('.vis-bar').forEach(bar => {
+      bar.style.height = (Math.random() * 22 + 4) + 'px';
+    });
+  }, 110);
+}
+function stopVisualizer() {
+  clearInterval(visInterval);
+  visInterval = null;
+  document.getElementById('visualizer').classList.add('paused');
+}
+
+/* ════════════════════════════════════════
+   TOAST
+════════════════════════════════════════ */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* ════════════════════════════════════════
+   MEDIA SESSION API
+════════════════════════════════════════ */
+function updateMediaSession() {
+  if (!('mediaSession' in navigator) || !current) return;
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title:  current.name,
+    artist: current.flag + ' ' + current.country,
+    album:  'إذاعات القرآن الكريم — زاد العشر',
+    artwork: [{ src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Quran_icon.png/512px-Quran_icon.png', sizes: '512x512', type: 'image/png' }]
+  });
+  navigator.mediaSession.setActionHandler('play',          () => { audio.play(); isPlaying=true; updatePlayBtns(true); });
+  navigator.mediaSession.setActionHandler('pause',         () => { pauseAudio(); });
+  navigator.mediaSession.setActionHandler('previoustrack', () => prevStation());
+  navigator.mediaSession.setActionHandler('nexttrack',     () => nextStation());
+}
+
+/* ════════════════════════════════════════
+   LAST STATION PERSISTENCE
+════════════════════════════════════════ */
+function saveLastStation() {
+  if (current) localStorage.setItem('zad_radio_last', current.id);
+}
+function restoreLastStation() {
+  const toggle = document.getElementById('toggle-last');
+  if (!toggle?.classList.contains('on')) return;
+  const id = parseInt(localStorage.getItem('zad_radio_last'));
+  if (id) {
+    const s = STATIONS.find(x => x.id === id);
+    if (s) { current = s; updateUI(); }
+  }
+}
+
+/* ════════════════════════════════════════
+   NETWORK EVENTS
+════════════════════════════════════════ */
+window.addEventListener('online', () => {
+  const should = document.getElementById('toggle-auto-resume')?.classList.contains('on');
+  if (should && current && !isPlaying) {
+    showToast('📶 عادت الشبكة — يُستأنف البث…');
+    currentUrlIdx  = 0;
+    reconnectCount = 0;
+    setTimeout(loadAndPlay, 1500);
+  }
+});
+window.addEventListener('offline', () => {
+  isPlaying = false;
+  updatePlayBtns(false);
+  stopVisualizer();
+  clearRetry();
+  if (current) setStatus('لا يوجد اتصال بالإنترنت');
+  showToast('📵 انقطع الإنترنت');
+});
+
+/* ════════════════════════════════════════
+   INIT
+════════════════════════════════════════ */
+document.getElementById('stat-total').textContent = STATIONS.length;
+renderGrid();
+restoreLastStation();
+
+/* ════════════════════════════════════════
+   SELF-VALIDATION — فحص ذاتي لكل إذاعة
+   يختبر أول رابط لكل محطة بصمت، ويعلّم المتعذّرة
+════════════════════════════════════════ */
+(function validateStations(){
+  /* لا نفحص إلا مرة كل 6 ساعات (تخزين النتيجة) */
+  var CACHE_KEY = 'zad_radio_health';
+  var cached = {};
+  try { cached = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}'); } catch(e){}
+  var now = Date.now();
+  if (cached.ts && (now - cached.ts) < 6*3600*1000 && cached.health) {
+    applyHealth(cached.health);
+    return;
+  }
+  var health = {};
+  var pending = STATIONS.length;
+  STATIONS.forEach(function(st){
+    var url = st.urls && st.urls[0];
+    if (!url) { health[st.id] = false; if(--pending===0) finish(); return; }
+    var a = new Audio();
+    a.muted = true;
+    a.preload = 'metadata';
+    var done = false;
+    var timer = setTimeout(function(){
+      if (done) return; done = true;
+      health[st.id] = false;   /* لم يستجب خلال 8 ثوانٍ */
+      cleanup(); if(--pending===0) finish();
+    }, 8000);
+    function cleanup(){ try{ a.src=''; a.load(); }catch(e){} }
+    a.addEventListener('loadedmetadata', ok);
+    a.addEventListener('canplay', ok);
+    a.addEventListener('playing', ok);
+    a.addEventListener('error', bad);
+    function ok(){ if(done) return; done=true; clearTimeout(timer); health[st.id]=true; cleanup(); if(--pending===0) finish(); }
+    function bad(){ if(done) return; done=true; clearTimeout(timer); health[st.id]=false; cleanup(); if(--pending===0) finish(); }
+    try { a.src = url; a.load(); } catch(e){ bad(); }
+  });
+  function finish(){
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ts:now, health:health})); } catch(e){}
+    applyHealth(health);
+  }
+})();
+
+function applyHealth(health){
+  /* تحديث عدّاد الإذاعات المتاحة */
+  var working = Object.values(health).filter(Boolean).length;
+  var el = document.getElementById('stat-online');
+  if (el && working > 0) el.textContent = working;
+}
+</script>
+
+  <script src="menu.js" defer></script>
+</body>
+</html>

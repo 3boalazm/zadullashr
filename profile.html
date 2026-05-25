@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<title>حسابي — زاد العشر</title>
+<meta charset="UTF-8">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e3b2e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" id="google-fonts"
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
+  media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<style>
+  :root{--font-scale:1}
+  body{font-size:calc(1rem * var(--font-scale))}
+  .page-title,.section-title,h1,h2,h3,.brand-name{font-family:'Tajawal',sans-serif}
+
+  /* بطاقة الهوية */
+  .pf-hero{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:22px;
+           padding:26px 22px;color:#fff;display:flex;align-items:center;gap:16px;margin-bottom:18px;
+           position:relative;overflow:hidden}
+  .pf-hero::before{content:'🌙';position:absolute;left:-10px;bottom:-14px;font-size:90px;opacity:.1}
+  .pf-avatar{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.15);
+             display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0;
+             border:2px solid rgba(255,255,255,.3);cursor:pointer;transition:transform .2s}
+  .pf-avatar:hover{transform:scale(1.05)}
+  .pf-hero-info{flex:1;min-width:0;position:relative;z-index:1}
+  .pf-hero-name{font-size:22px;font-weight:900;margin-bottom:4px}
+  .pf-hero-meta{font-size:12px;opacity:.8}
+  .pf-edit-btn{background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:10px;
+               padding:8px 14px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;
+               position:relative;z-index:1;transition:background .2s}
+  .pf-edit-btn:hover{background:rgba(255,255,255,.28)}
+
+  /* بطاقات الإحصاء */
+  .pf-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+  .pf-stat{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 10px;text-align:center}
+  .pf-stat-num{font-size:24px;font-weight:900;color:var(--green-deep);font-family:'Tajawal',sans-serif}
+  html[data-theme="dark"] .pf-stat-num,html[data-theme="oled"] .pf-stat-num{color:var(--sys-green)}
+  .pf-stat-lbl{font-size:11px;color:var(--muted);margin-top:4px}
+
+  .pf-section{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:18px;margin-bottom:16px}
+  .pf-section-title{font-size:15px;font-weight:800;color:var(--ink);margin:0 0 14px;display:flex;align-items:center;gap:9px}
+  .pf-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)}
+  .pf-row:last-child{border-bottom:none}
+  .pf-row-label{font-size:13px;font-weight:700;color:var(--ink);display:flex;flex-direction:column;gap:2px}
+  .pf-row-label small{font-size:11px;font-weight:400;color:var(--muted)}
+  .pf-input{padding:9px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--sand);
+            color:var(--ink);font-family:inherit;font-size:13px;direction:rtl;max-width:160px}
+  html[data-theme="dark"] .pf-input,html[data-theme="oled"] .pf-input{background:var(--sand-2)}
+  .pf-input:focus{outline:none;border-color:var(--gold)}
+  .pf-select{cursor:pointer}
+
+  /* مفتاح تبديل */
+  .pf-toggle{position:relative;width:46px;height:26px;flex-shrink:0}
+  .pf-toggle input{opacity:0;width:0;height:0}
+  .pf-toggle .sl{position:absolute;inset:0;background:var(--border);border-radius:99px;transition:.25s;cursor:pointer}
+  .pf-toggle .sl::before{content:'';position:absolute;width:20px;height:20px;right:3px;top:3px;background:#fff;border-radius:50%;transition:.25s}
+  .pf-toggle input:checked + .sl{background:var(--green-deep)}
+  html[data-theme="dark"] .pf-toggle input:checked + .sl,html[data-theme="oled"] .pf-toggle input:checked + .sl{background:var(--sys-green)}
+  .pf-toggle input:checked + .sl::before{transform:translateX(-20px)}
+
+  .pf-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;
+          border-radius:13px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;border:none;transition:all .2s;width:100%}
+  .pf-btn-primary{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff}
+  .pf-btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(14,59,46,.25)}
+  .pf-btn-ghost{background:var(--sand);color:var(--ink);border:1.5px solid var(--border)}
+  .pf-btn-ghost:hover{border-color:var(--gold)}
+  html[data-theme="dark"] .pf-btn-ghost,html[data-theme="oled"] .pf-btn-ghost{background:var(--sand-2)}
+  .pf-btn-danger{background:none;color:#c0392b;border:1.5px solid rgba(192,57,43,.3)}
+  .pf-btn-danger:hover{background:rgba(192,57,43,.08)}
+
+  .pf-btn-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pf-note{font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px;
+           background:var(--sand);border-radius:10px;padding:10px 12px}
+  html[data-theme="dark"] .pf-note,html[data-theme="oled"] .pf-note{background:var(--sand-2)}
+  .pf-soon{display:inline-block;font-size:10px;font-weight:700;background:var(--gold);color:#3a2a08;
+           border-radius:99px;padding:2px 9px;margin-right:6px}
+
+  /* منتقي الأفاتار */
+  .pf-avatar-picker{display:none;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+  .pf-avatar-picker.open{display:flex}
+  .pf-av-opt{width:42px;height:42px;border-radius:50%;background:var(--sand);border:2px solid transparent;
+             display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;transition:all .15s}
+  .pf-av-opt:hover{transform:scale(1.1)}
+  .pf-av-opt.sel{border-color:var(--gold);background:var(--gold-pale)}
+
+  @media(max-width:480px){
+    .pf-stats{grid-template-columns:repeat(3,1fr)}
+    .pf-btn-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
+      <span class="slb-label">🌐 اللغة</span>
+      <span class="slb-val" id="sidebar-lang-val">EN</span>
+    </button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+      📲 تثبيت / تحميل التطبيق
+    </button>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">حسابي <span>وبياناتي</span></div></div>
+      <div class="tb-right">
+        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang?.()">EN</button>
+        <button class="btn-theme" onclick="safeToggleTheme?.()||toggleTheme?.()" aria-label="تبديل المظهر">🌙</button>
+      </div>
+    </div>
+
+    <!-- بطاقة الهوية -->
+    <div class="pf-hero">
+      <div class="pf-avatar" id="pf-avatar" onclick="toggleAvatarPicker()">🌙</div>
+      <div class="pf-hero-info">
+        <div class="pf-hero-name" id="pf-name">زائر</div>
+        <div class="pf-hero-meta" id="pf-meta">— · انضممت اليوم</div>
+      </div>
+      <button class="pf-edit-btn" onclick="document.getElementById('pf-identity').scrollIntoView({behavior:'smooth'})">✏️ تعديل</button>
+    </div>
+
+    <!-- إحصائيات سريعة -->
+    <div class="pf-stats">
+      <div class="pf-stat"><div class="pf-stat-num" id="pf-stat-day">5</div><div class="pf-stat-lbl">يوم العشر</div></div>
+      <div class="pf-stat"><div class="pf-stat-num" id="pf-stat-badges">0</div><div class="pf-stat-lbl">أوسمة</div></div>
+      <div class="pf-stat"><div class="pf-stat-num" id="pf-stat-streak">0</div><div class="pf-stat-lbl">أيام متتالية</div></div>
+    </div>
+
+    <!-- الهوية -->
+    <div class="pf-section" id="pf-identity">
+      <h2 class="pf-section-title">👤 الهوية</h2>
+      <div class="pf-row">
+        <span class="pf-row-label">الاسم <small>اختياري</small></span>
+        <input class="pf-input" id="in-name" placeholder="اسمك الكريم" oninput="onField()">
+      </div>
+      <div class="pf-row">
+        <span class="pf-row-label">الوضع</span>
+        <select class="pf-input pf-select" id="in-type" onchange="onField()">
+          <option value="adult">🧑 راشد</option>
+          <option value="child">🧒 طفل</option>
+        </select>
+      </div>
+      <div class="pf-avatar-picker" id="pf-av-picker"></div>
+    </div>
+
+    <!-- التفضيلات -->
+    <div class="pf-section">
+      <h2 class="pf-section-title">⚙️ التفضيلات</h2>
+      <div class="pf-row">
+        <span class="pf-row-label">المدينة <small>لمواقيت الصلاة</small></span>
+        <input class="pf-input" id="in-city" placeholder="مثال: القاهرة" oninput="onField()">
+      </div>
+      <div class="pf-row">
+        <span class="pf-row-label">طريقة حساب المواقيت</span>
+        <select class="pf-input pf-select" id="in-method" onchange="onField()"></select>
+      </div>
+    </div>
+
+    <!-- الأهداف اليومية -->
+    <div class="pf-section">
+      <h2 class="pf-section-title">🎯 الأهداف اليومية</h2>
+      <div class="pf-row">
+        <span class="pf-row-label">صفحات القرآن يومياً</span>
+        <input class="pf-input" id="in-goal-quran" type="number" min="1" max="60" style="max-width:90px;direction:ltr" oninput="onField()">
+      </div>
+      <div class="pf-row">
+        <span class="pf-row-label">عدد التكبير/الذكر يومياً</span>
+        <input class="pf-input" id="in-goal-dhikr" type="number" min="10" max="1000" step="10" style="max-width:90px;direction:ltr" oninput="onField()">
+      </div>
+    </div>
+
+    <!-- الإشعارات -->
+    <div class="pf-section">
+      <h2 class="pf-section-title">🔔 الإشعارات</h2>
+      <div class="pf-row">
+        <span class="pf-row-label">تذكير مواقيت الصلاة</span>
+        <label class="pf-toggle"><input type="checkbox" id="nt-prayers" onchange="onField()"><span class="sl"></span></label>
+      </div>
+      <div class="pf-row">
+        <span class="pf-row-label">تذكير الأذكار والتكبير</span>
+        <label class="pf-toggle"><input type="checkbox" id="nt-dhikr" onchange="onField()"><span class="sl"></span></label>
+      </div>
+      <div class="pf-row">
+        <span class="pf-row-label">آية اليوم</span>
+        <label class="pf-toggle"><input type="checkbox" id="nt-verse" onchange="onField()"><span class="sl"></span></label>
+      </div>
+    </div>
+
+    <!-- النسخ الاحتياطي والمزامنة (المرحلة 2 — local-first) -->
+    <div class="pf-section">
+      <h2 class="pf-section-title">☁️ النسخ الاحتياطي والمزامنة</h2>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7;margin:0 0 14px">
+        بياناتك محفوظة على جهازك فقط. لنقلها لجهاز آخر أو الاحتفاظ بنسخة آمنة،
+        صدّرها كملف ثم استوردها على الجهاز الآخر — كل ذلك بدون حساب وبدون إنترنت.
+      </p>
+      <div class="pf-btn-grid">
+        <button class="pf-btn pf-btn-primary" onclick="doExport()">⬇️ تصدير نسخة احتياطية</button>
+        <button class="pf-btn pf-btn-ghost" onclick="document.getElementById('pf-import-file').click()">⬆️ استيراد نسخة</button>
+      </div>
+      <input type="file" id="pf-import-file" accept="application/json,.json" style="display:none" onchange="doImport(this)">
+      <div class="pf-note" id="pf-sync-status">آخر نسخة احتياطية: لم تُنشأ بعد.</div>
+
+      <!-- حساب سحابي مستقبلي -->
+      <div class="pf-row" style="margin-top:14px">
+        <span class="pf-row-label">
+          <span><span class="pf-soon">قريباً</span>حساب سحابي للمزامنة التلقائية</span>
+          <small>مزامنة بياناتك تلقائياً بين أجهزتك — اختياري تماماً</small>
+        </span>
+        <label class="pf-toggle"><input type="checkbox" id="acc-enable" disabled><span class="sl"></span></label>
+      </div>
+      <div class="pf-note">
+        🔒 المزامنة السحابية ميزة اختيارية قيد التطوير ولن تكون مطلوبة أبداً —
+        التطبيق يعمل بالكامل بدون أي حساب.
+      </div>
+    </div>
+
+    <!-- منطقة الخطر -->
+    <div class="pf-section">
+      <h2 class="pf-section-title">🗑️ إعادة الضبط</h2>
+      <button class="pf-btn pf-btn-danger" onclick="doReset()">مسح جميع بياناتي من هذا الجهاز</button>
+      <div class="pf-note">سيؤدي هذا إلى حذف ملفك الشخصي وتقدمك وتفضيلاتك من هذا الجهاز فقط. لا يمكن التراجع — صدّر نسخة احتياطية أولاً.</div>
+    </div>
+  </main>
+  <a href="ai.html" class="fab-ai" aria-label="AI" style="display:none">🤖</a>
+</div>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="profile.js" defer></script>
+<script src="menu.js" defer></script>
+<script>
+function $(id){return document.getElementById(id);}
+function P(){return window.ZadProfile;}
+
+function fillMethods(){
+  const sel = $('in-method');
+  const M = P().PRAYER_METHODS;
+  sel.innerHTML = Object.entries(M).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+}
+
+function renderAvatarPicker(current){
+  const wrap = $('pf-av-picker');
+  wrap.innerHTML = P().AVATARS.map(a =>
+    `<div class="pf-av-opt ${a===current?'sel':''}" onclick="pickAvatar('${a}')">${a}</div>`
+  ).join('');
+}
+function toggleAvatarPicker(){ $('pf-av-picker').classList.toggle('open'); }
+function pickAvatar(a){
+  P().patch({ avatar: a });
+  hydrate();
+  $('pf-av-picker').classList.remove('open');
+  if(typeof showToast==='function') showToast('تم تحديث الصورة 🌙');
+}
+
+/* قراءة الحقول وحفظها (debounced) */
+let _saveT;
+function onField(){
+  clearTimeout(_saveT);
+  _saveT = setTimeout(()=>{
+    P().patch({
+      name: $('in-name').value.trim(),
+      type: $('in-type').value,
+      city: $('in-city').value.trim(),
+      prayerMethod: $('in-method').value,
+      goals: {
+        quranPages: parseInt($('in-goal-quran').value)||5,
+        dhikrCount: parseInt($('in-goal-dhikr').value)||100,
+      },
+      notifications: {
+        prayers: $('nt-prayers').checked,
+        dhikr:   $('nt-dhikr').checked,
+        dailyVerse: $('nt-verse').checked,
+      },
+    });
+    hydrateHeader();
+    if(typeof showToast==='function') showToast('💾 تم الحفظ');
+  }, 600);
+}
+
+function hydrateHeader(){
+  const p = P().getFull();
+  $('pf-avatar').textContent = p.avatar;
+  $('pf-name').textContent = p.name || 'زائر';
+  const days = Math.max(0, Math.floor((Date.now()-p.since)/86400000));
+  const joined = days===0 ? 'انضممت اليوم' : `معك منذ ${days} يوم`;
+  const typeLabel = p.type==='child' ? '🧒 طفل' : '🧑 راشد';
+  $('pf-meta').textContent = `${typeLabel} · ${joined}`;
+}
+
+function hydrate(){
+  const p = P().getFull();
+  $('in-name').value = p.name;
+  $('in-type').value = p.type;
+  $('in-city').value = p.city;
+  $('in-method').value = p.prayerMethod;
+  $('in-goal-quran').value = p.goals.quranPages;
+  $('in-goal-dhikr').value = p.goals.dhikrCount;
+  $('nt-prayers').checked = p.notifications.prayers;
+  $('nt-dhikr').checked   = p.notifications.dhikr;
+  $('nt-verse').checked   = p.notifications.dailyVerse;
+  renderAvatarPicker(p.avatar);
+  hydrateHeader();
+
+  /* الإحصائيات */
+  try {
+    if(typeof getDhulHijjahDay==='function'){
+      const d = getDhulHijjahDay();
+      if(d) $('pf-stat-day').textContent = d;
+    }
+    const st = JSON.parse(localStorage.getItem('zad_v2')||'{}');
+    if(st.badges) $('pf-stat-badges').textContent = Object.values(st.badges).filter(Boolean).length;
+    if(st.streak!=null) $('pf-stat-streak').textContent = st.streak;
+  } catch(e){}
+
+  /* حالة المزامنة */
+  if(p.account.syncedAt){
+    const dt = new Date(p.account.syncedAt);
+    $('pf-sync-status').textContent = `آخر نسخة احتياطية: ${dt.toLocaleDateString('ar-EG')} ${dt.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})}`;
+  }
+}
+
+function doExport(){
+  if(P().exportData()){
+    if(typeof showToast==='function') showToast('⬇️ تم تنزيل النسخة الاحتياطية');
+    hydrate();
+  }
+}
+function doImport(input){
+  const f = input.files && input.files[0];
+  if(!f) return;
+  P().importData(f,(ok,msg)=>{
+    if(typeof showToast==='function') showToast((ok?'✅ ':'⚠️ ')+msg);
+    if(ok) setTimeout(()=>location.reload(), 1200);
+  });
+  input.value='';
+}
+function doReset(){
+  if(confirm('هل أنت متأكد من مسح جميع بياناتك من هذا الجهاز؟\nلا يمكن التراجع عن هذا الإجراء.')){
+    P().resetAll();
+    if(typeof showToast==='function') showToast('🗑️ تم مسح البيانات');
+    setTimeout(()=>location.href='index.html', 1000);
+  }
+}
+
+window.toggleAvatarPicker=toggleAvatarPicker;
+window.pickAvatar=pickAvatar;
+window.onField=onField;
+window.doExport=doExport;
+window.doImport=doImport;
+window.doReset=doReset;
+
+/* التشغيل بعد تحميل profile.js */
+function boot(){
+  if(!window.ZadProfile){ setTimeout(boot,80); return; }
+  fillMethods();
+  hydrate();
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot);
+else boot();
+</script>
+</body>
+</html>

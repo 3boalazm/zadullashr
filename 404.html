@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e3b2e">
+<title>الصفحة غير موجودة — زاد العشر</title>
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.json">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+       padding:24px;font-family:'Tajawal','IBM Plex Sans Arabic',sans-serif;
+       background:
+         radial-gradient(circle 400px at 80% 10%, rgba(201,161,74,.14), transparent 60%),
+         radial-gradient(circle 460px at 10% 95%, rgba(42,122,95,.18), transparent 60%),
+         var(--bg, #f7f4ec);
+       color:var(--ink);position:relative;overflow:hidden}
+
+  /* فليرز متحركة في الخلفية */
+  .e-orb{position:fixed;border-radius:50%;filter:blur(40px);opacity:.5;pointer-events:none;z-index:0}
+  .e-orb.a{width:240px;height:240px;background:radial-gradient(circle,rgba(201,161,74,.5),transparent 70%);top:-40px;right:-40px;animation:eFloat1 16s ease-in-out infinite}
+  .e-orb.b{width:300px;height:300px;background:radial-gradient(circle,rgba(42,122,95,.45),transparent 70%);bottom:-60px;left:-60px;animation:eFloat2 20s ease-in-out infinite}
+  @keyframes eFloat1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-30px,40px) scale(1.15)}}
+  @keyframes eFloat2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-30px) scale(1.2)}}
+
+  .err-card{position:relative;z-index:1;max-width:460px;width:100%;text-align:center;
+            background:var(--card);border:1.5px solid var(--border);border-radius:26px;
+            padding:40px 28px;box-shadow:0 24px 64px rgba(14,59,46,.18)}
+
+  .err-num{font-family:'ThmanyahSans','Tajawal',sans-serif;font-size:84px;font-weight:900;
+           line-height:1;background:linear-gradient(135deg,var(--green-deep),var(--gold,#c9a14a));
+           -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+           margin-bottom:6px}
+  .err-ico{font-size:46px;margin-bottom:14px;animation:eBob 3s ease-in-out infinite}
+  @keyframes eBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .err-title{font-family:'ThmanyahSans','Tajawal',sans-serif;font-size:22px;font-weight:800;
+             color:var(--ink);margin:0 0 10px}
+  .err-sub{font-size:14px;color:var(--muted);line-height:1.7;margin:0 0 26px}
+
+  .err-home{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:14px;
+            background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;
+            text-decoration:none;font-size:15px;font-weight:800;font-family:inherit;
+            box-shadow:0 8px 22px rgba(14,59,46,.25);transition:transform .2s,box-shadow .2s;margin-bottom:26px}
+  .err-home:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(14,59,46,.32)}
+
+  .err-shortcuts-label{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px;
+                       display:flex;align-items:center;gap:8px;justify-content:center}
+  .err-shortcuts-label::before,.err-shortcuts-label::after{content:'';flex:1;max-width:50px;height:1px;background:var(--border)}
+
+  .err-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .err-link{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;
+            border:1.5px solid var(--border);border-radius:14px;background:var(--sand);
+            text-decoration:none;color:var(--ink);transition:all .2s}
+  .err-link:hover{border-color:var(--gold);background:var(--gold-pale);transform:translateY(-2px);
+                  box-shadow:0 6px 16px rgba(14,59,46,.1)}
+  .err-link .el-ico{font-size:24px}
+  .err-link .el-txt{font-size:11px;font-weight:700}
+  html[data-theme="dark"] .err-link,html[data-theme="oled"] .err-link{background:var(--sand-2)}
+
+  @media(max-width:420px){
+    .err-card{padding:32px 20px}
+    .err-num{font-size:68px}
+    .err-grid{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+  <span class="e-orb a" aria-hidden="true"></span>
+  <span class="e-orb b" aria-hidden="true"></span>
+
+  <div class="err-card">
+    <div class="err-ico">🧭</div>
+    <div class="err-num">404</div>
+    <h1 class="err-title">يبدو أنك ضللت الطريق</h1>
+    <p class="err-sub">الصفحة التي تبحث عنها غير موجودة أو تم نقلها.<br>لا بأس — هذه أبرز الوجهات لتعود إلى رحلتك في العشر المباركة.</p>
+
+    <a href="index.html" class="err-home">🏠 العودة للوحة التحكم</a>
+
+    <div class="err-shortcuts-label">اختصارات سريعة</div>
+    <div class="err-grid">
+      <a href="prayers.html" class="err-link"><span class="el-ico">🕌</span><span class="el-txt">مواقيت الصلاة</span></a>
+      <a href="mushaf.html" class="err-link"><span class="el-ico">📖</span><span class="el-txt">ورد العشر</span></a>
+      <a href="takbeer.html" class="err-link"><span class="el-ico">📿</span><span class="el-txt">المسبحة</span></a>
+      <a href="fadael.html" class="err-link"><span class="el-ico">✨</span><span class="el-txt">فضائل العشر</span></a>
+      <a href="arafah.html" class="err-link"><span class="el-ico">🌄</span><span class="el-txt">يوم عرفة</span></a>
+      <a href="hasad.html" class="err-link"><span class="el-ico">📊</span><span class="el-txt">حصاد العشر</span></a>
+    </div>
+  </div>
+</body>
+</html>

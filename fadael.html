@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>فضائل العشر — زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.section-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+.fadael-hero{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 55%,#c9a14a 140%);border-radius:22px;padding:36px 28px;color:#fff;position:relative;overflow:hidden;margin-bottom:28px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.fadael-hero::before{content:'';position:absolute;inset:auto -80px -100px auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.3),transparent 70%);pointer-events:none}
+.fadael-hero::after{content:'✨';position:absolute;top:20px;left:28px;font-size:64px;opacity:.12;line-height:1}
+.hero-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:3px;font-weight:700;margin-bottom:8px}
+.hero-title{font-size:32px;font-weight:900;line-height:1.2;margin-bottom:10px;font-family:'ThmanyahSans',sans-serif}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.8);line-height:1.7;max-width:500px;margin-bottom:24px}
+.hero-stats{display:flex;gap:14px;flex-wrap:wrap}
+.hstat{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:12px 18px;text-align:center;min-width:72px}
+.hstat-num{font-size:28px;font-weight:900;font-family:'ThmanyahSans',monospace;color:#e6c97a;line-height:1}
+.hstat-lbl{font-size:10px;color:rgba(255,255,255,.65);margin-top:3px}
+
+.toc-bar{position:sticky;top:0;z-index:40;background:var(--card);border-bottom:1px solid var(--border);padding:0 4px;margin:0 -4px 24px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;box-shadow:0 4px 14px -6px rgba(14,59,46,.1)}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{padding:12px 16px;border-radius:0;border:none;background:none;font-family:inherit;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;border-bottom:2.5px solid transparent;transition:all .2s}
+.toc-btn:hover{color:var(--green-deep);border-bottom-color:rgba(14,59,46,.3)}
+.toc-btn.active{color:var(--green-deep);border-bottom-color:var(--gold)}
+html[data-theme="dark"] .toc-btn.active,html[data-theme="oled"] .toc-btn.active{color:var(--sys-green);border-bottom-color:var(--sys-yellow)}
+
+.quran-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:0}
+@media(max-width:600px){.quran-cards{grid-template-columns:1fr}}
+.quran-card{background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1px solid rgba(201,161,74,.2);border-radius:18px;padding:22px;box-shadow:var(--shadow-sm);transition:all .25s}
+.quran-card:hover{transform:translateY(-3px);border-color:rgba(201,161,74,.4)}
+.qc-src{font-size:11px;font-weight:700;color:var(--gold-dark);letter-spacing:1px;margin-bottom:10px}
+.qc-ar{font-family:'Amiri',serif;font-size:20px;color:var(--green-deep);line-height:2;margin-bottom:8px}
+html[data-theme="dark"] .qc-ar,html[data-theme="oled"] .qc-ar{color:var(--sys-yellow)}
+.qc-note{font-size:12px;color:var(--muted);line-height:1.6}
+
+.hadith-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm);display:flex;gap:14px;align-items:flex-start;transition:all .2s;margin-bottom:10px}
+.hadith-card:hover{border-color:var(--gold);transform:translateX(-4px)}
+.hadith-ico{width:46px;height:46px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,var(--sand),var(--sand-2));display:flex;align-items:center;justify-content:center;font-size:22px}
+.hadith-body{flex:1;min-width:0}
+.hadith-txt{font-family:'Amiri',serif;font-size:17px;color:var(--green-deep);line-height:2;margin-bottom:8px}
+html[data-theme="dark"] .hadith-txt,html[data-theme="oled"] .hadith-txt{color:var(--sys-yellow)}
+.hadith-src{display:inline-block;background:var(--sand);color:var(--muted);font-size:11px;font-weight:700;padding:3px 12px;border-radius:99px}
+
+.features-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:0}
+@media(max-width:480px){.features-grid{grid-template-columns:1fr}}
+.feat-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px;display:flex;gap:12px;align-items:flex-start;transition:all .2s}
+.feat-card:hover{border-color:var(--green-soft);background:var(--green-pale)}
+html[data-theme="dark"] .feat-card:hover,html[data-theme="oled"] .feat-card:hover{background:rgba(77,216,102,.06)}
+.feat-ico{font-size:26px;flex-shrink:0;margin-top:2px}
+.feat-title{font-size:14px;font-weight:800;color:var(--green-deep);margin-bottom:4px;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .feat-title,html[data-theme="oled"] .feat-title{color:var(--sys-green)}
+.feat-desc{font-size:12px;color:var(--muted);line-height:1.6}
+
+.compare-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:0}
+@media(max-width:480px){.compare-wrap{grid-template-columns:1fr}}
+.cmp-card{border-radius:18px;padding:22px;color:#fff;text-align:center;position:relative;overflow:hidden}
+.cmp-card.day{background:linear-gradient(135deg,#b85c00,#e07820)}
+.cmp-card.night{background:linear-gradient(135deg,#1a1060,#3a2a8a)}
+.cmp-card::before{content:'';position:absolute;inset:auto -40px -60px auto;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.1);pointer-events:none}
+.cmp-emoji{font-size:40px;margin-bottom:10px;display:block}
+.cmp-title{font-size:16px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:6px}
+.cmp-desc{font-size:12px;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:12px}
+.cmp-badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:99px;padding:4px 14px;font-size:11px;font-weight:700}
+
+.dates-grid{display:flex;flex-direction:column;gap:0}
+.date-row{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border);transition:background .2s}
+.date-row:last-child{border-bottom:none}
+.date-row:hover{background:var(--sand)}
+.date-ico{font-size:24px;flex-shrink:0}
+.date-label{flex:1;font-size:14px;font-weight:600;color:var(--ink)}
+.date-val{font-size:14px;font-weight:800;color:var(--green-deep);white-space:nowrap}
+html[data-theme="dark"] .date-val,html[data-theme="oled"] .date-val{color:var(--sys-green)}
+.date-badge{font-size:10px;color:var(--muted);display:block;margin-top:2px}
+
+.accord-item{border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:8px;transition:border-color .2s}
+.accord-item.open{border-color:var(--green-soft)}
+html[data-theme="dark"] .accord-item.open,html[data-theme="oled"] .accord-item.open{border-color:var(--sys-green)}
+.accord-header{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;background:var(--card);user-select:none;transition:background .2s}
+.accord-header:hover{background:var(--green-pale)}
+html[data-theme="dark"] .accord-header:hover,html[data-theme="oled"] .accord-header:hover{background:rgba(77,216,102,.07)}
+.accord-num{width:32px;height:32px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;font-family:'ThmanyahSans',monospace}
+html[data-theme="dark"] .accord-num,html[data-theme="oled"] .accord-num{background:linear-gradient(135deg,var(--sys-green),#2eb84d);color:#001a08}
+.accord-ico{font-size:20px;flex-shrink:0}
+.accord-title{flex:1;font-size:14px;font-weight:700;color:var(--ink)}
+.accord-arrow{font-size:11px;color:var(--muted);transition:transform .3s;flex-shrink:0}
+.accord-item.open .accord-arrow{transform:rotate(180deg)}
+.accord-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.accord-item.open .accord-body{max-height:200px}
+.accord-content{padding:12px 16px 16px;font-size:13px;color:var(--muted);line-height:1.7;background:var(--sand);border-top:1px solid var(--border)}
+
+.salaf-card{background:var(--card);border:1px solid var(--border);border-right:4px solid var(--gold);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm);margin-bottom:12px;transition:all .2s}
+.salaf-card:hover{border-right-width:6px;transform:translateX(-2px)}
+.salaf-name{font-size:14px;font-weight:800;color:var(--gold-dark);margin-bottom:8px;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .salaf-name,html[data-theme="oled"] .salaf-name{color:var(--sys-yellow)}
+.salaf-quote{font-family:'Amiri',serif;font-size:18px;color:var(--green-deep);line-height:1.9;margin-bottom:6px}
+html[data-theme="dark"] .salaf-quote,html[data-theme="oled"] .salaf-quote{color:var(--sys-yellow)}
+.salaf-note{font-size:12px;color:var(--muted);line-height:1.6}
+
+.closing-banner{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:18px;padding:28px;text-align:center;color:#fff;margin-top:8px;position:relative;overflow:hidden}
+.closing-banner::before{content:"";position:absolute;inset:auto -60px -80px auto;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.25),transparent 70%);pointer-events:none}
+.closing-txt{font-family:'Amiri',serif;font-size:18px;line-height:2;color:rgba(255,255,255,.95)}
+
+/* ══ Sticky Sidebar TOC ════════════════════════════════════ */
+.fadael-layout{
+  display:grid;
+  grid-template-columns:1fr 200px;
+  gap:24px;
+  align-items:start;
+  position:relative;
+}
+@media(max-width:900px){ .fadael-layout{ grid-template-columns:1fr; } }
+
+/* Sticky sidebar */
+.toc-sidebar{
+  position:sticky;
+  top:80px;
+  align-self:start;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  max-height:calc(100vh - 100px);
+  overflow-y:auto;
+  scrollbar-width:none;
+}
+.toc-sidebar::-webkit-scrollbar{display:none}
+@media(max-width:900px){ .toc-sidebar{ display:none; } }
+
+.toc-sidebar-header{
+  padding:12px 14px;
+  background:linear-gradient(135deg,var(--green-deep),var(--green-mid));
+  color:#fff;
+  font-size:12px;font-weight:800;
+  font-family:'ThmanyahSans',sans-serif;
+  display:flex;align-items:center;gap:6px
+}
+.toc-sidebar-nav{display:flex;flex-direction:column;padding:6px}
+.toc-sidebar-btn{
+  display:flex;align-items:center;gap:9px;
+  padding:9px 12px;border-radius:10px;border:none;
+  background:none;font-family:inherit;font-size:12px;font-weight:600;
+  color:var(--muted);cursor:pointer;text-align:right;width:100%;
+  transition:all .18s;white-space:nowrap;
+  border-right:3px solid transparent;
+}
+.toc-sidebar-btn:hover{
+  background:var(--sand);color:var(--ink);
+}
+.toc-sidebar-btn.active{
+  background:rgba(14,59,46,.08);
+  color:var(--green-deep);
+  font-weight:800;
+  border-right-color:var(--green-deep);
+}
+html[data-theme="dark"] .toc-sidebar-btn.active,
+html[data-theme="oled"] .toc-sidebar-btn.active{
+  background:rgba(52,199,89,.08);
+  color:var(--sys-green);
+  border-right-color:var(--sys-green);
+}
+.toc-sidebar-ico{font-size:14px;flex-shrink:0}
+.toc-sidebar-lbl{overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+/* Progress bar in sidebar */
+.toc-progress{
+  height:3px;background:var(--border);margin:0 14px 8px;border-radius:99px;overflow:hidden
+}
+.toc-progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--green-deep),var(--gold));
+  border-radius:99px;width:0%;transition:width .3s
+}
+
+/* Hide top TOC bar on desktop since we have sidebar */
+@media(min-width:901px){
+  .toc-bar{ display:none !important; }
+}
+
+/* ══ Drop Cap ═══════════════════════════════════════════════ */
+.drop-cap::first-letter{
+  float:right;font-size:3.8em;line-height:.75;
+  font-family:'ThmanyahSans','Amiri',serif;font-weight:900;
+  color:var(--green-deep);margin-left:8px;margin-top:4px;
+  text-shadow:2px 2px 0 rgba(14,59,46,.1);
+  background:linear-gradient(135deg,var(--green-deep),var(--gold-dark));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text
+}
+html[data-theme="dark"] .drop-cap::first-letter,
+html[data-theme="oled"] .drop-cap::first-letter{
+  background:linear-gradient(135deg,var(--sys-green),var(--sys-yellow));
+  -webkit-background-clip:text;background-clip:text
+}
+
+/* ══ Inverted Pyramid Summary Block ════════════════════════ */
+.key-insight{
+  background:linear-gradient(135deg,rgba(14,59,46,.06),rgba(201,161,74,.06));
+  border:1.5px solid rgba(14,59,46,.15);border-right:4px solid var(--green-deep);
+  border-radius:12px;padding:14px 16px;margin-bottom:16px;
+  display:flex;align-items:flex-start;gap:12px
+}
+html[data-theme="dark"] .key-insight{background:rgba(52,199,89,.06);border-color:rgba(52,199,89,.2);border-right-color:var(--sys-green)}
+html[data-theme="oled"] .key-insight{background:rgba(52,199,89,.04);border-right-color:var(--sys-green)}
+.ki-ico{font-size:24px;flex-shrink:0;margin-top:1px}
+.ki-body{}
+.ki-label{font-size:10px;font-weight:800;letter-spacing:1.2px;color:var(--green-deep);text-transform:uppercase;margin-bottom:4px}
+html[data-theme="dark"] .ki-label,html[data-theme="oled"] .ki-label{color:var(--sys-green)}
+.ki-text{font-size:14px;color:var(--ink);line-height:1.65;font-weight:600}
+
+/* ══ Outcome Heading ════════════════════════════════════════ */
+.outcome-heading{
+  font-size:17px;font-weight:900;color:var(--green-deep);
+  font-family:'ThmanyahSans',sans-serif;
+  margin:22px 0 10px;line-height:1.4;
+  display:flex;align-items:flex-start;gap:8px
+}
+html[data-theme="dark"] .outcome-heading,html[data-theme="oled"] .outcome-heading{color:var(--sys-green)}
+.oh-number{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:26px;height:26px;border-radius:8px;
+  background:linear-gradient(135deg,var(--green-deep),var(--green-mid));
+  color:#fff;font-size:12px;font-weight:900;flex-shrink:0;margin-top:2px
+}
+
+/* ══ Summary / Micro-win Block ══════════════════════════════ */
+.summary-block{
+  background:linear-gradient(135deg,var(--gold-pale),rgba(201,161,74,.08));
+  border:1.5px solid rgba(201,161,74,.3);border-radius:14px;
+  padding:16px 18px;margin:20px 0 8px;
+  position:relative;overflow:hidden
+}
+.summary-block::before{
+  content:'✨';position:absolute;left:14px;top:12px;font-size:28px;opacity:.2
+}
+.sb-label{
+  font-size:10px;font-weight:800;letter-spacing:1.5px;
+  color:var(--gold-dark);text-transform:uppercase;margin-bottom:10px;
+  display:flex;align-items:center;gap:6px
+}
+html[data-theme="dark"] .sb-label,html[data-theme="oled"] .sb-label{color:var(--sys-yellow)}
+.sb-points{list-style:none;display:flex;flex-direction:column;gap:7px;margin:0;padding:0}
+.sb-points li{
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:13px;color:var(--ink);line-height:1.5;font-weight:600
+}
+.sb-points li::before{
+  content:'←';color:var(--gold-dark);flex-shrink:0;
+  font-weight:900;font-size:11px;margin-top:2px
+}
+html[data-theme="dark"] .sb-points li,html[data-theme="oled"] .sb-points li{color:rgba(255,255,255,.85)}
+
+/* ══ Outcome Section Title (replaces plain sec-title) ══════ */
+.sec-title-outcome{
+  font-size:18px;font-weight:900;color:var(--ink);
+  font-family:'ThmanyahSans',sans-serif;margin:0 0 6px;line-height:1.4
+}
+.sec-title-outcome .question-mark{color:var(--gold-dark)}
+.sec-subtitle{font-size:12px;color:var(--muted);margin-bottom:16px;font-style:italic}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<style>
+  /* ── Performance fixes — تقليل اللاج عند التمرير ── */
+  .fadael-content, .fadael-layout, .quran-cards,
+  .fadael-content .card, .outcome-heading, .quran-card {
+    contain: layout style;
+    will-change: auto;
+  }
+  /* تعطيل animations.js animations في fadael لتحسين الأداء */
+  .fadael-content [data-aos],
+  .fadael-content .animate {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  /* تحسين التمرير */
+  .main { -webkit-overflow-scrolling: touch; scroll-behavior: auto; }
+  body{font-size:calc(1rem * var(--font-scale))}
+  .quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
+  .font-size-options{display:flex;gap:8px}
+  .font-size-options .fs-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;transition:all .2s;color:var(--ink)}
+  .font-size-options .fs-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff}
+  .fs-btn[data-size="small"]  span:first-child{font-size:14px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="medium"] span:first-child{font-size:19px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="large"]  span:first-child{font-size:24px;display:block;margin-bottom:4px}
+</style>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+  <!-- Open Graph / Social Media Thumbnail -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="زاد العشر">
+  <meta property="og:url" content="https://zadullashr.vercel.app/fadael.html">
+  <meta property="og:title" content="فضائل العشر — زاد العشر">
+  <meta property="og:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+  <meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="زاد العشر — تطبيق العبادة في عشر ذي الحجة">
+  <meta property="og:locale" content="ar_SA">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="فضائل العشر — زاد العشر">
+  <meta name="twitter:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
+  <meta name="twitter:image" content="https://zadullashr.vercel.app/og-image.png">
+  <!-- WhatsApp / general -->
+  <meta name="description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+  <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function() {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <!-- Profile chip injected by JS -->
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
+      <span class="slb-label">🌐 اللغة</span>
+      <span class="slb-val" id="sidebar-lang-val">EN</span>
+    </button>
+    
+      <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+        📲 تثبيت / تحميل التطبيق
+      </button>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <div class="nav-sep">الصلاة والتقويم</div>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <div class="nav-sep">القرآن والعبادة</div>
+      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
+      <a href="takbeer.html"><span class="ico">📿</span><span>المسبحة</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
+      <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
+      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
+      <div class="nav-sep">الحج والمناسك</div>
+      <a href="fadael.html" class="active"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <div class="nav-sep">المتابعة</div>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <div class="nav-sep">التعلم والترفيه</div>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
+      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <div class="nav-sep">الإعدادات</div>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <!-- LEFT: Burger + Logo -->
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo">
+          <img src="icons/icon-192.svg" alt="زاد العشر">
+        </a>
+      </div>
+      <!-- CENTER: Page name -->
+      <div class="tb-center">
+        <div class="page-title">فضائل <span>العشر</span></div>
+      </div>
+      <!-- RIGHT: Notif + Lang + Theme -->
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">
+            🔔<span class="notif-dot" id="notif-dot"></span>
+          </button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="fadael-hero">
+      <div class="hero-eyebrow">✨ أفضل أيام الدنيا</div>
+      <div class="hero-title">فضائل عشر ذي الحجة</div>
+      <div class="hero-sub">أيامٌ جمع الله فيها عظيم الشعائر — حتى الجهاد في سبيل الله لا يعدلها</div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-num">10</div><div class="hstat-lbl">أيام مباركة</div></div>
+        <div class="hstat"><div class="hstat-num">4</div><div class="hstat-lbl">آيات قرآنية</div></div>
+        <div class="hstat"><div class="hstat-num">20</div><div class="hstat-lbl">عملاً صالحاً</div></div>
+        <div class="hstat"><div class="hstat-num">سنتان</div><div class="hstat-lbl">تكفير يوم عرفة</div></div>
+      </div>
+    </div>
+
+    <!-- TOC -->
+    <div class="toc-bar" style="overflow-x:auto;white-space:nowrap;scrollbar-width:none" id="toc-bar">
+      <button class="toc-btn active" onclick="tocScroll('sec-quran',this)">📖 القرآن</button>
+      <button class="toc-btn" style="white-space:nowrap;flex-shrink:0" onclick="tocScroll('sec-sunnah',this)">🕌 السنة</button>
+      <button class="toc-btn" style="white-space:nowrap;flex-shrink:0" onclick="tocScroll('sec-why',this)">💡 لماذا؟</button>
+      <button class="toc-btn" style="white-space:nowrap;flex-shrink:0" onclick="tocScroll('sec-compare',this)">⚖️ مقارنة</button>
+      <button class="toc-btn" style="white-space:nowrap;flex-shrink:0" onclick="tocScroll('sec-program',this)">📋 البرنامج</button>
+      <button class="toc-btn" style="white-space:nowrap;flex-shrink:0" onclick="tocScroll('sec-20',this)">🔢 ٢٠ عملاً</button>
+      <button class="toc-btn" style="white-space:nowrap;flex-shrink:0" onclick="tocScroll('sec-salaf',this)">📜 السلف</button>
+      <button class="toc-btn" style="white-space:nowrap;flex-shrink:0" onclick="tocScroll('sec-dates',this)">🗓️ المواعيد</button>
+    </div>
+    <div class="fadael-layout">
+      <!-- Main content -->
+      <div class="fadael-content">
+
+
+    <!-- 1. القرآن -->
+    <div class="section-title" id="sec-quran"><div class="outcome-heading"><span class="oh-ico">📖</span><div class="oh-text">أدلة القرآن الكريم على فضل العشر<span class="oh-benefit">← اكتشف لماذا أقسم الله بهذه الأيام في القرآن الكريم</span></div></div></div>
+    <div class="key-insight">
+      <div class="ki-ico">⚡</div>
+      <div class="ki-body">
+        <div class="ki-label">الخلاصة أولاً</div>
+        <div class="ki-text">أقسم الله بعشر ذي الحجة في ثلاثة مواضع من القرآن — والله لا يُقسم إلا بعظيم. وسمّاها "الأيام المعلومات" بالإجماع.</div>
+      </div>
+    </div>
+    <div class="quran-cards">
+      <div class="quran-card">
+        <div class="qc-src">سورة الفجر — الآيتان 1-2</div>
+        <div class="qc-ar">وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ</div>
+        <p class="qc-note">أقسم الله بها — والله لا يُقسم إلا بعظيم</p>
+      </div>
+      <div class="quran-card">
+        <div class="qc-src">سورة الحج — الآية 28</div>
+        <div class="qc-ar">وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَّعْلُومَاتٍ</div>
+        <p class="qc-note">قال المفسرون: هي عشر ذي الحجة بالإجماع</p>
+      </div>
+      <div class="quran-card">
+        <div class="qc-src">سورة البقرة — الآية 203</div>
+        <div class="qc-ar">وَاذْكُرُوا اللَّهَ فِي أَيَّامٍ مَّعْدُودَاتٍ</div>
+        <p class="qc-note">أيام التشريق امتداد لهذه البركة العظيمة</p>
+      </div>
+      <div class="quran-card">
+        <div class="qc-src">سورة الكوثر — الآيتان 1-2</div>
+        <div class="qc-ar">فَصَلِّ لِرَبِّكَ وَانْحَرْ</div>
+        <p class="qc-note">الصلاة والأضحية — ركيزتا عيد الأضحى المبارك</p>
+      </div>
+    </div>
+
+    <!-- 2. السنة -->
+    <div class="section-title" 
+    <div class="summary-block">
+      <div class="summary-block-title">خلاصة أدلة القرآن</div>
+      <ul>
+        <li>الله أقسم بليالٍ عشر — وهي عشر ذي الحجة بإجماع العلماء</li>
+        <li>الأيام المعلومات التي يُذكر فيها اسم الله هي هذه الأيام تحديداً</li>
+        <li>الأيام المعدودات في البقرة تشمل أيام التشريق الثلاثة</li>
+      </ul>
+    </div>
+    <div id="sec-sunnah"><div class="outcome-heading"><span class="oh-ico">🕌</span><div class="oh-text">كيف أكد النبي ﷺ فضل هذه الأيام بشكل لا يقبل الشك؟<span class="oh-benefit">← أحاديث صريحة تجعل الأيام العشر فرصة لا تعوّض</span></div></div></div>
+    <div class="key-insight">
+      <div class="ki-ico">⚡</div>
+      <div class="ki-body">
+        <div class="ki-label">الخلاصة أولاً</div>
+        <div class="ki-text">أخبر النبي ﷺ أن العمل الصالح في هذه الأيام أحبّ إلى الله من الجهاد في سبيله — وهذا أعلى الأعمال درجةً.</div>
+      </div>
+    </div>
+    <div class="hadith-card">
+      <div class="hadith-ico">🌟</div>
+      <div class="hadith-body">
+        <div class="hadith-txt">«ما من أيامٍ العملُ الصالحُ فيهنّ أحبّ إلى الله من هذه الأيام العشر»</div>
+        <span class="hadith-src">رواه البخاري (969)</span>
+      </div>
+    </div>
+    <div class="hadith-card">
+      <div class="hadith-ico">👑</div>
+      <div class="hadith-body">
+        <div class="hadith-txt">«أيامُ العشر أفضلُ أيام الدنيا»</div>
+        <span class="hadith-src">رواه البزار وصححه الألباني</span>
+      </div>
+    </div>
+    <div class="hadith-card">
+      <div class="hadith-ico">⚔️</div>
+      <div class="hadith-body">
+        <div class="hadith-txt">«... حتى الجهاد في سبيل الله، إلا رجلٌ خرج بنفسه وماله فلم يرجع من ذلك بشيء»</div>
+        <span class="hadith-src">رواه البخاري — أفضل من الجهاد بالنفس والمال</span>
+      </div>
+    </div>
+    <div class="hadith-card">
+      <div class="hadith-ico">🌙</div>
+      <div class="hadith-body">
+        <div class="hadith-txt">«صيامُ يوم عرفة أحتسب على الله أن يكفّر السنة التي قبله والسنة التي بعده»</div>
+        <span class="hadith-src">رواه مسلم (1162)</span>
+      </div>
+    </div>
+
+    <!-- 3. لماذا؟ -->
+    <div class="section-title" 
+    <div class="summary-block">
+      <div class="summary-block-title">خلاصة الأدلة النبوية</div>
+      <ul>
+        <li>العمل الصالح في العشر أحب إلى الله من الجهاد — بنص الحديث الصحيح</li>
+        <li>صيام يوم عرفة يكفّر ذنوب سنتين ماضية وقادمة</li>
+        <li>التكبير والتحميد والتهليل مستحب جهراً في هذه الأيام</li>
+      </ul>
+    </div>
+    <div id="sec-why">
+      <div class="sec-title-outcome">💡 لماذا يُضاعف الله الأجر في هذه الأيام دون سواها<span class="question-mark">؟</span></div>
+      <div class="sec-subtitle">اكتشف السر الذي جعل العلماء يقولون: لا يعدلها أيام السنة</div>
+    </div>
+    <div class="key-insight">
+      <div class="ki-ico">⚡</div>
+      <div class="ki-body">
+        <div class="ki-label">الخلاصة أولاً</div>
+        <div class="ki-text">قال ابن حجر: "السبب في امتياز عشر ذي الحجة اجتماع أمهات العبادات فيها — الصلاة والصيام والصدقة والحج — ولا يتأتى ذلك في غيرها."</div>
+      </div>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-ico">🤲</div>
+        <div><div class="feat-title">اجتماع أمهات العبادات</div><div class="feat-desc drop-cap">الصلاة والصيام والصدقة والحج تجتمع فيها — ولا يتأتى ذلك في أي وقت آخر. قاله الحافظ ابن حجر رحمه الله.</div></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">📖</div>
+        <div><div class="feat-title">تشريف إلهي بالقسم</div><div class="feat-desc">أقسم الله بها في كتابه وسمّاها "الأيام المعلومات" — والله لا يُقسم إلا بعظيم.</div></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">🌄</div>
+        <div><div class="feat-title">يوم عرفة — إكمال الدين</div><div class="feat-desc">نزلت فيه ﴿الْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ﴾ — يوم مباهاة الله بعباده للملائكة.</div></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">🐪</div>
+        <div><div class="feat-title">يوم النحر — أعظم الأيام</div><div class="feat-desc">"يوم الحج الأكبر" وأعظم الأيام عند الله تعالى — التوحيد والطاعة والتضحية.</div></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">🔥</div>
+        <div><div class="feat-title">أفضل من الجهاد</div><div class="feat-desc">العمل الصالح فيها يعدل الجهاد بالنفس والمال — إلا من استُشهد في سبيل الله.</div></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">🌙</div>
+        <div><div class="feat-title">تكفير سنتين</div><div class="feat-desc">صيام يوم عرفة يكفّر ذنوب السنة الماضية والقادمة — فضلٌ لا نظير له.</div></div>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,var(--gold-pale),rgba(201,161,74,.08));border:1.5px solid rgba(201,161,74,.3);border-radius:14px;padding:16px 18px;margin:20px 0 8px">
+      <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:10px">✨ الخلاصة في نقاط</div>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px">
+        <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);line-height:1.5;font-weight:600"><span style="color:var(--gold-dark);font-weight:900;flex-shrink:0">←</span>تجتمع أمهات العبادات في نهارها — فضيلة لا تتكرر في رمضان</li>
+        <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);line-height:1.5;font-weight:600"><span style="color:var(--gold-dark);font-weight:900;flex-shrink:0">←</span>الله أقسم بها — وما أقسم الله بشيء إلا لعظمته</li>
+        <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);line-height:1.5;font-weight:600"><span style="color:var(--gold-dark);font-weight:900;flex-shrink:0">←</span>العمل فيها أحب إلى الله من الجهاد في سبيل الله</li>
+        <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);line-height:1.5;font-weight:600"><span style="color:var(--gold-dark);font-weight:900;flex-shrink:0">←</span>يوم عرفة فيها — خير يوم في خير الأيام</li>
+      </ul>
+    </div>
+    <!-- 4. مقارنة -->
+    <div class="section-title" id="sec-compare">
+      <div class="sec-title-outcome">⚖️ أيهما أفضل: نهار العشر أم ليالي رمضان<span class="question-mark">؟</span></div>
+      <div class="sec-subtitle">جواب الفقهاء الذي يفاجئ كثيرين</div>
+    </div>
+    <div class="compare-wrap">
+      <div class="cmp-card day">
+        <span class="cmp-emoji">☀️</span>
+        <div class="cmp-title">نهار عشر ذي الحجة</div>
+        <div class="cmp-desc">أفضل أيام السنة مطلقاً لاجتماع أمهات العبادات. العمل فيها محبوب إلى الله حتى من الجهاد.</div>
+        <span class="cmp-badge">الأفضل نهاراً</span>
+      </div>
+      <div class="cmp-card night">
+        <span class="cmp-emoji">🌙</span>
+        <div class="cmp-title">ليالي رمضان الأواخر</div>
+        <div class="cmp-desc">أفضل ليالي السنة لما فيها من ليلة القدر التي هي خيرٌ من ألف شهر.</div>
+        <span class="cmp-badge">الأفضل ليلاً</span>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px;background:var(--gold-pale);border-color:rgba(201,161,74,.2)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:24px">⭐</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--gold-dark);margin-bottom:2px;font-family:'ThmanyahSans',sans-serif">خلاصة الفقهاء</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6">أيام العشر أفضل الأيام، وليالي رمضان الأواخر أفضل الليالي — فضل الله يختص بكل موسم بما يناسبه.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. البرنامج -->
+    <div class="section-title" id="sec-program">📋 البرنامج العملي (لغير الحاج)</div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="background:linear-gradient(135deg,var(--green-deep),var(--green-mid));padding:16px 20px;color:#fff">
+        <div style="font-size:15px;font-weight:800;font-family:'ThmanyahSans',sans-serif">خطة الأيام العشر — ٨ محاور</div>
+        <div style="font-size:12px;opacity:.8;margin-top:2px">اضغط على أي محور للانتقال إلى صفحته</div>
+      </div>
+      <div id="program-list"></div>
+    </div>
+
+    <!-- 6. 20 أعمال -->
+    <div class="section-title" id="sec-20">
+      <div class="sec-title-outcome">🔢 كيف تملأ ساعاتك بالأجر<span class="question-mark">؟</span> — ٢٠ طريقة عملية</div>
+      <div class="sec-subtitle">لكل منها دليل شرعي — من اليسير إلى المتقدم</div>
+    </div>
+    <div style="margin-bottom:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button onclick="openAllAccord()" style="padding:7px 16px;border-radius:99px;border:1.5px solid var(--border);background:var(--card);font-family:inherit;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">فتح الكل ▼</button>
+      <button onclick="closeAllAccord()" style="padding:7px 16px;border-radius:99px;border:1.5px solid var(--border);background:var(--card);font-family:inherit;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">إغلاق الكل ▲</button>
+      <span style="font-size:11px;color:var(--muted)">← اضغط على أي عمل للتفاصيل</span>
+    </div>
+    <div id="accord-container"></div>
+
+    <div style="background:linear-gradient(135deg,var(--gold-pale),rgba(201,161,74,.08));border:1.5px solid rgba(201,161,74,.3);border-radius:14px;padding:16px 18px;margin:20px 0 8px">
+      <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:10px">🚀 ابدأ بهذه الثلاثة اليوم</div>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px">
+        <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);line-height:1.5;font-weight:600"><span style="color:var(--gold-dark);font-weight:900;flex-shrink:0">←</span>التكبير المطلق — في كل وقت، لا يكلّفك شيئاً</li>
+        <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);line-height:1.5;font-weight:600"><span style="color:var(--gold-dark);font-weight:900;flex-shrink:0">←</span>صيام التسع — أجر كبير بعمل يسير</li>
+        <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);line-height:1.5;font-weight:600"><span style="color:var(--gold-dark);font-weight:900;flex-shrink:0">←</span>قراءة القرآن — ولو صفحة بعد كل صلاة</li>
+      </ul>
+    </div>
+    <!-- 7. السلف -->
+    <div class="section-title" id="sec-salaf">
+      <div class="sec-title-outcome">📜 كيف كان السلف يحيون العشر<span class="question-mark">؟</span></div>
+      <div class="sec-subtitle">صور حقيقية من أحوال أصحاب النبي والتابعين</div>
+    </div>
+    <div class="salaf-card">
+      <div class="salaf-name">سعيد بن جبير رحمه الله</div>
+      <div class="salaf-quote">«لا تطفئوا سروجكم ليالي العشر»</div>
+      <div class="salaf-note drop-cap">وكان يجتهد اجتهاداً شديداً حتى لا يكاد يقدر عليه أحد — يُضاء الليل كله طاعةً لله.</div>
+    </div>
+    <div class="salaf-card">
+      <div class="salaf-name">ابن عمر وأبو هريرة رضي الله عنهما</div>
+      <div class="salaf-quote" style="font-size:15px">كانا يخرجان إلى الأسواق فيكبّران، فيكبّر الناس بتكبيرهما حتى يرتجّ المكان</div>
+      <div class="salaf-note">إحياءً لسنة التكبير المطلق وتذكيراً للناس بها في أسواقهم وطرقاتهم.</div>
+    </div>
+    <div class="salaf-card">
+      <div class="salaf-name">الإمام أحمد بن حنبل رحمه الله</div>
+      <div class="salaf-quote" style="font-size:15px">كان يُحيي ليلة عيد الأضحى ثم يخرج لصلاة العيد</div>
+      <div class="salaf-note">استكمالاً للاجتهاد وختماً لها بأفضل الأعمال — إحياء الليل وإدراك تكبيرة الإحرام مع الإمام.</div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,var(--gold-pale),rgba(201,161,74,.08));border:1.5px solid rgba(201,161,74,.3);border-radius:14px;padding:16px 18px;margin:20px 0 8px">
+      <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:10px">💭 الدرس من أحوالهم</div>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px">
+        <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);line-height:1.5;font-weight:600"><span style="color:var(--gold-dark);font-weight:900;flex-shrink:0">←</span>كانوا يُضيئون الليل كله عبادةً — فهل نُضيء ساعةً واحدة؟</li>
+        <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);line-height:1.5;font-weight:600"><span style="color:var(--gold-dark);font-weight:900;flex-shrink:0">←</span>التكبير الجهري في الأسواق — شعيرة نكاد ننساها</li>
+        <li style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);line-height:1.5;font-weight:600"><span style="color:var(--gold-dark);font-weight:900;flex-shrink:0">←</span>الاجتهاد الشديد — مع أنهم كانوا يعبدون الله طول العام</li>
+      </ul>
+    </div>
+    <!-- 8. المواعيد -->
+    <div class="section-title" id="sec-dates"><div class="outcome-heading"><span class="oh-ico">🗓️</span><div class="oh-text">دليلك الزمني — لا تفوّت لحظة واحدة<span class="oh-benefit">← تواريخ الأيام الذهبية بالهجري والميلادي</span></div></div></div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="dates-grid">
+        <div class="date-row">
+          <div class="date-ico">🌙</div>
+          <div class="date-label">غرة ذي الحجة — بداية العشر<span class="date-badge">اليوم الأول</span></div>
+          <div class="date-val">الاثنين 18 مايو</div>
+        </div>
+        <div class="date-row">
+          <div class="date-ico">💧</div>
+          <div class="date-label">يوم التروية<span class="date-badge">اليوم الثامن</span></div>
+          <div class="date-val">الاثنين 25 مايو</div>
+        </div>
+        <div class="date-row" style="background:var(--gold-pale)">
+          <div class="date-ico">⭐</div>
+          <div class="date-label" style="font-weight:800;color:var(--gold-dark)">يوم عرفة — صيامه يكفر سنتين<span class="date-badge" style="color:var(--gold-dark)">اليوم التاسع — أفضل يوم للدعاء</span></div>
+          <div class="date-val" style="color:var(--gold-dark)">الثلاثاء 26 مايو</div>
+        </div>
+        <div class="date-row">
+          <div class="date-ico">🐏</div>
+          <div class="date-label">عيد الأضحى المبارك<span class="date-badge">يوم النحر — أعظم الأيام</span></div>
+          <div class="date-val">الأربعاء 27 مايو</div>
+        </div>
+        <div class="date-row" style="border-bottom:none">
+          <div class="date-ico">🎉</div>
+          <div class="date-label">أيام التشريق — أكل وشرب وذكر<span class="date-badge">11-13 ذي الحجة</span></div>
+          <div class="date-val">28-30 مايو</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- خاتمة -->
+    <div class="closing-banner">
+      <div class="closing-txt">إن عشر ذي الحجة محطة انطلاق روحية وليست محطة عابرة —<br>ومن علامات قبول الطاعة فيها استدامة أثرها الإيماني بعد انقضائها</div>
+      <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <a href="worship.html" class="btn btn-gold" style="font-size:13px">📿 ابدأ جدول العبادات</a>
+        <a href="arafah.html" class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.35);font-size:13px">🌄 برنامج يوم عرفة</a>
+      </div>
+    </div>
+
+  
+      </div>
+      <!-- Sticky Sidebar TOC -->
+      <div class="toc-sidebar" id="toc-sidebar">
+      <div class="toc-sidebar-header">📑 محتويات الصفحة</div>
+      <div class="toc-progress"><div class="toc-progress-fill" id="toc-progress-fill"></div></div>
+      <div class="toc-sidebar-nav" id="toc-sidebar-nav">
+        <button class="toc-sidebar-btn" data-target="sec-quran" onclick="tocSidebarScroll('sec-quran',this)"><span class="toc-sidebar-ico">📖</span><span class="toc-sidebar-lbl">فضل القرآن</span></button>
+        <button class="toc-sidebar-btn" data-target="sec-sunnah" onclick="tocSidebarScroll('sec-sunnah',this)"><span class="toc-sidebar-ico">🕌</span><span class="toc-sidebar-lbl">السنة النبوية</span></button>
+        <button class="toc-sidebar-btn" data-target="sec-why" onclick="tocSidebarScroll('sec-why',this)"><span class="toc-sidebar-ico">💡</span><span class="toc-sidebar-lbl">لماذا العشر؟</span></button>
+        <button class="toc-sidebar-btn" data-target="sec-compare" onclick="tocSidebarScroll('sec-compare',this)"><span class="toc-sidebar-ico">⚖️</span><span class="toc-sidebar-lbl">مقارنة</span></button>
+        <button class="toc-sidebar-btn" data-target="sec-program" onclick="tocSidebarScroll('sec-program',this)"><span class="toc-sidebar-ico">📅</span><span class="toc-sidebar-lbl">البرنامج</span></button>
+        <button class="toc-sidebar-btn" data-target="sec-20" onclick="tocSidebarScroll('sec-20',this)"><span class="toc-sidebar-ico">🔢</span><span class="toc-sidebar-lbl">20 عملاً</span></button>
+        <button class="toc-sidebar-btn" data-target="sec-salaf" onclick="tocSidebarScroll('sec-salaf',this)"><span class="toc-sidebar-ico">📜</span><span class="toc-sidebar-lbl">كلام السلف</span></button>
+        <button class="toc-sidebar-btn" data-target="sec-dates" onclick="tocSidebarScroll('sec-dates',this)"><span class="toc-sidebar-ico">🗓️</span><span class="toc-sidebar-lbl">المواعيد</span></button>
+      </div>
+    </div>
+    </div>
+</main>
+  
+</div>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script>
+/* TOC */
+function tocScroll(id, btn) {
+  document.querySelectorAll('.toc-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const el = document.getElementById(id);
+  if (!el) return;
+  /* Try .main scroller first, fallback to window */
+  const main = document.querySelector('.main');
+  const offset = 110; /* height of topbar + TOC bar */
+  if (main && main.scrollHeight > main.clientHeight) {
+    main.scrollTo({ top: el.offsetTop - offset, behavior:'smooth' });
+  } else {
+    const rect = el.getBoundingClientRect();
+    window.scrollTo({ top: window.scrollY + rect.top - offset, behavior:'smooth' });
+  }
+}
+
+/* Auto-highlight TOC on scroll */
+document.addEventListener('DOMContentLoaded', () => {
+  const secs = ['sec-quran','sec-sunnah','sec-why','sec-compare','sec-program','sec-20','sec-salaf','sec-dates'];
+  const btns = document.querySelectorAll('.toc-btn');
+  const main = document.querySelector('.main');
+
+  function updateActive() {
+    const scrollTop = (main && main.scrollHeight > main.clientHeight)
+      ? main.scrollTop
+      : window.scrollY;
+    const offset = 130;
+    let active = 0;
+    secs.forEach((id,i) => {
+      const el = document.getElementById(id);
+      if (el) {
+        const elTop = (main && main.scrollHeight > main.clientHeight)
+          ? el.offsetTop
+          : el.getBoundingClientRect().top + window.scrollY;
+        if (elTop - offset <= scrollTop) active = i;
+      }
+    });
+    btns.forEach((b,i) => b.classList.toggle('active', i === active));
+  }
+
+  if (main) main.addEventListener('scroll', updateActive, {passive:true});
+  window.addEventListener('scroll', updateActive, {passive:true});
+});
+
+/* Program list */
+const PROGRAM = [
+  {num:'١',ico:'📖',title:'تلاوة القرآن',link:'mushaf.html',desc:'ختمة كاملة بمعدل 3 أجزاء يومياً'},
+  {num:'٢',ico:'🌙',title:'الصيام',link:'worship.html',desc:'الأيام التسعة الأولى كاملة'},
+  {num:'٣',ico:'📿',title:'الذكر والتكبير',link:'takbeer.html',desc:'التهليل والتكبير والتحميد مطلقاً'},
+  {num:'٤',ico:'💚',title:'الصدقة اليومية',link:'sadaqah.html',desc:'مبلغ يومي ولو بسيط'},
+  {num:'٥',ico:'🌅',title:'النوافل والسنن',link:'worship.html',desc:'ضحى ووتر وسنن رواتب'},
+  {num:'٦',ico:'🐏',title:'الأضحية',link:'odhiya.html',desc:'سنة مؤكدة مع الإمساك عن الشعر'},
+  {num:'٧',ico:'⭐',title:'الساعات الذهبية',link:'arafah.html',desc:'قبل الفجر — بعد الصبح — بعد المغرب'},
+  {num:'٨',ico:'❤️',title:'صلة الأرحام',link:'sadaqah.html',desc:'زيارة الأقارب وتذكيرهم'},
+];
+const pl = document.getElementById('program-list');
+if (pl) {
+  PROGRAM.forEach((p,i) => {
+    pl.insertAdjacentHTML('beforeend',`
+      <a href="${p.link}" style="display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:${i<PROGRAM.length-1?'1px solid var(--border)':'none'};text-decoration:none;transition:background .2s" onmouseover="this.style.background='var(--green-pale)'" onmouseout="this.style.background=''">
+        <span style="background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;font-family:'ThmanyahSans',monospace;flex-shrink:0">${p.num}</span>
+        <span style="font-size:20px;flex-shrink:0">${p.ico}</span>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:800;color:var(--green-deep);font-family:'ThmanyahSans',sans-serif">${p.title}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">${p.desc}</div>
+        </div>
+        <span style="font-size:13px;color:var(--muted)">←</span>
+      </a>`);
+  });
+}
+
+/* 20 Accordion */
+const TWENTY = [
+  {ico:'📖',title:'تلاوة القرآن الكريم',desc:'بمعدل 3 أجزاء يومياً للختم، أو جزء لمن لا يستطيع الأكثر.'},
+  {ico:'🕌',title:'التبكير للصلوات الخمس',desc:'والانشغال بالدعاء والذكر بين الأذان والإقامة لكل صلاة.'},
+  {ico:'🌅',title:'صلاة الضحى والنوافل',desc:'المحافظة على السنن الرواتب والوتر وركعتان بعد الوضوء.'},
+  {ico:'📣',title:'الدعوة بالكلمة',desc:'كلمة قصيرة في المسجد حول فضل العشر أو توزيع مطويات للناس.'},
+  {ico:'⭐',title:'إحياء الساعات الذهبية الثلاث',desc:'قبل الفجر (استغفار) — بعد الصبح (أذكار) — بعد المغرب (دعاء).'},
+  {ico:'📱',title:'تذكير الأهل والأقارب',desc:'عبر الرسائل أو التواصل المباشر بفضائل هذه الأيام العظيمة.'},
+  {ico:'🌙',title:'صيام أيام العشر',desc:'الأيام التسعة الأولى كاملة، وبالأخص يوم عرفة (التاسع من ذي الحجة).'},
+  {ico:'💬',title:'حفظ اللسان',desc:'الاقتصار على التسبيح والاستغفار والقول المعروف، وتجنب الغيبة والنميمة.'},
+  {ico:'🪦',title:'زيارة المقابر',desc:'للتأمل في أحوال الموتى مما يحفّز على الاستزادة من الطاعات.'},
+  {ico:'📿',title:'المداومة على الباقيات الصالحات',desc:'لا إله إلا الله، الحمد لله، الله أكبر، سبحان الله — في كل وقت وحين.'},
+  {ico:'🌄',title:'يوم عرفة المكثف',desc:'برنامج عبادي خاص من الفجر حتى المغرب مع الإلحاح في الدعاء ساعات.'},
+  {ico:'🍽️',title:'تفطير الصائمين يوم عرفة',desc:'لنيل أجرهم كاملاً من الأقارب أو الفقراء أو في المساجد.'},
+  {ico:'👥',title:'يوم دعوي مخصص',desc:'لأنشطة توجيهية وتأثير في الآخرين وحثّهم على الاجتهاد.'},
+  {ico:'❤️',title:'صلة الأرحام',desc:'توزيع كتيبات الدعوة وزيارة الأقارب وتذكيرهم بفضائل هذه الأيام.'},
+  {ico:'🎯',title:'الاجتهاد في طاعة محددة',desc:'المداومة على طاعة واحدة طوال العشر حتى تصبح عادة ثابتة.'},
+  {ico:'💚',title:'الصدقة اليومية',desc:'ولو بمبلغ بسيط لنيل بركة الصدقة في أفضل الأيام عند الله.'},
+  {ico:'🤝',title:'صناعة فرص الخير',desc:'اتباع الجنائز، إطعام الطعام، مساعدة الآخرين — ابحث ولا تنتظر.'},
+  {ico:'🎊',title:'آداب العيد',desc:'التطيب، لبس الجديد، إظهار الفرح، التكبير عقب الصلوات المفروضة.'},
+  {ico:'📲',title:'نشر البرامج الإيمانية',desc:'تحفيز المسلمين حولك على استغلال الموسم بالمحتوى الهادف النافع.'},
+  {ico:'🤲',title:'استصحاب النية دائماً',desc:'فالنية تبلغ بصاحبها ما لا يبلغه العمل وحده — جدّد نيتك كل صباح.'},
+];
+
+const ac = document.getElementById('accord-container');
+if (ac) {
+  TWENTY.forEach((item,i) => {
+    const div = document.createElement('div');
+    div.className = 'accord-item'; div.id = 'ac-'+i;
+    div.innerHTML = `<div class="accord-header" onclick="toggleAc(${i})"><span class="accord-num">${i+1}</span><span class="accord-ico">${item.ico}</span><span class="accord-title">${item.title}</span><span class="accord-arrow">▼</span></div><div class="accord-body"><div class="accord-content">${item.desc}</div></div>`;
+    ac.appendChild(div);
+  });
+}
+function toggleAc(i){ document.getElementById('ac-'+i)?.classList.toggle('open'); }
+function openAllAccord(){ document.querySelectorAll('.accord-item').forEach(el=>el.classList.add('open')); }
+function closeAllAccord(){ document.querySelectorAll('.accord-item').forEach(el=>el.classList.remove('open')); }
+
+/* ════ Sticky Sidebar TOC — Scrollspy ══════════════════════ */
+const _TOC_SECTIONS = ['sec-quran','sec-sunnah','sec-why','sec-compare','sec-program','sec-20','sec-salaf','sec-dates'];
+
+function tocSidebarScroll(id, btn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const offset = 90;
+  const top = el.getBoundingClientRect().top + window.scrollY - offset;
+  window.scrollTo({ top, behavior: 'smooth' });
+  /* Also update top toc bar if visible */
+  document.querySelectorAll('.toc-btn').forEach(b => b.classList.remove('active'));
+  const topBtn = Array.from(document.querySelectorAll('.toc-btn')).find(b => b.onclick?.toString().includes(id));
+  if (topBtn) topBtn.classList.add('active');
+}
+window.tocSidebarScroll = tocSidebarScroll;
+
+function initScrollspy() {
+  const sidebarBtns = document.querySelectorAll('.toc-sidebar-btn');
+  const fillEl = document.getElementById('toc-progress-fill');
+  
+  function onScroll() {
+    const scrollY = window.scrollY;
+    const docH   = document.documentElement.scrollHeight - window.innerHeight;
+    
+    /* Progress bar */
+    if (fillEl && docH > 0) {
+      fillEl.style.width = Math.round(scrollY / docH * 100) + '%';
+    }
+    
+    /* Active section detection */
+    const offset = 120;
+    let activeId = _TOC_SECTIONS[0];
+    
+    for (const id of _TOC_SECTIONS) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      if (el.getBoundingClientRect().top + window.scrollY <= scrollY + offset) {
+        activeId = id;
+      }
+    }
+    
+    /* Update sidebar buttons */
+    sidebarBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.target === activeId);
+    });
+    
+    /* Scroll active btn into view in sidebar */
+    const activeBtn = document.querySelector(`.toc-sidebar-btn[data-target="${activeId}"]`);
+    if (activeBtn) {
+      activeBtn.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+    
+    /* Update top TOC bar too */
+    document.querySelectorAll('.toc-btn').forEach(b => b.classList.remove('active'));
+    const topBtns = document.querySelectorAll('.toc-btn');
+    topBtns.forEach(b => {
+      if (b.getAttribute('onclick')?.includes(activeId)) b.classList.add('active');
+    });
+  }
+  
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); /* run once on load */
+}
+
+document.addEventListener('DOMContentLoaded', initScrollspy);
+
+
+/* Reading progress bar */
+(function(){
+  const bar = document.getElementById('rpb');
+  if (!bar) return;
+  function update(){
+    const h = document.documentElement;
+    const pct = (window.scrollY / (h.scrollHeight - h.clientHeight)) * 100;
+    bar.style.width = Math.min(100, pct) + '%';
+  }
+  window.addEventListener('scroll', update, {passive:true});
+  update();
+})();
+
+</script>
+  <script src="menu.js" defer></script>
+</body>
+</html>

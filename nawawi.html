@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<title>الأربعون النووية — زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<meta property="og:title" content="الأربعون النووية — زاد العشر">
+<meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
+<script src="/_vercel/insights/script.js" defer></script>
+<style>
+@keyframes nwCardIn  { from{opacity:0;transform:translateY(20px) scale(.97)} to{opacity:1;transform:none} }
+@keyframes nwGlow    { 0%,100%{box-shadow:0 0 0 0 rgba(201,161,74,0)} 50%{box-shadow:0 0 20px 4px rgba(201,161,74,.18)} }
+@keyframes nwShimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+@keyframes nwFloat   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+@keyframes nwSlideIn { from{opacity:0;transform:translateX(16px)} to{opacity:1;transform:none} }
+
+.nw-layout { display:grid; grid-template-columns:270px 1fr; gap:20px; align-items:start; }
+@media(max-width:900px){ .nw-layout{grid-template-columns:1fr} .nw-side{display:none} }
+
+.nw-hero {
+  background:linear-gradient(135deg,var(--green-deep),var(--green-mid));
+  border-radius:20px;padding:24px;margin-bottom:20px;
+  color:#fff;position:relative;overflow:hidden;
+}
+.nw-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(201,161,74,.18),transparent 55%);pointer-events:none}
+.nw-hero-title{ font-size:22px;font-weight:900;margin-bottom:4px;font-family:'Amiri',serif }
+.nw-hero-sub  { font-size:12px;opacity:.75;margin-bottom:16px }
+.nw-progress-wrap{ display:flex;align-items:center;gap:10px }
+.nw-progress-bar { flex:1;height:6px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden }
+.nw-progress-fill{ height:100%;background:linear-gradient(90deg,#e6c97a,#fff);border-radius:99px;transition:width .5s ease }
+.nw-progress-txt{ font-size:11px;font-weight:700;opacity:.85;white-space:nowrap }
+
+.nw-filters{ display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px }
+.nw-filters::-webkit-scrollbar{display:none}
+.nw-chip{ padding:6px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--card);font-family:inherit;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .2s }
+.nw-chip:hover{border-color:rgba(201,161,74,.4);color:var(--ink)}
+.nw-chip.active{background:var(--green-deep);color:#fff;border-color:var(--green-deep)}
+
+.nw-search-wrap{ position:sticky;top:68px;z-index:10;margin-bottom:16px }
+.nw-search{ width:100%;padding:11px 18px;border-radius:99px;border:1px solid var(--border);background:var(--card);color:var(--ink);font-family:inherit;font-size:14px;outline:none;box-shadow:var(--shadow-sm) }
+.nw-search:focus{ border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,161,74,.15) }
+
+.nw-side{ background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:16px;position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent }
+.nw-side-title{ font-size:13px;font-weight:800;color:var(--ink);margin-bottom:12px;padding-bottom:10px;border-bottom:1.5px solid var(--border) }
+.nw-side-item{ display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:600;color:var(--muted);transition:all .18s;margin-bottom:2px }
+.nw-side-item:hover{ background:var(--sand);color:var(--ink) }
+.nw-side-item.active{ background:linear-gradient(135deg,rgba(14,59,46,.1),rgba(201,161,74,.06));color:var(--green-deep);font-weight:800;border-right:3px solid var(--green-deep) }
+.nw-side-item .si-num{ width:24px;height:24px;border-radius:7px;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0 }
+.nw-side-item.active .si-num{ background:var(--green-deep);color:#fff }
+.nw-side-item .si-check{ margin-right:auto;font-size:10px }
+.nw-side-sep{ font-size:10px;font-weight:800;color:var(--muted);opacity:.6;padding:8px 8px 4px;text-transform:uppercase;letter-spacing:.5px }
+
+.nw-card{ background:var(--card);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:14px;transition:all .2s;animation:nwCardIn .35s cubic-bezier(.22,.68,0,1.2) both;box-shadow:var(--shadow-sm) }
+.nw-card:hover{ border-color:rgba(201,161,74,.3);box-shadow:var(--shadow) }
+.nw-card.reading{ border-color:rgba(14,59,46,.35);border-width:2px;animation:nwGlow 2s ease-in-out }
+
+.nw-card-head{ display:flex;align-items:center;gap:10px;padding:14px 18px 12px;cursor:pointer;user-select:none;background:var(--sand);border-bottom:1px solid var(--border);transition:background .2s }
+.nw-card-head:hover{ background:var(--sand-2) }
+.nw-card-num{ width:32px;height:32px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;background:var(--green-deep);color:#fff }
+.nw-card-num.extra{ background:rgba(201,161,74,.2);color:var(--gold-dark,#8b6914) }
+.nw-card-meta{ flex:1;min-width:0 }
+.nw-card-title{ font-size:15px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px }
+.nw-card-narrator{ font-size:11px;color:var(--muted) }
+.nw-card-badges{ display:flex;gap:4px;flex-wrap:wrap;margin-top:4px }
+.nw-badge{ font-size:9px;font-weight:800;border-radius:99px;padding:2px 8px }
+.nw-badge-aqida { background:rgba(74,158,255,.1);color:#1a6b9a }
+.nw-badge-akhlaq { background:rgba(14,59,46,.1);color:var(--green-deep) }
+.nw-badge-ibada { background:rgba(201,161,74,.1);color:var(--gold-dark,#8b6914) }
+.nw-badge-muamala{ background:rgba(255,149,0,.1);color:#b36000 }
+.nw-badge-extra { background:rgba(150,150,150,.1);color:var(--muted) }
+html[data-theme="dark"] .nw-badge-aqida { background:rgba(100,149,237,.12);color:#88aaff }
+html[data-theme="dark"] .nw-badge-akhlaq { background:rgba(74,222,128,.1);color:var(--sys-green) }
+.nw-card-toggle{ color:var(--muted);font-size:12px;transition:transform .3s;flex-shrink:0 }
+.nw-card.open .nw-card-toggle{ transform:rotate(180deg) }
+.nw-card-read-badge{ font-size:9px;font-weight:700;background:rgba(74,222,128,.12);color:#2d9e4f;border-radius:99px;padding:2px 8px;flex-shrink:0 }
+html[data-theme="dark"] .nw-card-read-badge{ background:rgba(74,222,128,.1);color:var(--sys-green) }
+
+.nw-card-body{ max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.22,.68,0,1.2) }
+.nw-card.open .nw-card-body{ max-height:3000px }
+
+.nw-tabs{ display:flex;gap:4px;padding:12px 14px 0;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--border) }
+.nw-tabs::-webkit-scrollbar{display:none}
+.nw-tab-btn{ padding:7px 14px;border-radius:10px 10px 0 0;border:none;background:transparent;font-family:inherit;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .18s }
+.nw-tab-btn.active{ background:var(--card);color:var(--green-deep);border:1.5px solid var(--border);border-bottom:1.5px solid var(--card);margin-bottom:-1.5px }
+
+.nw-panel{ display:none;padding:18px;animation:nwSlideIn .25s ease both }
+.nw-panel.active{ display:block }
+
+.nw-matn{ font-family:'Amiri',serif;font-size:20px;line-height:2;color:var(--ink);background:linear-gradient(135deg,rgba(201,161,74,.06),rgba(14,59,46,.04));border:1px solid rgba(201,161,74,.2);border-radius:14px;padding:18px;position:relative;margin-bottom:12px;direction:rtl;text-align:justify }
+html[data-theme="dark"] .nw-matn{ background:rgba(201,161,74,.04) }
+.nw-matn-source{ font-size:11px;color:var(--muted);text-align:left;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);direction:ltr }
+.nw-actions{ display:flex;gap:6px;flex-wrap:wrap;margin-top:10px }
+.nw-action-btn{ padding:6px 14px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;color:var(--muted);transition:all .15s }
+.nw-action-btn:hover{ border-color:var(--gold);color:var(--ink) }
+
+.nw-section-title{ font-size:13px;font-weight:800;color:var(--green-deep);display:flex;align-items:center;gap:6px;margin-bottom:8px }
+html[data-theme="dark"] .nw-section-title{ color:var(--sys-green) }
+.nw-section-body{ font-size:13.5px;color:var(--ink);line-height:1.85;padding-right:14px;border-right:3px solid rgba(14,59,46,.15);margin-bottom:18px }
+.nw-lessons-list{ list-style:none;display:flex;flex-direction:column;gap:6px }
+.nw-lessons-list li{ display:flex;align-items:flex-start;gap:8px;font-size:13px;padding:8px 12px;background:var(--sand);border-radius:10px;line-height:1.6 }
+html[data-theme="dark"] .nw-lessons-list li{ background:rgba(255,255,255,.03) }
+.nw-lessons-list li::before{ content:'✦';color:var(--gold);flex-shrink:0;font-size:12px;margin-top:1px }
+.nw-apply-list{ list-style:none;display:flex;flex-direction:column;gap:6px }
+.nw-apply-list li{ display:flex;align-items:flex-start;gap:8px;font-size:13px;padding:8px 12px;background:rgba(14,59,46,.05);border-radius:10px;line-height:1.6;border-right:3px solid rgba(14,59,46,.2) }
+.nw-apply-list li::before{ content:'→';color:var(--green-deep);flex-shrink:0;font-weight:900 }
+html[data-theme="dark"] .nw-apply-list li{ background:rgba(74,222,128,.04);border-right-color:var(--sys-green,#4ade80) }
+
+.nw-card-nav{ display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--border);background:var(--sand) }
+.nw-nav-btn{ display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;color:var(--muted);transition:all .2s }
+.nw-nav-btn:hover:not(:disabled){ border-color:var(--green-deep);color:var(--green-deep) }
+.nw-nav-btn:disabled{ opacity:.3;cursor:not-allowed }
+.nw-nav-mark{ padding:7px 14px;border-radius:10px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s }
+.nw-nav-mark:hover{ opacity:.9 }
+.nw-nav-mark.done{ background:var(--gold) }
+
+#nw-fab{ position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(16px);background:rgba(var(--card-rgb,255,255,255),.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:99px;padding:6px 12px;display:flex;align-items:center;gap:4px;box-shadow:0 8px 32px rgba(0,0,0,.15);z-index:200;opacity:0;pointer-events:none;transition:all .3s }
+#nw-fab.vis{ opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all }
+.nw-fab-count{ font-size:11px;font-weight:700;color:var(--muted);padding:0 8px }
+.nw-fab-btn{ width:30px;height:30px;border-radius:50%;border:none;background:none;cursor:pointer;font-size:16px;transition:background .15s }
+.nw-fab-btn:hover{ background:var(--sand) }
+
+.nw-day{ background:linear-gradient(135deg,rgba(201,161,74,.08),rgba(14,59,46,.04));border:1.5px solid rgba(201,161,74,.2);border-radius:16px;padding:14px 18px;margin-bottom:16px;cursor:pointer;transition:all .2s;animation:nwFloat 4s ease-in-out infinite }
+.nw-day:hover{ border-color:rgba(201,161,74,.4);transform:translateY(-2px) }
+.nw-day-label{ font-size:10px;font-weight:800;color:var(--gold-dark,#8b6914);margin-bottom:4px }
+.nw-day-title{ font-size:14px;font-weight:800;color:var(--ink) }
+.nw-day-sub  { font-size:11px;color:var(--muted);margin-top:2px }
+.nw-empty{ text-align:center;padding:48px 20px;color:var(--muted);font-size:14px }
+@media(max-width:600px){ .nw-matn{ font-size:18px } .nw-card-head{ padding:12px 14px } }
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t);var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var el=document.createElement('div');el.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';document.documentElement.appendChild(el);var rem=parseFloat(getComputedStyle(el).width)||16;document.documentElement.removeChild(el);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+</head>
+
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+<aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <!-- Profile chip injected by JS -->
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
+      <span class="slb-label">🌐 اللغة</span>
+      <span class="slb-val" id="sidebar-lang-val">EN</span>
+    </button>
+    
+      <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+        📲 تثبيت / تحميل التطبيق
+      </button>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <div class="nav-sep">الصلاة والتقويم</div>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <div class="nav-sep">القرآن والعبادة</div>
+      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
+      <a href="takbeer.html"><span class="ico">📿</span><span>المسبحة</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
+      <a href="nawawi.html" class="active"><span class="ico">📜</span><span>الأربعون النووية</span></a>
+      <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
+      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
+      <div class="nav-sep">الحج والمناسك</div>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <div class="nav-sep">المتابعة</div>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <div class="nav-sep">التعلم والترفيه</div>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
+      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <div class="nav-sep">الإعدادات</div>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center">
+        <div class="page-title">الأربعون <span>النووية</span></div>
+      </div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="nw-hero">
+      <div class="nw-hero-title">📚 الأربعون النووية</div>
+      <div class="nw-hero-sub">مجموعة من جوامع كلم النبي ﷺ جمعها الإمام النووي رحمه الله</div>
+      <div class="nw-stats">
+        <div class="nw-stat"><span class="nw-stat-num" id="st-total">50</span><span class="nw-stat-lbl">حديث</span></div>
+        <div class="nw-stat"><span class="nw-stat-num" id="st-read">0</span><span class="nw-stat-lbl">قرأت</span></div>
+        <div class="nw-stat"><span class="nw-stat-num" id="st-pct">0%</span><span class="nw-stat-lbl">مكتمل</span></div>
+      </div>
+      <div class="nw-progress-wrap">
+        <div class="nw-progress-lbl"><span>تقدم القراءة</span><span id="prog-txt">0 / 50</span></div>
+        <div class="nw-progress-bar"><div class="nw-progress-fill" id="prog-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- Daily hadith pill -->
+    <div class="nw-daily" id="nw-daily-pill" onclick="openDaily()">
+      <span style="font-size:22px">🌙</span>
+      <div class="nw-daily-txt">
+        <div class="nw-daily-lbl">حديث اليوم</div>
+        <div class="nw-daily-name" id="daily-name">جارٍ التحميل...</div>
+      </div>
+      <span style="font-size:14px;color:var(--muted)">←</span>
+    </div>
+
+    <!-- Controls -->
+    <div class="nw-controls">
+      <input type="text" class="nw-search" id="nw-search" placeholder="🔍 ابحث في الأحاديث..." oninput="nwFilter()">
+      <div class="nw-cats" id="nw-cats">
+        <button class="nw-cat active" data-cat="all"       onclick="nwSetCat(this,'all')">الكل (50)</button>
+        <button class="nw-cat"        data-cat="aqeedah"   onclick="nwSetCat(this,'aqeedah')">🔵 العقيدة</button>
+        <button class="nw-cat"        data-cat="akhlaq"    onclick="nwSetCat(this,'akhlaq')">🟢 الأخلاق</button>
+        <button class="nw-cat"        data-cat="ibadah"    onclick="nwSetCat(this,'ibadah')">🔴 العبادات</button>
+        <button class="nw-cat"        data-cat="muamalat"  onclick="nwSetCat(this,'muamalat')">🟠 المعاملات</button>
+        <button class="nw-cat"        data-cat="unread"    onclick="nwSetCat(this,'unread')">⬜ لم تُقرأ</button>
+        <button class="nw-cat"        data-cat="read"      onclick="nwSetCat(this,'read')">✅ قرأت</button>
+      </div>
+    </div>
+
+    <!-- List -->
+    <div id="nw-list"></div>
+    <div class="nw-empty" id="nw-empty" style="display:none">لا توجد نتائج للبحث</div>
+
+  </main>
+</div>
+
+<div id="nw-float" onclick="nwScrollTop()">⬆️ أعلى القائمة</div>
+<a href="ai.html" class="fab-ai" title="تدبّر بالذكاء">🤖</a>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script>
+/* ════════════════════════════════════════════════════════════
+   الأربعون النووية — Full Script
+   ════════════════════════════════════════════════════════════ */
+
+const NW_KEY = 'nw_read';
+const NW_OPEN = 'nw_last_open';
+
+function getRead() { return JSON.parse(localStorage.getItem(NW_KEY) || '[]'); }
+function markRead(id) {
+  let arr = getRead();
+  if (!arr.includes(id)) { arr.push(id); localStorage.setItem(NW_KEY, JSON.stringify(arr)); }
+  updateStats();
+}
+function unmarkRead(id) {
+  let arr = getRead().filter(x => x !== id);
+  localStorage.setItem(NW_KEY, JSON.stringify(arr));
+  updateStats();
+}
+
+/* ─── DATA ────────────────────────────────────────────────── */
+const HADITHS = [
+{n:1, title:'الأعمال بالنيات', cat:'aqeedah', src:'البخاري ومسلم',
+ matn:`عَنْ أَمِيرِ المُؤْمِنِينَ أَبِي حَفْصٍ عُمَرَ بْنِ الخَطّابِ رضي الله عنه قالَ: سَمِعْت رَسُولَ اللَّهِ ﷺ يَقُولُ:\n«إنَّما الأَعْمالُ بِالنِّيّاتِ، وَإِنَّما لِكُلِّ امْرِئٍ ما نَوَى، فَمَنْ كانَتْ هِجْرَتُهُ إلَى اللَّهِ وَرَسُولِهِ فَهِجْرَتُهُ إلَى اللَّهِ وَرَسُولِهِ، وَمَنْ كانَتْ هِجْرَتُهُ لِدُنْيا يُصِيبُها أَوْ امْرَأَةٍ يَنْكِحُها فَهِجْرَتُهُ إلَى ما هاجَرَ إلَيْهِ».`,
+ sharh:'يقرر الحديث أن قبول الأعمال وصلاحها مرهون بنية صاحبها، فالعمل بدون نية صادقة لا قيمة له. النية هي التي تحول العادة إلى عبادة، والأكل والشرب مثلاً يتحولان إلى طاعة إذا قصد بهما التقوي على العبادة.',
+ fawaed:['إخلاص النية لله في كل عمل شرط لقبوله','النية تفرق بين العادات والعبادات','الثواب والعقاب مرتبطان بالمقصد لا بالفعل وحده','من عزم على الخير ولم يعمله كُتب له أجر كامل'],
+ tatbiq:'قبل البدء في أي عمل (صلاة، صدقة، دراسة) استشعر أنك تفعله لله، وجدد نيتك باستمرار.',
+ quiz:{q:'ما المقصود بالنية؟', opts:['قصد القلب نحو العمل','الهجرة إلى المدينة','الفريضة','النطق باللسان'], correct:0}},
+
+{n:2, title:'مراتب الدين الثلاث', cat:'aqeedah', src:'مسلم',
+ matn:`عَنْ عُمَرَ رضي الله عنه قالَ: «بَيْنَما نَحْنُ جُلُوسٌ عِنْدَ رَسُولِ اللَّهِ ﷺ ذاتَ يَوْمٍ، إذْ طَلَعَ عَلَيْنا رَجُلٌ شَدِيدُ بَياضِ الثِّيابِ، شَدِيدُ سَوادِ الشَّعْرِ، لا يُرَى عَلَيْهِ أَثَرُ السَّفَرِ، وَلا يَعْرِفُهُ مِنّا أَحَدٌ. حَتَّى جَلَسَ إلَى النَّبِيِّ ﷺ. فَأَسْنَدَ رُكْبَتَيْهِ إلَى رُكْبَتَيْهِ، وَوَضَعَ كَفَّيْهِ عَلَى فَخْذَيْهِ، وَقالَ: يا مُحَمَّدُ أَخْبِرْنِي عَنْ الإِسْلامِ. فَقالَ رَسُولُ اللَّهِ ﷺ: الإِسْلامُ أَنْ تَشْهَدَ أَنْ لا إلَهَ إلّا اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ، وَتُقِيمَ الصَّلاةَ، وَتُؤْتِيَ الزَّكاةَ، وَتَصُومَ رَمَضانَ، وَتَحُجَّ البَيْتَ إنْ اسْتَطَعْت إلَيْهِ سَبِيلًا. قالَ: صَدَقْت. قالَ: فَأَخْبِرْنِي عَنْ الإِيمانِ. قالَ: أَنْ تُؤْمِنَ بِاَللَّهِ وَمَلائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ والْيَوْمِ الآخِرِ، وَتُؤْمِنَ بِالْقَدَرِ خَيْرِهِ وَشَرِّهِ. قالَ: صَدَقْت. قالَ: فَأَخْبِرْنِي عَنْ الإِحْسانِ. قالَ: أَنْ تَعْبُدَ اللَّهَ كَأَنَّك تَراهُ، فَإِنْ لَمْ تَكُنْ تَراهُ فَإِنَّهُ يَراك. قالَ: فَأَخْبِرْنِي عَنْ السّاعَةِ. قالَ: ما المَسْئُولُ عَنْها بِأَعْلَمَ مِنْ السّائِلِ. قالَ: فَأَخْبِرْنِي عَنْ أَماراتِها؟ قالَ: أَنْ تَلِدَ الأَمَةُ رَبَّتَها، وَأَنْ تَرَى الحُفاةَ العُراةَ العالَةَ رِعاءَ الشّاءِ يَتَطاوَلُونَ فِي البُنْيانِ. ثُمَّ انْطَلَقَ، فَلَبِثْنا مَلِيًّا، ثُمَّ قالَ: يا عُمَرُ أَتَدْرِي مَنْ السّائِلُ؟ قُلْتُ: اللَّهُ وَرَسُولُهُ أَعْلَمُ. قالَ: فَإِنَّهُ جِبْرِيلُ أَتاكُمْ يُعَلِّمُكُمْ دِينَكُمْ».`,
+ sharh:'يُعرِّف الحديث أصول الدين في ثلاث مراتب متكاملة: الإسلام (الأعمال الظاهرة)، والإيمان (العقائد الباطنة)، والإحسان (مراقبة الله واستشعار قربه). جاء جبريل ليعلم الناس دينهم ويُثبت أن الدين منظومة متكاملة.',
+ fawaed:['الدين يشمل الظاهر والباطن','الإحسان درجة فوق الإسلام والإيمان','الإيمان بالقدر خيره وشره ركن من أركان الإيمان','أمارات الساعة من المعجزات النبوية'],
+ tatbiq:'طبق أركان الإسلام الخمسة وآمن بأركان الإيمان الستة، واعبد الله كأنك تراه.',
+ quiz:{q:'كم مرتبة للدين ذكرها الحديث؟', opts:['مرتبتان','ثلاث مراتب','أربع مراتب','خمس مراتب'], correct:1}},
+
+{n:3, title:'بُني الإسلام على خمس', cat:'ibadah', src:'البخاري ومسلم',
+ matn:`عَنْ عَبْدِ اللَّهِ بْنِ عُمَرَ رَضِيَ اللَّهُ عَنْهُما قالَ: سَمِعْت رَسُولَ اللَّهِ ﷺ يَقُولُ:\n«بُنِيَ الإِسْلامُ عَلَى خَمْسٍ: شَهادَةِ أَنْ لا إلَهَ إلّا اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ، وَإِقامِ الصَّلاةِ، وَإِيتاءِ الزَّكاةِ، وَحَجِّ البَيْتِ، وَصَوْمِ رَمَضانَ».`,
+ sharh:'يشبه النبي ﷺ الإسلام بالبناء الذي يقوم على خمسة دعائم أساسية. الشهادتان هما الأساس، والصلاة العمود، والزكاة تطهير المال، والصيام تهذيب النفس، والحج لمن استطاع.',
+ fawaed:['الإسلام بناء متكامل لا يقوم بغير دعائمه','الشهادتان هما الأصل الجامع','الصلاة عمود الدين','الزكاة طهارة للمال والنفس'],
+ tatbiq:'حافظ على الصلاة، وأخرج زكاة مالك، وصم رمضان، واعزم على الحج إذا استطعت.',
+ quiz:{q:'على كم دعيمة بني الإسلام؟', opts:['ثلاث','أربع','خمس','ست'], correct:2}},
+
+{n:4, title:'مراحل خلق الإنسان', cat:'aqeedah', src:'البخاري ومسلم',
+ matn:`عَنْ عَبْدِ اللَّهِ بْنِ مَسْعُودٍ رضي الله عنه قالَ: حَدَّثَنا رَسُولُ اللَّهِ ﷺ وَهُوَ الصّادِقُ المَصْدُوقُ:\n«إنَّ أَحَدَكُمْ يُجْمَعُ خَلْقُهُ فِي بَطْنِ أُمِّهِ أَرْبَعِينَ يَوْمًا نُطْفَةً، ثُمَّ يَكُونُ عَلَقَةً مِثْلَ ذَلِكَ، ثُمَّ يَكُونُ مُضْغَةً مِثْلَ ذَلِكَ، ثُمَّ يُرْسَلُ إلَيْهِ المَلَكُ فَيَنْفُخُ فِيهِ الرُّوحَ، وَيُؤْمَرُ بِأَرْبَعِ كَلِماتٍ: بِكَتْبِ رِزْقِهِ، وَأَجَلِهِ، وَعَمَلِهِ، وَشَقِيٍّ أَمْ سَعِيدٍ؛ فَواَللَّهِ الَّذِي لا إلَهَ غَيْرُهُ إنَّ أَحَدَكُمْ لَيَعْمَلُ بِعَمَلِ أَهْلِ الجَنَّةِ حَتَّى ما يَكُونُ بَيْنَهُ وَبَيْنَها إلّا ذِراعٌ فَيَسْبِقُ عَلَيْهِ الكِتابُ فَيَعْمَلُ بِعَمَلِ أَهْلِ النّارِ فَيَدْخُلُها. وَإِنَّ أَحَدَكُمْ لَيَعْمَلُ بِعَمَلِ أَهْلِ النّارِ حَتَّى ما يَكُونُ بَيْنَهُ وَبَيْنَها إلّا ذِراعٌ فَيَسْبِقُ عَلَيْهِ الكِتابُ فَيَعْمَلُ بِعَمَلِ أَهْلِ الجَنَّةِ فَيَدْخُلُها».`,
+ sharh:'يوضح الحديث عظمة الخلق الإلهي ومراحله. ثم يُعلمنا أن السعادة والشقاوة مكتوبتان، لكن هذا لا ينفي العمل بل يحفز عليه. المفاجأة في النهاية: اعمل ولا تقنط.',
+ fawaed:['الروح تُنفخ بعد 120 يوماً','أربعة أمور مكتوبة للجنين','لا يُستهان بالعمل الصالح','التوبة والعمل الصالح يغيران المصير'],
+ tatbiq:'لا تقنط من رحمة الله مهما أسأت، ولا تغتر بعملك مهما اجتهدت، وأحسن الخاتمة.',
+ quiz:{q:'متى تُنفخ الروح في الجنين؟', opts:['بعد 40 يوماً','بعد 80 يوماً','بعد 120 يوماً','بعد 9 أشهر'], correct:2}},
+
+{n:5, title:'النهي عن البدع', cat:'ibadah', src:'البخاري ومسلم',
+ matn:`عَنْ أُمِّ المُؤْمِنِينَ عائِشَةَ رَضِيَ اللَّهُ عَنْها، قالَتْ: قالَ رَسُولُ اللَّهِ ﷺ:\n«مَنْ أَحْدَثَ فِي أَمْرِنا هَذا ما لَيْسَ مِنْهُ فَهُوَ رَدٌّ».\nوَفِي رِوايَةٍ لِمُسْلِمٍ: «مَنْ عَمِلَ عَمَلًا لَيْسَ عَلَيْهِ أَمْرُنا فَهُوَ رَدٌّ».`,
+ sharh:'ميزان لقبول الأعمال: أي عبادة أُحدثت ولم يأذن بها الشرع فهي مردودة. الدين كامل لا يحتاج زيادة ولا نقصان.',
+ fawaed:['الدين لا يُزاد فيه ولا يُنقص','معيار القبول: الموافقة للسنة','البدعة شرها عظيم لأنها توحي بنقص الدين','كل بدعة ضلالة وكل ضلالة في النار'],
+ tatbiq:'تأكد قبل أي عمل تعبدي أن له أصلاً في الكتاب والسنة، واجتنب العادات التي تحولت إلى عبادات بغير دليل.',
+ quiz:{q:'ما حكم العبادة التي لم يأذن بها الشرع؟', opts:['مقبولة','مردودة','مكروهة','مستحبة'], correct:1}},
+
+{n:6, title:'الحلال والحرام والمشتبهات', cat:'muamalat', src:'البخاري ومسلم',
+ matn:`عَنْ النُّعْمانِ بْنِ بَشِيرٍ رَضِيَ اللَّهُ عَنْهُما قالَ: سَمِعْت رَسُولَ اللَّهِ ﷺ يَقُولُ:\n«إنَّ الحَلالَ بَيِّنٌ، وَإِنَّ الحَرامَ بَيِّنٌ، وَبَيْنَهُما أُمُورٌ مُشْتَبِهاتٌ لا يَعْلَمُهُنَّ كَثِيرٌ مِنْ النّاسِ، فَمَنْ اتَّقَى الشُّبُهاتِ فَقْد اسْتَبْرَأَ لِدِينِهِ وَعِرْضِهِ، وَمَنْ وَقَعَ فِي الشُّبُهاتِ وَقَعَ فِي الحَرامِ، كالرّاعِي يَرْعَى حَوْلَ الحِمَى يُوشِكُ أَنْ يَرْتَعَ فِيهِ، أَلا وَإِنَّ لِكُلِّ مَلِكٍ حِمًى، أَلّا وَإِنَّ حِمَى اللَّهِ مَحارِمُهُ، أَلّا وَإِنَّ فِي الجَسَدِ مُضْغَةً إذا صَلَحَتْ صَلَحَ الجَسَدُ كُلُّهُ، وَإذا فَسَدَتْ فَسَدَ الجَسَدُ كُلُّهُ، أَلا وَهِيَ القَلْبُ».`,
+ sharh:'يبين الحديث أن الأشياء إما حلال بيّن وإما حرام بيّن، وبينهما مشتبهات. من اتقى الشبهات حمى دينه وعرضه. القلب مركز الصلاح والفساد.',
+ fawaed:['الأشياء ثلاثة: حلال، حرام، مشتبه','تجنب الشبهات حفظ للدين','القلب ملك الجسد، بصلاحه يصلح كله','الورع درجة رفيعة فوق الحلال والحرام'],
+ tatbiq:'اترك ما يريبك إلى ما لا يريبك، وتأكد من حلِّ طعامك ومالك، وطهّر قلبك من الغل والحسد.',
+ quiz:{q:'ما هي مضغة الجسد التي بصلاحها يصلح الجسد؟', opts:['الكبد','القلب','الدماغ','المعدة'], correct:1}},
+
+{n:7, title:'الدين النصيحة', cat:'akhlaq', src:'مسلم',
+ matn:`عَنْ تَمِيمِ بْنِ أَوْسٍ الدّارِيِّ رضي الله عنه أَنَّ النَّبِيَّ ﷺ قالَ:\n«الدِّينُ النَّصِيحَةُ. قُلْنا: لِمَنْ؟ قالَ: لِلَّهِ، وَلِكِتابِهِ، وَلِرَسُولِهِ، وَلِأَئِمَّةِ المُسْلِمِينَ وَعامَّتِهِمْ».`,
+ sharh:'يعتبر الحديث أن النصيحة هي جوهر الدين. نصيحة لله بالإخلاص، للكتاب بتعلمه وتحكيمه، للرسول باتباع سنته، للأئمة بطاعتهم، وللعامة بإرشادهم.',
+ fawaed:['النصيحة جوهر الدين','هي حق متبادل بين المسلمين','تكون برفق وستر لا تجريح','تحفظ تماسك المجتمع الإسلامي'],
+ tatbiq:'انصح غيرك برفق وستر، واقبل النصيحة بصدر رحب، وادعُ للحكام بالصلاح.',
+ quiz:{q:'النصيحة الأولى في الحديث لمن؟', opts:['للناس','للإمام','لله','للعلماء'], correct:2}},
+
+{n:8, title:'حرمة دم المسلم', cat:'muamalat', src:'البخاري ومسلم',
+ matn:`عَنْ ابْنِ عُمَرَ رَضِيَ اللَّهُ عَنْهُما أَنَّ رَسُولَ اللَّهِ ﷺ قالَ:\n«أُمِرْت أَنْ أُقاتِلَ النّاسَ حَتَّى يَشْهَدُوا أَنْ لا إلَهَ إلّا اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ، وَيُقِيمُوا الصَّلاةَ، وَيُؤْتُوا الزَّكاةَ؛ فَإِذا فَعَلُوا ذَلِكَ عَصَمُوا مِنِّي دِماءَهُمْ وَأَمْوالَهُمْ إلّا بِحَقِّ الإِسْلامِ، وَحِسابُهُمْ عَلَى اللَّهِ تَعالَى».`,
+ sharh:'يبين الحديث الأصل العام في الدماء والأموال وهو العصمة وعدم الانتهاك. بمجرد الشهادتين وإقام الصلاة والزكاة يصبح دم المرء وماله محرمَين.',
+ fawaed:['دم المسلم وماله معصومان','الحساب النهائي عند الله','لا يجوز الاعتداء على من أظهر الإسلام','الحكم على الظاهر والله يتولى السرائر'],
+ tatbiq:'احترم دماء وأموال وأعراض جميع المسلمين، ولا تتسرع في تكفير أحد.',
+ quiz:{q:'ما الذي يعصم دم المرء وماله؟', opts:['الثروة','الشهادتان والصلاة والزكاة','المنصب','العلم'], correct:1}},
+
+{n:9, title:'ما نهيت فاجتنبوه', cat:'ibadah', src:'البخاري ومسلم',
+ matn:`عَنْ أَبِي هُرَيْرَةَ رضي الله عنه قالَ: سَمِعْت رَسُولَ اللَّهِ ﷺ يَقُولُ:\n«ما نَهَيْتُكُمْ عَنْهُ فاجْتَنِبُوهُ، وَما أَمَرْتُكُمْ بِهِ فَأْتُوا مِنْهُ ما اسْتَطَعْتُمْ، فَإِنَّما أَهْلَكَ الَّذِينَ مِنْ قَبْلِكُمْ كَثْرَةُ مَسائِلِهِمْ واخْتِلافُهُمْ عَلَى أَنْبِيائِهِمْ».`,
+ sharh:'يضع منهجاً في التكليف: النواهي تُجتنب كلياً، والأوامر يُفعل منها ما استُطيع. التحذير من التنطع والمبالغة في السؤال.',
+ fawaed:['النواهي تُجتنب كلياً بلا استثناء','الأوامر يُفعل منها المستطاع','كثرة التنطع مهلكة','الدين يسر لا عسر'],
+ tatbiq:'اجتنب كل ما نهى الله عنه ورسوله تماماً، واجتهد في فعل المأمور حسب طاقتك.',
+ quiz:{q:'ما الفرق بين الأمر والنهي في التكليف؟', opts:['لا فرق بينهما','النهي كلياً والأمر بالاستطاعة','الأمر كلياً والنهي بالاستطاعة','كلاهما بالاستطاعة'], correct:1}},
+
+{n:10, title:'إن الله طيب لا يقبل إلا طيباً', cat:'ibadah', src:'مسلم',
+ matn:`عَنْ أَبِي هُرَيْرَةَ رضي الله عنه قالَ: قالَ رَسُولُ اللَّهِ ﷺ:\n«إنَّ اللَّهَ طَيِّبٌ لا يَقْبَلُ إلّا طَيِّبًا، وَإِنَّ اللَّهَ أَمَرَ المُؤْمِنِينَ بِما أَمَرَ بِهِ المُرْسَلِينَ فَقالَ تَعالَى: ﴿يا أَيُّها الرُّسُلُ كُلُوا مِنْ الطَّيِّباتِ واعْمَلُوا صالِحًا﴾. ثُمَّ ذَكَرَ الرَّجُلَ يُطِيلُ السَّفَرَ أَشْعَثَ أَغْبَرَ يَمُدُّ يَدَيْهِ إلَى السَّماءِ: يا رَبِّ! يا رَبِّ! وَمَطْعَمُهُ حَرامٌ، وَمَشْرَبُهُ حَرامٌ، وَمَلْبَسُهُ حَرامٌ، وَغُذِّيَ بِالْحَرامِ، فَأَنَّى يُسْتَجابُ لَهُ؟».`,
+ sharh:'يؤكد الحديث طهارة الدين وارتباط استجابة الدعاء بأكل الحلال. مهما أطلت السفر وخشعت في الدعاء، فالحرام يحول بينك وبين الإجابة.',
+ fawaed:['الله لا يقبل إلا الطيب في المال والعمل','الحلال شرط لقبول الدعاء والعبادة','المسلم والرسول سواء في الأمر بأكل الطيب','الحرام يحجب الرزق ويُبطل الدعاء'],
+ tatbiq:'تفقد مصدر دخلك، واجتهد في الرزق الحلال، وتب من أي مال حرام قبل الدعاء.',
+ quiz:{q:'ما الذي يمنع قبول الدعاء حسب الحديث؟', opts:['قصر الصلاة','أكل الحرام','السفر','كثرة الكلام'], correct:1}},
+
+{n:11, title:'دع ما يريبك', cat:'akhlaq', src:'الترمذي والنسائي',
+ matn:`عَنْ الحَسَنِ بْنِ عَلِيٍّ رَضِيَ اللَّهُ عَنْهُما قالَ: حَفِظْت مِنْ رَسُولِ اللَّهِ ﷺ:\n«دَعْ ما يُرِيبُك إلَى ما لا يُرِيبُك».`,
+ sharh:'قاعدة ذهبية في الورع: إذا شككت في شيء فاتركه وانتقل لما هو متيقن. الريبة علامة من علامات التقوى.',
+ fawaed:['الشك مؤشر على الخطر','الأصل في الورع: الانتقال من المشكوك فيه','قاعدة تنطبق على المال والطعام والعلاقات','الطمأنينة علامة الحلال'],
+ tatbiq:'إذا ترددت في أمر ووجدت في نفسك حرجاً فاتركه دون تردد.',
+ quiz:{q:'ما معنى (دع ما يريبك)؟', opts:['اترك ما يشككك','اترك ما تكره','اترك ما تجهله','اترك ما يصعب'], correct:0}},
+
+{n:12, title:'من حسن إسلام المرء', cat:'akhlaq', src:'الترمذي وابن ماجه',
+ matn:`عَنْ أَبِي هُرَيْرَةَ رضي الله عنه قالَ: قالَ رَسُولُ اللَّهِ ﷺ:\n«مِنْ حُسْنِ إسْلامِ المَرْءِ تَرْكُهُ ما لا يَعْنِيهِ».`,
+ sharh:'من علامات إسلام المرء الكامل أن يترك ما لا يفيده من قول أو فعل أو نظر. الانشغال بما لا يعني هدر للوقت والطاقة.',
+ fawaed:['الترك عبادة مثل الفعل','حفظ الوقت واجب ديني','الفضول المذموم يجر للغيبة والنميمة','جودة الإسلام في القلة المفيدة'],
+ tatbiq:'لا تتدخل فيما لا يعنيك، ولا تشغل وقتك بالغيبة، واستغله في طاعة الله.',
+ quiz:{q:'ما دليل حسن إسلام المرء في الحديث؟', opts:['كثرة الصدقة','ترك ما لا يعنيه','طول الصلاة','كثرة الذكر'], correct:1}},
+
+{n:13, title:'لا يؤمن أحدكم حتى يحب لأخيه', cat:'akhlaq', src:'البخاري ومسلم',
+ matn:`عَنْ أَنَسِ بْنِ مالِكٍ رضي الله عنه عَنْ النَّبِيِّ ﷺ قالَ:\n«لا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ ما يُحِبُّ لِنَفْسِهِ».`,
+ sharh:'يربط بين كمال الإيمان وبين حب الخير للآخرين. لا يكتمل الإيمان حتى يتمنى المسلم لأخيه ما يتمناه لنفسه من الخير.',
+ fawaed:['كمال الإيمان مرتبط بالإيثار','محاربة الأنانية واجب ديني','الإيمان سلوك اجتماعي لا شعائر فردية','يبدأ بالأسرة ثم الجيران ثم المجتمع'],
+ tatbiq:'هل تحب لأخيك ما تحب لنفسك؟ ابدأ بالهدية والنصيحة المشفقة.',
+ quiz:{q:'ما الذي يجب أن يحبه المسلم لأخيه؟', opts:['ما يحب لنفسه','ما يحبه الأخ','ما يوافق الشرع','الحلال فقط'], correct:0}},
+
+{n:14, title:'لا يحل دم امرئ مسلم', cat:'muamalat', src:'البخاري ومسلم',
+ matn:`عَنْ ابْنِ مَسْعُودٍ رضي الله عنه قالَ: قالَ رَسُولُ اللَّهِ ﷺ:\n«لا يَحِلُّ دَمُ امْرِئٍ مُسْلِمٍ يَشْهَدُ أَنْ لا إلَهَ إلا اللَّهُ وَأَنِّي رَسُولُ اللَّهِ إلّا بِإِحْدَى ثَلاثٍ: الثَّيِّبُ الزّانِي، والنَّفْسُ بِالنَّفْسِ، والتّارِكُ لِدِينِهِ المُفارِقُ لِلْجَماعَةِ».`,
+ sharh:'يحدد الحديث الحالات الوحيدة التي يُباح فيها دم المسلم، وهي ثلاث فقط، وكلها تُقام بأمر القضاء الإسلامي لا بأيدي الأفراد.',
+ fawaed:['الأصل عصمة دم المسلم','استثناءات قليلة ومحددة','تُقام فقط بالقضاء الإسلامي','عظم حرمة الدم في الإسلام'],
+ tatbiq:'لا تتطاول على دم أحد، وذَكِّر من يستسهل الدماء بعظم هذا الحكم.',
+ quiz:{q:'كم حالة أُبيح فيها دم المسلم؟', opts:['حالة واحدة','حالتان','ثلاث حالات','أربع حالات'], correct:2}},
+
+{n:15, title:'من كان يؤمن بالله واليوم الآخر', cat:'akhlaq', src:'البخاري ومسلم',
+ matn:`عَنْ أَبِي هُرَيْرَةَ رضي الله عنه أَنَّ رَسُولَ اللَّهِ ﷺ قالَ:\n«مَنْ كانَ يُؤْمِنُ بِاَللَّهِ والْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ، وَمَنْ كانَ يُؤْمِنُ بِاَللَّهِ والْيَوْمِ الآخِرِ فَلْيُكْرِمْ جارَهُ، وَمَنْ كانَ يُؤْمِنُ بِاَللَّهِ والْيَوْمِ الآخِرِ فَلْيُكْرِمْ ضَيْفَهُ».`,
+ sharh:'يربط الحديث الإيمان بالعمل في ثلاثة مجالات: حفظ اللسان، وإكرام الجار، وإكرام الضيف.',
+ fawaed:['حفظ اللسان من علامات الإيمان','الجار له حق عظيم في الإسلام','إكرام الضيف شعار الكرم الإسلامي','الصمت أحياناً أحكم من الكلام'],
+ tatbiq:'قبل الكلام فكّر: هل هو خير؟ أكرم جارك بالهدية وحسن المعاملة.',
+ quiz:{q:'ما علاقة الإيمان بإكرام الجار في الحديث؟', opts:['لا علاقة','الإيمان يقتضيه','مستحب فقط','خاص بالصحابة'], correct:1}},
+
+{n:16, title:'لا تغضب', cat:'akhlaq', src:'البخاري',
+ matn:`عَنْ أَبِي هُرَيْرَةَ رضي الله عنه أَنْ رَجُلًا قالَ لِلنَّبِيِّ ﷺ: أَوْصِنِي. قالَ:\n«لا تَغْضَبْ»، فَرَدَّدَ مِرارًا، قالَ: «لا تَغْضَبْ».`,
+ sharh:'يختصر النبي ﷺ الوصية في كلمتين. الغضب جامع الشرور، فمن ملك غضبه ملك نفسه. لم يقل لا تحس به، بل لا تعمل به.',
+ fawaed:['التحكم في الغضب مفتاح أخلاق المسلم','الغضب جامع الشرور والفتن','كظم الغيظ من أعظم العبادات','الحكيم من يملك نفسه عند الغضب'],
+ tatbiq:'إذا غضبت وأنت قائم فاجلس، وإذا جلست فاضطجع، واستعذ بالله.',
+ quiz:{q:'كم مرة كررت الوصية في الحديث؟', opts:['مرة','مرتان','مراراً','سبع مرات'], correct:2}},
+
+{n:17, title:'إن الله كتب الإحسان على كل شيء', cat:'akhlaq', src:'مسلم',
+ matn:`عَنْ شَدّادِ بْنِ أَوْسٍ رضي الله عنه عَنْ رَسُولِ اللَّهِ ﷺ قالَ:\n«إنَّ اللَّهَ كَتَبَ الإِحْسانَ عَلَى كُلِّ شَيْءٍ، فَإِذا قَتَلْتُمْ فَأَحْسِنُوا القِتْلَةَ، وَإِذا ذَبَحْتُمْ فَأَحْسِنُوا الذِّبْحَةَ، وَلْيُحِدَّ أَحَدُكُمْ شَفْرَتَهُ، وَلْيُرِحْ ذَبِيحَتَهُ».`,
+ sharh:'الإحسان مكتوب في كل شيء، حتى في القتل والذبح. الإسلام دين الرحمة في كل شيء.',
+ fawaed:['الإتقان فريضة في كل عمل','الرحمة مطلوبة حتى مع الحيوان','الإحسان شامل لكل مجالات الحياة','الإسلام دين الرفق والرحمة'],
+ tatbiq:'أتقن عملك مهما كان صغيراً، وارفق بالحيوان، وأحسن إلى من حولك.',
+ quiz:{q:'ما القاعدة الأخلاقية الجامعة في هذا الحديث؟', opts:['العفو','التوبة','الإحسان','الصبر'], correct:2}},
+
+{n:18, title:'اتق الله حيثما كنت', cat:'akhlaq', src:'الترمذي',
+ matn:`عَنْ أَبِي ذَرٍّ وَمُعاذِ بْنِ جَبَلٍ رَضِيَ اللَّهُ عَنْهُما عَنْ رَسُولِ اللَّهِ ﷺ قالَ:\n«اتَّقِ اللَّهَ حَيْثُما كُنْت، وَأَتْبِعْ السَّيِّئَةَ الحَسَنَةَ تَمْحُها، وَخالِقْ النّاسَ بِخُلُقٍ حَسَنٍ».`,
+ sharh:'ثلاث وصايا جامعة: تقوى الله في كل مكان وزمان، ثم الحسنة تمحو السيئة، ثم حسن المعاملة مع الناس.',
+ fawaed:['التقوى في السر والعلن','التوبة الفورية بعد الخطأ','حسن الخلق مع الناس من أعلى الدرجات','الحسنة تمحو السيئة'],
+ tatbiq:'إذا أخطأت فبادر بحسنة تمحوها، وعامل الناس بما تحب أن يعاملوك به.',
+ quiz:{q:'ما الذي يمحو السيئة حسب الحديث؟', opts:['الصيام','الحسنة','الاستغفار فقط','الصدقة'], correct:1}},
+
+{n:19, title:'احفظ الله يحفظك', cat:'aqeedah', src:'الترمذي',
+ matn:`عَنْ عَبْدِ اللَّهِ بْنِ عَبّاسٍ رَضِيَ اللَّهُ عَنْهُما قالَ: «كُنْت خَلْفَ رَسُولِ اللَّهِ ﷺ يَوْمًا، فَقالَ: يا غُلامُ! إنِّي أُعَلِّمُك كَلِماتٍ: احْفَظْ اللَّهَ يَحْفَظْك، احْفَظْ اللَّهَ تَجِدْهُ تُجاهَك، إذا سَأَلْت فاسْأَلْ اللَّهَ، وَإِذا اسْتَعَنْت فاسْتَعِنْ بِاَللَّهِ، واعْلَمْ أَنَّ الأُمَّةَ لَوْ اجْتَمَعَتْ عَلَى أَنْ يَنْفَعُوك بِشَيْءٍ لَمْ يَنْفَعُوك إلّا بِشَيْءٍ قَدْ كَتَبَهُ اللَّهُ لَك، وَإِنْ اجْتَمَعُوا عَلَى أَنْ يَضُرُّوك بِشَيْءٍ لَمْ يَضُرُّوك إلّا بِشَيْءٍ قَدْ كَتَبَهُ اللَّهُ عَلَيْك؛ رُفِعَتْ الأَقْلامُ، وَجَفَّتْ الصُّحُفُ».\nوَفِي رِوايَةٍ: «احْفَظْ اللَّهَ تَجِدْهُ أمامك، تَعَرَّفْ إلَى اللَّهِ فِي الرَّخاءِ يَعْرِفُك فِي الشِّدَّةِ، وَاعْلَمْ أَنَّ مَا أَخْطَأَك لَمْ يَكُنْ لِيُصِيبَك، وَمَا أَصابَك لَمْ يَكُنْ لِيُخْطِئَك، وَاعْلَمْ أَنَّ النَّصْرَ مَعَ الصَّبْرِ، وَأَنَّ الفَرَجَ مَعَ الكَرْبِ، وَأَنَّ مَعَ العُسْرِ يُسْرًا».`,
+ sharh:'وصية النبي لابن عباس الشاب جمعت حكماً عظيمة في التوحيد والتوكل على الله.',
+ fawaed:['حفظ حدود الله يستوجب حفظ الله','السؤال والاستعانة يكونان بالله وحده','القضاء والقدر ثابتان لا يُغيّران','النصر مع الصبر والفرج مع الكرب'],
+ tatbiq:'اربط قلبك بالله وحده، وإذا احتجت فاسأل الله أولاً.',
+ quiz:{q:'ما الفائدة من حفظ الله في الرخاء؟', opts:['الثواب فقط','يعرفك في الشدة','السلامة من الذنوب','دخول الجنة'], correct:1}},
+
+{n:20, title:'إذا لم تستح فاصنع ما شئت', cat:'akhlaq', src:'البخاري',
+ matn:`عَنْ عُقْبَةَ بْنِ عَمْرٍو الأَنْصارِيِّ رضي الله عنه قالَ: قالَ رَسُولُ اللَّهِ ﷺ:\n«إنَّ مِمّا أَدْرَكَ النّاسُ مِنْ كَلامِ النُّبُوَّةِ الأُولَى: إذا لَمْ تَسْتَحِ فاصْنَعْ ما شِئْت».`,
+ sharh:'الحياء خلق النبوة القديم الموروث. من ارتفع حياؤه ارتفعت صوابع ضبطه، فصنع ما يشاء بلا وازع.',
+ fawaed:['الحياء حكمة موروثة من النبوة الأولى','رفع الحياء يرفع الضابط الداخلي','الحياء خير كله','الاستحياء من الله هو الأساس'],
+ tatbiq:'احذر الأجواء التي تُميت الحياء، واستحيِ من الله حق الحياء.',
+ quiz:{q:'ما أصل هذه الكلمة كما ذكر الحديث؟', opts:['كلام الصحابة','كلام النبوة الأولى','شعر الجاهلية','القرآن الكريم'], correct:1}},
+
+{n:21, title:'قل آمنت بالله ثم استقم', cat:'aqeedah', src:'مسلم',
+ matn:`عَنْ سُفْيانَ بْنِ عَبْدِ اللَّهِ رضي الله عنه قالَ: «قُلْت: يا رَسُولَ اللَّهِ! قُلْ لِي فِي الإِسْلامِ قَوْلًا لا أَسْأَلُ عَنْهُ أَحَدًا غَيْرَك؛ قالَ: قُلْ: آمَنْت بِاَللَّهِ ثُمَّ اسْتَقِمْ».`,
+ sharh:'طلب كلمة جامعة للإسلام، فأجابه بكلمتين عظيمتين: الإيمان ثم الاستقامة. الإيمان أصل، والاستقامة عمل وثمرة.',
+ fawaed:['الاستقامة ثمرة الإيمان الصادق','لزوم الصراط المستقيم دون غلو أو تقصير','الاستقامة تشمل القول والفعل والنية','سبب لدخول الجنة'],
+ tatbiq:'الزم السنة وأداء الفرائض، ولا تغلُ ولا تقصّر.',
+ quiz:{q:'ما الكلمة الجامعة للإسلام في هذا الحديث؟', opts:['الإخلاص','آمنت بالله ثم استقم','لا إله إلا الله','ربي الله'], correct:1}},
+
+{n:22, title:'أدخل الجنة بأداء الفرائض', cat:'ibadah', src:'مسلم',
+ matn:`عَنْ جابِرِ بْنِ عَبْدِ اللَّهِ رَضِيَ اللَّهُ عَنْهُما: «أَنَّ رَجُلًا سَأَلَ رَسُولَ اللَّهِ ﷺ فَقالَ: أَرَأَيْت إذا صَلَّيْت المَكْتُوباتِ، وَصُمْت رَمَضانَ، وَأَحْلَلْت الحَلالَ، وَحَرَّمْت الحَرامَ، وَلَمْ أَزِدْ عَلَى ذَلِكَ شَيْئًا؛ أَأَدْخُلُ الجَنَّةَ؟ قالَ: نَعَمْ».`,
+ sharh:'أكد النبي أن من أدى الفرائض وترك المحارم دخل الجنة. لكن النوافل تُكمّل النقص وترفع الدرجات.',
+ fawaed:['أداء الفرائض وترك المحارم يكفي للجنة','النوافل تُكمّل وترفع لكنها ليست فرضاً','الدين لا يُطغى فيه ولا يُقصَّر','الجنة مكسبها ميسّر'],
+ tatbiq:'حافظ على الصلوات الخمس، واجتنب الكبائر، وأضف من النوافل ما تستطيع.',
+ quiz:{q:'هل يكفي أداء الفرائض لدخول الجنة؟', opts:['لا','نعم','بشروط كثيرة','غير محدد'], correct:1}},
+
+{n:23, title:'الطهور شطر الإيمان', cat:'ibadah', src:'مسلم',
+ matn:`عَنْ أَبِي مالِكٍ الأَشْعَرِيِّ رضي الله عنه قالَ: قالَ رَسُولُ اللَّهِ ﷺ:\n«الطَّهُورُ شَطْرُ الإِيمانِ، والْحَمْدُ لِلَّهِ تَمْلَأُ المِيزانَ، وَسُبْحانَ اللَّهِ والْحَمْدُ لِلَّهِ تَمْلَآنِ ما بَيْنَ السَّماءِ والْأَرْضِ، والصَّلاةُ نُورٌ، والصَّدَقَةُ بُرْهانٌ، والصَّبْرُ ضِياءٌ، والْقُرْآنُ حُجَّةٌ لَك أَوْ عَلَيْك، كُلُّ النّاسِ يَغْدُو، فَبائِعٌ نَفْسَهُ فَمُعْتِقُها أَوْ مُوبِقُها».`,
+ sharh:'يجمع الحديث خصال رفيعة: الطهور نصف الإيمان، والحمد تملأ الميزان، والصلاة نور، والصدقة برهان، والصبر ضياء. كل يوم الإنسان يبيع نفسه إما للنجاة أو للهلاك.',
+ fawaed:['الطهارة جسدية وروحية','الذكر يملأ الميزان','الصلاة تُنير القلب والوجه','كل يوم اختبار للنفس'],
+ tatbiq:'حافظ على الوضوء، وأكثر من الحمد والتسبيح، وتصدق مهما قلّ.',
+ quiz:{q:'ما الذي يملأ الميزان حسب الحديث؟', opts:['الصلاة','الصيام','الحمد لله','الصدقة'], correct:2}},
+
+{n:24, title:'يا عبادي إني حرمت الظلم', cat:'aqeedah', src:'مسلم',
+ matn:`عَنْ أَبِي ذَرٍّ الغِفارِيِّ رضي الله عنه عَنْ النَّبِيِّ ﷺ فِيما يَرْوِيهِ عَنْ رَبِّهِ تَبارَكَ وَتَعالَى، أَنَّهُ قالَ:\n«يا عِبادِي: إنِّي حَرَّمْت الظُّلْمَ عَلَى نَفْسِي، وَجَعَلْته بَيْنَكُمْ مُحَرَّمًا؛ فَلا تَظالَمُوا. يا عِبادِي! كُلُّكُمْ ضالٌّ إلّا مَنْ هَدَيْته، فاسْتَهْدُونِي أَهْدِكُمْ. يا عِبادِي! كُلُّكُمْ جائِعٌ إلّا مَنْ أَطْعَمْته، فاسْتَطْعِمُونِي أُطْعِمْكُمْ. يا عِبادِي! إنَّكُمْ تُخْطِئُونَ بِاللَّيْلِ والنَّهارِ، وَأَنا أَغْفِرُ الذُّنُوبَ جَمِيعًا؛ فاسْتَغْفِرُونِي أَغْفِرْ لَكُمْ. يا عِبادِي! إنَّكُمْ لَنْ تَبْلُغُوا ضُرِّي فَتَضُرُّونِي، وَلَنْ تَبْلُغُوا نَفْعِي فَتَنْفَعُونِي. يا عِبادِي! لَوْ أَنَّ أَوَّلَكُمْ وَآخِرَكُمْ وَإِنْسَكُمْ وَجِنَّكُمْ كانُوا عَلَى أَتْقَى قَلْبِ رَجُلٍ واحِدٍ مِنْكُمْ، ما زادَ ذَلِكَ فِي مُلْكِي شَيْئًا. يا عِبادِي! لَوْ أَنَّ أَوَّلَكُمْ وَآخِرَكُمْ وَإِنْسَكُمْ وَجِنَّكُمْ كانُوا عَلَى أَفْجَرِ قَلْبِ رَجُلٍ واحِدٍ مِنْكُمْ، ما نَقَصَ ذَلِكَ مِنْ مُلْكِي شَيْئًا. يا عِبادِي! إنَّما هِيَ أَعْمالُكُمْ أُحْصِيها لَكُمْ، ثُمَّ أُوَفِّيكُمْ إيّاها؛ فَمَنْ وَجَدَ خَيْرًا فَلْيَحْمَدْ اللَّهَ، وَمَنْ وَجَدَ غَيْرَ ذَلِكَ فَلا يَلُومَن إلّا نَفْسَهُ».`,
+ sharh:'حديث قدسي عظيم يُعلّم حقيقة فقر العباد لله من كل وجه. الله غني عن عبادة الجميع، وعبادته لا تزيد في ملكه شيئاً ولا تنقص.',
+ fawaed:['الظلم محرم في الإسلام تحريماً قاطعاً','الله غني عن عبادة الخلق','الاستغفار مفتاح المغفرة','الجزاء يكون على العمل وحده'],
+ tatbiq:'لا تظلم أحداً، وأكثر من الاستغفار، ولا تعجب بعبادتك.',
+ quiz:{q:'هل تضر عبادة البشر الله؟', opts:['نعم تنفعه','لا، هو غني','تضره المعاصي','يحتاج لعبادتنا'], correct:1}},
+
+{n:25, title:'الصدقة من كل تسبيحة', cat:'ibadah', src:'مسلم',
+ matn:`عَنْ أَبِي ذَرٍّ رضي الله عنه أَيْضًا: «أَنَّ ناسًا مِنْ أَصْحابِ رَسُولِ اللَّهِ ﷺ قالُوا لِلنَّبِيِّ ﷺ: يا رَسُولَ اللَّهِ ذَهَبَ أَهْلُ الدُّثُورِ بِالْأُجُورِ؛ يُصَلُّونَ كَما نُصَلِّي، وَيَصُومُونَ كَما نَصُومُ، وَيَتَصَدَّقُونَ بِفُضُولِ أَمْوالِهِمْ. قالَ: أَوَلَيْسَ قَدْ جَعَلَ اللَّهُ لَكُمْ ما تَصَّدَّقُونَ؟ إنَّ بِكُلِّ تَسْبِيحَةٍ صَدَقَةً، وَكُلِّ تَكْبِيرَةٍ صَدَقَةً، وَكُلِّ تَحْمِيدَةٍ صَدَقَةً، وَكُلِّ تَهْلِيلَةٍ صَدَقَةً، وَأَمْرٌ بِمَعْرُوفٍ صَدَقَةٌ، وَنَهْيٌ عَنْ مُنْكَرٍ صَدَقَةٌ، وَفِي بُضْعِ أَحَدِكُمْ صَدَقَةٌ».`,
+ sharh:'يُعلمنا النبي أن الصدقة لا تقتصر على المال. التسبيح والتكبير والتهليل والأمر بالمعروف كلها صدقات.',
+ fawaed:['أبواب الصدقة لا تعد ولا تحصى','الفقر لا يمنع من نيل الأجر','الذكر صدقة والأخلاق صدقة','الجماع بنية الإعفاف صدقة'],
+ tatbiq:'أكثر من التسبيح والتهليل، وأمر بالمعروف بالطرق الميسّرة.',
+ quiz:{q:'ما الذي يُعدّ صدقة في هذا الحديث؟', opts:['المال فقط','التسبيح والتكبير','الصدقة الجارية فقط','الزكاة'], correct:1}},
+
+{n:26, title:'كل سُلامى عليه صدقة', cat:'akhlaq', src:'البخاري ومسلم',
+ matn:`عَنْ أَبِي هُرَيْرَةَ رضي الله عنه قالَ: قالَ رَسُولُ اللَّهِ ﷺ:\n«كُلُّ سُلامَى مِنْ النّاسِ عَلَيْهِ صَدَقَةٌ، كُلَّ يَوْمٍ تَطْلُعُ فِيهِ الشَّمْسُ: تَعْدِلُ بَيْنَ اثْنَيْنِ صَدَقَةٌ، وَتُعِينُ الرَّجُلَ فِي دابَّتِهِ فَتَحْمِلُهُ عَلَيْها أَوْ تَرْفَعُ لَهُ عَلَيْها مَتاعَهُ صَدَقَةٌ، والْكَلِمَةُ الطَّيِّبَةُ صَدَقَةٌ، وَبِكُلِّ خُطْوَةٍ تَمْشِيها إلَى الصَّلاةِ صَدَقَةٌ، وَتُمِيطُ الأَذَى عَنْ الطَّرِيقِ صَدَقَةٌ».`,
+ sharh:'كل مفصل في جسم الإنسان عليه صدقة يومياً. صور الصدقة كثيرة: العدل، والمساعدة، والكلمة الطيبة، وإماطة الأذى.',
+ fawaed:['شكر النعم يكون بالصدقة','كل معروف صدقة','الكلمة الطيبة صدقة','المشي للصلاة له أجر'],
+ tatbiq:'تصدق ولو بابتسامة أو كلمة طيبة أو إزالة عقبة من الطريق.',
+ quiz:{q:'ما قيمة الكلمة الطيبة في هذا الحديث؟', opts:['لا شيء','صدقة','واجب','مكروه'], correct:1}},
+
+{n:27, title:'البر حسن الخلق', cat:'akhlaq', src:'مسلم وأحمد',
+ matn:`عَنْ النَّوّاسِ بْنِ سَمْعانَ رضي الله عنه عَنْ النَّبِيِّ ﷺ قالَ:\n«الْبِرُّ حُسْنُ الخُلُقِ، والْإِثْمُ ما حاكَ فِي صَدْرِك، وَكَرِهْت أَنْ يَطَّلِعَ عَلَيْهِ النّاسُ».\nوَعَنْ وابِصَةَ بْنِ مَعْبَدٍ رضي الله عنه: «جِئْتَ تَسْأَلُ عَنْ البِرِّ؟ قُلْت: نَعَمْ. فقالَ: استفت قلبك، البِرُّ ما اطْمَأَنَّتْ إلَيْهِ النَّفْسُ، واطْمَأَنَّ إلَيْهِ القَلْبُ، والْإِثْمُ ما حاكَ فِي النَّفْسِ وَتَرَدَّدَ فِي الصَّدْرِ، وَإِنْ أَفْتاك النّاسُ وَأَفْتَوْك».`,
+ sharh:'البر في نهاية المطاف حسن الخلق، والإثم ما أحس به الضمير. استفتاء القلب مع الفتوى الشرعية.',
+ fawaed:['البر ليس مجرد عبادات بل حسن تعامل','الضمير ميزان أخلاقي فطري','الإثم ما يتردد في الصدر','استفتاء القلب لا يُلغي الفتوى'],
+ tatbiq:'إذا حز في نفسك أمر ووجدت تردداً فدعه، واستشر العلماء.',
+ quiz:{q:'ما تعريف البر في الحديث؟', opts:['كثرة الصلاة','حسن الخلق','الصدقة المستمرة','الحج والعمرة'], correct:1}},
+
+{n:28, title:'أوصيكم بتقوى الله', cat:'aqeedah', src:'أبو داود والترمذي',
+ matn:`عَنْ العِرْباضِ بْنِ سارِيَةَ رضي الله عنه قالَ: «وَعَظَنا رَسُولُ اللَّهِ ﷺ مَوْعِظَةً وَجِلَتْ مِنْها القُلُوبُ، وَذَرَفَتْ مِنْها العُيُونُ، فَقُلْنا: يا رَسُولَ اللَّهِ! كَأَنَّها مَوْعِظَةُ مُوَدِّعٍ فَأَوْصِنا. قالَ: أُوصِيكُمْ بِتَقْوَى اللَّهِ، والسَّمْعِ والطّاعَةِ وَإِنْ تَأَمَّرَ عَلَيْكُمْ عَبْدٌ، فَإِنَّهُ مَنْ يَعِشْ مِنْكُمْ فَسَيَرَى اخْتِلافًا كَثِيرًا، فَعَلَيْكُمْ بِسُنَّتِي وَسُنَّةِ الخُلَفاءِ الرّاشِدِينَ المَهْدِيينَ، عَضُّوا عَلَيْها بِالنَّواجِذِ، وَإِيّاكُمْ وَمُحْدَثاتِ الأُمُورِ؛ فَإِنَّ كُلَّ بِدْعَةٍ ضَلالَةٌ».`,
+ sharh:'خطبة الوداع النبوية. أوصى بالتقوى والطاعة، وحذر من البدع والاختلاف. التمسك بالسنة هو مفتاح النجاة في زمن الاختلاف.',
+ fawaed:['التقوى وصية النبيين','السمع والطاعة للولاة في المعروف','التمسك بالسنة وسنة الخلفاء الراشدين','كل بدعة ضلالة'],
+ tatbiq:'ابحث عن السنة المحضة وتمسك بها، واجتنب محدثات الأمور في الدين.',
+ quiz:{q:'ما وصف كل بدعة في الحديث؟', opts:['مكروهة','مباحة','ضلالة','خلاف الأولى'], correct:2}},
+
+{n:29, title:'ملاك الأمر كله', cat:'akhlaq', src:'الترمذي',
+ matn:`عَنْ مُعاذِ بْنِ جَبَلٍ رضي الله عنه قالَ: قُلْت: يا رَسُولَ اللَّهِ! أَخْبِرْنِي بِعَمَلٍ يُدْخِلُنِي الجَنَّةَ وَيُباعِدْنِي مِنْ النّارِ. قالَ: «لَقَدْ سَأَلْت عَنْ عَظِيمٍ، وَإِنَّهُ لَيَسِيرٌ عَلَى مَنْ يَسَّرَهُ اللَّهُ عَلَيْهِ: تَعْبُدُ اللَّهَ لا تُشْرِكْ بِهِ شَيْئًا، وَتُقِيمُ الصَّلاةَ، وَتُؤْتِي الزَّكاةَ، وَتَصُومُ رَمَضانَ، وَتَحُجُّ البَيْتَ، ثُمَّ قالَ: أَلا أَدُلُّك عَلَى أَبْوابِ الخَيْرِ؟ الصَّوْمُ جُنَّةٌ، والصَّدَقَةُ تُطْفِئُ الخَطِيئَةَ كَما يُطْفِئُ الماءُ النّارَ، وَصَلاةُ الرَّجُلِ فِي جَوْفِ اللَّيْلِ. ثُمَّ قالَ: أَلا أُخْبِرُك بِمَلاكِ ذَلِكَ كُلِّهِ؟ فَأَخَذَ بِلِسانِهِ وَقالَ: كُفَّ عَلَيْك هَذا».`,
+ sharh:'جمع الحديث علم الدين في سؤال واحد وإجابة شاملة. ثم ختم بأن ملاك كل ذلك حفظ اللسان.',
+ fawaed:['حفظ اللسان ملاك كل الأمور','الصيام جُنّة من الذنوب','الصدقة تطفئ الخطيئة','قيام الليل من أعظم العبادات'],
+ tatbiq:'لا تتكلم إلا بخير، وصم نوافل وتصدق.',
+ quiz:{q:'ما الذي وصفه النبي بأنه ملاك كل الأمور؟', opts:['الصلاة','الصيام','حفظ اللسان','الصدقة'], correct:2}},
+
+{n:30, title:'إن الله فرض فرائض', cat:'ibadah', src:'الدارقطني',
+ matn:`عَنْ أَبِي ثَعْلَبَةَ الخُشَنِيِّ رضي الله عنه عَنْ رَسُولِ اللَّهِ ﷺ قال:\n«إنَّ اللَّهَ تَعالَى فَرَضَ فَرائِضَ فَلا تُضَيِّعُوها، وَحَدَّ حُدُودًا فَلا تَعْتَدُوها، وَحَرَّمَ أَشْياءَ فَلا تَنْتَهِكُوها، وَسَكَتَ عَنْ أَشْياءَ رَحْمَةً لَكُمْ غَيْرَ نِسْيانٍ فَلا تَبْحَثُوا عَنْها».`,
+ sharh:'يُقسّم الأشياء إلى فرائض لا تُضيَّع، وحدود لا تُتجاوز، ومحارم لا تُنتهك، ومسكوت عنه لا يُبحث فيه.',
+ fawaed:['التيسير ورفع الحرج من رحمة الله','المسكوت عنه مباح لا يُبحث عنه','الانشغال بما فرض الله يكفي','لا تشدد فيما لم يشدد الله فيه'],
+ tatbiq:'لا تشغل نفسك بما سكت عنه الله، وركّز على الواجبات والمحارم.',
+ quiz:{q:'ما موقف الإسلام من المسكوت عنه؟', opts:['حرام','واجب','مباح لا يُبحث عنه','مكروه'], correct:2}},
+
+{n:31, title:'ازهد في الدنيا يحبك الله', cat:'akhlaq', src:'ابن ماجه',
+ matn:`عَنْ سَهْلِ بْنِ سَعْدٍ السّاعِدِيّ رضي الله عنه قالَ: جاءَ رَجُلٌ إلَى النَّبِيِّ ﷺ فَقالَ: يا رَسُولَ اللَّهِ! دُلَّنِي عَلَى عَمَلٍ إذا عَمِلْتُهُ أَحَبَّنِي اللَّهُ وَأَحَبَّنِي النّاسُ؛ فَقالَ:\n«ازْهَدْ فِي الدُّنْيا يُحِبُّك اللَّهُ، وازْهَدْ فِيما عِنْدَ النّاسِ يُحِبُّك النّاسُ».`,
+ sharh:'حكمة بالغة في مجلد: من ترك الدنيا أحبه الله، ومن ترك ما في أيدي الناس أحبه الناس. الزهد عزة نفس.',
+ fawaed:['الزهد في الدنيا سبب محبة الله','عدم الطمع فيما عند الناس يُكسب محبتهم','الزهد قناعة وعفة لا فقر','طالب الدنيا يُذل نفسه'],
+ tatbiq:'قلل من التطلع لما في أيدي الناس، واكتفِ بما رزقك الله.',
+ quiz:{q:'ما نتيجة الزهد في الدنيا؟', opts:['الفقر','محبة الله','الشهرة','الوحدة'], correct:1}},
+
+{n:32, title:'لا ضرر ولا ضرار', cat:'muamalat', src:'ابن ماجه والدارقطني',
+ matn:`عَنْ سَعْدِ بْنِ مالِكٍ الخُدْرِيّ رضي الله عنه أَنَّ رَسُولَ اللَّهِ ﷺ قالَ:\n«لا ضَرَرَ وَلا ضِرارَ».`,
+ sharh:'قاعدة فقهية عظيمة جامعة: لا ضرر = عدم إيقاع الضرر ابتداءً، ولا ضرار = عدم المقابلة بضرر مثله. يمنع كل صور الإيذاء.',
+ fawaed:['أصل الإسلام رفع الضرر','لا يجوز مقابلة الضرر بضرر','أساس المعاملات العادلة','قاعدة تحمي المجتمع من الظلم'],
+ tatbiq:'لا تؤذِ أحداً في نفسه أو ماله أو عرضه، ولا تُضار من أضرك.',
+ quiz:{q:'ما معنى (لا ضرار)؟', opts:['منع الضرر ابتداءً','منع المقابلة بضرر','تحريم الظلم فقط','منع الخلاف'], correct:1}},
+
+{n:33, title:'البيّنة على المدعي', cat:'muamalat', src:'البيهقي',
+ matn:`عَنْ ابْنِ عَبّاسٍ رَضِيَ اللَّهُ عَنْهُما أَنَّ رَسُولَ اللَّهِ ﷺ قالَ:\n«لَوْ يُعْطَى النّاسُ بِدَعْواهُمْ لادَّعَى رِجالٌ أَمْوالَ قَوْمٍ وَدِماءَهُمْ، لَكِنَّ البَيِّنَةَ عَلَى المُدَّعِي، والْيَمِينَ عَلَى مَنْ أَنْكَرَ».`,
+ sharh:'قاعدة قضائية كبرى: الإثبات على من ادّعى، والإنكار على من ادّعي عليه باليمين. حمايةً للحقوق من الباطل.',
+ fawaed:['الأصل براءة الذمة','الإثبات واجب على المدعي','اليمين حق المنكر','هذا يحمي من الظلم بالدعوى الكاذبة'],
+ tatbiq:'لا تُلزم أحداً بشيء بغير دليل، وإذا ادعيت فأحضر البيّنة.',
+ quiz:{q:'على من تقع البيّنة في القضاء؟', opts:['المنكر','المدعي','القاضي','الشهود'], correct:1}},
+
+{n:34, title:'من رأى منكم منكراً', cat:'ibadah', src:'مسلم',
+ matn:`عَنْ أَبِي سَعِيدٍ الخُدْرِيّ رضي الله عنه قالَ: سَمِعْت رَسُولَ اللَّهِ ﷺ يَقُولُ:\n«مَنْ رَأَى مِنْكُمْ مُنْكَرًا فَلْيُغَيِّرْهُ بِيَدِهِ، فَإِنْ لَمْ يَسْتَطِعْ فَبِلِسانِهِ، فَإِنْ لَمْ يَسْتَطِعْ فَبِقَلْبِهِ، وَذَلِكَ أَضْعَفُ الإِيمانِ».`,
+ sharh:'درجات إنكار المنكر ثلاث: باليد (السلطة)، فاللسان (النصيحة)، فالقلب (الكراهة). ولا تسقط درجة القلب أبداً.',
+ fawaed:['الإنكار بالقلب فرض لا يسقط','درجات الإنكار مرتبطة بالاستطاعة','المشاركة في المنكر بالصمت رضاً خطر','المجتمع الإسلامي مسؤول عن بعضه'],
+ tatbiq:'إذا رأيت منكراً فلا تجلس راضياً به، وأنكره بأخف الدرجات على الأقل.',
+ quiz:{q:'ما أضعف الإيمان في الحديث؟', opts:['اليد','اللسان','القلب','الصمت'], correct:2}},
+
+{n:35, title:'المسلم أخو المسلم', cat:'akhlaq', src:'مسلم',
+ matn:`عَنْ أَبِي هُرَيْرَةَ رضي الله عنه قالَ: قالَ رَسُولُ اللَّهِ ﷺ:\n«لا تَحاسَدُوا، وَلا تَناجَشُوا، وَلا تَباغَضُوا، وَلا تَدابَرُوا، وَلا يَبِعْ بَعْضُكُمْ عَلَى بَيْعِ بَعْضٍ، وَكُونُوا عِبادَ اللَّهِ إخْوانًا، المُسْلِمُ أَخُو المُسْلِمِ، لا يَظْلِمُهُ، وَلا يَخْذُلُهُ، وَلا يَكْذِبُهُ، وَلا يَحْقِرُهُ. التَّقْوَى هاهُنا - وَيُشِيرُ إلَى صَدْرِهِ ثَلاثَ مَرّاتٍ - بِحَسْبِ امْرِئٍ مِنْ الشَّرِّ أَنْ يَحْقِرَ أَخاهُ المُسْلِمَ».`,
+ sharh:'يُقرر قانوناً للأخوة الإسلامية: لا حسد ولا تدابر ولا تناجش. المسلم لا يظلم أخاه ولا يخذله ولا يحقره. التقوى في القلب.',
+ fawaed:['الأخوة الإسلامية واجب ديني','الحسد يأكل الحسنات','التقوى محلها القلب لا الأجسام','تحقير المسلم من الشر'],
+ tatbiq:'اجتنب الحسد، ووطّد علاقتك بإخوانك المسلمين.',
+ quiz:{q:'أين محل التقوى كما أشار النبي؟', opts:['الرأس','اليدين','الصدر','العينين'], correct:2}},
+
+{n:36, title:'من نفّس عن مؤمن كربة', cat:'akhlaq', src:'مسلم',
+ matn:`عَنْ أَبِي هُرَيْرَةَ رضي الله عنه عَنْ النَّبِيِّ ﷺ قالَ:\n«مَنْ نَفَّسَ عَنْ مُؤْمِنٍ كُرْبَةً مِنْ كُرَبِ الدُّنْيا نَفَّسَ اللَّهُ عَنْهُ كُرْبَةً مِنْ كُرَبِ يَوْمِ القِيامَةِ، وَمَنْ يَسَّرَ عَلَى مُعْسِرٍ، يَسَّرَ اللَّهُ عَلَيْهِ فِي الدُّنْيا والْآخِرَةِ، وَمَنْ سَتَرَ مُسْلِما سَتَرَهُ اللهُ فِي الدُّنْيا والْآخِرَةِ، واَللَّهُ فِي عَوْنِ العَبْدِ ما كانَ العَبْدُ فِي عَوْنِ أَخِيهِ».`,
+ sharh:'قانون الجزاء من جنس العمل. من فرّج كربة فُرِّج عنه، ومن ستر سُتر عليه، والله في عون العبد ما دام في عون أخيه.',
+ fawaed:['تفريج الكروب يكسب المغفرة','الستر على المسلم فريضة أخلاقية','الله في عون من يعين الناس','طلب العلم طريق للجنة'],
+ tatbiq:'اقضِ حاجة أخيك المسلم، وستر عليه، وفرّج كربته.',
+ quiz:{q:'من ينصر الله كما ذكر الحديث؟', opts:['من يكثر الصلاة','من يعين أخاه','من يُكثر الصدقة','من يصوم النوافل'], correct:1}},
+
+{n:37, title:'كتابة الحسنات والسيئات', cat:'aqeedah', src:'البخاري ومسلم',
+ matn:`عَنْ ابْنِ عَبّاسٍ رَضِيَ اللَّهُ عَنْهُما عَنْ رَسُولِ اللَّهِ ﷺ فِيما يَرْوِيهِ عَنْ رَبِّهِ تَبارَكَ وَتَعالَى قالَ:\n«إنَّ اللَّهَ كَتَبَ الحَسَناتِ والسَّيِّئاتِ، ثُمَّ بَيَّنَ ذَلِكَ، فَمَنْ هَمَّ بِحَسَنَةٍ فَلَمْ يَعْمَلْها كَتَبَها اللَّهُ عِنْدَهُ حَسَنَةً كامِلَةً، وَإِنْ هَمَّ بِها فَعَمِلَها كَتَبَها اللَّهُ عِنْدَهُ عَشْرَ حَسَناتٍ إلَى سَبْعِمِائَةِ ضِعْفٍ إلَى أَضْعافٍ كَثِيرَةٍ، وَإِنْ هَمَّ بِسَيِّئَةٍ فَلَمْ يَعْمَلْها كَتَبَها اللَّهُ عِنْدَهُ حَسَنَةً كامِلَةً، وَإِنْ هَمَّ بِها فَعَمِلَها كَتَبَها اللَّهُ سَيِّئَةً واحِدَةً».`,
+ sharh:'عدل الله ورحمته في الحساب: الحسنة تُضاعف من عشرة إلى سبعمائة وأكثر، والسيئة تُكتب واحدة فقط.',
+ fawaed:['رحمة الله تتجلى في مضاعفة الحسنات','الهم بالخير يُكتب حسنة','الهم بالسيئة دون عمل يُكتب حسنة','العدل الإلهي في كتابة السيئة واحدة'],
+ tatbiq:'أكثر من النية للخير، ولا تقنط إذا أخطأت، وسارع بالتوبة.',
+ quiz:{q:'كم أضعاف تكتب الحسنة إذا عمل بها؟', opts:['مثلها','3 أضعاف','10 فأكثر إلى 700','واحدة'], correct:2}},
+
+{n:38, title:'من عادى لي ولياً', cat:'aqeedah', src:'البخاري',
+ matn:`عَنْ أَبِي هُرَيْرَةَ رضي الله عنه قالَ: قالَ رَسُولُ اللَّهِ ﷺ: إنَّ اللَّهَ تَعالَى قالَ:\n«مَنْ عادَى لِي وَلِيًّا فَقْد آذَنْتهُ بِالْحَرْبِ، وَما تَقَرَّبَ إلَيَّ عَبْدِي بِشَيْءٍ أَحَبَّ إلَيَّ مِمّا افْتَرَضْتُهُ عَلَيْهِ، وَلا يَزالُ عَبْدِي يَتَقَرَّبُ إلَيَّ بِالنَّوافِلِ حَتَّى أُحِبَّهُ، فَإِذا أَحْبَبْتُهُ كُنْت سَمْعَهُ الَّذِي يَسْمَعُ بِهِ، وَبَصَرَهُ الَّذِي يُبْصِرُ بِهِ، وَيَدَهُ الَّتِي يَبْطِشُ بِها، وَرِجْلَهُ الَّتِي يَمْشِي بِها، وَلَئِنْ سَأَلَنِي لَأُعْطِيَنَّهُ، وَلَئِنْ اسْتَعاذَنِي لَأُعِيذَنَّهُ».`,
+ sharh:'حديث قدسي في أولياء الله. الفرائض هي الأحب إلى الله، والنوافل توصل إلى محبة الله. من أحبه الله أيّده في كل حركاته.',
+ fawaed:['الفرائض أحب إلى الله من النوافل','النوافل طريق لمحبة الله','معاداة أولياء الله خطر عظيم','من أحبه الله استجاب دعاءه'],
+ tatbiq:'أتقن الفرائض أولاً، ثم أضف من النوافل بقدر استطاعتك.',
+ quiz:{q:'ما أحب القربات إلى الله في الحديث؟', opts:['النوافل','التسبيح','الفرائض','الصيام'], correct:2}},
+
+{n:39, title:'رُفع عن أمتي الخطأ', cat:'muamalat', src:'ابن ماجه والبيهقي',
+ matn:`عَنْ ابْنِ عَبّاسٍ رَضِيَ اللَّهُ عَنْهُما أَنَّ رَسُولَ اللَّهِ ﷺ قالَ:\n«إنَّ اللَّهَ تَجاوَزَ لِي عَنْ أُمَّتِي الخَطَأَ والنِّسْيانَ وَما اسْتُكْرِهُوا عَلَيْهِ».`,
+ sharh:'رحمة عظيمة: الخطأ غير المقصود والنسيان والإكراه مرفوع عنها الإثم.',
+ fawaed:['رفع الحرج عن أمة محمد ﷺ','الخطأ والنسيان لا إثم فيهما','المكره لا تُحتسب عليه معصيته','من خصائص هذه الأمة'],
+ tatbiq:'لا تُؤنّب نفسك إذا أخطأت خطأً غير مقصود، وتب وامضِ.',
+ quiz:{q:'ما الذي رفع الله عن هذه الأمة كما في الحديث؟', opts:['الكبائر','الخطأ والنسيان والإكراه','الغفلة والجهل','المعاصي كلها'], correct:1}},
+
+{n:40, title:'كن في الدنيا كأنك غريب', cat:'akhlaq', src:'البخاري',
+ matn:`عَنْ ابْنِ عُمَرَ رَضِيَ اللَّهُ عَنْهُما قالَ: أَخَذَ رَسُولُ اللَّهِ ﷺ بِمَنْكِبِي، وَقالَ:\n«كُنْ فِي الدُّنْيا كَأَنَّك غَرِيبٌ أَوْ عابِرُ سَبِيلٍ».\nوَكانَ ابْنُ عُمَرَ رَضِيَ اللَّهُ عَنْهُما يَقُولُ: إذا أَمْسَيْتَ فَلا تَنْتَظِرْ الصَّباحَ، وَإِذا أَصْبَحْتَ فَلا تَنْتَظِرْ المَساءَ، وَخُذْ مِنْ صِحَّتِك لِمَرَضِك، وَمِنْ حَياتِك لِمَوْتِك.`,
+ sharh:'الدنيا ليست دار إقامة بل دار عبور. الغريب لا يثقل حمله ولا يتكلف البنيان. وصية ابن عمر في اغتنام الصحة والحياة.',
+ fawaed:['الدنيا دار عبور لا دار قرار','اغتنم الفرص قبل فواتها','خمسة قبل خمسة','الزهد في الدنيا من أعلى الدرجات'],
+ tatbiq:'استغل صحتك وشبابك وفراغك قبل فواتهم.',
+ quiz:{q:'كيف أمر النبي بأن يكون المؤمن في الدنيا؟', opts:['حاكماً','غريباً أو عابر سبيل','تاجراً','مسافراً للحج'], correct:1}},
+
+// ── الأحاديث 41–50 (ملحقة) ──────────────────────────────
+{n:41, title:'لا يؤمن حتى يكون هواه تبعاً', cat:'aqeedah', src:'الحجة — صحيح',
+ extra:true,
+ matn:`عَنْ عَبْدِ اللَّهِ بْنِ عَمْرِو بْنِ العاصِ رَضِيَ اللَّهُ عَنْهُما قالَ: قالَ رَسُولُ اللَّهِ ﷺ:\n«لا يُؤْمِنُ أَحَدُكُمْ حَتَّى يَكُونَ هَواهُ تَبَعًا لِما جِئْتُ بِهِ».`,
+ sharh:'كمال الإيمان أن تتبع الهوى للشريعة لا الشريعة للهوى.',
+ fawaed:['تبعية الهوى للشرع من كمال الإيمان','مخالفة الهوى من أعظم العبادات','الهوى مذموم إذا خالف الشرع'],
+ tatbiq:'عند كل أمر راجع الشريعة لا هواك.',
+ quiz:{q:'ما الذي يجب أن يتبع الشريعة؟', opts:['العقل','الهوى','المال','السلطة'], correct:1}},
+
+{n:42, title:'يا ابن آدم إنك ما دعوتني', cat:'aqeedah', src:'الترمذي',
+ extra:true,
+ matn:`عَنْ أَنَسِ بْنِ مالِكٍ رضي الله عنه قالَ: سَمِعْت رَسُولَ اللَّهِ ﷺ يَقُولُ: قالَ اللَّهُ تَعالَى:\n«يا ابْنَ آدَمَ! إِنَّكَ ما دَعَوْتنِي وَرَجَوْتنِي غَفَرْتُ لَك عَلَى ما كانَ مِنْك وَلا أُبالِي، يا ابْنَ آدَمَ! لَوْ بَلَغَتْ ذُنُوبُك عَنانَ السَّماءِ ثُمَّ اسْتَغْفَرْتنِي غَفَرْتُ لَك، يا ابْنَ آدَمَ! إنَّك لَوْ أتَيْتنِي بِقُرابِ الأَرْضِ خَطايا ثُمَّ لَقِيتنِي لا تُشْرِكُ بِي شَيْئًا لَأَتَيْتُك بِقُرابِها مَغْفِرَةً».`,
+ sharh:'حديث قدسي بالرحمة الإلهية الواسعة. مهما بلغت الذنوب فالتوبة والاستغفار يمحوها.',
+ fawaed:['رحمة الله لا حد لها','الاستغفار يمحو الذنوب كلها','شرط المغفرة الكبرى: عدم الشرك','الدعاء والرجاء مفتاح الغفران'],
+ tatbiq:'لا تيأس من رحمة الله مهما أخطأت، وأكثر من الاستغفار.',
+ quiz:{q:'ما شرط الغفران الكبير في الحديث؟', opts:['كثرة الصلاة','عدم الشرك','الصيام الدائم','الحج'], correct:1}},
+
+{n:43, title:'ألحقوا الفرائض بأهلها', cat:'muamalat', src:'البخاري ومسلم',
+ extra:true,
+ matn:`عَنْ ابْنِ عَبّاسٍ رَضِيَ اللَّهُ عَنْهُما قالَ: قالَ رَسُولُ اللَّهِ ﷺ:\n«أَلْحِقُوا الفَرائِضَ بِأَهْلِها، فَما أَبْقَتَ الفَرائِضُ فَلِأَوْلَى رَجُلٍ ذَكَرٍ».`,
+ sharh:'قاعدة في علم الميراث: أعطِ كل ذي حق حقه من الفرائض الشرعية، وما بقي فللأقرب من الذكور.',
+ fawaed:['الميراث حق شرعي لا يُبدَّل','الأولوية للفرائض الشرعية المحددة','نظام الميراث الإسلامي عادل ومحكم'],
+ tatbiq:'أوصِ بتطبيق الميراث الشرعي، ولا تحرم أحداً من حقه.',
+ quiz:{q:'من يأخذ ما يبقى بعد الفرائض؟', opts:['الزوجة','أقرب الذكور','الدولة','الأقرب من النساء'], correct:1}},
+
+{n:44, title:'الرضاعة تحرم ما تحرم الولادة', cat:'muamalat', src:'البخاري ومسلم',
+ extra:true,
+ matn:`عَنْ عائِشَةَ رَضِيَ اللَّهُ عَنْها عَنْ النَّبِيِّ ﷺ قالَ:\n«الرَّضاعَةُ تُحَرِّمُ ما تُحَرِّمُ الوِلادَةُ».`,
+ sharh:'الرضاعة تُنشئ رابطة تحرم التزاوج كرابطة النسب تماماً.',
+ fawaed:['الرضاعة تُنشئ محرمية','تحرم ما تحرمه رابطة الدم','من أحكام الإسلام الدقيقة في صون الأسرة'],
+ tatbiq:'تأكد من رضاعاتك قبل الزواج إذا كنت في مجتمع يشيع فيه الإرضاع.',
+ quiz:{q:'ما الذي تُنشئه الرضاعة كالنسب؟', opts:['الميراث','التحريم','الولاية','النفقة'], correct:1}},
+
+{n:45, title:'قاتل الله اليهود', cat:'muamalat', src:'البخاري ومسلم',
+ extra:true,
+ matn:`عَنْ جابِرِ بْنِ عَبْدِ اللَّهِ رَضِيَ اللَّهُ عَنْهُما أَنَّهُ سَمِعَ رَسُولَ اللَّهِ ﷺ عامَ الفَتْحِ يَقُولُ:\n«إِنَّ اللَّهَ وَرَسُولَهُ حَرَّمَ بَيْعَ الخَمْرِ والْمَيْتَةِ والْخِنْزِيرِ والْأَصْنامِ». فَقالَ: يا رَسُولَ اللَّهِ أَرَأَيْتَ شُحُومَ المَيْتَةِ؟ فَقالَ: «لا، هُوَ حَرامٌ»، ثُمَّ قالَ: «قاتَلَ اللَّهُ اليَهُودَ، إِنَّ اللَّهَ حَرَّمَ عَلَيْهِم الشُّحُومَ، فَأَجْمَلُوهُ، ثُمَّ باعُوهُ، فَأَكَلُوا ثَمَنَهُ».`,
+ sharh:'بيع المحرمات بأي صورة حرام، والتحيل على الحرام بتغيير صورته لا يُبيحه.',
+ fawaed:['التحيل على الحرام لا يُبيحه','بيع المحرمات في ذاتها محرم','حرمة الثمن تتبع حرمة المثمن'],
+ tatbiq:'لا تتحيل على الحرام بتغيير الشكل أو الاسم.',
+ quiz:{q:'ما موقف الإسلام من التحيل على الحرام؟', opts:['مباح','مكروه','محرم','خلاف الأولى'], correct:2}},
+
+{n:46, title:'كل مسكر حرام', cat:'muamalat', src:'البخاري',
+ extra:true,
+ matn:`عَنْ أَبِي مُوسَى الأَشْعَرِيِّ رضي الله عنه أَنَّ النَّبِيَّ ﷺ بَعَثَهُ إِلَى اليَمَنِ، فَسَأَلَهُ عَنْ أَشْرِبَةٍ تُصْنَعُ بِها. فَقالَ:\n«كُلُّ مُسْكِرٍ حَرام».`,
+ sharh:'قاعدة جامعة: كل مسكر حرام بصرف النظر عن مادته أو اسمه.',
+ fawaed:['الإسكار هو العلة لا المادة','القاعدة عامة لجميع أنواع المسكرات','ما أسكر كثيره فقليله حرام'],
+ tatbiq:'اجتنب كل مسكر مهما كان اسمه.',
+ quiz:{q:'ما معيار تحريم المسكر في الحديث؟', opts:['مادته','اسمه','طعمه','إسكاره'], correct:3}},
+
+{n:47, title:'ثلث للطعام وثلث للشراب', cat:'akhlaq', src:'الترمذي وابن ماجه',
+ extra:true,
+ matn:`عَنْ المِقْدامِ بْنِ مَعْدِيَكْرِبَ قالَ: سَمِعْتُ رَسُولَ اللَّهِ ﷺ يَقُولُ:\n«ما مَلَأَ آدَمِيٌّ وِعاءً شَرًّا مِنْ بَطْنٍ، بِحَسْبِ ابْنِ آدَمَ أُكُلاتٌ يُقِمْنَ صُلْبَهُ، فَإِنْ كانَ لا مَحالَةَ، فَثُلُثٌ لِطَعامِهِ، وَثُلُثٌ لِشَرابِهِ، وَثُلُثٌ لِنَفَسِهِ».`,
+ sharh:'نظام غذائي إسلامي دقيق: ثلث للطعام، وثلث للشراب، وثلث للنفس (الهواء). الامتلاء الزائد مذموم.',
+ fawaed:['الإسلام دين الاعتدال في الطعام','ملء البطن مذموم في الإسلام','الطعام يكفي قليله','هذا منهج صحي قبل الطب الحديث'],
+ tatbiq:'قم من كل وجبة وأنت تشعر بنقص بسيط.',
+ quiz:{q:'كم ثلث يُوصى بتركه فارغاً؟', opts:['لا شيء','ثلث للهواء','نصف','الثلثان'], correct:1}},
+
+{n:48, title:'أربع من كن فيه كان منافقاً', cat:'akhlaq', src:'البخاري ومسلم',
+ extra:true,
+ matn:`عَنْ عَبْدِ اللَّهِ بْنِ عَمْرٍو رَضِيَ اللَّهُ عَنْهُما أَنَّ النَّبِيَّ ﷺ قالَ:\n«أَرْبَعٌ مَنْ كُنَّ فِيهِ كانَ مُنافِقًا، وَإِنْ كانَتْ خَصْلَةٌ مِنْهُنَّ فِيهِ كانَتْ فِيهِ خَصْلَةٌ مِنْ النِّفاقِ حَتَّى يَدَعَها: مَنْ إِذا حَدَّثَ كَذَبَ، وإِذا وَعَدَ أَخْلَفَ، وإذا خاصَمَ فَجَرَ، وَإِذا عاهَدَ غَدَرَ».`,
+ sharh:'خصال النفاق العملي: الكذب في الحديث، والإخلاف في الوعد، والفجور في الخصومة، والغدر في العهد.',
+ fawaed:['خصال النفاق محددة وواضحة','الصدق أساس الشخصية الإسلامية','الوفاء بالوعد واجب','الغدر من كبائر الأخلاق'],
+ tatbiq:'تحقق من خصالك: هل تصدق وتفي وتلتزم وتتواضع في الخصومة؟',
+ quiz:{q:'كم خصلة من خصال النفاق ذكر الحديث؟', opts:['اثنتان','ثلاث','أربع','خمس'], correct:2}},
+
+{n:49, title:'لو توكلتم على الله حق توكله', cat:'aqeedah', src:'أحمد والترمذي',
+ extra:true,
+ matn:`عَنْ عُمَرَ بْنِ الخَطّابِ رضي الله عنه عَنْ النَّبِيِّ ﷺ قالَ:\n«لَوْ أَنَّكُمْ تَوَكَّلُونَ عَلَى اللَّهِ حَقَّ تَوَكُّلِهِ لَرَزَقَكُمْ كَما يَرْزَقُ الطَّيْرَ تَغْدُو خِماصًا وَتَرُوحُ بِطانًا».`,
+ sharh:'التوكل الحق لا يعني ترك العمل، بل الخروج بالأسباب مع الاعتماد على الله. الطير تغدو تطلب الرزق.',
+ fawaed:['التوكل الحق يستلزم الأخذ بالأسباب','الرزق مضمون لمن يتوكل حق التوكل','الطير نموذج للتوكل الفعّال'],
+ tatbiq:'اسعَ واعمل، ثم توكل على الله في النتائج.',
+ quiz:{q:'ماذا تفعل الطيور في المثال النبوي؟', opts:['تجلس وتنتظر','تغدو خِماصاً وتروح بطاناً','تصيد الليل','تنام في أوكارها'], correct:1}},
+
+{n:50, title:'لا يزال لسانك رطباً من ذكر الله', cat:'ibadah', src:'أحمد',
+ extra:true,
+ matn:`عَنْ عَبْدِ اللَّهِ بْنِ بُسْرٍ قالَ: «أَتَى النَّبِيَّ ﷺ رجلٌ فَقالَ: يا رَسُولَ اللَّهِ إِنَّ شَرائِعَ الإِسْلامِ قَدْ كَثُرَتْ عَلَيْنا، فَبابٌ نَتَمَسَّكُ بِهِ جامِعٌ؟ قالَ:\n«لا يَزالُ لِسانُكَ رَطْبًا مِنْ ذِكْرِ اللَّهِ عَزَّ وَجَلَّ».`,
+ sharh:'من عجز عن كثير من العبادات فليتمسك بباب جامع: لا يزال لسانه رطباً بذكر الله.',
+ fawaed:['الذكر باب جامع لا يُعجز أحد','ذكر الله في كل وقت وحال','اللسان الرطب بالذكر نعمة عظيمة','الذكر أيسر العبادات وأعظمها أثراً'],
+ tatbiq:'أكثر من الذكر في كل وقت: في السيارة والعمل والمشي.',
+ quiz:{q:'ما الباب الجامع الذي أرشد إليه النبي؟', opts:['كثرة الصلاة','الصيام المستمر','ذكر الله','الصدقة الدائمة'], correct:2}},
+];
+
+/* ─── RENDER ──────────────────────────────────────────────── */
+let nwCurrentCat = 'all';
+let nwCurrentSearch = '';
+
+function nwGetRead() { return JSON.parse(localStorage.getItem(NW_KEY) || '[]'); }
+
+function updateStats() {
+  const read = nwGetRead(), total = HADITHS.length;
+  const count = read.length, pct = Math.round(count/total*100);
+  document.getElementById('st-total').textContent = total;
+  document.getElementById('st-read').textContent  = count;
+  document.getElementById('st-pct').textContent   = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-txt').textContent  = `${count} / ${total}`;
+}
+
+function renderList() {
+  const read = nwGetRead(), q = nwCurrentSearch.toLowerCase();
+  let list = HADITHS;
+
+  if (nwCurrentCat === 'read')   list = list.filter(h => read.includes(h.n));
+  else if (nwCurrentCat === 'unread') list = list.filter(h => !read.includes(h.n));
+  else if (nwCurrentCat !== 'all') list = list.filter(h => h.cat === nwCurrentCat);
+
+  if (q) list = list.filter(h =>
+    h.title.includes(q) || h.matn.includes(q) || h.sharh.includes(q)
+  );
+
+  const container = document.getElementById('nw-list');
+  const empty = document.getElementById('nw-empty');
+
+  if (!list.length) { container.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  container.innerHTML = '';
+  list.forEach((h, i) => {
+    const isRead = read.includes(h.n);
+    const card = document.createElement('div');
+    card.className = `nw-card${isRead ? ' read' : ''}`;
+    card.id = 'nw-' + h.n;
+    card.style.animationDelay = (i * 40) + 'ms';
+
+    const catLabel = {aqeedah:'العقيدة',akhlaq:'الأخلاق',ibadah:'العبادات',muamalat:'المعاملات'}[h.cat] || '';
+    const extra = h.extra ? `<span style="font-size:10px;background:rgba(201,161,74,.1);color:var(--gold-dark,#8b6914);border-radius:99px;padding:2px 8px;border:1px solid rgba(201,161,74,.2)">ملحق</span>` : '';
+
+    card.innerHTML = `
+      <div class="nw-card-head" onclick="nwToggle(${h.n})">
+        <div class="nw-num">${h.n}</div>
+        <div class="nw-card-title">
+          <div class="nw-title-ar">${h.title}</div>
+          <div class="nw-title-meta">
+            <span class="nw-badge nw-badge-${h.cat}">${catLabel}</span>
+            <span class="nw-src-tag">📖 ${h.src}</span>
+            ${extra}
+          </div>
+        </div>
+        <span class="nw-check">${isRead ? '✅' : ''}</span>
+        <span class="nw-chevron">▼</span>
+      </div>
+      <div class="nw-body">
+        <div class="nw-body-inner">
+          <!-- Matn -->
+          <div class="nw-section">
+            <div class="nw-sec-title">📜 المتن والسند</div>
+            <div class="nw-matn" id="matn-${h.n}" style="white-space:pre-line">${h.matn}</div>
+            <div class="nw-matn-actions">
+              <button class="nw-act-btn" onclick="nwCopy(${h.n})">📋 نسخ المتن</button>
+              <button class="nw-act-btn" onclick="nwShare(${h.n})">📤 مشاركة</button>
+            </div>
+          </div>
+          <!-- Sharh -->
+          <div class="nw-section">
+            <div class="nw-sec-title">💡 الشرح</div>
+            <div class="nw-sec-body">${h.sharh}</div>
+          </div>
+          <!-- Fawaed -->
+          <div class="nw-section">
+            <div class="nw-sec-title">🌟 الفوائد المستفادة</div>
+            <div class="nw-lessons">
+              ${h.fawaed.map((f,i) => `<div class="nw-lesson" style="animation-delay:${i*60}ms"><span class="li">✦</span><span>${f}</span></div>`).join('')}
+            </div>
+          </div>
+          <!-- Tatbiq -->
+          <div class="nw-section">
+            <div class="nw-sec-title">🛠️ التطبيق العملي</div>
+            <div class="nw-sec-body" style="background:rgba(14,59,46,.04);border-radius:12px;padding:12px;border-right:3px solid rgba(14,59,46,.2)">${h.tatbiq}</div>
+          </div>
+          <!-- Quiz -->
+          ${h.quiz ? `
+          <div class="nw-section">
+            <div class="nw-sec-title">❓ اختبر نفسك</div>
+            <div class="nw-quiz" id="quiz-${h.n}">
+              <div class="nw-quiz-q">${h.quiz.q}</div>
+              <div class="nw-quiz-opts">
+                ${h.quiz.opts.map((o,i) => `<button class="nw-quiz-opt" onclick="nwQuiz(${h.n},${i},${h.quiz.correct})">${o}</button>`).join('')}
+              </div>
+            </div>
+          </div>` : ''}
+          <!-- Nav -->
+          <div class="nw-nav">
+            <button class="nw-nav-btn" onclick="nwGo(${h.n - 1})" ${h.n<=1?'disabled':''}>← السابق</button>
+            <button class="nw-read-btn ${isRead ? 'done' : ''}" id="rbtn-${h.n}" onclick="nwToggleRead(${h.n})">
+              ${isRead ? '✅ قرأت' : '⬜ علّم كقرأت'}
+            </button>
+            <button class="nw-nav-btn" onclick="nwGo(${h.n + 1})" ${h.n>=50?'disabled':''}>التالي →</button>
+          </div>
+        </div>
+      </div>`;
+    container.appendChild(card);
+  });
+  /* Auto-open first card */
+  const firstCard = container.querySelector('.nw-card');
+  if (firstCard) firstCard.classList.add('open');
+}
+
+/* Open/close */
+window.nwToggle = function(n) {
+  const card = document.getElementById('nw-' + n);
+  if (!card) return;
+  const wasOpen = card.classList.contains('open');
+  // close others for clean UX
+  document.querySelectorAll('.nw-card.open').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) {
+    card.classList.add('open');
+    setTimeout(() => card.scrollIntoView({behavior:'smooth',block:'nearest'}), 150);
+  }
+};
+
+/* Go to hadith n */
+window.nwGo = function(n) {
+  if (n < 1 || n > 50) return;
+  // find the card and open it
+  const card = document.getElementById('nw-' + n);
+  if (!card) {
+    // might be filtered out — reset filter and retry
+    nwCurrentCat = 'all';
+    document.querySelectorAll('.nw-cat').forEach(b => b.classList.remove('active'));
+    document.querySelector('.nw-cat[data-cat="all"]').classList.add('active');
+    renderList();
+    setTimeout(() => nwGo(n), 100);
+    return;
+  }
+  document.querySelectorAll('.nw-card.open').forEach(c => c.classList.remove('open'));
+  card.classList.add('open');
+  setTimeout(() => card.scrollIntoView({behavior:'smooth',block:'start'}), 100);
+};
+
+/* Mark read */
+window.nwToggleRead = function(n) {
+  const read = nwGetRead();
+  const btn = document.getElementById('rbtn-' + n);
+  const card = document.getElementById('nw-' + n);
+  const check = card?.querySelector('.nw-check');
+
+  if (read.includes(n)) {
+    const arr = read.filter(x => x !== n);
+    localStorage.setItem(NW_KEY, JSON.stringify(arr));
+    if (btn) { btn.textContent = '⬜ علّم كقرأت'; btn.classList.remove('done'); }
+    card?.classList.remove('read');
+    if (check) check.textContent = '';
+  } else {
+    read.push(n); localStorage.setItem(NW_KEY, JSON.stringify(read));
+    if (btn) { btn.textContent = '✅ قرأت'; btn.classList.add('done'); }
+    card?.classList.add('read');
+    if (check) check.textContent = '✅';
+    if (typeof showToast === 'function') showToast(`✅ الحديث ${n} — تم التعليم`);
+    if (typeof confetti !== 'undefined' && read.length % 10 === 0) {
+      confetti({particleCount:60,spread:60,origin:{y:.6},colors:['#0e3b2e','#c9a14a','#fff']});
+    }
+  }
+  updateStats();
+};
+
+/* Copy */
+window.nwCopy = function(n) {
+  const h = HADITHS.find(x => x.n === n);
+  if (!h) return;
+  const txt = `📜 الحديث ${h.n}: ${h.title}\n\n${h.matn}\n\n📖 المصدر: ${h.src}\n\nمن زاد العشر — zadullashr.vercel.app`;
+  navigator.clipboard?.writeText(txt);
+  if (typeof showToast === 'function') showToast('📋 تم نسخ المتن');
+};
+
+/* Share */
+window.nwShare = function(n) {
+  const h = HADITHS.find(x => x.n === n);
+  if (!h) return;
+  const txt = `📜 الحديث ${h.n}: ${h.title}\n\n${h.matn}\n\n📖 ${h.src}`;
+  if (navigator.share) navigator.share({title:'حديث نبوي', text:txt});
+  else { navigator.clipboard?.writeText(txt); if(typeof showToast==='function') showToast('✅ تم النسخ'); }
+};
+
+/* Quiz */
+window.nwQuiz = function(n, chosen, correct) {
+  const quiz = document.getElementById('quiz-' + n);
+  if (!quiz || quiz.dataset.answered) return;
+  quiz.dataset.answered = '1';
+  quiz.querySelectorAll('.nw-quiz-opt').forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === correct) btn.classList.add('correct');
+    else if (i === chosen) btn.classList.add('wrong');
+  });
+  if (typeof showToast === 'function')
+    showToast(chosen === correct ? '✅ إجابة صحيحة!' : '❌ إجابة خاطئة — راجع الشرح');
+};
+
+/* Filter */
+window.nwSetCat = function(btn, cat) {
+  nwCurrentCat = cat;
+  document.querySelectorAll('.nw-cat').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderList();
+};
+
+window.nwFilter = function() {
+  nwCurrentSearch = document.getElementById('nw-search')?.value || '';
+  renderList();
+};
+
+/* Scroll to top */
+window.nwScrollTop = function() {
+  document.querySelector('.nw-hero')?.scrollIntoView({behavior:'smooth',block:'start'});
+};
+
+/* Daily hadith */
+function initDaily() {
+  const dayIdx = Math.floor(Date.now() / 86400000) % HADITHS.length;
+  const h = HADITHS[dayIdx];
+  document.getElementById('daily-name').textContent = `الحديث ${h.n}: ${h.title}`;
+}
+window.openDaily = function() {
+  const dayIdx = Math.floor(Date.now() / 86400000) % HADITHS.length;
+  nwCurrentCat = 'all';
+  document.querySelectorAll('.nw-cat').forEach(b => b.classList.remove('active'));
+  document.querySelector('.nw-cat[data-cat="all"]').classList.add('active');
+  nwCurrentSearch = '';
+  document.getElementById('nw-search').value = '';
+  renderList();
+  setTimeout(() => nwGo(HADITHS[dayIdx].n), 100);
+};
+
+/* Floating pill */
+(function(){
+  const pill = document.getElementById('nw-float'); let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(() => {
+      const hero = document.querySelector('.nw-hero');
+      if (!hero || !pill) return;
+      hero.getBoundingClientRect().bottom < 0 ? pill.classList.add('vis') : pill.classList.remove('vis');
+      ticking = false;
+    }); ticking = true; }
+  }, {passive:true});
+})();
+
+/* Init */
+document.addEventListener('DOMContentLoaded', () => {
+  initDaily();
+  updateStats();
+  renderList();
+});
+</script>
+  <script src="menu.js" defer></script>
+</body>
+</html>

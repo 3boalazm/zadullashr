@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>مناسك الحج — زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.section-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+/* ══ Hero ══════════════════════════════════════════════ */
+.mn-hero{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 55%,#c9a14a 150%);border-radius:22px;padding:34px 28px;color:#fff;position:relative;overflow:hidden;margin-bottom:22px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.mn-hero::before{content:'';position:absolute;inset:auto -80px -100px auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.3),transparent 70%);pointer-events:none}
+.mn-hero::after{content:'🕋';position:absolute;top:18px;left:26px;font-size:60px;opacity:.12;line-height:1}
+.hero-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:3px;font-weight:700;margin-bottom:8px}
+.hero-title{font-size:30px;font-weight:900;line-height:1.25;margin-bottom:10px;font-family:'ThmanyahSans',sans-serif}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.82);line-height:1.8;max-width:560px;margin-bottom:22px}
+.hero-stats{display:flex;gap:12px;flex-wrap:wrap}
+.hstat{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:11px 16px;text-align:center;min-width:70px}
+.hstat-num{font-size:26px;font-weight:900;font-family:'ThmanyahSans',monospace;color:#e6c97a;line-height:1}
+.hstat-lbl{font-size:10px;color:rgba(255,255,255,.65);margin-top:4px}
+
+/* ══ Sticky progress ═══════════════════════════════════ */
+.mn-progress-bar{position:sticky;top:0;z-index:45;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 18px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+.mpb-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.mpb-title{font-size:13px;font-weight:800;color:var(--green-deep);display:flex;align-items:center;gap:8px}
+html[data-theme="dark"] .mpb-title,html[data-theme="oled"] .mpb-title{color:var(--sys-green)}
+.mpb-count{font-size:13px;font-weight:800;color:var(--gold-dark);font-family:'ThmanyahSans',monospace}
+html[data-theme="dark"] .mpb-count,html[data-theme="oled"] .mpb-count{color:var(--sys-yellow)}
+.mpb-progress{height:9px;background:var(--sand-2);border-radius:99px;overflow:hidden}
+.mpb-progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green-soft),var(--gold));border-radius:99px;transition:width .7s var(--ease)}
+
+/* ══ TOC ═══════════════════════════════════════════════ */
+.toc-bar{position:sticky;top:0;z-index:40;background:var(--card);border-bottom:1px solid var(--border);padding:0 4px;margin:0 -4px 18px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;box-shadow:0 4px 14px -6px rgba(14,59,46,.1)}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{padding:12px 15px;border:none;background:none;font-family:inherit;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;border-bottom:2.5px solid transparent;transition:all .2s}
+.toc-btn:hover{color:var(--green-deep);border-bottom-color:rgba(14,59,46,.3)}
+.toc-btn.active{color:var(--green-deep);border-bottom-color:var(--gold)}
+html[data-theme="dark"] .toc-btn.active,html[data-theme="oled"] .toc-btn.active{color:var(--sys-green);border-bottom-color:var(--sys-yellow)}
+
+.section-title{display:flex;align-items:center;gap:10px;margin:30px 0 14px;font-size:18px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif;scroll-margin-top:120px}
+html[data-theme="dark"] .section-title,html[data-theme="oled"] .section-title{color:var(--sys-green)}
+.section-title::before{content:"";width:5px;height:22px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+
+/* ══ Counter widget (طواف / سعي / جمرات) ═══════════════ */
+.counter-card{background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1px solid rgba(201,161,74,.22);border-radius:20px;padding:22px;box-shadow:var(--shadow-sm);margin-bottom:14px}
+.cc-tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.cc-tab{flex:1;min-width:90px;padding:9px 10px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);font-family:inherit;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s}
+.cc-tab.active{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;border-color:transparent}
+html[data-theme="dark"] .cc-tab.active,html[data-theme="oled"] .cc-tab.active{color:#001a08;background:linear-gradient(135deg,var(--sys-green),#2eb84d)}
+.cc-ring-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
+.cc-ring{position:relative;width:180px;height:180px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.cc-ring svg{transform:rotate(-90deg)}
+.cc-ring-bg{fill:none;stroke:var(--sand-2);stroke-width:12}
+.cc-ring-fg{fill:none;stroke:url(#ccGrad);stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset .4s var(--ease)}
+.cc-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.cc-num{font-size:54px;font-weight:900;font-family:'ThmanyahSans',monospace;color:var(--green-deep);line-height:1}
+html[data-theme="dark"] .cc-num,html[data-theme="oled"] .cc-num{color:var(--sys-green)}
+.cc-of{font-size:13px;color:var(--muted);margin-top:2px}
+.cc-hint{font-size:12px;color:var(--muted);margin-top:4px}
+.cc-label{font-size:15px;font-weight:800;color:var(--gold-dark);font-family:'ThmanyahSans',sans-serif;margin-top:6px}
+html[data-theme="dark"] .cc-label,html[data-theme="oled"] .cc-label{color:var(--sys-yellow)}
+.cc-actions{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.cc-btn{padding:9px 18px;border-radius:99px;border:1.5px solid var(--border);background:var(--card);font-family:inherit;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .2s}
+.cc-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
+.cc-btn.primary{background:var(--green-deep);color:#fff;border-color:transparent}
+html[data-theme="dark"] .cc-btn.primary,html[data-theme="oled"] .cc-btn.primary{background:var(--sys-green);color:#001a08}
+.cc-done{text-align:center;font-size:14px;font-weight:800;color:var(--sys-green);margin-top:10px;min-height:20px}
+
+/* ══ Timeline ══════════════════════════════════════════ */
+.timeline{position:relative;padding-right:8px}
+.tl-stage{position:relative;padding:0 32px 20px 0;border-right:2.5px solid var(--border);margin-right:14px}
+.tl-stage:last-child{border-right-color:transparent}
+.tl-stage.done{border-right-color:var(--sys-green)}
+.tl-dot{position:absolute;right:-15px;top:2px;width:28px;height:28px;border-radius:50%;background:var(--card);border:2.5px solid var(--green-soft);display:grid;place-items:center;font-size:14px;z-index:1;transition:all .25s}
+.tl-stage.done .tl-dot{background:var(--sys-green);border-color:var(--sys-green);color:#fff}
+html[data-theme="dark"] .tl-stage.done .tl-dot,html[data-theme="oled"] .tl-stage.done .tl-dot{color:#001a08}
+.tl-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow-sm);transition:all .25s}
+.tl-card:hover{border-color:rgba(201,161,74,.4);transform:translateX(-2px)}
+.tl-stage.done .tl-card{border-color:rgba(77,216,102,.4);background:linear-gradient(135deg,var(--card),var(--green-pale))}
+.tl-head{display:flex;align-items:flex-start;gap:11px;margin-bottom:10px}
+.tl-emoji{font-size:24px;flex-shrink:0}
+.tl-titles{flex:1;min-width:0}
+.tl-name{font-size:16px;font-weight:800;color:var(--green-deep);font-family:'ThmanyahSans',sans-serif;line-height:1.4}
+html[data-theme="dark"] .tl-name,html[data-theme="oled"] .tl-name{color:var(--ink)}
+.tl-date{display:inline-block;font-size:11px;font-weight:700;color:var(--gold-dark);background:var(--gold-pale);border-radius:99px;padding:2px 10px;margin-top:4px}
+html[data-theme="dark"] .tl-date,html[data-theme="oled"] .tl-date{color:var(--sys-yellow);background:rgba(230,201,122,.1)}
+.tl-toggle{flex-shrink:0;width:30px;height:30px;border-radius:9px;border:2px solid var(--green-soft);background:var(--card);display:grid;place-items:center;color:transparent;font-size:14px;font-weight:900;cursor:pointer;transition:all .2s}
+.tl-toggle:hover{border-color:var(--gold);background:var(--gold-pale)}
+.tl-stage.done .tl-toggle{background:var(--sys-green);border-color:var(--sys-green);color:#fff}
+html[data-theme="dark"] .tl-stage.done .tl-toggle,html[data-theme="oled"] .tl-stage.done .tl-toggle{color:#001a08}
+.tl-row{font-size:13px;line-height:1.7;color:var(--muted);background:var(--sand);border-radius:11px;padding:9px 12px;margin-bottom:7px}
+.tl-row b{color:var(--ink);font-weight:800}
+.tl-row.rite{border-right:3px solid var(--green-soft)}
+.tl-row.tool{border-right:3px solid var(--gold)}
+.tl-row.alert{border-right:3px solid var(--sys-blue);font-style:normal}
+.tl-row.alert b{color:var(--sys-blue)}
+
+/* ══ Tools / Features grid ═════════════════════════════ */
+.features-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:600px){.features-grid{grid-template-columns:1fr}}
+.feat-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px;display:flex;gap:12px;align-items:flex-start;transition:all .2s;position:relative}
+.feat-card:hover{border-color:var(--green-soft);background:var(--green-pale)}
+html[data-theme="dark"] .feat-card:hover,html[data-theme="oled"] .feat-card:hover{background:rgba(77,216,102,.06)}
+.feat-ico{font-size:26px;flex-shrink:0;margin-top:2px}
+.feat-body{flex:1;min-width:0}
+.feat-title{font-size:14px;font-weight:800;color:var(--green-deep);margin-bottom:4px;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .feat-title,html[data-theme="oled"] .feat-title{color:var(--sys-green)}
+.feat-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.feat-tag{display:inline-block;font-size:9px;font-weight:800;padding:3px 8px;border-radius:99px;margin-top:8px}
+.feat-tag.ready{background:rgba(52,199,89,.14);color:var(--sys-green)}
+.feat-tag.soon{background:rgba(201,161,74,.16);color:var(--gold-dark)}
+html[data-theme="dark"] .feat-tag.soon,html[data-theme="oled"] .feat-tag.soon{color:var(--sys-yellow)}
+
+/* ══ Closing + sources ═════════════════════════════════ */
+.closing-banner{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:18px;padding:26px;text-align:center;color:#fff;margin-top:20px;position:relative;overflow:hidden}
+.closing-banner::before{content:"";position:absolute;inset:auto -60px -80px auto;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.25),transparent 70%);pointer-events:none}
+.closing-txt{font-family:'Amiri',serif;font-size:18px;line-height:2;color:rgba(255,255,255,.95)}
+.closing-src{font-size:12px;color:rgba(255,255,255,.6);margin-top:8px}
+.src-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px;margin-top:18px}
+.src-card h3{font-size:14px;font-weight:800;color:var(--green-deep);margin-bottom:10px;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .src-card h3,html[data-theme="oled"] .src-card h3{color:var(--sys-green)}
+.src-note{font-size:12px;color:var(--muted-2);line-height:1.7}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+</head>
+<body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
+      <span class="slb-label">🌐 اللغة</span>
+      <span class="slb-val" id="sidebar-lang-val">EN</span>
+    </button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+      📲 تثبيت / تحميل التطبيق
+    </button>
+    <nav class="nav"></nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center">
+        <div class="page-title">مناسك <span>الحج</span></div>
+      </div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">
+            🔔<span class="notif-dot" id="notif-dot"></span>
+          </button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="mn-hero">
+      <div class="hero-eyebrow">🕋 دليل المناسك التفاعلي</div>
+      <div class="hero-title">مناسك الحج — مسارك خطوة بخطوة</div>
+      <div class="hero-sub">مسارٌ زمنيٌّ تفاعلي يرافقك من الإحرام إلى طواف الوداع، مع عدّادٍ للأشواط والجمرات يعمل بلمسة واحدة وبدون إنترنت. خُذ بيدك في كل شعيرة، وعلّم ما أتممته لتطمئن.</div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-num">7</div><div class="hstat-lbl">مراحل النسك</div></div>
+        <div class="hstat"><div class="hstat-num">📿</div><div class="hstat-lbl">عدّاد أشواط</div></div>
+        <div class="hstat"><div class="hstat-num" id="hs-done">0</div><div class="hstat-lbl">أتممتها</div></div>
+      </div>
+    </div>
+
+    <!-- Sticky progress -->
+    <div class="mn-progress-bar">
+      <div class="mpb-top">
+        <div class="mpb-title">🧭 مسار النسك</div>
+        <div class="mpb-count"><span id="mpb-done">0</span> / 7 مراحل</div>
+      </div>
+      <div class="mpb-progress"><span id="mpb-fill"></span></div>
+    </div>
+
+    <!-- TOC -->
+    <div class="toc-bar" id="toc-bar">
+      <button class="toc-btn active" data-target="sec-counter">📿 العدّاد</button>
+      <button class="toc-btn" data-target="sec-timeline">🧭 المسار الزمني</button>
+      <button class="toc-btn" data-target="sec-tools">🛠️ الأدوات</button>
+      <button class="toc-btn" data-target="sec-ux">🤍 الخشوع</button>
+    </div>
+
+    <!-- ═══ Counter widget ═══ -->
+    <h2 class="section-title" id="sec-counter">عدّاد الأشواط والجمرات</h2>
+    <div class="counter-card">
+      <div class="cc-tabs" id="cc-tabs">
+        <button class="cc-tab active" data-mode="tawaf">🕋 الطواف (٧)</button>
+        <button class="cc-tab" data-mode="sai">🚶 السعي (٧)</button>
+        <button class="cc-tab" data-mode="jamarat">🪨 الجمرات (٧)</button>
+      </div>
+      <div class="cc-ring-wrap">
+        <div class="cc-ring" id="cc-ring" role="button" tabindex="0" aria-label="اضغط لزيادة العدّ">
+          <svg width="180" height="180" viewBox="0 0 180 180">
+            <defs><linearGradient id="ccGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="var(--green-soft)"/><stop offset="100%" stop-color="var(--gold)"/>
+            </linearGradient></defs>
+            <circle class="cc-ring-bg" cx="90" cy="90" r="78"></circle>
+            <circle class="cc-ring-fg" id="cc-fg" cx="90" cy="90" r="78"
+                    stroke-dasharray="490" stroke-dashoffset="490"></circle>
+          </svg>
+          <div class="cc-center">
+            <div class="cc-num" id="cc-num">0</div>
+            <div class="cc-of">من <span id="cc-target">7</span></div>
+          </div>
+        </div>
+        <div class="cc-label" id="cc-label">شوط الطواف</div>
+        <div class="cc-hint">انقر الدائرة لاحتساب كل شوط — اهتزازٌ خفيف يصاحب كل عَدّة</div>
+      </div>
+      <div class="cc-done" id="cc-done"></div>
+      <div class="cc-actions">
+        <button class="cc-btn" id="cc-minus">− تراجع</button>
+        <button class="cc-btn primary" id="cc-reset">إعادة الضبط</button>
+      </div>
+    </div>
+
+    <!-- ═══ Interactive timeline ═══ -->
+    <h2 class="section-title" id="sec-timeline">التراك لاين — المسار الزمني للشعائر</h2>
+    <div class="timeline" id="timeline"></div>
+
+    <!-- ═══ Tools ═══ -->
+    <h2 class="section-title" id="sec-tools">أدوات الصفحة الميدانية</h2>
+    <div class="features-grid" id="tools-grid"></div>
+
+    <!-- ═══ UX / Khushoo ═══ -->
+    <h2 class="section-title" id="sec-ux">ميزات تعزيز الخشوع</h2>
+    <div class="features-grid" id="ux-grid"></div>
+
+    <!-- Closing -->
+    <div class="closing-banner">
+      <div class="closing-txt">«الحَجُّ المَبرورُ ليس له جزاءٌ إلا الجنة»</div>
+      <div class="closing-src">متفق عليه</div>
+    </div>
+
+    <div class="src-card">
+      <h3>🔖 ملاحظة فقهية</h3>
+      <div class="src-note">هذا الدليل للتذكير وترتيب الخطوات، وليس فتوى. عند اختلاف الحالات (التقديم والتأخير، الفدية، أحكام النساء) يُرجَع لأهل العلم وللبعثة الرسمية. الأدعية والمناسك مستندة إلى الصحيحين والسنن.</div>
+    </div>
+
+    <h2 class="section-title">📖 دليل الحج المصوّر (كتيّب)</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px">
+      <a href="https://heyzine.com/flip-book/cb58a63978.html" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:15px;padding:16px;text-decoration:none;color:inherit;box-shadow:var(--shadow-sm)">
+        <span style="font-size:26px">🕋</span><div><b style="display:block;color:var(--green-deep);font-weight:800">دليل الحج — بالعربية</b><small style="color:var(--muted);font-size:11.5px">كتيّب مصوّر تفاعلي</small></div>
+      </a>
+      <a href="https://heyzine.com/flip-book/7f380b41da.html" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:15px;padding:16px;text-decoration:none;color:inherit;box-shadow:var(--shadow-sm)">
+        <span style="font-size:26px">🌍</span><div><b style="display:block;color:var(--green-deep);font-weight:800">Hajj Guide — English</b><small style="color:var(--muted);font-size:11.5px">Interactive illustrated booklet</small></div>
+      </a>
+    </div>
+  </main>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   حالة المناسك — تُخزَّن داخل zad_v2.hajj دون المساس بـ app.js
+   ══════════════════════════════════════════════════════════════ */
+const ZKEY = 'zad_v2';
+function readHajj(){
+  try{
+    const s = JSON.parse(localStorage.getItem(ZKEY) || '{}');
+    return (s && s.hajj && typeof s.hajj === 'object') ? s.hajj : {};
+  }catch(e){ return {}; }
+}
+function writeHajj(obj){
+  let s = {};
+  try{ s = JSON.parse(localStorage.getItem(ZKEY) || '{}') || {}; }catch(e){ s = {}; }
+  s.hajj = obj;
+  try{ localStorage.setItem(ZKEY, JSON.stringify(s)); }catch(e){}
+  if (window.STATE && typeof window.STATE === 'object') window.STATE.hajj = obj;
+}
+let HAJJ = readHajj();
+if (!HAJJ.stages)   HAJJ.stages   = {};
+if (!HAJJ.counters) HAJJ.counters = { tawaf:0, sai:0, jamarat:0 };
+
+function toast(msg){
+  try{ if (typeof window.showToast === 'function'){ window.showToast(msg); return; } }catch(e){}
+  let t = document.getElementById('mn-toast');
+  if (!t){ t = document.createElement('div'); t.id='mn-toast';
+    t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green-deep);color:#fff;padding:12px 22px;border-radius:99px;font-size:13px;font-weight:700;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;transition:all .3s';
+    document.body.appendChild(t); }
+  t.textContent = msg;
+  requestAnimationFrame(()=>{ t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+  clearTimeout(t._h); t._h=setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; },2200);
+}
+
+/* ══════════════════ Counter (طواف/سعي/جمرات) ══════════════════ */
+const CC_META = {
+  tawaf:   { target:7, label:'شوط الطواف',   done:'🕋 تمّ الطواف — سبعة أشواط كاملة' },
+  sai:     { target:7, label:'شوط السعي',    done:'🚶 تمّ السعي — سبعة أشواط كاملة' },
+  jamarat: { target:7, label:'حصاة الجمرة',  done:'🪨 اكتمل رمي الجمرة — سبع حصيات' },
+};
+let ccMode = 'tawaf';
+const CIRC = 2 * Math.PI * 78; /* ≈ 490 */
+
+function ccRender(){
+  const m = CC_META[ccMode];
+  const n = HAJJ.counters[ccMode] || 0;
+  document.getElementById('cc-num').textContent = n;
+  document.getElementById('cc-target').textContent = m.target;
+  document.getElementById('cc-label').textContent = m.label;
+  const fg = document.getElementById('cc-fg');
+  const pct = Math.min(1, n / m.target);
+  fg.style.strokeDasharray = CIRC.toFixed(1);
+  fg.style.strokeDashoffset = (CIRC * (1 - pct)).toFixed(1);
+  document.getElementById('cc-done').textContent = n >= m.target ? m.done : '';
+}
+function ccBump(delta){
+  const m = CC_META[ccMode];
+  let n = (HAJJ.counters[ccMode] || 0) + delta;
+  if (n < 0) n = 0;
+  const was = HAJJ.counters[ccMode] || 0;
+  HAJJ.counters[ccMode] = n;
+  writeHajj(HAJJ);
+  ccRender();
+  if (delta > 0 && navigator.vibrate){
+    navigator.vibrate(n >= m.target ? [40,40,80] : 25);
+  }
+  if (delta > 0 && n === m.target && was < m.target){ toast(m.done); }
+}
+function ccBindTabs(){
+  document.querySelectorAll('.cc-tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.cc-tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    ccMode = t.dataset.mode;
+    ccRender();
+  }));
+}
+function ccInit(){
+  ccBindTabs();
+  const ring = document.getElementById('cc-ring');
+  ring.addEventListener('click', () => ccBump(1));
+  ring.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); ccBump(1); } });
+  document.getElementById('cc-minus').addEventListener('click', () => ccBump(-1));
+  document.getElementById('cc-reset').addEventListener('click', () => {
+    HAJJ.counters[ccMode] = 0; writeHajj(HAJJ); ccRender();
+    if (navigator.vibrate) navigator.vibrate(15);
+  });
+  ccRender();
+}
+
+/* ══════════════════ Timeline (7 مراحل) ══════════════════ */
+const STAGES = [
+  { id:'ihram', emoji:'👕', name:'الاستعداد والإحرام', date:'قبل ٨ ذي الحجة',
+    rite:'أحكام المواقيت، الغُسل ولُبس الإحرام، والإكثار من التلبية: «لبيك اللهم لبيك…».',
+    tool:'قائمة أدعية التلبية + دليل أحكام الإحرام (يعمل أوفلاين).',
+    alert:'أنت تقترب من الميقات.. استعِدّ للإحرام ونوِ الدخول في النسك.' },
+  { id:'tarwiyah', emoji:'⛺', name:'يوم التروية — المبيت بمنى', date:'٨ ذي الحجة',
+    rite:'التوجّه إلى منى، والمبيت فيها، وصلاة الظهر والعصر والمغرب والعشاء والفجر قصراً بلا جمع.',
+    tool:'خريطة تفاعلية لمخيمات منى وأماكن الخدمات.',
+    alert:'تذكّر: قصرٌ بلا جمع في منى — أكثِر من الذكر والاستعداد لعرفة.' },
+  { id:'arafah', emoji:'🌄', name:'يوم عرفة — الركن الأعظم', date:'٩ ذي الحجة',
+    rite:'التوجّه لعرفة بعد الشروق، والوقوف بها حتى الغروب مع الإكثار من الدعاء والتهليل.',
+    tool:'قائمة أدعية يوم عرفة + خطبة عرفة (بثٌّ مباشر عند توفّره).',
+    alert:'خيرُ الدعاء دعاءُ يوم عرفة.. استثمِر هذه الساعات ولا تنشغل عنها.' },
+  { id:'muzdalifah', emoji:'🌌', name:'ليلة المزدلفة', date:'ليلة ١٠ ذي الحجة',
+    rite:'النَّفرة إلى مزدلفة بعد الغروب، وصلاة المغرب والعشاء جمعاً وقصراً، وجمع الحصى.',
+    tool:'بوصلة القبلة «أوفلاين» لضمان صحّة الصلاة في الخلاء.',
+    alert:'اجمع حصى الجمار من مزدلفة أو الطريق، وبِت بها حتى الفجر.' },
+  { id:'nahr', emoji:'🐏', name:'يوم النحر — العيد', date:'١٠ ذي الحجة',
+    rite:'رمي جمرة العقبة الكبرى، ثم ذبح الهَدي، ثم الحلق أو التقصير، ثم طواف الإفاضة.',
+    tool:'دليل أحكام الأضحية وسنن العيد + عدّاد الجمرات أعلى الصفحة.',
+    alert:'تمّ الرمي.. انتقِل الآن للذبح ثم الحلق/التقصير ثم طواف الإفاضة.' },
+  { id:'tashreeq', emoji:'🪨', name:'أيام التشريق', date:'١١ – ١٣ ذي الحجة',
+    rite:'المبيت بمنى ورمي الجمرات الثلاث (الصغرى ثم الوسطى ثم الكبرى) بعد الزوال.',
+    tool:'عدّاد الجمرات لضمان رمي ٧ حصياتٍ لكل جمرة بالترتيب.',
+    alert:'الرمي بعد الزوال — ابدأ بالصغرى فالوسطى فالكبرى، سبعٌ لكلٍّ منها.' },
+  { id:'wada', emoji:'👋', name:'الوداع والختام', date:'قبل المغادرة',
+    rite:'طواف الوداع آخِرَ عهدِك بالبيت قبل مغادرة مكة.',
+    tool:'الحصاد الرقمي: ملخّص رحلتك الإيمانية وإنجاز المناسك.',
+    alert:'مبارَكٌ إتمامُ النسك.. تقبّل الله، واجعل آخِر عهدك بالبيت الطواف.' },
+];
+
+function renderTimeline(){
+  const root = document.getElementById('timeline');
+  root.innerHTML = STAGES.map((s, i) => {
+    const on = !!HAJJ.stages[s.id];
+    return `
+    <div class="tl-stage ${on?'done':''}" data-id="${s.id}">
+      <span class="tl-dot">${on?'✓':(i+1)}</span>
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-emoji">${s.emoji}</span>
+          <div class="tl-titles">
+            <div class="tl-name">${s.name}</div>
+            <span class="tl-date">📅 ${s.date}</span>
+          </div>
+          <button class="tl-toggle" data-id="${s.id}" title="علّم كمُتمّ" aria-label="إتمام المرحلة">✓</button>
+        </div>
+        <div class="tl-row rite"><b>الشعيرة:</b> ${s.rite}</div>
+        <div class="tl-row tool"><b>🛠️ الأداة:</b> ${s.tool}</div>
+        <div class="tl-row alert"><b>🔔 التنبيه الذكي:</b> ${s.alert}</div>
+      </div>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('.tl-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      const stage = btn.closest('.tl-stage');
+      HAJJ.stages[id] = !HAJJ.stages[id];
+      if (!HAJJ.stages[id]) delete HAJJ.stages[id];
+      writeHajj(HAJJ);
+      const on = !!HAJJ.stages[id];
+      stage.classList.toggle('done', on);
+      const dot = stage.querySelector('.tl-dot');
+      const idx = STAGES.findIndex(x => x.id === id);
+      dot.textContent = on ? '✓' : (idx + 1);
+      if (navigator.vibrate) navigator.vibrate(on ? 30 : 15);
+      if (on) toast('🕋 تقبّل الله — أتممتَ مرحلة');
+      updateProgress();
+    });
+  });
+}
+
+function updateProgress(){
+  const total = STAGES.length;
+  const done = Object.keys(HAJJ.stages).filter(k => HAJJ.stages[k]).length;
+  const pct = Math.round((done / total) * 100);
+  const fill = document.getElementById('mpb-fill'); if (fill) fill.style.width = pct + '%';
+  const md = document.getElementById('mpb-done'); if (md) md.textContent = done;
+  const hd = document.getElementById('hs-done'); if (hd) hd.textContent = done;
+}
+
+/* ══════════════════ Tools + UX cards ══════════════════ */
+const TOOLS = [
+  { ico:'🥽', title:'المُعلّم الافتراضي 3D', desc:'جولات افتراضية تحاكي البيئة الحقيقية للمشاعر (الكعبة، المسعى، عرفة، منى) للتدريب البصري قبل النسك.', tag:'soon' },
+  { ico:'📸', title:'مساعد فحص الإحرام', desc:'أداةٌ بالكاميرا تتحقّق من ارتداء ملابس الإحرام وفق السنّة.', tag:'soon' },
+  { ico:'🪧', title:'مترجم اللوحات الإرشادية', desc:'وجِّه الكاميرا نحو اللوحات في الحرم لترجمةٍ فوريةٍ وشروحاتٍ فقهية للمكان.', tag:'soon' },
+  { ico:'📿', title:'عدّاد الأشواط التلقائي', desc:'احتساب أشواط الطواف والسعي — يعمل الآن باللمس، ومستقبلاً تلقائياً عبر GPS.', tag:'ready' },
+  { ico:'👨‍👩‍👧', title:'أمان المجموعات العائلية', desc:'مشاركة الموقع المباشر بين الحجاج وتحديد نقاط الالتقاء عند الافتراق.', tag:'soon' },
+];
+const UX = [
+  { ico:'🤫', title:'وضع «الطواف الهادئ»', desc:'تحويل الهاتف للصامت عند دخول نطاق الحرم مع إبقاء صفحة الأدعية مفتوحة.', tag:'soon' },
+  { ico:'📳', title:'التفاعل اللمسي (Haptics)', desc:'اهتزازٌ خفيف عند إتمام كل شوطٍ في الطواف والسعي دون الحاجة للنظر للشاشة.', tag:'ready' },
+  { ico:'📴', title:'الوصول أوفلاين الكامل', desc:'كل الخرائط والأدعية والبوصلة تعمل بدون إنترنت لضعف الشبكة في المشاعر.', tag:'ready' },
+];
+function featCard(f){
+  const tag = f.tag === 'ready'
+    ? '<span class="feat-tag ready">✓ متاح الآن</span>'
+    : '<span class="feat-tag soon">⏳ ميزة مخطّطة</span>';
+  return `<div class="feat-card"><div class="feat-ico">${f.ico}</div>
+    <div class="feat-body"><div class="feat-title">${f.title}</div>
+    <div class="feat-desc">${f.desc}</div>${tag}</div></div>`;
+}
+function renderFeatures(){
+  document.getElementById('tools-grid').innerHTML = TOOLS.map(featCard).join('');
+  document.getElementById('ux-grid').innerHTML = UX.map(featCard).join('');
+}
+
+/* ══════════════════ TOC scroll-spy ══════════════════ */
+function bindTOC(){
+  const btns = document.querySelectorAll('.toc-btn');
+  btns.forEach(b => b.addEventListener('click', () => {
+    const el = document.getElementById(b.dataset.target);
+    if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+  }));
+  const targets = [...btns].map(b => document.getElementById(b.dataset.target)).filter(Boolean);
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting){
+      btns.forEach(b => b.classList.toggle('active', b.dataset.target === e.target.id));
+    }});
+  }, { rootMargin:'-30% 0px -60% 0px' });
+  targets.forEach(t => obs.observe(t));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  ccInit();
+  renderTimeline();
+  renderFeatures();
+  updateProgress();
+  bindTOC();
+});
+</script>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b3024">
+<meta property="og:title" content="زاد العشر — رفيقك في أفضل أيام الدنيا">
+<meta property="og:description" content="تطبيق إسلامي ذكي لاستثمار عشر ذي الحجة — أذكار، قرآن، مسبحة، يوم عرفة، وذكاء اصطناعي">
+<meta property="og:image" content="icons/icon-512.svg">
+<title>زاد العشر — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g1:#0b3024;--g2:#1a5d47;--g3:#2a7a5f;
+  --gold:#c9a14a;--gold2:#e6c97a;
+  --bg:#faf6ec;--card:#fff;--ink:#10241d;--muted:#6b7a72;
+  --r:18px;--t:.25s cubic-bezier(0.4,0,0.2,1)
+}
+html{scroll-behavior:smooth}
+body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(--ink);direction:rtl;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(250,246,236,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,161,74,.15);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--g1)}
+.nav-ico{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--gold2),var(--gold));display:grid;place-items:center;font-size:20px}
+.nav-name{font-size:17px;font-weight:800;color:var(--g1)}
+.nav-cta{background:var(--g1);color:#fff;padding:10px 22px;border-radius:99px;font-family:inherit;font-size:14px;font-weight:700;border:none;cursor:pointer;text-decoration:none;transition:background var(--t),transform var(--t)}
+.nav-cta:hover{background:var(--g2);transform:translateY(-1px)}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(150deg,var(--g1) 0%,var(--g2) 55%,var(--g3) 100%);min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 20px;position:relative;overflow:hidden}
+.hero-orb{position:absolute;border-radius:50%;opacity:.15;pointer-events:none}
+.hero-orb-1{width:500px;height:500px;background:radial-gradient(circle,var(--gold),transparent);top:-150px;right:-100px}
+.hero-orb-2{width:400px;height:400px;background:radial-gradient(circle,var(--g3),transparent);bottom:-100px;left:-80px}
+.hero-eyebrow{color:var(--gold2);font-size:13px;letter-spacing:2.5px;font-weight:700;text-transform:uppercase;margin-bottom:14px;opacity:.9}
+.hero-title{font-size:clamp(40px,8vw,80px);font-weight:900;color:#fff;line-height:1.15;margin-bottom:16px}
+.hero-title span{color:var(--gold2)}
+.hero-sub{font-size:clamp(15px,2.5vw,20px);color:rgba(255,255,255,.78);max-width:560px;line-height:1.7;margin-bottom:36px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.btn-hero{padding:16px 34px;border-radius:99px;font-family:inherit;font-size:16px;font-weight:800;border:none;cursor:pointer;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-hero-primary{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#3a2a08;box-shadow:0 8px 28px rgba(201,161,74,.45)}
+.btn-hero-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 14px 36px rgba(201,161,74,.6)}
+.btn-hero-ghost{background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.3)}
+.btn-hero-ghost:hover{background:rgba(255,255,255,.2)}
+
+/* ── APP PREVIEW MOCKUP ── */
+.mockup-wrap{margin-top:50px;position:relative;z-index:2}
+.phone-frame{width:min(320px,85vw);margin:0 auto;background:#0a0f0c;border-radius:36px;padding:14px;box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08);position:relative;overflow:hidden}
+.phone-notch{width:90px;height:26px;background:#0a0f0c;border-radius:0 0 16px 16px;margin:0 auto 10px;position:relative;z-index:2}
+.phone-screen{background:#0a0f0c;border-radius:22px;overflow:hidden}
+
+/* Mock UI inside phone */
+.mock-topbar{padding:12px 16px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06)}
+.mock-brand{font-size:15px;font-weight:900;color:#e6c97a}
+.mock-search{background:rgba(255,255,255,.08);border-radius:99px;padding:6px 12px;font-size:11px;color:rgba(255,255,255,.5)}
+.mock-hero{background:linear-gradient(135deg,#0b3024,#1a5d47);margin:12px;border-radius:18px;padding:18px;position:relative;overflow:hidden}
+.mock-hero-tag{font-size:10px;color:#e6c97a;font-weight:700;letter-spacing:1px;margin-bottom:6px}
+.mock-hero-title{font-size:18px;font-weight:900;color:#fff;margin-bottom:4px}
+.mock-hero-sub{font-size:11px;color:rgba(255,255,255,.7);margin-bottom:14px}
+.mock-cd{display:flex;gap:8px}
+.mock-cd-box{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px;text-align:center;flex:1}
+.mock-cd-num{font-size:20px;font-weight:900;color:#e6c97a;display:block}
+.mock-cd-lbl{font-size:9px;color:rgba(255,255,255,.6);display:block;margin-top:2px}
+.mock-checks{padding:0 12px;margin-top:12px}
+.mock-check{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:11px;margin-bottom:8px}
+.mock-check-box{width:22px;height:22px;border-radius:6px;border:1.5px solid rgba(77,216,102,.5);display:grid;place-items:center;flex-shrink:0;font-size:11px}
+.mock-check-box.done{background:#4dd866;border-color:#4dd866;color:#001a08}
+.mock-check-txt{font-size:12px;color:rgba(255,255,255,.85);flex:1}
+.mock-check-done{text-decoration:line-through;color:rgba(255,255,255,.4)}
+
+/* ── FEATURES ── */
+.features{padding:80px 20px;max-width:1100px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:54px}
+.section-tag{display:inline-block;background:rgba(14,59,46,.08);color:var(--g2);padding:6px 18px;border-radius:99px;font-size:12px;font-weight:700;margin-bottom:14px;border:1px solid rgba(14,59,46,.12)}
+.section-title{font-size:clamp(26px,4vw,40px);font-weight:900;color:var(--g1);margin-bottom:12px;line-height:1.25}
+.section-title span{color:var(--gold)}
+.section-sub{color:var(--muted);font-size:16px;max-width:540px;margin:0 auto;line-height:1.7}
+
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.feat-card{background:var(--card);border:1px solid rgba(14,59,46,.09);border-radius:var(--r);padding:26px;box-shadow:0 8px 28px rgba(14,59,46,.07);transition:all .2s;position:relative;overflow:hidden}
+.feat-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;background:linear-gradient(135deg,rgba(14,59,46,.04),transparent)}
+.feat-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(14,59,46,.12);border-color:rgba(201,161,74,.25)}
+.feat-card:hover::before{opacity:1}
+.feat-ico-wrap{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;font-size:26px;margin-bottom:16px}
+.feat-ico-green{background:linear-gradient(135deg,rgba(14,59,46,.12),rgba(42,122,95,.08))}
+.feat-ico-gold{background:linear-gradient(135deg,rgba(201,161,74,.15),rgba(230,201,122,.08))}
+.feat-title{font-size:18px;font-weight:800;color:var(--g1);margin-bottom:8px}
+.feat-desc{font-size:14px;color:var(--muted);line-height:1.7}
+.feat-tag{display:inline-block;background:rgba(14,59,46,.07);color:var(--g2);padding:4px 12px;border-radius:99px;font-size:11px;font-weight:700;margin-top:12px}
+
+/* ── STATS ── */
+.stats-band{background:linear-gradient(135deg,var(--g1),var(--g2));padding:60px 20px;text-align:center}
+.stats-grid{display:flex;gap:0;flex-wrap:wrap;max-width:800px;margin:0 auto;justify-content:center}
+.stat-item{flex:1;min-width:160px;padding:20px;border-right:1px solid rgba(255,255,255,.1)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-size:48px;font-weight:900;color:var(--gold2);display:block;line-height:1}
+.stat-lbl{font-size:13px;color:rgba(255,255,255,.65);margin-top:6px;display:block}
+
+/* ── SHARE ── */
+.share-section{padding:80px 20px;text-align:center;max-width:600px;margin:0 auto}
+.share-card{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:24px;padding:40px 36px;color:#fff;box-shadow:0 24px 60px rgba(14,59,46,.3);position:relative;overflow:hidden}
+.share-card::after{content:"";position:absolute;inset:auto -60px -100px auto;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.2),transparent)}
+.share-ico{font-size:52px;margin-bottom:16px}
+.share-title{font-size:24px;font-weight:900;margin-bottom:8px}
+.share-sub{font-size:14px;opacity:.8;margin-bottom:28px;line-height:1.6}
+.share-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.share-btn{padding:13px 24px;border-radius:99px;font-family:inherit;font-size:14px;font-weight:700;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+.share-whatsapp{background:#25d366;color:#fff}
+.share-whatsapp:hover{background:#20bd5a;transform:translateY(-2px)}
+.share-copy{background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3)}
+.share-copy:hover{background:rgba(255,255,255,.25)}
+.share-link{background:var(--gold);color:#3a2a08}
+.share-link:hover{background:var(--gold2);transform:translateY(-2px)}
+.copy-feedback{font-size:12px;opacity:.7;margin-top:10px;height:18px;transition:opacity .3s}
+
+/* ── FOOTER ── */
+footer{background:var(--g1);padding:28px 20px;text-align:center;color:rgba(255,255,255,.5);font-size:13px}
+footer strong{color:rgba(255,255,255,.85)}
+
+@media(max-width:600px){
+  .stats-grid{flex-direction:column;gap:0}
+  .stat-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.1);padding:16px}
+  .stat-item:last-child{border-bottom:none}
+  .phone-frame{width:90vw}
+  .share-card{padding:28px 20px}
+  .share-btns{flex-direction:column}
+  .share-btn{justify-content:center}
+}
+
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.animate-float{animation:float 4s ease-in-out infinite}
+.animate-in{animation:fadeUp .6s ease both}
+.delay-1{animation-delay:.1s}
+.delay-2{animation-delay:.2s}
+.delay-3{animation-delay:.3s}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-ico">🕋</div>
+    <span class="nav-name">زاد العشر</span>
+  </a>
+  <a class="nav-cta" href="index.html">جرّب الآن ←</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+
+  <div class="hero-eyebrow animate-in">عشر ذي الحجة 1447 هـ</div>
+  <h1 class="hero-title animate-in delay-1">زادك في أفضل<br><span>أيام الدنيا</span></h1>
+  <p class="hero-sub animate-in delay-2">تطبيق إسلامي ذكي يرافقك لحظة بلحظة في العشر المباركة — أذكار، قرآن، مسبحة، يوم عرفة، وذكاء اصطناعي متخصص</p>
+
+  <div class="hero-btns animate-in delay-3">
+    <a class="btn-hero btn-hero-primary" href="index.html">🕋 افتح التطبيق</a>
+    <a class="btn-hero btn-hero-ghost" href="#features">تعرّف على الميزات</a>
+  </div>
+
+  <!-- Phone Mockup -->
+  <div class="mockup-wrap animate-float">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="mock-topbar">
+          <span class="mock-brand">زاد العشر</span>
+          <span class="mock-search">ابحث...</span>
+        </div>
+        <div class="mock-hero">
+          <div class="mock-hero-tag">اليوم الأول — ذو الحجة</div>
+          <div class="mock-hero-title">بداية الرحلة</div>
+          <div class="mock-hero-sub">أفضل أيام الدنيا بدأت</div>
+          <div class="mock-cd">
+            <div class="mock-cd-box"><span class="mock-cd-num">٨</span><span class="mock-cd-lbl">أيام</span></div>
+            <div class="mock-cd-box"><span class="mock-cd-num">١٤</span><span class="mock-cd-lbl">ساعة</span></div>
+            <div class="mock-cd-box"><span class="mock-cd-num">٢٣</span><span class="mock-cd-lbl">دقيقة</span></div>
+          </div>
+        </div>
+        <div class="mock-checks">
+          <div class="mock-check">
+            <div class="mock-check-box done">✓</div>
+            <span class="mock-check-txt mock-check-done">صلاة الفجر جماعةً</span>
+          </div>
+          <div class="mock-check">
+            <div class="mock-check-box done">✓</div>
+            <span class="mock-check-txt mock-check-done">أذكار الصباح</span>
+          </div>
+          <div class="mock-check">
+            <div class="mock-check-box"></div>
+            <span class="mock-check-txt">صيام اليوم</span>
+          </div>
+          <div class="mock-check">
+            <div class="mock-check-box"></div>
+            <span class="mock-check-txt">ورد القرآن اليومي</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="section-header">
+    <div class="section-tag">الميزات</div>
+    <h2 class="section-title">كل ما تحتاجه في<br><span>العشر المباركة</span></h2>
+    <p class="section-sub">١٦ صفحة متكاملة تصحبك من الفجر إلى المغرب في أفضل أيام الدنيا</p>
+  </div>
+
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-ico-wrap feat-ico-green">📿</div>
+      <div class="feat-title">جدول العبادات التفاعلي</div>
+      <div class="feat-desc">تتبّع صلواتك، صيامك، وسننك يومياً باهتزاز لمسي عند كل إنجاز مع رسائل تشجيعية متنوعة</div>
+      <span class="feat-tag">✓ هابتيك + رسائل عشوائية</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico-wrap feat-ico-gold">🤖</div>
+      <div class="feat-title">مساعد الذكاء الاصطناعي</div>
+      <div class="feat-desc">اسأل "زاد" عن أحكام الأضحية أو معاني آيات الحج — إجابات فورية من ابن كثير وصحيح البخاري</div>
+      <span class="feat-tag">✓ Groq Llama 3.3 — مجاني</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico-wrap feat-ico-green">🌄</div>
+      <div class="feat-title">برنامج يوم عرفة الكامل</div>
+      <div class="feat-desc">مسار زمني تفاعلي من فجر عرفة حتى المغرب مع محطات الدعاء وأدعية الساعات الذهبية</div>
+      <span class="feat-tag">✓ ١٠ محطات مفصّلة</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico-wrap feat-ico-gold">📖</div>
+      <div class="feat-title">مصحف العشر مع نظام الورد</div>
+      <div class="feat-desc">٣ خطط ختم مرنة مع تتبع تلقائي للتقدم وقفل ورد الغد حتى إتمام اليوم</div>
+      <span class="feat-tag">✓ ختم / جزء / ١٠ صفحات</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico-wrap feat-ico-green">🕋</div>
+      <div class="feat-title">المسبّح والمكبّر الذكي</div>
+      <div class="feat-desc">٧ أذكار بعداد دائري SVG وشريط تقدم لكل ذكر — تكبير العشر + تسبيح + صلاة على النبي ﷺ</div>
+      <span class="feat-tag">✓ دائري + SVG ring</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico-wrap feat-ico-gold">🏅</div>
+      <div class="feat-title">١٣ وسام إنجاز</div>
+      <div class="feat-desc">نظام مكافآت يمنحك أوسمة عند الالتزام بالورد والصيام والتكبير مع confetti ذهبي</div>
+      <span class="feat-tag">✓ Gamification إيماني</span>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <span class="stat-num">١٦</span>
+      <span class="stat-lbl">صفحة متكاملة</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">١٣</span>
+      <span class="stat-lbl">وسام إنجاز</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">٩</span>
+      <span class="stat-lbl">أيام محتوى مخصص</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">٠</span>
+      <span class="stat-lbl">إعلانات — مجاني كاملاً</span>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE -->
+<div class="share-section">
+  <div class="share-card">
+    <div class="share-ico">🕋</div>
+    <div class="share-title">شاركه مع أهلك وأصحابك</div>
+    <div class="share-sub">استثمروا العشر المباركة معاً — أرسل الرابط لمن تحب</div>
+    <div class="share-btns">
+      <button class="share-btn share-whatsapp" onclick="shareWhatsapp()">💬 شارك عبر واتساب</button>
+      <button class="share-btn share-link" id="install-btn" onclick="installPWA()">📲 ثبّت التطبيق</button>
+      <button class="share-btn share-copy" onclick="copyLink()">🔗 نسخ رابط التثبيت</button>
+    </div>
+    <div class="copy-feedback" id="copy-msg"></div>
+  </div>
+</div>
+
+<footer>
+  صُنع بـ ❤️ لخدمة المسلمين في أفضل أيام الدنيا<br>
+  <strong>زاد العشر 2026</strong> — بدون إعلانات · بدون تتبع · يعمل أوفلاين
+</footer>
+
+<script>
+const APP_URL = 'https://zadullashr.vercel.app';
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.getElementById('install-btn');
+  if (btn) btn.style.animation = 'pulse-btn 2s ease-in-out infinite';
+});
+
+window.addEventListener('appinstalled', () => {
+  document.getElementById('install-btn').textContent = '✅ تم التثبيت!';
+  showMsg('🎉 تم تثبيت زاد العشر على جهازك!');
+  deferredPrompt = null;
+});
+
+async function installPWA() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') showMsg('🎉 جاري التثبيت...');
+    deferredPrompt = null;
+    return;
+  }
+  const ua = navigator.userAgent;
+  let msg;
+  if (/iPhone|iPad|iPod/.test(ua))
+    msg = '📱 Safari → اضغط ⬆️ → "إضافة إلى الشاشة الرئيسية"';
+  else if (/Android/.test(ua))
+    msg = '📱 Chrome → القائمة ⋮ → "إضافة إلى الشاشة الرئيسية"';
+  else
+    msg = '💻 Chrome → شريط العنوان → أيقونة التثبيت ⊕';
+  showMsg(msg, 6000);
+  window.open(APP_URL, '_blank');
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(APP_URL).then(() => {
+    showMsg('✅ تم نسخ رابط التثبيت — أرسله لمن تحب وسيفتح مباشرةً');
+  }).catch(() => {
+    const el = document.createElement('textarea');
+    el.value = APP_URL; document.body.appendChild(el);
+    el.select(); document.execCommand('copy');
+    document.body.removeChild(el);
+    showMsg('✅ تم نسخ الرابط');
+  });
+}
+
+function shareWhatsapp() {
+  const text = encodeURIComponent(
+`🕋 *زاد العشر* — رفيقك في أفضل أيام الدنيا!
+
+تطبيق إسلامي ذكي لاستثمار عشر ذي الحجة:
+✅ جدول عبادات تفاعلي مع هابتيك
+✅ مسبّح وأذكار صباح ومساء كاملة
+✅ برنامج يوم عرفة ساعة بساعة
+✅ مساعد ذكاء اصطناعي إسلامي
+✅ مصحف العشر مع خطط الختم
+✅ ١٣ وسام إنجاز — بدون إعلانات 🌿
+
+افتحه وثبّته مجاناً:
+👇 ${APP_URL}`);
+  const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+  window.open((isMobile ? 'whatsapp://send?text=' : 'https://web.whatsapp.com/send?text=') + text, '_blank');
+}
+
+function scrollToFeatures(e) {
+  e && e.preventDefault();
+  document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+}
+
+function showMsg(txt, dur = 4000) {
+  const el = document.getElementById('copy-msg');
+  if (!el) return;
+  el.textContent = txt; el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.style.opacity = '0', dur);
+}
+
+const obs = new IntersectionObserver(en => {
+  en.forEach(e => { if (e.isIntersecting) e.target.classList.add('animate-in'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.feat-card,.stat-item,.share-card').forEach(el => {
+  el.style.opacity = '0'; obs.observe(el);
+});
+</script>
+<style>
+@keyframes pulse-btn{0%,100%{box-shadow:0 0 0 0 rgba(201,161,74,.5)}50%{box-shadow:0 0 0 8px rgba(201,161,74,0)}}
+.copy-feedback{font-size:13px;color:rgba(255,255,255,.85);margin-top:12px;min-height:20px;transition:opacity .4s;text-align:center;padding:0 10px}
+</style>
+</body>
+</html>

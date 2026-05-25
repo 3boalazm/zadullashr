@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<title>آداب الدعاء وأوقاته — زاد العشر</title>
+<meta charset="UTF-8">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e3b2e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<style>
+/* ── Hero ──────────────────────────────────────────────── */
+.dua-hero{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:20px;padding:28px 22px;color:#fff;text-align:center;margin-bottom:18px;position:relative;overflow:hidden}
+.dua-hero::before{content:'🤲';position:absolute;left:-10px;bottom:-14px;font-size:100px;opacity:.08}
+.dua-hero-eyebrow{font-size:12px;font-weight:800;letter-spacing:2px;opacity:.75;margin-bottom:8px;text-transform:uppercase}
+.dua-hero-title{font-size:28px;font-weight:900;font-family:'Tajawal',sans-serif;margin-bottom:8px}
+.dua-hero-sub{font-size:14px;opacity:.82;line-height:1.8;max-width:380px;margin:0 auto}
+
+/* ── Tabs ──────────────────────────────────────────────── */
+.dua-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:18px;padding-bottom:2px}
+.dua-tabs::-webkit-scrollbar{display:none}
+.dua-tab{flex-shrink:0;padding:9px 16px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted);transition:all .2s;white-space:nowrap}
+.dua-tab.active{background:var(--green-deep);color:#fff;border-color:var(--green-deep)}
+html[data-theme="dark"] .dua-tab.active,html[data-theme="oled"] .dua-tab.active{background:var(--sys-green);color:#002208}
+
+/* ── Content sections ─────────────────────────────────── */
+.dua-section{display:none;animation:duaIn .3s ease}
+.dua-section.active{display:block}
+@keyframes duaIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── Cards ─────────────────────────────────────────────── */
+.dua-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px;transition:border-color .2s}
+.dua-card:hover{border-color:var(--gold)}
+.dua-card-title{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:800;color:var(--ink);margin-bottom:10px}
+.dua-card-title .ico{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+html[data-theme="dark"] .dua-card-title .ico,html[data-theme="oled"] .dua-card-title .ico{background:linear-gradient(135deg,var(--sys-green),#2a7a5f);color:#002208}
+.dua-card-body{font-size:13px;color:var(--ink);line-height:1.9}
+.dua-card-body ul{margin:6px 0 0;padding-right:18px}
+.dua-card-body li{margin-bottom:6px}
+.dua-card-body li::marker{color:var(--gold)}
+
+/* ── فضل highlight ──────────────────────────────────────── */
+.dua-hadith{background:linear-gradient(135deg,var(--gold-pale),var(--sand));border:1.5px solid rgba(201,161,74,.35);border-radius:14px;padding:16px 18px;margin-bottom:12px}
+.dua-hadith-ar{font-family:'Amiri',serif;font-size:17px;line-height:2;color:var(--green-deep);margin-bottom:8px;direction:rtl}
+html[data-theme="dark"] .dua-hadith-ar,html[data-theme="oled"] .dua-hadith-ar{color:var(--sys-yellow,#e6c97a)}
+.dua-hadith-src{font-size:11px;font-weight:700;color:var(--gold-dark,#a07a30);background:rgba(201,161,74,.15);border-radius:99px;padding:2px 10px;display:inline-block}
+
+/* ── وقت / مكان chips ────────────────────────────────── */
+.time-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:8px}
+.time-chip{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 12px;display:flex;align-items:flex-start;gap:10px;transition:all .2s}
+.time-chip:hover{border-color:var(--gold);background:var(--gold-pale)}
+.time-chip .tc-ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.time-chip .tc-text b{display:block;font-size:13px;font-weight:800;color:var(--ink);margin-bottom:2px}
+.time-chip .tc-text small{font-size:11px;color:var(--muted);line-height:1.5}
+
+/* ── مانع badge ─────────────────────────────────────────── */
+.block-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.block-item:last-child{border-bottom:none}
+.block-num{min-width:28px;height:28px;border-radius:50%;background:rgba(201,161,74,.18);color:var(--gold-dark,#a07a30);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.block-text b{display:block;font-size:13px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.block-text span{font-size:12px;color:var(--muted);line-height:1.7}
+
+/* ── Key insight ────────────────────────────────────────── */
+.dua-insight{background:linear-gradient(135deg,rgba(14,59,46,.08),rgba(31,94,75,.06));border-right:3px solid var(--green-deep);border-radius:0 12px 12px 0;padding:14px 16px;margin-bottom:14px;font-size:13px;line-height:1.8;color:var(--ink)}
+html[data-theme="dark"] .dua-insight,html[data-theme="oled"] .dua-insight{background:rgba(77,216,102,.06);border-color:var(--sys-green)}
+
+@media(max-width:480px){.time-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت التطبيق</button>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <div class="nav-sep">الصلاة والتقويم</div>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <div class="nav-sep">القرآن والعبادة</div>
+      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf-quran.html"><span class="ico">🕋</span><span>المصحف الشريف</span></a>
+      <a href="Quran-radio.HTML"><span class="ico">📻</span><span>إذاعات القرآن</span></a>
+      <a href="takbeer.html"><span class="ico">📿</span><span>المسبحة</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار</span></a>
+      <a href="nawawi.html"><span class="ico">📜</span><span>الأربعون النووية</span></a>
+      <a href="du'a.html"><span class="ico">🌿</span><span>الأدعية</span></a>
+      <a href="dua-guide.html" class="active"><span class="ico">🙏</span><span>قيم الدعاء</span></a>
+      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
+      <div class="nav-sep">الحج والمناسك</div>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <div class="nav-sep">التعلّم والترفيه</div>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="playlist.html"><span class="ico">🎵</span><span>قائمة التشغيل</span></a>
+      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
+      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
+      <div class="nav-sep">المتابعة</div>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <div class="nav-sep">الإعدادات</div>
+      <a href="profile.html"><span class="ico">👤</span><span>حسابي</span></a>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">ℹ️</span><span>عن التطبيق</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">قِيَم <span>الدعاء</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">
+            🔔<span class="notif-dot" id="notif-dot"></span>
+          </button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang?.()">EN</button>
+        <button class="btn-theme" onclick="safeToggleTheme?.()||toggleTheme?.()" aria-label="تبديل المظهر">🌙</button>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="dua-hero">
+      <div class="dua-hero-eyebrow">🤲 فقه الدعاء</div>
+      <div class="dua-hero-title">الدعاء — أكرم شيء على الله</div>
+      <div class="dua-hero-sub">فضله · آدابه · أوقاته · موانعه · كل ما يُعينك على أن يصعد دعاؤك مقبولاً</div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="dua-tabs" id="dua-tabs">
+      <button class="dua-tab active" onclick="switchTab('fadl',this)">✨ الفضل</button>
+      <button class="dua-tab" onclick="switchTab('adab',this)">📋 الآداب</button>
+      <button class="dua-tab" onclick="switchTab('awqat',this)">🕐 الأوقات</button>
+      <button class="dua-tab" onclick="switchTab('mawani',this)">🚫 الموانع</button>
+    </div>
+
+    <!-- ══════ TAB: الفضل ══════ -->
+    <div class="dua-section active" id="tab-fadl">
+      <div class="dua-hadith">
+        <div class="dua-hadith-ar">«الدعاءُ هو العبادةُ» وفي رواية «مخُّ العبادة»</div>
+        <span class="dua-hadith-src">رواه الترمذي وقال حسن صحيح</span>
+      </div>
+      <div class="dua-hadith">
+        <div class="dua-hadith-ar">«ليس شيءٌ أكرمَ على الله من الدعاء»</div>
+        <span class="dua-hadith-src">رواه الترمذي وابن ماجه</span>
+      </div>
+
+      <div class="dua-insight">الدعاء أفضل العبادات لأنه يجمع بين غاية الحب ونهاية التذلل والخضوع لله — ومن تركه يعتبر مستكبراً لأن الله توعّده بدخول جهنم صاغراً.</div>
+
+      <div class="dua-card">
+        <div class="dua-card-title"><span class="ico">⚔️</span> سلاح المؤمن</div>
+        <div class="dua-card-body">الدعاء هو سلاح المؤمن وقوة لا تُهزم — سندٌ في المحن ودرعٌ في مواجهة الشدائد. وقد قال النبي ﷺ: <strong>«لا يردّ القضاء إلا الدعاء»</strong> — فهو يمنع نزول البلاء أو يخففه ويظل يتصارع معه إلى يوم القيامة.</div>
+      </div>
+      <div class="dua-card">
+        <div class="dua-card-title"><span class="ico">💛</span> الله يحب السائل</div>
+        <div class="dua-card-body">على عكس البشر، فإن <strong>الله يغضب على من لا يسأله</strong> ويحب من يُلحّ عليه في الطلب. والدعاء في الرخاء يجعل الله يعرف عبده في الشدة — فمن أراد أن يُستجاب له وقت الكرب فليُكثر من الدعاء في وقت السعة.</div>
+      </div>
+      <div class="dua-card">
+        <div class="dua-card-title"><span class="ico">🎁</span> ضمان الإجابة الثلاثي</div>
+        <div class="dua-card-body">الدعاء مضمون النتيجة دائماً — ما من مسلم يدعو بدعوة ليس فيها إثم ولا قطيعة رحم إلا أعطاه الله بها إحدى ثلاث:
+          <ul>
+            <li>أن يُعجّل له دعوته — تحقيق ما طلب</li>
+            <li>أن يدّخرها له في الآخرة — وهو أعظم أنواع الثواب</li>
+            <li>أن يصرف عنه من السوء مثلها</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dua-card">
+        <div class="dua-card-title"><span class="ico">💎</span> راحة النفس وطهارة القلب</div>
+        <div class="dua-card-body">يورث الدعاءُ في القلب حلاوةً ولذة، ويجلب السكينة والطمأنينة للنفس المكروبة — وهو وسيلة لنيل مغفرة الذنوب. والله يغفر للعبد ما دام يدعوه ويرجوه ولا يبالي بعظمة ذنوبه.</div>
+      </div>
+      <div class="dua-hadith">
+        <div class="dua-hadith-ar">«أعجزُ الناسِ مَن عجزَ عن الدعاء»</div>
+        <span class="dua-hadith-src">رواه أحمد والطبراني</span>
+      </div>
+    </div>
+
+    <!-- ══════ TAB: الآداب ══════ -->
+    <div class="dua-section" id="tab-adab">
+      <div class="dua-insight">آداب الدعاء ركائز أساسية تعزز روحانية العبد وتزيد من فرص استجابة دعائه — وهي تعكس حالة التذلل والافتقار لله عز وجل.</div>
+
+      <div class="dua-card">
+        <div class="dua-card-title"><span class="ico">🌙</span><span>قبل البدء بالدعاء</span></div>
+        <div class="dua-card-body"><ul>
+          <li><strong>طيب المأكل والمكسب</strong> — الحرص على أن يكون الطعام والملبس من كسب حلال، فهو شرط أساسي لقبول الدعاء</li>
+          <li><strong>الطهارة والوضوء</strong> — يُستحب أن يكون الداعي على طهارة تامة</li>
+          <li><strong>تقديم عمل صالح أو صدقة</strong> — قبل الدعاء تقرباً لله تعالى</li>
+          <li><strong>التوبة والاستغفار</strong> — البدء بالاعتراف بالذنوب قبل سؤال الحاجات</li>
+        </ul></div>
+      </div>
+
+      <div class="dua-card">
+        <div class="dua-card-title"><span class="ico">🤲</span><span>هيئة الداعي وحال قلبه</span></div>
+        <div class="dua-card-body"><ul>
+          <li><strong>الإخلاص</strong> — التوجه لله وحده بيقين كامل أنه القادر على تلبية الطلب</li>
+          <li><strong>استقبال القبلة</strong> — من السنن المؤكدة عند الدعاء</li>
+          <li><strong>رفع اليدين</strong> — إلى مستوى الصدر أو الرأس كعلامة على الاستجداء والافتقار</li>
+          <li><strong>حضور القلب</strong> — الدعاء بوعي وتركيز، فالله لا يستجيب من قلب لاهٍ أو غافل</li>
+          <li><strong>التذلل والتضرع</strong> — إظهار الخضوع والخشوع، ويُستحب البكاء أو التباكي</li>
+        </ul></div>
+      </div>
+
+      <div class="dua-card">
+        <div class="dua-card-title"><span class="ico">📝</span><span>كيفية صياغة الدعاء</span></div>
+        <div class="dua-card-body"><ul>
+          <li><strong>البدء بالحمد والثناء ثم الصلاة على النبي ﷺ</strong> — فالدعاء يظل محجوباً حتى يُصلى عليه</li>
+          <li><strong>التوسل بأسماء الله الحسنى</strong> — اختيار الاسم المناسب للحاجة مثل "يا رزاق ارزقني"</li>
+          <li><strong>الجزم في المسألة</strong> — لا يُعلَّق الدعاء بالمشيئة كقول "إن شئت"، بل العزم واليقين في الطلب</li>
+          <li><strong>الإلحاح والتكرار</strong> — تكرار الدعاء ثلاثاً والمداومة عليه بدون سأم</li>
+          <li><strong>خفض الصوت</strong> — الدعاء بصوت معتدل، بين الجهر والمخافتة</li>
+        </ul></div>
+      </div>
+
+      <div class="dua-card">
+        <div class="dua-card-title"><span class="ico">💡</span><span>محتوى الدعاء المستحب</span></div>
+        <div class="dua-card-body"><ul>
+          <li>الدعاء <strong>بالخير فقط</strong> — تجنب الدعاء بإثم أو قطيعة رحم أو طلب المستحيلات</li>
+          <li><strong>البدء بالنفس ثم الآخرين</strong> — ثم الوالدان والأهل وسائر المسلمين</li>
+          <li><strong>جوامع الكلم</strong> — استخدام الأدعية المأثورة من القرآن والسنة لشموليتها</li>
+        </ul></div>
+      </div>
+
+      <div class="dua-card">
+        <div class="dua-card-title"><span class="ico">✅</span><span>آداب ما بعد الدعاء</span></div>
+        <div class="dua-card-body"><ul>
+          <li>ختم الدعاء بـ <strong>"آمين"</strong></li>
+          <li><strong>مسح الوجه باليدين</strong> بعد الفراغ من الدعاء</li>
+          <li><strong>عدم الاستعجال</strong> — تجنب القول "دعوتُ فلم يُستجب لي"، بل المداومة بصبر وثقة في حكمة الله</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <!-- ══════ TAB: الأوقات ══════ -->
+    <div class="dua-section" id="tab-awqat">
+      <div class="dua-insight">استغلال هذه الأوقات والأماكن مع الالتزام بآداب الدعاء يزيد بإذن الله من يقين العبد وقرب استجابة مسألته.</div>
+
+      <div class="section-title" style="margin-top:0">🕐 الأوقات المفضلة</div>
+      <div class="time-grid">
+        <div class="time-chip">
+          <span class="tc-ico">🌙</span>
+          <div class="tc-text"><b>ثلث الليل الآخر</b><small>ينزل الله إلى السماء الدنيا فيقول: "من يدعوني فأستجيب له؟"</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">🌟</span>
+          <div class="tc-text"><b>ليلة القدر</b><small>خير من ألف شهر — يُستحب فيها الدعاء بالعفو</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">📣</span>
+          <div class="tc-text"><b>بين الأذان والإقامة</b><small>وقت مبارك لا يُرد فيه الدعاء</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">🕌</span>
+          <div class="tc-text"><b>ساعة يوم الجمعة</b><small>أرجحها: الساعة الأخيرة قبل غروب الشمس بعد العصر</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">🌄</span>
+          <div class="tc-text"><b>يوم عرفة</b><small>أفضل يوم للدعاء في العام — للحاج وغيره</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">🌧️</span>
+          <div class="tc-text"><b>عند نزول المطر</b><small>تنزل رحمة الله وبركاته مع المطر</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">🌅</span>
+          <div class="tc-text"><b>وقت السحر</b><small>الوقت الذي يسبق الفجر مباشرة</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">🍽️</span>
+          <div class="tc-text"><b>عند الإفطار</b><small>للصائم دعوة لا تُرد عند فطره</small></div>
+        </div>
+      </div>
+
+      <div class="section-title">🙇 الحالات التي يُستجاب فيها الدعاء</div>
+      <div class="time-grid">
+        <div class="time-chip">
+          <span class="tc-ico">🕋</span>
+          <div class="tc-text"><b>أثناء السجود</b><small>أقرب ما يكون العبد إلى ربه — فأكثر من الدعاء</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">✅</span>
+          <div class="tc-text"><b>دبر الصلوات المكتوبة</b><small>بعد الانتهاء من الفريضة مباشرةً</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">🧳</span>
+          <div class="tc-text"><b>دعاء المسافر</b><small>السفر من مظاهر الانكسار التي تجلب الإجابة</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">😔</span>
+          <div class="tc-text"><b>دعاء المظلوم</b><small>ليس بينه وبين الله حجاب — حتى لو كان عاصياً</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">👨‍👧</span>
+          <div class="tc-text"><b>دعاء الوالد لولده</b><small>مستجابة ليقين الإخلاص فيها</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">🌿</span>
+          <div class="tc-text"><b>دعاء المسلم لأخيه بظهر الغيب</b><small>تُؤمّن الملائكة وتقول "ولك بمثل"</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">😢</span>
+          <div class="tc-text"><b>دعاء المضطر</b><small>انقطعت به الأسباب ولم يجد ملجأً إلا الله</small></div>
+        </div>
+        <div class="time-chip">
+          <span class="tc-ico">🐓</span>
+          <div class="tc-text"><b>عند صياح الديك</b><small>لأنه يرى ملكاً — فادعُ في تلك اللحظة</small></div>
+        </div>
+      </div>
+
+      <div class="section-title">🕌 الأماكن المباركة</div>
+      <div class="dua-card">
+        <div class="dua-card-body">
+          <ul>
+            <li><strong>المسجد الحرام والمسجد النبوي</strong> — خاصة في الأوقات المباركة</li>
+            <li><strong>المشاعر المقدسة</strong> — عرفات والمزدلفة ومنى والصفا والمروة</li>
+            <li><strong>الملتزم</strong> — بين الحجر الأسود وباب الكعبة</li>
+            <li><strong>عند شرب ماء زمزم</strong> — فماء زمزم لما شُرب له</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ TAB: الموانع ══════ -->
+    <div class="dua-section" id="tab-mawani">
+      <div class="dua-insight">من رحمة الله أن ما يظنه العبد "ردّاً" قد يكون تأجيلاً لأن الله يعلم أن الوقت ليس الأنسب — أو صرفاً للسوء أو ادخاراً للثواب في الآخرة وهو أعظمها.</div>
+
+      <div class="dua-card">
+        <div class="dua-card-title"><span class="ico">🚫</span><span>موانع الدعاء</span></div>
+        <div class="dua-card-body">
+          <div class="block-item">
+            <div class="block-num">١</div>
+            <div class="block-text"><b>الحرام في الطعام والمكسب</b><span>أكل الحرام من أعظم عوائق القبول — لقمة واحدة من الحرام قد تضعف أثر الدعاء أربعين صباحاً</span></div>
+          </div>
+          <div class="block-item">
+            <div class="block-num">٢</div>
+            <div class="block-text"><b>الغفلة وانشغال القلب</b><span>الله لا يستجيب من قلب ساهٍ لاهٍ مشغول بالدنيا أو اللعب أثناء الدعاء</span></div>
+          </div>
+          <div class="block-item">
+            <div class="block-num">٣</div>
+            <div class="block-text"><b>ضعف اليقين بالاستجابة</b><span>الدعاء بقلب شاكّ أو متردد يشبه رمي السهم بلا هدف — لا بد من اليقين بأن الله سيستجيب</span></div>
+          </div>
+          <div class="block-item">
+            <div class="block-num">٤</div>
+            <div class="block-text"><b>الاستعجال والإحباط</b><span>القول "دعوتُ ودعوتُ فلم يُستجب لي" ثم ترك الدعاء — هذا باب للحرمان</span></div>
+          </div>
+          <div class="block-item">
+            <div class="block-num">٥</div>
+            <div class="block-text"><b>الدعاء بإثم أو قطيعة رحم</b><span>أو الاعتداء في الدعاء بطلب المستحيلات أو الدعاء على الأهل والأولاد</span></div>
+          </div>
+          <div class="block-item">
+            <div class="block-num">٦</div>
+            <div class="block-text"><b>تعليق الدعاء بالمشيئة</b><span>كقول "اللهم اغفر لي إن شئت" — بل يجب العزم في المسألة واليقين بقدرة الله</span></div>
+          </div>
+          <div class="block-item">
+            <div class="block-num">٧</div>
+            <div class="block-text"><b>الإصرار على المعاصي</b><span>المعصية تخلق حاجزاً يحجب صعود الدعاء — التوبة قبل الدعاء شرط كمال</span></div>
+          </div>
+          <div class="block-item">
+            <div class="block-num">٨</div>
+            <div class="block-text"><b>الدعاء بلا عمل</b><span>من يسأل الله الرزق وهو لا يبذل الأسباب — فدعاؤه يخالف السنن الإلهية</span></div>
+          </div>
+          <div class="block-item">
+            <div class="block-num">٩</div>
+            <div class="block-text"><b>الكبر والغرور</b><span>الذين يستكبرون عن عبادة الله ودعائه — يتوعدهم الله بالذل في الآخرة</span></div>
+          </div>
+          <div class="block-item">
+            <div class="block-num">١٠</div>
+            <div class="block-text"><b>إهمال آداب الدعاء الأساسية</b><span>كترك الثناء على الله والصلاة على النبي ﷺ في مستهل الدعاء</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dua-hadith">
+        <div class="dua-hadith-ar">«يا أيها الناسُ، إن الله طيّبٌ لا يقبلُ إلا طيّباً»</div>
+        <span class="dua-hadith-src">رواه مسلم — أصل في ارتباط الحلال بقبول الدعاء</span>
+      </div>
+    </div>
+
+  </main>
+  <a href="ruqyah.html" class="fab-ai" aria-label="الرقية الشرعية" style="background:linear-gradient(135deg,#0e3b2e,#c9a14a);font-size:20px">🛡️</a>
+</div>
+
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="menu.js" defer></script>
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.dua-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.dua-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

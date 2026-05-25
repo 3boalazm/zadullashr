@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<title>العظماء — زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<script src="/_vercel/insights/script.js" defer></script>
+
+<style>
+/* ════ Animations ════════════════════════════════════════ */
+@keyframes plIn    { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+@keyframes plSpin  { to{transform:rotate(360deg)} }
+@keyframes eqBar   { 0%,100%{height:3px} 50%{height:var(--h,14px)} }
+@keyframes glow    { 0%,100%{box-shadow:0 0 0 0 rgba(201,161,74,0)} 50%{box-shadow:0 0 18px 5px rgba(201,161,74,.18)} }
+@keyframes pulse   { 0%,100%{transform:scale(1)} 50%{transform:scale(1.07)} }
+
+/* ════ Hero ═══════════════════════════════════════════════ */
+.pl-hero {
+  background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 55%,rgba(201,161,74,.18) 100%);
+  border-radius:22px;margin-bottom:18px;padding:20px;position:relative;overflow:hidden;
+  box-shadow:0 8px 32px rgba(14,59,46,.35);border:1px solid rgba(201,161,74,.18);
+}
+.pl-hero::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 80% 50%,rgba(201,161,74,.1),transparent 60%);
+  pointer-events:none}
+.pl-hero-row{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
+.pl-cover{width:68px;height:68px;border-radius:14px;flex-shrink:0;overflow:hidden;
+  background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+  box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.pl-cover img{width:100%;height:100%;object-fit:cover}
+.pl-hero-info{flex:1;min-width:0}
+.pl-hero-name{font-size:18px;font-weight:900;color:#fff;margin-bottom:2px}
+.pl-hero-sub{font-size:11px;color:rgba(255,255,255,.6);margin-bottom:10px}
+.pl-stats{display:flex;gap:12px;flex-wrap:wrap}
+.pl-stat{font-size:11px;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:3px}
+.pl-stat b{color:#fff;font-size:13px}
+
+/* ════ MEDIA PLAYER ═══════════════════════════════════════ */
+.mp-wrap {
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  margin-bottom:18px;overflow:hidden;box-shadow:var(--shadow);
+  animation:glow 4s infinite;
+}
+/* Artwork + info bar */
+.mp-top {
+  background:linear-gradient(135deg,rgba(14,59,46,.06),rgba(201,161,74,.04));
+  padding:14px 16px;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--border);
+}
+.mp-art {
+  width:54px;height:54px;border-radius:12px;flex-shrink:0;overflow:hidden;
+  background:var(--sand);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+}
+.mp-art img{width:100%;height:100%;object-fit:cover}
+.mp-track-info{flex:1;min-width:0}
+.mp-track-name{font-size:14px;font-weight:800;color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.mp-track-sub{font-size:11px;color:var(--muted)}
+.mp-track-btns{display:flex;gap:6px;flex-shrink:0}
+.mp-icon-btn{background:none;border:1px solid var(--border);border-radius:8px;
+  padding:6px 10px;font-size:13px;cursor:pointer;color:var(--muted);
+  transition:all .15s}
+.mp-icon-btn:hover{border-color:var(--gold);color:var(--ink)}
+
+/* Progress bar */
+.mp-progress-wrap{padding:12px 16px 0}
+.mp-progress-bar{height:5px;background:var(--sand-2);border-radius:99px;
+  cursor:pointer;position:relative;overflow:hidden;margin-bottom:6px}
+.mp-progress-bar:hover{height:7px}
+.mp-progress-fill{height:100%;border-radius:99px;
+  background:linear-gradient(90deg,var(--green-soft,#4ade80),var(--gold));
+  transition:width .3s linear;position:relative}
+.mp-progress-fill::after{content:'';position:absolute;right:-5px;top:50%;
+  transform:translateY(-50%);width:10px;height:10px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 6px rgba(201,161,74,.5)}
+.mp-time-row{display:flex;justify-content:space-between;
+  font-size:11px;color:var(--muted);font-family:monospace;margin-bottom:10px;
+  padding:0 2px}
+
+/* Equalizer visualizer */
+.mp-eq-wrap{padding:0 16px;margin-bottom:8px;height:32px;
+  display:flex;align-items:flex-end;gap:2px;overflow:hidden}
+.mp-eq-bar{flex:1;background:linear-gradient(to top,var(--green-deep),var(--gold));
+  border-radius:2px 2px 0 0;height:3px;transition:height .1s;opacity:.7}
+.mp-eq-bar.active{animation:eqBar .4s ease-in-out infinite}
+.mp-eq-bar:nth-child(2n){animation-duration:.3s}
+.mp-eq-bar:nth-child(3n){animation-duration:.5s;animation-delay:.1s}
+
+/* Controls row */
+.mp-controls{padding:10px 16px 14px;display:flex;align-items:center;gap:10px}
+.mp-btn{background:none;border:1.5px solid var(--border);border-radius:99px;
+  padding:8px 14px;font-size:13px;font-weight:700;color:var(--muted);
+  cursor:pointer;transition:all .15s;font-family:inherit;display:flex;align-items:center;gap:5px}
+.mp-btn:hover{border-color:var(--green-deep);color:var(--green-deep)}
+.mp-btn-play{
+  width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green-deep),var(--green-mid));
+  border:none;color:#fff;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(14,59,46,.35);transition:all .15s;flex-shrink:0;
+}
+.mp-btn-play:hover{transform:scale(1.06);opacity:.9}
+.mp-btn-play.playing{animation:pulse 2s infinite}
+html[data-theme="dark"] .mp-btn-play,
+html[data-theme="oled"] .mp-btn-play{
+  background:linear-gradient(135deg,var(--sys-green,#4ade80),#2eb84d);color:#001a08}
+
+/* Volume */
+.mp-vol-wrap{display:flex;align-items:center;gap:6px;margin-right:auto}
+.mp-vol-ico{font-size:15px;cursor:pointer;opacity:.6;transition:.15s}
+.mp-vol-ico:hover{opacity:1}
+.mp-vol-slider{-webkit-appearance:none;width:70px;height:4px;border-radius:99px;
+  background:var(--sand-2);outline:none;cursor:pointer}
+.mp-vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;
+  border-radius:50%;background:var(--green-deep);cursor:pointer}
+
+/* Equalizer preset chips */
+.mp-eq-chips{padding:0 16px 12px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.mp-eq-chips::-webkit-scrollbar{display:none}
+.mp-eq-chip{padding:4px 12px;border-radius:99px;border:1.5px solid var(--border);
+  background:var(--card);font-size:11px;font-weight:700;color:var(--muted);
+  cursor:pointer;white-space:nowrap;transition:all .15s}
+.mp-eq-chip.active{background:var(--green-deep);color:#fff;border-color:var(--green-deep)}
+
+/* ════ Search + Chips ════════════════════════════════════ */
+.pl-search{width:100%;padding:11px 18px;border-radius:99px;
+  border:1.5px solid var(--border);background:var(--card);color:var(--ink);
+  font-family:inherit;font-size:14px;outline:none;box-shadow:var(--shadow-sm);
+  margin-bottom:10px;transition:border-color .2s}
+.pl-search:focus{border-color:rgba(201,161,74,.4)}
+.pl-chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:16px}
+.pl-chips::-webkit-scrollbar{display:none}
+.pl-chip{padding:6px 14px;border-radius:99px;border:1.5px solid var(--border);
+  background:var(--card);font-family:inherit;font-size:12px;font-weight:700;
+  color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .2s}
+.pl-chip.active{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));
+  color:#fff;border-color:transparent}
+
+/* ════ Track Cards ═══════════════════════════════════════ */
+.pl-list{display:flex;flex-direction:column;gap:0}
+/* Desktop grid — 3 cards per row on large screens */
+@media(min-width:900px){
+  .pl-list.grid-view{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .pl-list.grid-view .pl-card{border-radius:16px !important;border-bottom:1px solid var(--border) !important}
+  .pl-list.grid-view .pl-card:first-child,.pl-list.grid-view .pl-card:last-child{border-radius:16px !important}
+  #pl-view-toggle{display:flex}
+}
+.pl-card{background:var(--card);border:1px solid var(--border);
+  padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;
+  position:relative;transition:background .15s;border-radius:0}
+.pl-card:first-child{border-radius:16px 16px 0 0}
+.pl-card:last-child {border-radius:0 0 16px 16px}
+.pl-card:not(:last-child){border-bottom:none}
+.pl-card:hover{background:rgba(201,161,74,.05)}
+.pl-card.playing{background:linear-gradient(135deg,rgba(14,59,46,.07),rgba(201,161,74,.04));
+  border-right:3px solid var(--gold)}
+.pl-card-anim{animation:plIn .3s both}
+
+.pl-num{width:28px;text-align:center;font-size:12px;font-weight:700;
+  color:var(--muted);flex-shrink:0}
+.pl-eq{display:none;gap:2px;align-items:flex-end;height:14px}
+.pl-eq span{width:3px;border-radius:1px;background:var(--gold);
+  animation:eqBar .5s ease-in-out infinite}
+.pl-eq span:nth-child(2){animation-delay:.15s;--h:10px}
+.pl-eq span:nth-child(3){animation-delay:.3s;--h:6px}
+.pl-card.playing .pl-num-txt{display:none}
+.pl-card.playing .pl-eq{display:flex}
+
+.pl-thumb{width:40px;height:40px;border-radius:9px;flex-shrink:0;overflow:hidden;
+  background:var(--sand);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:14px}
+.pl-thumb img{width:100%;height:100%;object-fit:cover}
+.pl-info{flex:1;min-width:0}
+.pl-title{font-size:13px;font-weight:700;color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.pl-card.playing .pl-title{color:var(--green-deep)}
+html[data-theme="dark"] .pl-card.playing .pl-title,
+html[data-theme="oled"] .pl-card.playing .pl-title{color:var(--sys-green,#4ade80)}
+.pl-meta{display:flex;align-items:center;gap:5px}
+.pl-dur{font-size:10px;color:var(--muted);font-family:monospace}
+.pl-plays{font-size:10px;background:var(--sand-2);color:var(--muted);
+  border-radius:99px;padding:1px 7px;border:1px solid var(--border)}
+.pl-card-btns{display:flex;gap:3px;flex-shrink:0}
+.pl-act{background:none;border:none;font-size:14px;cursor:pointer;
+  opacity:.4;transition:all .15s;padding:3px}
+.pl-act:hover{opacity:1;transform:scale(1.15)}
+.pl-act.liked{opacity:1}
+
+/* Loading / Error */
+.pl-loading{background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:48px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;
+  color:var(--muted);font-size:14px;box-shadow:var(--shadow-sm)}
+.pl-spinner{width:32px;height:32px;border:3px solid var(--border);
+  border-top-color:var(--gold);border-radius:50%;animation:plSpin 1s linear infinite}
+.pl-error{background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:24px;text-align:center;box-shadow:var(--shadow-sm);font-size:13px;color:var(--ink)}
+.pl-empty{background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:40px 20px;text-align:center;color:var(--muted);font-size:14px}
+
+/* Section title */
+.pl-sec{font-size:15px;font-weight:800;color:var(--ink);
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+
+/* SC iframe — real size off-screen for canvas renderer */
+#sc-frame{position:fixed;left:-9999px;top:-9999px;
+  width:300px;height:166px;border:none;pointer-events:none;visibility:hidden}
+
+@media(max-width:480px){
+  .pl-hero-name{font-size:15px}
+  .mp-vol-wrap{display:none}
+  .mp-eq-wrap{height:24px}
+}
+</style>
+
+<script>(function(){
+  var s=localStorage.getItem('zad_v2');var t='light';
+  try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}
+  document.documentElement.setAttribute('data-theme',t);
+  var saved=localStorage.getItem('zad_font_size');
+  var map={small:0.875,medium:1,large:1.15};
+  if(!saved||saved==='system'){var scale=1;try{var el=document.createElement('div');el.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem';document.documentElement.appendChild(el);var rem=parseFloat(getComputedStyle(el).width)||16;document.documentElement.removeChild(el);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}
+})();</script>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت التطبيق</button>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <div class="nav-sep">الصلاة والتقويم</div>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <div class="nav-sep">القرآن والعبادة</div>
+      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
+      <a href="takbeer.html"><span class="ico">📿</span><span>المسبحة</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار</span></a>
+      <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
+      <a href="nawawi.html"><span class="ico">📜</span><span>الأربعون النووية</span></a>
+      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
+      <div class="nav-sep">الحج والمناسك</div>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <div class="nav-sep">المتابعة</div>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <div class="nav-sep">التعلم والترفيه</div>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="playlist.html" class="active"><span class="ico">🎵</span><span>العظماء</span></a>
+      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
+      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <div class="nav-sep">الإعدادات</div>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main" style="padding-bottom:20px">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger">☰</button>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center">
+        <div class="page-title">🎵 <span>العظماء</span></div>
+      </div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verse -->
+    <div class="verse" style="margin-bottom:18px">
+      <div class="src">سورة الإسراء — 82</div>
+      <div class="ar">وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِّلْمُؤْمِنِينَ</div>
+    </div>
+
+    <!-- Hero -->
+    <div class="pl-hero">
+      <div class="pl-hero-row">
+        <div class="pl-cover" id="pl-cover">🎧</div>
+        <div class="pl-hero-info">
+          <div class="pl-hero-name">العظماء</div>
+          <div class="pl-hero-sub">مصطفى أبو العزم · تلاوات ومحاضرات</div>
+            <div class="pl-stats">
+              <div class="pl-stat"><span>🎵</span><b id="st-n">—</b> محاضرة</div>
+              <div class="pl-stat"><span>🎓</span><b>9</b> علماء</div>
+              <div class="pl-stat"><span>⏱</span><b id="st-d">—</b></div>
+              <div class="pl-stat"><span>❤️</span><b id="st-l">0</b></div>
+            </div>
+            <!-- toggle list/grid — hidden on mobile -->
+            <div id="pl-view-toggle" style="display:none;gap:6px;margin-top:8px">
+              <button onclick="setPlView('list')" id="pl-vbtn-list"
+                style="padding:6px 12px;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.18);color:#fff;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">
+                ☰ قائمة
+              </button>
+              <button onclick="setPlView('grid')" id="pl-vbtn-grid"
+                style="padding:6px 12px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.7);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">
+                ⊞ شبكة
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ MEDIA PLAYER ══════════════════════════════════ -->
+    <div class="mp-wrap" id="mp-wrap">
+
+      <!-- Track info + share/download -->
+      <div class="mp-top">
+        <div class="mp-art" id="mp-art">🎵</div>
+        <div class="mp-track-info">
+          <div class="mp-track-name" id="mp-name">اختر مساراً للتشغيل</div>
+          <div class="mp-track-sub" id="mp-sub">مصطفى أبو العزم · العظماء</div>
+        </div>
+        <div class="mp-track-btns">
+          <button class="mp-icon-btn" id="mp-share-btn" onclick="mpShare()" title="مشاركة">📤</button>
+          <button class="mp-icon-btn" id="mp-dl-btn"    onclick="mpDownload()" title="فتح على SoundCloud">⬇️</button>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="mp-progress-wrap">
+        <div class="mp-progress-bar" id="mp-bar" onclick="mpSeek(event)">
+          <div class="mp-progress-fill" id="mp-fill" style="width:0%"></div>
+        </div>
+        <div class="mp-time-row">
+          <span id="mp-cur">0:00</span>
+          <span id="mp-tot">0:00</span>
+        </div>
+      </div>
+
+      <!-- Equalizer visualizer -->
+      <div class="mp-eq-wrap" id="mp-eq-wrap">
+        <!-- bars injected by JS -->
+      </div>
+
+      <!-- Controls -->
+      <div class="mp-controls">
+        <button class="mp-btn" onclick="mpSkip(-10)" title="رجوع 10 ثوانٍ">◀◀ 10</button>
+        <button class="mp-btn" onclick="mpPrev()">⏮</button>
+        <button class="mp-btn-play" id="mp-play-btn" onclick="mpToggle()">▶</button>
+        <button class="mp-btn" onclick="mpNext()">⏭</button>
+        <button class="mp-btn" onclick="mpSkip(10)" title="تقديم 10 ثوانٍ">10 ▶▶</button>
+        <div class="mp-vol-wrap">
+          <span class="mp-vol-ico" onclick="mpMute()" id="mp-vol-ico">🔊</span>
+          <input type="range" class="mp-vol-slider" id="mp-vol"
+            min="0" max="100" value="80" oninput="mpSetVol(this.value)">
+        </div>
+      </div>
+
+      <!-- EQ presets -->
+      <div class="mp-eq-chips">
+        <button class="mp-eq-chip active" onclick="mpEq(this,'normal')">عادي</button>
+        <button class="mp-eq-chip" onclick="mpEq(this,'bass')">باس ⬇️</button>
+        <button class="mp-eq-chip" onclick="mpEq(this,'clarity')">وضوح ✨</button>
+        <button class="mp-eq-chip" onclick="mpEq(this,'warm')">دفء 🌅</button>
+        <button class="mp-eq-chip" onclick="mpEq(this,'night')">ليلي 🌙</button>
+      </div>
+    </div>
+
+    <!-- Search + filter -->
+    <div class="pl-sec">
+      <span>🎵 قائمة التشغيل</span>
+      <span id="pl-count" style="font-size:12px;color:var(--muted);font-weight:500"></span>
+    </div>
+    <input type="text" class="pl-search" id="pl-search"
+      placeholder="🔍 ابحث في المسارات..." oninput="plFilter()">
+    <div class="pl-chips">
+      <button class="pl-chip active" onclick="plSort(this,'default')">الكل</button>
+      <button class="pl-chip" onclick="plSort(this,'short')">⚡ الأقصر</button>
+      <button class="pl-chip" onclick="plSort(this,'long')">🎼 الأطول</button>
+      <button class="pl-chip" onclick="plSort(this,'liked')">❤️ المفضلة</button>
+    </div>
+
+    <!-- Track list -->
+    <div id="pl-list">
+      <div class="pl-loading"><div class="pl-spinner"></div><span>جارٍ تحميل القائمة...</span></div>
+    </div>
+    <div id="pl-empty" class="pl-empty" style="display:none">🔍 لا توجد نتائج</div>
+
+  </main>
+</div>
+
+<!-- SC Widget — real off-screen dimensions for canvas -->
+<iframe id="sc-frame"
+  allow="autoplay; encrypted-media; fullscreen"
+  src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/mustafa-aboalazm/sets/oduvkogxsqaf&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false&show_artwork=false">
+</iframe>
+
+
+
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+
+<script>
+/* ═════════════════════════════════════════════════════════
+   العظماء — Media Player + SC Widget
+   ═════════════════════════════════════════════════════════ */
+const SC_USER = 'mustafa-aboalazm';
+
+let ALL = [], FILTERED = [], LIKES = {};
+let CUR = -1, IS_PLAY = false, SORT = 'default', SEARCH = '';
+let SC_W = null, PROG_RAF = null, MUTED = false, CUR_VOL = 80;
+const EQ_BARS = 28;
+
+/* ── Build EQ visualizer ─── */
+(function buildEQ(){
+  const wrap = document.getElementById('mp-eq-wrap');
+  for(let i=0;i<EQ_BARS;i++){
+    const b = document.createElement('div');
+    b.className = 'mp-eq-bar';
+    b.style.setProperty('--h', (3 + Math.random()*18) + 'px');
+    wrap.appendChild(b);
+  }
+})();
+
+/* ── EQ Preset ─── */
+window.mpEq = function(btn, mode) {
+  document.querySelectorAll('.mp-eq-chip').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  // Visual only — tweak bar animation speeds per preset
+  const bars = document.querySelectorAll('.mp-eq-bar');
+  const speeds = {normal:[.4,.5,.3],bass:[.2,.3,.25],clarity:[.5,.6,.4],warm:[.45,.35,.5],night:[.7,.8,.6]};
+  const [s1,s2,s3] = speeds[mode] || speeds.normal;
+  bars.forEach((b,i)=>{
+    const d = [s1,s2,s3][i%3];
+    if(IS_PLAY) b.style.animationDuration = d+'s';
+  });
+};
+
+/* ── Init ─────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  LIKES = JSON.parse(localStorage.getItem('pl_likes') || '{}');
+  const frame = document.getElementById('sc-frame');
+  if (typeof SC === 'undefined') {
+    // SC script not loaded yet — wait
+    const wait = setInterval(()=>{
+      if (typeof SC !== 'undefined') { clearInterval(wait); bootWidget(frame); }
+    }, 300);
+    return;
+  }
+  bootWidget(frame);
+});
+
+function bootWidget(frame) {
+  try { SC_W = SC.Widget(frame); } catch(e) { showErr(e.message); return; }
+
+  SC_W.bind(SC.Widget.Events.READY, () => {
+    // Retry getSounds up to 5 times — playlist may still be loading
+    let attempts = 0;
+    let lastCount = 0;   // track count stability check
+    const trySounds = () => {
+      SC_W.getSounds(sounds => {
+        if (!sounds || !sounds.length) {
+          if (++attempts < 10) { setTimeout(trySounds, 2500); return; }
+          showErr('القائمة فارغة — تأكد من عدم حجب SoundCloud'); return;
+        }
+
+        /* Keep ALL tracks — use fallback for undefined fields, never discard */
+        ALL = sounds.map((t, i) => ({
+          id       : t?.id       || i,
+          title    : t?.title    || `مسار ${i+1}`,      /* fallback لا حذف */
+          duration : t?.duration || 0,
+          artwork  : ((t?.artwork_url || t?.user?.avatar_url || '')
+                       .replace('-large','-t300x300')),
+          permalink: t?.permalink_url || `https://soundcloud.com/${SC_USER}`,
+          plays    : t?.playback_count || 0,
+          liked    : !!LIKES[t?.id],
+        }));
+
+        /* Stability check: if count grew, wait more (widget still loading) */
+        if (ALL.length > lastCount) {
+          lastCount = ALL.length;
+          if (++attempts < 8) { setTimeout(trySounds, 3000); return; }
+        }
+
+        /* Stats */
+        document.getElementById('st-n').textContent = ALL.length;
+        const totMin = Math.floor(ALL.reduce((s,t)=>s+t.duration,0)/60000);
+        document.getElementById('st-d').textContent =
+          totMin >= 60 ? `${Math.floor(totMin/60)}س ${totMin%60}د` : `${totMin}د`;
+        updateLikesStat();
+        const firstArt = ALL.find(t=>t.artwork)?.artwork;
+        if (firstArt)
+          document.getElementById('pl-cover').innerHTML =
+            `<img src="${firstArt}" alt="cover">`;
+
+        applyFilter();
+      });
+    };
+    // First call after a short warm-up
+    setTimeout(trySounds, 1500);
+  });
+
+  SC_W.bind(SC.Widget.Events.PLAY, () => {
+    IS_PLAY = true; updatePlayBtn(); startEQ();
+  });
+  SC_W.bind(SC.Widget.Events.PAUSE, () => {
+    IS_PLAY = false; updatePlayBtn(); stopEQ();
+  });
+  SC_W.bind(SC.Widget.Events.FINISH, () => mpNext());
+  SC_W.bind(SC.Widget.Events.PLAY_PROGRESS, d => {
+    const pct = d.relativePosition * 100;
+    document.getElementById('mp-fill').style.width = pct + '%';
+    const cur = Math.floor(d.currentPosition / 1000);
+    const tot = ALL[CUR]?.duration ? Math.floor(ALL[CUR].duration/1000) : 0;
+    document.getElementById('mp-cur').textContent = fmt(cur);
+    document.getElementById('mp-tot').textContent = fmt(tot);
+  });
+
+  // Set initial volume
+  SC_W.bind(SC.Widget.Events.READY, () => SC_W.setVolume(CUR_VOL));
+
+  // Timeout fallback
+  setTimeout(()=>{ if(!ALL.length) showErr('انتهت مهلة تحميل القائمة'); }, 20000);
+}
+
+/* ── EQ animation ──────────────────────────────────────── */
+function startEQ() {
+  document.querySelectorAll('.mp-eq-bar').forEach((b,i)=>{
+    b.classList.add('active');
+    b.style.animationDuration = (.25 + Math.random()*.4)+'s';
+    b.style.animationDelay   = (Math.random()*.2)+'s';
+  });
+}
+function stopEQ() {
+  document.querySelectorAll('.mp-eq-bar').forEach(b=>{
+    b.classList.remove('active');
+    b.style.height = '3px';
+  });
+}
+
+/* ── Playback controls ─────────────────────────────────── */
+window.mpToggle = function() {
+  if (CUR === -1) { plPlay(0); return; }
+  IS_PLAY ? SC_W.pause() : SC_W.play();
+};
+window.mpNext = function() { if(ALL.length) plPlay((CUR+1)%ALL.length); };
+window.mpPrev = function() { if(ALL.length) plPlay(CUR<=0?ALL.length-1:CUR-1); };
+window.mpSkip  = function(sec) {
+  SC_W.getPosition(pos => SC_W.seekTo(Math.max(0, pos + sec*1000)));
+};
+window.mpSeek  = function(e) {
+  const bar = document.getElementById('mp-bar');
+  const pct = (e.clientX - bar.getBoundingClientRect().left) / bar.offsetWidth;
+  SC_W.getDuration(dur => SC_W.seekTo(dur * pct));
+};
+window.mpSetVol = function(v) {
+  CUR_VOL = +v; SC_W.setVolume(v);
+  MUTED = v == 0;
+  document.getElementById('mp-vol-ico').textContent = v==0?'🔇':v<50?'🔉':'🔊';
+};
+window.mpMute = function() {
+  MUTED = !MUTED;
+  const v = MUTED ? 0 : CUR_VOL;
+  SC_W.setVolume(v);
+  document.getElementById('mp-vol').value = v;
+  document.getElementById('mp-vol-ico').textContent = MUTED?'🔇':'🔊';
+};
+
+/* ── Share & Download ──────────────────────────────────── */
+window.mpShare = function() {
+  if (CUR === -1) return;
+  const t = ALL[CUR];
+  const txt = `🎵 ${t.title}\n\nمن قائمة العظماء — زاد العشر\n${t.permalink}`;
+  if (navigator.share) navigator.share({title:t.title, text:txt, url:t.permalink});
+  else { navigator.clipboard?.writeText(txt); if(typeof showToast==='function') showToast('📋 تم نسخ الرابط'); }
+};
+window.mpDownload = function() {
+  if (CUR === -1) return;
+  const t = ALL[CUR];
+  // Open SoundCloud track page — user can download from there
+  window.open(t.permalink, '_blank');
+  if(typeof showToast==='function') showToast('🎵 فتح على SoundCloud للتحميل');
+};
+
+/* ── Play track ────────────────────────────────────────── */
+function plPlay(idx) {
+  if (idx < 0 || idx >= ALL.length) return;
+  if (idx === CUR) { mpToggle(); return; }
+  CUR = idx;
+  const t = ALL[idx];
+  SC_W.skip(idx);
+  SC_W.play();
+  IS_PLAY = true;
+  updatePlayBtn();
+  updatePlayerUI(t);
+  renderList();
+  if(typeof showToast==='function') showToast(`🎵 ${t.title}`);
+  /* ── Media Session API — يظهر في إشعارات الجهاز ── */
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: t.title,
+      artist: t.scholar || 'زاد العشر',
+      album: 'محاضرات العشر — زاد العشر',
+      artwork: t.artwork ? [{ src: t.artwork, sizes: '512x512', type: 'image/jpeg' }] : []
+    });
+    navigator.mediaSession.setActionHandler('play',     () => { SC_W.play(); IS_PLAY=true; updatePlayBtn(); });
+    navigator.mediaSession.setActionHandler('pause',    () => { SC_W.pause(); IS_PLAY=false; updatePlayBtn(); });
+    navigator.mediaSession.setActionHandler('nexttrack',() => mpNext());
+    navigator.mediaSession.setActionHandler('previoustrack', () => mpPrev());
+  }
+}
+
+/* ── مبدّل العرض: قائمة ↔ شبكة ── */
+let _plView = localStorage.getItem('pl_view') || 'list';
+function setPlView(v) {
+  _plView = v;
+  try { localStorage.setItem('pl_view', v); } catch {}
+  const listEl = document.getElementById('pl-list');
+  if (listEl) {
+    const inner = listEl.querySelector('.pl-list');
+    if (inner) inner.classList.toggle('grid-view', v === 'grid');
+  }
+  document.getElementById('pl-vbtn-list').style.background = v==='list' ? 'rgba(255,255,255,.18)' : 'transparent';
+  document.getElementById('pl-vbtn-list').style.borderColor = v==='list' ? 'rgba(255,255,255,.3)' : 'rgba(255,255,255,.15)';
+  document.getElementById('pl-vbtn-grid').style.background = v==='grid' ? 'rgba(255,255,255,.18)' : 'transparent';
+  document.getElementById('pl-vbtn-grid').style.borderColor = v==='grid' ? 'rgba(255,255,255,.3)' : 'rgba(255,255,255,.15)';
+}
+window.setPlView = setPlView;
+/* تطبيق العرض بعد التحميل */
+setTimeout(() => setPlView(_plView), 300);
+
+function updatePlayerUI(t) {
+  document.getElementById('mp-name').textContent = t.title;
+  document.getElementById('mp-cur').textContent  = '0:00';
+  document.getElementById('mp-tot').textContent  = fmt(Math.floor(t.duration/1000));
+  document.getElementById('mp-fill').style.width = '0%';
+  const art = document.getElementById('mp-art');
+  art.innerHTML = t.artwork
+    ? `<img src="${t.artwork}" alt="${t.title}">`
+    : '🎵';
+}
+
+function updatePlayBtn() {
+  document.getElementById('mp-play-btn').textContent = IS_PLAY ? '⏸' : '▶';
+  IS_PLAY ? document.getElementById('mp-play-btn').classList.add('playing')
+          : document.getElementById('mp-play-btn').classList.remove('playing');
+}
+
+/* ── Like ──────────────────────────────────────────────── */
+window.plLike = function(id) {
+  const t = ALL.find(x=>x.id===id); if(!t) return;
+  t.liked = !t.liked;
+  if(t.liked) LIKES[id]=1; else delete LIKES[id];
+  localStorage.setItem('pl_likes', JSON.stringify(LIKES));
+  updateLikesStat();
+  applyFilter();
+  if(typeof showToast==='function') showToast(t.liked?'❤️ أُضيف للمفضلة':'🤍 أُزيل من المفضلة');
+};
+function updateLikesStat() {
+  document.getElementById('st-l').textContent = Object.keys(LIKES).length;
+}
+
+/* ── Share per-card ────────────────────────────────────── */
+window.plShareTrack = function(idx) {
+  const t = ALL[idx]; if(!t) return;
+  const txt = `🎵 ${t.title}\n${t.permalink}`;
+  if(navigator.share) navigator.share({title:t.title, text:txt, url:t.permalink});
+  else { navigator.clipboard?.writeText(txt); if(typeof showToast==='function') showToast('📋 تم نسخ الرابط'); }
+};
+
+/* ── Filter / Sort ─────────────────────────────────────── */
+window.plFilter = function() {
+  SEARCH = document.getElementById('pl-search')?.value?.toLowerCase()||'';
+  applyFilter();
+};
+window.plSort = function(btn, mode) {
+  SORT = mode;
+  document.querySelectorAll('.pl-chip').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilter();
+};
+function applyFilter() {
+  let list = [...ALL];
+  if (SEARCH) list = list.filter(t=>t.title.toLowerCase().includes(SEARCH));
+  if (SORT==='short')  list.sort((a,b)=>a.duration-b.duration);
+  if (SORT==='long')   list.sort((a,b)=>b.duration-a.duration);
+  if (SORT==='liked')  list = list.filter(t=>t.liked);
+  FILTERED = list;
+  document.getElementById('pl-count').textContent = `${list.length} مسار`;
+  renderList();
+}
+
+/* ── Render ────────────────────────────────────────────── */
+function renderList() {
+  const el = document.getElementById('pl-list');
+  const em = document.getElementById('pl-empty');
+  if (!FILTERED.length) { el.innerHTML=''; em.style.display='block'; return; }
+  em.style.display = 'none';
+
+  el.innerHTML = '<div class="pl-list">' + FILTERED.map((t,i)=>{
+    const gi  = ALL.findIndex(x=>x.id===t.id);
+    const cur = gi===CUR;
+    const art = t.artwork ? `<img src="${t.artwork}" alt="${t.title}" loading="lazy">` : '🎵';
+    const dur = fmt(Math.floor(t.duration/1000));
+    const plays = t.plays>=1000?(t.plays/1000).toFixed(1)+'K':(t.plays||'');
+    return `<div class="pl-card pl-card-anim${cur?' playing':''}"
+        style="animation-delay:${Math.min(i,15)*30}ms"
+        onclick="plPlay(${gi})">
+      <div class="pl-num">
+        <span class="pl-num-txt" style="opacity:.4">${i+1}</span>
+        <div class="pl-eq"><span></span><span></span><span></span></div>
+      </div>
+      <div class="pl-thumb">${art}</div>
+      <div class="pl-info">
+        <div class="pl-title">${t.title}</div>
+        <div class="pl-meta">
+          <span class="pl-dur">⏱ ${dur}</span>
+          ${plays?`<span class="pl-plays">🔥 ${plays}</span>`:''}
+        </div>
+      </div>
+      <div class="pl-card-btns">
+        <button class="pl-act${t.liked?' liked':''}"
+          onclick="event.stopPropagation();plLike(${t.id})">${t.liked?'❤️':'🤍'}</button>
+        <button class="pl-act"
+          onclick="event.stopPropagation();plShareTrack(${gi})" title="مشاركة">📤</button>
+        <button class="pl-act"
+          onclick="event.stopPropagation();window.open('${t.permalink}','_blank')" title="SoundCloud">⬇️</button>
+      </div>
+    </div>`;
+  }).join('') + '</div>';
+}
+
+/* ── Error ─────────────────────────────────────────────── */
+function showErr(msg) {
+  document.getElementById('pl-list').innerHTML = `<div class="pl-error">
+    <div style="font-size:28px;margin-bottom:8px">⚠️</div>
+    <div style="font-weight:700;margin-bottom:6px">تعذّر التحميل</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;
+      background:var(--sand);border-radius:10px;padding:10px">
+      ${msg}<br><br>
+      تأكد من أن SoundCloud غير محجوب في منطقتك
+    </div>
+    <button class="btn" style="padding:8px 20px" onclick="location.reload()">🔄 إعادة المحاولة</button>
+  </div>`;
+}
+
+/* ── Utils ─────────────────────────────────────────────── */
+function fmt(sec) {
+  const m=Math.floor(sec/60), s=sec%60;
+  return `${m}:${String(s).padStart(2,'0')}`;
+}
+document.addEventListener('keydown', e=>{
+  if(e.target.tagName==='INPUT') return;
+  if(e.code==='Space')     { e.preventDefault(); mpToggle(); }
+  if(e.code==='ArrowRight') mpSkip(10);
+  if(e.code==='ArrowLeft')  mpSkip(-10);
+  if(e.code==='KeyN')       mpNext();
+  if(e.code==='KeyP')       mpPrev();
+});
+
+/* ══════════════════════════════════════════════════════════
+   تشغيل خلفي — يمنع توقف الصوت عند قفل الشاشة أو تحويل التطبيق
+   ══════════════════════════════════════════════════════════ */
+(function() {
+  /* 1. WakeLock API — يمنع إطفاء الشاشة أثناء التشغيل */
+  let _wakeLock = null;
+  async function requestWakeLock() {
+    if (!('wakeLock' in navigator)) return;
+    try {
+      _wakeLock = await navigator.wakeLock.request('screen');
+    } catch (e) { /* بعض الأجهزة لا تدعمه */ }
+  }
+  function releaseWakeLock() {
+    if (_wakeLock) { _wakeLock.release().catch(() => {}); _wakeLock = null; }
+  }
+
+  /* 2. visibilitychange — عند عودة التطبيق للمقدمة نعيد الـ WakeLock */
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && IS_PLAY) {
+      requestWakeLock();
+      /* إعادة تشغيل SoundCloud Widget إن توقف */
+      if (SC_W && IS_PLAY) {
+        SC_W.isPaused(paused => {
+          if (paused) { SC_W.play(); }
+        });
+      }
+    }
+    if (document.visibilityState === 'hidden') {
+      /* لا نوقف الصوت — بل نتركه يشتغل في الخلفية */
+    }
+  });
+
+  /* 3. WakeLock يُطلب عند بدء التشغيل ويُحرَّر عند التوقف */
+  const _origPlPlay = window.mpToggle;
+  const _origMpNext = window.mpNext;
+  ['SC_W'].forEach(() => {
+    const checkPlay = setInterval(() => {
+      if (!SC_W) return;
+      clearInterval(checkPlay);
+      SC_W.bind(SC.Widget.Events.PLAY, () => { IS_PLAY = true; requestWakeLock(); });
+      SC_W.bind(SC.Widget.Events.PAUSE, () => { IS_PLAY = false; releaseWakeLock(); });
+      SC_W.bind(SC.Widget.Events.FINISH, () => { IS_PLAY = false; releaseWakeLock(); });
+    }, 500);
+  });
+
+  /* 4. Page Visibility: إن وُجد audio context مُعلَّق، نُيقظه */
+  window.addEventListener('focus', () => {
+    if (typeof AudioContext !== 'undefined') {
+      document.querySelectorAll('audio').forEach(a => {
+        if (a.paused === false) return;
+      });
+    }
+  });
+})();
+</script>
+  <script src="menu.js" defer></script>
+</body>
+</html>

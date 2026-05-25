@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<title>بلاغ مشكلة — زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.rp-form{display:flex;flex-direction:column;gap:16px}
+.rp-group{display:flex;flex-direction:column;gap:6px}
+.rp-label{font-size:13px;font-weight:700;color:var(--muted)}
+.rp-input,.rp-select,.rp-textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--sand);font-family:inherit;font-size:14px;color:var(--ink);direction:rtl;transition:border-color .2s,box-shadow .2s}
+.rp-input:focus,.rp-select:focus,.rp-textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,161,74,.15)}
+html[data-theme="dark"] .rp-input,html[data-theme="dark"] .rp-select,html[data-theme="dark"] .rp-textarea,
+html[data-theme="oled"] .rp-input,html[data-theme="oled"] .rp-select,html[data-theme="oled"] .rp-textarea{background:var(--sand-2);color:var(--ink)}
+.rp-textarea{resize:vertical;min-height:100px;line-height:1.6}
+.rp-select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 12px center;padding-left:32px}
+.rp-file-btn{padding:10px 16px;border:1.5px dashed var(--border);border-radius:12px;background:var(--sand);cursor:pointer;font-size:13px;color:var(--muted);text-align:center;transition:border-color .2s,background .2s}
+.rp-file-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
+.rp-sysinfo{background:var(--sand-2);border-radius:12px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.7;border:1px solid var(--border)}
+.rp-sysinfo span{color:var(--ink);font-weight:600}
+.rp-privacy{font-size:12px;color:var(--muted);padding:10px 14px;background:var(--green-pale);border-radius:10px;border-right:3px solid var(--green-soft)}
+html[data-theme="dark"] .rp-privacy,html[data-theme="oled"] .rp-privacy{background:rgba(77,216,102,.06)}
+.success-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center;padding:20px}
+.success-overlay.show{display:flex}
+.success-card{background:var(--card);border-radius:24px;padding:36px 28px;text-align:center;max-width:380px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.success-ico{font-size:60px;margin-bottom:16px}
+.success-title{font-size:20px;font-weight:800;color:var(--green-deep);margin-bottom:8px}
+html[data-theme="dark"] .success-title,html[data-theme="oled"] .success-title{color:var(--sys-green)}
+.success-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+
+/* Loading state */
+.btn-loading{opacity:.7;pointer-events:none}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<style>
+  :root{--font-scale:1}
+  body{font-size:calc(1rem * var(--font-scale))}
+  .quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
+  .font-size-options{display:flex;gap:8px}
+  .font-size-options .fs-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;transition:all .2s;color:var(--ink)}
+  .font-size-options .fs-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff}
+  .fs-btn[data-size="small"]  span:first-child{font-size:14px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="medium"] span:first-child{font-size:19px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="large"]  span:first-child{font-size:24px;display:block;margin-bottom:4px}
+</style>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+  <!-- Open Graph / Social Media Thumbnail -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="زاد العشر">
+  <meta property="og:url" content="https://zadullashr.vercel.app/report.html">
+  <meta property="og:title" content="زاد العشر — أفضل أيام الدنيا">
+  <meta property="og:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+  <meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="زاد العشر — تطبيق العبادة في عشر ذي الحجة">
+  <meta property="og:locale" content="ar_SA">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="زاد العشر — أفضل أيام الدنيا">
+  <meta name="twitter:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
+  <meta name="twitter:image" content="https://zadullashr.vercel.app/og-image.png">
+  <!-- WhatsApp / general -->
+  <meta name="description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+  <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function() {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+    <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <!-- Profile chip injected by JS -->
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
+      <span class="slb-label">🌐 اللغة</span>
+      <span class="slb-val" id="sidebar-lang-val">EN</span>
+    </button>
+    
+      <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+        📲 تثبيت / تحميل التطبيق
+      </button>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <div class="nav-sep">الصلاة والتقويم</div>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <div class="nav-sep">القرآن والعبادة</div>
+      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
+      <a href="takbeer.html"><span class="ico">📿</span><span>المسبحة</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
+      <a href="nawawi.html"><span class="ico">📜</span><span>الأربعون النووية</span></a>
+      <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
+      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
+      <div class="nav-sep">الحج والمناسك</div>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <div class="nav-sep">المتابعة</div>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <div class="nav-sep">التعلم والترفيه</div>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
+      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <div class="nav-sep">الإعدادات</div>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html" class="active"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <!-- LEFT: Burger + Logo -->
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo">
+          <img src="icons/icon-192.svg" alt="زاد العشر">
+        </a>
+      </div>
+      <!-- CENTER: Page name -->
+      <div class="tb-center">
+        <div class="page-title">بلاغ <span>مشكلة</span></div>
+      </div>
+      <!-- RIGHT: Notif + Lang + Theme -->
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">
+            🔔<span class="notif-dot" id="notif-dot"></span>
+          </button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;background:linear-gradient(135deg,var(--card),var(--green-pale));border-color:rgba(42,122,95,.2)">
+      <h3>🚩 أرسل لنا بلاغك</h3>
+      <p>كل تقرير يساعدنا على تقديم تجربة أفضل لمستخدمي التطبيق. شكراً لمساهمتك.</p>
+    </div>
+
+    <div class="card">
+      <form class="rp-form" id="report-form" onsubmit="submitReport(event)">
+
+        <!-- 1. Issue Type -->
+        <div class="rp-group">
+          <label class="rp-label" for="rp-type">📋 نوع البلاغ *</label>
+          <select class="rp-select" id="rp-type" required>
+            <option value="">— اختر نوع المشكلة —</option>
+            <option value="content">📖 خطأ في المحتوى (ذكر، حديث، آية)</option>
+            <option value="technical">⚙️ مشكلة تقنية (الصفحة لا تفتح، عطل في الأداة)</option>
+            <option value="ui">🎨 مشكلة في الواجهة (خط، ألوان، تنسيق)</option>
+            <option value="feature">💡 اقتراح ميزة جديدة</option>
+            <option value="performance">🚀 بطء في التحميل أو الأداء</option>
+            <option value="other">🔹 أخرى</option>
+          </select>
+        </div>
+
+        <!-- 2. Page -->
+        <div class="rp-group">
+          <label class="rp-label" for="rp-page">📍 أين واجهتك المشكلة؟ *</label>
+          <select class="rp-select" id="rp-page" required>
+            <option value="">— اختر الصفحة أو القسم —</option>
+            <option value="لوحة التحكم">🏠 لوحة التحكم</option>
+            <option value="جدول العبادات">📿 جدول العبادات</option>
+            <option value="مصحف العشر">📖 مصحف العشر</option>
+            <option value="المُسبِّح والمُكبِّر">🕋 المُسبِّح والمُكبِّر</option>
+            <option value="الأذكار والدعاء">🤲 الأذكار والدعاء</option>
+            <option value="يوم عرفة">🌄 يوم عرفة</option>
+            <option value="دليل الأضحية">🐏 دليل الأضحية</option>
+            <option value="صدقة العشر">💚 صدقة العشر</option>
+            <option value="الأوسمة">🏅 الأوسمة والإنجازات</option>
+            <option value="حصاد العشر">📊 حصاد العشر</option>
+            <option value="التسميع">🎙️ تسميع القرآن</option>
+            <option value="الذكاء الاصطناعي">🤖 مساعد الذكاء الاصطناعي</option>
+            <option value="الإعدادات">⚙️ الإعدادات</option>
+            <option value="عام">🌐 عام / متعدد الصفحات</option>
+          </select>
+        </div>
+
+        <!-- 3. Specific content (optional) -->
+        <div class="rp-group">
+          <label class="rp-label" for="rp-specific">🔍 النص أو الذكر أو الآية المحددة (اختياري)</label>
+          <input class="rp-input" id="rp-specific" type="text" placeholder="مثلاً: ذكر أستغفر الله، أو حديث رقم 3" dir="rtl">
+        </div>
+
+        <!-- 4. Description -->
+        <div class="rp-group">
+          <label class="rp-label" for="rp-desc">📝 وصف المشكلة بالتفصيل *</label>
+          <textarea class="rp-textarea" id="rp-desc" required
+            placeholder="ما الذي كنت تحاول فعله؟ ماذا حدث بالضبط؟ هل تتكرر المشكلة؟"></textarea>
+        </div>
+
+        <!-- 5. Screenshot -->
+        <div class="rp-group">
+          <label class="rp-label">📸 لقطة شاشة (اختياري)</label>
+          <label class="rp-file-btn" id="file-label">
+            <input type="file" id="rp-screenshot" accept="image/*" style="display:none" onchange="handleFile(this)">
+            📎 انقر لإرفاق صورة — JPG, PNG, WEBP
+          </label>
+        </div>
+
+        <!-- 6. System Info (auto) -->
+        <div class="rp-group">
+          <label class="rp-label">📱 معلومات النظام (تجمع تلقائياً)</label>
+          <div class="rp-sysinfo" id="sys-info">جارٍ جمع المعلومات...</div>
+        </div>
+
+        <!-- 7. Email -->
+        <div class="rp-group">
+          <label class="rp-label" for="rp-email">📧 بريدك الإلكتروني (اختياري — للرد عليك)</label>
+          <input class="rp-input" id="rp-email" type="email" placeholder="example@gmail.com" dir="ltr">
+        </div>
+
+        <!-- Privacy -->
+        <div class="rp-privacy">
+          🔒 <strong>الأمانة الرقمية:</strong> هذه البيانات تُستخدم فقط لتحسين التطبيق — لا تُشارك مع أطراف ثالثة، ولا يُحفظ نشاطك الديني على خوادمنا.
+        </div>
+
+        <!-- Submit -->
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button type="submit" class="btn btn-gold" style="flex:1;justify-content:center;padding:14px">
+            🚩 إرسال التقرير
+          </button>
+          <button type="button" class="btn btn-ghost" onclick="copyReport()" style="padding:14px 20px">
+            📋 نسخ التقرير
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </main>
+</div>
+
+<!-- Success overlay -->
+<div class="success-overlay" id="success-overlay" onclick="closeSuccess()">
+  <div class="success-card" onclick="event.stopPropagation()">
+    <div class="success-ico">✅</div>
+    <div class="success-title">شكراً على بلاغك!</div>
+    <div class="success-sub">تم إرسال بلاغك لفريق زاد العشر وسيتم مراجعته في أقرب وقت.<br>📋 تم نسخ التقرير أيضاً على الحافظة كنسخة احتياطية.<br><br>جزاك الله خيراً على مساهمتك!</div>
+    <button class="btn btn-primary" onclick="closeSuccess()" style="width:100%;justify-content:center">حسناً 🌟</button>
+  </div>
+</div>
+
+  <script src="lang.js" defer></script>
+  <script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script>
+/* ── System Info ── */
+window.addEventListener('load', () => {
+  const el = document.getElementById('sys-info');
+  if (!el) return;
+  const ua   = navigator.userAgent;
+  const isIOS = /iPhone|iPad|iPod/.test(ua);
+  const isAndroid = /Android/.test(ua);
+  const isMac = /Mac/.test(ua) && !isIOS;
+  const device = isIOS ? '📱 iOS' : isAndroid ? '📱 Android' : isMac ? '💻 Mac' : '💻 Windows/Linux';
+  const browser = ua.includes('Chrome') && !ua.includes('Edg') ? 'Chrome'
+    : ua.includes('Safari') && !ua.includes('Chrome') ? 'Safari'
+    : ua.includes('Firefox') ? 'Firefox'
+    : ua.includes('Edg') ? 'Edge' : 'متصفح آخر';
+  const pwa = window.matchMedia('(display-mode: standalone)').matches;
+  el.innerHTML = `
+    <span>الجهاز:</span> ${device} &nbsp;|&nbsp;
+    <span>المتصفح:</span> ${browser} &nbsp;|&nbsp;
+    <span>الشاشة:</span> ${window.innerWidth}×${window.innerHeight} &nbsp;|&nbsp;
+    <span>PWA:</span> ${pwa ? 'نعم ✅' : 'لا'} &nbsp;|&nbsp;
+    <span>الإصدار:</span> 2026.1`;
+});
+
+/* ── File upload ── */
+function handleFile(input) {
+  const lbl = document.getElementById('file-label');
+  if (input.files[0]) {
+    lbl.textContent = '✅ ' + input.files[0].name + ' — جاهز للإرسال';
+    lbl.style.borderColor = 'var(--sys-green)';
+    lbl.style.color = 'var(--sys-green)';
+  }
+}
+
+/* ── Build report text ── */
+function buildReportText() {
+  const type     = document.getElementById('rp-type').options[document.getElementById('rp-type').selectedIndex]?.text || '—';
+  const page     = document.getElementById('rp-page').value || '—';
+  const specific = document.getElementById('rp-specific').value || '—';
+  const desc     = document.getElementById('rp-desc').value || '—';
+  const email    = document.getElementById('rp-email').value || 'لم يُذكر';
+  const sysInfo  = document.getElementById('sys-info').textContent;
+  return `🚩 بلاغ مشكلة — زاد العشر
+${'─'.repeat(40)}
+النوع:     ${type}
+الصفحة:   ${page}
+المحدد:   ${specific}
+${'─'.repeat(40)}
+الوصف:
+${desc}
+${'─'.repeat(40)}
+معلومات النظام: ${sysInfo}
+البريد: ${email}
+التاريخ: ${new Date().toLocaleDateString('ar-EG', {dateStyle:'full'})}`;
+}
+
+/* ════════════════════════════════════════════════════════
+   FORMSPREE — Real email delivery
+   Steps to activate:
+   1. Go to formspree.io and sign up (free)
+   2. Create a form with email: zadulashr@gmail.com
+   3. Replace 'YOUR_FORM_ID' below with your form ID
+   ════════════════════════════════════════════════════════ */
+const FORMSPREE_ID = 'YOUR_FORM_ID'; /* ← ضع هنا Form ID من Formspree */
+
+async function submitReport(e) {
+  e.preventDefault();
+
+  const submitBtn = e.target.querySelector('[type="submit"]');
+  const origText  = submitBtn.innerHTML;
+  submitBtn.innerHTML  = '⏳ جارٍ الإرسال...';
+  submitBtn.disabled   = true;
+
+  /* Build structured data */
+  const data = {
+    type:     document.getElementById('rp-type').options[document.getElementById('rp-type').selectedIndex]?.text || '—',
+    page:     document.getElementById('rp-page').value || '—',
+    specific: document.getElementById('rp-specific').value || '—',
+    desc:     document.getElementById('rp-desc').value,
+    email:    document.getElementById('rp-email').value || 'لم يُذكر',
+    sysInfo:  document.getElementById('sys-info').textContent,
+    date:     new Date().toLocaleDateString('ar-EG', { dateStyle:'full' }),
+    _subject: 'بلاغ مشكلة — زاد العشر',
+    _replyto: document.getElementById('rp-email').value || '',
+  };
+
+  let success = false;
+
+  /* ── Method 1: Formspree API ─────────────────────────── */
+  if (FORMSPREE_ID && FORMSPREE_ID !== 'YOUR_FORM_ID') {
+    try {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) success = true;
+    } catch(err) {
+      console.warn('Formspree error:', err);
+    }
+  }
+
+  /* ── Method 2: Web3Forms (backup, no signup needed) ──── */
+  if (!success) {
+    try {
+      const payload = {
+        access_key: 'YOUR_WEB3FORMS_KEY', /* ← web3forms.com — مجاني */
+        subject:    'بلاغ مشكلة — زاد العشر',
+        from_name:  'زاد العشر',
+        ...data
+      };
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) success = true;
+    } catch(err) {
+      console.warn('Web3Forms error:', err);
+    }
+  }
+
+  /* ── Method 3: mailto fallback (always works) ─────────── */
+  const report = buildReportText();
+  try { await navigator.clipboard.writeText(report); } catch(e) {}
+
+  if (!success) {
+    /* Open email client as last resort */
+    const subject = encodeURIComponent('بلاغ مشكلة — زاد العشر');
+    const body    = encodeURIComponent(report);
+    window.location.href = `mailto:zadulashr@gmail.com?subject=${subject}&body=${body}`;
+  }
+
+  /* Reset button */
+  submitBtn.innerHTML = origText;
+  submitBtn.disabled  = false;
+
+  /* Show success */
+  document.getElementById('success-overlay').classList.add('show');
+}
+
+/* ── Copy only ── */
+async function copyReport() {
+  const type = document.getElementById('rp-type').value;
+  const desc = document.getElementById('rp-desc').value;
+  if (!type || !desc) { alert('اختر نوع المشكلة واكتب الوصف أولاً'); return; }
+  await navigator.clipboard.writeText(buildReportText());
+  showToast && showToast('📋 تم نسخ التقرير — يمكنك إرساله مباشرةً');
+}
+
+function closeSuccess() {
+  document.getElementById('success-overlay').classList.remove('show');
+  window.location.href = 'index.html';
+}
+window.copyReport = copyReport;
+</script>
+  <script src="menu.js" defer></script>
+</body>
+</html>

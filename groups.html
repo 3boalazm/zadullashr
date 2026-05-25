@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>التنافس العائلي — زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+.gp-hero{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 60%,#c9a14a 150%);border-radius:22px;padding:30px 26px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.gp-hero::after{content:'👨‍👩‍👧‍👦';position:absolute;top:16px;left:22px;font-size:48px;opacity:.14;line-height:1}
+.gp-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:3px;font-weight:700;margin-bottom:8px}
+.gp-title{font-size:27px;font-weight:900;line-height:1.25;margin-bottom:8px;font-family:'ThmanyahSans',sans-serif}
+.gp-sub{font-size:13.5px;color:rgba(255,255,255,.82);line-height:1.8;max-width:560px}
+
+.gp-localbar{display:flex;align-items:flex-start;gap:10px;background:rgba(255,149,0,.08);border:1px solid rgba(255,149,0,.3);border-radius:14px;padding:11px 15px;font-size:12px;color:var(--ink);line-height:1.7;margin-bottom:16px}
+.gp-localbar b{color:var(--sys-orange)}
+
+.gp-sec-title{display:flex;align-items:center;gap:10px;margin:22px 0 12px;font-size:16px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .gp-sec-title,html[data-theme="oled"] .gp-sec-title{color:var(--sys-green)}
+.gp-sec-title::before{content:"";width:5px;height:18px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+
+.gp-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--shadow-sm)}
+.gp-row{display:flex;gap:10px;align-items:center}
+.gp-input{flex:1;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;background:var(--sand);color:var(--ink);font-family:inherit;font-size:14px;font-weight:600}
+.gp-input:focus{outline:none;border-color:var(--green-soft);background:var(--card)}
+.gp-btn{padding:12px 18px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;font-family:inherit;font-size:13.5px;font-weight:800;cursor:pointer;white-space:nowrap;transition:filter .2s}
+.gp-btn:hover{filter:brightness(1.08)}
+.gp-btn.ghost{background:var(--card);color:var(--green-deep);border:1.5px solid var(--green-soft)}
+html[data-theme="dark"] .gp-btn.ghost,html[data-theme="oled"] .gp-btn.ghost{color:var(--sys-green)}
+.gp-hint{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.6}
+
+/* alias avatar */
+.gp-me{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.gp-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--green-soft));display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;color:#fff}
+.gp-me-info{flex:1;min-width:0}
+.gp-me-info .l{font-size:11.5px;color:var(--muted)}
+.gp-me-info .v{font-size:16px;font-weight:800;color:var(--ink)}
+.gp-me-id{font-size:10px;color:var(--muted-2);font-family:monospace;direction:ltr;text-align:right}
+
+/* privacy */
+.gp-priv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+@media(max-width:520px){.gp-priv{grid-template-columns:1fr}}
+.gp-priv .ok,.gp-priv .no{border-radius:12px;padding:13px 15px;font-size:12.5px;line-height:1.7}
+.gp-priv .ok{background:var(--green-pale);border:1px solid rgba(42,122,95,.2)}
+.gp-priv .no{background:rgba(255,59,48,.06);border:1px solid rgba(255,59,48,.18)}
+.gp-priv h4{font-size:13px;font-weight:800;margin-bottom:6px}
+.gp-priv .ok h4{color:var(--green-deep)}
+html[data-theme="dark"] .gp-priv .ok h4,html[data-theme="oled"] .gp-priv .ok h4{color:var(--sys-green)}
+.gp-priv .no h4{color:var(--sys-red)}
+.gp-priv ul{list-style:none;padding:0;margin:0}
+.gp-priv li{margin:3px 0}
+
+/* group list */
+.gp-glist{display:flex;flex-direction:column;gap:12px}
+.gp-gcard{display:flex;align-items:center;gap:14px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow-sm);text-decoration:none;color:inherit;transition:all .2s}
+.gp-gcard:hover{border-color:var(--green-soft);transform:translateY(-2px)}
+.gp-gicon{width:46px;height:46px;border-radius:13px;background:var(--green-pale);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.gp-ginfo{flex:1;min-width:0}
+.gp-gname{font-size:15px;font-weight:800;color:var(--ink)}
+.gp-gmeta{font-size:11.5px;color:var(--muted);margin-top:2px}
+.gp-gpct{text-align:center;flex-shrink:0}
+.gp-gpct b{font-size:22px;font-weight:900;color:var(--green-deep);font-family:'ThmanyahSans',monospace;line-height:1}
+html[data-theme="dark"] .gp-gpct b,html[data-theme="oled"] .gp-gpct b{color:var(--sys-green)}
+.gp-gpct span{font-size:10px;color:var(--muted);display:block}
+.gp-empty{text-align:center;padding:30px 18px;color:var(--muted);font-size:13.5px;line-height:1.8}
+.gp-empty .ico{font-size:40px;margin-bottom:8px}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+</head>
+<body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav"></nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">التنافس <span>العائلي</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap"><button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button><div class="notif-dropdown" id="notif-dropdown"></div></div>
+      </div>
+    </div>
+
+    <div class="gp-hero">
+      <div class="gp-eyebrow">👨‍👩‍👧‍👦 تنافسٌ بالأجر</div>
+      <div class="gp-title">التنافس العائلي</div>
+      <div class="gp-sub">«وفي ذلك فليتنافس المتنافسون» — أنشِئ مجموعةً عائليةً باسمٍ مستعار، وتنافسوا في الإنجاز اليومي. تُشارَك نسبتُك فقط — لا أحدَ يرى تفاصيل عباداتك أبداً.</div>
+    </div>
+
+    <div class="gp-localbar">
+      <span>🛈</span>
+      <div><b>وضعٌ محلي تجريبي:</b> المجموعات والأعضاء هنا تعمل على جهازك للعرض والتجربة. عند ربط الخادم (Firebase / Supabase) ستُزامَن مجموعتك الحقيقية ونِسَبُ أفرادها مباشرةً — دون تغييرٍ في الواجهة.</div>
+    </div>
+
+    <!-- Cloud account link -->
+    <style>
+      .cl-card{background:linear-gradient(135deg,var(--card),var(--green-pale));border:1.5px solid rgba(42,122,95,.25);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+      .cl-card h3{font-size:15px;font-weight:800;color:var(--green-deep);margin-bottom:4px}
+      html[data-theme="dark"] .cl-card h3,html[data-theme="oled"] .cl-card h3{color:var(--sys-green)}
+      .cl-card p{font-size:12.5px;color:var(--muted);line-height:1.8;margin-bottom:12px}
+      .cl-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);color:var(--ink);font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:10px;transition:all .2s}
+      .cl-google:hover{border-color:var(--green-soft)}
+      .cl-or{text-align:center;font-size:11px;color:var(--muted);margin:6px 0}
+      .cl-row{display:flex;gap:8px;margin-bottom:8px}
+      .cl-input{flex:1;min-width:0;padding:11px 13px;border:1.5px solid var(--border);border-radius:11px;background:var(--card);color:var(--ink);font-family:inherit;font-size:13.5px;direction:ltr;text-align:left}
+      .cl-input:focus{outline:none;border-color:var(--green-soft)}
+      .cl-btns{display:flex;gap:8px}
+      .cl-btn{flex:1;padding:11px;border-radius:11px;border:none;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer}
+      .cl-btn.primary{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff}
+      .cl-btn.ghost{background:var(--sand);color:var(--ink);border:1.5px solid var(--border)}
+      .cl-status{font-size:12px;font-weight:700;margin-top:10px;line-height:1.7}
+      .cl-status.ok{color:var(--green-deep)} html[data-theme="dark"] .cl-status.ok,html[data-theme="oled"] .cl-status.ok{color:var(--sys-green)}
+      .cl-status.err{color:var(--sys-red)}
+      .cl-signedin{display:none}
+      .cl-signedin .uid{font-family:monospace;font-size:11px;color:var(--muted);word-break:break-all;background:var(--sand);border-radius:8px;padding:8px;margin:8px 0}
+    </style>
+    <div class="gp-sec-title">☁️ ربط الحساب السحابي (اختياري)</div>
+    <div class="cl-card">
+      <div id="cl-signedout">
+        <h3>احفظ تقدّمك عبر أجهزتك</h3>
+        <p>اربط حسابك ليُحفظ لهيبُك ووردُك في السحابة وتستعيدها عند تغيير الهاتف. <b>خصوصيتك محفوظة</b> — لا تُرفع أدعيتُك الشخصية ولا ملاحظاتك.</p>
+        <button class="cl-google" id="cl-google"><span style="font-size:18px">🔓</span> الدخول عبر Google</button>
+        <div class="cl-or">— أو بالبريد —</div>
+        <div class="cl-row"><input class="cl-input" id="cl-email" type="email" placeholder="email@example.com"></div>
+        <div class="cl-row"><input class="cl-input" id="cl-pass" type="password" placeholder="كلمة المرور"></div>
+        <div class="cl-btns"><button class="cl-btn primary" id="cl-signin">دخول</button><button class="cl-btn ghost" id="cl-signup">حساب جديد</button></div>
+        <div class="cl-status" id="cl-status"></div>
+        <div style="font-size:10.5px;color:var(--muted);margin-top:8px;line-height:1.6">🔒 المفتاح العام للويب غير سرّي؛ بياناتك محميّة بقواعد قاعدة البيانات. أنت تُدخل كلمتك بنفسك — لا يحفظها التطبيق.</div>
+      </div>
+      <div class="cl-signedin" id="cl-signedin">
+        <h3>✅ مُسجَّل الدخول</h3>
+        <p id="cl-email-display" style="margin-bottom:4px"></p>
+        <div class="uid" id="cl-uid"></div>
+        <div class="cl-btns"><button class="cl-btn primary" id="cl-sync">⬆️ مزامنة بياناتي الآن</button><button class="cl-btn ghost" id="cl-signout">تسجيل خروج</button></div>
+        <div class="cl-status" id="cl-status2"></div>
+      </div>
+    </div>
+
+    <!-- My identity -->
+    <div class="gp-sec-title">🪪 هويتك في التنافس</div>
+    <div class="gp-card">
+      <div class="gp-me">
+        <div class="gp-avatar" id="me-avatar">🙂</div>
+        <div class="gp-me-info">
+          <div class="l">اسمك المستعار (لا يُكشف اسمك الحقيقي)</div>
+          <div class="v" id="me-alias-display">— لم تختر بعد —</div>
+          <div class="gp-me-id" id="me-id">UUID مجهول</div>
+        </div>
+      </div>
+      <div class="gp-row">
+        <input class="gp-input" id="alias-input" type="text" maxlength="24" placeholder="مثال: فارس العشر">
+        <button class="gp-btn" id="alias-save">حفظ</button>
+      </div>
+      <div class="gp-hint">يُولَّد لك مُعرِّفٌ مجهول (UUID) لا يرتبط ببريدٍ أو هاتف — خصوصيةٌ كاملة.</div>
+    </div>
+
+    <!-- Privacy -->
+    <div class="gp-sec-title">🔒 ماذا يُشارَك ومالا يُشارَك</div>
+    <div class="gp-priv">
+      <div class="ok"><h4>✅ يُشارَك فقط</h4><ul><li>• نسبة الإنجاز اليومية (%)</li><li>• أيام الالتزام (اللهب)</li><li>• الوسام المكتسَب</li><li>• اسمك المستعار</li></ul></div>
+      <div class="no"><h4>⛔ لا يُشارَك أبداً</h4><ul><li>• نوع العبادة أو تفاصيلها</li><li>• اسمك الحقيقي أو بياناتك</li><li>• ماذا صلّيت أو قرأت</li><li>• موقعك أو جهازك</li></ul></div>
+    </div>
+
+    <!-- Create / Join -->
+    <div class="gp-sec-title">➕ أنشئ أو انضمّ</div>
+    <div class="gp-card" style="margin-bottom:12px">
+      <div class="gp-row">
+        <input class="gp-input" id="create-name" type="text" maxlength="32" placeholder="اسم المجموعة — مثال: بيت الإيمان">
+        <button class="gp-btn" id="create-btn">أنشئ مجموعة</button>
+      </div>
+      <div class="gp-hint">ستحصل على رمز دعوةٍ تشاركه مع عائلتك للانضمام.</div>
+    </div>
+    <div class="gp-card">
+      <div class="gp-row">
+        <input class="gp-input" id="join-code" type="text" maxlength="6" placeholder="رمز الدعوة — مثال: 8GH6EP" style="text-transform:uppercase;letter-spacing:2px;direction:ltr;text-align:center">
+        <button class="gp-btn ghost" id="join-btn">انضمام</button>
+      </div>
+      <div class="gp-hint">أدخِل الرمز الذي وصلك من أحد أفراد المجموعة.</div>
+    </div>
+
+    <!-- My groups -->
+    <div class="gp-sec-title">👥 مجموعاتي</div>
+    <div class="gp-glist" id="groups-list"></div>
+  </main>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="js/firebase-init.js" defer></script>
+<script src="js/firebase-auth.js" defer></script>
+<script src="js/groups.firebase.js" defer></script>
+<script src="js/groups.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (!window.Groups) return;
+
+  function initials(alias) { var a = (alias || '').trim(); return a ? a[0] : '🙂'; }
+
+  function renderMe() {
+    var me = Groups.getMe();
+    document.getElementById('me-alias-display').textContent = me.alias || '— لم تختر بعد —';
+    document.getElementById('me-id').textContent = (me.id || '').slice(0, 13) + '…';
+    document.getElementById('me-avatar').textContent = me.alias ? initials(me.alias) : '🙂';
+    document.getElementById('alias-input').value = me.alias || '';
+  }
+
+  function renderGroups() {
+    Groups.listGroups().then(function (list) {
+      var wrap = document.getElementById('groups-list');
+      if (!list.length) {
+        wrap.innerHTML = '<div class="gp-empty"><div class="ico">🌙</div>لا توجد مجموعاتٌ بعد.<br>أنشئ مجموعةً عائلية أو انضمّ برمزٍ لتبدأ التنافس بالأجر.</div>';
+        return;
+      }
+      wrap.innerHTML = list.map(function (g) {
+        var me = (g.members || []).filter(function (m) { return m.isMe; })[0];
+        var pct = me ? me.pct : 0;
+        return '<a class="gp-gcard" href="group-board.html?g=' + encodeURIComponent(g.id) + '">' +
+          '<div class="gp-gicon">🏆</div>' +
+          '<div class="gp-ginfo"><div class="gp-gname">' + esc(g.name) + '</div>' +
+          '<div class="gp-gmeta">' + (g.members ? g.members.length : 0) + ' أعضاء · رمز ' + g.code + '</div></div>' +
+          '<div class="gp-gpct"><b>' + pct + '%</b><span>إنجازك</span></div></a>';
+      }).join('');
+    });
+  }
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' })[c]; }); }
+
+  function toast(msg) {
+    try { if (typeof window.showToast === 'function') { window.showToast(msg); return; } } catch (e) {}
+    var t = document.getElementById('gp-toast');
+    if (!t) { t = document.createElement('div'); t.id = 'gp-toast'; t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green-deep);color:#fff;padding:12px 22px;border-radius:99px;font-size:13px;font-weight:700;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;transition:all .3s'; document.body.appendChild(t); }
+    t.textContent = msg; requestAnimationFrame(function(){ t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+    clearTimeout(t._h); t._h = setTimeout(function(){ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 2200);
+  }
+
+  document.getElementById('alias-save').addEventListener('click', function () {
+    var v = document.getElementById('alias-input').value.trim();
+    if (!v) { toast('اكتب اسماً مستعاراً أولاً'); return; }
+    Groups.setAlias(v).then(function () { renderMe(); renderGroups(); if (navigator.vibrate) navigator.vibrate(20); toast('✅ تم حفظ اسمك المستعار'); });
+  });
+
+  document.getElementById('create-btn').addEventListener('click', function () {
+    var me = Groups.getMe();
+    if (!me.alias) { toast('اختر اسماً مستعاراً أولاً ☝️'); return; }
+    var name = document.getElementById('create-name').value.trim() || 'مجموعتي';
+    Groups.createGroup(name).then(function (g) {
+      document.getElementById('create-name').value = '';
+      renderGroups(); if (navigator.vibrate) navigator.vibrate(30);
+      toast('🎉 أُنشئت «' + g.name + '» — رمز الدعوة: ' + g.code);
+    });
+  });
+
+  document.getElementById('join-btn').addEventListener('click', function () {
+    var me = Groups.getMe();
+    if (!me.alias) { toast('اختر اسماً مستعاراً أولاً ☝️'); return; }
+    var code = document.getElementById('join-code').value.trim().toUpperCase();
+    if (code.length < 4) { toast('أدخِل رمزاً صحيحاً'); return; }
+    Groups.joinGroup(code).then(function (g) {
+      document.getElementById('join-code').value = '';
+      renderGroups(); if (navigator.vibrate) navigator.vibrate(30);
+      toast('✅ انضممتَ إلى «' + g.name + '»');
+    }).catch(function () { toast('رمز غير صالح'); });
+  });
+
+  /* Deep link: zaad://group/join/[id] أو ?join=CODE */
+  try {
+    var qs = new URLSearchParams(location.search);
+    var jc = qs.get('join');
+    if (jc) document.getElementById('join-code').value = jc.toUpperCase();
+  } catch (e) {}
+
+  renderMe();
+  renderGroups();
+});
+</script>
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script>
+/* ربط كارت الحساب السحابي بـ ZadAuth (Firebase) */
+(function(){
+  function $(id){return document.getElementById(id);}
+  function status(el,msg,ok){ if(!el)return; el.className='cl-status '+(ok?'ok':'err'); el.textContent=msg; }
+  function whenReady(cb){ var n=0,t=setInterval(function(){ n++; if(window.ZadAuth){clearInterval(t);cb();} else if(n>40){clearInterval(t);cb();} },150); }
+  whenReady(function(){
+    var st=$('cl-status'), st2=$('cl-status2'), so=$('cl-signedout'), si=$('cl-signedin');
+    if(!window.ZadAuth || !window.ZadAuth.ready()){ status(st,'⚠️ تعذّر تحميل Firebase (تحقّق من الاتصال والنطاقات المصرّح بها).',false); return; }
+    window.ZadAuth.onChange(function(user){
+      if(user){ if(so)so.style.display='none'; if(si)si.style.display='block';
+        var ed=$('cl-email-display'); if(ed) ed.textContent='👤 '+(user.email||user.displayName||'حساب Google');
+        var ue=$('cl-uid'); if(ue) ue.textContent='UID: '+user.uid;
+        console.log('[Zad] UID الحقيقي:', user.uid);
+      } else { if(so)so.style.display='block'; if(si)si.style.display='none'; }
+    });
+    var gg=$('cl-google'); if(gg) gg.addEventListener('click',function(){ status(st,'⏳ جارٍ فتح Google…',true); window.ZadAuth.signInWithGoogle().then(function(u){status(st,'✅ تم الدخول — UID: '+String(u.uid).slice(0,12)+'…',true);}).catch(function(e){status(st,'❌ '+(e&&e.message||e),false);}); });
+    var ci=$('cl-signin'); if(ci) ci.addEventListener('click',function(){ var e=($('cl-email').value||'').trim(),p=$('cl-pass').value||''; if(!e||!p){status(st,'أدخل البريد وكلمة المرور.',false);return;} status(st,'⏳ جارٍ الدخول…',true); window.ZadAuth.signInEmail(e,p).then(function(){status(st,'✅ تم الدخول.',true);}).catch(function(er){status(st,'❌ '+(er&&er.message||er),false);}); });
+    var cu=$('cl-signup'); if(cu) cu.addEventListener('click',function(){ var e=($('cl-email').value||'').trim(),p=$('cl-pass').value||''; if(!e||p.length<6){status(st,'البريد + كلمة مرور 6 أحرف على الأقل.',false);return;} status(st,'⏳ إنشاء الحساب…',true); window.ZadAuth.signUpEmail(e,p).then(function(){status(st,'✅ تم — أُرسِل بريد التحقق.',true);}).catch(function(er){status(st,'❌ '+(er&&er.message||er),false);}); });
+    var cy=$('cl-sync'); if(cy) cy.addEventListener('click',function(){ status(st2,'⏳ جارٍ المزامنة…',true); window.ZadAuth.syncLocalToCloud().then(function(){ try{sessionStorage.setItem('zad_cloud_groups','1');}catch(e){} status(st2,'✅ تمت مزامنة بياناتك، والمجموعات السحابية مُفعّلة — حدّث الصفحة لعرضها.',true); }).catch(function(e){status(st2,'❌ '+(e&&e.message||e),false);}); });
+    var co=$('cl-signout'); if(co) co.addEventListener('click',function(){ try{sessionStorage.removeItem('zad_cloud_groups');}catch(e){} window.ZadAuth.signOut().then(function(){status(st2,'تم تسجيل الخروج.',true);}); });
+  });
+})();
+</script>
+<script src="menu.js" defer></script>
+</body>
+</html>

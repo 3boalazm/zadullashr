@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>لوحة الصدارة — زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+.lb-head{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 60%,#c9a14a 150%);border-radius:22px;padding:24px 24px 20px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.lb-back{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:rgba(255,255,255,.8);text-decoration:none;margin-bottom:12px}
+.lb-gname{font-size:24px;font-weight:900;font-family:'ThmanyahSans',sans-serif;line-height:1.2}
+.lb-gmeta{font-size:12.5px;color:rgba(255,255,255,.7);margin-top:4px}
+.lb-invite{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.lb-code{background:rgba(255,255,255,.16);border:1px dashed rgba(255,255,255,.4);border-radius:11px;padding:8px 14px;font-family:monospace;font-size:16px;font-weight:800;letter-spacing:3px;direction:ltr}
+.lb-cpy{background:rgba(255,255,255,.16);border:none;color:#fff;border-radius:11px;padding:9px 14px;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;transition:background .2s}
+.lb-cpy:hover{background:rgba(255,255,255,.26)}
+
+.lb-localbar{display:flex;align-items:flex-start;gap:9px;background:rgba(255,149,0,.08);border:1px solid rgba(255,149,0,.3);border-radius:13px;padding:10px 14px;font-size:11.5px;color:var(--ink);line-height:1.7;margin-bottom:16px}
+.lb-localbar b{color:var(--sys-orange)}
+
+/* podium */
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin:6px 0 18px}
+.pod{flex:1;max-width:120px;text-align:center}
+.pod .pavatar{width:54px;height:54px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;font-weight:800;box-shadow:var(--shadow-sm)}
+.pod .pname{font-size:12.5px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pod .ppct{font-size:13px;font-weight:900;font-family:'ThmanyahSans',monospace}
+.pod .pbar{border-radius:12px 12px 0 0;margin-top:8px;display:flex;align-items:flex-start;justify-content:center;padding-top:8px;font-size:20px;font-weight:900;color:#fff;font-family:'ThmanyahSans',monospace}
+.pod-1 .pavatar{background:linear-gradient(135deg,#f5c542,#c9a14a);width:62px;height:62px;font-size:26px}
+.pod-1 .pbar{background:linear-gradient(180deg,#f5c542,#c9a14a);height:96px}
+.pod-1 .ppct{color:var(--gold-dark)}
+html[data-theme="dark"] .pod-1 .ppct,html[data-theme="oled"] .pod-1 .ppct{color:var(--sys-yellow)}
+.pod-2 .pavatar{background:linear-gradient(135deg,#c7c7cc,#8e8e93)}
+.pod-2 .pbar{background:linear-gradient(180deg,#c7c7cc,#8e8e93);height:72px}
+.pod-2 .ppct{color:var(--muted)}
+.pod-3 .pavatar{background:linear-gradient(135deg,#d6a06a,#a9703a)}
+.pod-3 .pbar{background:linear-gradient(180deg,#d6a06a,#a9703a);height:58px}
+.pod-3 .ppct{color:var(--muted)}
+
+/* list */
+.lb-row{display:flex;align-items:center;gap:13px;background:var(--card);border:1.5px solid var(--border);border-radius:15px;padding:13px 15px;box-shadow:var(--shadow-sm);margin-bottom:10px;transition:all .2s}
+.lb-row.me{border-color:var(--green-soft);background:linear-gradient(135deg,var(--card),var(--green-pale))}
+.lb-rank{width:26px;text-align:center;font-size:15px;font-weight:900;color:var(--muted);font-family:'ThmanyahSans',monospace;flex-shrink:0}
+.lb-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--green-soft));display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:800;flex-shrink:0}
+.lb-mid{flex:1;min-width:0}
+.lb-name{font-size:14px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px}
+.lb-name .youtag{font-size:9.5px;font-weight:800;color:var(--green-deep);background:var(--green-pale);padding:2px 7px;border-radius:99px}
+html[data-theme="dark"] .lb-name .youtag,html[data-theme="oled"] .lb-name .youtag{color:var(--sys-green);background:rgba(77,216,102,.12)}
+.lb-streak{font-size:11.5px;color:var(--muted);margin-top:2px}
+.lb-bar{height:6px;background:var(--sand-2);border-radius:99px;margin-top:6px;overflow:hidden}
+.lb-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green-soft),var(--gold));transition:width .6s var(--ease)}
+.lb-pct{text-align:center;flex-shrink:0;min-width:48px}
+.lb-pct b{font-size:19px;font-weight:900;color:var(--green-deep);font-family:'ThmanyahSans',monospace;line-height:1}
+html[data-theme="dark"] .lb-pct b,html[data-theme="oled"] .lb-pct b{color:var(--sys-green)}
+.lb-pct span{font-size:18px}
+
+.lb-note{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.7;color:var(--muted);background:var(--sand);border-radius:12px;padding:11px 14px;margin:14px 0}
+.lb-note b{color:var(--ink)}
+.lb-actions{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+.lb-act{flex:1;min-width:130px;padding:12px 0;border-radius:12px;border:1.5px solid var(--border);background:var(--card);color:var(--ink);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.lb-act:hover{border-color:var(--green-soft);background:var(--green-pale)}
+.lb-act.primary{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;border:none}
+.lb-act.danger{color:var(--sys-red);border-color:rgba(255,59,48,.3)}
+.lb-act.danger:hover{background:rgba(255,59,48,.06)}
+.lb-missing{text-align:center;padding:40px 18px;color:var(--muted);font-size:14px;line-height:1.9}
+.lb-missing .ico{font-size:42px;margin-bottom:10px}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+</head>
+<body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav"></nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">لوحة <span>الصدارة</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap"><button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button><div class="notif-dropdown" id="notif-dropdown"></div></div>
+      </div>
+    </div>
+
+    <div id="board-wrap"></div>
+  </main>
+</div>
+
+<script src="js/groups.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (!window.Groups) return;
+  var wrap = document.getElementById('board-wrap');
+  var gid = '';
+  try { gid = new URLSearchParams(location.search).get('g') || ''; } catch (e) {}
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' })[c]; }); }
+  function initials(a) { a = (a || '').trim(); return a ? a[0] : '🙂'; }
+  function medal(i) { return i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1); }
+
+  function toast(msg) {
+    try { if (typeof window.showToast === 'function') { window.showToast(msg); return; } } catch (e) {}
+    var t = document.getElementById('lb-toast');
+    if (!t) { t = document.createElement('div'); t.id = 'lb-toast'; t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green-deep);color:#fff;padding:12px 22px;border-radius:99px;font-size:13px;font-weight:700;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;transition:all .3s'; document.body.appendChild(t); }
+    t.textContent = msg; requestAnimationFrame(function(){ t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+    clearTimeout(t._h); t._h = setTimeout(function(){ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 2200);
+  }
+
+  function podiumHTML(top) {
+    // ترتيب العرض: المركز2 يسار، المركز1 وسط، المركز3 يمين
+    var order = [top[1], top[0], top[2]].filter(Boolean);
+    var classMap = top[1] ? ['pod-2','pod-1','pod-3'] : ['pod-1'];
+    return '<div class="podium">' + order.map(function (m, idx) {
+      var rankClass = m === top[0] ? 'pod-1' : (m === top[1] ? 'pod-2' : 'pod-3');
+      var crown = m === top[0] ? '👑 ' : '';
+      return '<div class="pod ' + rankClass + '">' +
+        '<div class="pavatar">' + initials(m.alias) + '</div>' +
+        '<div class="pname">' + crown + esc(m.alias) + '</div>' +
+        '<div class="ppct">' + m.pct + '%</div>' +
+        '<div class="pbar">' + (m.badge || '') + '</div></div>';
+    }).join('') + '</div>';
+  }
+
+  function render() {
+    Groups.getGroup(gid).then(function (g) {
+      if (!g) {
+        wrap.innerHTML = '<div class="lb-missing"><div class="ico">🔍</div>لم نجد هذه المجموعة على جهازك.<br><a href="groups.html" style="color:var(--green-deep);font-weight:800">↩︎ عُد للتنافس العائلي</a></div>';
+        return;
+      }
+      var ranked = Groups.rankMembers(g.members || []);
+      var top3 = ranked.slice(0, 3);
+      var myRank = ranked.findIndex(function (m) { return m.isMe; }) + 1;
+      var link = Groups.deepLink(g.id);
+
+      var html = '';
+      html += '<div class="lb-head">' +
+        '<a class="lb-back" href="groups.html">← كل المجموعات</a>' +
+        '<div class="lb-gname">🏆 ' + esc(g.name) + '</div>' +
+        '<div class="lb-gmeta">' + ranked.length + ' أعضاء · ترتيبك: ' + (myRank || '—') + ' · إنجازك ' + (ranked[myRank-1] ? ranked[myRank-1].pct : 0) + '%</div>' +
+        '<div class="lb-invite"><span class="lb-code">' + g.code + '</span>' +
+        '<button class="lb-cpy" id="cpy-code">📋 انسخ الرمز</button>' +
+        '<button class="lb-cpy" id="cpy-link">🔗 رابط الدعوة</button></div>' +
+        '</div>';
+
+      html += '<div class="lb-localbar"><span>🛈</span><div><b>وضع محلي:</b> الأعضاء التوضيحيون يوضّحون شكل المنافسة. صفّك أنت يعكس إنجازك الحقيقي اليوم. عند ربط الخادم تظهر عائلتك الفعلية.</div></div>';
+
+      if (top3.length >= 1) html += podiumHTML(top3);
+
+      html += ranked.map(function (m, i) {
+        return '<div class="lb-row ' + (m.isMe ? 'me' : '') + '">' +
+          '<div class="lb-rank">' + medal(i) + '</div>' +
+          '<div class="lb-avatar">' + initials(m.alias) + '</div>' +
+          '<div class="lb-mid"><div class="lb-name">' + esc(m.alias) + (m.isMe ? '<span class="youtag">أنت</span>' : '') + ' <span style="font-size:13px">' + (m.badge || '') + '</span></div>' +
+          '<div class="lb-streak">🔥 ' + (m.streak || 0) + ' يوم التزام</div>' +
+          '<div class="lb-bar"><i style="width:' + m.pct + '%"></i></div></div>' +
+          '<div class="lb-pct"><b>' + m.pct + '</b><span>%</span></div></div>';
+      }).join('');
+
+      html += '<div class="lb-note"><span>⚖️</span><div><b>كيف يُحسب الترتيب؟</b> بنسبة الإنجاز المئوية (%) لا بالأرقام المطلقة — فينافِس الطفلُ البالغَ بعدلٍ تام. ولا يَظهر للأعضاء سوى نسبتك ولهبك ووسامك.</div></div>';
+
+      html += '<div class="lb-actions">' +
+        '<button class="lb-act primary" id="sync-btn">🔄 حدّث إنجازي</button>' +
+        '<button class="lb-act danger" id="leave-btn">🚪 مغادرة المجموعة</button></div>';
+
+      wrap.innerHTML = html;
+
+      document.getElementById('cpy-code').addEventListener('click', function () { copy(g.code, 'تم نسخ الرمز ✅'); });
+      document.getElementById('cpy-link').addEventListener('click', function () { copy(link, 'تم نسخ رابط الدعوة 🔗'); });
+      document.getElementById('sync-btn').addEventListener('click', function () {
+        Groups.syncMyStats(g.id).then(function () { render(); if (navigator.vibrate) navigator.vibrate(25); toast('🔄 حُدِّث إنجازك (' + Groups.myCompletionPct() + '%)'); });
+      });
+      document.getElementById('leave-btn').addEventListener('click', function () {
+        Groups.leaveGroup(g.id).then(function () { toast('🚪 غادرتَ المجموعة'); setTimeout(function () { location.href = 'groups.html'; }, 700); });
+      });
+    });
+  }
+
+  function copy(text, msg) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(function(){ toast(msg); }); return; }
+    } catch (e) {}
+    var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); toast(msg); } catch (e) { toast('انسخ يدوياً: ' + text); }
+    document.body.removeChild(ta);
+  }
+
+  if (!gid) { wrap.innerHTML = '<div class="lb-missing"><div class="ico">👥</div>اختر مجموعةً من صفحة التنافس العائلي.<br><a href="groups.html" style="color:var(--green-deep);font-weight:800">↩︎ التنافس العائلي</a></div>'; return; }
+  render();
+});
+</script>
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+</body>
+</html>

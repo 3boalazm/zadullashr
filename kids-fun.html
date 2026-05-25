@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a5d47">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>شاشة المرح · زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+.k-hero{background:linear-gradient(135deg,#1a5d47 0%,#2a7a5f 50%,#c9a14a 145%);border-radius:24px;padding:30px 26px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.k-hero::after{content:'🎬';position:absolute;top:14px;left:20px;font-size:60px;opacity:.16;line-height:1}
+.k-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:2px;font-weight:700;margin-bottom:8px}
+.k-htitle{font-size:27px;font-weight:900;line-height:1.25;margin-bottom:10px;font-family:'ThmanyahSans',sans-serif}
+.k-intro{font-size:14px;color:rgba(255,255,255,.88);line-height:2;max-width:580px}
+.k-sec-title{display:flex;align-items:center;gap:10px;margin:24px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .k-sec-title,html[data-theme="oled"] .k-sec-title{color:var(--sys-green)}
+.k-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+.k-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow-sm);margin-bottom:12px}
+.k-card p{font-size:13.5px;color:var(--muted);line-height:1.9}
+.k-list{list-style:none;display:flex;flex-wrap:wrap;gap:9px;margin-top:6px}
+.k-list li{background:var(--sand);border:1px solid var(--border);border-radius:13px;padding:9px 14px;font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:7px}
+.k-steps{list-style:none;counter-reset:s;margin-top:6px}
+.k-steps li{counter-increment:s;display:flex;gap:11px;align-items:flex-start;font-size:13.5px;color:var(--ink);line-height:1.8;padding:8px 0;border-bottom:1px dashed var(--border)}
+.k-steps li:last-child{border-bottom:none}
+.k-steps li::before{content:counter(s);flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--green-pale);color:var(--green-deep);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+html[data-theme="dark"] .k-steps li::before,html[data-theme="oled"] .k-steps li::before{background:rgba(77,216,102,.12);color:var(--sys-green)}
+.k-res{display:flex;align-items:center;gap:13px;background:var(--card);border:1.5px solid var(--border);border-radius:15px;padding:14px 16px;box-shadow:var(--shadow-sm);text-decoration:none;color:inherit;transition:all .2s;margin-bottom:10px}
+.k-res:hover{border-color:var(--green-soft);transform:translateY(-2px)}
+.k-res .ri{width:44px;height:44px;border-radius:12px;background:var(--green-pale);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+html[data-theme="dark"] .k-res .ri,html[data-theme="oled"] .k-res .ri{background:rgba(77,216,102,.1)}
+.k-res .rt{flex:1;min-width:0}
+.k-res .rt b{font-size:14px;color:var(--green-deep);font-weight:800;display:block}
+html[data-theme="dark"] .k-res .rt b,html[data-theme="oled"] .k-res .rt b{color:var(--sys-green)}
+.k-res .rt small{font-size:11.5px;color:var(--muted);display:block;margin-top:2px;line-height:1.6}
+.k-res .rarr{color:var(--muted);font-size:15px;flex-shrink:0}
+.k-foot{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:18px;padding:22px;text-align:center;color:#fff;margin-top:18px}
+.k-foot .ft{font-family:'Amiri',serif;font-size:17px;line-height:1.9}
+/* quiz */
+.k-quiz .k-q{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all .2s}
+.k-quiz .k-q:hover{border-color:var(--gold)}
+.k-quiz .k-q .qq{font-size:13.5px;font-weight:700;color:var(--ink);display:flex;justify-content:space-between;gap:10px;align-items:center}
+.k-quiz .k-q .qa{max-height:0;overflow:hidden;transition:max-height .3s;font-size:13px;color:var(--green-deep);font-weight:800}
+html[data-theme="dark"] .k-quiz .k-q .qa,html[data-theme="oled"] .k-quiz .k-q .qa{color:var(--sys-green)}
+.k-quiz .k-q.open .qa{max-height:60px;margin-top:8px}
+.k-quiz .k-q.open .qi{transform:rotate(180deg)}
+.k-quiz .qi{transition:transform .3s;color:var(--muted)}
+/* routine */
+.k-prog{height:12px;background:var(--sand-2);border-radius:99px;overflow:hidden;margin:10px 0 4px}
+.k-prog i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green-soft),var(--gold));transition:width .5s var(--ease)}
+.k-prog-txt{font-size:12px;color:var(--muted);font-weight:700;text-align:center;margin-bottom:12px}
+.k-task{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;transition:all .2s}
+.k-task:hover{border-color:var(--green-soft)}
+.k-task.done{background:linear-gradient(135deg,var(--card),var(--green-pale));border-color:rgba(77,216,102,.4)}
+.k-task .kb{width:26px;height:26px;border-radius:8px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent;flex-shrink:0;transition:all .2s}
+.k-task.done .kb{background:var(--sys-green);border-color:var(--sys-green);color:#fff}
+html[data-theme="dark"] .k-task.done .kb,html[data-theme="oled"] .k-task.done .kb{color:#001a08}
+.k-task .kt{flex:1;min-width:0}
+.k-task .kt b{font-size:13.5px;color:var(--ink);font-weight:700}
+.k-task.done .kt b{text-decoration:line-through;opacity:.6}
+.k-task .kt small{font-size:11px;color:var(--muted);display:block;margin-top:1px}
+.k-reward{display:none;text-align:center;background:linear-gradient(135deg,var(--gold-pale),var(--card));border:1.5px solid rgba(201,161,74,.4);border-radius:15px;padding:16px;font-size:15px;font-weight:800;color:var(--gold-dark);margin-top:6px}
+html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--sys-yellow)}
+.k-reward.show{display:block;animation:zadFadeUp .5s ease both}
+
+.kf-play{display:flex;align-items:center;gap:13px;width:100%;background:var(--card);border:1.5px solid var(--border);border-radius:15px;padding:14px 16px;box-shadow:var(--shadow-sm);font-family:inherit;text-align:right;cursor:pointer;transition:all .2s;margin-bottom:10px}
+.kf-play:hover{border-color:var(--green-soft);transform:translateY(-2px)}
+.kf-play .ri{width:44px;height:44px;border-radius:12px;background:var(--green-pale);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+html[data-theme="dark"] .kf-play .ri,html[data-theme="oled"] .kf-play .ri{background:rgba(77,216,102,.1)}
+.kf-play .rt{flex:1;min-width:0}
+.kf-play .rt b{display:block;font-size:14px;font-weight:800;color:var(--ink)}
+.kf-play .rt small{font-size:11.5px;color:var(--muted);line-height:1.6}
+.kf-badge{font-size:10px;font-weight:800;color:#fff;background:var(--green-mid);border-radius:99px;padding:4px 9px;white-space:nowrap}
+.kf-player-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.88);display:none;flex-direction:column;align-items:center;justify-content:center;padding:18px;gap:12px}
+.kf-player-overlay.open{display:flex;animation:kffade .25s ease}
+@keyframes kffade{from{opacity:0}to{opacity:1}}
+.kf-player-wrap{width:100%;max-width:860px;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.kf-player-wrap iframe{width:100%;height:100%;border:none}
+.kf-close{position:absolute;top:16px;left:18px;width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.15);color:#fff;font-size:20px;cursor:pointer}
+.kf-yt-link{color:rgba(255,255,255,.8);font-size:12.5px;font-weight:700;text-decoration:none}
+.kf-yt-link:hover{color:#fff}
+
+
+/* ═══ كروت الفيديو (بنفس نظام صفحة المحاضرات) ═══ */
+.vid-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:all .25s;margin-bottom:20px}
+.vid-card:hover{transform:translateY(-4px);box-shadow:var(--shadow),0 0 0 1px rgba(201,161,74,.2)}
+
+.vid-thumb-wrap{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:var(--sand-2);cursor:pointer}
+.vid-thumb{width:100%;height:100%;object-fit:cover;transition:transform .35s;display:block}
+.vid-thumb-wrap:hover .vid-thumb{transform:scale(1.04)}
+.vid-thumb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%);pointer-events:none}
+.vid-play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,.35)}
+.vid-thumb-wrap:hover .vid-play-btn{background:#fff;transform:translate(-50%,-50%) scale(1.1)}
+.vid-play-btn svg{margin-right:-3px}
+.vid-number-badge{position:absolute;top:10px;right:10px;background:var(--green-deep);color:#fff;font-size:11px;font-weight:900;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'ThmanyahSans',monospace}
+
+.vid-body{padding:18px 18px 14px}
+.vid-meta-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.speaker-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.vid-meta-text{flex:1;min-width:0}
+.speaker-name{font-size:13px;font-weight:700;color:var(--green-deep);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-theme="dark"] .speaker-name,html[data-theme="oled"] .speaker-name{color:var(--sys-green)}
+.vid-category{font-size:11px;color:var(--muted)}
+.vid-title{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:8px;line-height:1.4}
+.vid-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+
+.vid-points-toggle{display:flex;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:9px 14px;cursor:pointer;font-size:13px;font-weight:700;color:var(--ink);transition:all .2s;width:100%;margin-bottom:8px}
+.vid-points-toggle:hover{border-color:var(--gold);background:var(--gold-pale)}
+.vid-points-toggle .toggle-ico{margin-right:auto;transition:transform .25s;font-size:12px;color:var(--muted)}
+.vid-points-toggle.open .toggle-ico{transform:rotate(180deg)}
+.vid-points{max-height:0;overflow:hidden;transition:max-height .35s var(--ease)}
+.vid-points.open{max-height:800px}
+.vid-points-inner{padding:4px 4px 8px}
+.vid-point{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-radius:10px;margin-bottom:6px;background:var(--green-pale);border:1px solid rgba(42,122,95,.1);font-size:13px;color:var(--ink);line-height:1.6}
+html[data-theme="dark"] .vid-point,html[data-theme="oled"] .vid-point{background:rgba(77,216,102,.05);border-color:rgba(77,216,102,.1)}
+.vid-point-ico{font-size:14px;flex-shrink:0;margin-top:2px}
+.vid-point-text b{display:block;font-size:12px;color:var(--green-deep);margin-bottom:2px}
+html[data-theme="dark"] .vid-point-text b,html[data-theme="oled"] .vid-point-text b{color:var(--sys-green)}
+
+.vid-full-summary{background:var(--card-2);border:1px solid var(--border);border-radius:12px;margin-top:8px}
+.vid-summary-section{padding:8px 0;border-bottom:1px dashed var(--border)}
+.vid-summary-section:last-child{border-bottom:none}
+.vid-summary-section h4{display:flex;align-items:center;gap:6px;margin:0 0 8px;font-size:13px;font-weight:700;color:var(--green-deep)}
+.vid-summary-section p,.vid-summary-section ul{font-size:13px;line-height:1.7;color:var(--muted);margin:0}
+.vid-summary-section ul{list-style:disc;padding-right:20px}
+.vid-summary-section .plan-grid{display:grid;gap:6px;background:var(--sand);border-radius:10px;padding:10px 12px;font-size:12px}
+
+.vid-extra-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)}
+.vid-action-btn{flex:1;min-width:80px;padding:8px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--sand);color:var(--ink);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:4px}
+.vid-action-btn:hover{border-color:var(--gold);background:var(--gold-pale);transform:translateY(-1px)}
+.vid-action-btn:active{transform:scale(.98)}
+.vid-action-btn.saved{background:var(--green-pale);border-color:var(--green-soft);color:var(--green-deep)}
+.vid-action-btn.favorited{background:rgba(255,45,85,.1);border-color:var(--sys-pink);color:var(--sys-pink)}
+
+.vid-footer{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid var(--border);background:var(--sand)}
+.vid-watch-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:var(--green-deep);color:#fff;border-radius:10px;text-decoration:none;font-size:13px;font-weight:700;transition:all .2s}
+.vid-watch-btn:hover{background:var(--green-mid);transform:translateY(-1px)}
+html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{background:var(--sys-green);color:#001a08}
+.vid-share-btn{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .2s;text-decoration:none;flex-shrink:0}
+.vid-share-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
+
+.player-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:600;display:none;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(12px);padding:20px}
+.player-overlay.open{display:flex}
+.player-wrap{width:100%;max-width:860px;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.player-wrap iframe{width:100%;height:100%;border:none}
+.player-close{position:absolute;top:20px;right:20px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.25);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.player-close:hover{background:rgba(255,255,255,.3)}
+.player-title{color:#fff;font-size:15px;font-weight:700;margin-top:16px;text-align:center;font-family:'ThmanyahSans',sans-serif;opacity:.9}
+
+@media(max-width:768px){.vids-hero{padding:22px 18px}.vids-hero h1{font-size:22px}.vid-title{font-size:15px}}
+@media(max-width:480px){.vid-extra-actions{flex-direction:column}.vid-action-btn{min-width:100%}.vid-summary-section h4{font-size:12px}.vid-summary-section p,.vid-summary-section ul{font-size:12px}}
+
+/* ═══ فلاتر التصنيف ═══ */
+.ftab{padding:8px 16px;border-radius:99px;border:1.5px solid var(--border);background:var(--card);font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.ftab:hover{border-color:var(--green-soft);color:var(--green-deep)}
+.ftab.active{background:var(--green-deep);border-color:var(--green-deep);color:#fff}
+html[data-theme="dark"] .ftab.active,html[data-theme="oled"] .ftab.active{background:var(--sys-green);border-color:var(--sys-green);color:#001a08}
+.filter-tabs::-webkit-scrollbar{display:none}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+</head>
+<body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav"></nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left"><button class="hamburger" id="hamburger" aria-label="القائمة">☰</button><a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a></div>
+      <div class="tb-center"><div class="page-title">شاشة <span>المرح</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap"><button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button><div class="notif-dropdown" id="notif-dropdown"></div></div>
+      </div>
+    </div>
+    <div class="k-hero">
+      <div class="k-eyebrow">🎬 شاهد، العب، وتعلّم</div>
+      <div class="k-htitle">شاشةُ المرح</div>
+      <div class="k-intro">من قال إنّ التعلّم لا يكون ممتعاً؟ هنا جمعنا لكم أفضلَ الأفلام الكرتونية والتطبيقات الذكية التي تجعلُ وقتكم مفيداً ومسلّياً. شاهد أجملَ القصص والعب أذكى الألعاب التعليمية!</div>
+    </div>
+    <div class="k-sec-title">🎬 قنواتي وأفلامي المفضّلة</div>
+    <div class="filter-tabs" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:20px;padding-bottom:4px">
+      <button class="ftab active" onclick="filterKids('all',this)">الكل</button>
+      <button class="ftab" onclick="filterKids('channel',this)">📺 قنوات تعليمية</button>
+      <button class="ftab" onclick="filterKids('cinema',this)">🎞️ كرتون قرآني</button>
+      <button class="ftab" onclick="filterKids('fav',this)">❤️ مفضّلتي</button>
+    </div>
+    <div id="kids-vid-grid">
+      <div class="vid-card" data-tag="channel">
+        <div class="vid-thumb-wrap" onclick="openKidsPlayer('PLtczRzSWYcWx02gpkb26tOkk3H4Z0QQBu',true,'تعلّم مع زكريا')">
+          <img class="vid-thumb" src="https://img.youtube.com/vi/sX5cVZ4kCC0/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/sX5cVZ4kCC0/mqdefault.jpg'" alt="تعلّم مع زكريا" loading="lazy">
+          <div class="vid-thumb-overlay"></div>
+          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
+          <span style="position:absolute;top:10px;left:10px;background:#1f5e4b;color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px">قناة</span>
+          <div class="vid-number-badge">1</div>
+        </div>
+        <div class="vid-body">
+          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#1f5e4b,#8a6822)">📚</div><div class="vid-meta-text"><div class="speaker-name">تعلّم مع زكريا</div><div class="vid-category">📺 قناة تعليمية</div></div></div>
+          <div class="vid-title">تعلّم مع زكريا</div>
+          <div class="vid-desc">الحروف والأرقام وتلاوة قصار السور بأسلوب ممتع ومحبّب للأطفال.</div>
+          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 ماذا ستتعلّم؟</span><span class="toggle-ico">▼</span></button>
+          <div class="vid-points"><div class="vid-points-inner"><div class="vid-point"><span class="vid-point-ico">🔤</span><div class="vid-point-text"><b>الحروف والأرقام</b>تعلّم أساسيات العربية بالأناشيد</div></div><div class="vid-point"><span class="vid-point-ico">📖</span><div class="vid-point-text"><b>قصار السور</b>حفظ السور القصيرة بسهولة</div></div></div></div>
+          <div class="vid-extra-actions">
+            <button class="vid-action-btn" onclick="copyKidsVid('PLtczRzSWYcWx02gpkb26tOkk3H4Z0QQBu','تعلّم مع زكريا',true)">📋 نسخ</button>
+            <button class="vid-action-btn" onclick="addKidsFav('PLtczRzSWYcWx02gpkb26tOkk3H4Z0QQBu',event)">❤️ مفضلة</button>
+          </div>
+        </div>
+        <div class="vid-footer">
+          <a class="vid-watch-btn" href="https://www.youtube.com/playlist?list=PLtczRzSWYcWx02gpkb26tOkk3H4Z0QQBu" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
+          <button type="button" class="vid-share-btn" onclick="shareKidsVid('PLtczRzSWYcWx02gpkb26tOkk3H4Z0QQBu','تعلّم مع زكريا',true)">📤</button>
+        </div>
+      </div>
+      <div class="vid-card" data-tag="channel">
+        <div class="vid-thumb-wrap" onclick="openKidsPlayer('PLkCl7h8FSnn0ZVR-r3j3-8TBo_E7eatP2',true,'عدنان معلّم القرآن')">
+          <img class="vid-thumb" src="https://img.youtube.com/vi/yEKBmZffG2Y/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/yEKBmZffG2Y/mqdefault.jpg'" alt="عدنان معلّم القرآن" loading="lazy">
+          <div class="vid-thumb-overlay"></div>
+          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
+          <span style="position:absolute;top:10px;left:10px;background:#2a7a5e;color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px">قناة</span>
+          <div class="vid-number-badge">2</div>
+        </div>
+        <div class="vid-body">
+          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#2a7a5e,#8a6822)">🕋</div><div class="vid-meta-text"><div class="speaker-name">عدنان معلّم القرآن</div><div class="vid-category">📺 قناة قرآنية</div></div></div>
+          <div class="vid-title">عدنان معلّم القرآن</div>
+          <div class="vid-desc">رفيقُك الأمين في رحلة حفظ القرآن الكريم بالصوت والصورة.</div>
+          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 ماذا ستتعلّم؟</span><span class="toggle-ico">▼</span></button>
+          <div class="vid-points"><div class="vid-points-inner"><div class="vid-point"><span class="vid-point-ico">🎯</span><div class="vid-point-text"><b>حفظ تفاعلي</b>يساعد الطفل على الحفظ خطوة بخطوة</div></div><div class="vid-point"><span class="vid-point-ico">🌟</span><div class="vid-point-text"><b>شخصية محبوبة</b>عدنان صديق الأطفال في رحلة القرآن</div></div></div></div>
+          <div class="vid-extra-actions">
+            <button class="vid-action-btn" onclick="copyKidsVid('PLkCl7h8FSnn0ZVR-r3j3-8TBo_E7eatP2','عدنان معلّم القرآن',true)">📋 نسخ</button>
+            <button class="vid-action-btn" onclick="addKidsFav('PLkCl7h8FSnn0ZVR-r3j3-8TBo_E7eatP2',event)">❤️ مفضلة</button>
+          </div>
+        </div>
+        <div class="vid-footer">
+          <a class="vid-watch-btn" href="https://www.youtube.com/playlist?list=PLkCl7h8FSnn0ZVR-r3j3-8TBo_E7eatP2" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
+          <button type="button" class="vid-share-btn" onclick="shareKidsVid('PLkCl7h8FSnn0ZVR-r3j3-8TBo_E7eatP2','عدنان معلّم القرآن',true)">📤</button>
+        </div>
+      </div>
+      <div class="vid-card" data-tag="channel">
+        <div class="vid-thumb-wrap" onclick="openKidsPlayer('PLCVTYesCmEPt0DKxhlUZredBO3FnpISpf',true,'عمر وهناء')">
+          <img class="vid-thumb" src="https://img.youtube.com/vi/x0JqU0Wq0Wc/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/x0JqU0Wq0Wc/mqdefault.jpg'" alt="عمر وهناء" loading="lazy">
+          <div class="vid-thumb-overlay"></div>
+          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
+          <span style="position:absolute;top:10px;left:10px;background:#c9a14a;color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px">قناة</span>
+          <div class="vid-number-badge">3</div>
+        </div>
+        <div class="vid-body">
+          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#c9a14a,#8a6822)">👧</div><div class="vid-meta-text"><div class="speaker-name">عمر وهناء</div><div class="vid-category">📺 أناشيد وقيم</div></div></div>
+          <div class="vid-title">عمر وهناء</div>
+          <div class="vid-desc">أناشيدُ ورسومٌ متحرّكة تعلّم القيم الجميلة والأدعية اليومية.</div>
+          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 ماذا ستتعلّم؟</span><span class="toggle-ico">▼</span></button>
+          <div class="vid-points"><div class="vid-points-inner"><div class="vid-point"><span class="vid-point-ico">💝</span><div class="vid-point-text"><b>القيم الأخلاقية</b>الصدق والتعاون واحترام الكبير</div></div><div class="vid-point"><span class="vid-point-ico">🤲</span><div class="vid-point-text"><b>الأدعية اليومية</b>أدعية الصباح والمساء والطعام</div></div></div></div>
+          <div class="vid-extra-actions">
+            <button class="vid-action-btn" onclick="copyKidsVid('PLCVTYesCmEPt0DKxhlUZredBO3FnpISpf','عمر وهناء',true)">📋 نسخ</button>
+            <button class="vid-action-btn" onclick="addKidsFav('PLCVTYesCmEPt0DKxhlUZredBO3FnpISpf',event)">❤️ مفضلة</button>
+          </div>
+        </div>
+        <div class="vid-footer">
+          <a class="vid-watch-btn" href="https://www.youtube.com/playlist?list=PLCVTYesCmEPt0DKxhlUZredBO3FnpISpf" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
+          <button type="button" class="vid-share-btn" onclick="shareKidsVid('PLCVTYesCmEPt0DKxhlUZredBO3FnpISpf','عمر وهناء',true)">📤</button>
+        </div>
+      </div>
+      <div class="vid-card" data-tag="channel">
+        <div class="vid-thumb-wrap" onclick="openKidsPlayer('yDjcdld0Zf4',false,'عالم زيدو')">
+          <img class="vid-thumb" src="https://img.youtube.com/vi/yDjcdld0Zf4/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/yDjcdld0Zf4/mqdefault.jpg'" alt="عالم زيدو" loading="lazy">
+          <div class="vid-thumb-overlay"></div>
+          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
+          <span style="position:absolute;top:10px;left:10px;background:#1a5d47;color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px">فيديو</span>
+          <div class="vid-number-badge">4</div>
+        </div>
+        <div class="vid-body">
+          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#1a5d47,#8a6822)">🦁</div><div class="vid-meta-text"><div class="speaker-name">عالم زيدو</div><div class="vid-category">📺 قصص وأناشيد</div></div></div>
+          <div class="vid-title">عالم زيدو</div>
+          <div class="vid-desc">قصصُ الحيوان في القرآن والأناشيد التعليمية الممتعة.</div>
+          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 ماذا ستتعلّم؟</span><span class="toggle-ico">▼</span></button>
+          <div class="vid-points"><div class="vid-points-inner"><div class="vid-point"><span class="vid-point-ico">🐾</span><div class="vid-point-text"><b>حيوانات القرآن</b>قصص الهدهد والنملة والفيل</div></div><div class="vid-point"><span class="vid-point-ico">🎵</span><div class="vid-point-text"><b>أناشيد هادفة</b>ألحان جميلة بكلمات نافعة</div></div></div></div>
+          <div class="vid-extra-actions">
+            <button class="vid-action-btn" onclick="copyKidsVid('yDjcdld0Zf4','عالم زيدو',false)">📋 نسخ</button>
+            <button class="vid-action-btn" onclick="addKidsFav('yDjcdld0Zf4',event)">❤️ مفضلة</button>
+          </div>
+        </div>
+        <div class="vid-footer">
+          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=yDjcdld0Zf4" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
+          <button type="button" class="vid-share-btn" onclick="shareKidsVid('yDjcdld0Zf4','عالم زيدو',false)">📤</button>
+        </div>
+      </div>
+      <div class="vid-card" data-tag="cinema">
+        <div class="vid-thumb-wrap" onclick="openKidsPlayer('PLb70eAvAvmxCvuQgHs5rK1VkYqbc-f0ul',true,'قصص الأنبياء بالصلصال')">
+          <img class="vid-thumb" src="https://img.youtube.com/vi/3vDWWLpMfV0/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/3vDWWLpMfV0/mqdefault.jpg'" alt="قصص الأنبياء بالصلصال" loading="lazy">
+          <div class="vid-thumb-overlay"></div>
+          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
+          <span style="position:absolute;top:10px;left:10px;background:#8b6914;color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px">مسلسل</span>
+          <div class="vid-number-badge">5</div>
+        </div>
+        <div class="vid-body">
+          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#8b6914,#8a6822)">🧩</div><div class="vid-meta-text"><div class="speaker-name">قصص الأنبياء بالصلصال</div><div class="vid-category">🎞️ كرتون قرآني</div></div></div>
+          <div class="vid-title">قصص الأنبياء بالصلصال</div>
+          <div class="vid-desc">مسلسلٌ كرتونيٌّ كلاسيكيٌّ يحكي قصص الأنبياء بأسلوب الصلصال الممتع.</div>
+          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 ماذا ستتعلّم؟</span><span class="toggle-ico">▼</span></button>
+          <div class="vid-points"><div class="vid-points-inner"><div class="vid-point"><span class="vid-point-ico">📜</span><div class="vid-point-text"><b>قصص الأنبياء</b>من آدم إلى محمد ﷺ</div></div><div class="vid-point"><span class="vid-point-ico">🎨</span><div class="vid-point-text"><b>فنّ الصلصال</b>تصميم كلاسيكي محبّب للأطفال</div></div></div></div>
+          <div class="vid-extra-actions">
+            <button class="vid-action-btn" onclick="copyKidsVid('PLb70eAvAvmxCvuQgHs5rK1VkYqbc-f0ul','قصص الأنبياء بالصلصال',true)">📋 نسخ</button>
+            <button class="vid-action-btn" onclick="addKidsFav('PLb70eAvAvmxCvuQgHs5rK1VkYqbc-f0ul',event)">❤️ مفضلة</button>
+          </div>
+        </div>
+        <div class="vid-footer">
+          <a class="vid-watch-btn" href="https://www.youtube.com/playlist?list=PLb70eAvAvmxCvuQgHs5rK1VkYqbc-f0ul" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
+          <button type="button" class="vid-share-btn" onclick="shareKidsVid('PLb70eAvAvmxCvuQgHs5rK1VkYqbc-f0ul','قصص الأنبياء بالصلصال',true)">📤</button>
+        </div>
+      </div>
+    </div>
+    <a class="k-res" href="https://www.youtube.com/results?search_query=%D8%A8%D9%86%D9%8A%D9%86+%D9%88%D8%A8%D9%86%D8%A7%D8%AA+%D8%A5%D8%B3%D9%84%D8%A7%D9%85+%D9%88%D9%8A%D8%A8" target="_blank" rel="noopener noreferrer" style="margin-top:14px"><span class="ri">▶️</span><div class="rt"><b>بنين وبنات</b><small>قصصُ الأنبياء ومكارمُ الأخلاق (إسلام ويب)</small></div><span class="rarr">↗</span></a>
+    <div class="k-sec-title">📚 مختبرُ اللغة العربية — منصّة عصافير</div>
+    <a class="k-res" href="https://3asafeer.com/ar/read/2/%D9%87%D9%8A%D8%A7-%D9%86%D8%B9%D8%AF-%D9%85%D8%B9-%D8%A7%D9%84%D8%AF%D9%8A%D9%86%D8%A7%D8%B5%D9%88%D8%B1%D8%A7%D8%AA-%D8%A3%D8%B1%D9%82%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9" target="_blank" rel="noopener noreferrer"><span class="ri">🦕</span><div class="rt"><b>هيّا نعدّ مع الديناصورات</b><small>قصةٌ تفاعليةٌ لتعلّم الأرقام</small></div><span class="rarr">↗</span></a><a class="k-res" href="https://3asafeer.com/ar/read/4/%D9%83%D8%AA%D8%A7%D8%A8-%D8%A7%D9%84%D8%A3%D8%B6%D8%AF%D8%A7%D8%AF-%D9%83%D9%84-%D8%B4%D9%8A%D8%A1-%D9%88-%D8%B9%D9%83%D8%B3%D9%87" target="_blank" rel="noopener noreferrer"><span class="ri">🔤</span><div class="rt"><b>كتاب الأضداد</b><small>كلُّ شيءٍ وعكسُه — تنميةُ المفردات</small></div><span class="rarr">↗</span></a>
+    <div class="k-sec-title">🎬 مكتبة الأفلام الكرتونية</div>
+    <a class="k-res" href="https://www.katakeet1.com/2020/06/Islamic-cartoon-films.html" target="_blank" rel="noopener noreferrer"><span class="ri">🎬</span><div class="rt"><b>موسوعة الأفلام الكرتونية</b><small>بوابة كتاكيت — روابطُ المسلسلات الهادفة</small></div><span class="rarr">↗</span></a>
+    <div class="k-sec-title">📱 تطبيقاتي الذكية وأوراقُ العمل</div>
+    <a class="k-res" href="https://www.thealphazed.com/ar/blog/best-free-arabic-learning-apps-2026" target="_blank" rel="noopener noreferrer"><span class="ri">✨</span><div class="rt"><b>أفضل تطبيقات العربية 2026</b><small>دليل Alphazed: Amal للنطق · Thurayya للتجويد · Pillars لأركان الإسلام</small></div><span class="rarr">↗</span></a><a class="k-res" href="https://suprfamily.com/2025/02/i-started-with-letters.html" target="_blank" rel="noopener noreferrer"><span class="ri">✏️</span><div class="rt"><b>أوراق عمل الحروف</b><small>ملزمة «بدايتي مع لغتي» PDF قابلة للطباعة</small></div><span class="rarr">↗</span></a><a class="k-res" href="kids.html"><span class="ri">⭐</span><div class="rt"><b>ثُريّا — وضع الأطفال</b><small>حفظُ القرآن داخل التطبيق</small></div><span class="rarr">↗</span></a>
+
+    <div class="k-foot"><div class="ft">«تذكّر يا بطل أنّ أحبّ الأعمال إلى الله أدومُها وإن قلّ — ابدأ بخطوةٍ صغيرةٍ اليوم!»</div></div>
+  </main>
+
+  <div class="kf-player-overlay" id="kf-overlay">
+    <button class="kf-close" id="kf-close" aria-label="إغلاق">✕</button>
+    <div class="kf-player-wrap"><iframe id="kf-iframe" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <a class="kf-yt-link" id="kf-yt-link" target="_blank" rel="noopener noreferrer">فتح على يوتيوب ↗</a>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var ov=document.getElementById('kf-overlay'), fr=document.getElementById('kf-iframe'), yl=document.getElementById('kf-yt-link');
+  function open(val,isList,title){
+    var base='https://www.youtube-nocookie.com/embed/';
+    fr.src = isList ? (base+'videoseries?list='+val+'&rel=0&modestbranding=1&autoplay=1')
+                    : (base+val+'?rel=0&modestbranding=1&autoplay=1');
+    yl.href = isList ? ('https://www.youtube.com/playlist?list='+val)
+                     : ('https://www.youtube.com/watch?v='+val);
+    ov.classList.add('open'); document.body.style.overflow='hidden';
+  }
+  function close(){ fr.src=''; ov.classList.remove('open'); document.body.style.overflow=''; }
+  /* للكروت الجديدة */
+  window.openKidsPlayer=function(val,isList,title){ open(val,isList,title); };
+  /* الأزرار القديمة (لو فيه) */
+  document.querySelectorAll('.kf-play').forEach(function(b){
+    b.addEventListener('click',function(){ open(b.dataset.yt, b.dataset.list==='1', b.dataset.title||''); });
+  });
+  document.getElementById('kf-close').addEventListener('click',close);
+  ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&ov.classList.contains('open')) close(); });
+
+  /* ── طيّ النقاط ── */
+  window.togglePoints=function(btn){
+    btn.classList.toggle('open');
+    var p=btn.nextElementSibling;
+    if(p) p.classList.toggle('open');
+  };
+
+  /* ── الفلاتر ── */
+  window.filterKids=function(tag,btn){
+    document.querySelectorAll('.filter-tabs .ftab').forEach(function(t){t.classList.remove('active');});
+    if(btn) btn.classList.add('active');
+    var favs=getKidsFavs();
+    document.querySelectorAll('#kids-vid-grid .vid-card').forEach(function(card){
+      var ct=card.getAttribute('data-tag');
+      var id=card.querySelector('[onclick*="openKidsPlayer"]');
+      var vidId=id?(id.getAttribute('onclick').match(/'([^']+)'/)||[])[1]:'';
+      var show=false;
+      if(tag==='all') show=true;
+      else if(tag==='fav') show=favs.indexOf(vidId)>-1;
+      else show=(ct===tag);
+      card.style.display=show?'':'none';
+    });
+  };
+
+  /* ── المفضّلة ── */
+  function getKidsFavs(){ try{var s=JSON.parse(localStorage.getItem('zad_v2')||'{}');return (s.kidsFunFavs||[]);}catch(e){return [];} }
+  function setKidsFavs(arr){ try{var s=JSON.parse(localStorage.getItem('zad_v2')||'{}');s.kidsFunFavs=arr;localStorage.setItem('zad_v2',JSON.stringify(s));}catch(e){} }
+  window.addKidsFav=function(id,evt){
+    if(evt) evt.stopPropagation();
+    var favs=getKidsFavs(), i=favs.indexOf(id);
+    var btn=evt?evt.currentTarget:null;
+    if(i>-1){ favs.splice(i,1); if(btn){btn.classList.remove('favorited');btn.innerHTML='❤️ مفضلة';} if(window.showToast)window.showToast('🗑️ أُزيلت من المفضلة'); }
+    else { favs.push(id); if(btn){btn.classList.add('favorited');btn.innerHTML='💖 في المفضلة';} if(window.showToast)window.showToast('❤️ أُضيفت لمفضّلتك'); }
+    setKidsFavs(favs);
+    if(navigator.vibrate)navigator.vibrate(15);
+  };
+  /* تعليم المفضّلة عند التحميل */
+  (function markFavs(){
+    var favs=getKidsFavs();
+    document.querySelectorAll('#kids-vid-grid .vid-card').forEach(function(card){
+      var btn=card.querySelector('.vid-action-btn[onclick*="addKidsFav"]');
+      if(!btn)return;
+      var m=btn.getAttribute('onclick').match(/'([^']+)'/);
+      if(m&&favs.indexOf(m[1])>-1){ btn.classList.add('favorited'); btn.innerHTML='💖 في المفضلة'; }
+    });
+  })();
+
+  /* ── نسخ ── */
+  window.copyKidsVid=function(id,title,isList){
+    var url=isList?('https://www.youtube.com/playlist?list='+id):('https://www.youtube.com/watch?v='+id);
+    var txt='🎬 '+title+'\n'+url+'\n\nشاشة المرح | زاد العشر';
+    if(navigator.clipboard)navigator.clipboard.writeText(txt).then(function(){if(window.showToast)window.showToast('📋 تم نسخ الرابط');});
+    else if(window.showToast)window.showToast(url);
+    if(navigator.vibrate)navigator.vibrate(15);
+  };
+
+  /* ── مشاركة ── */
+  window.shareKidsVid=function(id,title,isList){
+    var url=isList?('https://www.youtube.com/playlist?list='+id):('https://www.youtube.com/watch?v='+id);
+    var txt='🎬 '+title+' — شاشة المرح | زاد العشر';
+    if(navigator.share)navigator.share({title:title,text:txt,url:url}).catch(function(){});
+    else if(navigator.clipboard)navigator.clipboard.writeText(url).then(function(){if(window.showToast)window.showToast('🔗 تم نسخ الرابط');});
+    if(navigator.vibrate)navigator.vibrate(15);
+  };
+})();
+</script>
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+</body>
+</html>

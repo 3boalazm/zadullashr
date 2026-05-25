@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a5d47">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>عرين الأبطال · زاد العشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+.k-hero{background:linear-gradient(135deg,#1a5d47 0%,#2a7a5f 50%,#c9a14a 145%);border-radius:24px;padding:30px 26px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.k-hero::after{content:'🦁';position:absolute;top:14px;left:20px;font-size:60px;opacity:.16;line-height:1}
+.k-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:2px;font-weight:700;margin-bottom:8px}
+.k-htitle{font-size:27px;font-weight:900;line-height:1.25;margin-bottom:10px;font-family:'ThmanyahSans',sans-serif}
+.k-intro{font-size:14px;color:rgba(255,255,255,.88);line-height:2;max-width:580px}
+.k-sec-title{display:flex;align-items:center;gap:10px;margin:24px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .k-sec-title,html[data-theme="oled"] .k-sec-title{color:var(--sys-green)}
+.k-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+.k-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow-sm);margin-bottom:12px}
+.k-card p{font-size:13.5px;color:var(--muted);line-height:1.9}
+.k-list{list-style:none;display:flex;flex-wrap:wrap;gap:9px;margin-top:6px}
+.k-list li{background:var(--sand);border:1px solid var(--border);border-radius:13px;padding:9px 14px;font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:7px}
+.k-steps{list-style:none;counter-reset:s;margin-top:6px}
+.k-steps li{counter-increment:s;display:flex;gap:11px;align-items:flex-start;font-size:13.5px;color:var(--ink);line-height:1.8;padding:8px 0;border-bottom:1px dashed var(--border)}
+.k-steps li:last-child{border-bottom:none}
+.k-steps li::before{content:counter(s);flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--green-pale);color:var(--green-deep);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+html[data-theme="dark"] .k-steps li::before,html[data-theme="oled"] .k-steps li::before{background:rgba(77,216,102,.12);color:var(--sys-green)}
+.k-res{display:flex;align-items:center;gap:13px;background:var(--card);border:1.5px solid var(--border);border-radius:15px;padding:14px 16px;box-shadow:var(--shadow-sm);text-decoration:none;color:inherit;transition:all .2s;margin-bottom:10px}
+.k-res:hover{border-color:var(--green-soft);transform:translateY(-2px)}
+.k-res .ri{width:44px;height:44px;border-radius:12px;background:var(--green-pale);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+html[data-theme="dark"] .k-res .ri,html[data-theme="oled"] .k-res .ri{background:rgba(77,216,102,.1)}
+.k-res .rt{flex:1;min-width:0}
+.k-res .rt b{font-size:14px;color:var(--green-deep);font-weight:800;display:block}
+html[data-theme="dark"] .k-res .rt b,html[data-theme="oled"] .k-res .rt b{color:var(--sys-green)}
+.k-res .rt small{font-size:11.5px;color:var(--muted);display:block;margin-top:2px;line-height:1.6}
+.k-res .rarr{color:var(--muted);font-size:15px;flex-shrink:0}
+.k-foot{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:18px;padding:22px;text-align:center;color:#fff;margin-top:18px}
+.k-foot .ft{font-family:'Amiri',serif;font-size:17px;line-height:1.9}
+/* quiz */
+.k-quiz .k-q{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all .2s}
+.k-quiz .k-q:hover{border-color:var(--gold)}
+.k-quiz .k-q .qq{font-size:13.5px;font-weight:700;color:var(--ink);display:flex;justify-content:space-between;gap:10px;align-items:center}
+.k-quiz .k-q .qa{max-height:0;overflow:hidden;transition:max-height .3s;font-size:13px;color:var(--green-deep);font-weight:800}
+html[data-theme="dark"] .k-quiz .k-q .qa,html[data-theme="oled"] .k-quiz .k-q .qa{color:var(--sys-green)}
+.k-quiz .k-q.open .qa{max-height:60px;margin-top:8px}
+.k-quiz .k-q.open .qi{transform:rotate(180deg)}
+.k-quiz .qi{transition:transform .3s;color:var(--muted)}
+/* routine */
+.k-prog{height:12px;background:var(--sand-2);border-radius:99px;overflow:hidden;margin:10px 0 4px}
+.k-prog i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green-soft),var(--gold));transition:width .5s var(--ease)}
+.k-prog-txt{font-size:12px;color:var(--muted);font-weight:700;text-align:center;margin-bottom:12px}
+.k-task{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;transition:all .2s}
+.k-task:hover{border-color:var(--green-soft)}
+.k-task.done{background:linear-gradient(135deg,var(--card),var(--green-pale));border-color:rgba(77,216,102,.4)}
+.k-task .kb{width:26px;height:26px;border-radius:8px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent;flex-shrink:0;transition:all .2s}
+.k-task.done .kb{background:var(--sys-green);border-color:var(--sys-green);color:#fff}
+html[data-theme="dark"] .k-task.done .kb,html[data-theme="oled"] .k-task.done .kb{color:#001a08}
+.k-task .kt{flex:1;min-width:0}
+.k-task .kt b{font-size:13.5px;color:var(--ink);font-weight:700}
+.k-task.done .kt b{text-decoration:line-through;opacity:.6}
+.k-task .kt small{font-size:11px;color:var(--muted);display:block;margin-top:1px}
+.k-reward{display:none;text-align:center;background:linear-gradient(135deg,var(--gold-pale),var(--card));border:1.5px solid rgba(201,161,74,.4);border-radius:15px;padding:16px;font-size:15px;font-weight:800;color:var(--gold-dark);margin-top:6px}
+html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--sys-yellow)}
+.k-reward.show{display:block;animation:zadFadeUp .5s ease both}
+
+.hero-grid{display:flex;flex-wrap:wrap;gap:9px;margin-top:8px}
+.hero-btn{background:linear-gradient(135deg,var(--card),var(--sand));border:2px solid var(--border);border-radius:16px;padding:11px 15px;font-family:inherit;font-size:13.5px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden}
+.hero-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,161,74,.12),transparent);opacity:0;transition:opacity .25s}
+.hero-btn:hover{border-color:var(--gold,#c9a14a);transform:translateY(-3px) scale(1.03);box-shadow:0 8px 22px -6px rgba(201,161,74,.45)}
+.hero-btn:hover::before{opacity:1}
+.hero-btn:active{transform:scale(.96)}
+.hero-btn .he{font-size:20px;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.hero-btn:hover .he{transform:scale(1.2) rotate(-6deg)}
+.hero-btn .liked{color:var(--sys-red,#ff375f);font-size:12px;animation:likePop .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes likePop{0%{transform:scale(0)}60%{transform:scale(1.4)}to{transform:scale(1)}}
+.hs-modal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:18px;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.hs-modal.open{display:flex;animation:hsfade .25s ease}
+@keyframes hsfade{from{opacity:0}to{opacity:1}}
+.hs-box{background:var(--card);border-radius:22px;max-width:440px;width:100%;max-height:85vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 70px -16px rgba(0,0,0,.5);animation:hsup .3s var(--ease)}
+@keyframes hsup{from{transform:translateY(24px) scale(.97);opacity:0}to{transform:none;opacity:1}}
+.hs-head{background:linear-gradient(135deg,#1a5d47,#2a7a5f 60%,#c9a14a 150%);color:#fff;padding:22px 20px 18px;position:relative;text-align:center}
+.hs-head .he{font-size:54px;line-height:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.25))}
+.hs-head h3{font-size:20px;font-weight:900;margin-top:8px}
+.hs-head .cat{display:inline-block;margin-top:6px;font-size:11px;font-weight:800;background:rgba(255,255,255,.2);border-radius:99px;padding:3px 12px}
+.hs-close{position:absolute;top:12px;left:14px;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.2);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.hs-body{padding:18px 20px;overflow-y:auto}
+.hs-body p{font-size:14.5px;line-height:2;color:var(--ink);margin-bottom:14px}
+.hs-para{position:relative;padding-right:38px;opacity:0;animation:hsParaIn .5s cubic-bezier(.22,.68,0,1) forwards}
+.hs-pnum{position:absolute;right:0;top:3px;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--gold,#c9a14a),var(--green-mid,#1f5e4b));color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(201,161,74,.4)}
+@keyframes hsParaIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.hs-lesson{background:var(--gold-pale);border:1px solid rgba(201,161,74,.35);border-radius:13px;padding:12px 14px;font-size:13.5px;font-weight:700;color:var(--gold-dark);line-height:1.8;display:flex;gap:9px;margin-top:6px}
+html[data-theme="dark"] .hs-lesson,html[data-theme="oled"] .hs-lesson{color:var(--sys-yellow);background:rgba(201,161,74,.1)}
+.hs-actions{display:flex;gap:8px;padding:14px 20px 20px;border-top:1px solid var(--border)}
+.hs-act{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--sand);border:1.5px solid var(--border);border-radius:13px;padding:11px 6px;font-family:inherit;font-size:11.5px;font-weight:800;color:var(--ink);cursor:pointer;transition:all .2s}
+.hs-act:hover{border-color:var(--green-soft)}
+.hs-act .ai{font-size:20px}
+.hs-act.liked{color:var(--sys-red);border-color:rgba(255,59,48,.4);background:rgba(255,59,48,.06)}
+
+
+.hc-modal{position:fixed;inset:0;z-index:10001;background:rgba(8,30,22,.75);display:none;align-items:center;justify-content:center;padding:18px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.hc-modal.open{display:flex;animation:hsfade .3s ease}
+.hc-box{background:var(--card);border-radius:24px;max-width:430px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 70px -16px rgba(0,0,0,.55);animation:hsup .35s var(--ease)}
+.hc-head{background:linear-gradient(135deg,#1a5d47,#2a7a5f 55%,#c9a14a 150%);color:#fff;padding:24px 22px 20px;text-align:center;position:relative}
+.hc-head .crest{font-size:50px;line-height:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.25))}
+.hc-head h3{font-size:20px;font-weight:900;margin-top:8px}
+.hc-head p{font-size:13px;color:rgba(255,255,255,.9);margin-top:8px;line-height:1.8}
+.hc-body{padding:18px 20px}
+.hc-vow{display:flex;gap:11px;align-items:flex-start;padding:11px 0;border-bottom:1px dashed var(--border)}
+.hc-vow:last-child{border-bottom:none}
+.hc-vow .n{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--green-pale);color:var(--green-deep);font-weight:900;font-size:14px;display:flex;align-items:center;justify-content:center}
+html[data-theme="dark"] .hc-vow .n,html[data-theme="oled"] .hc-vow .n{background:rgba(77,216,102,.12);color:var(--sys-green)}
+.hc-vow b{font-size:13.5px;color:var(--ink);display:block;margin-bottom:2px}
+.hc-vow small{font-size:12px;color:var(--muted);line-height:1.7}
+.hc-agree{display:block;width:calc(100% - 40px);margin:8px 20px 20px;padding:15px;border:none;border-radius:15px;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;font-family:inherit;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 8px 22px -8px rgba(26,93,71,.6)}
+.hc-agree:active{transform:scale(.98)}
+
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+</head>
+<body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav"></nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left"><button class="hamburger" id="hamburger" aria-label="القائمة">☰</button><a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a></div>
+      <div class="tb-center"><div class="page-title">عرين <span>الأبطال</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap"><button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button><div class="notif-dropdown" id="notif-dropdown"></div></div>
+      </div>
+    </div>
+    <div class="k-hero">
+      <div class="k-eyebrow">🦁 قدواتي</div>
+      <div class="k-htitle">عرينُ الأبطال</div>
+      <div class="k-intro">مرحباً بكم يا أبطال زاد العشر! سنسافرُ عبر الزمن لنلتقيَ بأعظم الشخصيات — نتعلّمُ الشجاعةَ من الصحابة، والحكمةَ من الأنبياء، والذكاءَ من العلماء. هل أنتم مستعدّون للرحلة؟</div>
+    </div>
+    <div class="k-sec-title">📖 أنبياء الله — منبع الإيمان</div>
+    <div class="k-card"><p>نعيش مع أنبياء الله ونتعلّم منهم الصبر واليقين:</p><div class="hero-grid"><button class="hero-btn" data-hero="adam"><span class="he">🌍</span><span>آدم وحوّاء</span></button><button class="hero-btn" data-hero="nuh"><span class="he">🚢</span><span>نوح وسفينته</span></button><button class="hero-btn" data-hero="ibrahim"><span class="he">🪓</span><span>إبراهيم محطّم الأصنام</span></button><button class="hero-btn" data-hero="yunus"><span class="he">🐋</span><span>يونس والحوت</span></button><button class="hero-btn" data-hero="yusuf"><span class="he">👑</span><span>يوسف الصدّيق</span></button><button class="hero-btn" data-hero="isa"><span class="he">🕊️</span><span>عيسى عليه السلام</span></button></div></div>
+    <div class="k-sec-title">⭐ كنوز الصحابة</div>
+    <div class="k-card"><p>مواقفُ بطوليةٌ تعلّمنا القيم:</p><div class="hero-grid"><button class="hero-btn" data-hero="abubakr"><span class="he">🤍</span><span>إخلاص أبي بكر</span></button><button class="hero-btn" data-hero="umar"><span class="he">⚖️</span><span>عدل عمر</span></button><button class="hero-btn" data-hero="uthman"><span class="he">💛</span><span>كرم عثمان</span></button><button class="hero-btn" data-hero="ali"><span class="he">🦁</span><span>شجاعة عليّ</span></button><button class="hero-btn" data-hero="bilal"><span class="he">🔥</span><span>ثبات بلال</span></button><button class="hero-btn" data-hero="anas"><span class="he">🌿</span><span>خدمة أنس</span></button><button class="hero-btn" data-hero="kaab"><span class="he">🗣️</span><span>صدق كعب بن مالك</span></button></div></div>
+    <div class="k-sec-title">🏰 عظماءُ صنعوا التاريخ</div>
+    <div class="k-card"><p>قادةٌ وعلماءُ أناروا العالم:</p><div class="hero-grid"><button class="hero-btn" data-hero="salahuddin"><span class="he">🕌</span><span>صلاح الدين — فتح القدس</span></button><button class="hero-btn" data-hero="fatih"><span class="he">🏯</span><span>محمد الفاتح — القسطنطينية</span></button><button class="hero-btn" data-hero="scientists"><span class="he">📚</span><span>علماء المسلمين</span></button></div></div>
+    <div class="k-sec-title">🔗 مصادرُ مختارة</div>
+    <a class="k-res" href="https://apps.apple.com/us/app/%D9%82%D8%B5%D8%B5-%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86-%D9%84%D9%84%D8%A3%D8%B7%D9%81%D8%A7%D9%84-%D8%A7%D9%84%D8%A3%D9%86%D8%A8%D9%8A%D8%A7%D8%A1/id1578082367?l=ar" target="_blank" rel="noopener noreferrer"><span class="ri">📱</span><div class="rt"><b>تطبيق قصص القرآن للأطفال</b><small>20 قصة نبوية تفاعلية مترجمة لعدة لغات</small></div><span class="rarr">↗</span></a><a class="k-res" href="https://www.instagram.com/noorybooks/" target="_blank" rel="noopener noreferrer"><span class="ri">📚</span><div class="rt"><b>مكتبة نوري</b><small>أكبر مكتبة رقمية لقصص الصحابة والأنبياء المصوّرة</small></div><span class="rarr">↗</span></a><a class="k-res" href="https://www.katakeet1.com/2020/06/Islamic-cartoon-films.html" target="_blank" rel="noopener noreferrer"><span class="ri">🎬</span><div class="rt"><b>بوابة كتاكيت</b><small>تجميعٌ لأفلام كرتون هادفة: أحكام القرآن، قصص من السنة</small></div><span class="rarr">↗</span></a>
+
+    <div class="k-foot"><div class="ft">«تذكّر يا بطل أنّ أحبّ الأعمال إلى الله أدومُها وإن قلّ — ابدأ بخطوةٍ صغيرةٍ اليوم!»</div></div>
+
+    <div class="k-card" style="text-align:center;font-size:12.5px;color:var(--muted)">👆 اضغط على أيِّ بطلٍ لتقرأ قصّته، ثم أعجِب بها أو شاركها مع أصحابك!</div>
+  </main>
+
+  <div class="hc-modal" id="hc-modal">
+    <div class="hc-box" role="dialog" aria-modal="true">
+      <div class="hc-head">
+        <div class="crest">🦁🛡️</div>
+        <h3>ميثاقُ بطلِ «زاد العشر» الصغير</h3>
+        <p>أنا بطلُ زاد العشر، أتعهّدُ أمام الله أن أجعلَ هذه القيمَ شعاري في الحياة:</p>
+      </div>
+      <div class="hc-body">
+        <div class="hc-vow"><span class="n">1</span><div><b>النظافةُ من الإيمان</b><small>سأحافظُ على نظافةِ مكاني وثيابي، فالله يحبُّ المتطهّرين.</small></div></div>
+        <div class="hc-vow"><span class="n">2</span><div><b>الصبرُ الجميل</b><small>سأصبرُ عند الصعوبات وأدعو: «ربِّ يسّر ولا تُعسّر».</small></div></div>
+        <div class="hc-vow"><span class="n">3</span><div><b>الرضا واليقين</b><small>سأبذلُ جهدي وأرضى بقَدَرِ الله؛ فهو دائماً الأفضلُ لي.</small></div></div>
+        <div class="hc-vow"><span class="n">4</span><div><b>الصدقُ والأمانة</b><small>سأكونُ صادقاً في السرِّ والعلن، مقتدياً بالأنبياء والصحابة.</small></div></div>
+        <div class="hc-vow"><span class="n">5</span><div><b>المبادرةُ بالخير</b><small>عملٌ صالحٌ واحدٌ على الأقلِّ كلَّ يوم؛ فأحبُّ الأعمالِ أدومُها.</small></div></div>
+      </div>
+      <button class="hc-agree" id="hc-agree">أتعهّدُ أن أكونَ بطلاً! 🦁</button>
+    </div>
+  </div>
+
+  <div class="hs-modal" id="hs-modal">
+    <div class="hs-box" role="dialog" aria-modal="true">
+      <div class="hs-head">
+        <button class="hs-close" id="hs-close" aria-label="إغلاق">✕</button>
+        <div class="he" id="hs-emoji">📖</div>
+        <h3 id="hs-name">—</h3>
+        <span class="cat" id="hs-cat">—</span>
+      </div>
+      <div class="hs-body" id="hs-body"></div>
+      <div class="hs-actions">
+        <button class="hs-act" id="hs-like"><span class="ai">🤍</span><span id="hs-like-t">إعجاب</span></button>
+        <button class="hs-act" id="hs-link"><span class="ai">💬</span>مشاركة نص</button>
+        <button class="hs-act" id="hs-png"><span class="ai">🖼️</span>مشاركة صورة</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var ZKEY='zad_v2';
+  var STORIES={"adam": {"e": "🌍", "n": "آدم وحوّاء", "c": "أوّل إنسان", "color": "linear-gradient(135deg,#1a5d47,#2a7a5f)", "story": ["خلق اللهُ سيّدَنا آدمَ بيدِه، ونفخ فيه من روحِه، وعلّمه أسماءَ كلِّ شيءٍ في الكون. وأمر الملائكةَ أن يسجدوا له تكريماً، فسجدوا جميعاً إلا إبليس؛ تكبّر وحسَد آدمَ فطُرِد من رحمة الله.", "أسكن اللهُ آدمَ وزوجَه حوّاءَ الجنّةَ، يأكلان من كلِّ ثمارها الطيّبة، إلّا شجرةً واحدةً نهاهما الله عنها اختباراً. وفي الجنّة لم يكونا يعرفان تعباً ولا جوعاً ولا حزناً.", "جاءهما إبليسُ يوسوسُ بمكرٍ وذكاء، لم يقُل لهما «اعصيا الله»، بل زيّن لهما الأمرَ وقال: «ما نهاكما ربُّكما عن هذه الشجرة إلا أن تكونا مَلَكين أو تكونا من الخالدين!» — أي خدعهما بحبِّ الخلود والمُلك.", "فأكلا من الشجرة، فتساقطت عنهما لباسُ الجنّة وظهرت أوّلُ مشاعر الحياء، فأخذا يغطّيان نفسيهما بورق الجنّة. ثم أهبطهما اللهُ إلى الأرض ليبدأ الإنسانُ رحلتَه فيها.", "ندِم آدمُ وحوّاءُ ندماً شديداً، وتعلّما من ربِّهما كلماتِ التوبة فقالا بقلبٍ خاشع: «ربَّنا ظلمنا أنفسَنا وإن لم تغفر لنا وترحمنا لنكوننّ من الخاسرين». فتاب اللهُ عليهما وغفر لهما، وعلّمنا أنّ بابَ التوبة مفتوحٌ دائماً."], "lesson": "الشيطانُ لا يقول لك «اعصِ الله» مباشرةً، بل يزيّن المعصيةَ بأسماءٍ جميلة. ولمّا نغلط نقول بصدق: «يا ربِّ سامحني» — والله يحبُّ التوّابين ويفرحُ بتوبتهم!", "share": "آدمُ وحوّاءُ أكلا من الشجرة بوسوسة الشيطان، فندِما وقالا «ربَّنا ظلمنا أنفسَنا» — فغفر اللهُ لهما. التوبةُ الصادقة تمحو الخطأ تماماً."}, "nuh": {"e": "🚢", "n": "نوح وسفينته", "c": "نبيُّ الصبر", "color": "linear-gradient(135deg,#1f5e4b,#2a7a5e)", "story": ["أرسل اللهُ نبيَّه نوحاً إلى قومٍ نسُوا عبادةَ الله وعبدوا أصناماً صنعوها بأيديهم اسمُها (ودّ، وسُواع، ويغوث، ويعوق، ونسر). دعاهم نوحٌ إلى عبادة الله وحدَه قرابةَ ألفِ عام!", "كان نوحٌ يدعوهم بكلِّ الطرق: ليلاً ونهاراً، سرّاً وعلانية. لكنّهم كانوا يسخرون منه ويضعون أصابعهم في آذانهم، بل كان الأبُ يوصي ابنَه الصغير: «إيّاك أن تصدّق هذا الشيخ!» — فتوارثوا الكفرَ جيلاً بعد جيل.", "ولمّا يئس نوحٌ من إيمانهم، أمره اللهُ ببناء سفينةٍ ضخمة. ولم يكن هناك بحرٌ قريب! فزرع نوحٌ شجرَ الساج وانتظره حتى كبر، ثم قطعه وبدأ يبني. وكلّما مرّ عليه قومُه يضحكون: «صار نجّاراً بعد أن كان نبيّاً!»", "كانت السفينةُ معجزةً هندسية: ثلاثُ طبقات، وطولُها نحو 300 ذراع، ومسقوفةٌ لتحميَ مَن فيها. وحين تمّ البناء، أمر اللهُ نوحاً أن يحملَ المؤمنين القليلين، وزوجين (ذكراً وأنثى) من كلِّ حيوان.", "ثم جاء الأمرُ العظيم: فارت الأرضُ بالماء وانهمرت السماءُ كالشلّالات، حتى غرق كلُّ شيء. ونجا المؤمنون في السفينة بإذن الله. حتى ابنُ نوحٍ رفض الركوبَ وقال «سآوي إلى جبلٍ يعصمُني من الماء» — فغرق؛ لأنّ الإيمانَ مسؤوليّةٌ فرديّة لا تنفعُ فيها قرابةُ النبيّ."], "lesson": "النجاحُ ليس بكثرة الناس حولك، بل بالثباتِ على الحقِّ والصبر. صبَر نوحٌ ألفَ عامٍ تقريباً — فاصبر أنت على الخير ولو كنت وحدك!", "share": "نوحٌ دعا قومَه قرابةَ ألفِ عام بصبر، وبنى السفينةَ وسط سخريّتهم، فنجا المؤمنون من الطوفان — الصبرُ والثباتُ يُنجّيان."}, "ibrahim": {"e": "🪓", "n": "إبراهيم محطّم الأصنام", "c": "أبو الأنبياء", "color": "linear-gradient(135deg,#0e3b2e,#1f5e4b)", "story": ["نشأ إبراهيمُ في بلاد بابل (العراق)، وكان أبوه «آزر» هو صانعَ الأصنام الرسميَّ في المملكة. لكنّ إبراهيمَ كان عقلُه يفكّر: كيف نعبدُ حجارةً لا تسمعُ ولا تُبصرُ ولا تنفعُ ولا تضرّ؟", "بدأ إبراهيمُ بدعوة أبيه بأدبٍ ولطفٍ شديد، يناديه «يا أبتِ» مراراً، لكنّ أباه غضب وهدّده بالرجم والطرد. ومع ذلك ظلّ إبراهيمُ بارّاً بأبيه يدعو له.", "وفي يوم العيد خرج الناسُ جميعاً وتركوا معبدَ الأصنام. فدخل إبراهيمُ وحدَه، ونظر إلى التماثيل الضخمة فسخر منها وقال: «ألا تأكلون؟ ما لكم لا تنطقون؟» ثم حطّمها كلَّها بفأسٍ قويّة، وترك الصنمَ الأكبرَ عمداً، ووضع الفأسَ في يده!", "ولمّا عاد الناسُ ورأوا أصنامَهم محطّمة غضبوا غضباً شديداً. فقال لهم إبراهيمُ بذكاء: «بل فعله كبيرُهم هذا، فاسألوهم إن كانوا ينطقون!» — فأُسقِط في أيديهم وعرفوا أنّ أصنامهم عاجزة، لكنّ كبرياءهم منعهم من الإيمان.", "فقرّر الملكُ الطاغية «النمرود» أن يحرقَ إبراهيمَ حيّاً عبرةً للناس. جمعوا حطباً عظيماً وأشعلوا ناراً هائلة حتى كانت الطيورُ تموتُ في الجوّ من حرارتها! ولشدّتها صنعوا «المنجنيق» ليقذفوه من بعيد. وحين قُذِف إبراهيمُ في النار قال بيقين: «حسبي اللهُ ونعم الوكيل»، فأمر اللهُ النارَ: «يا نارُ كوني برداً وسلاماً على إبراهيم» — فصارت برداً وسلاماً وخرج سالماً!"], "lesson": "الحقُّ يحتاجُ عقلاً يفكّر وشجاعةً تواجه. والتوكّلُ الكاملُ على الله يغيّرُ قوانينَ الطبيعة لأجلك — فقُل دائماً: «حسبي اللهُ ونعم الوكيل».", "share": "حطّم إبراهيمُ الأصنامَ ليُعمِل قومُه عقولهم، فألقَوه في نارٍ عظيمة، فقال «حسبي الله» فجعلها اللهُ برداً وسلاماً."}, "yunus": {"e": "🐋", "n": "يونس والحوت", "c": "نبيُّ التسبيح", "color": "linear-gradient(135deg,#16213e,#1a5d47)", "story": ["أرسل اللهُ نبيَّه يونسَ إلى أهل مدينة «نينوى» في العراق، وكانوا أكثرَ من مئة ألف. دعاهم إلى عبادة الله فكذّبوه وأصرّوا على كفرهم، فضاق صدرُ يونسَ منهم.", "غضِب يونسُ وخرج من المدينة مغاضباً، دون أن يأذنَ له ربُّه بالخروج، ظنّاً منه أنّ الله لن يضيّقَ عليه. فركب سفينةً في البحر، فهبّت عليها عاصفةٌ هوجاءُ كادت تُغرقها بمن فيها.", "قرّر ركّابُ السفينة أن يخفّفوا حِملَها بإلقاء أحدهم في البحر، فاقترعوا (سحبوا قُرعة) ثلاثَ مرّات، وفي كلِّ مرّةٍ يخرجُ اسمُ يونسَ الرجلِ الصالح! فعلِم أنّ هذا قدرُ الله، فألقى بنفسه في الموج.", "فأرسل اللهُ حوتاً ضخماً ابتلعه، وأوحى إليه ألّا يكسرَ له عظماً ولا يأكلَ له لحماً، بل يكون له سجناً. فوجد يونسُ نفسَه في ثلاث ظلمات: ظلمةِ الليل، وظلمةِ أعماق البحر، وظلمةِ بطن الحوت!", "في هذا الضيق الرهيب، لم ييأس يونسُ، بل سبّح ربَّه بالكلمات الإعجازية: «لا إله إلا أنت سبحانك إني كنت من الظالمين». فاستجاب اللهُ له وأمر الحوتَ أن يلفظَه على الشاطئ، وأنبت عليه شجرةَ يقطين تظلّله. ثم رجع يونسُ لقومه فوجدهم قد آمنوا جميعاً!"], "lesson": "الاستغفارُ والتسبيحُ هما «أكسجينُ» الأزمات الخانقة. مهما ضاقت بك الدنيا فلا تيأس واذكر الله — فمَن نجّى يونسَ من بطن الحوت قادرٌ على نجاتك أنت.", "share": "في ثلاث ظلماتٍ ببطن الحوت دعا يونسُ «لا إله إلا أنت سبحانك إني كنت من الظالمين» فنجّاه الله — لا تيأس واذكرِ الله."}, "yusuf": {"e": "👑", "n": "يوسف الصدّيق", "c": "عزيزُ مصر", "color": "linear-gradient(135deg,#8b6914,#c9a14a)", "story": ["رأى يوسفُ وهو صغيرٌ رؤيا: أحدَ عشرَ كوكباً والشمسَ والقمرَ يسجدون له. فنصحه أبوه يعقوبُ ألّا يحكيها لإخوته حتى لا يحسدوه، لكنّ الحسدَ كان قد دبّ في قلوبهم فعلاً.", "تآمر إخوةُ يوسف، وأخذوه بحجّة اللعب، ثم ألقوه في بئرٍ عميقةٍ مظلمة، وعادوا لأبيهم يبكون كذباً وعلى قميصه دمٌ مزيّف، وقالوا: «أكله الذئب!»", "أنقذته قافلةٌ مارّة فباعوه بثمنٍ بخسٍ في سوق العبيد بمصر، فاشتراه «عزيزُ مصر» وربّاه في قصره. ولمّا كبر تعرّض لفتنةٍ عظيمة، فاختار السجنَ على فعل الحرام وقال: «ربِّ السجنُ أحبُّ إليّ ممّا يدعونني إليه».", "في السجن لم يصبح يوسفُ حاقداً، بل كان يعلّم السجناءَ ويواسيهم ويفسّرُ لهم أحلامهم. وذاتَ يوم رأى مَلِكُ مصرَ حلماً غريباً (سبعُ بقراتٍ سمانٍ تأكلهنّ سبعٌ عِجاف)، فلم يعرف أحدٌ تفسيرَه إلا يوسف.", "فسّر يوسفُ الرؤيا ووضع خطّةً اقتصاديّةً ذكيّة أنقذت مصرَ من مجاعةٍ رهيبة، فعيّنه الملكُ عزيزاً على مصر. ولمّا جاءه إخوتُه يطلبون الطعامَ وهم لا يعرفونه، لم ينتقم منهم، بل قال جملتَه الخالدة: «لا تثريبَ عليكم اليوم، يغفرُ اللهُ لكم» — وجمع شملَ العائلة."], "lesson": "كلُّ محنةٍ في حياتك قد تكونُ «الطريقَ الإجباريّ» لمنحةٍ كبيرة. لولا البئرُ لما وصل يوسفُ للقصر، ولولا السجنُ لما صار عزيزَ مصر. واعفُ عمّن ظلمك كما فعل يوسف.", "share": "صبَر يوسفُ على البئر والعبوديّة والسجن حتى صار عزيزَ مصر، ثم سامح إخوتَه «لا تثريبَ عليكم اليوم» — الصبرُ والعفوُ طريقُ الرفعة."}, "isa": {"e": "🕊️", "n": "عيسى عليه السلام", "c": "كلمةُ الله", "color": "linear-gradient(135deg,#1a5d47,#4dd862)", "story": ["وُلِد عيسى بمعجزةٍ عظيمة من غير أب، لأمِّه مريمَ العذراء الطاهرة، التي اصطفاها اللهُ على نساء العالمين. وضعته وحيدةً تحت جذع نخلة في ظروفٍ صعبة.", "ولمّا عادت به إلى قومها أشاروا إليها بالاتهام والتشكيك، فلم تردّ عليهم بل أشارت إلى الطفل الرضيع. فتعجّبوا: «كيف نكلّمُ مَن كان في المهد صبيّاً؟!»", "فحدثت المعجزةُ الكبرى وتكلّم عيسى وهو رضيعٌ في المهد فقال: «إني عبدُ الله، آتاني الكتابَ وجعلني نبيّاً، وجعلني مباركاً أينما كنت» — فبرّأ أمَّه أمام الجميع.", "ولمّا كبر بعثه اللهُ إلى بني إسرائيل في زمنٍ طغت فيه الماديّات والقسوة. وأعطاه معجزاتٍ باهرة: يُبرئُ الأعمى والأبرص، ويُحيي الموتى بإذن الله، ويصنعُ من الطين هيئةَ طائرٍ فينفخُ فيه فيصيرُ طائراً حيّاً بإذن الله!", "التفّ حول عيسى أتباعُه المخلصون «الحواريّون»، ودعا الناسَ إلى عبادة الله وحده وإلى الرحمةِ والمحبّة. وحين تآمر عليه أعداؤه ليقتلوه، رفعه اللهُ إليه وأنقذه، ولم يستطيعوا أن ينالوا منه."], "lesson": "الدينُ ليس طقوساً جافّة، بل هو رحمةٌ ومحبّةٌ وروح. واللهُ قادرٌ على كلِّ شيءٍ فوق كلِّ الأسباب — فثقْ بقدرته دائماً.", "share": "تكلّم عيسى في المهد رضيعاً «إني عبدُ الله» فبرّأ أمَّه، وأعطاه اللهُ معجزاتٍ عظيمة، ودعا للرحمة وعبادة الله وحده."}, "abubakr": {"e": "🤍", "n": "إخلاص أبي بكر الصدّيق", "c": "أوّل الخلفاء", "color": "linear-gradient(135deg,#1a5d47,#2a7a5f)", "story": ["أبو بكرٍ الصدّيقُ أقربُ أصحاب النبيِّ ﷺ وأحبُّهم إليه. سُمّي «الصدّيق» لأنه صدّق النبيَّ في كلِّ شيء، حتى في رحلة الإسراء والمعراج حين كذّبه الناس قال: «إن كان قال فقد صدق».", "في رحلة الهجرة العظيمة، كان أبو بكرٍ يمشي تارةً أمام النبيِّ وتارةً خلفه. فسأله النبيُّ: لماذا؟ فقال: «يا رسولَ الله، أتذكّرُ الكمينَ فأمشي أمامك، وأتذكّرُ المطاردين فأمشي خلفك» — أي يجعلُ نفسَه فداءً للنبيّ.", "ولمّا وصلا إلى غار ثور، دخل أبو بكرٍ أوّلاً وأخذ يسدُّ الجحورَ بثيابه وقدميه؛ خوفاً أن تؤذيَ الحيّاتُ أو العقاربُ رسولَ الله. وحين اقترب المشركون قال النبيُّ يطمئنه: «لا تحزن إنّ الله معنا».", "ولمّا توفّي النبيُّ ﷺ، صُدِم المسلمون صدمةً رهيبة، حتى إنّ عمرَ بنَ الخطّاب سلّ سيفَه وقال: «مَن قال إنّ محمداً قد مات قطعتُ عنقه!» — من شدّة الحزن والذهول.", "في هذا الموقف العصيب، ثبت أبو بكرٍ كالجبل. دخل وقبّل النبيَّ ثم خرج للناس وقال كلمتَه التي حفظت الأمّةَ من الانهيار: «ألا مَن كان يعبدُ محمداً فإنّ محمداً قد مات، ومَن كان يعبدُ اللهَ فإنّ اللهَ حيٌّ لا يموت». فسكن الناسُ وعرفوا الحقّ."], "lesson": "الإخلاصُ الحقيقيُّ واليقينُ يمنحانك ثباتاً كالجبال في أصعب اللحظات التي تنهارُ فيها عقولُ الآخرين.", "share": "أبو بكرٍ صدّق النبيَّ في كلِّ شيء، وحماه في الغار، وثبّت الأمّةَ يومَ وفاته بكلمته الخالدة — الإخلاصُ يثبّتُ القلب."}, "umar": {"e": "⚖️", "n": "عدل عمر بن الخطّاب", "c": "الفاروق", "color": "linear-gradient(135deg,#0e3b2e,#1f5e4b)", "story": ["كان عمرُ بنُ الخطّاب خليفةً قويّاً مهيباً، لكنّه كان شديدَ الخوف من الله في رعيّته، يطوفُ بنفسه ليلاً ليتفقّدَ أحوالَ الفقراء والمحتاجين.", "في يومٍ من الأيام، تسابق ابنُ «عمرو بن العاص» (والي مصرَ العظيم) مع رجلٍ قبطيٍّ مصريٍّ بسيط. فسبق المصريُّ ابنَ الوالي، فغضِب ابنُ الوالي وضربه بالسوط وقال له بكبرياء: «أنا ابنُ الأكرمين!»", "لم يسكتْ المصريُّ على ظلمه، بل سافر مسيرةَ شهرٍ كاملٍ من مصرَ إلى المدينة المنوّرة ليشتكيَ لأمير المؤمنين عمر. فاستمع عمرُ لشكواه واستدعى الواليَ عمرو بن العاص وابنه فوراً.", "ولمّا حضروا، أعطى عمرُ السوطَ للرجل القبطيِّ وقال له: «اضربْ ابنَ الأكرمين!» — فضربه المصريُّ حتى أخذ حقَّه كاملاً أمام الجميع.", "ثم التفت عمرُ إلى عمرو بن العاص وقال مقولتَه الدستوريّةَ الخالدة التي تُدرَّسُ في حقوق الإنسان حتى اليوم: «يا عمرو، متى استعبدتُم الناسَ وقد ولدتهم أمّهاتُهم أحراراً؟!» — فعرف الجميعُ أنّ العدلَ فوق المنصب والنسب."], "lesson": "العدلُ لا يعرفُ ديناً ولا منصباً ولا نسباً. وقوّةُ الدولة الحقيقيّة تنبعُ من نُصرة الضعيف على القويِّ صاحب النفوذ.", "share": "أنصف عمرُ غلاماً مصريّاً ضربه ابنُ الوالي، وقال «متى استعبدتُم الناسَ وقد ولدتهم أمّهاتُهم أحراراً؟» — العدلُ للجميع."}, "uthman": {"e": "💛", "n": "كرم عثمان بن عفّان", "c": "ذو النورين", "color": "linear-gradient(135deg,#8b6914,#c9a14a)", "story": ["كان عثمانُ بنُ عفّان من أغنى الصحابة، لكنّه كان كريماً جدّاً، يحبُّ أن ينفعَ الناسَ بماله، ويستحي حتى إنّ الملائكةَ تستحي منه.", "حين هاجر المسلمون إلى المدينة، كان فيها بئرُ ماءٍ عذبٍ واحدةٌ اسمُها «بئرُ رُومة»، يملكها رجلٌ يهوديٌّ كان يبيعُ الماءَ غالياً جدّاً، فتعب الفقراءُ من ثمنه. فقال النبيُّ ﷺ: «مَن يشتري بئرَ رُومة وله الجنّة؟»", "ذهب عثمانُ لليهوديِّ يشتري البئر، لكنّ اليهوديَّ رفض بيعَها كلَّها خوفاً على ربحه. ففكّر عثمانُ بذكاءٍ وقال: «بِعني نصفَها فقط، يكونُ لك يومٌ ولي يوم». فوافق اليهودي.", "في يوم عثمانَ كان يُعلِنُ للمسلمين: «خذوا حاجتكم من الماء مجّاناً ليومين!» فكان الناسُ يملؤون قِرَبَهم. وفي يوم اليهوديِّ لا يأتي أحدٌ ليشتري! فاضطرّ اليهوديُّ آخرَ الأمر أن يبيعَ النصفَ الآخرَ لعثمان، فصارت كلُّها وقفاً للمسلمين.", "وفي غزوة تبوك (غزوة العُسرة)، حين احتاج الجيشُ للمال، جهّز عثمانُ ثلثَ الجيش بمفرده: ألفَ بعير، وخمسين فرساً، وصبّ في حِجر النبيِّ ألفَ دينارٍ ذهبيّ! فقال النبيُّ ﷺ وهو يقلّبها: «ما ضرَّ عثمانَ ما عمل بعد اليوم»."], "lesson": "المالُ في يد الكريم الصالح أداةٌ جبّارةٌ لحلِّ مشاكل المجتمع وبناء الأمّة، وليس للمفاخرة والكنز.", "share": "اشترى عثمانُ بئرَ رُومة بذكاءٍ وسقى المسلمين مجّاناً، وجهّز ثلثَ جيش العُسرة بماله — الكرمُ يبني الأمّة."}, "ali": {"e": "🦁", "n": "شجاعة عليّ بن أبي طالب", "c": "أسدُ الله", "color": "linear-gradient(135deg,#16213e,#1f5e4b)", "story": ["عليُّ بنُ أبي طالبٍ ابنُ عمِّ النبيِّ ﷺ، نشأ في بيته وأسلم وهو صغير. كان فارساً شجاعاً قويّاً، يحبُّ اللهَ ورسولَه ويحبُّه اللهُ ورسولُه.", "في غزوة خيبر، حاصر المسلمون حصونَ اليهود المنيعة لأيّام، واستعصى عليهم الفتحُ، واستُشهِد بعضُ الصحابة. فقال النبيُّ ﷺ ليلاً: «لأُعطينّ الرايةَ غداً رجلاً يحبُّ اللهَ ورسولَه، ويحبُّه اللهُ ورسولُه، يفتحُ اللهُ على يديه».", "بات الصحابةُ تلك الليلةَ كلٌّ يتمنّى أن يكونَ هو صاحبَ الراية. وفي الصباح سأل النبيُّ: «أين عليٌّ؟» قالوا: يشتكي وجعاً في عينيه. فدعا به ومسح على عينيه فشُفِيَ تماماً، وأعطاه الراية.", "تقدّم عليٌّ نحو حصن «القموص» المنيع، فخرج له فارسُ اليهود الأسطوريُّ «مرحب» يتباهى بقوّته. فدارت مبارزةٌ عنيفة، فضربه عليٌّ ضربةً قويّةً شقّت خوذتَه الحديدية، فانتصر عليه.", "ثم تقدّم عليٌّ نحو باب الحصن الحديديِّ الضخم، وتذكرُ الرواياتُ أنّه اقتلع البابَ بقوّةٍ هائلةٍ من اللهِ أعانه بها، فدخل المسلمون وفتح اللهُ الحصنَ على يديه كما بشّر النبيُّ ﷺ."], "lesson": "الشجاعةُ ليست تهوّراً، بل هي يقينٌ في القلب يجعلك تواجهُ التحدّياتِ التي يراها الآخرون مستحيلة.", "share": "أعطى النبيُّ ﷺ الرايةَ يومَ خيبر لعليٍّ بعد أن شفى عينيه، فبارز مرحباً وفتح اللهُ الحصنَ المنيع على يديه — الشجاعةُ يقين."}, "bilal": {"e": "🔥", "n": "ثبات بلال بن رباح", "c": "مؤذّنُ الرسول", "color": "linear-gradient(135deg,#0e3b2e,#1a5d47)", "story": ["كان بلالُ بنُ رباحٍ عبداً مملوكاً لرجلٍ من أشدِّ كفّار قريشٍ قسوةً اسمُه «أميّة بن خلف». ولمّا آمن بلالٌ باللهِ وحدَه، اعتبر سيّدُه ذلك إهانةً لكبريائه.", "كان أميّةُ يُخرِجُ بلالاً وقتَ الظهيرة حين تتحوّلُ رمالُ مكّةَ إلى جمرٍ ملتهب، ويُلقيه على ظهره العاري على الرمل المحرق، ثم يأمرُ بوضع صخرةٍ عظيمةٍ ثقيلةٍ على صدره.", "كان أميّةُ يقول له: «لا تزالُ هكذا حتى تموتَ أو تكفرَ بمحمد!» — أي إمّا أن تتركَ دينَك أو تموت. لكنّ بلالاً كان أقوى من العذاب.", "بدلاً من الاستسلام أو الصراخ، كان بلالٌ يبتسمُ رغم الألم الرهيب، ويركّزُ على كلمةٍ واحدةٍ تُحطّمُ معنويّاتِ جلّاده: «أحدٌ.. أحد» — أي ربّي اللهُ الواحدُ ولن أشركَ به.", "كان أميّةُ يُجنُّ جنونُه لأنّ السوطَ والصخرةَ لم يهزما إرادةَ هذا العبد. حتى جاء أبو بكرٍ الصدّيق فاشتراه بمالٍ كثيرٍ وأعتقه لوجه الله. وبعدها صار بلالٌ أوّلَ مؤذّنٍ في الإسلام، يصدحُ صوتُه بالأذان فوق الكعبة!"], "lesson": "الكرامةُ والحرّيةُ تنبعان من الداخل. إذا تحرّرت روحُك وعقلُك، فلن يستطيعَ أيُّ ظالمٍ أو ضغطٍ خارجيٍّ أن يستعبدك.", "share": "تحت الصخرة والرمضاء كان بلالٌ يقول «أحدٌ.. أحد» ولم يتركْ دينَه، ثم أعتقه أبو بكرٍ فصار أوّلَ مؤذّن — الثباتُ حرّيةٌ حقيقية."}, "anas": {"e": "🌿", "n": "خدمة أنس بن مالك", "c": "خادمُ النبيّ", "color": "linear-gradient(135deg,#1f5e4b,#4dd862)", "story": ["لمّا قدِم النبيُّ ﷺ إلى المدينة، جاءت «أمُّ سُلَيم» تمسكُ بيد ابنها الصغير أنسٍ (وكان عمرُه نحو عشر سنوات) وقالت: «يا رسولَ الله، هذا أُنيسٌ غُلامٌ يخدمُك، فادعُ اللهَ له».", "فقبِله النبيُّ ﷺ بحبٍّ وضمّه، ودعا له بدعواتٍ مباركة: بكثرة المال والولد وطول العمر والبركة. واستجاب اللهُ دعاءه، فعاش أنسٌ طويلاً وكثُر مالُه وولدُه.", "عاش أنسٌ في بيت النبيِّ ﷺ عشرَ سنواتٍ كاملة، يخدمه ويسافرُ معه ويشهدُ تفاصيلَ حياته اليوميّة. فكان من أكثر الناس روايةً لأحاديث النبيِّ وأخلاقه.", "يحكي أنسٌ عن أسلوب النبيِّ الراقي في المعاملة فيقول: «خدمتُ رسولَ الله ﷺ عشرَ سنين، واللهِ ما قال لي أُفٍّ قطّ، ولا قال لشيءٍ فعلتُه: لمَ فعلتَه؟ ولا لشيءٍ لم أفعلْه: ألا فعلتَ كذا؟»", "كان النبيُّ ﷺ يعامل أنساً كابنٍ وصديق، يمازحه ويناديه أحياناً «يا أُنيس» بالتصغير حبّاً، ويوجّهه بلطفٍ دون تعنيفٍ أو توبيخ. فتعلّم أنسٌ أنّ أجملَ تربيةٍ هي بالحبّ."], "lesson": "التربيةُ والقيادةُ الحقيقيّة تعتمدُ على بناء الروابط الإنسانيّة والحبّ، وليس على السلطة وإصدار الأوامر الصارمة.", "share": "خدَم أنسٌ النبيَّ ﷺ عشرَ سنين فما قال له «أُفٍّ» قطّ ولا عنّفه — أجملُ تربيةٍ وقيادةٍ تكونُ بالحبِّ واللطف."}, "kaab": {"e": "🗣️", "n": "صدق كعب بن مالك", "c": "شاعرُ الرسول", "color": "linear-gradient(135deg,#0e3b2e,#2a7a5f)", "story": ["في غزوة تبوك (غزوة العُسرة)، كان الجوُّ حارّاً جدّاً والثمارُ قد نضجت والظلالُ وارفة. تباطأ كعبُ بنُ مالكٍ — وكان شاعراً بليغاً موسرَ الحال ولديه راحلتان — في التجهّز قائلاً في نفسه: «أنا قادرٌ على اللحاق بهم متى شئت».", "ظلّ كعبٌ يؤجّلُ حتى سار الجيشُ وابتعد، فوجد نفسَه قد تخلّف مع المنافقين والضعفاء، فندِم ندماً شديداً وحزِن حزناً عميقاً.", "ولمّا عاد النبيُّ ﷺ من الغزوة، جاءه المنافقون (أكثرُ من ثمانين رجلاً) يحلفون ويعتذرون بأعذارٍ كاذبة (مرضتُ، شغلتني أموالي...)، فقبِل النبيُّ ظاهرَهم. ثم جاء دورُ كعب، فتبسّم النبيُّ تبسّمَ المُغضَب وقال: «ما خلّفك؟»", "كان بإمكان كعبٍ — وهو شاعرٌ بليغٌ — أن يخترعَ عذراً مقنعاً، لكنّه اختار الصدقَ وقال: «واللهِ يا رسولَ الله، ما كان لي من عذر، واللهِ ما كنتُ قطُّ أقوى ولا أيسرَ منّي حين تخلّفتُ عنك». فقال النبيُّ: «أمّا هذا فقد صدق».", "أمر النبيُّ بمقاطعة كعبٍ وصاحبيه خمسين ليلة، فقاطعه الناسُ جميعاً حتى زوجتُه، وضاقت عليه الأرضُ بما رحبت. ثم نزل القرآنُ الكريمُ يُبشّرُه بقبول توبته: «وعلى الثلاثة الذين خُلّفوا حتى إذا ضاقت عليهم الأرضُ بما رحبت...» — فكان يومُ توبته أسعدَ يومٍ في حياته!"], "lesson": "الصدقُ قد يكلّفك ثمناً باهظاً ومؤلماً على المدى القصير، لكنّه الضمانُ الوحيدُ للنجاة والكرامة على المدى الطويل.", "share": "تخلّف كعبٌ عن تبوك فقال الصدقَ ولم يكذب كالمنافقين، فصبر على المقاطعة 50 ليلة حتى نزل القرآنُ بتوبته — الصدقُ ينجّي."}, "salahuddin": {"e": "🕌", "n": "صلاح الدين — فتح القدس", "c": "الناصرُ القائد", "color": "linear-gradient(135deg,#0e3b2e,#1f5e4b)", "story": ["كانت الشامُ ومصرُ ومقدّساتُ المسلمين ممزّقةً بين دويلاتٍ متناحرة، مما سمح للصليبيين باحتلال القدس وارتكاب المذابح فيها. فأدرك صلاحُ الدين أنّ المشكلةَ الأولى هي الفُرقة.", "فقضى صلاحُ الدين سنواتٍ طويلةً ليس في محاربة الأعداء أوّلاً، بل في «توحيد الجبهة الداخليّة» — جمعِ مصرَ والشامِ والعراقِ تحت رايةٍ واحدة. لأنّ الأمّةَ الممزّقةَ لا تنتصر.", "وفي معركة «حطّين» سنةَ 1187م، استخدم صلاحُ الدين عبقريّةً عسكريّة: استدرج جيشَ الصليبيين في حرِّ الصيف إلى أرضٍ قاحلةٍ جافّة، وسبقهم إلى «بحيرة طبريّة» فاستولى على كلِّ مصادر المياه وحاصرهم.", "ثم أشعل المسلمون النيرانَ في الأعشاب الجافّة حولهم، فاجتمع على الصليبيين: حرارةُ الصيف، ودخانُ النيران، والعطشُ القاتل، وثقلُ دروعهم الحديدية. فانقضّ عليهم جيشُ المسلمين وحقّق نصراً ساحقاً فتح الطريقَ للقدس.", "ولمّا دخل صلاحُ الدين القدسَ منتصراً، كان بإمكانه الانتقامُ لمذابح الصليبيين السابقة، لكنّه قدّم نموذجاً عظيماً في العفو: أمّنَ الناسَ على أرواحهم، بل دفع الفديةَ من ماله الخاصِّ عن آلاف الفقراء، وعالج جرحاهم — فاحترمه الأعداءُ قبل الأصدقاء."], "lesson": "القوّةُ الحقيقيّة لا تكتملُ إلا بالرحمة والأخلاق عند النصر. وانتصارُ الأمّة يبدأُ بتوحيد صفّها أوّلاً.", "share": "وحّد صلاحُ الدين المسلمين أوّلاً، ثم انتصر في حطّين بالتخطيط الذكيِّ وحرّر القدس، وكان رحيماً عند النصر — القوّةُ بالرحمة."}, "fatih": {"e": "🏯", "n": "محمد الفاتح — القسطنطينية", "c": "السلطانُ الشاب", "color": "linear-gradient(135deg,#16213e,#1f5e4b)", "story": ["حاصرت الجيوشُ الإسلاميّةُ مدينةَ القسطنطينيّة (عاصمةَ الإمبراطوريّة البيزنطيّة) إحدى عشرةَ مرّةً عبر التاريخ وفشلت كلُّها، بسبب أسوارها الثلاثيّة الخرافيّة التي كانت أمنعَ أسوارٍ في العالم.", "تولّى محمدٌ الثاني الحكمَ وهو شابٌّ عمرُه واحدٌ وعشرون عاماً فقط! وكان يتقنُ ستَّ لغات، ويدرسُ التاريخَ والهندسةَ العسكريّة، وحلمُه الكبيرُ أن يحقّقَ بشارةَ النبيِّ ﷺ بفتح المدينة.", "أدرك الفاتحُ أنّ الأسوارَ الضخمةَ لا تُهدَمُ بالطرق العاديّة، فاستقدم مهندساً بارعاً وأمره بصناعة مدفعٍ عملاقٍ غير مسبوقٍ في التاريخ! كان يزنُ أطناناً، ويحتاجُ ستّين ثوراً لجرّه، ويطلقُ قذائفَ حجريّةً تزنُ مئاتِ الكيلوغرامات.", "وحين منعته السلسلةُ الحديديّةُ من دخول مضيق «القرن الذهبيّ» بحراً، فكّر بحيلةٍ عبقريّة: نقَل سبعين سفينةً فوق البرِّ في ليلةٍ واحدة! مهّد الطريقَ بالأخشاب المدهونة بالزيت وجرّ السفنَ فوق التلال.", "كان المشهدُ مرعباً للأعداء: أسطولٌ كاملٌ يسيرُ فوق الجبال عند الفجر والأشرعةُ مرفوعة! فظنّ البيزنطيّون أنّ الجنَّ تساعدُ المسلمين. وبعد حصارٍ دام 53 يوماً سقطت المدينةُ العصيّة، فدخلها الفاتحُ وأمّنَ أهلَها على عباداتهم، ولُقِّب بـ«الفاتح»."], "lesson": "«المستحيل» كلمةٌ اخترعها العاجزون. لتفتحَ «قسطنطينيّتك» (أهدافَك الكبرى) اجمعْ بين اليقين الروحيّ وأعلى درجات العلم والابتكار.", "share": "فتح محمدٌ الفاتح القسطنطينيّةَ وهو ابنُ 21 عاماً، بمدفعٍ عملاقٍ ونقلِ 70 سفينةً فوق البرِّ ليلاً — العلمُ + الإيمان = المستحيل ممكن."}, "scientists": {"e": "📚", "n": "علماء المسلمين", "c": "أنوارُ العالم", "color": "linear-gradient(135deg,#8b6914,#c9a14a)", "story": ["في العصر الذهبيِّ للإسلام، أنار علماءُ المسلمين العالمَ كلَّه بالعلم والاكتشافات، وبنوا الأساسَ الذي تقومُ عليه حضارةُ اليوم. دعونا نتعرّفُ على ثلاثةٍ من أعظمهم.", "🔢 الخوارزميُّ: قبله كان العالمُ يستخدمُ الأرقامَ الرومانيّةَ المعقّدة. فابتكر الأرقامَ التي نكتبُها اليوم، والأهمُّ أنه أدخل «الصفر»! وأسّس علمَ «الجبر». ولولاه لما وُجدت «الخوارزميّات» (Algorithms) التي هي أساسُ البرمجة والذكاء الاصطناعيِّ ومحرّكات البحث مثل جوجل!", "💡 ابنُ الهيثم: صحّح خطأً عمرُه آلافُ السنين! كان الإغريقُ يظنّون أنّ العينَ تُخرِجُ أشعّةً ترى بها، فأثبت بالتجربة أنّ الضوءَ ينعكسُ من الأشياء إلى العين. وهو أوّلُ مَن وضع «المنهجَ التجريبيّ» (لا نصدّقُ فكرةً إلا بعد اختبارها).", "📷 واخترع ابنُ الهيثم «البيتَ المظلم» (الثقبَ الصغيرَ الذي يعكسُ الصورة) — وهو الأساسُ المباشرُ الذي صُنعت منه الكاميرا والسينما وشاشاتُ التلفزيون التي نشاهدها اليوم!", "🩺 أبو القاسم الزهراويُّ: أعظمُ جرّاحٍ في التاريخ. ألّف موسوعةً طبيّةً من ثلاثين مجلّداً، واخترع خيوطَ الجراحة التي يمتصُّها الجسمُ تلقائيّاً، وأدواتٍ جراحيّةً دقيقة لا تزالُ تُستخدَمُ اليوم. ودرسَت أوروبا كتبَه أكثرَ من خمسمئة عام!"], "lesson": "أنار المسلمون العالمَ بالعلم النافع، فالعلمُ عبادةٌ ورِفعة. اطلبِ العلمَ بجدّ، وكنْ نافعاً لأمّتك والعالم كلِّه.", "share": "الخوارزميُّ (الجبر والصفر وأساس البرمجة)، وابنُ الهيثم (المنهج التجريبيُّ والكاميرا)، والزهراويُّ (الجراحة) — علماءُ مسلمون أناروا العالم!"}};
+  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
+  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
+  function likes(){var s=read();s.kidsHeroes=s.kidsHeroes||{likes:{}};if(!s.kidsHeroes.likes)s.kidsHeroes.likes={};return s;}
+  var modal=document.getElementById('hs-modal'), cur=null;
+  var $=function(id){return document.getElementById(id);};
+  function isLiked(id){return !!likes().kidsHeroes.likes[id];}
+  function paintLike(){
+    var btn=$('hs-like'), on=isLiked(cur);
+    btn.classList.toggle('liked',on);
+    btn.querySelector('.ai').textContent=on?'❤️':'🤍';
+    $('hs-like-t').textContent=on?'أُعجبتُ بها':'إعجاب';
+    var card=document.querySelector('.hero-btn[data-hero="'+cur+'"]');
+    if(card){var old=card.querySelector('.liked');if(on&&!old){var sp=document.createElement('span');sp.className='liked';sp.textContent='❤️';card.appendChild(sp);}else if(!on&&old)old.remove();}
+  }
+  function open(id){
+    var st=STORIES[id]; if(!st)return; cur=id;
+    $('hs-emoji').textContent=st.e; $('hs-name').textContent=st.n; $('hs-cat').textContent=st.c;
+    /* لون رأس البوب-اب حسب البطل */
+    var head=document.querySelector('.hs-head');
+    if(head&&st.color){ head.style.background=st.color; }
+    /* فقرات بأنيميشن متتالي + رقم لكل فقرة */
+    var bodyHtml=st.story.map(function(p,i){
+      return '<p class="hs-para" style="animation-delay:'+(i*90)+'ms"><span class="hs-pnum">'+(i+1)+'</span>'+p+'</p>';
+    }).join('');
+    bodyHtml+='<div class="hs-lesson"><span>💡</span><div><b>الدرس المستفاد:</b><br>'+st.lesson+'</div></div>';
+    $('hs-body').innerHTML=bodyHtml;
+    $('hs-body').scrollTop=0;
+    paintLike();
+    modal.classList.add('open'); document.body.style.overflow='hidden';
+    try{history.replaceState(null,'','#hero='+id);}catch(e){}
+  }
+  function close(){ modal.classList.remove('open'); document.body.style.overflow=''; try{history.replaceState(null,'',location.pathname);}catch(e){} }
+  document.querySelectorAll('.hero-btn').forEach(function(b){
+    var id=b.dataset.hero; if(isLiked(id)){var sp=document.createElement('span');sp.className='liked';sp.textContent='❤️';b.appendChild(sp);}
+    b.addEventListener('click',function(){open(id);});
+  });
+  $('hs-close').addEventListener('click',close);
+  modal.addEventListener('click',function(e){if(e.target===modal)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))close();});
+  $('hs-like').addEventListener('click',function(){var s=likes();s.kidsHeroes.likes[cur]=!s.kidsHeroes.likes[cur];if(!s.kidsHeroes.likes[cur])delete s.kidsHeroes.likes[cur];write(s);paintLike();if(navigator.vibrate)navigator.vibrate(15);});
+  $('hs-link').addEventListener('click',function(){
+    var st=STORIES[cur];
+    var fullText='✨ '+st.e+' '+st.n+'\n\n'+st.story.join('\n\n')+'\n\n💡 '+st.lesson+'\n\nعرين الأبطال | زاد العشر';
+    if(window.ZadShare&&window.ZadShare.text){
+      window.ZadShare.text(st.e+' '+st.n, st.story.join(' '), 'عرين الأبطال — قصص للصغار', 'زاد العشر');
+    } else if(navigator.share){
+      navigator.share({title:st.n+' — عرين الأبطال',text:fullText}).catch(function(){});
+    } else if(navigator.clipboard){
+      navigator.clipboard.writeText(fullText).then(function(){if(window.showToast)window.showToast('📋 تم نسخ القصّة');});
+    }
+    if(navigator.vibrate)navigator.vibrate(15);
+  });
+  $('hs-png').addEventListener('click',function(){
+    var st=STORIES[cur];
+    /* نظام المشاركة العالمي ZadShare (من menu.js) */
+    if(window.ZadShare&&window.ZadShare.png){
+      window.ZadShare.png(st.e+' '+st.n, st.share, 'عرين الأبطال — قصص للصغار', 'زاد العشر');
+    } else if(window.ZadShareCard){
+      window.ZadShareCard({title:st.e+' '+st.n,body:st.share,source:'عرين الأبطال — قصص للصغار',tag:'زاد العشر · قصص الأبطال'});
+    } else if(window.showToast){
+      window.showToast('جارٍ تجهيز الصورة…');
+    }
+    if(navigator.vibrate)navigator.vibrate(15);
+  });
+  /* فتح قصّة تلقائياً من الرابط #hero=ID */
+  if(location.hash.indexOf('#hero=')===0){var hid=location.hash.slice(6);if(STORIES[hid])setTimeout(function(){open(hid);},300);}
+})();
+</script>
+<script>
+/* ميثاق البطل الصغير — يظهر مرّة واحدة */
+(function(){
+  'use strict';
+  var ZKEY='zad_v2';
+  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
+  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
+  var modal=document.getElementById('hc-modal'); if(!modal) return;
+  var s=read();
+  if(!s.kidsCharter){
+    setTimeout(function(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }, 600);
+  }
+  document.getElementById('hc-agree').addEventListener('click',function(){
+    var st=read(); st.kidsCharter=true; st.kidsCharterDate=new Date().toISOString().split('T')[0]; write(st);
+    modal.classList.remove('open'); document.body.style.overflow='';
+    if(navigator.vibrate)navigator.vibrate([20,40,20]);
+    try{ if(window.confetti) window.confetti({particleCount:90,spread:70,origin:{y:.6}}); }catch(e){}
+    try{ if(window.showToast) window.showToast('🌟 أهلاً بك أيها البطل! بطاقتُك جاهزة'); }catch(e){}
+  });
+})();
+</script>
+<script src="lang.js" defer></script>
+<script src="js/app.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+</body>
+</html>

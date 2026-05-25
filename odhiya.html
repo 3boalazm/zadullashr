@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<title>دليل الأضحية — زاد العشر</title>
+<meta charset="UTF-8">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e3b2e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
+<!-- Async font loading — eliminates render-blocking -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" id="google-fonts"
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
+  media="print" onload="this.media='all'">
+<noscript>
+  
+</noscript>
+<link rel="stylesheet" href="css/style.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
+<style>
+  :root{--font-scale:1}
+  body{font-size:calc(1rem * var(--font-scale))}
+  .quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
+  .font-size-options{display:flex;gap:8px}
+  .font-size-options .fs-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;transition:all .2s;color:var(--ink)}
+  .font-size-options .fs-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff}
+  .fs-btn[data-size="small"]  span:first-child{font-size:14px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="medium"] span:first-child{font-size:19px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="large"]  span:first-child{font-size:24px;display:block;margin-bottom:4px}
+</style>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+  <!-- Open Graph / Social Media Thumbnail -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="زاد العشر">
+  <meta property="og:url" content="https://zadullashr.vercel.app/odhiya.html">
+  <meta property="og:title" content="زاد العشر — أفضل أيام الدنيا">
+  <meta property="og:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+  <meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="زاد العشر — تطبيق العبادة في عشر ذي الحجة">
+  <meta property="og:locale" content="ar_SA">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="زاد العشر — أفضل أيام الدنيا">
+  <meta name="twitter:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
+  <meta name="twitter:image" content="https://zadullashr.vercel.app/og-image.png">
+  <!-- WhatsApp / general -->
+  <meta name="description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+  <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function() {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+    <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <!-- Profile chip injected by JS -->
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
+      <span class="slb-label">🌐 اللغة</span>
+      <span class="slb-val" id="sidebar-lang-val">EN</span>
+    </button>
+    
+      <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+        📲 تثبيت / تحميل التطبيق
+      </button>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <div class="nav-sep">الصلاة والتقويم</div>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <div class="nav-sep">القرآن والعبادة</div>
+      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
+      <a href="takbeer.html"><span class="ico">📿</span><span>المسبحة</span></a>
+      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
+      <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
+      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
+      <div class="nav-sep">الحج والمناسك</div>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="odhiya.html" class="active"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <div class="nav-sep">المتابعة</div>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <div class="nav-sep">التعلم والترفيه</div>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
+      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <div class="nav-sep">الإعدادات</div>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <!-- LEFT: Burger + Logo -->
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo">
+          <img src="icons/icon-192.svg" alt="زاد العشر">
+        </a>
+      </div>
+      <!-- CENTER: Page name -->
+      <div class="tb-center">
+        <div class="page-title">دليل <span>الأضحية</span></div>
+      </div>
+      <!-- RIGHT: Notif + Lang + Theme -->
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">
+            🔔<span class="notif-dot" id="notif-dot"></span>
+          </button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,var(--gold-pale),var(--card));border-color:rgba(201,161,74,.3)">
+      <h3>🔔 تذكير المضحّي — أهم نقطة!</h3>
+      <p style="font-size:15px;line-height:1.9">إذا عزمت على الأضحية فأمسك عن قص شعرك وأظافرك وجلدك من رؤية هلال ذي الحجة حتى تذبح.</p>
+      <div style="font-size:12px;color:var(--muted);margin:6px 0">رواه مسلم (1977) عن أم سلمة رضي الله عنها</div>
+      <button class="btn btn-gold" onclick="requestNotifPermission()">🔔 فعّل تذكير عدم القص</button>
+    </div>
+
+    <!-- ══ متابعة ميزانية الأضحية (تفاعلي) ══ -->
+    <style>
+      .od-plan .od-types{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 4px}
+      @media(max-width:520px){.od-plan .od-types{grid-template-columns:1fr}}
+      .od-type{border:1.5px solid var(--border);border-radius:14px;padding:13px 12px;text-align:center;cursor:pointer;transition:all .2s;background:var(--card)}
+      .od-type:hover,.od-type.sel{border-color:var(--gold);background:var(--gold-pale)}
+      .od-type .e{font-size:26px}
+      .od-type b{display:block;font-size:13.5px;color:var(--ink);margin-top:4px;font-weight:800}
+      .od-type small{display:block;font-size:10.5px;color:var(--muted);margin-top:2px;line-height:1.5}
+      .od-field{margin-top:12px}
+      .od-field label{display:block;font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:5px}
+      .od-inrow{display:flex;align-items:center;gap:8px}
+      .od-input{flex:1;min-width:0;padding:11px 13px;border:1.5px solid var(--border);border-radius:11px;background:var(--card);color:var(--ink);font-family:inherit;font-size:14px;font-weight:700;text-align:left;direction:ltr}
+      .od-input:focus{outline:none;border-color:var(--green-soft)}
+      .od-unit{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap}
+      .od-share{display:none;margin-top:12px}
+      .od-share.show{display:block}
+      .od-result{margin-top:14px;border-radius:14px;padding:15px 16px;font-size:13.5px;line-height:1.9;font-weight:700;border:1px solid}
+      .od-result.ok{background:rgba(52,199,89,.1);border-color:rgba(52,199,89,.3);color:var(--green-deep)}
+      html[data-theme="dark"] .od-result.ok,html[data-theme="oled"] .od-result.ok{color:var(--sys-green)}
+      .od-result.warn{background:rgba(255,149,0,.08);border-color:rgba(255,149,0,.3);color:var(--ink)}
+      .od-result b.big{font-size:19px;color:var(--gold-dark)}
+      html[data-theme="dark"] .od-result b.big,html[data-theme="oled"] .od-result b.big{color:var(--sys-yellow)}
+      .od-note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.7}
+    </style>
+    <div class="section-title">💰 خطّط ميزانية أضحيتك</div>
+    <div class="card od-plan">
+      <label style="font-size:13px;font-weight:800;color:var(--ink);display:block;margin-bottom:2px">١) اختر نوع الأضحية</label>
+      <div class="od-types" id="od-types">
+        <div class="od-type" data-type="sheep" data-share="1"><span class="e">🐏</span><b>شاة / ماعز</b><small>تجزئ عن شخص واحد</small></div>
+        <div class="od-type" data-type="cow" data-share="7"><span class="e">🐄</span><b>سُبع بقرة</b><small>تجزئ عن 7</small></div>
+        <div class="od-type" data-type="camel" data-share="7"><span class="e">🐪</span><b>سُبع ناقة</b><small>تجزئ عن 7</small></div>
+      </div>
+
+      <div class="od-field">
+        <label>٢) سعر الأضحية كاملة (تقديري — حدّثه قبل العيد)</label>
+        <div class="od-inrow"><input class="od-input" id="od-price" type="number" inputmode="numeric" min="0" placeholder="مثال: 3500"><span class="od-unit">بعملتك المحلية</span></div>
+        <div class="od-note">السعر يتغيّر بحسب سوقك المحلي — أدخِل آخر سعرٍ معروفٍ لديك. يعمل أوفلاين.</div>
+      </div>
+
+      <div class="od-share" id="od-share">
+        <div class="od-field">
+          <label>٣) عدد المشاركين في البدنة</label>
+          <div class="od-inrow"><input class="od-input" id="od-shares" type="number" inputmode="numeric" min="1" max="7" value="7"><span class="od-unit">مشارك (حتى 7)</span></div>
+        </div>
+      </div>
+
+      <div class="od-field">
+        <label>ميزانيتك المتاحة</label>
+        <div class="od-inrow"><input class="od-input" id="od-budget" type="number" inputmode="numeric" min="0" placeholder="مثال: 600"><span class="od-unit">بعملتك المحلية</span></div>
+      </div>
+
+      <div class="od-result warn" id="od-result">اختر نوع الأضحية وأدخِل الأسعار لتقدير نصيبك.</div>
+    </div>
+
+    <!-- تذكير يوم النحر -->
+    <div class="section-title">🔔 تذكير يوم النحر</div>
+    <div class="card" id="od-nahr" style="border-color:rgba(201,161,74,.3)">
+      <p style="font-size:14px;line-height:1.9"><b>يوم النحر (العاشر من ذي الحجة):</b> يبدأ وقتُ الذبح بعد صلاة العيد ويمتدّ إلى غروب آخر أيام التشريق (الثالث عشر).</p>
+      <ul class="k-list" style="list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+        <li style="background:var(--sand);border:1px solid var(--border);border-radius:11px;padding:8px 12px;font-size:12.5px;font-weight:700">✅ بلوغ السن الشرعي</li>
+        <li style="background:var(--sand);border:1px solid var(--border);border-radius:11px;padding:8px 12px;font-size:12.5px;font-weight:700">✅ السلامة من العيوب الأربعة</li>
+        <li style="background:var(--sand);border:1px solid var(--border);border-radius:11px;padding:8px 12px;font-size:12.5px;font-weight:700">✅ الذبح في وقته</li>
+      </ul>
+      <div id="od-nahr-countdown" style="font-size:13px;color:var(--gold-dark);font-weight:800;margin-top:10px"></div>
+    </div>
+
+    <div class="section-title">خطوات الأضحية — دليل مصوّر</div>
+    <div class="info-step">
+      <div class="step-num">١</div>
+      <div class="step-body"><b>النية والعزم</b><p>من هلال ذي الحجة يعقد نية الأضحية ويمتنع عن أخذ الشعر والأظافر.</p></div>
+    </div>
+    <div class="info-step">
+      <div class="step-num">٢</div>
+      <div class="step-body"><b>اختيار الأضحية السليمة</b><p>تخلو من العيوب الأربعة المانعة، وتبلغ السن الشرعي المطلوب.</p></div>
+    </div>
+    <div class="info-step">
+      <div class="step-num">٣</div>
+      <div class="step-body"><b>وقت الذبح</b><p>يبدأ بعد صلاة العيد يوم النحر (10 ذو الحجة) وينتهي غروب 13 ذو الحجة.</p></div>
+    </div>
+    <div class="info-step">
+      <div class="step-num">٤</div>
+      <div class="step-body"><b>دعاء الذبح</b><p style="font-family:Amiri,serif;font-size:17px;color:var(--green-deep);line-height:1.9">بِسْمِ اللَّهِ وَاللَّهُ أَكْبَرُ، اللَّهُمَّ هَذَا مِنْكَ وَلَكَ</p></div>
+    </div>
+    <div class="info-step">
+      <div class="step-num">٥</div>
+      <div class="step-body"><b>توزيع اللحم</b><p>يستحب أثلاثاً: ثلث يأكله، ثلث يهديه، ثلث يتصدق به على الفقراء.</p></div>
+    </div>
+
+    <div class="section-title">السن الشرعي للأضحية</div>
+    <div class="grid cols-3">
+      <div class="card" style="text-align:center"><div style="font-size:36px;margin-bottom:10px">🐪</div>
+        <h3>الإبل</h3><p>5 سنوات كاملة</p><span class="tag gold">تجزئ عن 7</span></div>
+      <div class="card" style="text-align:center"><div style="font-size:36px;margin-bottom:10px">🐄</div>
+        <h3>البقر</h3><p>2 سنة كاملة</p><span class="tag gold">تجزئ عن 7</span></div>
+      <div class="card" style="text-align:center"><div style="font-size:36px;margin-bottom:10px">🐏</div>
+        <h3>الغنم</h3><p>ضأن: 6 أشهر · ماعز: سنة</p><span class="tag">عن شخص واحد</span></div>
+    </div>
+
+    <div class="section-title">العيوب الأربعة المانعة من الإجزاء</div>
+    <div class="defect-grid">
+      <div class="defect-card"><div class="dc-ico">👁️</div><b>العوراء البيّن</b><p>التي فقدت ضوء عينها أو أصيب بصرها بشكل واضح.</p></div>
+      <div class="defect-card"><div class="dc-ico">🤒</div><b>المريضة البيّن</b><p>الظاهر عليها أثر المرض الشديد في جسمها أو سلوكها.</p></div>
+      <div class="defect-card"><div class="dc-ico">🦿</div><b>العرجاء البيّن</b><p>التي لا تستطيع السير مع الأصحاء بسبب عرجها الواضح.</p></div>
+      <div class="defect-card"><div class="dc-ico">⚖️</div><b>العجفاء المُنقية</b><p>الهزيلة جداً التي لا مخّ في عظامها — لضعفها الشديد.</p></div>
+    </div>
+  </main>
+
+  <!-- Floating AI Button -->
+  <a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
+</div>
+  <script src="lang.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <!-- ═══ Visual Upgrade v2 ═══════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
+  <script src="animations.js" defer></script>
+<script>
+/* متابعة ميزانية الأضحية (تفاعلي، أوفلاين) — zad_v2.odhiya */
+(function(){
+  'use strict';
+  var ZKEY='zad_v2';
+  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
+  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
+  function num(v){v=parseFloat(v);return isFinite(v)&&v>0?v:0;}
+  function fmt(n){return Math.round(n).toLocaleString('ar-EG');}
+
+  var types=document.getElementById('od-types');
+  if(!types) return;
+  var elPrice=document.getElementById('od-price'),elBudget=document.getElementById('od-budget'),
+      elShares=document.getElementById('od-shares'),shareBox=document.getElementById('od-share'),
+      result=document.getElementById('od-result');
+  var state=read().odhiya||{type:'sheep',share:1};
+
+  function selectType(el){
+    types.querySelectorAll('.od-type').forEach(function(x){x.classList.remove('sel');});
+    el.classList.add('sel');
+    state.type=el.dataset.type; state.share=parseInt(el.dataset.share,10);
+    shareBox.classList.toggle('show', state.share>1);
+    save(); calc();
+  }
+  types.querySelectorAll('.od-type').forEach(function(el){
+    el.addEventListener('click',function(){selectType(el);});
+    if(el.dataset.type===state.type) el.classList.add('sel');
+  });
+  if(state.share>1) shareBox.classList.add('show');
+
+  function save(){var s=read();s.odhiya={type:state.type,share:state.share,price:num(elPrice.value),shares:parseInt(elShares.value,10)||7,budget:num(elBudget.value)};write(s);}
+  function calc(){
+    var price=num(elPrice.value), budget=num(elBudget.value);
+    var shares=(state.share>1)?(Math.min(7,Math.max(1,parseInt(elShares.value,10)||7))):1;
+    if(!price){result.className='od-result warn';result.innerHTML='أدخِل سعر الأضحية لتقدير نصيبك.';return;}
+    var myCost=price/shares;
+    var msg='نصيبُك المتوقّع: <b class="big">'+fmt(myCost)+'</b>'+(shares>1?(' (سعر '+fmt(price)+' ÷ '+shares+' مشاركين)'):'');
+    if(budget){
+      if(budget>=myCost){result.className='od-result ok';result.innerHTML='✅ '+msg+'<br>ميزانيتُك تكفي بفضل الله — يتبقّى لك '+fmt(budget-myCost)+'.';}
+      else{result.className='od-result warn';result.innerHTML='⚠️ '+msg+'<br>ينقصُك '+fmt(myCost-budget)+' لإتمام نصيبك. يمكنك زيادة المشاركين أو اختيار شاة.';}
+    } else {result.className='od-result ok';result.innerHTML='✅ '+msg+'<br>أدخِل ميزانيتك لمقارنتها بنصيبك.';}
+  }
+  [elPrice,elBudget,elShares].forEach(function(i){i.addEventListener('input',function(){save();calc();});});
+  if(state.price)elPrice.value=state.price; if(state.budget)elBudget.value=state.budget; if(state.shares)elShares.value=state.shares;
+  calc();
+
+  /* عدّاد يوم النحر (العاشر = 2026-05-27) */
+  (function(){
+    var NAHR=new Date(2026,4,27,6,0,0), el=document.getElementById('od-nahr-countdown'); if(!el)return;
+    function tick(){
+      var diff=NAHR-new Date();
+      if(diff<=0){el.textContent='🕋 حلّ يومُ النحر — تقبّل الله أضحيتك!';return;}
+      var d=Math.floor(diff/86400000),h=Math.floor(diff%86400000/3600000);
+      el.textContent='⏳ يتبقّى على يوم النحر: '+d+' يوم و'+h+' ساعة';
+    }
+    tick(); setInterval(tick,60000);
+  })();
+})();
+</script>
+  <script src="menu.js" defer></script></body>
+</html>
