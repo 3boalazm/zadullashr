@@ -336,64 +336,134 @@
     <!-- ══════════════════════════════════════════════════════
          مشغل SoundCloud — خير يوم طلعت عليه الشمس
          ══════════════════════════════════════════════════════ -->
-    <div class="section-title" style="display:flex;align-items:center;justify-content:space-between">
+        <div class="section-title" style="display:flex;align-items:center;justify-content:space-between">
       <span>🎙️ خير يوم طلعت عليه الشمس</span>
       <span style="font-size:11px;color:var(--muted);font-weight:500">مصطفى أبو العزم</span>
     </div>
 
-    <div class="sc-card" id="sc-card">
-      <!-- Ambient glow handled by ::before -->
+    <div id="zad-wrap" style="background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 52%,rgba(201,161,74,.22) 100%);border-radius:22px;overflow:hidden;margin-bottom:20px;box-shadow:0 8px 32px rgba(14,59,46,.35);border:1px solid rgba(201,161,74,.2);position:relative">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(201,161,74,.1),transparent 60%);pointer-events:none;z-index:0"></div>
+      <div style="display:flex;align-items:center;gap:0;position:relative;z-index:1">
 
-      <div class="sc-card-inner">
-        <!-- Album art — vinyl style -->
-        <div class="sc-art">
-          <div class="sc-art-ring" id="sc-art-ring">
-            <img src="media/arafah.png" alt="خير يوم طلعت عليه الشمس"
-              onerror="this.parentElement.style.background='#1a5d47';this.style.display='none'">
-            <div class="sc-art-hole"></div>
+        <!-- Vinyl art -->
+        <div style="width:120px;height:120px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:14px">
+          <div id="zad-vinyl" style="width:92px;height:92px;border-radius:50%;position:relative;box-shadow:0 4px 16px rgba(0,0,0,.5)">
+            <div style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(rgba(0,0,0,.4) 0deg,rgba(255,255,255,.06) 5deg,rgba(0,0,0,.4) 10deg,rgba(255,255,255,.06) 15deg,rgba(0,0,0,.4) 20deg,rgba(255,255,255,.06) 25deg,rgba(0,0,0,.4) 30deg,rgba(255,255,255,.06) 35deg,rgba(0,0,0,.4) 40deg,rgba(255,255,255,.06) 45deg,rgba(0,0,0,.4) 50deg,rgba(255,255,255,.06) 55deg,rgba(0,0,0,.4) 60deg,rgba(255,255,255,.06) 65deg,rgba(0,0,0,.4) 70deg,rgba(255,255,255,.06) 75deg,rgba(0,0,0,.4) 80deg,rgba(255,255,255,.06) 85deg,rgba(0,0,0,.4) 90deg,rgba(255,255,255,.06) 95deg,rgba(0,0,0,.4) 100deg,rgba(255,255,255,.06) 105deg,rgba(0,0,0,.4) 110deg,rgba(255,255,255,.06) 115deg,rgba(0,0,0,.4) 120deg,rgba(255,255,255,.06) 125deg,rgba(0,0,0,.4) 130deg,rgba(255,255,255,.06) 135deg,rgba(0,0,0,.4) 140deg,rgba(255,255,255,.06) 145deg,rgba(0,0,0,.4) 150deg,rgba(255,255,255,.06) 155deg,rgba(0,0,0,.4) 160deg,rgba(255,255,255,.06) 165deg,rgba(0,0,0,.4) 170deg,rgba(255,255,255,.06) 175deg,rgba(0,0,0,.4) 180deg,rgba(255,255,255,.06) 185deg,rgba(0,0,0,.4) 190deg,rgba(255,255,255,.06) 195deg,rgba(0,0,0,.4) 200deg,rgba(255,255,255,.06) 205deg,rgba(0,0,0,.4) 210deg,rgba(255,255,255,.06) 215deg,rgba(0,0,0,.4) 220deg,rgba(255,255,255,.06) 225deg,rgba(0,0,0,.4) 230deg,rgba(255,255,255,.06) 235deg,rgba(0,0,0,.4) 240deg,rgba(255,255,255,.06) 245deg,rgba(0,0,0,.4) 250deg,rgba(255,255,255,.06) 255deg,rgba(0,0,0,.4) 260deg,rgba(255,255,255,.06) 265deg,rgba(0,0,0,.4) 270deg,rgba(255,255,255,.06) 275deg,rgba(0,0,0,.4) 280deg,rgba(255,255,255,.06) 285deg,rgba(0,0,0,.4) 290deg,rgba(255,255,255,.06) 295deg,rgba(0,0,0,.4) 300deg,rgba(255,255,255,.06) 305deg,rgba(0,0,0,.4) 310deg,rgba(255,255,255,.06) 315deg,rgba(0,0,0,.4) 320deg,rgba(255,255,255,.06) 325deg,rgba(0,0,0,.4) 330deg,rgba(255,255,255,.06) 335deg,rgba(0,0,0,.4) 340deg,rgba(255,255,255,.06) 345deg,rgba(0,0,0,.4) 350deg,rgba(255,255,255,.06) 355deg)"></div>
+            <!-- Album art circle -->
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;overflow:hidden;border:2px solid rgba(201,161,74,.5);box-shadow:0 0 0 3px rgba(0,0,0,.4)">
+              <img src="media/arafah.png" alt="خير يوم طلعت عليه الشمس" style="width:100%;height:100%;object-fit:cover;object-position:center" onerror="this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;background:#1a5d47;display:flex;align-items:center;justify-content:center;font-size:22px&quot;>🌄</div>'">
+            </div>
+            <!-- Center hole -->
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:#0a1a12;border:1px solid rgba(255,255,255,.1);z-index:2"></div>
           </div>
         </div>
 
         <!-- Info + controls -->
-        <div class="sc-info">
-          <div class="sc-badge">
-            <span class="sc-dot" id="sc-dot"></span>
-            <span id="sc-badge-txt">🎙️ استمع الآن</span>
+        <div style="flex:1;padding:14px 16px 14px 4px;color:#fff;min-width:0">
+          <!-- Badge -->
+          <div id="zad-badge" style="display:inline-flex;align-items:center;gap:5px;background:rgba(201,161,74,.18);border:1px solid rgba(201,161,74,.3);border-radius:99px;padding:3px 10px;font-size:10px;font-weight:700;color:#e6c97a;margin-bottom:8px">
+            <span id="zad-dot" style="width:6px;height:6px;border-radius:50%;background:#e6c97a;display:inline-block"></span>
+            <span id="zad-badge-txt">🎙️ خير يوم طلعت عليه الشمس</span>
           </div>
-          <div class="sc-track-name">خير يوم طلعت عليه الشمس</div>
-          <div class="sc-artist-name">مصطفى أبو العزم · #Islamic</div>
-
-          <!-- Waveform bars (animated when playing) -->
-          <div class="sc-wave" id="sc-wave">
-            <span style="height:4px"></span><span style="height:12px"></span>
-            <span style="height:8px"></span><span style="height:18px"></span>
-            <span style="height:14px"></span><span style="height:20px"></span>
-            <span style="height:10px"></span><span style="height:6px"></span>
-            <span style="height:16px"></span>
-          </div>
+          <div style="font-size:14px;font-weight:900;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">مصطفى أبو العزم</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.55);margin-bottom:10px">إنشاد إسلامي · يوم عرفة</div>
 
           <!-- Progress bar -->
-          <div class="sc-prog-bar" id="sc-prog-bar" onclick="scSeekClick(event,this)">
-            <div class="sc-prog-fill" id="sc-prog-fill"></div>
+          <div id="zad-track" style="height:3px;background:rgba(255,255,255,.12);border-radius:99px;margin-bottom:8px;overflow:hidden;cursor:pointer" onclick="zadSeekClick(event,this)">
+            <div id="zad-fill" style="height:100%;width:0%;background:linear-gradient(90deg,#e6c97a,rgba(255,255,255,.7));border-radius:99px;transition:width .3s linear"></div>
           </div>
 
           <!-- Controls -->
-          <div class="sc-ctrl-row">
-            <div class="sc-ctrl-left">
-              <button class="sc-play-btn" id="sc-play-btn" onclick="scToggle()">▶</button>
-              <button class="sc-skip-btn" onclick="scSkip(10)">⏩ 10ث</button>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:8px">
+              <button id="zad-btn" onclick="zadToggle()" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;backdrop-filter:blur(8px)">▶</button>
+              <button onclick="zadSkip(10)" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:10px;cursor:pointer;font-family:inherit;padding:0">⏩ 10</button>
             </div>
-            <span class="sc-time-txt" id="sc-time-txt">0:00 / 8:59</span>
-            <a class="sc-sc-link" href="https://soundcloud.com/mustafaaboalazm" target="_blank" rel="noopener">↗ SoundCloud</a>
+            <div id="zad-time" style="font-size:10px;color:rgba(255,255,255,.45);font-family:monospace;direction:ltr;white-space:nowrap">0:00 / 0:00</div>
           </div>
         </div>
       </div>
 
-      <!-- Hidden SoundCloud iframe (audio source) -->
-      <iframe id="sc-iframe" allow="autoplay"
-        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1733829638&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&buying=false&liking=false&download=false&sharing=false">
-      </iframe>
+      <!-- Waveform -->
+      <div id="zad-wave" style="height:24px;display:flex;align-items:flex-end;justify-content:center;gap:2px;padding:0 20px 6px;opacity:0;transition:opacity .4s">
+        <div style="width:3px;background:rgba(255,255,255,.25);border-radius:3px;animation:qpW1 1.1s ease-in-out infinite"></div>
+        <div style="width:3px;background:rgba(255,255,255,.35);border-radius:3px;animation:qpW2 1.4s ease-in-out infinite"></div>
+        <div style="width:3px;background:rgba(255,255,255,.5);border-radius:3px;animation:qpW1 0.9s ease-in-out infinite"></div>
+        <div style="width:3px;background:rgba(201,161,74,.8);border-radius:3px;animation:qpW2 1.2s ease-in-out infinite"></div>
+        <div style="width:3px;background:rgba(201,161,74,1);border-radius:3px;animation:qpW1 1.0s ease-in-out infinite"></div>
+        <div style="width:3px;background:rgba(201,161,74,.8);border-radius:3px;animation:qpW2 1.3s ease-in-out infinite"></div>
+        <div style="width:3px;background:rgba(255,255,255,.5);border-radius:3px;animation:qpW1 1.1s ease-in-out infinite"></div>
+        <div style="width:3px;background:rgba(255,255,255,.35);border-radius:3px;animation:qpW2 0.9s ease-in-out infinite"></div>
+        <div style="width:3px;background:rgba(255,255,255,.25);border-radius:3px;animation:qpW1 1.4s ease-in-out infinite"></div>
+      </div>
+
+      <!-- LOCAL Audio element -->
+      <audio id="zad-audio" preload="none">
+        <source src="media/خير يوم طلعت عليه الشمس-1269432616.mp3" type="audio/mpeg">
+      </audio>
     </div>
+
+    <script>
+    (function(){
+      const audio=document.getElementById('zad-audio');
+      const btn=document.getElementById('zad-btn');
+      const fill=document.getElementById('zad-fill');
+      const timeEl=document.getElementById('zad-time');
+      const wave=document.getElementById('zad-wave');
+      const vinyl=document.getElementById('zad-vinyl');
+      const badge=document.getElementById('zad-badge-txt');
+      const dot=document.getElementById('zad-dot');
+      if(!audio)return;
+      let playing=false,spinAngle=0,spinRAF=null;
+      const pad=n=>String(Math.floor(Math.max(0,n))).padStart(2,'0');
+      const fmt=s=>isNaN(s)||!isFinite(s)?'0:00':`${Math.floor(s/60)}:${pad(s%60)}`;
+
+      function setPlaying(on){
+        playing=on;
+        if(btn)btn.textContent=on?'⏸':'▶';
+        if(wave)wave.style.opacity=on?'1':'0';
+        if(badge)badge.textContent=on?'▶ جارٍ التشغيل':'🎙️ خير يوم طلعت عليه الشمس';
+        if(dot)dot.style.animation=on?'qpDot 1s infinite':'';
+        if(on){
+          cancelAnimationFrame(spinRAF);
+          (function spin(){spinAngle=(spinAngle+0.4)%360;if(vinyl)vinyl.style.transform=`rotate(${spinAngle}deg)`;spinRAF=requestAnimationFrame(spin);})();
+        }else{cancelAnimationFrame(spinRAF);}
+      }
+
+      audio.addEventListener('timeupdate',()=>{
+        if(!audio.duration||isNaN(audio.duration))return;
+        const pct=(audio.currentTime/audio.duration)*100;
+        if(fill)fill.style.width=pct+'%';
+        if(timeEl)timeEl.textContent=`${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
+      });
+      audio.addEventListener('ended',()=>setPlaying(false));
+      audio.addEventListener('error',e=>{console.warn('Zad audio error:',e);if(badge)badge.textContent='⚠️ تعذّر تحميل الملف';});
+
+      window.zadToggle=function(){
+        if(playing){audio.pause();setPlaying(false);}
+        else{if(audio.readyState===0)audio.load();audio.play().then(()=>setPlaying(true)).catch(err=>{console.warn(err);if(badge)badge.textContent='⚠️ اضغط مجدداً للتشغيل';});}
+      };
+      window.zadSkip=function(s){if(audio.duration)audio.currentTime=Math.min(audio.currentTime+s,audio.duration);};
+      window.zadSeekClick=function(e,track){if(!audio.duration)return;const rect=track.getBoundingClientRect();audio.currentTime=((e.clientX-rect.left)/rect.width)*audio.duration;};
+
+      /* Hover on desktop → auto-play */
+      let hovered=false;
+      const wrap=document.getElementById('zad-wrap');
+      if(wrap){wrap.addEventListener('mouseenter',()=>{if(!hovered&&!playing){hovered=true;if(audio.readyState===0)audio.load();audio.play().then(()=>setPlaying(true)).catch(()=>{hovered=false;});}});}
+
+      /* IntersectionObserver — 60% visible → play, <20% → pause */
+      if('IntersectionObserver' in window&&wrap){
+        let observed=false;
+        const obs=new IntersectionObserver(entries=>{
+          entries.forEach(e=>{
+            if(e.isIntersecting&&e.intersectionRatio>=0.6&&!playing&&!observed){observed=true;if(audio.readyState===0)audio.load();audio.play().then(()=>setPlaying(true)).catch(()=>{observed=false;});}
+            if(!e.isIntersecting&&e.intersectionRatio<0.15&&playing){audio.pause();setPlaying(false);}
+          });
+        },{threshold:[0.15,0.6]});
+        obs.observe(wrap);
+      }
+    })();
+    </script>
 
     <!-- ══ آية الصباح/المساء ══ -->
     <div id="daily-verse-card" style="
@@ -624,94 +694,6 @@
 <script src="lang.js" defer></script>
 <script src="js/app.js" defer></script>
 
-<!-- ══ SoundCloud Widget API ══ -->
-<script src="https://w.soundcloud.com/player/api.js" defer></script>
-
-<!-- ══ SoundCloud Custom Player Logic ══ -->
-<script>
-(function(){
-  let widget=null, scPlaying=false, scDuration=0;
-  const fmt=s=>{if(!s||isNaN(s))return'0:00';const m=Math.floor(s/60);return m+':'+String(Math.floor(s%60)).padStart(2,'0');};
-
-  function initSCWidget(){
-    if(!window.SC||!window.SC.Widget){setTimeout(initSCWidget,400);return;}
-    const iframe=document.getElementById('sc-iframe');
-    if(!iframe){return;}
-    widget=SC.Widget(iframe);
-    widget.bind(SC.Widget.Events.READY,function(){
-      widget.getDuration(function(d){scDuration=d/1000;});
-    });
-    widget.bind(SC.Widget.Events.PLAY,function(){
-      scPlaying=true;
-      const btn=document.getElementById('sc-play-btn');
-      const wave=document.getElementById('sc-wave');
-      const ring=document.getElementById('sc-art-ring');
-      const badge=document.getElementById('sc-badge-txt');
-      const dot=document.getElementById('sc-dot');
-      if(btn)btn.textContent='⏸';
-      if(wave)wave.classList.add('active');
-      if(ring)ring.classList.add('spinning');
-      if(badge)badge.textContent='▶ جارٍ التشغيل';
-      if(dot)dot.classList.add('active');
-    });
-    widget.bind(SC.Widget.Events.PAUSE,function(){
-      scPlaying=false;
-      const btn=document.getElementById('sc-play-btn');
-      const wave=document.getElementById('sc-wave');
-      const ring=document.getElementById('sc-art-ring');
-      const badge=document.getElementById('sc-badge-txt');
-      const dot=document.getElementById('sc-dot');
-      if(btn)btn.textContent='▶';
-      if(wave)wave.classList.remove('active');
-      if(ring)ring.classList.remove('spinning');
-      if(badge)badge.textContent='🎙️ استمع الآن';
-      if(dot)dot.classList.remove('active');
-    });
-    widget.bind(SC.Widget.Events.FINISH,function(){
-      scPlaying=false;
-      const btn=document.getElementById('sc-play-btn');
-      if(btn)btn.textContent='▶';
-      document.getElementById('sc-wave')?.classList.remove('active');
-      document.getElementById('sc-art-ring')?.classList.remove('spinning');
-    });
-    widget.bind(SC.Widget.Events.PLAY_PROGRESS,function(data){
-      if(!scDuration)return;
-      const pct=(data.currentPosition/1000)/scDuration*100;
-      const fill=document.getElementById('sc-prog-fill');
-      const timeEl=document.getElementById('sc-time-txt');
-      if(fill)fill.style.width=Math.min(pct,100)+'%';
-      if(timeEl)timeEl.textContent=fmt(data.currentPosition/1000)+' / '+fmt(scDuration);
-    });
-    /* Error: track not found / private */
-    widget.bind(SC.Widget.Events.ERROR,function(){
-      const badge=document.getElementById('sc-badge-txt');
-      if(badge)badge.textContent='⚠️ استمع على SoundCloud';
-      const btn=document.getElementById('sc-play-btn');
-      if(btn){btn.textContent='↗';btn.onclick=function(){window.open('https://soundcloud.com/mustafaaboalazm','_blank');};}
-    });
-  }
-
-  window.scToggle=function(){
-    if(!widget){window.open('https://soundcloud.com/mustafaaboalazm','_blank');return;}
-    widget.toggle();
-  };
-  window.scSkip=function(s){
-    if(!widget)return;
-    widget.getPosition(function(pos){widget.seekTo(pos+s*1000);});
-  };
-  window.scSeekClick=function(e,bar){
-    if(!widget||!scDuration)return;
-    const rect=bar.getBoundingClientRect();
-    const pct=(e.clientX-rect.left)/rect.width;
-    widget.seekTo(pct*scDuration*1000);
-  };
-
-  /* Init after SC API loads */
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',function(){setTimeout(initSCWidget,600);});
-  }else{setTimeout(initSCWidget,600);}
-})();
-</script>
 
 <!-- ══ Main page scripts ══ -->
 <script>
