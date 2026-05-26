@@ -2830,3 +2830,10 @@ function initClockFormat() {
   const main = document.querySelector('.main');
   if (main) obs.observe(main, { childList: true, subtree: true });
 }
+/* ── PWA Install FAB — تحميل تلقائي في كل الصفحات ── */
+(function () {
+  var s = document.createElement('script');
+  s.src = 'pwa-install-fab.js';
+  s.defer = true;
+  document.head.appendChild(s);
+})();
