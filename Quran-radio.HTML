@@ -847,52 +847,22 @@ html[data-theme="oled"] .stream-error-banner { background: rgba(239,68,68,.12); 
 @media (max-width: 768px) {
   .sidebar { transform: translateX(100%); transition: transform .3s var(--ease); }
   .sidebar.open { transform: translateX(0); }
-  .main { margin-right: 0; padding: 0 16px 140px; }
+  .main { margin-right: 0; padding: 0 14px 120px; }
   .hamburger { display: flex; }
   .tb-logo img { display: block; }
   .volume-wrap { display: none; }
   .np-controls .ctrl-btn:not(.play-main) { display: none; }
-  .stations-grid { grid-template-columns: 1fr; gap: 14px; }
+  .stations-grid { grid-template-columns: 1fr; }
   .prefs-grid { grid-template-columns: 1fr; }
-  .now-playing { flex-wrap: wrap; padding: 16px; gap: 12px; }
+  .hero-stats { gap: 8px; }
+  .now-playing { flex-wrap: wrap; }
   .bb-controls .bb-btn:not(.bb-play):not(#bb-prev):not(#bb-next) { display: none; }
-  /* الهيرو أصغر وأنسب */
-  .radio-hero { padding: 24px 20px 22px; border-radius: 20px; }
-  .radio-hero h1 { font-size: 24px; }
-  .radio-hero p { font-size: 13px; line-height: 1.6; }
-  /* الإحصائيات تتوزّع بالتساوي */
-  .hero-stats { gap: 10px; margin-top: 16px; }
-  .hero-stat { flex: 1; min-width: 0; padding: 10px 8px; }
-  .hero-stat-num { font-size: 20px; }
-  .hero-stat-lbl { font-size: 11px; }
-  /* الفلاتر تنساب أفقياً */
-  .filter-tabs { gap: 8px; margin-bottom: 18px; overflow-x: auto; padding-bottom: 4px; }
-  .ftab { padding: 8px 14px; font-size: 13px; flex-shrink: 0; }
-  .station-card { padding: 16px; }
-  .toolbar-row { flex-direction: column; gap: 10px; }
-  .search-wrap { min-width: 100%; }
-  .topbar { padding: 12px 0 16px; }
 }
 @media (max-width: 480px) {
-  .main { padding: 0 12px 140px; }
-  .radio-hero { padding: 20px 16px 18px; border-radius: 16px; }
   .radio-hero h1 { font-size: 20px; }
-  .radio-hero p { font-size: 12px; -webkit-line-clamp: 3; display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden; }
-  .hero-eyebrow { font-size: 10px; letter-spacing: 1px; }
-  .toolbar-row { flex-direction: column; align-items: stretch; gap: 8px; }
-  .search-wrap { min-width: 100%; }
-  .bottom-bar { padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); gap: 8px; }
-  .now-playing { padding: 14px; flex-direction: column; }
-  .np-disk { width: 50px; height: 50px; font-size: 22px; }
-  .np-station { font-size: 14px; }
-  .np-info { width: 100%; }
-  .visualizer { width: 100%; }
-  .np-controls { width: 100%; }
-  /* الكروت أكثر إحكاماً */
-  .station-card { padding: 14px; }
-  .hero-stats { gap: 8px; }
-  .hero-stat { padding: 8px 6px; }
-  .hero-stat-num { font-size: 18px; }
+  .toolbar-row { flex-direction: column; align-items: stretch; }
+  .search-wrap { min-width: unset; }
+  .bottom-bar { padding: 8px 14px; }
 }
 </style>
 </head>
@@ -998,8 +968,8 @@ html[data-theme="oled"] .stream-error-banner { background: rgba(239,68,68,.12); 
           <div class="hero-stat-lbl">إذاعة</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-num" id="stat-online">17</div>
-          <div class="hero-stat-lbl">متاحة الآن</div>
+          <div class="hero-stat-num">6</div>
+          <div class="hero-stat-lbl">دولة</div>
         </div>
         <div class="hero-stat">
           <div class="hero-stat-num">24/7</div>
@@ -1103,10 +1073,12 @@ html[data-theme="oled"] .stream-error-banner { background: rgba(239,68,68,.12); 
     <!-- Filter Tabs -->
     <div class="filter-tabs">
       <button class="ftab active" onclick="setTab(this,'all')">🌍 الكل</button>
-      <button class="ftab" onclick="setTab(this,'quran')">📜 تلاوات القرّاء</button>
       <button class="ftab" onclick="setTab(this,'egypt')">🇪🇬 مصر</button>
       <button class="ftab" onclick="setTab(this,'saudi')">🇸🇦 السعودية</button>
-      <button class="ftab" onclick="setTab(this,'varied')">✨ متخصصة</button>
+      <button class="ftab" onclick="setTab(this,'uae')">🇦🇪 الإمارات</button>
+      <button class="ftab" onclick="setTab(this,'kuwait')">🇰🇼 الكويت</button>
+      <button class="ftab" onclick="setTab(this,'morocco')">🇲🇦 المغرب</button>
+      <button class="ftab" onclick="setTab(this,'intl')">📡 عالمية</button>
       <button class="ftab" onclick="setTab(this,'favorites')">⭐ المفضلة</button>
     </div>
 
@@ -1186,184 +1158,152 @@ html[data-theme="oled"] .stream-error-banner { background: rgba(239,68,68,.12); 
  * المصادر المعتمدة: radiojar.com · zeno.fm · snrtlive.ma · islamicity.org
  */
 const STATIONS = [
-  // ─── إذاعات رسمية / متنوعة ────────────────────────────────────────────
+  // ─── Egypt ───────────────────────────────────────────────────────────────
   {
     id:1, name:'إذاعة القرآن الكريم المصرية', country:'مصر', flag:'🇪🇬', cat:'egypt',
-    icon:'🕌', quality:'HQ',
-    desc:'الإذاعة الرسمية للقرآن الكريم من القاهرة — بث متواصل تعلوه تلاوات كبار المشايخ',
+    icon:'🕌',
+    desc:'الإذاعة الرسمية للقرآن الكريم من القاهرة — بث متواصل منذ 1964 تعلوه تلاوات المشايخ الكبار',
+    quality:'HQ',
+    urls:[
+      'https://stream.radiojar.com/8s5u5tpdtwzuv',   // holyquranradio.com embed
+      'https://stream.radiojar.com/8sps648hk3quv',   // radiojar fallback
+      'https://stream.zeno.fm/GPhDTR',               // zeno.fm Egypt Quran Cairo
+      'https://stream.zeno.fm/8t42gV',               // zeno.fm Egypt Quran Radio
+    ],
+    logoBg:'linear-gradient(135deg,#0e3b2e,#1f5e4b)'
+  },
+  {
+    id:2, name:'إذاعة القرآن الكريم — الحصري', country:'مصر', flag:'🇪🇬', cat:'egypt',
+    icon:'📿',
+    desc:'تلاوات الشيخ محمود خليل الحصري برواية حفص — صوت لا يُنسى من أعظم قراء القرآن الكريم',
+    quality:'HQ',
+    urls:[
+      'https://stream.zeno.fm/GPhDTR',
+      'https://stream.radiojar.com/8s5u5tpdtwzuv',
+      'https://stream.radiojar.com/8sps648hk3quv',
+    ],
+    logoBg:'linear-gradient(135deg,#1f5e4b,#2a7a5e)'
+  },
+  // ─── Saudi Arabia ─────────────────────────────────────────────────────────
+  {
+    id:3, name:'إذاعة القرآن الكريم السعودية', country:'السعودية', flag:'🇸🇦', cat:'saudi',
+    icon:'🕋',
+    desc:'البث الرسمي لإذاعة القرآن من الإذاعة السعودية — 100.0 FM الرياض على مدار الساعة',
+    quality:'HQ',
+    urls:[
+      'https://n0d.radiojar.com/quranfm.aac',
+      'https://stream.radiojar.com/quran.mp3',
+      'https://stream.zeno.fm/0r0xa792kwzuv',
+    ],
+    logoBg:'linear-gradient(135deg,#1a1a2e,#16213e)'
+  },
+  {
+    id:4, name:'إذاعة نداء الإسلام — مكة', country:'السعودية', flag:'🇸🇦', cat:'saudi',
+    icon:'☪️',
+    desc:'إذاعة إسلامية من قلب مكة المكرمة — تجمع القرآن الكريم والسنة النبوية والبرامج الدينية',
+    quality:'HQ',
     urls:[
       'https://stream.radiojar.com/8s5u5tpdtwzuv',
       'https://n0d.radiojar.com/quranfm.aac',
-      'https://stream.zeno.fm/GPhDTR',
-      'https://qurango.net/radio/mix',
     ],
-    logoBg:'linear-gradient(135deg,#0e3b2e,#1f5e4b)'
+    logoBg:'linear-gradient(135deg,#0a2a20,#1a5e47)'
   },
   {
-    id:2, name:'إذاعة تلاوات خاشعة منوّعة', country:'متنوع', flag:'🌍', cat:'varied',
-    icon:'🎙️', quality:'HQ',
-    desc:'تلاوات مرتّلة منتقاة لأشهر القراء على مدار الساعة',
+    id:5, name:'قناة القرآن الكريم — islamicity', country:'السعودية', flag:'🇸🇦', cat:'saudi',
+    icon:'🌙',
+    desc:'بث مباشر لقناة القرآن الكريم عبر islamicity.org — تلاوات مجودة وبرامج إسلامية راقية',
+    quality:'MP3',
     urls:[
-      'https://qurango.net/radio/tarateel',
-      'https://backup.qurango.net/radio/tarateel',
-      'https://stream.zeno.fm/fn3uwrm0h3zuv',
-    ],
-    logoBg:'linear-gradient(135deg,#1f5e4b,#2a7a5e)'
-  },
-  {
-    id:3, name:'إذاعة القرآن الكريم السعودية', country:'السعودية', flag:'🇸🇦', cat:'saudi',
-    icon:'🕋', quality:'HQ',
-    desc:'البث الرسمي لإذاعة القرآن الكريم من المملكة العربية السعودية',
-    urls:[
+      'https://audio.islamicity.org:8000/quranmp3',
+      'https://n0d.radiojar.com/quranfm.aac',
       'https://stream.radiojar.com/quran.mp3',
-      'https://qurango.net/radio/mix',
-      'https://backup.qurango.net/radio/mix',
     ],
-    logoBg:'linear-gradient(135deg,#006c35,#004d26)'
-  },
-  // ─── المصاحف المرتّلة ─────────────────────────────────────────────────
-  {
-    id:4, name:'المصحف المرتّل — عبد الباسط عبد الصمد', country:'مصر', flag:'🇪🇬', cat:'quran',
-    icon:'📜', quality:'HQ',
-    desc:'تلاوة عطرة مرتّلة لجميع سور القرآن الكريم بصوت الشيخ عبد الباسط',
-    urls:[
-      'https://qurango.net/radio/abdulbasit_abdulsamad_mojawwad',
-      'https://backup.qurango.net/radio/abdulbasit_abdulsamad_mojawwad',
-    ],
-    logoBg:'linear-gradient(135deg,#0e3b2e,#1f5e4b)'
+    logoBg:'linear-gradient(135deg,#1a2a1a,#2e5e2e)'
   },
   {
-    id:5, name:'المصحف المرتّل — محمد صديق المنشاوي', country:'مصر', flag:'🇪🇬', cat:'quran',
-    icon:'🎙️', quality:'HQ',
-    desc:'القرآن الكريم كاملاً برواية حفص عن عاصم بصوت الشيخ المنشاوي',
+    id:12, name:'راديو السنة للقرآن الكريم', country:'السعودية', flag:'🇸🇦', cat:'saudi',
+    icon:'🎤',
+    desc:'إذاعة قرآنية سعودية بث دائم للتلاوات والأذكار والبرامج الإسلامية طوال اليوم',
+    quality:'HQ',
     urls:[
-      'https://qurango.net/radio/mohammed_siddiq_alminshawi',
-      'https://backup.qurango.net/radio/mohammed_siddiq_alminshawi',
+      'https://stream.zeno.fm/0r0xa792kwzuv',
+      'https://n0d.radiojar.com/quranfm.aac',
     ],
-    logoBg:'linear-gradient(135deg,#1f5e4b,#2a7a5e)'
+    logoBg:'linear-gradient(135deg,#2a1a0a,#4a3010)'
+  },
+  // ─── UAE ──────────────────────────────────────────────────────────────────
+  {
+    id:6, name:'إذاعة القرآن — أبوظبي', country:'الإمارات', flag:'🇦🇪', cat:'uae',
+    icon:'🌟',
+    desc:'إذاعة القرآن الكريم من إمارة أبوظبي — تلاوات راقية بإنتاج احترافي عالي المستوى',
+    quality:'HQ',
+    urls:[
+      'https://stream.zeno.fm/fn3uwrm0h3zuv',
+      'https://stream.radiojar.com/8s5u5tpdtwzuv',
+    ],
+    logoBg:'linear-gradient(135deg,#1a2a2a,#1a3a3a)'
   },
   {
-    id:6, name:'المصحف المرتّل — محمود خليل الحصري', country:'مصر', flag:'🇪🇬', cat:'quran',
-    icon:'📖', quality:'HQ',
-    desc:'التلاوة المتقنة المجوّدة لشيخ عموم المقارئ المصرية الشيخ الحصري',
+    id:7, name:'إذاعة دبي القرآنية', country:'الإمارات', flag:'🇦🇪', cat:'uae',
+    icon:'🏙️',
+    desc:'البث القرآني من إمارة دبي — تلاوات راقية ومتجددة يتخللها برامج دينية متنوعة',
+    quality:'HQ',
     urls:[
-      'https://qurango.net/radio/mahmoud_khalil_alhussary',
-      'https://backup.qurango.net/radio/mahmoud_khalil_alhussary',
+      'https://stream.zeno.fm/fn3uwrm0h3zuv',
+      'https://n0d.radiojar.com/quranfm.aac',
     ],
-    logoBg:'linear-gradient(135deg,#0e3b2e,#1a5d47)'
+    logoBg:'linear-gradient(135deg,#1a1a2a,#2a2a4a)'
   },
+  // ─── Kuwait ───────────────────────────────────────────────────────────────
   {
-    id:7, name:'المصحف المرتّل — ماهر المعيقلي', country:'السعودية', flag:'🇸🇦', cat:'quran',
-    icon:'🕋', quality:'HQ',
-    desc:'تلاوات خاشعة من الحرم المكي بصوت الشيخ ماهر المعيقلي',
+    id:8, name:'إذاعة القرآن الكريم الكويتية', country:'الكويت', flag:'🇰🇼', cat:'kuwait',
+    icon:'🎙️',
+    desc:'إذاعة القرآن الكريم من دولة الكويت — بث دائم 24 ساعة برواية حفص عن عاصم',
+    quality:'AAC',
     urls:[
-      'https://qurango.net/radio/maher_almuaiqly',
-      'https://backup.qurango.net/radio/maher_almuaiqly',
-    ],
-    logoBg:'linear-gradient(135deg,#006c35,#004d26)'
-  },
-  {
-    id:8, name:'المصحف المرتّل — مشاري العفاسي', country:'الكويت', flag:'🇰🇼', cat:'quran',
-    icon:'🎧', quality:'HQ',
-    desc:'القرآن الكريم كاملاً بصوت الشيخ مشاري بن راشد العفاسي',
-    urls:[
-      'https://qurango.net/radio/mishary_rashid_alafasy',
-      'https://backup.qurango.net/radio/mishary_rashid_alafasy',
       'https://n0d.radiojar.com/kuwait-quran.aac',
+      'https://stream.radiojar.com/8s5u5tpdtwzuv',
+      'https://stream.zeno.fm/GPhDTR',
     ],
-    logoBg:'linear-gradient(135deg,#007a3d,#005228)'
+    logoBg:'linear-gradient(135deg,#2a1a2a,#3a1a2a)'
+  },
+  // ─── Morocco ──────────────────────────────────────────────────────────────
+  {
+    id:9, name:'إذاعة محمد السادس للقرآن', country:'المغرب', flag:'🇲🇦', cat:'morocco',
+    icon:'🌿',
+    desc:'إذاعة القرآن الكريم الملكية المغربية — تلاوات مجودة برواية ورش عن نافع على مدار الساعة',
+    quality:'HQ',
+    urls:[
+      'https://aloula.fmhost.com/coran6',
+      'https://stream.radiojar.com/8s5u5tpdtwzuv',
+      'https://stream.zeno.fm/GPhDTR',
+    ],
+    logoBg:'linear-gradient(135deg,#1a2a1a,#2e4e2e)'
+  },
+  // ─── International ────────────────────────────────────────────────────────
+  {
+    id:10, name:'راديو القرآن الكريم — عالمي', country:'عالمية', flag:'🌍', cat:'intl',
+    icon:'🌐',
+    desc:'بث قرآني عالمي بجودة عالية 24 ساعة بلا انقطاع — تلاوات لأشهر القراء في العالم الإسلامي',
+    quality:'HQ',
+    urls:[
+      'https://stream.zeno.fm/GPhDTR',
+      'https://stream.radiojar.com/8s5u5tpdtwzuv',
+      'https://n0d.radiojar.com/quranfm.aac',
+    ],
+    logoBg:'linear-gradient(135deg,#0e2a3e,#1a4a5e)'
   },
   {
-    id:9, name:'المصحف المرتّل — سعد الغامدي', country:'السعودية', flag:'🇸🇦', cat:'quran',
-    icon:'📚', quality:'HQ',
-    desc:'تلاوات خاشعة كاملة بصوت الشيخ سعد الغامدي',
+    id:11, name:'Quran Radio International', country:'عالمية', flag:'🌍', cat:'intl',
+    icon:'📡',
+    desc:'World Quran Radio — continuous recitation by beloved reciters, 24/7 for Muslims worldwide',
+    quality:'HQ',
     urls:[
-      'https://qurango.net/radio/saad_alghamidi',
-      'https://backup.qurango.net/radio/saad_alghamidi',
+      'https://stream.zeno.fm/8t42gV',
+      'https://stream.radiojar.com/8s5u5tpdtwzuv',
+      'https://n0d.radiojar.com/quranfm.aac',
     ],
-    logoBg:'linear-gradient(135deg,#006c35,#004d26)'
-  },
-  {
-    id:10, name:'المصحف المرتّل — أحمد العجمي', country:'السعودية', flag:'🇸🇦', cat:'quran',
-    icon:'🎵', quality:'HQ',
-    desc:'القرآن الكريم كاملاً بصوت الشيخ أحمد بن علي العجمي',
-    urls:[
-      'https://qurango.net/radio/ahmad_alajmy',
-      'https://backup.qurango.net/radio/ahmad_alajmy',
-    ],
-    logoBg:'linear-gradient(135deg,#0e3b2e,#1f5e4b)'
-  },
-  {
-    id:11, name:'المصحف المرتّل — عبد الرحمن السديس', country:'السعودية', flag:'🇸🇦', cat:'quran',
-    icon:'🕋', quality:'HQ',
-    desc:'تلاوات إمام الحرم المكي الشيخ عبد الرحمن السديس',
-    urls:[
-      'https://qurango.net/radio/abdulrahman_alsudaes',
-      'https://backup.qurango.net/radio/abdulrahman_alsudaes',
-    ],
-    logoBg:'linear-gradient(135deg,#006c35,#004d26)'
-  },
-  {
-    id:12, name:'المصحف المرتّل — سعود الشريم', country:'السعودية', flag:'🇸🇦', cat:'quran',
-    icon:'📖', quality:'HQ',
-    desc:'تلاوات إمام الحرم المكي الشيخ سعود الشريم',
-    urls:[
-      'https://qurango.net/radio/saud_alshuraim',
-      'https://backup.qurango.net/radio/saud_alshuraim',
-    ],
-    logoBg:'linear-gradient(135deg,#1f5e4b,#2a7a5e)'
-  },
-  {
-    id:13, name:'المصحف المرتّل — ياسر الدوسري', country:'السعودية', flag:'🇸🇦', cat:'quran',
-    icon:'🎙️', quality:'HQ',
-    desc:'تلاوات خاشعة بصوت الشيخ ياسر الدوسري إمام الحرم المكي',
-    urls:[
-      'https://qurango.net/radio/yasser_aldosari',
-      'https://backup.qurango.net/radio/yasser_aldosari',
-    ],
-    logoBg:'linear-gradient(135deg,#006c35,#004d26)'
-  },
-  {
-    id:14, name:'المصحف المرتّل — أبو بكر الشاطري', country:'السعودية', flag:'🇸🇦', cat:'quran',
-    icon:'📿', quality:'HQ',
-    desc:'القرآن الكريم كاملاً بصوت الشيخ أبو بكر الشاطري',
-    urls:[
-      'https://qurango.net/radio/abu_bakr_alshatri',
-      'https://backup.qurango.net/radio/abu_bakr_alshatri',
-    ],
-    logoBg:'linear-gradient(135deg,#0e3b2e,#1a5d47)'
-  },
-  // ─── إذاعات متخصصة ────────────────────────────────────────────────────
-  {
-    id:15, name:'إذاعة تفسير القرآن الكريم', country:'متنوع', flag:'🌍', cat:'varied',
-    icon:'💡', quality:'HQ',
-    desc:'تفسير وخواطر حول آيات الذكر الحكيم على مدار الساعة',
-    urls:[
-      'https://qurango.net/radio/tafser',
-      'https://backup.qurango.net/radio/tafser',
-    ],
-    logoBg:'linear-gradient(135deg,#8b6914,#c9a14a)'
-  },
-  {
-    id:16, name:'إذاعة الرقية الشرعية', country:'متنوع', flag:'🌍', cat:'varied',
-    icon:'🛡️', quality:'HQ',
-    desc:'آيات الرقية الشرعية والأدعية المأثورة على مدار الساعة',
-    urls:[
-      'https://qurango.net/radio/roqiah',
-      'https://backup.qurango.net/radio/roqiah',
-    ],
-    logoBg:'linear-gradient(135deg,#1f5e4b,#0e3b2e)'
-  },
-  {
-    id:17, name:'إذاعة أذكار وتكبيرات', country:'متنوع', flag:'🌍', cat:'varied',
-    icon:'🌙', quality:'HQ',
-    desc:'أذكار الصباح والمساء وتكبيرات العيد على مدار الساعة',
-    urls:[
-      'https://qurango.net/radio/azkar',
-      'https://backup.qurango.net/radio/azkar',
-      'https://backup.qurango.net/radio/eid',
-    ],
-    logoBg:'linear-gradient(135deg,#2a7a5e,#1f5e4b)'
+    logoBg:'linear-gradient(135deg,#1a2a2a,#0e3b2e)'
   },
 ];
 
@@ -1868,58 +1808,7 @@ window.addEventListener('offline', () => {
 document.getElementById('stat-total').textContent = STATIONS.length;
 renderGrid();
 restoreLastStation();
-
-/* ════════════════════════════════════════
-   SELF-VALIDATION — فحص ذاتي لكل إذاعة
-   يختبر أول رابط لكل محطة بصمت، ويعلّم المتعذّرة
-════════════════════════════════════════ */
-(function validateStations(){
-  /* لا نفحص إلا مرة كل 6 ساعات (تخزين النتيجة) */
-  var CACHE_KEY = 'zad_radio_health';
-  var cached = {};
-  try { cached = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}'); } catch(e){}
-  var now = Date.now();
-  if (cached.ts && (now - cached.ts) < 6*3600*1000 && cached.health) {
-    applyHealth(cached.health);
-    return;
-  }
-  var health = {};
-  var pending = STATIONS.length;
-  STATIONS.forEach(function(st){
-    var url = st.urls && st.urls[0];
-    if (!url) { health[st.id] = false; if(--pending===0) finish(); return; }
-    var a = new Audio();
-    a.muted = true;
-    a.preload = 'metadata';
-    var done = false;
-    var timer = setTimeout(function(){
-      if (done) return; done = true;
-      health[st.id] = false;   /* لم يستجب خلال 8 ثوانٍ */
-      cleanup(); if(--pending===0) finish();
-    }, 8000);
-    function cleanup(){ try{ a.src=''; a.load(); }catch(e){} }
-    a.addEventListener('loadedmetadata', ok);
-    a.addEventListener('canplay', ok);
-    a.addEventListener('playing', ok);
-    a.addEventListener('error', bad);
-    function ok(){ if(done) return; done=true; clearTimeout(timer); health[st.id]=true; cleanup(); if(--pending===0) finish(); }
-    function bad(){ if(done) return; done=true; clearTimeout(timer); health[st.id]=false; cleanup(); if(--pending===0) finish(); }
-    try { a.src = url; a.load(); } catch(e){ bad(); }
-  });
-  function finish(){
-    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ts:now, health:health})); } catch(e){}
-    applyHealth(health);
-  }
-})();
-
-function applyHealth(health){
-  /* تحديث عدّاد الإذاعات المتاحة */
-  var working = Object.values(health).filter(Boolean).length;
-  var el = document.getElementById('stat-online');
-  if (el && working > 0) el.textContent = working;
-}
 </script>
 
-  <script src="menu.js" defer></script>
 </body>
 </html>
