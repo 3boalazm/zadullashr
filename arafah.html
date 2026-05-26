@@ -17,32 +17,143 @@
 <link rel="stylesheet" href="css/style.css">
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
 <style>
-  :root{--font-scale:1}
-  body{font-size:calc(1rem * var(--font-scale))}
-  .quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
-  .font-size-options{display:flex;gap:8px}
-  .font-size-options .fs-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;transition:all .2s;color:var(--ink)}
-  .font-size-options .fs-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff}
-  .fs-btn[data-size="small"]  span:first-child{font-size:14px;display:block;margin-bottom:4px}
-  .fs-btn[data-size="medium"] span:first-child{font-size:19px;display:block;margin-bottom:4px}
-  .fs-btn[data-size="large"]  span:first-child{font-size:24px;display:block;margin-bottom:4px}
+:root{--font-scale:1}
+body{font-size:calc(1rem * var(--font-scale))}
+.quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
+
+/* ═══ Intro card (يومُك المبارك) ═══ */
+.ar-intro-card{
+  background:linear-gradient(135deg,var(--green-deep),#1a5d47);
+  border-radius:20px;border:1px solid rgba(201,161,74,.25);
+  padding:22px 20px;margin-bottom:16px;color:#fff;
+  box-shadow:0 4px 20px rgba(14,59,46,.25);
+}
+.ar-intro-title{font-size:18px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ar-intro-body{font-size:13px;line-height:2;opacity:.92}
+.ar-intro-body strong{color:var(--gold-soft,#e6c97a)}
+
+/* ═══ Quick-action cards ═══ */
+.ar-qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.ar-qa-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:16px;padding:16px 12px;text-align:center;
+  text-decoration:none;color:var(--ink);
+  transition:transform .15s,box-shadow .15s;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.ar-qa-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.ar-qa-ico{font-size:28px;line-height:1}
+.ar-qa-title{font-size:13px;font-weight:800;color:var(--green-deep)}
+.ar-qa-sub{font-size:11px;color:var(--muted);line-height:1.5}
+.ar-qa-lnk{font-size:12px;color:var(--gold-soft,#c9a14a);font-weight:700;margin-top:4px}
+
+/* ═══ Timeline ═══ */
+.af-tl-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.af-tl-tabs{display:flex;border-radius:12px;overflow:hidden;border:1.5px solid var(--border);flex:1}
+.af-tl-tab{flex:1;padding:9px 10px;border:none;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+.af-tl-tab.active{background:var(--green-deep);color:#fff}
+.af-tl-tab:not(.active){background:var(--card);color:var(--muted)}
+.af-tl-prog-badge{background:var(--sand,#f5f0e8);border:1.5px solid var(--border);border-radius:10px;padding:6px 12px;font-size:12px;font-weight:800;color:var(--green-deep);white-space:nowrap}
+
+.af-tl-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:16px;margin-bottom:10px;overflow:hidden;
+  transition:box-shadow .2s;
+}
+.af-tl-card.highlight{border-color:rgba(201,161,74,.4);background:linear-gradient(135deg,var(--gold-pale,#fdf8ee),var(--card))}
+.af-tl-card.slot-done{border-color:var(--green-deep);opacity:.85}
+.af-tl-card.slot-done .af-tl-header{background:rgba(14,59,46,.06)}
+
+.af-tl-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 16px;cursor:pointer;user-select:none;
+  transition:background .15s;
+}
+.af-tl-header:hover{background:rgba(0,0,0,.03)}
+.af-tl-left{display:flex;align-items:center;gap:12px}
+.af-tl-icon{font-size:22px;line-height:1;flex-shrink:0}
+.af-tl-time{font-size:10px;color:var(--muted);font-weight:600;margin-bottom:2px}
+.af-tl-title{font-size:13px;font-weight:800;color:var(--ink)}
+.af-tl-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.af-tl-count{font-size:11px;font-weight:800;color:var(--green-deep);background:rgba(14,59,46,.1);border-radius:20px;padding:3px 8px}
+.af-tl-chev{font-size:12px;color:var(--muted);transition:transform .25s}
+.af-tl-chev.open{transform:rotate(180deg)}
+.slot-done .af-tl-chev{font-size:16px}
+
+.af-tl-body{padding:0 16px 14px;display:none}
+.af-tl-body.open{display:block}
+
+/* tasks list */
+.af-tl-tasks{list-style:none;padding:0;margin:4px 0 12px}
+.af-tl-task{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:9px 10px;border-radius:10px;cursor:pointer;
+  transition:background .15s;margin-bottom:4px;
+  border:1px solid transparent;
+}
+.af-tl-task:hover{background:rgba(0,0,0,.04)}
+.af-tl-task.done{background:rgba(14,59,46,.06);border-color:rgba(14,59,46,.15)}
+.af-tl-check{
+  width:20px;height:20px;border-radius:6px;border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;flex-shrink:0;margin-top:1px;
+  transition:all .2s;
+}
+.af-tl-task.done .af-tl-check{background:var(--green-deep);border-color:var(--green-deep);color:#fff}
+.af-tl-task-txt{font-size:13px;color:var(--ink);line-height:1.6}
+.af-tl-task.done .af-tl-task-txt{text-decoration:line-through;color:var(--muted)}
+
+/* dua strip */
+.af-tl-dua{
+  background:rgba(201,161,74,.08);border:1px solid rgba(201,161,74,.2);
+  border-radius:12px;padding:12px;margin-bottom:10px;cursor:pointer;
+  font-size:12px;color:var(--muted);
+}
+.af-tl-dua .dua-txt{font-family:Amiri,serif;font-size:15px;color:var(--green-deep);line-height:1.9;margin-top:6px}
+.af-tl-dua .dua-hdr{font-size:11px;font-weight:700;color:var(--gold-soft,#c9a14a)}
+
+/* hadith strip */
+.af-tl-hadith{
+  background:rgba(14,59,46,.05);border-right:3px solid var(--green-deep);
+  border-radius:0 10px 10px 0;padding:10px 12px;margin-bottom:10px;
+  font-family:Amiri,serif;font-size:14px;color:var(--green-deep);line-height:1.9;
+}
+.af-tl-hadith-src{font-family:inherit;font-size:11px;color:var(--muted);margin-top:4px}
+
+/* tip strip */
+.af-tl-tip{
+  background:rgba(255,193,7,.08);border:1px solid rgba(255,193,7,.2);
+  border-radius:10px;padding:10px 12px;margin-bottom:10px;
+  font-size:12px;color:var(--ink);line-height:1.7;
+}
+
+/* done button */
+.af-tl-done-btn{
+  width:100%;padding:9px;border:1.5px dashed var(--border);border-radius:10px;
+  background:transparent;cursor:pointer;font-family:inherit;font-size:12px;
+  color:var(--muted);font-weight:700;transition:all .2s;
+}
+.af-tl-done-btn:hover{border-color:var(--green-deep);color:var(--green-deep);background:rgba(14,59,46,.05)}
+
+/* slot complete badge */
+.af-tl-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--green-deep);color:#fff;border-radius:20px;
+  padding:5px 14px;font-size:12px;font-weight:800;margin-bottom:10px;
+}
 </style>
 <script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="زاد العشر">
 <meta property="og:url" content="https://zadullashr.vercel.app/arafah.html">
 <meta property="og:title" content="يوم عرفة — زاد العشر">
-<meta property="og:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+<meta property="og:description" content="رفيقك في يوم عرفة — مسار زمني تفاعلي ساعة بساعة">
 <meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="زاد العشر — تطبيق العبادة في عشر ذي الحجة">
 <meta property="og:locale" content="ar_SA">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="يوم عرفة — زاد العشر">
-<meta name="twitter:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
-<meta name="twitter:image" content="https://zadullashr.vercel.app/og-image.png">
-<meta name="description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+<meta name="description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
 <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -111,9 +222,7 @@
     <div class="topbar">
       <div class="tb-left">
         <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
-        <a href="index.html" class="tb-logo">
-          <img src="icons/icon-192.svg" alt="زاد العشر">
-        </a>
+        <a href="index.html" class="tb-logo"><img src="icons/icon-192.svg" alt="زاد العشر"></a>
       </div>
       <div class="tb-center">
         <div class="page-title">يوم <span>عرفة</span></div>
@@ -135,7 +244,7 @@
       <div class="time-phase-lbl" id="ar-phase-lbl">جارٍ التحميل...</div>
       <div class="time-verse">وَمَا مِنْ يَوْمٍ أَكْثَرَ مِنْ أَنْ يَعْتِقَ اللَّهُ فِيهِ عَبْدًا مِنَ النَّارِ مِنْ يَوْمِ عَرَفَةَ</div>
       <div class="time-verse-src">صحيح مسلم</div>
-      <!-- قبل يوم عرفة: أيام -->
+      <!-- قبل يوم عرفة -->
       <div id="ar-cd-days" style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
         <div class="cd-box"><div class="cd-num" id="af-dd">--</div><div class="cd-lbl">يوم</div></div>
         <div class="cd-box"><div class="cd-num" id="af-hh2">--</div><div class="cd-lbl">ساعة</div></div>
@@ -144,7 +253,7 @@
           <div style="font-size:12px;opacity:.85">📅 9 ذو الحجة</div>
         </div>
       </div>
-      <!-- يوم عرفة نفسه: ساعات حتى المغرب -->
+      <!-- يوم عرفة نفسه -->
       <div id="ar-cd-maghrib" style="margin-top:16px;display:none;gap:10px;flex-wrap:wrap">
         <div class="cd-box"><div class="cd-num" id="af-hh">--</div><div class="cd-lbl">ساعة</div></div>
         <div class="cd-box"><div class="cd-num" id="af-mm">--</div><div class="cd-lbl">دقيقة</div></div>
@@ -156,138 +265,126 @@
       </div>
     </div>
 
-    <!-- ── فضل يوم عرفة ── (مرة واحدة فقط) -->
-    <div class="card" style="background:linear-gradient(135deg,var(--gold-pale),var(--card));border-color:rgba(201,161,74,.3);margin-bottom:22px">
+    <!-- ── فضل يوم عرفة (مرة واحدة) ── -->
+    <div class="card" style="background:linear-gradient(135deg,var(--gold-pale),var(--card));border-color:rgba(201,161,74,.3);margin-bottom:16px">
       <h3>🌟 فضل صيام يوم عرفة</h3>
       <p style="font-family:Amiri,serif;font-size:18px;color:var(--green-deep);line-height:2">«صِيَامُ يَوْمِ عَرَفَةَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ وَالَّتِي بَعْدَهُ»</p>
       <span class="tag">رواه مسلم (1162) — لغير الحاج</span>
     </div>
 
-    <!-- ── تابات: الحاج / غير الحاج ── -->
+    <!-- ── مقدمة إيمانية ── -->
+    <div class="ar-intro-card">
+      <div class="ar-intro-title">✨ يومُك المبارك.. بين يديك</div>
+      <div class="ar-intro-body">
+        هنيئاً لك بلوغَ هذا اليوم العظيم — يوم العتق من النار.<br>
+        جمعنا لك هنا <strong>كلَّ ما تحتاجه</strong> لتغتنمه: برنامجاً يأخذ بيدك من الفجر إلى المغرب، وأدعيةً وأذكاراً مبوّبةً منظَّمة. <strong>بلا تشتيتٍ ولا حشو</strong> — فقط قلبٌ حاضرٌ وعملٌ خالص. اطرح عنك الشواغل. وابدأ.. فإنّها ساعاتٌ لا تُعوَّض. 🤍
+      </div>
+    </div>
+
+    <!-- ── Quick-action cards ── -->
+    <div class="ar-qa-grid">
+      <a href="arafah-dua.html" class="ar-qa-card">
+        <div class="ar-qa-ico">🤲</div>
+        <div class="ar-qa-title">دعاء يوم عرفة</div>
+        <div class="ar-qa-sub">أدعية مأثورة وقرآنية منظّمة — خير الدعاء دعاء يوم عرفة</div>
+        <div class="ar-qa-lnk">ابدأ الدعاء ←</div>
+      </a>
+      <a href="adhkar.html" class="ar-qa-card">
+        <div class="ar-qa-ico">📿</div>
+        <div class="ar-qa-title">أذكار اليوم</div>
+        <div class="ar-qa-sub">أذكار الصباح والمساء والتكبير المقيّد — حصّن قلبك</div>
+        <div class="ar-qa-lnk">ابدأ الذكر ←</div>
+      </a>
+    </div>
+
+    <!-- ── Tab switcher (للحاج / لغير الحاج) ── -->
     <div style="display:flex;gap:0;border-radius:16px;overflow:hidden;border:1.5px solid var(--border);margin-bottom:18px">
       <button id="tab-btn-pilgrim" onclick="switchArafahTab('pilgrim')"
-        style="flex:1;padding:12px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;border-left:1px solid rgba(255,255,255,.2)">
+        style="flex:1;padding:12px;border:none;background:var(--card);color:var(--muted);font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;border-left:1px solid rgba(255,255,255,.2)">
         🕋 للحاج
       </button>
       <button id="tab-btn-nonpilgrim" onclick="switchArafahTab('nonpilgrim')"
-        style="flex:1;padding:12px;border:none;background:var(--card);color:var(--muted);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer">
+        style="flex:1;padding:12px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer">
         🏡 لغير الحاج
       </button>
     </div>
 
-    <!-- ════════════════════════════════
-         TAB 1: للحاج
-         ════════════════════════════════ -->
-    <div id="tab-pilgrim" style="animation:duaIn .3s ease">
-
+    <!-- ════ TAB: للحاج (key-insight + 6 cards) ════ -->
+    <div id="tab-pilgrim" style="display:none;animation:duaIn .3s ease">
       <div class="key-insight" style="margin-bottom:16px">
         <div class="ki-ico">📍</div>
         <div class="ki-body">
           <div class="ki-label">الركن الأعظم</div>
-          <div class="ki-text">الوقوف بعرفة ولو للحظة بين الزوال وفجر يوم النحر هو الركن الذي يترتب عليه صحة الحج كله</div>
+          <div class="ki-text">الوقوف بعرفة ولو للحظة بين الزوال وفجر يوم النحر هو ركن الحج الذي يترتب عليه صحته كله</div>
         </div>
       </div>
-
       <div class="section-title" style="margin-top:0">📋 أعمال الحاج يوم عرفة</div>
-
-      <div class="card" style="margin-bottom:12px">
+      <div class="card" style="margin-bottom:10px">
         <div class="outcome-heading"><span class="oh-ico">1</span><div class="oh-text">الانطلاق إلى عرفة والتحقق من الحدود</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">يُسن الانطلاق من منى إلى عرفة بعد طلوع شمس يوم التاسع. <strong>مهم:</strong> التأكد من الوجود داخل حدود عرفة وليس في وادي عُرنة — يمكن استخدام تطبيقات الخرائط للتحقق.</p>
+        <p style="font-size:13px;line-height:1.9;margin:8px 0 0">يُسن الانطلاق من منى إلى عرفة بعد طلوع شمس يوم التاسع. <strong>مهم:</strong> التأكد من الوجود داخل حدود عرفة وليس في وادي عُرنة.</p>
       </div>
-
-      <div class="card" style="margin-bottom:12px">
+      <div class="card" style="margin-bottom:10px">
         <div class="outcome-heading"><span class="oh-ico">2</span><div class="oh-text">الفطر (سنة مؤكدة للحاج)</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">يُسن للحاج <strong>الفطر</strong> في يوم عرفة ليتقوى على الذكر والدعاء — اقتداءً بفعل النبي ﷺ الذي وقف بعرفة مفطراً.</p>
+        <p style="font-size:13px;line-height:1.9;margin:8px 0 0">يُسن للحاج <strong>الفطر</strong> ليتقوى على الذكر والدعاء — اقتداءً بفعل النبي ﷺ الذي وقف بعرفة مفطراً.</p>
       </div>
-
-      <div class="card" style="margin-bottom:12px">
+      <div class="card" style="margin-bottom:10px">
         <div class="outcome-heading"><span class="oh-ico">3</span><div class="oh-text">الصلاة والخطبة</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">• الاستماع لخطبة عرفة في مسجد نمرة.<br>• صلاة الظهر والعصر جمع تقديم وقصراً (ركعتان لكل صلاة) بأذان وإقامتين — للتفرغ كلياً للدعاء بعد ذلك.</p>
+        <p style="font-size:13px;line-height:1.9;margin:8px 0 0">• الاستماع لخطبة عرفة في مسجد نمرة.<br>• صلاة الظهر والعصر جمع تقديم وقصراً (ركعتان لكل صلاة) بأذان وإقامتين.</p>
       </div>
-
-      <div class="card" style="margin-bottom:12px;background:linear-gradient(135deg,var(--gold-pale),var(--card));border-color:rgba(201,161,74,.3)">
+      <div class="card" style="margin-bottom:10px;background:linear-gradient(135deg,var(--gold-pale),var(--card));border-color:rgba(201,161,74,.3)">
         <div class="outcome-heading"><span class="oh-ico">4</span><div class="oh-text">التفرغ للذكر والدعاء — أهم أعمال اليوم</div></div>
-        <p style="font-family:Amiri,serif;font-size:17px;color:var(--green-deep);line-height:2;margin:10px 0 6px">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</p>
-        <span class="tag">خير ما قاله النبي ﷺ والنبيون يوم عرفة — رواه الترمذي</span>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:10px 0 0">استثمار ساعات العشية (من بعد العصر حتى الغروب) في الانفراد بالنفس، والتوجه للقبلة، ورفع اليدين، والإلحاح على الله بطلب المغفرة والعتق من النار.</p>
+        <p style="font-family:Amiri,serif;font-size:16px;color:var(--green-deep);line-height:2;margin:8px 0 6px">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</p>
+        <span class="tag">خير ما قاله النبيون يوم عرفة — رواه الترمذي</span>
       </div>
-
-      <div class="card" style="margin-bottom:12px">
+      <div class="card" style="margin-bottom:10px">
         <div class="outcome-heading"><span class="oh-ico">5</span><div class="oh-text">التلبية والنفرة إلى مزدلفة</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">• استمرار التلبية طوال اليوم حتى رمي جمرة العقبة يوم العيد.<br>• بعد غروب الشمس: الانصراف إلى مزدلفة بهدوء وسكينة مع الاستغفار.<br>• <strong>مهم:</strong> تأخير المغرب لتُصلى مع العشاء جمعاً في مزدلفة.</p>
+        <p style="font-size:13px;line-height:1.9;margin:8px 0 0">• استمرار التلبية حتى رمي جمرة العقبة.<br>• بعد الغروب: الانصراف بهدوء مع الاستغفار.<br>• <strong>تأخير المغرب</strong> لتُصلى مع العشاء جمعاً في مزدلفة.</p>
       </div>
-
-      <div class="card" style="margin-bottom:12px">
+      <div class="card" style="margin-bottom:10px">
         <div class="outcome-heading"><span class="oh-ico">6</span><div class="oh-text">آداب عامة مستحبة</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">• كف السمع والبصر واللسان عن اللغو لضمان الحج المبرور.<br>• مساعدة الضعفاء من الحجاج وإرشاد التائهين وبذل الماء.<br>• البقاء على تواصل مع الرفقة لتجنب الضياع في الزحام.</p>
+        <p style="font-size:13px;line-height:1.9;margin:8px 0 0">• كف اللسان عن اللغو والهاتف لضمان الحج المبرور.<br>• مساعدة الضعفاء من الحجاج وبذل الماء.<br>• البقاء على تواصل مع الرفقة.</p>
       </div>
-
     </div><!-- /tab-pilgrim -->
 
-    <!-- ════════════════════════════════
-         TAB 2: لغير الحاج
-         ════════════════════════════════ -->
-    <div id="tab-nonpilgrim" style="display:none;animation:duaIn .3s ease">
-
+    <!-- ════ TAB: لغير الحاج (key-insight فقط) ════ -->
+    <div id="tab-nonpilgrim" style="animation:duaIn .3s ease">
       <div class="key-insight" style="margin-bottom:16px">
         <div class="ki-ico">🏡</div>
         <div class="ki-body">
           <div class="ki-label">أجر عظيم من بيتك</div>
-          <div class="ki-text">يوم عرفة لغير الحاج فرصة ذهبية لمضاعفة الأجور ونيل المغفرة — وصيامه يكفّر سنتين</div>
+          <div class="ki-text">يوم عرفة لغير الحاج فرصة ذهبية — صيامه يكفّر سنتين، والدعاء فيه مستجاب. اتبع المسار أدناه ساعةً بساعة.</div>
         </div>
       </div>
-
-      <div class="section-title" style="margin-top:0">📅 برنامج يوم عرفة (الحج في بيتك)</div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">🌙</span><div class="oh-text">السحر — قبل الفجر</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">الاستيقاظ قبل الفجر للاستغفار والدعاء وصلاة ركعتين نافلة.</p>
-      </div>
-
-      <div class="card" style="margin-bottom:12px;background:linear-gradient(135deg,var(--gold-pale),var(--card));border-color:rgba(201,161,74,.3)">
-        <div class="outcome-heading"><span class="oh-ico">🌅</span><div class="oh-text">الفجر إلى الشروق</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">صلاة الفجر والجلوس للذكر والقرآن حتى تطلع الشمس، ثم صلاة ركعتين.</p>
-        <p style="font-family:Amiri,serif;font-size:15px;color:var(--green-deep);line-height:2;margin-top:8px">«من صلى الفجر في جماعة ثم قعد يذكر الله حتى تطلع الشمس ثم صلى ركعتين كانت له كأجر حجة وعمرة تامة تامة تامة»</p>
-        <span class="tag">رواه الترمذي — اغتنمها يوم عرفة خاصةً</span>
-      </div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">☀️</span><div class="oh-text">طوال اليوم — الصيام والذكر</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">• صوم اليوم — يُكفّر السنة الماضية والسنة الباقية.<br>• الإكثار من التكبير والتهليل والتحميد والتسبيح طوال اليوم.<br>• قراءة القرآن بتدبر وخشوع.</p>
-      </div>
-
-      <div class="card" style="margin-bottom:12px;background:linear-gradient(135deg,rgba(14,59,46,.06),var(--card));border-color:rgba(14,59,46,.2)">
-        <div class="outcome-heading"><span class="oh-ico">🌇</span><div class="oh-text">العشية — من العصر للمغرب (أفضل الأوقات)</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0"><strong>"وقت الخلوة التامة"</strong> — التفرغ الكامل للدعاء والإلحاح على الله بالعتق من النار:</p>
-        <p style="font-family:Amiri,serif;font-size:17px;color:var(--green-deep);line-height:2;margin:10px 0 6px">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</p>
-        <span class="tag">خير الدعاء دعاء يوم عرفة — رواه الترمذي</span>
-      </div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">💚</span><div class="oh-text">أعمال البر</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">• صدقة اليوم — وإن كانت يسيرة.<br>• التواصل مع الأقارب وإصلاح العلاقات المتوترة.<br>• زيارة المرضى والدعاء لهم.</p>
-      </div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">✂️</span><div class="oh-text">إن كنت ستضحّي</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">من نوى الأضحية يحرم عليه من دخول ذي الحجة أخذ شيء من شعره أو أظفاره أو بشرته حتى يذبح — وهذا خاص بصاحب الأضحية فقط.</p>
-      </div>
-
     </div><!-- /tab-nonpilgrim -->
 
-    <!-- ════════════════════════════════
-         SHARED SECTIONS — مرة واحدة فقط
-         (لا تكرار هنا أبداً)
-         ════════════════════════════════ -->
+    <!-- ════════════════════════════════════════
+         المسار الزمني التفاعلي — SHARED
+         (يتغير محتواه بحسب التاب)
+         ════════════════════════════════════════ -->
+    <div class="section-title" style="margin-top:4px">⏳ المسار الزمني التفاعلي</div>
+    <p style="font-size:12px;color:var(--muted);margin:-8px 0 14px;line-height:1.6">
+      رحلتك ساعةً بساعة من الفجر إلى المغرب — اضغط على كل مرحلة لتفاصيلها وأدعيتها، وعلِّمها عند إتمامها.
+    </p>
 
-    <!-- Progress Ring -->
+    <!-- mini-tab inside timeline -->
+    <div class="af-tl-meta">
+      <div class="af-tl-tabs" id="tl-tabs">
+        <button class="af-tl-tab" id="tl-tab-nonpilgrim" onclick="switchArafahTab('nonpilgrim')">🏡 لغير الحاج</button>
+        <button class="af-tl-tab" id="tl-tab-pilgrim"    onclick="switchArafahTab('pilgrim')">🕋 للحاج</button>
+      </div>
+      <div class="af-tl-prog-badge" id="tl-prog-badge">0/6</div>
+    </div>
+
+    <div id="af-timeline"></div>
+
+    <!-- ════ Progress ring ════ -->
     <div class="af-prog-wrap">
       <div class="af-prog-info">
         <strong>
           <div class="outcome-heading">
             <span class="oh-ico">🌄</span>
-            <div class="oh-text">خطتك الكاملة ليوم عرفة المبارك
-              <span class="oh-benefit">← ساعة بساعة — لا تضيع دقيقة من أفضل أيام الدعاء</span>
+            <div class="oh-text">تقدّمك ليوم عرفة
+              <span class="oh-benefit">← أكمل المحطات واحدة بواحدة</span>
             </div>
           </div>
         </strong>
@@ -297,11 +394,7 @@
       <div class="af-prog-ring" id="af-prog-ring">0%</div>
     </div>
 
-    <!-- Interactive Timeline -->
-    <div class="section-title">المسار الزمني التفاعلي</div>
-    <div id="af-timeline"></div>
-
-    <!-- Central Dhikr Hub -->
+    <!-- ════ Central Dhikr Hub ════ -->
     <div class="section-title">مركز الأذكار والدعاء</div>
     <div class="af-dhikr-hub">
       <div class="af-dhikr-text">
@@ -317,37 +410,29 @@
       </div>
       <div class="af-dhikr-src">خير الدعاء دعاء يوم عرفة — رواه الترمذي</div>
       <div class="duaa-grid">
-        <div class="duaa-cat" onclick="showToast('اللهم إنك عفو كريم تحب العفو فاعف عنا')">
-          <div class="dc-ico">🤲</div>
-          <div class="dc-title">دعاء العفو</div>
-          <div class="dc-sub">اللهم إنك عفو...</div>
+        <div class="duaa-cat" onclick="showToast?.('اللهم إنك عفو كريم تحب العفو فاعف عنا')">
+          <div class="dc-ico">🤲</div><div class="dc-title">دعاء العفو</div><div class="dc-sub">اللهم إنك عفو...</div>
         </div>
-        <div class="duaa-cat" onclick="showToast('اللهم أصلح لي ديني الذي هو عصمة أمري...')">
-          <div class="dc-ico">📿</div>
-          <div class="dc-title">دعاء الصلاح</div>
-          <div class="dc-sub">اللهم أصلح لي...</div>
+        <div class="duaa-cat" onclick="showToast?.('اللهم أصلح لي ديني الذي هو عصمة أمري...')">
+          <div class="dc-ico">📿</div><div class="dc-title">دعاء الصلاح</div><div class="dc-sub">اللهم أصلح لي...</div>
         </div>
-        <div class="duaa-cat" onclick="showToast('اللهم اغفر لي ولوالديّ ولجميع المسلمين')">
-          <div class="dc-ico">💚</div>
-          <div class="dc-title">للوالدين والأمة</div>
-          <div class="dc-sub">اللهم اغفر لي...</div>
+        <div class="duaa-cat" onclick="showToast?.('اللهم اغفر لي ولوالديّ ولجميع المسلمين')">
+          <div class="dc-ico">💚</div><div class="dc-title">للوالدين والأمة</div><div class="dc-sub">اللهم اغفر لي...</div>
         </div>
-        <div class="duaa-cat" onclick="showToast('اللهم يا مقلب القلوب ثبّت قلبي على دينك')">
-          <div class="dc-ico">❤️</div>
-          <div class="dc-title">تثبيت القلب</div>
-          <div class="dc-sub">اللهم يا مقلب...</div>
+        <div class="duaa-cat" onclick="showToast?.('اللهم يا مقلب القلوب ثبّت قلبي على دينك')">
+          <div class="dc-ico">❤️</div><div class="dc-title">تثبيت القلب</div><div class="dc-sub">اللهم يا مقلب...</div>
         </div>
       </div>
     </div>
 
-    <!-- Bonus Checklist -->
+    <!-- ════ Bonus Checklist ════ -->
     <div class="section-title">أعمال جانبية مستحبة</div>
     <div id="bonus-list"></div>
 
-    <!-- Share Button -->
+    <!-- ════ Share ════ -->
     <div style="margin-top:24px;text-align:center;padding-bottom:32px">
       <button class="btn btn-gold" style="font-size:15px;padding:14px 28px"
-        onclick="if(navigator.share){navigator.share({title:'يوم عرفة',text:'أنهيت برنامج يوم عرفة ✅ — اللهم اقبل منا ومنكم',url:window.location.href})}else{showToast('انسخ الرابط وشاركه')}">
+        onclick="if(navigator.share){navigator.share({title:'يوم عرفة',text:'أنهيت برنامج يوم عرفة ✅ — اللهم اقبل منا ومنكم',url:window.location.href})}else{showToast?.('انسخ الرابط وشاركه')}">
         🌟 مشاركة إنجاز يوم عرفة
       </button>
     </div>
@@ -359,141 +444,488 @@
 
 </div><!-- /app -->
 
-<!-- ═══ Scripts ═══════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════
+     Scripts
+═══════════════════════════════════════════════ -->
 <script src="lang.js" defer></script>
 <script src="js/app.js" defer></script>
 <script src="menu.js" defer></script>
 <script>
-/* ══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    يوم عرفة = 9 ذو الحجة = 26 مايو 2026
-   المغرب التقريبي: 6:45 م
-   ══════════════════════════════════════════════════════ */
-const ARAFAH_DAY    = new Date(2026, 4, 26);
+   ══════════════════════════════════════════════════════════ */
+const ARAFAH_DAY     = new Date(2026, 4, 26);
 const ARAFAH_MAGHRIB = new Date(2026, 4, 26, 18, 45, 0);
 
-document.addEventListener('DOMContentLoaded', () => {
-  initTimeBackground?.();
-  initArafahPage?.();
-  initSmartCountdown();
-  initBonusChecklist();
-});
+/* ════ Timeline Data ════════════════════════════════════════ */
+const TL_DATA = {
+  nonpilgrim: [
+    {
+      id:'sahr', icon:'🌙', time:'قبل الفجر', title:'السحر والاستعداد',
+      tasks:[
+        {id:'t1', text:'تثبيت نيّة الصيام من الليل'},
+        {id:'t2', text:'تناول السحور ولو على تمرات للبركة'},
+        {id:'t3', text:'الاستغفار في وقت السحر — كُن من المستغفرين بالأسحار'},
+        {id:'t4', text:'قيام الليل ولو ركعات يسيرة'},
+      ],
+      dua:'اللَّهُمَّ إِنِّي أَسْأَلُكَ رَحْمَةً مِنْ عِنْدِكَ تَهْدِي بِهَا قَلْبِي',
+      tip:'النيّة محلّها القلب — انوِ صيامك لله، فهو يكفّر سنة ماضية وأخرى باقية.',
+    },
+    {
+      id:'fajr', icon:'🌅', time:'الفجر → الشروق', title:'الفجر والرباط',
+      tasks:[
+        {id:'t1', text:'أداء صلاة الفجر في وقتها (ويُفضَّل في جماعة)'},
+        {id:'t2', text:'الجلوس للذكر وقراءة القرآن حتى الشروق'},
+        {id:'t3', text:'صلاة ركعتين بعد الشروق (أجر حجة وعمرة كاملة)'},
+      ],
+      hadith:'«من صلى الفجر في جماعة ثم قعد يذكر الله حتى تطلع الشمس ثم صلى ركعتين كانت له كأجر حجة وعمرة تامة تامة تامة»',
+      hadithSrc:'رواه الترمذي — اغتنمها يوم عرفة خاصةً',
+    },
+    {
+      id:'duha', icon:'☀️', time:'الضحى → الظهر', title:'الضحى والذكر',
+      tasks:[
+        {id:'t1', text:'صلاة الضحى (ركعتان فأكثر)'},
+        {id:'t2', text:'الإكثار من التسبيح والتحميد والتهليل والتكبير'},
+        {id:'t3', text:'قراءة القرآن بتدبر وخشوع'},
+        {id:'t4', text:'إخراج صدقة اليوم — وإن كانت يسيرة'},
+      ],
+    },
+    {
+      id:'dhuhr', icon:'🕌', time:'الظهر → العصر', title:'وقت الرحمات',
+      tasks:[
+        {id:'t1', text:'أداء صلاة الظهر في وقتها'},
+        {id:'t2', text:'التواصل مع الأقارب وإصلاح العلاقات المتوترة'},
+        {id:'t3', text:'الاستراحة لتتقوى على العشية الكبرى'},
+      ],
+    },
+    {
+      id:'ashiya', icon:'🌇', time:'العشية — العصر → المغرب', title:'ساعة الإجابة الكبرى',
+      highlight:true,
+      tasks:[
+        {id:'t1', text:'التفرغ الكامل للدعاء والانقطاع عن الشواغل'},
+        {id:'t2', text:'الإلحاح بطلب المغفرة والعتق من النار'},
+        {id:'t3', text:'الإكثار من: لا إله إلا الله وحده لا شريك له...'},
+        {id:'t4', text:'الدعاء للنفس والوالدين والأمة الإسلامية'},
+        {id:'t5', text:'التضرع والبكاء بين يدي الله'},
+      ],
+      dua:'اللهم إنك عفو كريم تحب العفو فاعف عنا',
+    },
+    {
+      id:'maghrib', icon:'🌃', time:'المغرب → العشاء', title:'ختام اليوم المبارك',
+      tasks:[
+        {id:'t1', text:'أداء صلاة المغرب في وقتها والدعاء عند الإفطار'},
+        {id:'t2', text:'شكر الله على نعمة إتمام هذا اليوم العظيم'},
+        {id:'t3', text:'أداء صلاة العشاء في وقتها'},
+      ],
+      dua:'اللهم تقبّل منا إنك أنت السميع العليم',
+    },
+  ],
+  pilgrim: [
+    {
+      id:'fajr_mina', icon:'🌅', time:'فجر منى', title:'الفجر بمنى والانطلاق',
+      tasks:[
+        {id:'t1', text:'صلاة الفجر في منى مع استمرار التلبية'},
+        {id:'t2', text:'الانطلاق إلى عرفة بعد طلوع الشمس'},
+        {id:'t3', text:'التحقق من الوجود داخل حدود عرفة (وليس في وادي عُرنة)'},
+      ],
+    },
+    {
+      id:'khutba', icon:'🕌', time:'الزوال', title:'الخطبة والصلاة',
+      tasks:[
+        {id:'t1', text:'الاستماع لخطبة عرفة في مسجد نمرة'},
+        {id:'t2', text:'صلاة الظهر والعصر جمعاً وقصراً (ركعتان لكل منهما)'},
+        {id:'t3', text:'الفطر اليوم (سنة للحاج لكيلا تضعف)'},
+      ],
+    },
+    {
+      id:'wuquf', icon:'🤲', time:'الزوال → الغروب', title:'الوقوف والدعاء — ركن الحج',
+      highlight:true,
+      tasks:[
+        {id:'t1', text:'الإقبال على الدعاء مستقبلاً القبلة رافعاً يديك'},
+        {id:'t2', text:'الإكثار من التلبية والتهليل والاستغفار'},
+        {id:'t3', text:'الدعاء للنفس والوالدين والأمة الإسلامية'},
+        {id:'t4', text:'كف اللسان عن اللغو والهاتف تماماً'},
+        {id:'t5', text:'مساعدة الضعفاء وبذل الماء للحجاج'},
+      ],
+      dua:'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ',
+    },
+    {
+      id:'nafra', icon:'🌙', time:'بعد الغروب', title:'النفرة إلى مزدلفة',
+      tasks:[
+        {id:'t1', text:'الانصراف بعد غروب الشمس بهدوء وسكينة'},
+        {id:'t2', text:'الاستمرار في الاستغفار والذكر أثناء التنقل'},
+        {id:'t3', text:'تأخير صلاة المغرب لتُصلى مع العشاء في مزدلفة'},
+      ],
+    },
+    {
+      id:'muzdalifa', icon:'⭐', time:'مزدلفة', title:'المبيت والتهيؤ ليوم العيد',
+      tasks:[
+        {id:'t1', text:'صلاة المغرب والعشاء جمعاً وقصراً في مزدلفة'},
+        {id:'t2', text:'المبيت بمزدلفة (الليل كله أو حتى منتصفه للضعفاء)'},
+        {id:'t3', text:'التقاط 7 حصيات لرمي جمرة العقبة غداً'},
+        {id:'t4', text:'الذكر والدعاء والاستعداد ليوم النحر'},
+      ],
+    },
+  ]
+};
 
-/* ── Countdown ذكي: أيام قبل عرفة / ساعات في عرفة ── */
+/* ════ State helpers ════ */
+const AR_STATE_KEY = 'zad_arafah_v2';
+let arState = {};
+function loadArState() {
+  try { arState = JSON.parse(localStorage.getItem(AR_STATE_KEY)) || {}; } catch { arState = {}; }
+}
+function saveArState() {
+  try { localStorage.setItem(AR_STATE_KEY, JSON.stringify(arState)); } catch {}
+}
+function getSlotState(tab, slotId) {
+  return (arState[tab] && arState[tab][slotId]) || {};
+}
+function setTask(tab, slotId, taskId, done) {
+  if (!arState[tab]) arState[tab] = {};
+  if (!arState[tab][slotId]) arState[tab][slotId] = {};
+  arState[tab][slotId][taskId] = done;
+  saveArState();
+}
+
+/* ════ Timeline rendering ════ */
+let currentTlTab = 'nonpilgrim';
+
+function renderTimeline(tab) {
+  const container = document.getElementById('af-timeline');
+  if (!container) return;
+  loadArState();
+  const slots = TL_DATA[tab] || TL_DATA.nonpilgrim;
+  container.innerHTML = '';
+
+  let doneCount = 0;
+  slots.forEach((slot, idx) => {
+    const st      = getSlotState(tab, slot.id);
+    const doneTasks = slot.tasks.filter(t => st[t.id]).length;
+    const allDone   = doneTasks === slot.tasks.length;
+    if (allDone) doneCount++;
+
+    const card = document.createElement('div');
+    card.className = 'af-tl-card' +
+      (slot.highlight ? ' highlight' : '') +
+      (allDone ? ' slot-done' : '');
+    card.id = 'slot-' + slot.id;
+
+    /* sub-tasks HTML */
+    const tasksHtml = slot.tasks.map(t => `
+      <li class="af-tl-task${st[t.id] ? ' done' : ''}"
+          id="tsk-${slot.id}-${t.id}"
+          onclick="toggleTask('${tab}','${slot.id}','${t.id}')">
+        <div class="af-tl-check">${st[t.id] ? '✓' : ''}</div>
+        <div class="af-tl-task-txt">${t.text}</div>
+      </li>`).join('');
+
+    const duaHtml = slot.dua ? `
+      <div class="af-tl-dua" onclick="showToast?.('${slot.dua.replace(/'/g,'&#39;')}')">
+        <div class="dua-hdr">🤲 ادعُ بـ</div>
+        <div class="dua-txt">${slot.dua}</div>
+      </div>` : '';
+
+    const hadithHtml = slot.hadith ? `
+      <div class="af-tl-hadith">
+        «${slot.hadith}»
+        <div class="af-tl-hadith-src">${slot.hadithSrc || ''}</div>
+      </div>` : '';
+
+    const tipHtml = slot.tip ? `
+      <div class="af-tl-tip">💡 ${slot.tip}</div>` : '';
+
+    const doneBadge = allDone ? `
+      <div class="af-tl-badge">✅ مكتملة!</div>` : '';
+
+    const doneBtn = !allDone ? `
+      <button class="af-tl-done-btn" onclick="markSlotDone('${tab}','${slot.id}')">
+        اعتبرها مكتملة ✓
+      </button>` : '';
+
+    /* first card open by default */
+    const bodyOpen = idx === 0 || allDone;
+
+    card.innerHTML = `
+      <div class="af-tl-header" onclick="toggleSlotBody('${slot.id}')">
+        <div class="af-tl-left">
+          <div class="af-tl-icon">${slot.icon}</div>
+          <div>
+            <div class="af-tl-time">${slot.time}</div>
+            <div class="af-tl-title">${slot.title}</div>
+          </div>
+        </div>
+        <div class="af-tl-right">
+          <div class="af-tl-count">${doneTasks}/${slot.tasks.length}</div>
+          <div class="af-tl-chev${bodyOpen ? ' open' : ''}" id="chev-${slot.id}">
+            ${allDone ? '✅' : '▼'}
+          </div>
+        </div>
+      </div>
+      <div class="af-tl-body${bodyOpen ? ' open' : ''}" id="body-${slot.id}">
+        ${doneBadge}
+        <ul class="af-tl-tasks">${tasksHtml}</ul>
+        ${hadithHtml}${duaHtml}${tipHtml}${doneBtn}
+      </div>`;
+
+    container.appendChild(card);
+  });
+
+  /* update progress */
+  updateTlProgress(tab, doneCount, slots.length);
+}
+
+function toggleSlotBody(slotId) {
+  const body = document.getElementById('body-' + slotId);
+  const chev = document.getElementById('chev-' + slotId);
+  if (!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  if (chev && !chev.textContent.includes('✅')) {
+    chev.classList.toggle('open', !isOpen);
+  }
+}
+
+/* ── Toggle a single task ── */
+function toggleTask(tab, slotId, taskId) {
+  loadArState();
+  const curDone = !!(arState[tab] && arState[tab][slotId] && arState[tab][slotId][taskId]);
+  setTask(tab, slotId, taskId, !curDone);
+
+  /* update task UI */
+  const li   = document.getElementById('tsk-' + slotId + '-' + taskId);
+  const chk  = li && li.querySelector('.af-tl-check');
+  if (li)  li.classList.toggle('done', !curDone);
+  if (chk) chk.textContent = !curDone ? '✓' : '';
+
+  /* check if slot is now complete */
+  const slot  = (TL_DATA[tab] || []).find(s => s.id === slotId);
+  if (!slot) return;
+  const st      = getSlotState(tab, slotId);
+  const allDone = slot.tasks.every(t => st[t.id]);
+  const done    = slot.tasks.filter(t => st[t.id]).length;
+
+  /* update count badge */
+  const card = document.getElementById('slot-' + slotId);
+  if (card) {
+    const countEl = card.querySelector('.af-tl-count');
+    if (countEl) countEl.textContent = done + '/' + slot.tasks.length;
+  }
+
+  if (allDone) {
+    autoCompleteSlot(tab, slotId);
+  } else {
+    /* re-enable done button if it was removed */
+    const body = document.getElementById('body-' + slotId);
+    if (body && !body.querySelector('.af-tl-done-btn')) {
+      const btn = document.createElement('button');
+      btn.className   = 'af-tl-done-btn';
+      btn.textContent = 'اعتبرها مكتملة ✓';
+      btn.onclick     = () => markSlotDone(tab, slotId);
+      body.appendChild(btn);
+    }
+  }
+
+  /* refresh progress */
+  const slots = TL_DATA[tab] || [];
+  const doneCount = slots.filter(s => {
+    const ss = getSlotState(tab, s.id);
+    return s.tasks.every(t => ss[t.id]);
+  }).length;
+  updateTlProgress(tab, doneCount, slots.length);
+}
+
+/* ── Mark all tasks done manually ── */
+function markSlotDone(tab, slotId) {
+  loadArState();
+  const slot = (TL_DATA[tab] || []).find(s => s.id === slotId);
+  if (!slot) return;
+  slot.tasks.forEach(t => setTask(tab, slotId, t.id, true));
+  autoCompleteSlot(tab, slotId);
+  /* re-render just this slot */
+  const st = getSlotState(tab, slotId);
+  const card = document.getElementById('slot-' + slotId);
+  if (card) {
+    card.classList.add('slot-done');
+    slot.tasks.forEach(t => {
+      const li  = document.getElementById('tsk-' + slotId + '-' + t.id);
+      const chk = li && li.querySelector('.af-tl-check');
+      if (li)  li.classList.add('done');
+      if (chk) chk.textContent = '✓';
+    });
+    const countEl = card.querySelector('.af-tl-count');
+    if (countEl) countEl.textContent = slot.tasks.length + '/' + slot.tasks.length;
+    const chev = document.getElementById('chev-' + slotId);
+    if (chev) chev.textContent = '✅';
+    const body = document.getElementById('body-' + slotId);
+    if (body) {
+      /* add badge, remove done-btn */
+      const btn = body.querySelector('.af-tl-done-btn');
+      if (btn) btn.remove();
+      if (!body.querySelector('.af-tl-badge')) {
+        const badge = document.createElement('div');
+        badge.className   = 'af-tl-badge';
+        badge.textContent = '✅ مكتملة!';
+        body.insertBefore(badge, body.firstChild);
+      }
+    }
+  }
+  /* progress */
+  const slots = TL_DATA[tab] || [];
+  const doneCount = slots.filter(s => {
+    const ss = getSlotState(tab, s.id);
+    return s.tasks.every(t => ss[t.id]);
+  }).length;
+  updateTlProgress(tab, doneCount, slots.length);
+}
+
+/* ── Celebration when slot auto-completes ── */
+function autoCompleteSlot(tab, slotId) {
+  const slot = (TL_DATA[tab] || []).find(s => s.id === slotId);
+  if (!slot) return;
+  /* confetti burst */
+  if (typeof confetti === 'function') {
+    confetti({ particleCount:70, spread:80, origin:{y:0.65}, colors:['#c9a14a','#0e3b2e','#e6c97a','#22a07a','#ffffff'] });
+  }
+  showToast?.('🎉 أتممت "' + slot.title + '" — بارك الله فيك!');
+}
+
+/* ── Progress badge + ring ── */
+function updateTlProgress(tab, done, total) {
+  const badge = document.getElementById('tl-prog-badge');
+  if (badge) badge.textContent = done + '/' + total;
+
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  const barEl = document.getElementById('af-prog-bar');
+  const txtEl = document.getElementById('af-prog-txt');
+  const ring  = document.getElementById('af-prog-ring');
+  if (barEl) barEl.style.width = pct + '%';
+  if (txtEl) txtEl.textContent = done + ' من ' + total + ' محطات مكتملة';
+  if (ring)  ring.textContent  = pct + '%';
+}
+
+/* ════ Tab switcher ════ */
+function switchArafahTab(tab) {
+  currentTlTab = tab;
+  const isPilgrim = tab === 'pilgrim';
+
+  /* main tab content */
+  const pDiv = document.getElementById('tab-pilgrim');
+  const nDiv = document.getElementById('tab-nonpilgrim');
+  if (pDiv) pDiv.style.display = isPilgrim ? 'block' : 'none';
+  if (nDiv) nDiv.style.display = isPilgrim ? 'none'  : 'block';
+
+  /* main tab buttons */
+  const btnP = document.getElementById('tab-btn-pilgrim');
+  const btnN = document.getElementById('tab-btn-nonpilgrim');
+  if (btnP) { btnP.style.background = isPilgrim ? 'var(--green-deep)' : 'var(--card)'; btnP.style.color = isPilgrim ? '#fff' : 'var(--muted)'; }
+  if (btnN) { btnN.style.background = isPilgrim ? 'var(--card)' : 'var(--green-deep)'; btnN.style.color = isPilgrim ? 'var(--muted)' : '#fff'; }
+
+  /* mini-tab inside timeline */
+  const tlP = document.getElementById('tl-tab-pilgrim');
+  const tlN = document.getElementById('tl-tab-nonpilgrim');
+  if (tlP) tlP.classList.toggle('active', isPilgrim);
+  if (tlN) tlN.classList.toggle('active', !isPilgrim);
+
+  /* re-render timeline */
+  renderTimeline(tab);
+
+  try { localStorage.setItem('zad_arafah_tab', tab); } catch {}
+}
+
+/* ════ Smart countdown ════ */
 function initSmartCountdown() {
   const now = new Date();
   const isArafahDay = now.toDateString() === ARAFAH_DAY.toDateString();
+  const lbl = document.getElementById('ar-phase-lbl');
 
   if (!isArafahDay) {
     const daysWrap = document.getElementById('ar-cd-days');
     const ddEl     = document.getElementById('af-dd');
     const hh2El    = document.getElementById('af-hh2');
-    const phaseLbl = document.getElementById('ar-phase-lbl');
     if (daysWrap) daysWrap.style.display = 'flex';
     function tickDays() {
       const diff = Math.max(0, ARAFAH_DAY - new Date());
       const days = Math.floor(diff / 86400000);
       const hrs  = Math.floor((diff % 86400000) / 3600000);
       if (ddEl)  ddEl.textContent  = days;
-      if (hh2El) hh2El.textContent = String(hrs).padStart(2, '0');
-      if (phaseLbl && diff <= 0) phaseLbl.textContent = 'يوم عرفة اليوم 🌟';
+      if (hh2El) hh2El.textContent = String(hrs).padStart(2,'0');
     }
-    tickDays();
-    setInterval(tickDays, 60000);
-    if (phaseLbl) {
+    tickDays(); setInterval(tickDays, 60000);
+    if (lbl) {
       const days = Math.floor((ARAFAH_DAY - now) / 86400000);
-      phaseLbl.textContent = days === 0
-        ? 'غداً يوم عرفة ⏳'
-        : `تبقّى ${days} ${days === 1 ? 'يوم' : 'أيام'} على يوم عرفة ⏳`;
+      lbl.textContent = days === 0 ? 'غداً يوم عرفة ⏳' : 'تبقّى ' + days + ' ' + (days===1?'يوم':'أيام') + ' على يوم عرفة ⏳';
     }
   } else {
-    /* يوم عرفة نفسه */
     const daysWrap    = document.getElementById('ar-cd-days');
     const maghribWrap = document.getElementById('ar-cd-maghrib');
-    const phaseLbl    = document.getElementById('ar-phase-lbl');
     if (daysWrap)    daysWrap.style.display    = 'none';
     if (maghribWrap) maghribWrap.style.display = 'flex';
-    if (phaseLbl)    phaseLbl.textContent      = '🌟 يوم عرفة — اللهم اقبل منا';
+    if (lbl)         lbl.textContent           = '🌟 يوم عرفة — اللهم اقبل منا';
     initArafahMaghribTimer();
   }
 }
 
-/* ── عداد حتى المغرب ── */
 function initArafahMaghribTimer() {
   const hEl = document.getElementById('af-hh');
   const mEl = document.getElementById('af-mm');
   const sEl = document.getElementById('af-ss');
   if (!hEl) return;
-  const pad = n => String(n).padStart(2, '0');
+  const pad = n => String(n).padStart(2,'0');
   function tick() {
     const diff = Math.max(0, ARAFAH_MAGHRIB - new Date());
     if (hEl) hEl.textContent = pad(Math.floor(diff / 3600000));
     if (mEl) mEl.textContent = pad(Math.floor((diff % 3600000) / 60000));
     if (sEl) sEl.textContent = pad(Math.floor((diff % 60000) / 1000));
   }
-  tick();
-  setInterval(tick, 1000);
+  tick(); setInterval(tick, 1000);
 }
 
-/* ── تبديل تاب الحاج / غير الحاج ── */
-function switchArafahTab(tab) {
-  const isPilgrim = tab === 'pilgrim';
-  const pDiv = document.getElementById('tab-pilgrim');
-  const nDiv = document.getElementById('tab-nonpilgrim');
-  const btnP = document.getElementById('tab-btn-pilgrim');
-  const btnN = document.getElementById('tab-btn-nonpilgrim');
-  if (pDiv) pDiv.style.display = isPilgrim ? 'block' : 'none';
-  if (nDiv) nDiv.style.display = isPilgrim ? 'none'  : 'block';
-  if (btnP) {
-    btnP.style.background = isPilgrim ? 'var(--green-deep)' : 'var(--card)';
-    btnP.style.color      = isPilgrim ? '#fff' : 'var(--muted)';
-  }
-  if (btnN) {
-    btnN.style.background = isPilgrim ? 'var(--card)' : 'var(--green-deep)';
-    btnN.style.color      = isPilgrim ? 'var(--muted)' : '#fff';
-  }
-  try { localStorage.setItem('zad_arafah_tab', tab); } catch {}
-}
-
-/* استعادة التاب المحفوظ */
-(function restoreTab() {
-  try {
-    const saved = localStorage.getItem('zad_arafah_tab') || 'nonpilgrim';
-    switchArafahTab(saved);
-  } catch { switchArafahTab('nonpilgrim'); }
-})();
-
-/* ── Bonus Checklist ── */
+/* ════ Bonus checklist ════ */
 const BONUS_LIST = [
-  { id: 'sadaqa_arafah', label: 'إخراج صدقة اليوم' },
-  { id: 'sila_arafah',   label: 'التواصل مع الأقارب' },
-  { id: 'niya_arafah',   label: 'تجديد النية والتوبة' },
-  { id: 'share_arafah',  label: 'مشاركة برنامج عرفة للأصدقاء' },
+  {id:'sadaqa_arafah', label:'إخراج صدقة اليوم'},
+  {id:'sila_arafah',   label:'التواصل مع الأقارب'},
+  {id:'niya_arafah',   label:'تجديد النية والتوبة'},
+  {id:'share_arafah',  label:'مشاركة برنامج عرفة للأصدقاء'},
 ];
-
 function initBonusChecklist() {
   const wrap = document.getElementById('bonus-list');
   if (!wrap) return;
   if (typeof STATE === 'undefined') return;
-  if (!STATE.arafah) STATE.arafah = { milestones: {}, dhikrCount: 0, khushooMode: false, bonus: {} };
-  if (!STATE.arafah.bonus) STATE.arafah.bonus = {};
+  if (!STATE.arafah)        STATE.arafah        = {milestones:{},dhikrCount:0,bonus:{}};
+  if (!STATE.arafah.bonus)  STATE.arafah.bonus  = {};
   BONUS_LIST.forEach(b => {
     const done = !!STATE.arafah.bonus[b.id];
     const el   = document.createElement('div');
     el.className = 'bonus-check' + (done ? ' done' : '');
     el.id        = 'bonus-' + b.id;
-    el.innerHTML = `<div class="bonus-box">${done ? '✓' : ''}</div><div class="label">${b.label}</div>`;
+    el.innerHTML = '<div class="bonus-box">' + (done?'✓':'') + '</div><div class="label">' + b.label + '</div>';
     el.onclick   = () => {
-      const now = !STATE.arafah.bonus[b.id];
-      STATE.arafah.bonus[b.id] = now;
+      const now2 = !STATE.arafah.bonus[b.id];
+      STATE.arafah.bonus[b.id] = now2;
       if (typeof saveState === 'function') saveState();
-      el.classList.toggle('done', now);
-      el.querySelector('.bonus-box').textContent = now ? '✓' : '';
-      if (typeof showToast === 'function')
-        showToast(now ? '💚 ' + b.label : '↩️ تم الإلغاء');
+      el.classList.toggle('done', now2);
+      el.querySelector('.bonus-box').textContent = now2 ? '✓' : '';
+      showToast?.(now2 ? '💚 ' + b.label : '↩️ تم الإلغاء');
     };
     wrap.appendChild(el);
   });
 }
+
+/* ════ DOMContentLoaded ════ */
+document.addEventListener('DOMContentLoaded', () => {
+  loadArState();
+  /* restore saved tab */
+  const savedTab = (() => { try { return localStorage.getItem('zad_arafah_tab') || 'nonpilgrim'; } catch { return 'nonpilgrim'; } })();
+  switchArafahTab(savedTab);
+
+  /* app.js helpers */
+  if (typeof initTimeBackground === 'function') initTimeBackground();
+  /* skip initArafahPage — we render our own timeline */
+
+  initSmartCountdown();
+  initBonusChecklist();
+});
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
