@@ -39,6 +39,7 @@
     { sep: 'الحج والمناسك' },
     { href: 'fadael.html',       icon: '✨',  label: 'فضائل العشر' },
     { href: 'arafah.html',       icon: '🌄',  label: 'يوم عرفة' },
+    { href: 'arafah-dua.html',   icon: '🤲',  label: 'دعاء يوم عرفة' },
     { href: 'manasik.html',      icon: '🐫',  label: 'مناسك الحج' },
     { href: 'odhiya.html',       icon: '🐏',  label: 'دليل الأضحية' },
     { href: 'zakat.html',        icon: '🧮',  label: 'حاسبة الزكاة' },
