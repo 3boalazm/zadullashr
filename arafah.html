@@ -55,7 +55,13 @@ html[data-theme="dark"] .af-intro .afi-h,html[data-theme="oled"] .af-intro .afi-
 .af-gate .afg-go{margin-top:6px;font-size:11px;font-weight:800;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);border-radius:99px;padding:5px 14px}
 
 /* ═══ المسار الزمني الدسم ═══ */
-.aftl{position:relative;padding-right:8px}
+/* ═══ مبدّل المسار (حاج/غير حاج) ═══ */
+.aftl-switch{display:flex;gap:6px;background:var(--sand);border-radius:14px;padding:5px;margin-bottom:18px}
+.aftl-sw-btn{flex:1;padding:11px;border:none;background:transparent;border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:800;color:var(--muted);cursor:pointer;transition:all .25s;-webkit-tap-highlight-color:transparent}
+.aftl-sw-btn.active{background:var(--green-deep);color:#fff;box-shadow:0 4px 14px -3px rgba(14,59,46,.4)}
+html[data-theme="dark"] .aftl-sw-btn.active,html[data-theme="oled"] .aftl-sw-btn.active{background:var(--sys-green);color:#001a08}
+
+.aftl{position:relative}
 .aftl-progress{display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:11px 15px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
 .aftl-progress .aftlp-bar{flex:1;height:9px;background:var(--sand);border-radius:99px;overflow:hidden}
 .aftl-progress .aftlp-fill{height:100%;background:linear-gradient(90deg,var(--green-soft),var(--gold));border-radius:99px;width:0;transition:width .5s cubic-bezier(.34,1.56,.64,1)}
@@ -63,56 +69,70 @@ html[data-theme="dark"] .af-intro .afi-h,html[data-theme="oled"] .af-intro .afi-
 html[data-theme="dark"] .aftl-progress .aftlp-txt,html[data-theme="oled"] .aftl-progress .aftlp-txt{color:var(--sys-green)}
 
 .aftl-line{position:relative}
-.aftl-line::before{content:'';position:absolute;right:23px;top:20px;bottom:20px;width:2.5px;background:linear-gradient(var(--green-soft),var(--gold),var(--border));border-radius:2px}
 
-.aftl-stage{position:relative;padding-right:60px;margin-bottom:14px}
-.aftl-dot{position:absolute;right:8px;top:6px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--card);border:2.5px solid var(--green-soft);z-index:2;transition:all .3s}
-.aftl-stage.done .aftl-dot{background:var(--green-deep);border-color:var(--green-deep);color:#fff}
-html[data-theme="dark"] .aftl-stage.done .aftl-dot,html[data-theme="oled"] .aftl-stage.done .aftl-dot{background:var(--sys-green);border-color:var(--sys-green);color:#001a08}
-.aftl-stage.peak .aftl-dot{border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,161,74,.2);animation:aftlPeak 2.2s ease-in-out infinite}
-@keyframes aftlPeak{0%,100%{box-shadow:0 0 0 4px rgba(201,161,74,.2)}50%{box-shadow:0 0 0 8px rgba(201,161,74,.08)}}
+/* كل مرحلة = كارت واضح منفصل */
+.aftl-stage{position:relative;margin-bottom:12px;border-radius:16px;border:1.5px solid var(--border);background:var(--card);overflow:hidden;box-shadow:var(--shadow-sm);transition:border-color .25s,box-shadow .25s}
+.aftl-stage:hover{border-color:var(--green-soft)}
+.aftl-stage.peak{border-color:rgba(201,161,74,.5)}
+.aftl-stage.peak::before{content:'';position:absolute;top:0;right:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--green-mid))}
 
-.aftl-head{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:13px 15px;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent}
-.aftl-head:hover{border-color:var(--green-soft)}
-.aftl-stage.peak .aftl-head{border-color:rgba(201,161,74,.5);background:linear-gradient(135deg,var(--gold-pale),var(--card))}
+.aftl-head{padding:14px 15px;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:12px;-webkit-tap-highlight-color:transparent}
+.aftl-stage.peak .aftl-head{background:linear-gradient(135deg,var(--gold-pale),var(--card))}
 html[data-theme="dark"] .aftl-stage.peak .aftl-head,html[data-theme="oled"] .aftl-stage.peak .aftl-head{background:rgba(201,161,74,.07)}
+.aftl-dot{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:21px;background:var(--green-pale);border:none;flex-shrink:0;transition:all .3s}
+html[data-theme="dark"] .aftl-dot,html[data-theme="oled"] .aftl-dot{background:rgba(77,216,102,.1)}
+.aftl-stage.done .aftl-dot{background:var(--green-deep);color:#fff}
+html[data-theme="dark"] .aftl-stage.done .aftl-dot,html[data-theme="oled"] .aftl-stage.done .aftl-dot{background:var(--sys-green);color:#001a08}
+.aftl-stage.peak .aftl-dot{background:linear-gradient(135deg,var(--gold),var(--green-mid));color:#fff;box-shadow:0 0 0 4px rgba(201,161,74,.18);animation:aftlPeak 2.4s ease-in-out infinite}
+@keyframes aftlPeak{0%,100%{box-shadow:0 0 0 4px rgba(201,161,74,.18)}50%{box-shadow:0 0 0 7px rgba(201,161,74,.07)}}
 .aftl-head .afth-info{flex:1;min-width:0}
 .aftl-head .afth-time{font-size:10.5px;font-weight:800;color:var(--gold-dark);letter-spacing:.5px}
 html[data-theme="dark"] .aftl-head .afth-time,html[data-theme="oled"] .aftl-head .afth-time{color:var(--sys-yellow)}
-.aftl-head .afth-title{font-size:14.5px;font-weight:800;color:var(--ink);margin-top:1px}
-.aftl-head .afth-peak-badge{display:inline-block;font-size:9.5px;font-weight:900;background:var(--gold);color:#3a2410;border-radius:99px;padding:2px 8px;margin-right:6px;vertical-align:middle}
-.aftl-head .afth-chev{font-size:13px;color:var(--muted);transition:transform .3s;flex-shrink:0}
+.aftl-head .afth-title{font-size:15px;font-weight:800;color:var(--ink);margin-top:2px}
+.aftl-head .afth-peak-badge{display:inline-block;font-size:9.5px;font-weight:900;background:var(--gold);color:#3a2410;border-radius:99px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.aftl-head .afth-chev{font-size:13px;color:var(--muted);transition:transform .3s;flex-shrink:0;width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:var(--sand);border-radius:50%}
 .aftl-stage.open .aftl-head .afth-chev{transform:rotate(180deg)}
 
-.aftl-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1);background:var(--card);border-radius:0 0 14px 14px;margin-top:-2px}
-.aftl-stage.open .aftl-body{max-height:900px;border:1.5px solid var(--border);border-top:none}
-.aftl-body-inner{padding:6px 15px 15px}
-.aftl-tasks{list-style:none;padding:0;margin:0 0 12px}
-.aftl-task{display:flex;align-items:flex-start;gap:9px;padding:8px 0;font-size:13px;line-height:1.7;color:var(--ink);border-bottom:1px dashed var(--border);cursor:pointer;transition:opacity .2s}
+.aftl-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
+.aftl-stage.open .aftl-body{max-height:1200px}
+.aftl-body-inner{padding:2px 15px 16px;border-top:1px dashed var(--border);margin:0 15px}
+.aftl-tasks{list-style:none;padding:0;margin:12px 0}
+.aftl-task{display:flex;align-items:flex-start;gap:9px;padding:9px 0;font-size:13px;line-height:1.7;color:var(--ink);border-bottom:1px dashed var(--border);cursor:pointer;transition:opacity .2s}
 .aftl-task:last-child{border-bottom:none}
-.aftl-task .aftt-box{width:20px;height:20px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;transition:all .2s}
+.aftl-task .aftt-box{width:21px;height:21px;border-radius:7px;border:2px solid var(--border);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;transition:all .2s}
 .aftl-task.checked .aftt-box{background:var(--green-deep);border-color:var(--green-deep)}
 html[data-theme="dark"] .aftl-task.checked .aftt-box,html[data-theme="oled"] .aftl-task.checked .aftt-box{background:var(--sys-green);border-color:var(--sys-green);color:#001a08}
-.aftl-task.checked{opacity:.6}
+.aftl-task.checked{opacity:.55}
 .aftl-task.checked .aftt-lbl{text-decoration:line-through}
 
-.aftl-dua{background:linear-gradient(135deg,var(--gold-pale),var(--card));border:1px solid rgba(201,161,74,.35);border-radius:11px;padding:12px 14px;margin-bottom:10px}
+.aftl-dua{background:linear-gradient(135deg,var(--gold-pale),var(--card));border:1px solid rgba(201,161,74,.35);border-radius:12px;padding:13px 15px;margin-bottom:10px}
 html[data-theme="dark"] .aftl-dua,html[data-theme="oled"] .aftl-dua{background:rgba(201,161,74,.06)}
-.aftl-dua .aftd-lbl{font-size:10px;font-weight:800;color:var(--gold-dark);letter-spacing:1px;margin-bottom:4px}
+.aftl-dua .aftd-lbl{font-size:10px;font-weight:800;color:var(--gold-dark);letter-spacing:1px;margin-bottom:5px}
 html[data-theme="dark"] .aftl-dua .aftd-lbl,html[data-theme="oled"] .aftl-dua .aftd-lbl{color:var(--sys-yellow)}
-.aftl-dua .aftd-txt{font-family:'Amiri',serif;font-size:16px;font-weight:700;color:var(--green-deep);line-height:1.95}
+.aftl-dua .aftd-txt{font-family:'Amiri',serif;font-size:16px;font-weight:700;color:var(--green-deep);line-height:2}
 html[data-theme="dark"] .aftl-dua .aftd-txt,html[data-theme="oled"] .aftl-dua .aftd-txt{color:var(--sys-green)}
-.aftl-note{font-size:12px;color:var(--muted);line-height:1.8;background:var(--green-pale);border-radius:10px;padding:10px 12px;display:flex;gap:7px}
+.aftl-note{font-size:12px;color:var(--muted);line-height:1.85;background:var(--green-pale);border-radius:11px;padding:11px 13px;display:flex;gap:8px}
 html[data-theme="dark"] .aftl-note,html[data-theme="oled"] .aftl-note{background:rgba(77,216,102,.06)}
-.aftl-done-btn{margin-top:11px;width:100%;background:var(--card);border:1.5px solid var(--gold);border-radius:10px;padding:9px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--gold-dark);cursor:pointer;transition:all .2s}
+.aftl-done-btn{margin-top:12px;width:100%;background:var(--card);border:1.5px solid var(--gold);border-radius:11px;padding:10px;font-family:inherit;font-size:13px;font-weight:800;color:var(--gold-dark);cursor:pointer;transition:all .2s}
 .aftl-done-btn:hover{background:var(--gold-pale)}
 .aftl-stage.done .aftl-done-btn{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-color:transparent;color:#fff}
+
+/* زر عائم بسيط للدعاء/الذكر */
+.af-quick-fab{position:fixed;bottom:150px;left:18px;z-index:80;display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+.af-qf-btn{display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--border);border-radius:99px;padding:9px 15px 9px 12px;text-decoration:none;font-size:12.5px;font-weight:800;color:var(--ink);box-shadow:0 6px 18px -4px rgba(0,0,0,.25);transition:transform .2s,box-shadow .2s;animation:afQfIn .4s cubic-bezier(.34,1.56,.64,1) both}
+.af-qf-btn:hover{transform:translateX(-3px);box-shadow:0 10px 24px -4px rgba(0,0,0,.32)}
+.af-qf-btn .afqf-ico{font-size:18px}
+.af-qf-btn.dua{background:linear-gradient(135deg,#6b4518,#c9a14a);color:#fff;border-color:transparent}
+.af-qf-btn.dhikr{background:linear-gradient(135deg,#0e3b2e,#2a7a5f);color:#fff;border-color:transparent}
+@keyframes afQfIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:none}}
+@media(min-width:980px){.af-quick-fab{bottom:30px;left:30px}}
 
 @media(max-width:380px){
   .af-gateways{gap:9px}
   .af-gate{padding:16px 10px;min-height:140px}
   .af-gate .afg-ico{font-size:36px}
   .af-gate .afg-t{font-size:15px}
+  .af-qf-btn{padding:8px 12px 8px 10px;font-size:11.5px}
 }
 </style>
 <script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
@@ -279,115 +299,16 @@ html[data-theme="dark"] .aftl-note,html[data-theme="oled"] .aftl-note{background
       </a>
     </div>
 
-    <!-- تابات: الحاج / غير الحاج -->
-    <div style="display:flex;gap:0;border-radius:16px;overflow:hidden;border:1.5px solid var(--border);margin-bottom:18px">
-      <button id="tab-btn-pilgrim" onclick="switchArafahTab('pilgrim')"
-        style="flex:1;padding:12px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;border-left:1px solid rgba(255,255,255,.2)">
-        🕋 للحاج
-      </button>
-      <button id="tab-btn-nonpilgrim" onclick="switchArafahTab('nonpilgrim')"
-        style="flex:1;padding:12px;border:none;background:var(--card);color:var(--muted);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer">
-        🏡 لغير الحاج
-      </button>
-    </div>
-
-    <!-- محتوى: للحاج -->
-    <div id="tab-pilgrim" style="animation:duaIn .3s ease">
-
-      <div class="key-insight" style="margin-bottom:16px">
-        <div class="ki-ico">📍</div>
-        <div class="ki-body">
-          <div class="ki-label">الركن الأعظم</div>
-          <div class="ki-text">الوقوف بعرفة ولو للحظة بين الزوال وفجر يوم النحر هو الركن الذي يترتب عليه صحة الحج كله</div>
-        </div>
-      </div>
-
-      <div class="section-title" style="margin-top:0">📋 أعمال الحاج يوم عرفة</div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">1</span><div class="oh-text">الانطلاق إلى عرفة والتحقق من الحدود</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">يُسن الانطلاق من منى إلى عرفة بعد طلوع شمس يوم التاسع. <strong>مهم:</strong> التأكد من الوجود داخل حدود عرفة وليس في وادي عُرنة — يمكن استخدام تطبيقات الخرائط للتحقق.</p>
-      </div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">2</span><div class="oh-text">الفطر (سنة مؤكدة للحاج)</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">يُسن للحاج <strong>الفطر</strong> في يوم عرفة ليتقوى على الذكر والدعاء — اقتداءً بفعل النبي ﷺ الذي وقف بعرفة مفطراً.</p>
-      </div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">3</span><div class="oh-text">الصلاة والخطبة</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">• الاستماع لخطبة عرفة في مسجد نمرة.<br>• صلاة الظهر والعصر جمع تقديم وقصراً (ركعتان لكل صلاة) بأذان وإقامتين — للتفرغ كلياً للدعاء بعد ذلك.</p>
-      </div>
-
-      <div class="card" style="margin-bottom:12px;background:linear-gradient(135deg,var(--gold-pale),var(--card));border-color:rgba(201,161,74,.3)">
-        <div class="outcome-heading"><span class="oh-ico">4</span><div class="oh-text">التفرغ للذكر والدعاء — أهم أعمال اليوم</div></div>
-        <p style="font-family:Amiri,serif;font-size:17px;color:var(--green-deep);line-height:2;margin:10px 0 6px">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</p>
-        <span class="tag">خير ما قاله النبي ﷺ والنبيون يوم عرفة — رواه الترمذي</span>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:10px 0 0">استثمار ساعات العشية (من بعد العصر حتى الغروب) في الانفراد بالنفس، والتوجه للقبلة، ورفع اليدين، والإلحاح على الله بطلب المغفرة والعتق من النار.</p>
-      </div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">5</span><div class="oh-text">التلبية والنفرة إلى مزدلفة</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">• استمرار التلبية طوال اليوم حتى رمي جمرة العقبة يوم العيد.<br>• بعد غروب الشمس: الانصراف إلى مزدلفة بهدوء وسكينة مع الاستغفار.<br>• <strong>مهم:</strong> تأخير المغرب لتُصلى مع العشاء جمعاً في مزدلفة.</p>
-      </div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">6</span><div class="oh-text">آداب عامة مستحبة</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">• كف السمع والبصر واللسان عن اللغو لضمان الحج المبرور.<br>• مساعدة الضعفاء من الحجاج وإرشاد التائهين وبذل الماء.<br>• البقاء على تواصل مع الرفقة لتجنب الضياع في الزحام.</p>
-      </div>
-    </div>
-
-    <!-- محتوى: لغير الحاج -->
-    <div id="tab-nonpilgrim" style="display:none;animation:duaIn .3s ease">
-
-      <div class="key-insight" style="margin-bottom:16px">
-        <div class="ki-ico">🏡</div>
-        <div class="ki-body">
-          <div class="ki-label">أجر عظيم من بيتك</div>
-          <div class="ki-text">يوم عرفة لغير الحاج فرصة ذهبية لمضاعفة الأجور ونيل المغفرة — وصيامه يكفّر سنتين</div>
-        </div>
-      </div>
-
-      <div class="section-title" style="margin-top:0">📅 برنامج يوم عرفة (الحج في بيتك)</div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">🌙</span><div class="oh-text">السحر — قبل الفجر</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">الاستيقاظ قبل الفجر للاستغفار والدعاء وصلاة ركعتين نافلة.</p>
-      </div>
-
-      <div class="card" style="margin-bottom:12px;background:linear-gradient(135deg,var(--gold-pale),var(--card));border-color:rgba(201,161,74,.3)">
-        <div class="outcome-heading"><span class="oh-ico">🌅</span><div class="oh-text">الفجر إلى الشروق</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">صلاة الفجر والجلوس للذكر والقرآن حتى تطلع الشمس، ثم صلاة ركعتين.</p>
-        <p style="font-family:Amiri,serif;font-size:15px;color:var(--green-deep);line-height:2;margin-top:8px">«من صلى الفجر في جماعة ثم قعد يذكر الله حتى تطلع الشمس ثم صلى ركعتين كانت له كأجر حجة وعمرة تامة تامة تامة»</p>
-        <span class="tag">رواه الترمذي — اغتنمها يوم عرفة خاصةً</span>
-      </div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">☀️</span><div class="oh-text">طوال اليوم — الصيام والذكر</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">• صوم اليوم — يُكفّر السنة الماضية والسنة الباقية.<br>• الإكثار من التكبير والتهليل والتحميد والتسبيح طوال اليوم.<br>• قراءة القرآن بتدبر وخشوع.</p>
-      </div>
-
-      <div class="card" style="margin-bottom:12px;background:linear-gradient(135deg,rgba(14,59,46,.06),var(--card));border-color:rgba(14,59,46,.2)">
-        <div class="outcome-heading"><span class="oh-ico">🌇</span><div class="oh-text">العشية — من العصر للمغرب (أفضل الأوقات)</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0"><strong>"وقت الخلوة التامة"</strong> — التفرغ الكامل للدعاء والإلحاح على الله بالعتق من النار:</p>
-        <p style="font-family:Amiri,serif;font-size:17px;color:var(--green-deep);line-height:2;margin:10px 0 6px">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</p>
-        <span class="tag">خير الدعاء دعاء يوم عرفة — رواه الترمذي</span>
-      </div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">💚</span><div class="oh-text">أعمال البر</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">• صدقة اليوم — وإن كانت يسيرة.<br>• التواصل مع الأقارب وإصلاح العلاقات المتوترة.<br>• زيارة المرضى والدعاء لهم.</p>
-      </div>
-
-      <div class="card" style="margin-bottom:12px">
-        <div class="outcome-heading"><span class="oh-ico">✂️</span><div class="oh-text">إن كنت ستضحّي</div></div>
-        <p style="font-size:13px;color:var(--ink);line-height:1.9;margin:8px 0 0">من نوى الأضحية يحرم عليه من دخول ذي الحجة أخذ شيء من شعره أو أظفاره أو بشرته حتى يذبح — وهذا خاص بصاحب الأضحية فقط.</p>
-      </div>
-    </div>
-
-    <!-- ═══ المسار الزمني التفاعلي (يتبدّل حسب اختيارك) ═══ -->
+    <!-- ═══ المسار الزمني التفاعلي — البطل ═══ -->
     <div class="section-title">⏳ المسار الزمني التفاعلي</div>
-    <p style="font-size:12.5px;color:var(--muted);line-height:1.8;margin:-6px 0 14px;padding-right:2px">رحلتك ساعةً بساعة من الفجر إلى المغرب — اضغط كل مرحلة لتفاصيلها وأدعيتها، وعلّمها عند إتمامها. <span id="aftl-mode-lbl" style="color:var(--gold-dark);font-weight:800"></span></p>
+    <p style="font-size:12.5px;color:var(--muted);line-height:1.8;margin:-6px 0 14px;padding-right:2px">رحلتك ساعةً بساعة من الفجر إلى المغرب — اضغط كل مرحلة لتفاصيلها وأدعيتها، وعلّمها عند إتمامها.</p>
+
+    <!-- مبدّل: حاج / غير حاج -->
+    <div class="aftl-switch">
+      <button id="tab-btn-nonpilgrim" class="aftl-sw-btn active" onclick="switchArafahTab('nonpilgrim')">🏡 لغير الحاج</button>
+      <button id="tab-btn-pilgrim" class="aftl-sw-btn" onclick="switchArafahTab('pilgrim')">🕋 للحاج</button>
+    </div>
+
     <div id="af-timeline-pilgrim" class="aftl"></div>
     <div id="af-timeline-nonpilgrim" class="aftl"></div>
 
@@ -439,7 +360,11 @@ html[data-theme="dark"] .aftl-note,html[data-theme="oled"] .aftl-note{background
   </main>
 
   <!-- Floating Dua Button (replacing AI) -->
-  <a href="dua-guide.html" class="fab-ai" title="قيم الدعاء" aria-label="قيم الدعاء" style="background:linear-gradient(135deg,#0e3b2e,#c9a14a)">🤲</a>
+  <!-- زر عائم بسيط: دعاء + ذكر -->
+  <div class="af-quick-fab">
+    <a href="arafah-dua.html" class="af-qf-btn dua"><span class="afqf-ico">🤲</span><span>الدعاء</span></a>
+    <a href="adhkar.html" class="af-qf-btn dhikr"><span class="afqf-ico">📿</span><span>الذكر</span></a>
+  </div>
 </div>
   <script src="lang.js" defer></script>
   <script src="js/app.js" defer></script>
@@ -507,19 +432,15 @@ function initArafahMaghribTimer() {
 /* تبديل تاب الحاج / غير الحاج */
 function switchArafahTab(tab) {
   const isPilgrim = tab === 'pilgrim';
-  document.getElementById('tab-pilgrim').style.display    = isPilgrim ? 'block' : 'none';
-  document.getElementById('tab-nonpilgrim').style.display = isPilgrim ? 'none'  : 'block';
   const btnP = document.getElementById('tab-btn-pilgrim');
   const btnN = document.getElementById('tab-btn-nonpilgrim');
-  if (btnP) { btnP.style.background = isPilgrim ? 'var(--green-deep)' : 'var(--card)'; btnP.style.color = isPilgrim ? '#fff' : 'var(--muted)'; }
-  if (btnN) { btnN.style.background = isPilgrim ? 'var(--card)' : 'var(--green-deep)'; btnN.style.color = isPilgrim ? 'var(--muted)' : '#fff'; }
+  if (btnP) btnP.classList.toggle('active', isPilgrim);
+  if (btnN) btnN.classList.toggle('active', !isPilgrim);
   /* تبديل المسار الزمني حسب التاب */
   const tlP = document.getElementById('af-timeline-pilgrim');
   const tlN = document.getElementById('af-timeline-nonpilgrim');
   if (tlP) tlP.style.display = isPilgrim ? 'block' : 'none';
   if (tlN) tlN.style.display = isPilgrim ? 'none'  : 'block';
-  const lbl = document.getElementById('aftl-mode-lbl');
-  if (lbl) lbl.textContent = isPilgrim ? '(مسار الحاج 🕋)' : '(مسار غير الحاج 🏡)';
   try { localStorage.setItem('zad_arafah_tab', tab); } catch {}
 }
 
@@ -572,8 +493,7 @@ function buildTimeline(kind){
   var done=afTlGetState(kind);
   var html='';
   // شريط التقدّم
-  html+='<div class="aftl-progress"><span class="aftlp-txt" id="aftlp-txt-'+kind+'">0/'+stages.length+'</span><div class="aftlp-bar"><div class="aftlp-fill" id="aftlp-fill-'+kind+'"></div></div><span style="font-size:16px">🌅</span></div>';
-  html+='<div class="aftl-line">';
+  html+='<div class="aftl-progress"><span class="aftlp-txt" id="aftlp-txt-'+kind+'">0/'+stages.length+'</span><div class="aftlp-bar"><div class="aftlp-fill" id="aftlp-fill-'+kind+'"></div></div><span style="font-size:16px">🕋</span></div>';
   stages.forEach(function(st,i){
     var isDone=!!done[st.id];
     var peakBadge=st.peak?'<span class="afth-peak-badge">ذروة اليوم</span>':'';
@@ -581,9 +501,9 @@ function buildTimeline(kind){
       return '<li class="aftl-task" data-kind="'+kind+'" data-stage="'+st.id+'" data-ti="'+ti+'"><span class="aftt-box">✓</span><span class="aftt-lbl">'+t+'</span></li>';
     }).join('');
     html+='<div class="aftl-stage'+(isDone?' done':'')+(st.peak?' peak':'')+'" id="aftl-'+kind+'-'+st.id+'">'
-      +'<div class="aftl-dot">'+(isDone?'✓':st.icon)+'</div>'
       +'<div class="aftl-head" data-toggle="'+kind+'-'+st.id+'">'
-        +'<div class="afth-info"><div class="afth-time">'+st.time+'</div><div class="afth-title">'+peakBadge+st.title+'</div></div>'
+        +'<div class="aftl-dot">'+(isDone?'✓':st.icon)+'</div>'
+        +'<div class="afth-info"><div class="afth-time">'+st.time+'</div><div class="afth-title">'+st.title+peakBadge+'</div></div>'
         +'<span class="afth-chev">▼</span>'
       +'</div>'
       +'<div class="aftl-body"><div class="aftl-body-inner">'
@@ -594,7 +514,6 @@ function buildTimeline(kind){
       +'</div></div>'
     +'</div>';
   });
-  html+='</div>';
   el.innerHTML=html;
 
   // أحداث الطيّ
