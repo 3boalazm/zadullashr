@@ -1,303 +1,251 @@
-/**
- * pwa-install-fab.js — زرار تثبيت التطبيق العائم
- * ملف مستقل بالكامل: يحقن الـ CSS والـ HTML تلقائيًا
- * لا يحتاج أي تعديل في صفحات HTML
- *
- * كيف يشتغل:
- *  - يستخدم window.deferredInstall من app.js لو موجود
- *  - أو يشتغل مستقل بالكامل لو شُغِّل بدون app.js
- *  - يختفي تلقائيًا لو التطبيق مثبّت (standalone mode)
- */
+/* ═══════════════════════════════════════════════════════════════════════════
+   pwa-install-fab.js — زر عائم لتثبيت التطبيق
+   الاستخدام: <script src="pwa-install-fab.js" defer></script>
+   • يظهر فقط لمستخدمي المتصفح (لا يظهر لمن ثبّت التطبيق)
+   • يختفي تلقائياً بعد التثبيت
+   • لا يظهر لو المستخدم أغلقه (48 ساعة)
+   • صفر تعارض مع الصفحة — يحقن CSS + HTML تلقائياً
+   ═══════════════════════════════════════════════════════════════════════════ */
 (function () {
-  'use strict';
 
-  /* ── 1. لو التطبيق مثبّت بالفعل — لا تفعل شيئًا ── */
-  const isStandalone =
-    window.matchMedia('(display-mode: standalone)').matches ||
-    window.navigator.standalone === true;
-  if (isStandalone) return;
+  /* ── إعدادات ──────────────────────────────────────────────────────────── */
+  var DISMISS_KEY    = 'zad_pwa_fab_dismissed';
+  var DISMISS_HOURS  = 48;          /* عدد ساعات الاختفاء بعد الإغلاق      */
+  var SHOW_DELAY_MS  = 3000;        /* ثواني الانتظار قبل ظهور الزر         */
+  var FAB_ID         = 'zad-pwa-fab';
 
-  /* ── 2. تحقق لو الزرار اتعمل قبل كده (لو الملف اتحمل مرتين) ── */
-  if (document.getElementById('pwa-fab')) return;
-
-  /* ── 3. حقن الـ CSS ── */
-  const style = document.createElement('style');
-  style.textContent = `
-    #pwa-fab {
-      position: fixed;
-      bottom: 88px;
-      /* دايمًا على اليسار في RTL */
-      left: 20px;
-      right: auto;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--green-deep, #0e3b2e);
-      color: #fff;
-      border: none;
-      border-radius: 50px;
-      padding: 13px 20px 13px 16px;
-      font-family: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 4px 24px rgba(14,59,46,.45), 0 1px 4px rgba(0,0,0,.2);
-      transition: transform .2s ease, box-shadow .2s ease, opacity .3s ease;
-      opacity: 0;
-      transform: translateY(16px) scale(.95);
-      pointer-events: none;
-      white-space: nowrap;
-      direction: rtl;
-      text-align: right;
-    }
-    #pwa-fab.fab-visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
-    #pwa-fab:hover {
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 8px 32px rgba(14,59,46,.55);
-    }
-    #pwa-fab:active {
-      transform: scale(.97);
-    }
-    #pwa-fab .fab-icon {
-      font-size: 20px;
-      line-height: 1;
-      flex-shrink: 0;
-    }
-    #pwa-fab .fab-text {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-    #pwa-fab .fab-title {
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-    #pwa-fab .fab-sub {
-      font-size: 11px;
-      opacity: .75;
-      font-weight: 400;
-    }
-    #pwa-fab-close {
-      position: absolute;
-      top: -8px;
-      left: -8px;
-      width: 22px;
-      height: 22px;
-      background: rgba(0,0,0,.55);
-      border: none;
-      border-radius: 50%;
-      color: #fff;
-      font-size: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      padding: 0;
-      transition: background .15s;
-      z-index: 1;
-    }
-    #pwa-fab-close:hover { background: rgba(0,0,0,.8); }
-
-    /* iOS modal */
-    #pwa-ios-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 10000;
-      background: rgba(0,0,0,.6);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding: 16px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s ease;
-    }
-    #pwa-ios-modal.modal-open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    #pwa-ios-modal-inner {
-      background: var(--bg, #fff);
-      color: var(--ink, #1a1a1a);
-      border-radius: 20px;
-      padding: 24px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-      font-family: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif;
-      direction: rtl;
-      box-shadow: 0 -4px 40px rgba(0,0,0,.3);
-    }
-    #pwa-ios-modal-inner h3 {
-      margin: 0 0 8px;
-      font-size: 17px;
-      font-weight: 700;
-    }
-    #pwa-ios-modal-inner p {
-      margin: 0 0 20px;
-      font-size: 14px;
-      opacity: .75;
-      line-height: 1.7;
-    }
-    #pwa-ios-modal-inner .ios-steps {
-      background: var(--sand, #f5f0e8);
-      border-radius: 12px;
-      padding: 14px 16px;
-      text-align: right;
-      font-size: 14px;
-      line-height: 2;
-      margin-bottom: 16px;
-    }
-    #pwa-ios-modal-close {
-      width: 100%;
-      padding: 12px;
-      background: var(--green-deep, #0e3b2e);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    /* تكيّف مع الشاشات الصغيرة */
-    @media (max-width: 400px) {
-      #pwa-fab { bottom: 80px; left: 12px; padding: 11px 16px 11px 12px; }
-      #pwa-fab .fab-sub { display: none; }
-    }
-  `;
-  document.head.appendChild(style);
-
-  /* ── 4. حقن الـ FAB ── */
-  const fab = document.createElement('button');
-  fab.id = 'pwa-fab';
-  fab.setAttribute('aria-label', 'تثبيت التطبيق');
-  fab.innerHTML = `
-    <button id="pwa-fab-close" aria-label="إغلاق">✕</button>
-    <span class="fab-icon">📲</span>
-    <span class="fab-text">
-      <span class="fab-title">ثبّت التطبيق</span>
-      <span class="fab-sub">يعمل بدون إنترنت</span>
-    </span>
-  `;
-  document.body.appendChild(fab);
-
-  /* ── 5. iOS modal ── */
-  const iosModal = document.createElement('div');
-  iosModal.id = 'pwa-ios-modal';
-  iosModal.innerHTML = `
-    <div id="pwa-ios-modal-inner">
-      <h3>📲 أضف التطبيق لشاشتك</h3>
-      <p>ثبّت زاد العشر مجانًا بدون متجر تطبيقات</p>
-      <div class="ios-steps">
-        1️⃣ اضغط على زر المشاركة <strong>⬆️</strong><br>
-        2️⃣ اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong><br>
-        3️⃣ اضغط <strong>إضافة</strong> ✅
-      </div>
-      <button id="pwa-ios-modal-close">فهمت، شكرًا!</button>
-    </div>
-  `;
-  document.body.appendChild(iosModal);
-
-  /* ── 6. منطق الظهور والإخفاء ── */
-  const DISMISS_KEY = 'pwa_fab_dismissed';
-
-  function showFab() {
-    /* لو المستخدم أغلقه من قبل — لا تعرضه في نفس الجلسة */
-    if (sessionStorage.getItem(DISMISS_KEY)) return;
-    setTimeout(() => fab.classList.add('fab-visible'), 1500);
+  /* ── 1. تحقق سريع: هل التطبيق مثبّت بالفعل؟ ─────────────────────────── */
+  function isInstalled () {
+    return (
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia('(display-mode: fullscreen)').matches ||
+      window.navigator.standalone === true                    /* iOS Safari  */
+    );
   }
 
-  function hideFab() {
-    fab.classList.remove('fab-visible');
+  /* ── 2. تحقق من حالة الإغلاق ─────────────────────────────────────────── */
+  function isDismissed () {
+    try {
+      var ts = parseInt(localStorage.getItem(DISMISS_KEY), 10);
+      if (!ts) return false;
+      return (Date.now() - ts) < DISMISS_HOURS * 3600 * 1000;
+    } catch (e) { return false; }
+  }
+  function markDismissed () {
+    try { localStorage.setItem(DISMISS_KEY, String(Date.now())); } catch (e) {}
   }
 
-  /* ── زر الإغلاق ── */
-  document.getElementById('pwa-fab-close').addEventListener('click', function (e) {
-    e.stopPropagation();
-    hideFab();
-    sessionStorage.setItem(DISMISS_KEY, '1');
-  });
-
-  /* ── iOS modal close ── */
-  document.getElementById('pwa-ios-modal-close').addEventListener('click', function () {
-    iosModal.classList.remove('modal-open');
-    hideFab();
-    sessionStorage.setItem(DISMISS_KEY, '1');
-  });
-
-  /* ── 7. كشف النوع: Android/Chrome vs iOS ── */
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-  /* ── 8. Android/Chrome — beforeinstallprompt ── */
-  let _deferredEvent = null;
-
-  function handleInstallPrompt(e) {
-    e.preventDefault();
-    _deferredEvent = e;
-    /* لو app.js موجود، شارك معه الـ event */
-    if (typeof window !== 'undefined') window._pwaFabEvent = e;
-    showFab();
+  /* ── 3. حقن CSS ──────────────────────────────────────────────────────── */
+  function injectCSS () {
+    if (document.getElementById('zad-pwa-fab-style')) return;
+    var s = document.createElement('style');
+    s.id  = 'zad-pwa-fab-style';
+    s.textContent = [
+      /* wrapper */
+      '#zad-pwa-fab{',
+        'position:fixed;',
+        'bottom:28px;',
+        'left:20px;',         /* يسار — RTL: الزاوية الطبيعية للـ FAB */
+        'z-index:99998;',
+        'display:flex;',
+        'align-items:center;',
+        'gap:10px;',
+        'background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 60%,rgba(201,161,74,.25) 100%);',
+        'border:1.5px solid rgba(201,161,74,.4);',
+        'border-radius:56px;',
+        'padding:12px 18px 12px 14px;',
+        'box-shadow:0 8px 28px rgba(0,0,0,.35),0 2px 8px rgba(0,0,0,.2);',
+        'cursor:pointer;',
+        'direction:rtl;',
+        'font-family:"IBM Plex Sans Arabic","Tajawal",Tahoma,sans-serif;',
+        'transform:translateY(120px);',
+        'opacity:0;',
+        'transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;',
+        'will-change:transform,opacity;',
+        'backdrop-filter:blur(10px);',
+        '-webkit-backdrop-filter:blur(10px);',
+      '}',
+      /* entrada */
+      '#zad-pwa-fab.visible{transform:translateY(0);opacity:1}',
+      /* hover */
+      '#zad-pwa-fab:hover{',
+        'transform:translateY(-3px) scale(1.02);',
+        'box-shadow:0 14px 36px rgba(0,0,0,.4),0 4px 12px rgba(201,161,74,.2);',
+      '}',
+      '#zad-pwa-fab:active{transform:scale(.97);transition-duration:.1s}',
+      /* icon */
+      '#zad-pwa-fab .pfab-ico{',
+        'font-size:22px;line-height:1;flex-shrink:0;',
+        'animation:pfabPulse 2.4s ease-in-out infinite;',
+        'filter:drop-shadow(0 0 8px rgba(201,161,74,.5));',
+      '}',
+      '@keyframes pfabPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}',
+      /* text block */
+      '#zad-pwa-fab .pfab-txt{display:flex;flex-direction:column;gap:2px;line-height:1.2}',
+      '#zad-pwa-fab .pfab-title{',
+        'font-size:13px;font-weight:800;color:#fff;white-space:nowrap;',
+      '}',
+      '#zad-pwa-fab .pfab-sub{',
+        'font-size:10px;color:rgba(255,255,255,.6);white-space:nowrap;',
+      '}',
+      /* X close button */
+      '#zad-pwa-fab .pfab-close{',
+        'width:22px;height:22px;border-radius:50%;',
+        'border:1px solid rgba(255,255,255,.25);',
+        'background:rgba(255,255,255,.1);',
+        'color:rgba(255,255,255,.7);',
+        'font-size:11px;line-height:1;',
+        'display:flex;align-items:center;justify-content:center;',
+        'cursor:pointer;flex-shrink:0;',
+        'transition:background .2s,color .2s;',
+        'margin-right:2px;',
+      '}',
+      '#zad-pwa-fab .pfab-close:hover{background:rgba(255,255,255,.25);color:#fff}',
+      /* pulse ring */
+      '#zad-pwa-fab::before{',
+        'content:"";',
+        'position:absolute;',
+        'inset:-4px;',
+        'border-radius:60px;',
+        'border:2px solid rgba(201,161,74,.35);',
+        'animation:pfabRing 2.8s ease-in-out infinite;',
+        'pointer-events:none;',
+      '}',
+      '@keyframes pfabRing{',
+        '0%,100%{opacity:.6;transform:scale(1)}',
+        '50%{opacity:0;transform:scale(1.06)}',
+      '}',
+      /* hide on standalone */
+      '@media all and (display-mode:standalone){#zad-pwa-fab{display:none!important}}',
+      '@media all and (display-mode:fullscreen){#zad-pwa-fab{display:none!important}}',
+    ].join('');
+    (document.head || document.documentElement).appendChild(s);
   }
 
-  /* استمع للـ event مباشرة ── */
-  window.addEventListener('beforeinstallprompt', handleInstallPrompt);
+  /* ── 4. بناء الـ FAB ─────────────────────────────────────────────────── */
+  function buildFAB () {
+    if (document.getElementById(FAB_ID)) return;
 
-  /* لو app.js سبقنا وخزّن deferredInstall، استخدمه ── */
-  if (window.deferredInstall) {
-    _deferredEvent = window.deferredInstall;
-    showFab();
+    var fab = document.createElement('div');
+    fab.id   = FAB_ID;
+    fab.setAttribute('role', 'button');
+    fab.setAttribute('aria-label', 'تثبيت تطبيق زاد العشر');
+    fab.setAttribute('tabindex', '0');
+    fab.innerHTML = [
+      '<span class="pfab-ico" aria-hidden="true">📲</span>',
+      '<div class="pfab-txt">',
+        '<span class="pfab-title">ثبّت التطبيق</span>',
+        '<span class="pfab-sub">يعمل بدون إنترنت 📴</span>',
+      '</div>',
+      '<button class="pfab-close" id="zad-pwa-fab-close" aria-label="إغلاق">✕</button>',
+    ].join('');
+
+    document.body.appendChild(fab);
+
+    /* show with delay */
+    setTimeout(function () {
+      fab.classList.add('visible');
+    }, SHOW_DELAY_MS);
+
+    return fab;
   }
 
-  /* ── iOS Safari ── */
-  if (isIOS && isSafari) {
-    showFab();
+  /* ── 5. إخفاء الـ FAB ────────────────────────────────────────────────── */
+  function hideFAB (animate) {
+    var fab = document.getElementById(FAB_ID);
+    if (!fab) return;
+    if (animate) {
+      fab.style.transform  = 'translateY(120px)';
+      fab.style.opacity    = '0';
+      setTimeout(function () { fab.remove(); }, 450);
+    } else {
+      fab.remove();
+    }
   }
 
-  /* ── 9. النقر على الزرار ── */
-  fab.addEventListener('click', function (e) {
-    /* تجاهل لو النقر على زر الإغلاق */
-    if (e.target.id === 'pwa-fab-close') return;
+  /* ── 6. منطق الـ install prompt ─────────────────────────────────────── */
+  var _deferredPrompt = null;
 
-    /* Android/Chrome */
-    const prompt = _deferredEvent || window.deferredInstall || null;
-    if (prompt) {
-      prompt.prompt();
-      prompt.userChoice.then(function (result) {
-        if (result.outcome === 'accepted') {
-          hideFab();
-          if (typeof showToast === 'function') showToast('✅ تم تثبيت التطبيق!');
+  function doInstall () {
+    if (!_deferredPrompt) return;
+    _deferredPrompt.prompt();
+    _deferredPrompt.userChoice.then(function (result) {
+      _deferredPrompt = null;
+      if (result.outcome === 'accepted') {
+        hideFAB(true);
+      }
+    });
+  }
+
+  /* ── 7. Init ─────────────────────────────────────────────────────────── */
+  function init () {
+    /* لو بالفعل مثبّت → لا تكمّل */
+    if (isInstalled()) return;
+
+    /* لو المستخدم أغلقه مؤخراً → لا تظهره */
+    if (isDismissed()) return;
+
+    injectCSS();
+
+    /* استمع لـ beforeinstallprompt */
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      _deferredPrompt = e;
+
+      /* لو أُغلق بعد حفظ الحدث */
+      if (isDismissed()) return;
+
+      var fab = buildFAB();
+      if (!fab) return;
+
+      /* كليك على الزر → install */
+      fab.addEventListener('click', function (ev) {
+        /* لو ضغط على X → أغلق فقط */
+        if (ev.target.id === 'zad-pwa-fab-close' ||
+            ev.target.closest('#zad-pwa-fab-close')) {
+          ev.stopPropagation();
+          markDismissed();
+          hideFAB(true);
+          return;
         }
-        _deferredEvent = null;
-        if (window.deferredInstall !== undefined) window.deferredInstall = null;
+        doInstall();
       });
-      return;
-    }
 
-    /* iOS Safari */
-    if (isIOS && isSafari) {
-      iosModal.classList.add('modal-open');
-      return;
-    }
+      /* Keyboard */
+      fab.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Enter' || ev.key === ' ') doInstall();
+      });
+    });
 
-    /* Fallback */
-    if (typeof showToast === 'function') {
-      showToast('📲 افتح القائمة ← "إضافة للشاشة الرئيسية"');
-    }
-  });
+    /* بعد التثبيت → اخفيه */
+    window.addEventListener('appinstalled', function () {
+      hideFAB(true);
+    });
 
-  /* ── 10. اختفاء تلقائي لو اتثبّت ── */
-  window.matchMedia('(display-mode: standalone)').addEventListener('change', function (e) {
-    if (e.matches) hideFab();
-  });
+    /* لو فتح التطبيق بعدين كـ standalone → اخفيه من localStorage */
+    window.matchMedia('(display-mode: standalone)').addEventListener('change', function (e) {
+      if (e.matches) hideFAB(false);
+    });
+  }
+
+  /* شغّل init بعد تحميل الـ DOM */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  /* ── 8. API عام (للتحكم اليدوي لو احتجت) ──────────────────────────── */
+  window.ZadPWA = {
+    show : function () {
+      if (isInstalled()) return;
+      injectCSS();
+      buildFAB();
+    },
+    hide : function () { hideFAB(true); },
+    reset: function () {
+      try { localStorage.removeItem(DISMISS_KEY); } catch(e) {}
+    },
+  };
 
 })();
