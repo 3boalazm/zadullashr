@@ -146,24 +146,58 @@ let _serverTimeOffset = 0; /* الفارق بين السيرفر والجهاز 
 async function syncServerTime() {
   try {
     const before = Date.now();
-    /* استخدم Aladhan API كمصدر وقت (موثوق ومستخدم بالفعل) */
-    const res = await fetch('https://api.aladhan.com/v1/currentTime?zone=UTC', { signal: AbortSignal.timeout(5000) });
+    /* المصدر الأدق: ترويسة Date في استجابة HTTP — تأتي مع أي طلب،
+       ولا تحتاج تحليل JSON بصيغة قد تختلف. نستخدم طلب خفيف. */
+    const res = await fetch('https://api.aladhan.com/v1/currentTime?zone=UTC', {
+      signal: AbortSignal.timeout(5000),
+      cache: 'no-store',
+    });
     const after = Date.now();
-    const data = await res.json();
-    if (data?.data) {
-      const networkDelay = (after - before) / 2;
-      const serverTime = new Date(data.data).getTime() + networkDelay;
-      _serverTimeOffset = serverTime - after;
-      console.log(`[Time] الفارق مع السيرفر: ${Math.round(_serverTimeOffset/1000)} ثانية`);
-      /* لو الفارق كبير (>5 دقائق) → نبّه المستخدم */
-      if (Math.abs(_serverTimeOffset) > 300000) {
-        if (typeof showToast === 'function') {
-          showToast('⏰ توقيت جهازك غير دقيق — تم ضبط العدادات تلقائياً');
-        }
+    const networkDelay = (after - before) / 2;
+
+    /* 1) جرّب ترويسة Date (الأكثر موثوقية ومعيارية) */
+    let serverMs = NaN;
+    const dateHeader = res.headers.get('date');
+    if (dateHeader) {
+      const t = new Date(dateHeader).getTime();
+      if (!isNaN(t)) serverMs = t + networkDelay;
+    }
+
+    /* 2) لو فشلت الترويسة، جرّب جسم الاستجابة بحذر */
+    if (isNaN(serverMs)) {
+      const data = await res.json().catch(() => null);
+      /* صيغة Aladhan: data.data قد تكون "HH:MM" أو timestamp — نتعامل مع الحالتين */
+      const raw = data?.data;
+      if (typeof raw === 'string' && /^\d{1,2}:\d{2}/.test(raw)) {
+        /* وقت فقط (HH:MM) — اجمعه مع تاريخ اليوم بتوقيت UTC */
+        const [h, m] = raw.split(':').map(Number);
+        const now = new Date();
+        const utc = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), h, m, 0);
+        if (!isNaN(utc)) serverMs = utc + networkDelay;
+      } else if (raw) {
+        const t = new Date(raw).getTime();
+        if (!isNaN(t)) serverMs = t + networkDelay;
+      }
+    }
+
+    /* 3) لو كل المحاولات فشلت — استخدم توقيت الجهاز بدون NaN */
+    if (isNaN(serverMs)) {
+      _serverTimeOffset = 0;
+      console.log('[Time] تعذّر تحديد فارق السيرفر — استخدام توقيت الجهاز');
+      return;
+    }
+
+    _serverTimeOffset = serverMs - after;
+    console.log(`[Time] الفارق مع السيرفر: ${Math.round(_serverTimeOffset / 1000)} ثانية`);
+
+    /* تنبيه فقط لو الفارق كبير وحقيقي (>5 دقائق) */
+    if (Math.abs(_serverTimeOffset) > 300000) {
+      if (typeof showToast === 'function') {
+        showToast('⏰ توقيت جهازك غير دقيق — تم ضبط العدادات تلقائياً');
       }
     }
   } catch {
-    _serverTimeOffset = 0; /* fallback لتوقيت الجهاز */
+    _serverTimeOffset = 0; /* fallback آمن لتوقيت الجهاز */
   }
 }
 
