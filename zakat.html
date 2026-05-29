@@ -127,6 +127,9 @@ html[data-theme="dark"] .zk-ud-link .t b,html[data-theme="oled"] .zk-ud-link .t 
   </aside>
 
   <main class="main">
+<section class="card" style="margin:16px"><h2 class="section-title">🧮 حاسبة الزكاة (خطوة بخطوة)</h2><div id="zakat-wizard"></div></section>
+<section class="card" style="margin:16px"><div id="zakat-history"></div></section>
+
     <div class="topbar">
       <div class="tb-left">
         <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
@@ -341,7 +344,13 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 
 <script src="lang.js" defer></script>
-<script src="js/app.js" defer></script>
+<script src="js/storage.js" defer></script>
+  <script src="js/calendar.js" defer></script>
+  <script src="js/design-system.js" defer></script>
+  <script src="js/zakat-module.js" defer></script>
+  <script src="js/seasons-module.js" defer></script>
+  <script src="js/fixes-module.js" defer></script>
+  <script src="js/app.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="animations.js" defer></script>
 <script src="menu.js" defer></script>

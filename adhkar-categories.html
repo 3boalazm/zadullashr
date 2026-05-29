@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<title>الأذكار والدعاء — زاد العشر</title>
+<!-- Async font loading — eliminates render-blocking -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" id="google-fonts"
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
+  media="print" onload="this.media='all'">
+<noscript>
+  
+</noscript>
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* ── Tabs ─────────────────────────────────── */
+.az-tabs {
+  display: flex;
+  gap: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-sm);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.az-tabs::-webkit-scrollbar { display: none; }
+.az-tab {
+  flex: 1;
+  min-width: 80px;
+  padding: 10px 10px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .2s var(--ease);
+  white-space: nowrap;
+  text-align: center;
+}
+.az-tab:hover { background: var(--sand); color: var(--ink); }
+.az-tab.active {
+  background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(14,59,46,.25);
+}
+html[data-theme="dark"] .az-tab.active,
+html[data-theme="oled"] .az-tab.active {
+  background: linear-gradient(135deg, var(--sys-green), #2eb84d);
+  color: #001a08;
+}
+.az-tab .tab-ico { display: block; font-size: 18px; margin-bottom: 2px; }
+
+/* ── Progress strip at top of tab ─────────── */
+.az-section-prog {
+  height: 5px; background: var(--sand-2);
+  border-radius: 99px; overflow: hidden;
+  margin-bottom: 18px;
+}
+.az-section-prog span {
+  display: block; height: 100%;
+  background: linear-gradient(90deg, var(--green-soft), var(--gold));
+  border-radius: 99px;
+  transition: width .6s var(--ease);
+  will-change: width;
+}
+
+/* ── Adhkar Card ──────────────────────────── */
+.az-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 18px 14px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color .2s, background .2s;
+  position: relative;
+}
+.az-card:hover { border-color: var(--gold); }
+.az-card.az-done {
+  border-color: rgba(77,216,102,.4);
+  background: rgba(77,216,102,.03);
+}
+html[data-theme="oled"] .az-card.az-done { background: rgba(77,216,102,.05); }
+
+/* Delete button (custom cards) */
+.az-delete {
+  position: absolute; top: 10px; left: 10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  border: none; background: rgba(255,59,48,.12);
+  color: var(--sys-red); font-size: 13px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, transform .1s;
+}
+.az-delete:hover { background: rgba(255,59,48,.25); transform: scale(1.1); }
+
+.az-arabic {
+  font-family: 'Amiri', serif;
+  font-size: 19px; line-height: 1.9;
+  color: var(--green-deep);
+  margin-bottom: 10px;
+}
+html[data-theme="dark"] .az-arabic,
+html[data-theme="oled"] .az-arabic { color: var(--sys-yellow); }
+
+.az-meta {
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap; margin-bottom: 10px;
+}
+.az-label { font-size: 14px; font-weight: 700; color: var(--ink); }
+.az-source { font-size: 11px; }
+.az-count-row {
+  display: flex; align-items: center; gap: 8px; margin-top: 8px;
+}
+.az-cnt-num {
+  font-size: 16px; font-weight: 900;
+  color: var(--green-deep); min-width: 72px;
+  font-feature-settings: "tnum";
+}
+html[data-theme="dark"] .az-cnt-num,
+html[data-theme="oled"] .az-cnt-num { color: var(--sys-green); }
+.az-done .az-cnt-num { color: var(--sys-green); }
+.az-btn-count {
+  padding: 9px 20px; border-radius: 99px; border: none;
+  background: var(--green-deep); color: #fff;
+  font-family: inherit; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all .15s;
+}
+.az-btn-count:hover { background: var(--green-mid); transform: translateY(-1px); }
+.az-btn-count:active { transform: scale(.96); }
+html[data-theme="dark"] .az-btn-count,
+html[data-theme="oled"] .az-btn-count {
+  background: var(--sys-green); color: #001a08;
+}
+.az-btn-reset {
+  padding: 9px 14px; border-radius: 99px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted); font-family: inherit; font-size: 13px;
+  cursor: pointer; transition: all .15s;
+}
+.az-btn-reset:hover { border-color: var(--sys-red); color: var(--sys-red); }
+
+/* ── Add custom dhikr form ────────────────── */
+.az-add-form {
+  background: var(--card);
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.az-add-form:focus-within {
+  border-color: var(--gold);
+  border-style: solid;
+}
+.az-add-form label {
+  display: block; font-size: 12px; font-weight: 700;
+  color: var(--muted); margin-bottom: 6px; text-align: right;
+}
+.az-add-form textarea {
+  width: 100%; padding: 12px; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--sand);
+  font-family: 'Amiri', serif; font-size: 18px;
+  color: var(--green-deep); line-height: 1.8;
+  resize: vertical; min-height: 80px; direction: rtl;
+  margin-bottom: 10px;
+}
+html[data-theme="dark"] .az-add-form textarea,
+html[data-theme="oled"] .az-add-form textarea {
+  background: var(--sand-2); color: var(--sys-yellow); border-color: var(--border);
+}
+.az-add-row {
+  display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap;
+}
+.az-add-field {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.az-add-field input {
+  padding: 9px 12px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--sand);
+  font-family: inherit; font-size: 13px; color: var(--ink);
+  direction: rtl;
+}
+html[data-theme="dark"] .az-add-field input,
+html[data-theme="oled"] .az-add-field input {
+  background: var(--sand-2); color: var(--ink);
+}
+.az-add-field input:focus {
+  outline: none; border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,161,74,.15);
+}
+
+@media(max-width:600px) {
+  .az-tab { font-size:11px; padding: 9px 8px; min-width:68px; }
+  .az-arabic { font-size:17px; }
+  .az-add-row { flex-direction:column; }
+  .az-add-row .btn { width:100%; justify-content:center; }
+}
+</style>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
+<style>
+  :root{--font-scale:1}
+  body{font-size:calc(1rem * var(--font-scale))}
+  .quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
+  .font-size-options{display:flex;gap:8px}
+  .font-size-options .fs-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;transition:all .2s;color:var(--ink)}
+  .font-size-options .fs-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff}
+  .fs-btn[data-size="small"]  span:first-child{font-size:14px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="medium"] span:first-child{font-size:19px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="large"]  span:first-child{font-size:24px;display:block;margin-bottom:4px}
+</style>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+  <!-- Open Graph / Social Media Thumbnail -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="زاد العشر">
+  <meta property="og:url" content="https://zadullashr.vercel.app/adhkar.html">
+  <meta property="og:title" content="الأذكار والدعاء — زاد العشر">
+  <meta property="og:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+  <meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="زاد العشر — تطبيق العبادة في عشر ذي الحجة">
+  <meta property="og:locale" content="ar_SA">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="الأذكار والدعاء — زاد العشر">
+  <meta name="twitter:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
+  <meta name="twitter:image" content="https://zadullashr.vercel.app/og-image.png">
+  <!-- WhatsApp / general -->
+  <meta name="description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+  <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function() {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+
+<style>
+/* ── Glow card animation ──── */
+@keyframes cardIn {
+  from { opacity:0; transform:translateY(18px) scale(.97); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+@keyframes glowPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(201,161,74,0); }
+  50%     { box-shadow: 0 0 18px 4px rgba(201,161,74,.18); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes floatNav {
+  from { opacity:0; transform:translateX(-50%) translateY(16px); }
+  to   { opacity:1; transform:translateX(-50%) translateY(0); pointer-events:all; }
+}
+
+.az-card-new {
+  animation: cardIn .35s cubic-bezier(.22,.68,0,1.2) both;
+}
+.az-card.az-done {
+  animation: glowPulse 2s ease-in-out;
+  border-color: rgba(77,216,102,.45) !important;
+}
+
+/* Shimmer on done */
+.az-card.az-done::before {
+  content:'';
+  position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(105deg,transparent 40%,rgba(201,161,74,.08) 50%,transparent 60%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s ease forwards;
+  pointer-events:none;
+}
+
+/* Tab indicator line */
+.az-tab.active::after {
+  content:'';
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:20px;height:2px;
+  background:rgba(255,255,255,.5);border-radius:99px;
+}
+.az-tab { position:relative; }
+
+/* Floating nav visible state */
+#az-fab-nav.visible {
+  opacity:1 !important;
+  transform:translateX(-50%) translateY(0) !important;
+  pointer-events:all !important;
+  animation: floatNav .35s cubic-bezier(.22,.68,0,1.2) forwards;
+}
+
+/* Section header inside cards tab */
+.az-section-header {
+  display:flex;align-items:center;gap:10px;
+  margin:24px 0 14px;
+  padding-bottom:10px;
+  border-bottom:1.5px solid var(--border);
+}
+.az-section-header .sh-ico { font-size:22px; }
+.az-section-header .sh-title {
+  font-size:15px;font-weight:800;color:var(--ink);
+  font-family:'ThmanyahSans',sans-serif;
+}
+.az-section-header .sh-count {
+  margin-right:auto;font-size:11px;font-weight:700;
+  background:var(--sand-2);color:var(--muted);
+  border-radius:99px;padding:2px 10px;
+}
+
+/* Motion: stagger children */
+.az-cards-group > .az-card {
+  animation-delay: calc(var(--i) * 60ms);
+}
+
+/* Dark mode glow card */
+html[data-theme="dark"] .az-card:hover,
+html[data-theme="oled"] .az-card:hover {
+  box-shadow: 0 4px 20px rgba(201,161,74,.1);
+}
+
+/* Count button pulse on tap */
+@keyframes btnTap { 0%{transform:scale(1)} 40%{transform:scale(.92)} 100%{transform:scale(1)} }
+.az-btn-count:active { animation: btnTap .2s ease; }
+</style>
+
+</head>
+<body>
+  <main class="main" id="main-content">
+    <section style="padding:16px">
+      <h1 class="section-title" style="font-size:24px;margin-bottom:4px">📿 الأذكار</h1>
+      <p style="color:var(--muted);margin-bottom:20px">52 ذكراً موثّقاً عبر 6 أقسام</p>
+      <div id="adhkar-sections-menu"></div>
+    </section>
+  </main>
+  <script src="js/adhkar-database.js" defer></script>
+  <script src="js/adhkar-database-extended.js" defer></script>
+  <script src="js/adhkar-content-sections.js" defer></script>
+  <script src="js/adhkar-sections.js" defer></script>
+  <script src="js/storage.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
