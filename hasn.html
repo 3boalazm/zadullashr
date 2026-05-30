@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>حصن المسلم — زاد العشر</title>
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.hasn-grid { display: flex; flex-direction: column; gap: 10px; }
+.hasn-chapter { background: var(--card); border: 1.5px solid var(--border); border-right: 5px solid; border-radius: 14px; overflow: hidden; cursor: pointer; transition: all .2s; }
+.hasn-chapter:hover { transform: translateX(-2px); }
+.hasn-ch-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+.hasn-ch-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.hasn-ch-body { flex: 1; }
+.hasn-ch-title { font-size: 15px; font-weight: 800; color: var(--ink); }
+.hasn-ch-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.hasn-ch-arrow { font-size: 18px; color: var(--muted); transition: transform .25s; }
+.hasn-chapter.open .hasn-ch-arrow { transform: rotate(90deg); }
+.hasn-ch-items { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); }
+.hasn-chapter.open .hasn-ch-items { display: block; }
+.hasn-dhikr { background: var(--sand); border-radius: 12px; padding: 14px; margin-top: 10px; }
+.hasn-dhikr-ar { font-family: 'Amiri', serif; font-size: 18px; line-height: 2.2; color: var(--ink); margin-bottom: 10px; }
+.hasn-dhikr-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.hasn-dhikr-source { font-size: 12px; color: var(--muted); }
+.hasn-count-btn { background: var(--green-deep); color: #fff; border: none; padding: 8px 16px; border-radius: 10px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; min-height: 36px; }
+.hasn-count-btn.done { background: var(--green-mid); opacity: .7; }
+.hasn-filter { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; -webkit-overflow-scrolling: touch; }
+.hasn-filter-chip { flex-shrink: 0; padding: 8px 16px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--card); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.hasn-filter-chip.active { background: var(--green-deep); color: #fff; border-color: var(--green-deep); }
+</style>
+</head>
+<body>
+<aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <!-- Profile chip injected by JS -->
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-row">
+      <span>🌙 الوضع الداكن</span>
+      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    </div>
+<button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+        📲 تثبيت / تحميل التطبيق
+      </button>
+    <nav class="nav">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+      <div class="nav-sep">الصلاة والتقويم</div>
+      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
+      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
+      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
+      <a href="taqweem.html"><span class="ico">🗓️</span><span>التقويم السنوي</span></a>
+      <div class="nav-sep">القرآن والعبادة</div>
+      <a href="mushaf.html"><span class="ico">📖</span><span>الورد القرآني</span></a>
+      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
+      <a href="tasmee.html"><span class="ico">🎙️</span><span>التسميع</span></a>
+      <a href="adhkar.html" class="active"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
+      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
+      <div class="nav-sep">الحج والمناسك</div>
+      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
+      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
+      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
+      <a href="manasik.html"><span class="ico">🕋</span><span>المناسك التفاعلية</span></a>
+      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
+      <div class="nav-sep">المتابعة</div>
+      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
+      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <a href="zakat.html"><span class="ico">🧮</span><span>حاسبة الزكاة</span></a>
+      <div class="nav-sep">التعلم والترفيه</div>
+      <a href="videos.html"><span class="ico">🎬</span><span>المحاضرات الإسلامية</span></a>
+      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — قصص الأطفال</span></a>
+      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
+      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
+      <div class="nav-sep">الإعدادات</div>
+      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
+      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
+      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+  
+<main class="main" id="main-content">
+  <section style="padding:16px">
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="font-size:48px">🛡️</div>
+      <h1 style="font-size:22px;font-weight:900;margin:8px 0 4px">حصن المسلم</h1>
+      <p style="color:var(--muted);font-size:13px">130 باباً — 229 ذكراً — الشيخ سعيد القحطاني</p>
+    </div>
+
+    <!-- فلاتر الأبواب -->
+    <div class="hasn-filter" id="hasn-filter">
+      <button class="hasn-filter-chip active" onclick="filterHasn('all')">الكل</button>
+      <button class="hasn-filter-chip" onclick="filterHasn('daily')">اليومية</button>
+      <button class="hasn-filter-chip" onclick="filterHasn('prayer')">الصلاة</button>
+      <button class="hasn-filter-chip" onclick="filterHasn('travel')">السفر</button>
+      <button class="hasn-filter-chip" onclick="filterHasn('distress')">الكرب</button>
+      <button class="hasn-filter-chip" onclick="filterHasn('death')">الجنازة</button>
+    </div>
+
+    <div class="hasn-grid" id="hasn-grid">
+      <div style="text-align:center;padding:40px;color:var(--muted)">⏳ جارٍ تحميل الأبواب...</div>
+    </div>
+  </section>
+</main>
+
+<script src="js/adhkar-database.js" defer></script>
+<script src="js/adhkar-database-extended.js" defer></script>
+<script src="js/adhkar-content-sections.js" defer></script>
+<script src="js/hasn-part1.js" defer></script>
+<script src="js/hasn-part2.js" defer></script>
+<script src="js/storage.js" defer></script>
+<script src="js/nav-accordion.js" defer></script>
+<script src="js/app.js" defer></script>
+<script>
+/* ── تصنيف الأبواب للفلاتر ── */
+const HASN_CATS = {
+  daily:    [1,2,3,4,5,6,7,8,9,10,11,27,28,29,30,65,66],
+  prayer:   [12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,32,33],
+  travel:   [96,97,98,99,100,101,102,103,104,105],
+  distress: [34,35,36,37,38,39,40,41,42,43,44,45,46,48],
+  death:    [52,53,54,55,56,57,58,59,60],
+};
+
+let hasnData = [];
+let activeCat = 'all';
+const counters = {};
+
+function renderHasn() {
+  const grid = document.getElementById('hasn-grid');
+  if (!hasnData.length) { grid.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">لا توجد بيانات بعد</div>'; return; }
+  
+  const filtered = activeCat === 'all' ? hasnData :
+    hasnData.filter(s => (HASN_CATS[activeCat] || []).includes(s.num));
+
+  grid.innerHTML = filtered.map(sec => `
+    <div class="hasn-chapter" style="border-color:${sec.color}" data-num="${sec.num}" onclick="toggleHasnChapter(this)">
+      <div class="hasn-ch-header">
+        <div class="hasn-ch-icon" style="background:${sec.color}20;color:${sec.color}">${sec.icon}</div>
+        <div class="hasn-ch-body">
+          <div class="hasn-ch-title">${sec.num}. ${sec.title}</div>
+          <div class="hasn-ch-meta">🕐 ${sec.time} · ${sec.items.length} أذكار</div>
+        </div>
+        <span class="hasn-ch-arrow">←</span>
+      </div>
+      <div class="hasn-ch-items">
+        ${sec.items.map((item, i) => `
+          <div class="hasn-dhikr">
+            <div class="hasn-dhikr-ar">${item.ar}</div>
+            <div class="hasn-dhikr-meta">
+              <span class="hasn-dhikr-source">📖 ${item.source}</span>
+              <button class="hasn-count-btn" id="hcb-${sec.num}-${i}"
+                      onclick="event.stopPropagation();countHasn(${sec.num},${i},${item.count||1})">
+                عُدّ (${item.count||1})
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleHasnChapter(el) {
+  el.classList.toggle('open');
+}
+
+function filterHasn(cat) {
+  activeCat = cat;
+  document.querySelectorAll('.hasn-filter-chip').forEach(b => {
+    b.classList.toggle('active', b.textContent.trim() === {all:'الكل',daily:'اليومية',prayer:'الصلاة',travel:'السفر',distress:'الكرب',death:'الجنازة'}[cat]);
+  });
+  renderHasn();
+}
+
+function countHasn(chNum, itemIdx, target) {
+  const key = `${chNum}-${itemIdx}`;
+  counters[key] = (counters[key] || 0) + 1;
+  const btn = document.getElementById(`hcb-${chNum}-${itemIdx}`);
+  if (btn) {
+    const done = counters[key] >= target;
+    btn.textContent = done ? '✅ تمّ' : `عُدّ (${counters[key]}/${target})`;
+    if (done) btn.classList.add('done');
+  }
+  if (navigator.vibrate) navigator.vibrate(15);
+}
+
+/* تحميل البيانات بعد تحميل الـ JS */
+function loadHasnData() {
+  const allParts = [window.HASN_PART1, window.HASN_PART2];
+  hasnData = allParts.flat().filter(Boolean);
+  renderHasn();
+  console.log('[Hasn] ✅ ' + hasnData.length + ' باب محمّل');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // انتظر تحميل كل الـ scripts
+  setTimeout(loadHasnData, 600);
+});
+</script>
+</body>
+</html>
