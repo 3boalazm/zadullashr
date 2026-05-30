@@ -280,9 +280,12 @@ const FloatTasbih = {
   toggle() {
     this.open = !this.open;
     const panel = document.getElementById('float-tasbih-panel');
-    const btn = document.getElementById('float-tasbih-btn');
+    const btn   = document.getElementById('float-tasbih-btn');
     if (this.open && btn) this.syncPanelPosition(btn);
-    if (panel) panel.classList.toggle('open', this.open);
+    if (panel) {
+      panel.classList.toggle('open', this.open);
+      panel.style.pointerEvents = this.open ? 'auto' : 'none';
+    }
     if (btn) btn.classList.toggle('active', this.open);
   },
 
@@ -303,6 +306,12 @@ const FloatTasbih = {
       const s = JSON.parse(sessionStorage.getItem('zad_float_tasbih') || 'null');
       if (s) { this.activeIdx = s.idx || 0; this.count = s.count || 0; this.renderChips(); this.renderActive(); this.updateBadge(); }
     } catch {}
+    /* المسبحة مغلقة دايماً عند التحميل — لا تفتح إلا بضغط المستخدم */
+    this.open = false;
+    const panel = document.getElementById('float-tasbih-panel');
+    const btn   = document.getElementById('float-tasbih-btn');
+    if (panel) { panel.classList.remove('open'); panel.style.pointerEvents = 'none'; }
+    if (btn)   btn.classList.remove('active');
   },
 
   /* ── الأنماط (Calm UX + reduced motion + 44px touch) ──────────────────── */
