@@ -108,30 +108,27 @@ const ZadShare = {
     if (sheet) { sheet.classList.remove('open'); setTimeout(() => sheet.remove(), 280); }
   },
 
-  /* ── حقن زر المشاركة في الـ topbar ───────────────────────────────────── */
+  /* ── حقن زر المشاركة في آخر الصفحة (تحت المحتوى) ────────────────────── */
   injectButton() {
-    if (document.getElementById('zad-share-btn')) return;
+    if (document.getElementById('zad-share-section')) return;
 
-    /* ابحث عن مكان مناسب: بجانب زر الإشعارات أو في الـ topbar */
-    const topbar = document.querySelector('.topbar, .top-bar, header');
-    const notifBtn = document.getElementById('notif-btn');
+    /* قسم مشاركة في نهاية المحتوى الرئيسي */
+    const main = document.querySelector('main.main, #main-content, main, .main');
+    if (!main) return;
 
-    const btn = document.createElement('button');
-    btn.id = 'zad-share-btn';
-    btn.className = 'zad-share-btn';
-    btn.setAttribute('aria-label', 'مشاركة الصفحة');
-    btn.innerHTML = '<span>📤</span>';
-    btn.onclick = () => this.share();
+    const section = document.createElement('div');
+    section.id = 'zad-share-section';
+    section.className = 'zad-share-section';
+    section.innerHTML = `
+      <div class="zss-divider"></div>
+      <div class="zss-text">شارك هذه الصفحة مع أحبابك — الدالّ على الخير كفاعله</div>
+      <button id="zad-share-btn" class="zad-share-btn-full" aria-label="مشاركة الصفحة">
+        <span>📤</span><span>مشاركة الصفحة</span>
+      </button>`;
 
-    if (notifBtn && notifBtn.parentNode) {
-      notifBtn.parentNode.insertBefore(btn, notifBtn);
-    } else if (topbar) {
-      topbar.appendChild(btn);
-    } else {
-      /* fallback: زر عائم */
-      btn.classList.add('floating');
-      document.body.appendChild(btn);
-    }
+    /* أضفه في آخر الـ main */
+    main.appendChild(section);
+    section.querySelector('#zad-share-btn').onclick = () => this.share();
   },
 
   injectCSS() {
@@ -139,12 +136,16 @@ const ZadShare = {
     const s = document.createElement('style');
     s.id = 'zad-share-css';
     s.textContent = `
-      .zad-share-btn { background: none; border: none; cursor: pointer; font-size: 20px;
-        width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center;
-        justify-content: center; transition: background .2s; color: inherit; }
-      .zad-share-btn:hover { background: rgba(0,0,0,.06); }
-      .zad-share-btn.floating { position: fixed; bottom: 88px; right: 20px; z-index: 9400;
-        background: var(--card,#fff); box-shadow: 0 4px 16px rgba(0,0,0,.15); }
+      .zad-share-section { padding: 24px 16px 32px; text-align: center; }
+      .zss-divider { height: 1px; background: var(--border, #e5e5e5); margin-bottom: 20px; }
+      .zss-text { font-size: 13px; color: var(--muted, #888); margin-bottom: 14px; line-height: 1.6; }
+      .zad-share-btn-full { display: inline-flex; align-items: center; gap: 8px;
+        padding: 12px 28px; border-radius: 14px; border: 1.5px solid var(--zad-green-700, #1a5d47);
+        background: var(--card, #fff); color: var(--zad-green-700, #1a5d47);
+        font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+        min-height: 48px; transition: all .2s; }
+      .zad-share-btn-full:hover { background: var(--zad-green-900, #0e3b2e); color: #fff; border-color: var(--zad-green-900, #0e3b2e); }
+      .zad-share-btn-full:active { transform: scale(.97); }
       .zad-share-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5);
         z-index: 9600; display: flex; align-items: flex-end; justify-content: center;
         opacity: 0; transition: opacity .28s; }

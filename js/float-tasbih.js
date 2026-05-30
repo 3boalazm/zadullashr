@@ -29,15 +29,141 @@ const FloatTasbih = {
     this.restore();
   },
 
-  /* ── الزر العائم ──────────────────────────────────────────────────────── */
+  /* ── الزر العائم (قابل للسحب) ──────────────────────────────────────────── */
   injectButton() {
     const btn = document.createElement('button');
     btn.id = 'float-tasbih-btn';
     btn.className = 'float-tasbih-btn';
-    btn.setAttribute('aria-label', 'فتح المسبحة');
+    btn.setAttribute('aria-label', 'فتح المسبحة — اضغط مطوّلاً للتحريك');
     btn.innerHTML = '<span class="ftb-icon">📿</span><span class="ftb-badge" id="ftb-badge"></span>';
-    btn.onclick = () => this.toggle();
     document.body.appendChild(btn);
+
+    /* استعادة الموضع المحفوظ */
+    this.restorePosition(btn);
+
+    /* منطق السحب بعد الضغط المطوّل */
+    this.attachDrag(btn);
+  },
+
+  /* ── السحب: اضغط مطوّلاً (350ms) ثم اسحب ثم اترك ليثبت ──────────────── */
+  attachDrag(btn) {
+    let pressTimer = null;
+    let dragging = false;
+    let moved = false;
+    let startX = 0, startY = 0;
+    let originLeft = 0, originBottom = 0;
+
+    const LONG_PRESS = 350; /* مدة الضغط المطوّل */
+
+    const getPoint = (e) => e.touches ? e.touches[0] : e;
+
+    const onStart = (e) => {
+      const p = getPoint(e);
+      startX = p.clientX; startY = p.clientY;
+      moved = false;
+
+      /* بعد ضغط مطوّل → فعّل وضع السحب */
+      pressTimer = setTimeout(() => {
+        dragging = true;
+        btn.classList.add('dragging');
+        if (navigator.vibrate) navigator.vibrate(40);
+        const rect = btn.getBoundingClientRect();
+        originLeft = rect.left;
+        originBottom = window.innerHeight - rect.bottom;
+      }, LONG_PRESS);
+    };
+
+    const onMove = (e) => {
+      const p = getPoint(e);
+      const dx = p.clientX - startX;
+      const dy = p.clientY - startY;
+
+      /* لو اتحرك قبل الضغط المطوّل → ألغِ المؤقّت (مش سحب) */
+      if (!dragging && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+        clearTimeout(pressTimer);
+      }
+
+      if (dragging) {
+        e.preventDefault();
+        moved = true;
+        /* الزر على left + bottom */
+        let newLeft = originLeft + dx;
+        let newBottom = originBottom - dy;
+        /* حدود الشاشة (هامش 8px) */
+        const sz = 56;
+        newLeft = Math.max(8, Math.min(newLeft, window.innerWidth - sz - 8));
+        newBottom = Math.max(8, Math.min(newBottom, window.innerHeight - sz - 8));
+        btn.style.left = newLeft + 'px';
+        btn.style.bottom = newBottom + 'px';
+        btn.style.right = 'auto';
+      }
+    };
+
+    const onEnd = () => {
+      clearTimeout(pressTimer);
+      if (dragging) {
+        dragging = false;
+        btn.classList.remove('dragging');
+        /* ثبّت الموضع واحفظه */
+        this.savePosition(btn);
+        /* امنع فتح اللوحة بعد السحب مباشرة */
+        setTimeout(() => { moved = false; }, 50);
+      } else if (!moved) {
+        /* ضغطة عادية (مش سحب) → افتح اللوحة */
+        this.toggle();
+      }
+    };
+
+    btn.addEventListener('mousedown', onStart);
+    btn.addEventListener('touchstart', onStart, { passive: true });
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onMove, { passive: false });
+    window.addEventListener('mouseup', onEnd);
+    window.addEventListener('touchend', onEnd);
+  },
+
+  savePosition(btn) {
+    try {
+      const rect = btn.getBoundingClientRect();
+      const pos = { left: rect.left, bottom: window.innerHeight - rect.bottom };
+      localStorage.setItem('zad_float_tasbih_pos', JSON.stringify(pos));
+    } catch {}
+    /* حرّك اللوحة لتتبع الزر */
+    this.syncPanelPosition(btn);
+  },
+
+  restorePosition(btn) {
+    try {
+      const pos = JSON.parse(localStorage.getItem('zad_float_tasbih_pos') || 'null');
+      if (pos && typeof pos.left === 'number') {
+        /* تأكد إنه داخل الشاشة (لو اتغيّر حجمها) */
+        const sz = 56;
+        const left = Math.max(8, Math.min(pos.left, window.innerWidth - sz - 8));
+        const bottom = Math.max(8, Math.min(pos.bottom, window.innerHeight - sz - 8));
+        btn.style.left = left + 'px';
+        btn.style.bottom = bottom + 'px';
+        btn.style.right = 'auto';
+        setTimeout(() => this.syncPanelPosition(btn), 0);
+      }
+    } catch {}
+  },
+
+  /* اللوحة تظهر فوق أو تحت الزر حسب موضعه */
+  syncPanelPosition(btn) {
+    const panel = document.getElementById('float-tasbih-panel');
+    if (!panel || !btn) return;
+    const rect = btn.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    panel.style.left = Math.max(8, Math.min(rect.left, window.innerWidth - 308)) + 'px';
+    panel.style.right = 'auto';
+    /* لو الزر في النص لتحت → اللوحة فوقه، والعكس */
+    if (spaceBelow < 360) {
+      panel.style.bottom = (window.innerHeight - rect.top + 12) + 'px';
+      panel.style.top = 'auto';
+    } else {
+      panel.style.top = (rect.bottom + 12) + 'px';
+      panel.style.bottom = 'auto';
+    }
   },
 
   /* ── اللوحة المنبثقة ─────────────────────────────────────────────────── */
@@ -155,6 +281,7 @@ const FloatTasbih = {
     this.open = !this.open;
     const panel = document.getElementById('float-tasbih-panel');
     const btn = document.getElementById('float-tasbih-btn');
+    if (this.open && btn) this.syncPanelPosition(btn);
     if (panel) panel.classList.toggle('open', this.open);
     if (btn) btn.classList.toggle('active', this.open);
   },
@@ -196,6 +323,8 @@ const FloatTasbih = {
       .float-tasbih-btn:hover { transform: scale(1.08); box-shadow: 0 6px 22px rgba(14,59,46,.45); }
       .float-tasbih-btn:active { transform: scale(.95); }
       .float-tasbih-btn.active { transform: rotate(8deg) scale(1.05); }
+      .float-tasbih-btn.dragging { transform: scale(1.15); cursor: grabbing;
+        box-shadow: 0 8px 28px rgba(14,59,46,.55); opacity: .92; transition: none; touch-action: none; }
       .ftb-icon { line-height: 1; }
       .ftb-badge {
         position: absolute; top: -4px; right: -4px; min-width: 22px; height: 22px;

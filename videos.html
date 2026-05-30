@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#0e3b2e">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<title>محاضرات العشر — زاد العشر</title>
+<title>المحاضرات الإسلامية — زاد العشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
@@ -156,12 +156,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <span>🌙 الوضع الداكن</span>
       <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
-    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
-      <span class="slb-label">🌐 اللغة</span>
-      <span class="slb-val" id="sidebar-lang-val">EN</span>
-    </button>
-    
-      <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+<button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
         📲 تثبيت / تحميل التطبيق
       </button>
     <nav class="nav">
@@ -172,11 +167,10 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
       <a href="taqweem.html"><span class="ico">🗓️</span><span>التقويم السنوي</span></a>
       <div class="nav-sep">القرآن والعبادة</div>
-      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf.html"><span class="ico">📖</span><span>الورد القرآني</span></a>
       <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
       <a href="tasmee.html"><span class="ico">🎙️</span><span>التسميع</span></a>
       <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
-      <a href="adhkar-categories.html"><span class="ico">📿</span><span>الأذكار الكاملة</span></a>
       <a href="nawawi.html"><span class="ico">📜</span><span>الأربعون النووية</span></a>
       <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
       <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
@@ -186,14 +180,14 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
       <a href="manasik.html"><span class="ico">🕋</span><span>المناسك التفاعلية</span></a>
       <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
-      <a href="zakat.html"><span class="ico">💰</span><span>الزكاة</span></a>
       <div class="nav-sep">المتابعة</div>
       <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
       <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <a href="zakat.html"><span class="ico">🧮</span><span>حاسبة الزكاة</span></a>
       <div class="nav-sep">التعلم والترفيه</div>
-      <a href="videos.html" class="active"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="videos.html" class="active"><span class="ico">🎬</span><span>المحاضرات الإسلامية</span></a>
       <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
-      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — قصص الأطفال</span></a>
       <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
       <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
       <div class="nav-sep">الإعدادات</div>
@@ -239,11 +233,14 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       </div>
     </div>
 
-    <div class="filter-tabs">
-      <button class="ftab active" onclick="filterVids('all',this)">الكل (15)</button>
-      <button class="ftab" onclick="filterVids('fiqh',this)">⚖️ الفقه والأحكام</button>
-      <button class="ftab" onclick="filterVids('spiritual',this)">💚 التزكية والإيمان</button>
-      <button class="ftab" onclick="filterVids('practical',this)">📋 الخطط العملية</button>
+    <div class="filter-tabs" id="vid-filter-tabs">
+      <button class="ftab active" data-cat="all" onclick="filterVideos('all')">الكل</button>
+      <button class="ftab" data-cat="ashr" onclick="filterVideos('ashr')">🕋 عشر ذي الحجة</button>
+      <button class="ftab" data-cat="ramadan" onclick="filterVideos('ramadan')">🌙 رمضان</button>
+      <button class="ftab" data-cat="muharram" onclick="filterVideos('muharram')">📅 محرم وعاشوراء</button>
+      <button class="ftab" data-cat="seerah" onclick="filterVideos('seerah')">📜 السيرة النبوية</button>
+      <button class="ftab" data-cat="fiqh" onclick="filterVideos('fiqh')">⚖️ الفقه والأحكام</button>
+      <button class="ftab" data-cat="kids" onclick="filterVideos('kids')">🧒 للأطفال</button>
     </div>
 
     <div id="vids-container">
@@ -251,7 +248,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <!-- ═══════════════════════════════════
            1: الشيخ أمجد سمير
       ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="spiritual">
+      <div class="vid-card" data-vid-cat="ashr" data-tag="spiritual">
         <div class="vid-thumb-wrap" onclick="openPlayer('57p126d5w9k','عشر ذي الحجة — الشيخ أمجد سمير')">
           <img class="vid-thumb" src="https://img.youtube.com/vi/57p126d5w9k/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/57p126d5w9k/mqdefault.jpg'" alt="عشر ذي الحجة" loading="lazy">
           <div class="vid-thumb-overlay"></div>
@@ -292,7 +289,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <!-- ═══════════════════════════════════
            2: د. أحمد العربي
       ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="spiritual">
+      <div class="vid-card" data-vid-cat="ashr" data-tag="spiritual">
         <div class="vid-thumb-wrap" onclick="openPlayer('smro5XFkoj0','لا تدخل العشر قبل مشاهدة هذا المقطع — د. أحمد العربي')">
           <img class="vid-thumb" src="https://img.youtube.com/vi/smro5XFkoj0/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/smro5XFkoj0/mqdefault.jpg'" alt="لا تدخل العشر" loading="lazy">
           <div class="vid-thumb-overlay"></div>
@@ -336,7 +333,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <!-- ═══════════════════════════════════
            3: الشيخ سمير مصطفى  ✅ BUG #1 FIXED — removed orphaned duplicate HTML
       ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="fiqh">
+      <div class="vid-card" data-vid-cat="ashr" data-tag="fiqh">
         <div class="vid-thumb-wrap" onclick="openPlayer('OusUlCU5WBI','العَشر الأُوَل من ذي الحِجَّة — الشيخ سمير مصطفى')">
           <img class="vid-thumb" src="https://img.youtube.com/vi/OusUlCU5WBI/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/OusUlCU5WBI/mqdefault.jpg'" alt="العشر الأول" loading="lazy">
           <div class="vid-thumb-overlay"></div>
@@ -379,7 +376,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <!-- ═══════════════════════════════════
            4: برنامج وعي (1)
       ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="fiqh">
+      <div class="vid-card" data-vid-cat="ashr" data-tag="fiqh">
         <div class="vid-thumb-wrap" onclick="openPlayer('YgKfcLUbu60','وعي ١٥ | أوائل ذي الحجة | أفضل أيام الدهر')">
           <img class="vid-thumb" src="https://img.youtube.com/vi/YgKfcLUbu60/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/YgKfcLUbu60/mqdefault.jpg'" alt="أوائل ذي الحجة" loading="lazy">
           <div class="vid-thumb-overlay"></div>
@@ -417,7 +414,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <!-- ═══════════════════════════════════
            5: برنامج وعي (2)
       ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="practical">
+      <div class="vid-card" data-vid-cat="ashr" data-tag="practical">
         <div class="vid-thumb-wrap" onclick="openPlayer('ZSo0_0zxYHQ','وعي ٩٤ | السر وراء يوم عرفة وعلاقته بالدعاء')">
           <img class="vid-thumb" src="https://img.youtube.com/vi/ZSo0_0zxYHQ/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/ZSo0_0zxYHQ/mqdefault.jpg'" alt="السر وراء يوم عرفة" loading="lazy">
           <div class="vid-thumb-overlay"></div>
@@ -456,7 +453,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <!-- ═══════════════════════════════════
            6: د. حازم شومان
       ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="spiritual">
+      <div class="vid-card" data-vid-cat="ashr" data-tag="spiritual">
         <div class="vid-thumb-wrap" onclick="openPlayer('zetXiUuqkiY','عشر ذي الحجة موسم الخواص — د. حازم شومان')">
           <img class="vid-thumb" src="https://img.youtube.com/vi/zetXiUuqkiY/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/zetXiUuqkiY/mqdefault.jpg'" alt="موسم الخواص" loading="lazy">
           <div class="vid-thumb-overlay"></div>
@@ -496,7 +493,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <!-- ═══════════════════════════════════
            7: د. أحمد عبد المنعم (1)
       ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="spiritual">
+      <div class="vid-card" data-vid-cat="ashr" data-tag="spiritual">
         <div class="vid-thumb-wrap" onclick="openPlayer('BMMa16hvRU8','موسم العَشر والذكر: حِكَم وأسرار — د. أحمد عبد المنعم')">
           <img class="vid-thumb" src="https://img.youtube.com/vi/BMMa16hvRU8/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/BMMa16hvRU8/mqdefault.jpg'" alt="موسم العَشر والذكر" loading="lazy">
           <div class="vid-thumb-overlay"></div>
@@ -534,7 +531,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <!-- ═══════════════════════════════════
            8: د. أحمد عبد المنعم (2)
       ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="practical">
+      <div class="vid-card" data-vid-cat="ashr" data-tag="practical">
         <div class="vid-thumb-wrap" onclick="openPlayer('Ul1FBSoszZk','لقاء العشر من ذي الحجة — د. أحمد عبد المنعم')">
           <img class="vid-thumb" src="https://img.youtube.com/vi/Ul1FBSoszZk/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/Ul1FBSoszZk/mqdefault.jpg'" alt="لقاء العشر" loading="lazy">
           <div class="vid-thumb-overlay"></div>
@@ -572,7 +569,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <!-- ═══════════════════════════════════
            9: الشيخ نبيل • د. أحمد العربي
       ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="spiritual">
+      <div class="vid-card" data-vid-cat="ashr" data-tag="spiritual">
         <div class="vid-thumb-wrap" onclick="openPlayer('PYOw_Exj2Bk','لقاء عرفة — الشيخ نبيل العوضي والدكتور أحمد العربي')">
           <img class="vid-thumb" src="https://img.youtube.com/vi/PYOw_Exj2Bk/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/PYOw_Exj2Bk/mqdefault.jpg'" alt="لقاء عرفة" loading="lazy">
           <div class="vid-thumb-overlay"></div>
@@ -613,7 +610,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
       <!-- ═══════════════════════════════════
            10: الشيخ إبراهيم بشندي
       ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="fiqh">
+      <div class="vid-card" data-vid-cat="ashr" data-tag="fiqh">
         <div class="vid-thumb-wrap" onclick="openPlayer('WvlMcmE92Fw','العمل الصالح — العشر الأول من ذي الحجة')">
           <img class="vid-thumb" src="https://img.youtube.com/vi/WvlMcmE92Fw/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/WvlMcmE92Fw/mqdefault.jpg'" alt="العمل الصالح" loading="lazy">
           <div class="vid-thumb-overlay"></div>
@@ -972,6 +969,8 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
   <script src="js/audio-manager.js" defer></script>
   <script src="js/float-tasbih.js" defer></script>
   <script src="js/share-button.js" defer></script>
+  <script src="js/gps-fix.js" defer></script>
+  <script src="js/nav-accordion.js" defer></script>
   <script src="js/app.js" defer></script>
 <script>
 /* ══════════════════════════════════════════
@@ -1120,6 +1119,14 @@ function shareVid(id, title) {
   }
 }
 </script>
-  <script src="menu.js" defer></script>
+  <script src="menu.js" defer>
+function filterVideos(cat) {
+  document.querySelectorAll('.ftab').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+  document.querySelectorAll('[data-vid-cat]').forEach(card => {
+    const c = card.dataset.vidCat || 'all';
+    card.style.display = (cat === 'all' || c === cat) ? '' : 'none';
+  });
+}
+</script>
 </body>
 </html>

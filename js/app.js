@@ -1108,7 +1108,7 @@ function scheduleReminders() {
     const t = new Date(now); t.setHours(21,0,0,0);
     return t > now ? t - now : t - now + 86400000;
   })();
-  notify('📖 ورد العشر', 'هل أتممت وردك اليوم؟ لا تنم قبل أن تُكمله', wirdMs);
+  notify('📖 الورد القرآني', 'هل أتممت وردك اليوم؟ لا تنم قبل أن تُكمله', wirdMs);
 
   /* Arafah day special (9 Dhul Hijjah = May 26, 2026) */
   const arafah = new Date(2026, 4, 26, 4, 0, 0);
@@ -1130,7 +1130,7 @@ const SEARCH_INDEX = [
   { ico:'🏠', title:'لوحة التحكم',         sub:'الصفحة الرئيسية والإحصائيات',    url:'index.html' },
   { ico:'✨', title:'فضائل العشر',         sub:'أدلة الفضل من القرآن والسنة',   url:'fadael.html' },
   { ico:'📿', title:'جدول العبادات',       sub:'ورد يومي — صلوات، صيام، ذكر',  url:'worship.html' },
-  { ico:'📖', title:'مصحف العشر',          sub:'خطة ختمة مرنة مع تتبع الجزء', url:'mushaf.html' },
+  { ico:'📖', title:'الورد القرآني',          sub:'خطة ختمة مرنة مع تتبع الجزء', url:'mushaf.html' },
   { ico:'🕋', title:'المُكبِّر',           sub:'عداد تكبير مع حفظ الإحصائيات', url:'takbeer.html' },
   { ico:'🐏', title:'دليل الأضحية',        sub:'شروط وعيوب وأحكام الأضحية',   url:'odhiya.html' },
   { ico:'🌄', title:'يوم عرفة',            sub:'برنامج متكامل ساعة بساعة',      url:'arafah.html' },

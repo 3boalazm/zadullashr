@@ -117,12 +117,7 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
       <span>🌙 الوضع الداكن</span>
       <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
-    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
-      <span class="slb-label">🌐 اللغة</span>
-      <span class="slb-val" id="sidebar-lang-val">EN</span>
-    </button>
-    
-      <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+<button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
         📲 تثبيت / تحميل التطبيق
       </button>
     <nav class="nav">
@@ -133,11 +128,10 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
       <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
       <a href="taqweem.html"><span class="ico">🗓️</span><span>التقويم السنوي</span></a>
       <div class="nav-sep">القرآن والعبادة</div>
-      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf.html"><span class="ico">📖</span><span>الورد القرآني</span></a>
       <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
       <a href="tasmee.html"><span class="ico">🎙️</span><span>التسميع</span></a>
       <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
-      <a href="adhkar-categories.html"><span class="ico">📿</span><span>الأذكار الكاملة</span></a>
       <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
       <div class="nav-sep">الحج والمناسك</div>
       <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
@@ -145,14 +139,14 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
       <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
       <a href="manasik.html"><span class="ico">🕋</span><span>المناسك التفاعلية</span></a>
       <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
-      <a href="zakat.html"><span class="ico">💰</span><span>الزكاة</span></a>
       <div class="nav-sep">المتابعة</div>
       <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
       <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <a href="zakat.html"><span class="ico">🧮</span><span>حاسبة الزكاة</span></a>
       <div class="nav-sep">التعلم والترفيه</div>
-      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="videos.html"><span class="ico">🎬</span><span>المحاضرات الإسلامية</span></a>
       <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
-      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — قصص الأطفال</span></a>
       <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
       <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
       <div class="nav-sep">الإعدادات</div>
@@ -424,6 +418,8 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
   <script src="js/fixes-module.js" defer></script>
   <script src="js/float-tasbih.js" defer></script>
   <script src="js/share-button.js" defer></script>
+  <script src="js/gps-fix.js" defer></script>
+  <script src="js/nav-accordion.js" defer></script>
   <script src="js/app.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="animations.js" defer></script>

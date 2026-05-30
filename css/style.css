@@ -32,11 +32,13 @@ input,select,textarea{font-family:inherit}
 html[data-theme="dark"]::-webkit-scrollbar-thumb,html[data-theme="oled"]::-webkit-scrollbar-thumb{background:var(--sand-2)}
 
 /* ── App Layout ─────────────────────────────────────────── */
-.app{min-height:100vh;display:grid;grid-template-columns:270px 1fr;background:radial-gradient(900px 450px at 90% -10%,rgba(201,161,74,.05),transparent 55%),radial-gradient(700px 400px at -10% 110%,rgba(26,93,71,.05),transparent 55%),var(--bg)}
+.app{min-height:100vh;background:radial-gradient(900px 450px at 90% -10%,rgba(201,161,74,.05),transparent 55%),radial-gradient(700px 400px at -10% 110%,rgba(26,93,71,.05),transparent 55%),var(--bg)}
 html[data-theme="oled"] .app{background:var(--bg)}
+.main{padding:34px 38px 60px;max-width:1260px;min-height:100vh;margin-right:270px}
 
 /* ── Sidebar ───────────────────────────────────────────── */
-.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;overflow-x:hidden;padding:24px 18px 20px;background:linear-gradient(180deg,#0b3024,#1a5d47);color:#f4ecd6;display:flex;flex-direction:column;gap:18px;z-index:100;will-change:transform}
+.sidebar{position:fixed;top:0;right:0;height:100vh;overflow-y:auto;overflow-x:hidden;padding:24px 18px 20px;background:linear-gradient(180deg,#0b3024,#1a5d47);color:#f4ecd6;display:flex;flex-direction:column;gap:18px;z-index:100;will-change:transform;width:270px}
+.app{min-height:100vh;background:radial-gradient(900px 450px at 90% -10%,rgba(201,161,74,.05),transparent 55%),radial-gradient(700px 400px at -10% 110%,rgba(26,93,71,.05),transparent 55%),var(--bg)}
 html[data-theme="dark"] .sidebar{background:linear-gradient(180deg,#060e09,#0e1c12)}
 html[data-theme="oled"] .sidebar{background:linear-gradient(180deg,#000000,#050505)}
 .sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15)}
@@ -67,7 +69,7 @@ html[data-theme="oled"] .sidebar{background:linear-gradient(180deg,#000000,#0505
 .sidebar-overlay.active{opacity:1;pointer-events:auto}
 
 /* ── Main Content ───────────────────────────────────────── */
-.main{padding:34px 38px 60px;max-width:1260px;min-height:100vh}
+/* main — see fixed-sidebar rule above */
 
 /* ── Topbar ────────────────────────────────────────────── */
 .topbar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin-bottom:20px;padding:10px 16px}
@@ -413,8 +415,9 @@ html[data-font="lg"] .check .label,html[data-font="xl"] .check .label{font-size:
 /* ── Responsive ────────────────────────────────────────── */
 @media (max-width:1020px){.cols-4{grid-template-columns:repeat(2,1fr)}.cols-3{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:768px){
-  .app{grid-template-columns:1fr;min-height:100vh;overflow-x:hidden}
+  .app{min-height:100vh;overflow-x:hidden}
   .main{padding:4px 12px 60px !important}
+  .main{margin-right:0!important;padding:16px 16px 60px}
   .sidebar{position:fixed;top:0;right:-290px;height:100%;width:270px;z-index:200;overflow-y:auto;transition:right .3s var(--ease);-webkit-overflow-scrolling:touch}
   .sidebar.open{right:0;box-shadow:-6px 0 40px rgba(0,0,0,.45)}
   html[dir="ltr"] .sidebar{right:auto;left:-290px}
@@ -1451,6 +1454,15 @@ html[data-theme="dark"] .hamburger,html[data-theme="oled"] .hamburger{
 }
 @keyframes dropIn{from{opacity:0;transform:translateX(-50%) translateY(-8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 .notif-dropdown.open{display:flex}
+/* الموبايل: ثبّت اللوحة بهوامش متساوية فلا تخرج عن الشاشة أبداً */
+@media (max-width: 600px){
+  .notif-dropdown{
+    left:12px;right:12px;width:auto;transform:none;
+    max-height:70vh;
+  }
+  @keyframes dropIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+  .notif-dropdown.open{animation:dropIn .2s ease}
+}
 .nd-header{
   padding:12px 14px;border-bottom:1px solid var(--border);
   font-size:13px;font-weight:800;color:var(--ink);

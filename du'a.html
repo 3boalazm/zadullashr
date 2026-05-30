@@ -188,8 +188,7 @@ html[data-theme="oled"] .du-arabic{color:var(--sys-yellow,#ffd060)}
     </a>
     <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
     <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
-    <button class="sidebar-lang-btn" onclick="toggleLang?.()"><span class="slb-label">🌐 اللغة</span><span class="slb-val" id="sidebar-lang-val">EN</span></button>
-    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+<button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
     <nav class="nav">
       <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
       <div class="nav-sep">الصلاة والتقويم</div>
@@ -198,11 +197,10 @@ html[data-theme="oled"] .du-arabic{color:var(--sys-yellow,#ffd060)}
       <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
       <a href="taqweem.html"><span class="ico">🗓️</span><span>التقويم السنوي</span></a>
       <div class="nav-sep">القرآن والعبادة</div>
-      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf.html"><span class="ico">📖</span><span>الورد القرآني</span></a>
       <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
       <a href="tasmee.html"><span class="ico">🎙️</span><span>التسميع</span></a>
       <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار</span></a>
-      <a href="adhkar-categories.html"><span class="ico">📿</span><span>الأذكار الكاملة</span></a>
       <a href="duas.html" class="active"><span class="ico">🌿</span><span>الأدعية</span></a>
       <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
       <div class="nav-sep">الحج والمناسك</div>
@@ -211,14 +209,14 @@ html[data-theme="oled"] .du-arabic{color:var(--sys-yellow,#ffd060)}
       <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
       <a href="manasik.html"><span class="ico">🕋</span><span>المناسك التفاعلية</span></a>
       <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
-      <a href="zakat.html"><span class="ico">💰</span><span>الزكاة</span></a>
       <div class="nav-sep">المتابعة</div>
       <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
       <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <a href="zakat.html"><span class="ico">🧮</span><span>حاسبة الزكاة</span></a>
       <div class="nav-sep">التعلم والترفيه</div>
-      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="videos.html"><span class="ico">🎬</span><span>المحاضرات الإسلامية</span></a>
       <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
-      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — قصص الأطفال</span></a>
       <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
       <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
       <div class="nav-sep">الإعدادات</div>
@@ -911,6 +909,8 @@ document.addEventListener('DOMContentLoaded', () => { duSwitch('jawami'); });
   <script src="js/fixes-module.js" defer></script>
   <script src="js/float-tasbih.js" defer></script>
   <script src="js/share-button.js" defer></script>
+  <script src="js/gps-fix.js" defer></script>
+  <script src="js/nav-accordion.js" defer></script>
   <script src="js/app.js" defer></script>
 <script src="menu.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>

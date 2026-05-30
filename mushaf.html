@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#0e3b2e">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<title>مصحف العشر — زاد العشر</title>
+<title>الورد القرآني — زاد العشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
@@ -203,7 +203,7 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="زاد العشر">
   <meta property="og:url" content="https://zadullashr.vercel.app/mushaf.html">
-  <meta property="og:title" content="ورد العشر — زاد العشر">
+  <meta property="og:title" content="الورد القرآني — زاد العشر">
   <meta property="og:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
   <meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -212,7 +212,7 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
   <meta property="og:locale" content="ar_SA">
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ورد العشر — زاد العشر">
+  <meta name="twitter:title" content="الورد القرآني — زاد العشر">
   <meta name="twitter:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
   <meta name="twitter:image" content="https://zadullashr.vercel.app/og-image.png">
   <!-- WhatsApp / general -->
@@ -240,12 +240,7 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
       <span>🌙 الوضع الداكن</span>
       <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
-    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
-      <span class="slb-label">🌐 اللغة</span>
-      <span class="slb-val" id="sidebar-lang-val">EN</span>
-    </button>
-    
-      <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+<button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
         📲 تثبيت / تحميل التطبيق
       </button>
     <nav class="nav">
@@ -256,11 +251,10 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
       <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
       <a href="taqweem.html"><span class="ico">🗓️</span><span>التقويم السنوي</span></a>
       <div class="nav-sep">القرآن والعبادة</div>
-      <a href="mushaf.html" class="active"><span class="ico">📖</span><span>ورد العشر</span></a>
+      <a href="mushaf.html" class="active"><span class="ico">📖</span><span>الورد القرآني</span></a>
       <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
       <a href="tasmee.html"><span class="ico">🎙️</span><span>التسميع</span></a>
       <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
-      <a href="adhkar-categories.html"><span class="ico">📿</span><span>الأذكار الكاملة</span></a>
       <a href="nawawi.html"><span class="ico">📜</span><span>الأربعون النووية</span></a>
       <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
       <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
@@ -270,14 +264,14 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
       <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
       <a href="manasik.html"><span class="ico">🕋</span><span>المناسك التفاعلية</span></a>
       <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
-      <a href="zakat.html"><span class="ico">💰</span><span>الزكاة</span></a>
       <div class="nav-sep">المتابعة</div>
       <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
       <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
+      <a href="zakat.html"><span class="ico">🧮</span><span>حاسبة الزكاة</span></a>
       <div class="nav-sep">التعلم والترفيه</div>
-      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
+      <a href="videos.html"><span class="ico">🎬</span><span>المحاضرات الإسلامية</span></a>
       <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
-      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — قصص الأطفال</span></a>
       <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
       <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
       <div class="nav-sep">الإعدادات</div>
@@ -515,6 +509,8 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
   <script src="js/fixes-module.js" defer></script>
   <script src="js/float-tasbih.js" defer></script>
   <script src="js/share-button.js" defer></script>
+  <script src="js/gps-fix.js" defer></script>
+  <script src="js/nav-accordion.js" defer></script>
   <script src="js/app.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="animations.js" defer></script>
