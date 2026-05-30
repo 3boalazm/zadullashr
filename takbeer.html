@@ -58,7 +58,7 @@
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body data-page="takbeer">
+<body>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
     <aside class="sidebar">
@@ -72,7 +72,12 @@
       <span>🌙 الوضع الداكن</span>
       <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
-<button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
+    <button class="sidebar-lang-btn" onclick="toggleLang?.()">
+      <span class="slb-label">🌐 اللغة</span>
+      <span class="slb-val" id="sidebar-lang-val">EN</span>
+    </button>
+    
+      <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
         📲 تثبيت / تحميل التطبيق
       </button>
     <nav class="nav">
@@ -81,32 +86,24 @@
       <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
       <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
       <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
-      <a href="taqweem.html"><span class="ico">🗓️</span><span>التقويم السنوي</span></a>
       <div class="nav-sep">القرآن والعبادة</div>
-      <a href="mushaf.html"><span class="ico">📖</span><span>الورد القرآني</span></a>
+      <a href="mushaf.html"><span class="ico">📖</span><span>ورد العشر</span></a>
       <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
-      <a href="tasmee.html"><span class="ico">🎙️</span><span>التسميع</span></a>
       <a href="takbeer.html" class="active"><span class="ico">📿</span><span>المسبحة</span></a>
       <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
-      <a href="hasn.html"><span class="ico">🛡️</span><span>حصن المسلم</span></a>
-      <a href="nawawi.html"><span class="ico">📜</span><span>الأربعون النووية</span></a>
-      <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
       <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
       <div class="nav-sep">الحج والمناسك</div>
       <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
       <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
       <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
-      <a href="manasik.html"><span class="ico">🕋</span><span>المناسك التفاعلية</span></a>
       <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
       <div class="nav-sep">المتابعة</div>
       <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
       <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
-      <a href="zakat.html"><span class="ico">🧮</span><span>حاسبة الزكاة</span></a>
       <div class="nav-sep">التعلم والترفيه</div>
-      <a href="videos.html"><span class="ico">🎬</span><span>المحاضرات الإسلامية</span></a>
+      <a href="videos.html"><span class="ico">🎬</span><span>محاضرات العشر</span></a>
       <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
-      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — قصص الأطفال</span></a>
-      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — رحلة الحج</span></a>
       <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
       <div class="nav-sep">الإعدادات</div>
       <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
@@ -137,6 +134,8 @@
           </button>
           <div class="notif-dropdown" id="notif-dropdown"></div>
         </div>
+        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang?.()">EN</button>
+        <button class="btn-theme" onclick="safeToggleTheme?.()||toggleTheme?.()" aria-label="تبديل المظهر">🌙</button>
       </div>
     </div>
 
@@ -259,16 +258,6 @@
   <a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
 </div>
   <script src="lang.js" defer></script>
-  <script src="js/storage.js" defer></script>
-  <script src="js/calendar.js" defer></script>
-  <script src="js/design-system.js" defer></script>
-  <script src="js/seasons-module.js" defer></script>
-  <script src="js/fixes-module.js" defer></script>
-  <script src="js/audio-manager.js" defer></script>
-  <script src="js/float-tasbih.js" defer></script>
-  <script src="js/share-button.js" defer></script>
-  <script src="js/gps-fix.js" defer></script>
-  <script src="js/nav-accordion.js" defer></script>
   <script src="js/app.js" defer></script>
 <script>
 /* Page-specific init — runs AFTER app.js DOMContentLoaded */
@@ -319,6 +308,5 @@ document.addEventListener('DOMContentLoaded', () => {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
   <script src="animations.js" defer></script>
-  <script src="menu.js" defer></script>
 </body>
 </html>
