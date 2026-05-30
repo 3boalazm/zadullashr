@@ -613,6 +613,8 @@ async function applyLocation(lat, lng, name) {
   else { _cityName = ''; }
   localStorage.setItem('zad_lat', lat);
   localStorage.setItem('zad_lng', lng);
+  /* مزامنة مع zad_last_location عشان gps-fix.js يقدر يقرأ الموقع */
+  try { localStorage.setItem('zad_last_location', JSON.stringify({ lat, lng, city: name || '', ts: Date.now() })); } catch {}
 
   /* عرض شاشة المحتوى وحالة التحميل */
   document.getElementById('prayer-loading').style.display = 'none';
