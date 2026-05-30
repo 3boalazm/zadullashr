@@ -388,8 +388,8 @@ html[data-theme="dark"] .city-chip,html[data-theme="oled"] .city-chip{background
   <script src="js/design-system.js" defer></script>
   <script src="js/seasons-module.js" defer></script>
   <script src="js/fixes-module.js" defer></script>
-  <script src="js/float-tasbih.js" defer></script>
   <script src="js/share-button.js" defer></script>
+  <script src="js/tasbih-fab.js" defer></script>
   <script src="js/gps-fix.js" defer></script>
   <script src="js/nav-accordion.js" defer></script>
   <script src="js/app.js" defer></script>
@@ -644,7 +644,8 @@ function useGPS() {
   }
   /* تغذية راجعة بصرية */
   const btns = document.querySelectorAll('#loc-methods .loc-method-btn');
-  if (btns[0]) btns[0].querySelector('.lm-text b').innerHTML = 'جارٍ تحديد الموقع... <span class="loc-spinner"></span>';
+  const gpsBtnLabel = btns[0]?.querySelector('.lm-text b');
+  if (gpsBtnLabel) gpsBtnLabel.innerHTML = 'جارٍ تحديد الموقع... <span class="loc-spinner"></span>';
 
   navigator.geolocation.getCurrentPosition(
     (pos) => {
@@ -652,7 +653,7 @@ function useGPS() {
       applyLocation(pos.coords.latitude, pos.coords.longitude, null);
     },
     (err) => {
-      if (btns[0]) btns[0].querySelector('.lm-text b').textContent = 'تحديد تلقائي (GPS)';
+      if (gpsBtnLabel) gpsBtnLabel.textContent = 'تحديد تلقائي (GPS)';
       showErr(
         'تعذّر تحديد الموقع تلقائياً',
         err.code === 1
