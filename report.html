@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/premium-ui.css">
 <style>
 .rp-form{display:flex;flex-direction:column;gap:16px}
 .rp-group{display:flex;flex-direction:column;gap:6px}
@@ -83,7 +84,7 @@ html[data-theme="dark"] .success-title,html[data-theme="oled"] .success-title{co
 <div class="app">
     <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
-      <div class="brand-mark"><img src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
       <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
     <!-- Profile chip injected by JS -->
@@ -142,7 +143,7 @@ html[data-theme="dark"] .success-title,html[data-theme="oled"] .success-title{co
       <div class="tb-left">
         <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
         <a href="index.html" class="tb-logo">
-          <img src="icons/icon-192.svg" alt="زاد العشر">
+          <img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر">
         </a>
       </div>
       <!-- CENTER: Page name -->
@@ -284,6 +285,8 @@ html[data-theme="dark"] .success-title,html[data-theme="oled"] .success-title{co
   <script src="js/ui/design-tokens.js" defer></script>
   <script src="js/ui/bottom-nav.js" defer></script>
   <script src="js/ui/feedback.js" defer></script>
+  <script src="js/ui/offline-ui.js" defer></script>
+  <script src="js/ui/micro-interactions.js" defer></script>
   <script src="js/app.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="animations.js" defer></script>

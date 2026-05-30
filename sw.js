@@ -8,15 +8,25 @@
    تستجب الشبكة خلال 3 ثوانٍ نرجع فوراً للنسخة المخزّنة.
    ════════════════════════════════════════════════════════════ */
 
-const CACHE_STATIC = 'zad-20260530-2000';
-const CACHE_STATIC = 'zad-20260530-2000';
+const CACHE_STATIC = 'zad-20260530-2100';
 const NET_TIMEOUT  = 3000; /* مهلة الشبكة قبل الرجوع للكاش (ms) */
 
 /* ── أصول تُخزَّن مسبقاً عند التثبيت ── */
 const PRECACHE = [
-  './', './index.html',
-  './css/style.css', './js/app.js', './manifest.json',
+  './', './index.html', './404.html',
+  './prayers.html', './adhkar.html', './mushaf.html', './takbeer.html',
+  './hasn.html', './worship.html', './settings.html', './hijri.html',
+  './css/style.css', './css/premium-ui.css', './manifest.json',
   './icons/icon-192.svg', './icons/icon-512.svg',
+  /* core JS */
+  './js/app.js', './js/storage.js', './js/calendar.js',
+  './js/design-system.js', './js/fixes-module.js',
+  './js/utils/helpers.js', './js/core/state-manager.js', './js/core/router.js',
+  './js/ui/design-tokens.js', './js/ui/bottom-nav.js', './js/ui/feedback.js',
+  './js/ui/daily-hub.js', './js/ui/micro-interactions.js', './js/ui/offline-ui.js', './js/float-tasbih.js', './js/nav-accordion.js',
+  /* adhkar offline data */
+  './js/adhkar-database.js', './js/adhkar-complete.js',
+  './js/hasn-part1.js', './js/hasn-part2.js',
 ];
 
 /* ── لا تُخزَّن أبداً ── */
@@ -64,6 +74,15 @@ function fetchWithTimeout(request, timeout) {
       err => { clearTimeout(timer); reject(err); }
     );
   });
+}
+
+
+/* ── Offline fallback: لو فشل كل شيء، ارجع للصفحة الرئيسية المخزّنة ── */
+function offlineFallback(request) {
+  if (request.mode === 'navigate' || request.destination === 'document') {
+    return caches.match('./index.html').then(hit => hit || caches.match('./'));
+  }
+  return Promise.resolve(new Response('', { status: 503, statusText: 'Offline' }));
 }
 
 /* ── Fetch ── */
