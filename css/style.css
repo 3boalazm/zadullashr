@@ -1,3 +1,6 @@
+
+* { -webkit-tap-highlight-color: transparent; }
+button, a, [onclick] { touch-action: manipulation; }
 /* ════════════════════════════════════════════════════════════
    ZAD AL-ASHR — STYLE.CSS (Final Merged Version)
    Includes: Quranpedia Search + MP3Quran Audio Player Styles

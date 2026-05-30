@@ -649,35 +649,22 @@ function markCharityDone(el) {
 }
 /* ── Fetch real Hijri date from Aladhan API ──────────────── */
 async function fetchAndCacheHijriDate() {
+  /* موحّد: نحسب من المرجع الثابت بدل الـ API الحي، ونكتب الكاش منه
+     حتى تبقى كل الصفحات التي تقرأ zad_hijri_today متسقة مع العدّادات. */
   try {
-    const today = new Date();
-    const key   = `zad_hijri_today`;
+    const today    = new Date();
+    const key      = `zad_hijri_today`;
     const todayStr = today.toISOString().split('T')[0];
-
-    /* Check if we already fetched today */
-    const cached = JSON.parse(localStorage.getItem(key) || 'null');
-    if (cached && cached.greg === todayStr) return; /* already fresh */
-
-    const d = today.getDate(), mo = today.getMonth()+1, y = today.getFullYear();
-    const res = await fetch(`https://api.aladhan.com/v1/gToH/${d}-${mo}-${y}`,
-      { signal: AbortSignal.timeout(5000) });
-    if (!res.ok) return;
-    const data = await res.json();
-    const hd   = data.data?.hijri;
-    if (!hd) return;
+    const h = getHijriDate(today);
     localStorage.setItem(key, JSON.stringify({
-      y: parseInt(hd.year), m: parseInt(hd.month.number), d: parseInt(hd.day),
+      y: h.year, m: h.month, d: h.day,
       greg: todayStr, ts: Date.now()
     }));
-    /* Update UI elements showing Hijri date */
-    const els = document.querySelectorAll('#hijri-full, #miladi-full, .hd-hijri, .hd-miladi');
-    if (els.length) {
-      const h = getHijriDate();
-      const MONTHS = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
-      document.querySelectorAll('#hijri-full, .hd-hijri').forEach(el => {
-        el.textContent = `${h.day} ${MONTHS[h.month-1]} ${h.year} هـ`;
-      });
-    }
+    /* تحديث عناصر الواجهة التي تعرض التاريخ الهجري */
+    const MONTHS = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+    document.querySelectorAll('#hijri-full, .hd-hijri').forEach(el => {
+      el.textContent = `${h.day} ${MONTHS[h.month-1]} ${h.year} هـ`;
+    });
   } catch(e) {}
 }
 
@@ -1121,7 +1108,7 @@ function scheduleReminders() {
     const t = new Date(now); t.setHours(21,0,0,0);
     return t > now ? t - now : t - now + 86400000;
   })();
-  notify('📖 ورد العشر', 'هل أتممت وردك اليوم؟ لا تنم قبل أن تُكمله', wirdMs);
+  notify('📖 الورد القرآني', 'هل أتممت وردك اليوم؟ لا تنم قبل أن تُكمله', wirdMs);
 
   /* Arafah day special (9 Dhul Hijjah = May 26, 2026) */
   const arafah = new Date(2026, 4, 26, 4, 0, 0);
@@ -1143,16 +1130,17 @@ const SEARCH_INDEX = [
   { ico:'🏠', title:'لوحة التحكم',         sub:'الصفحة الرئيسية والإحصائيات',    url:'index.html' },
   { ico:'✨', title:'فضائل العشر',         sub:'أدلة الفضل من القرآن والسنة',   url:'fadael.html' },
   { ico:'📿', title:'جدول العبادات',       sub:'ورد يومي — صلوات، صيام، ذكر',  url:'worship.html' },
-  { ico:'📖', title:'مصحف العشر',          sub:'خطة ختمة مرنة مع تتبع الجزء', url:'mushaf.html' },
+  { ico:'📖', title:'الورد القرآني',          sub:'خطة ختمة مرنة مع تتبع الجزء', url:'mushaf.html' },
   { ico:'🕋', title:'المُكبِّر',           sub:'عداد تكبير مع حفظ الإحصائيات', url:'takbeer.html' },
   { ico:'🐏', title:'دليل الأضحية',        sub:'شروط وعيوب وأحكام الأضحية',   url:'odhiya.html' },
   { ico:'🌄', title:'يوم عرفة',            sub:'برنامج متكامل ساعة بساعة',      url:'arafah.html' },
   { ico:'💚', title:'صدقة العشر',          sub:'أبواب البر وأعمال الخير',       url:'sadaqah.html' },
   { ico:'🏅', title:'أوسمتي',              sub:'إنجازاتك الروحانية والشارات',  url:'badges.html' },
   { ico:'🧒', title:'وضع الأطفال',         sub:'قصص وألعاب ومسابقات للصغار',  url:'kids.html' },
+  { ico:'📿', title:'الأذكار الكاملة', sub:'6 أقسام: صباح، مساء، صلاة، نوم...', url:'adhkar-categories.html' },
   { ico:'🤖', title:'تدبّر بالذكاء',      sub:'اسأل عن آيات وأحكام العشر',    url:'ai.html' },
-  { ico:'🎙️', title:'تسميع القرآن',        sub:'تصحيح التلاوة بالذكاء الاصطناعي', url:'tasmee.html' },
   { ico:'🚩', title:'بلاغ مشكلة',      sub:'أرسل بلاغاً عن خطأ أو اقتراح',   url:'report.html' },
+  { ico:'🗓️', title:'التقويم السنوي', sub:'مواسم العبادة طوال العام', url:'taqweem.html' },
   { ico:'⚙️', title:'الإعدادات',          sub:'المظهر والتنبيهات والخصوصية',  url:'settings.html' },
   { ico:'🌙', title:'الوضع الداكن',        sub:'تفعيل / إيقاف الوضع الليلي',   url:'settings.html' },
   { ico:'📅', title:'صيام يوم عرفة',       sub:'يكفر ذنوب سنتين ماضية وقادمة', url:'worship.html' },
@@ -1359,27 +1347,13 @@ const HIJRI_REF = {
   day:   1
 };
 const HIJRI_MONTH_LEN = [30,29,30,29,30,29,30,29,30,29,30,29];
+/* ════════════════════════════════════════════════════════════════════════
+   مصدر التاريخ الموحّد — كل التطبيق يحسب الهجري من هذا المرجع الثابت فقط:
+   1 ذو الحجة 1447 = 18 مايو 2026  ⇒  اليوم (22 مايو) = 5 ذو الحجة.
+   ملاحظة: لا نعتمد على تاريخ الـ API الحي هنا حتى لا يحدث تعارض بين
+   العدّادات (المثبّتة على هذا المرجع) وبقية الصفحات. مصدر واحد للحقيقة.
+   ════════════════════════════════════════════════════════════════════════ */
 function getHijriDate(date = new Date()) {
-  /* Use API-cached value from hijri.html if available and from today */
-  try {
-    const cached = JSON.parse(localStorage.getItem('zad_hijri_today') || 'null');
-    if (cached) {
-      const today = new Date().toISOString().split('T')[0];
-      if (cached.greg === today) {
-        const todayD = new Date(); todayD.setHours(0,0,0,0);
-        const targD  = new Date(date); targD.setHours(0,0,0,0);
-        const diff   = Math.round((targD - todayD) / 86400000);
-        const ML = [30,29,30,29,30,29,30,29,30,29,30,29];
-        let {y:year, m:month, d:day} = cached;
-        day += diff;
-        while (day > ML[(month-1)%12]) { day -= ML[(month-1)%12]; month++; if(month>12){month=1;year++;} }
-        while (day < 1) { month--; if(month<1){month=12;year--;} day+=ML[(month-1)%12]; }
-        return { year, month, day };
-      }
-    }
-  } catch(e) {}
-
-  /* Fallback: reference-based */
   const diffDays = Math.round((date - HIJRI_REF.greg) / 86400000);
   let { year, month, day } = HIJRI_REF;
   let d = (day - 1) + diffDays;
@@ -2591,7 +2565,7 @@ function showProfileModal(forceNew = false) {
           ابدأ رحلتك →
         </button>
 
-        ${existing ? `<button onclick="document.getElementById('profile-modal').remove()" style="width:100%;padding:10px;border:none;background:none;font-family:inherit;font-size:13px;color:var(--muted);cursor:pointer;margin-top:8px">إلغاء</button>` : ''}
+        ${existing ? `<button onclick="document.getElementById('profile-modal').remove()" style="width:100%;padding:10px;border:none;background:none;font-family:inherit;font-size:13px;color:var(--muted);cursor:pointer;margin-top:8px">إلغاء</button>` : `<button onclick="skipProfile()" style="width:100%;padding:11px;border:none;background:none;font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;margin-top:8px;text-decoration:underline">متابعة كزائر — بدون حساب</button>`}
       </div>
     </div>
   `;
@@ -2667,6 +2641,16 @@ function submitProfile() {
     if (typeof showToast === 'function') showToast(`أهلاً ${name}! 🌙 مرحباً بك في زاد العشر`);
   }
 }
+
+/* ── متابعة كزائر (أنونيمس) — بدون حفظ أي بيانات ─────────── */
+function skipProfile() {
+  clearTimeout(window._autoT);
+  /* علامة أن المستخدم اختار وضع الزائر — حتى لا يظهر المودال كل مرة */
+  try { localStorage.setItem('zad_profile_skipped', '1'); } catch(e) {}
+  document.getElementById('profile-modal')?.remove();
+  if (typeof showToast === 'function') showToast('🌙 أهلاً بك — يمكنك إنشاء حساب لاحقاً من الإعدادات');
+}
+window.skipProfile = skipProfile;
 
 /* ── Add profile chip to sidebar ─────────────────────────── */
 function injectProfileChip() {
@@ -2756,8 +2740,13 @@ function initProfileSystem() {
   const profile = getProfile();
 
   if (!profile) {
-    /* First visit — show modal after 600ms */
-    setTimeout(() => showProfileModal(false), 600);
+    /* لا تُظهر المودال إن كان المستخدم اختار وضع الزائر سابقاً */
+    let skipped = false;
+    try { skipped = localStorage.getItem('zad_profile_skipped') === '1'; } catch(e) {}
+    if (!skipped) {
+      /* First visit — show modal after 600ms */
+      setTimeout(() => showProfileModal(false), 600);
+    }
   } else {
     applyProfile(profile);
     /* If on index, inject kids shortcut if child */
@@ -2843,3 +2832,10 @@ function initClockFormat() {
   const main = document.querySelector('.main');
   if (main) obs.observe(main, { childList: true, subtree: true });
 }
+/* ── PWA Install FAB — تحميل تلقائي في كل الصفحات ── */
+(function () {
+  var s = document.createElement('script');
+  s.src = 'pwa-install-fab.js';
+  s.defer = true;
+  document.head.appendChild(s);
+})();
