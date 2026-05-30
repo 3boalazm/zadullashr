@@ -243,6 +243,13 @@ html[data-theme="oled"] .az-add-field input {
   <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
   <!-- Vercel Web Analytics -->
   <script>
+
+/* ── أمان: تنظيف HTML لمنع XSS في المحتوى المخصص ── */
+function zadEscapeHTML(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+window.zadEscapeHTML = zadEscapeHTML;
     window.va = window.va || function() {
       (window.vaq = window.vaq || []).push(arguments);
     };
@@ -636,9 +643,9 @@ function buildCard(d, sec, idx, deletable) {
 
   el.innerHTML = `
     ${delBtn}
-    <div class="az-arabic">${d.ar || d.arabic}</div>
+    <div class="az-arabic">${d.source==='مخصص'||d.id?.startsWith('cu_')?zadEscapeHTML(d.ar||d.arabic):(d.ar||d.arabic)}</div>
     <div class="az-meta">
-      <span class="az-label">${d.label}</span>
+      <span class="az-label">${d.source==='مخصص'||d.id?.startsWith('cu_')?zadEscapeHTML(d.label):d.label}</span>
       ${badge}
       <span class="az-source tag">${d.src || d.source || ''}</span>
     </div>
@@ -859,6 +866,7 @@ document.addEventListener('DOMContentLoaded', () => {
   <script src="js/core/router.js" defer></script>
   <script src="js/ui/design-tokens.js" defer></script>
   <script src="js/ui/bottom-nav.js" defer></script>
+  <script src="js/ui/feedback.js" defer></script>
   <script src="js/app.js" defer></script>
 <script>
 /* ══ ADHKAR PAGE ══════════════════════════════════════════════ */
@@ -1120,7 +1128,7 @@ function buildCard(d, section, deletable) {
     ${deleteBtn}
     <div class="az-arabic">${d.arabic}</div>
     <div class="az-meta">
-      <span class="az-label">${d.label}</span>
+      <span class="az-label">${d.source==='مخصص'||d.id?.startsWith('cu_')?zadEscapeHTML(d.label):d.label}</span>
       <span class="az-source tag">${d.source}</span>
     </div>
     <div class="progress" style="margin:0 0 8px">
