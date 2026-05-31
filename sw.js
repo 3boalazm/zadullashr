@@ -8,7 +8,7 @@
    تستجب الشبكة خلال 3 ثوانٍ نرجع فوراً للنسخة المخزّنة.
    ════════════════════════════════════════════════════════════ */
 
-const CACHE_STATIC = 'zad-20260530-2100';
+const CACHE_STATIC = 'zad-20260531-2000';
 const NET_TIMEOUT  = 3000; /* مهلة الشبكة قبل الرجوع للكاش (ms) */
 
 /* ── أصول تُخزَّن مسبقاً عند التثبيت ── */
@@ -17,13 +17,14 @@ const PRECACHE = [
   './prayers.html', './adhkar.html', './mushaf.html', './takbeer.html',
   './hasn.html', './worship.html', './settings.html', './hijri.html',
   './css/style.css', './css/premium-ui.css', './manifest.json',
+  './fonts/thmanyahserifdisplay-Bold.otf', './fonts/thmanyahserifdisplay-Regular.otf',
   './icons/icon-192.svg', './icons/icon-512.svg',
   /* core JS */
   './js/app.js', './js/storage.js', './js/calendar.js',
   './js/design-system.js', './js/fixes-module.js',
   './js/utils/helpers.js', './js/core/state-manager.js', './js/core/router.js',
-  './js/ui/design-tokens.js', './js/ui/bottom-nav.js', './js/ui/feedback.js',
-  './js/ui/daily-hub.js', './js/ui/micro-interactions.js', './js/ui/offline-ui.js', './js/float-tasbih.js', './js/nav-accordion.js',
+  './js/ui/design-tokens.js', './js/ui/feedback.js',
+  './js/ui/daily-hub.js', './js/ui/micro-interactions.js', './js/ui/pattern-engine.js', './js/ui/offline-ui.js', './js/nav-accordion.js',
   /* adhkar offline data */
   './js/adhkar-database.js', './js/adhkar-complete.js',
   './js/hasn-part1.js', './js/hasn-part2.js',
@@ -86,6 +87,12 @@ function offlineFallback(request) {
 }
 
 /* ── Fetch ── */
+
+/* ── استقبال أمر التفعيل الفوري من الصفحة ── */
+self.addEventListener('message', e => {
+  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
+});
+
 self.addEventListener('fetch', e => {
   const url = e.request.url;
   if (!url.startsWith('http')) return;

@@ -445,405 +445,22 @@ html[data-theme="oled"] .az-card:hover {
       <div style="flex:1"><div style="font-size:13.5px;font-weight:800">أدعية يوم عرفة المباركة</div><div style="font-size:11.5px;color:rgba(255,255,255,.8);margin-top:2px">خير الدعاء دعاء يوم عرفة — اضغط للأدعية المنظّمة ←</div></div>
     </a>
 
-    <!-- ══ Tab Nav ══════════════════════════════════════════ -->
-    <div class="az-tabs" role="tablist" id="az-tabs-bar">
-      <button class="az-tab active" onclick="switchTab('morning')" id="tab-morning">
-        <span class="tab-ico">🌅</span>الصباح
-      </button>
-      <button class="az-tab" onclick="switchTab('evening')" id="tab-evening">
-        <span class="tab-ico">🌙</span>المساء
-      </button>
-      <button class="az-tab" onclick="switchTab('sleep')" id="tab-sleep">
-        <span class="tab-ico">😴</span>النوم
-      </button>
-      <button class="az-tab" onclick="switchTab('salah')" id="tab-salah">
-        <span class="tab-ico">🕌</span>الصلاة
-      </button>
-      <button class="az-tab" onclick="switchTab('daily')" id="tab-daily">
-        <span class="tab-ico">🏠</span>اليومية
-      </button>
-      <button class="az-tab" onclick="switchTab('travel')" id="tab-travel">
-        <span class="tab-ico">✈️</span>السفر
-      </button>
-      <button class="az-tab" onclick="switchTab('baqi')" id="tab-baqi">
-        <span class="tab-ico">⭐</span>الباقيات
-      </button>
-      <button class="az-tab" onclick="switchTab('custom')" id="tab-custom">
-        <span class="tab-ico">✏️</span>مخصص
-      </button>
+    <!-- ══ كل الأذكار في أكورديون واحد ══ -->
+    <div style="margin-bottom:16px;position:sticky;top:64px;z-index:6;background:var(--bg);padding:8px 0">
+      <input type="text" id="adhkar-search" placeholder="🔍 ابحث في كل الأذكار..."
+        onkeyup="filterAdhkarAccordion()"
+        style="width:100%;padding:12px 18px;border-radius:99px;border:1px solid var(--border);
+               background:var(--card);color:var(--ink);font-family:inherit;font-size:14px;
+               outline:none;box-shadow:var(--shadow-sm)">
     </div>
 
-    <!-- Progress strip -->
-    <div class="az-section-prog">
-      <span id="az-section-prog-bar" style="width:0%"></span>
-    </div>
-
-    <!-- Cards container -->
-    <div id="az-cards-container"></div>
-
-    <!-- ══ Floating Quick-Nav ════════════════════════════════ -->
-    <div id="az-fab-nav" style="
-      position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
-      background:rgba(var(--card-rgb,255,255,255),.9);
-      backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-      border:1px solid var(--border);border-radius:99px;
-      padding:6px 10px;display:flex;gap:4px;
-      box-shadow:0 8px 32px rgba(0,0,0,.15);z-index:200;
-      transition:all .3s;opacity:0;transform:translateX(-50%) translateY(20px);
-      pointer-events:none;
-    ">
-      <button onclick="switchTabScroll('morning')" title="الصباح"
-        style="width:34px;height:34px;border-radius:50%;border:none;background:none;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.background='var(--sand)'" onmouseout="this.style.background='none'">🌅</button>
-      <button onclick="switchTabScroll('evening')" title="المساء"
-        style="width:34px;height:34px;border-radius:50%;border:none;background:none;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.background='var(--sand)'" onmouseout="this.style.background='none'">🌙</button>
-      <button onclick="switchTabScroll('sleep')" title="النوم"
-        style="width:34px;height:34px;border-radius:50%;border:none;background:none;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.background='var(--sand)'" onmouseout="this.style.background='none'">😴</button>
-      <button onclick="switchTabScroll('salah')" title="الصلاة"
-        style="width:34px;height:34px;border-radius:50%;border:none;background:none;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.background='var(--sand)'" onmouseout="this.style.background='none'">🕌</button>
-      <button onclick="switchTabScroll('daily')" title="اليومية"
-        style="width:34px;height:34px;border-radius:50%;border:none;background:none;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.background='var(--sand)'" onmouseout="this.style.background='none'">🏠</button>
-      <button onclick="switchTabScroll('travel')" title="السفر"
-        style="width:34px;height:34px;border-radius:50%;border:none;background:none;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.background='var(--sand)'" onmouseout="this.style.background='none'">✈️</button>
-      <button onclick="switchTabScroll('baqi')" title="الباقيات"
-        style="width:34px;height:34px;border-radius:50%;border:none;background:none;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.background='var(--sand)'" onmouseout="this.style.background='none'">⭐</button>
-    </div>
+    <div id="adhkar-accordion"></div>
   </main>
   <a href="ai.html" class="fab-ai">🤖</a>
 </div>
 
   
-<script>
-/* ════════════════════════════════════════════════════════════
-   زاد العشر — صفحة الأذكار (Full Rebuild)
-   ════════════════════════════════════════════════════════════ */
-
-/* ─── DATA ────────────────────────────────────────────────── */
-const AZ_DATA = {
-
-morning: [
-  {id:'am_open',   label:'افتتاح الصباح',ar:`أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ`,n:1,src:'رواه مسلم (2723)'},
-  {id:'am_kursi',  label:'آية الكرسي',ar:`اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۚ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ`,n:1,src:'البقرة:255 — حفظ حتى المساء'},
-  {id:'am_3quls',  label:'المعوذات الثلاث',ar:`قُلْ هُوَ اللَّهُ أَحَدٌ، اللَّهُ الصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ`,n:3,src:'3 مرات — صحيح الترمذي'},
-  {id:'am_sayyed', label:'سيد الاستغفار',ar:`اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ`,n:1,src:'البخاري (6306)'},
-  {id:'am_afia',   label:'سؤال العافية',ar:`اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي`,n:1,src:'أبو داود (5074)'},
-  {id:'am_rida',   label:'الرضا بالإسلام',ar:`رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا`,n:3,src:'3 مرات — ابن ماجه'},
-  {id:'am_hayy',   label:'يا حي يا قيوم',ar:`يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ`,n:3,src:'3 مرات — صحيح الترغيب'},
-  {id:'am_tahlil', label:'التهليل عشراً',ar:`لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ`,n:10,src:'10 مرات — النسائي'},
-  {id:'am_tasbih', label:'التسبيح الجامع',ar:`سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ`,n:3,src:'3 مرات — مسلم (2726)'},
-  {id:'am_hifz',   label:'التحصين بالمعوذات',ar:`أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ`,n:3,src:'3 مرات — مسلم (2709)'},
-],
-
-evening: [
-  {id:'ev_open',   label:'افتتاح المساء',ar:`أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ`,n:1,src:'رواه مسلم (2723)'},
-  {id:'ev_kursi',  label:'آية الكرسي',ar:`اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ`,n:1,src:'حفظ حتى الصباح'},
-  {id:'ev_3quls',  label:'المعوذات الثلاث',ar:`قُلْ هُوَ اللَّهُ أَحَدٌ، قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ، قُلْ أَعُوذُ بِرَبِّ النَّاسِ`,n:3,src:'3 مرات — الترمذي'},
-  {id:'ev_evening',label:'دعاء المساء',ar:`اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ`,n:1,src:'أبو داود'},
-  {id:'ev_sayyed', label:'سيد الاستغفار',ar:`اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ`,n:1,src:'البخاري (6306)'},
-  {id:'ev_kalimat',label:'الاستعاذة بالكلمات',ar:`أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ`,n:3,src:'3 مرات — مسلم'},
-  {id:'ev_rida',   label:'الرضا بالإسلام',ar:`رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا`,n:3,src:'3 مرات — ابن ماجه'},
-  {id:'ev_tahlil', label:'التهليل عشراً',ar:`لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ`,n:10,src:'10 مرات — النسائي'},
-  {id:'ev_tasbih', label:'التسبيح الجامع',ar:`سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ`,n:3,src:'3 مرات — مسلم (2726)'},
-],
-
-sleep: [
-  {id:'sl_ayah',   label:'آية الكرسي عند النوم',ar:`اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ`,n:1,src:'حفظ حتى الصباح — البخاري',badge:'😴 قبل النوم'},
-  {id:'sl_3quls',  label:'النفث بالمعوذتين',ar:`قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ، قُلْ أَعُوذُ بِرَبِّ النَّاسِ`,n:3,src:'ينفث في كفيه ثم يمسح جسده — البخاري',badge:'3 مرات'},
-  {id:'sl_tasbih', label:'تسبيح الفراش',ar:`سُبْحَانَ اللَّهِ`,n:33,src:'33 مرة — البخاري ومسلم'},
-  {id:'sl_tahmid', label:'تحميد الفراش',ar:`الْحَمْدُ لِلَّهِ`,n:33,src:'33 مرة — البخاري ومسلم'},
-  {id:'sl_takbir', label:'تكبير الفراش',ar:`اللَّهُ أَكْبَرُ`,n:34,src:'34 مرة — البخاري ومسلم'},
-  {id:'sl_dua',    label:'دعاء النوم',ar:`بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا`,n:1,src:'البخاري (6312)'},
-  {id:'sl_kafan',  label:'آيات قبل النوم',ar:`الَّذِي بِيَدِهِ الْمُلْكُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ ۝ الَّذِي خَلَقَ الْمَوْتَ وَالْحَيَاةَ`,n:1,src:'سورة الملك — يقرأها قبل النوم'},
-  {id:'sl_sawa',   label:'استيقاظ من الليل',ar:`لَا إِلَهَ إِلَّا اللَّهُ الْوَاحِدُ الْقَهَّارُ، رَبُّ السَّمَوَاتِ وَالأَرْضِ وَمَا بَيْنَهُمَا الْعَزِيزُ الْغَفَّارُ`,n:1,src:'عند التقلب ليلاً — الحاكم',badge:'🌃 عند الاستيقاظ'},
-  {id:'sl_sabah',  label:'عند الاستيقاظ',ar:`الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ`,n:1,src:'البخاري ومسلم',badge:'🌄 الاستيقاظ'},
-],
-
-salah: [
-  {id:'sa_wudu_b', label:'قبل الوضوء',ar:`بِسْمِ اللَّهِ`,n:1,src:'التسمية واجبة — الترمذي',badge:'🚿 قبل الوضوء'},
-  {id:'sa_wudu_a', label:'بعد الوضوء',ar:`أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، اللَّهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ`,n:1,src:'مسلم — يُفتح أبواب الجنة الثمانية'},
-  {id:'sa_masjid', label:'دخول المسجد',ar:`بِسْمِ اللَّهِ وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِ اللَّهِ، اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ`,n:1,src:'مسلم وأبو داود',badge:'🚪 دخول المسجد'},
-  {id:'sa_istift', label:'دعاء الاستفتاح',ar:`سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، وَتَبَارَكَ اسْمُكَ، وَتَعَالَى جَدُّكَ، وَلَا إِلَهَ غَيْرُكَ`,n:1,src:'أصحاب السنن',badge:'🙏 بداية الصلاة'},
-  {id:'sa_ruku',   label:'ذكر الركوع',ar:`سُبْحَانَ رَبِّيَ الْعَظِيمِ وَبِحَمْدِهِ`,n:3,src:'3 مرات — أبو داود'},
-  {id:'sa_rafa',   label:'الرفع من الركوع',ar:`رَبَّنَا وَلَكَ الْحَمْدُ حَمْدًا كَثِيرًا طَيِّبًا مُبَارَكًا فِيهِ`,n:1,src:'البخاري'},
-  {id:'sa_sujud',  label:'ذكر السجود',ar:`سُبْحَانَ رَبِّيَ الْأَعْلَى وَبِحَمْدِهِ`,n:3,src:'3 مرات — أبو داود'},
-  {id:'sa_2sajd',  label:'بين السجدتين',ar:`رَبِّ اغْفِرْ لِي، رَبِّ اغْفِرْ لِي`,n:3,src:'أبو داود وابن ماجه'},
-  {id:'sa_ba3d',   label:'بعد السلام',ar:`أَسْتَغْفِرُ اللَّهَ، أَسْتَغْفِرُ اللَّهَ، أَسْتَغْفِرُ اللَّهَ، اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ`,n:1,src:'مسلم (591)',badge:'✅ بعد الصلاة'},
-  {id:'sa_tasbih', label:'تسبيح ما بعد الصلاة',ar:`سُبْحَانَ اللَّهِ — الْحَمْدُ لِلَّهِ — اللَّهُ أَكْبَرُ`,n:33,src:'33 مرة لكل — البخاري ومسلم'},
-  {id:'sa_istikhara',label:'دعاء الاستخارة',ar:`اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ، وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ، وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ، فَإِنَّكَ تَقْدِرُ وَلَا أَقْدِرُ، وَتَعْلَمُ وَلَا أَعْلَمُ، وَأَنْتَ عَلَّامُ الْغُيُوبِ`,n:1,src:'البخاري (6382)'},
-],
-
-daily: [
-  {id:'d_manzil',  label:'دعاء الخروج من المنزل',ar:`بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ`,n:1,src:'أبو داود والترمذي',badge:'🚪 الخروج'},
-  {id:'d_enter',   label:'دعاء دخول المنزل',ar:`بِسْمِ اللَّهِ وَلَجْنَا، وَبِسْمِ اللَّهِ خَرَجْنَا، وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا`,n:1,src:'أبو داود'},
-  {id:'d_akl_b',   label:'قبل الطعام',ar:`بِسْمِ اللَّهِ`,n:1,src:'واجب — البخاري',badge:'🍽️ الطعام'},
-  {id:'d_akl_a',   label:'بعد الطعام',ar:`الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ`,n:1,src:'أبو داود والترمذي'},
-  {id:'d_thawb',   label:'لبس الثوب الجديد',ar:`اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ، أَسْأَلُكَ مِنْ خَيْرِهِ وَخَيْرِ مَا صُنِعَ لَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ`,n:1,src:'أبو داود وصححه الألباني'},
-  {id:'d_mirror',  label:'عند النظر في المرآة',ar:`اللَّهُمَّ كَمَا حَسَّنْتَ خَلْقِي فَحَسِّنْ خُلُقِي`,n:1,src:'أحمد وابن حبان'},
-  {id:'d_khalaa',  label:'دخول الخلاء',ar:`بِسْمِ اللَّهِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ`,n:1,src:'البخاري ومسلم',badge:'🚽 الخلاء'},
-  {id:'d_athan',   label:'إجابة المؤذن',ar:`اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ وَالصَّلَاةِ الْقَائِمَةِ، آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ`,n:1,src:'مسلم (384)',badge:'📢 بعد الأذان'},
-  {id:'d_attas',   label:'العطاس',ar:`الْحَمْدُ لِلَّهِ`,n:1,src:'والجواب: يرحمك الله — البخاري',badge:'🤧 العطاس'},
-  {id:'d_majlis',  label:'كفارة المجلس',ar:`سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ`,n:1,src:'أبو داود والترمذي',badge:'🪑 ختام المجلس'},
-  {id:'d_ghadab',  label:'عند الغضب',ar:`أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ`,n:3,src:'3 مرات — البخاري ومسلم'},
-  {id:'d_helu',    label:'عند رؤية المبتلى',ar:`الْحَمْدُ لِلَّهِ الَّذِي عَافَانِي مِمَّا ابْتَلَاكَ بِهِ وَفَضَّلَنِي عَلَى كَثِيرٍ مِمَّنْ خَلَقَ تَفْضِيلًا`,n:1,src:'الترمذي'},
-],
-
-travel: [
-  {id:'tr_rakib',  label:'دعاء ركوب السيارة',ar:`بِسْمِ اللَّهِ، الْحَمْدُ لِلَّهِ، ﴿سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ * وَإِنَّا إِلَى رَبِّنَا لَمُنقَلِبُونَ﴾`,n:1,src:'الزخرف:13 — أبو داود',badge:'🚗 ركوب المركوب'},
-  {id:'tr_safar',  label:'دعاء السفر',ar:`اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى، اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ`,n:1,src:'مسلم',badge:'✈️ السفر'},
-  {id:'tr_nuzul',  label:'دعاء نزول المنزل',ar:`أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ`,n:1,src:'مسلم — لن يضره شيء حتى يرتحل'},
-  {id:'tr_rua',    label:'الرعد والريح',ar:`اللَّهُمَّ لَا تَقْتُلْنَا بِغَضَبِكَ، وَلَا تُهْلِكْنَا بِعَذَابِكَ، وَعَافِنَا قَبْلَ ذَلِكَ`,n:1,src:'الترمذي وصححه الألباني',badge:'⛈️ الرعد'},
-  {id:'tr_rih',    label:'دعاء هبوب الريح',ar:`اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا فِيهَا وَخَيْرَ مَا أُرْسِلَتْ بِهِ، وَأَعُوذُ بِكَ مِنْ شَرِّهَا`,n:1,src:'مسلم (899)',badge:'💨 الريح'},
-  {id:'tr_matar',  label:'دعاء نزول المطر',ar:`اللَّهُمَّ صَيِّبًا نَافِعًا`,n:1,src:'البخاري (1032)',badge:'🌧️ المطر'},
-  {id:'tr_hilal',  label:'رؤية الهلال',ar:`اللَّهُ أَكْبَرُ، اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالْأَمْنِ وَالْإِيمَانِ، وَالسَّلَامَةِ وَالْإِسْلَامِ، رَبِّي وَرَبُّكَ اللَّهُ`,n:1,src:'الترمذي',badge:'🌙 رؤية الهلال'},
-  {id:'tr_kharj',  label:'دعاء دخول السوق',ar:`لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ، وَهُوَ حَيٌّ لَا يَمُوتُ`,n:1,src:'الترمذي وابن ماجه',badge:'🛒 السوق'},
-  {id:'tr_hamm',   label:'دعاء الكرب والحزن',ar:`لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَوَاتِ وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ`,n:1,src:'البخاري ومسلم',badge:'😔 الكرب'},
-],
-
-baqi: [
-  {id:'bq_subhan', label:'سبحان الله',ar:`سُبْحَانَ اللَّهِ`,n:100,src:'أحب الكلام إلى الله — البخاري'},
-  {id:'bq_hamd',   label:'الحمد لله',ar:`الْحَمْدُ لِلَّهِ`,n:100,src:'تملأ الميزان — مسلم'},
-  {id:'bq_tahlil', label:'لا إله إلا الله',ar:`لَا إِلَهَ إِلَّا اللَّهُ`,n:100,src:'أفضل الذكر — الترمذي'},
-  {id:'bq_akbar',  label:'الله أكبر',ar:`اللَّهُ أَكْبَرُ`,n:100,src:'الباقيات الصالحات'},
-  {id:'bq_hawl',   label:'لا حول ولا قوة',ar:`لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ`,n:100,src:'كنز من كنوز الجنة — البخاري'},
-  {id:'bq_istig',  label:'الاستغفار',ar:`أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ`,n:100,src:'مستحب الإكثار في العشر'},
-  {id:'bq_salawat',label:'الصلاة على النبي',ar:`اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى سَيِّدِنَا مُحَمَّدٍ`,n:100,src:'أفضل ما يُتقرب'},
-  {id:'bq_takbeer',label:'تكبير العشر',ar:`اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ`,n:100,src:'من شعائر العشر — البخاري'},
-  {id:'bq_tasbih', label:'تسبيح وبحمده',ar:`سُبْحَانَ اللَّهِ وَبِحَمْدِهِ`,n:100,src:'غُرست نخلة في الجنة — الترمذي'},
-],
-
-};
-
-/* ─── STATE & HELPERS ─────────────────────────────────────── */
-let currentTab = 'morning';
-
-function getCount(sec, id) {
-  return STATE?.adhkar?.[sec]?.[id] || 0;
-}
-function setCount(sec, id, val) {
-  if (!STATE.adhkar)          STATE.adhkar = {};
-  if (!STATE.adhkar[sec])     STATE.adhkar[sec] = {};
-  STATE.adhkar[sec][id] = val;
-  saveState();
-}
-
-/* ─── CARD BUILDER ────────────────────────────────────────── */
-function buildCard(d, sec, idx, deletable) {
-  const cur   = getCount(sec, d.id);
-  const tgt   = d.n || d.target || 1;
-  const lap   = cur % tgt;
-  const laps  = Math.floor(cur / tgt);
-  const pct   = Math.min(Math.round(((lap || (cur > 0 ? tgt : 0)) / tgt) * 100), 100);
-  const done  = cur >= tgt;
-
-  const el = document.createElement('div');
-  el.className = 'az-card az-card-new' + (done ? ' az-done' : '');
-  el.id = 'az-card-' + d.id;
-  el.style.setProperty('--i', idx);
-
-  const badge = d.badge ? `<span style="font-size:10px;font-weight:800;background:rgba(14,59,46,.08);color:var(--green-deep);border-radius:99px;padding:2px 10px;">${d.badge}</span>` : '';
-  const delBtn = deletable ? `<button class="az-delete" onclick="deleteCu('${d.id}')" title="حذف">✕</button>` : '';
-
-  el.innerHTML = `
-    ${delBtn}
-    <div class="az-arabic">${d.source==='مخصص'||d.id?.startsWith('cu_')?zadEscapeHTML(d.ar||d.arabic):(d.ar||d.arabic)}</div>
-    <div class="az-meta">
-      <span class="az-label">${d.source==='مخصص'||d.id?.startsWith('cu_')?zadEscapeHTML(d.label):d.label}</span>
-      ${badge}
-      <span class="az-source tag">${d.src || d.source || ''}</span>
-    </div>
-    <div class="progress" style="margin:0 0 8px">
-      <span id="az-prog-${d.id}" style="width:${pct}%;transition:width .4s"></span>
-    </div>
-    <div class="az-count-row">
-      <span class="az-cnt-num" id="az-cnt-${d.id}">${cur}<small style="font-size:11px;font-weight:500;opacity:.6"> / ${tgt}${laps>0?' (×'+laps+')':''}</small></span>
-      <button class="az-btn-count" id="az-btn-${d.id}" onclick="tap('${sec}','${d.id}',${tgt})">${done ? '✅ مكتمل' : '+ عدّ'}</button>
-      <button class="az-btn-reset" onclick="resetOne('${sec}','${d.id}',${tgt})" title="إعادة">↺</button>
-      <button onclick="shareAz('${d.id}','${sec}')" style="background:none;border:none;font-size:14px;cursor:pointer;opacity:.5;padding:4px" title="مشاركة">📤</button>
-    </div>`;
-  return el;
-}
-
-/* ─── TAP / COUNT ──────────────────────────────────────────── */
-window.tap = function(sec, id, tgt) {
-  const next = getCount(sec, id) + 1;
-  setCount(sec, id, next);
-  if (navigator.vibrate) navigator.vibrate(12);
-
-  const cntEl  = document.getElementById('az-cnt-' + id);
-  const progEl = document.getElementById('az-prog-' + id);
-  const cardEl = document.getElementById('az-card-' + id);
-  const btnEl  = document.getElementById('az-btn-' + id);
-
-  const lap  = next % tgt;
-  const laps = Math.floor(next / tgt);
-  const pct  = Math.min(Math.round(((lap||(next>0?tgt:0))/tgt)*100),100);
-
-  if (cntEl) cntEl.innerHTML = `${next}<small style="font-size:11px;font-weight:500;opacity:.6"> / ${tgt}${laps>0?' (×'+laps+')':''}</small>`;
-  if (progEl) progEl.style.width = pct + '%';
-
-  if (next === tgt || (next > 0 && next % tgt === 0)) {
-    cardEl?.classList.add('az-done');
-    if (btnEl) btnEl.textContent = '✅ مكتمل';
-    if (navigator.vibrate) navigator.vibrate([40,20,40]);
-    if (typeof showToast === 'function') showToast('✅ مكتمل — بارك الله فيك');
-    if (typeof confetti !== 'undefined') confetti({particleCount:40,spread:50,origin:{y:.7},colors:['#0e3b2e','#c9a14a','#fff']});
-  } else {
-    cardEl?.classList.remove('az-done');
-    if (btnEl) btnEl.textContent = '+ عدّ';
-  }
-  updateProgress();
-};
-
-window.resetOne = function(sec, id, tgt) {
-  setCount(sec, id, 0);
-  const c=document.getElementById('az-cnt-'+id), p=document.getElementById('az-prog-'+id),
-        ca=document.getElementById('az-card-'+id), b=document.getElementById('az-btn-'+id);
-  if(c)c.innerHTML=`0<small style="font-size:11px;font-weight:500;opacity:.6"> / ${tgt}</small>`;
-  if(p)p.style.width='0%'; ca?.classList.remove('az-done'); if(b)b.textContent='+ عدّ';
-  updateProgress();
-};
-
-window.shareAz = function(id, sec) {
-  const list = AZ_DATA[sec] || [];
-  const d = list.find(x => x.id === id);
-  if (!d) return;
-  const txt = `🤲 ${d.label}\n\n${d.ar||d.arabic}\n\n📖 ${d.src||d.source||''}\n\nمن زاد العشر`;
-  if (navigator.share) navigator.share({title:'ذكر', text:txt});
-  else { navigator.clipboard?.writeText(txt); if(typeof showToast==='function') showToast('📋 تم النسخ'); }
-};
-
-/* ─── PROGRESS BAR ─────────────────────────────────────────── */
-function updateProgress() {
-  const list = AZ_DATA[currentTab] || (STATE.adhkar?.custom || []);
-  if (!list.length) return;
-  const sec = currentTab === 'custom' ? 'custom' : currentTab;
-  const done = list.filter(d => getCount(sec, d.id) >= (d.n || d.target || 1)).length;
-  const pct = Math.round((done / list.length) * 100);
-  const bar = document.getElementById('az-section-prog-bar');
-  if (bar) bar.style.width = pct + '%';
-}
-
-/* ─── RENDER TAB ────────────────────────────────────────────── */
-window.switchTab = function(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.az-tab').forEach(b => b.classList.remove('active'));
-  const btn = document.getElementById('tab-' + tab);
-  if (btn) btn.classList.add('active');
-
-  const container = document.getElementById('az-cards-container');
-  container.innerHTML = '';
-
-  if (tab === 'custom') {
-    renderCustom(container);
-  } else {
-    const list = AZ_DATA[tab] || [];
-    list.forEach((d, i) => container.appendChild(buildCard(d, tab, i, false)));
-  }
-
-  updateProgress();
-  if (!STATE.adhkar) STATE.adhkar = {};
-  STATE.adhkar._lastTab = tab;
-  saveState();
-};
-
-window.switchTabScroll = function(tab) {
-  switchTab(tab);
-  const bar = document.getElementById('az-tabs-bar');
-  if (bar) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
-};
-
-/* ─── CUSTOM ────────────────────────────────────────────────── */
-function renderCustom(container) {
-  const form = document.createElement('div');
-  form.className = 'az-add-form';
-  form.innerHTML = `
-    <label>✏️ أضف ذكراً مخصصاً</label>
-    <textarea id="az-new-text" placeholder="اكتب نص الذكر بالعربية..." dir="rtl"></textarea>
-    <div class="az-add-row">
-      <div class="az-add-field"><label>الاسم</label>
-        <input id="az-new-label" type="text" placeholder="مثال: ذكر الطمأنينة" style="width:160px"></div>
-      <div class="az-add-field"><label>العدد</label>
-        <input id="az-new-target" type="number" value="33" min="1" max="1000" style="width:80px"></div>
-      <button class="btn btn-gold" style="padding:10px 20px;align-self:flex-end" onclick="addCu()">+ أضف</button>
-    </div>`;
-  container.appendChild(form);
-
-  const customs = STATE.adhkar?.custom || [];
-  if (!customs.length) {
-    container.insertAdjacentHTML('beforeend',
-      `<p style="text-align:center;color:var(--muted);padding:30px;font-size:14px">لم تضف أذكاراً مخصصة بعد 👆</p>`);
-  } else {
-    customs.forEach((d, i) => container.appendChild(buildCard({...d, ar:d.arabic||d.text, src:d.source||'مخصص'}, 'custom', i, true)));
-  }
-}
-
-window.addCu = function() {
-  const text = document.getElementById('az-new-text')?.value.trim();
-  const label = document.getElementById('az-new-label')?.value.trim() || 'ذكر مخصص';
-  const target = Math.max(1, parseInt(document.getElementById('az-new-target')?.value) || 33);
-  if (!text) { if(typeof showToast==='function') showToast('⚠️ اكتب نص الذكر أولاً'); return; }
-  if (!STATE.adhkar) STATE.adhkar = {};
-  if (!STATE.adhkar.custom) STATE.adhkar.custom = [];
-  const id = 'cu_' + Date.now();
-  STATE.adhkar.custom.push({ id, arabic:text, label, target, source:'مخصص' });
-  saveState();
-  ['az-new-text','az-new-label'].forEach(i => { const el=document.getElementById(i); if(el)el.value=''; });
-  document.getElementById('az-new-target').value='33';
-  switchTab('custom');
-  if(typeof showToast==='function') showToast('✅ تم إضافة الذكر');
-};
-
-window.deleteCu = function(id) {
-  if (!STATE.adhkar?.custom) return;
-  STATE.adhkar.custom = STATE.adhkar.custom.filter(d => d.id !== id);
-  saveState(); switchTab('custom');
-  if(typeof showToast==='function') showToast('🗑️ تم الحذف');
-};
-
-/* ─── FLOATING NAV VISIBILITY ──────────────────────────────── */
-(function() {
-  const fab = document.getElementById('az-fab-nav');
-  let lastY = 0, ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        const tabsEl = document.getElementById('az-tabs-bar');
-        if (!tabsEl || !fab) return;
-        const rect = tabsEl.getBoundingClientRect();
-        if (rect.bottom < 0) {
-          fab.classList.add('visible');
-        } else {
-          fab.classList.remove('visible');
-        }
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, {passive:true});
-})();
-
-/* ─── BACKWARD COMPAT ───────────────────────────────────────── */
-window.countAz = window.tap;
-window.resetAz = function(sec, id, tgt) { resetOne(sec, id, tgt); };
-window.countAdhkar = function(id, tgt) { tap(currentTab, id, tgt); };
-window.addCustomAdhkar = window.addCu;
-window.deleteCustomAdhkar = window.deleteCu;
-window.updateSectionProgress = updateProgress;
-
-/* ─── INIT ──────────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  const lastTab = STATE?.adhkar?._lastTab || 'morning';
-  switchTab(lastTab);
-  /* highlight active tab in fab */
-  document.querySelectorAll('#az-fab-nav button').forEach(b => {
-    b.addEventListener('click', function() {
-      document.querySelectorAll('#az-fab-nav button').forEach(x => x.style.background='none');
-      this.style.background = 'var(--sand)';
-    });
-  });
-});
-</script>
-
-  <script src="lang.js" defer></script>
+<script src="lang.js" defer></script>
   <script src="js/storage.js" defer></script>
   <script src="js/calendar.js" defer></script>
   <script src="js/design-system.js" defer></script>
@@ -858,418 +475,150 @@ document.addEventListener('DOMContentLoaded', () => {
   <script src="js/adhkar-sections.js" defer></script>
   <script src="js/adhkar-enhance.js" defer></script>
   <script src="js/share-button.js" defer></script>
-  <script src="js/tasbih-fab.js" defer></script>
   <script src="js/gps-fix.js" defer></script>
   <script src="js/nav-accordion.js" defer></script>
-  <script src="js/float-tasbih.js" defer></script>
     <script src="js/utils/helpers.js" defer></script>
   <script src="js/core/state-manager.js" defer></script>
   <script src="js/core/router.js" defer></script>
   <script src="js/ui/design-tokens.js" defer></script>
-  <script src="js/ui/bottom-nav.js" defer></script>
   <script src="js/ui/feedback.js" defer></script>
   <script src="js/ui/offline-ui.js" defer></script>
   <script src="js/ui/micro-interactions.js" defer></script>
+  <script src="js/ui/pattern-engine.js" defer></script>
   <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
 <script>
-/* ══ ADHKAR PAGE ══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   كل الأذكار في أكورديون واحد — يقرأ من ADHKAR_DATABASE
+   ══════════════════════════════════════════════════════════════ */
+function zadEscapeHTML(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+window.zadEscapeHTML = zadEscapeHTML;
 
-const AZ_MORNING = [
-  {id:'am_open',label:'افتتاح الصباح',arabic:`أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ`,target:1,source:'رواه مسلم (2723)',section:'morning'},
-  {id:'am_kursi',label:'آية الكرسي',arabic:`اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ`,target:1,source:'صحيح البخاري — من قالها حفظه الله حتى المساء',section:'morning'},
-  {id:'am_3quls',label:'الإخلاص والمعوذتان',arabic:`قُلْ هُوَ اللَّهُ أَحَدٌ، قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ، قُلْ أَعُوذُ بِرَبِّ النَّاسِ`,target:3,source:'3 مرات — صحيح الترمذي',section:'morning'},
-  {id:'am_morning',label:'دعاء الصباح',arabic:`اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ`,target:1,source:'صحيح — رواه أبو داود',section:'morning'},
-  {id:'am_sayyed',label:'سيد الاستغفار',arabic:`اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ`,target:1,source:'صحيح البخاري (6306)',section:'morning'},
-  {id:'am_afia',label:'العافية',arabic:`اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ`,target:1,source:'صحيح — رواه أبو داود (5074)',section:'morning'},
-  {id:'am_rida',label:'الرضا بالإسلام',arabic:`رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا`,target:3,source:'3 مرات — صحيح ابن ماجه',section:'morning'},
-  {id:'am_hayy',label:'يا حي يا قيوم',arabic:`يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ`,target:3,source:'3 مرات — صحيح الترغيب',section:'morning'},
-  {id:'am_tahlil10',label:'التهليل عشراً',arabic:`لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ`,target:10,source:'10 مرات — رواه النسائي',section:'morning'},
-  {id:'am_tasbih3',label:'التسبيح الجامع',arabic:`سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ`,target:3,source:'3 مرات — رواه مسلم (2726)',section:'morning'}
-];
-const AZ_EVENING = [
-  {id:'ev_open',label:'افتتاح المساء',arabic:`أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ`,target:1,source:'رواه مسلم (2723)',section:'evening'},
-  {id:'ev_kursi',label:'آية الكرسي',arabic:`اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ`,target:1,source:'صحيح البخاري — من قالها حفظه الله حتى الصباح',section:'evening'},
-  {id:'ev_3quls',label:'الإخلاص والمعوذتان',arabic:`قُلْ هُوَ اللَّهُ أَحَدٌ، قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ، قُلْ أَعُوذُ بِرَبِّ النَّاسِ`,target:3,source:'3 مرات — صحيح الترمذي',section:'evening'},
-  {id:'ev_evening',label:'دعاء المساء',arabic:`اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ`,target:1,source:'صحيح — رواه أبو داود',section:'evening'},
-  {id:'ev_sayyed',label:'سيد الاستغفار',arabic:`اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ`,target:1,source:'صحيح البخاري (6306)',section:'evening'},
-  {id:'ev_kalimat',label:'الاستعاذة بالكلمات',arabic:`أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ`,target:3,source:'3 مرات — صحيح — رواه أبو داود',section:'evening'},
-  {id:'ev_afia',label:'العافية',arabic:`اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ`,target:1,source:'صحيح — رواه أبو داود (5074)',section:'evening'},
-  {id:'ev_rida',label:'الرضا بالإسلام',arabic:`رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا`,target:3,source:'3 مرات — صحيح ابن ماجه',section:'evening'},
-  {id:'ev_tahlil10',label:'التهليل عشراً',arabic:`لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ`,target:10,source:'10 مرات — رواه النسائي',section:'evening'},
-  {id:'ev_tasbih3',label:'التسبيح الجامع',arabic:`سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ`,target:3,source:'3 مرات — رواه مسلم (2726)',section:'evening'}
-];
-const AZ_ASHRA   = [
-  {id:'ash_tahlil',label:'تهليل العشر ⭐',arabic:`لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ`,target:100,source:'خير ما قاله النبيون — رواه الترمذي',section:'ashra'},
-  {id:'ash_istig',label:'الاستغفار',arabic:`أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ`,target:100,source:'مستحب الإكثار منه في العشر',section:'ashra'},
-  {id:'ash_salawat',label:'الصلاة على النبي ﷺ',arabic:`اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى سَيِّدِنَا مُحَمَّدٍ`,target:100,source:'أفضل ما يُتقرب به',section:'ashra'},
-  {id:'ash_takbeer',label:'التكبير المطلق',arabic:`اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ`,target:100,source:'من شعائر العشر — رواه البخاري',section:'ashra'}
-];
-
-let currentTab = 'morning';
-
-
-/* ══ DUAS SECTION — الأدعية المأثورة ═══════════════════════ */
-const AZ_DUAS = [
-  {cat:'🏥 المرض والجنائز', duas:[
-    {id:'d_marid',label:'الدعاء للمريض في عيادته',arabic:`أَسْأَلُ اللَّهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ`,source:'7 مرات — رواه أبو داود والترمذي'},
-    {id:'d_maseeba',label:'دعاء من أُصيب بمصيبة',arabic:`إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي، وَأَخْلِفْ لِي خَيْرًا مِنْهَا`,source:'رواه مسلم'},
-    {id:'d_mayyit',label:'الدعاء للميت في الصلاة عليه',arabic:`اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ، وَعَافِهِ وَاعْفُ عَنْهُ، وَأَكْرِمْ نُزُلَهُ، وَوَسِّعْ مُدْخَلَهُ، وَاغْسِلْهُ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ`,source:'رواه مسلم'},
-    {id:'d_taaziyya',label:'دعاء التعزية',arabic:`أَعْظَمَ اللَّهُ أَجْرَكَ، وَأَحْسَنَ عَزَاءَكَ، وَغَفَرَ لِمَيِّتِكَ`,source:'أثر حسن استحبه العلماء'},
-  ]},
-  {cat:'🏠 الحياة اليومية', duas:[
-    {id:'d_sahwa',label:'أذكار الاستيقاظ من النوم',arabic:`الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ`,source:'رواه البخاري ومسلم'},
-    {id:'d_thawb',label:'دعاء لبس الثوب الجديد',arabic:`اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ، أَسْأَلُكَ مِنْ خَيْرِهِ وَخَيْرِ مَا صُنِعَ لَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ`,source:'رواه أبو داود وصححه الألباني'},
-    {id:'d_khuraj',label:'الذكر عند الخروج من المنزل',arabic:`بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلا حَوْلَ وَلا قُوَّةَ إِلا بِاللَّهِ`,source:'رواه أبو داود والترمذي وصححه الألباني'},
-    {id:'d_dakhool',label:'دعاء دخول المنزل',arabic:`بِسْمِ اللَّهِ وَلَجْنَا، وَبِسْمِ اللَّهِ خَرَجْنَا، وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا`,source:'رواه أبو داود'},
-    {id:'d_khalaa_d',label:'دعاء دخول الخلاء',arabic:`بِسْمِ اللَّهِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ`,source:'متفق عليه'},
-    {id:'d_taqallub',label:'الدعاء إذا تقلّب ليلاً',arabic:`لا إِلَهَ إِلا اللَّهُ الْوَاحِدُ الْقَهَّارُ، رَبُّ السَّمَوَاتِ وَالأَرْضِ وَمَا بَيْنَهُمَا الْعَزِيزُ الْغَفَّارُ`,source:'رواه الحاكم وصححه الألباني'},
-  ]},
-  {cat:'✈️ السفر والتنقل', duas:[
-    {id:'d_safar',label:'دعاء السفر الكامل',arabic:`اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ، اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى، اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ`,source:'رواه مسلم في صحيحه'},
-    {id:'d_mrkob',label:'دعاء ركوب المركوب',arabic:`بِسْمِ اللَّهِ ﴿سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ * وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ﴾ الْحَمْدُ لِلَّهِ، الْحَمْدُ لِلَّهِ، الْحَمْدُ لِلَّهِ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ`,source:'رواه أبو داود والترمذي'},
-    {id:'d_qaryah',label:'دعاء دخول البلدة',arabic:`اللَّهُمَّ رَبَّ السَّمَوَاتِ السَّبْعِ وَمَا أَظْلَلْنَ، وَرَبَّ الأَرَضِينَ السَّبْعِ وَمَا أَقْلَلْنَ، وَرَبَّ الشَّيَاطِينِ وَمَا أَضْلَلْنَ، أَسْأَلُكَ خَيْرَ هَذِهِ الْقَرْيَةِ وَخَيْرَ أَهْلِهَا`,source:'رواه النسائي وصححه الألباني'},
-    {id:'d_souq',label:'دعاء دخول السوق',arabic:`لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ، وَهُوَ حَيٌّ لا يَمُوتُ، بِيَدِهِ الْخَيْرُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ`,source:'رواه الترمذي وابن ماجه وحسنه الألباني'},
-  ]},
-  {cat:'🕌 الصلاة والعبادات', duas:[
-    {id:'d_wudu',label:'دعاء بعد الوضوء',arabic:`أَشْهَدُ أَنْ لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، اللَّهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ`,source:'رواه مسلم والترمذي'},
-    {id:'d_masjid_d',label:'دعاء دخول المسجد',arabic:`بِسْمِ اللَّهِ، وَالصَّلاةُ وَالسَّلامُ عَلَى رَسُولِ اللَّهِ، اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ`,source:'رواه مسلم وأبو داود'},
-    {id:'d_istiftah',label:'دعاء الاستفتاح',arabic:`سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، وَتَبَارَكَ اسْمُكَ، وَتَعَالَى جَدُّكَ، وَلا إِلَهَ غَيْرُكَ`,source:'رواه أصحاب السنن'},
-    {id:'d_istikharah',label:'دعاء الاستخارة',arabic:`اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ، وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ، وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ، فَإِنَّكَ تَقْدِرُ وَلا أَقْدِرُ، وَتَعْلَمُ وَلا أَعْلَمُ، وَأَنْتَ عَلَّامُ الْغُيُوبِ`,source:'رواه البخاري في صحيحه'},
-  ]},
-  {cat:'😔 الابتلاءات والكروب', duas:[
-    {id:'d_hamm',label:'دعاء الهمّ والحزن',arabic:`اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ، ابْنُ أَمَتِكَ، نَاصِيَتِي بِيَدِكَ، مَاضٍ فِيَّ حُكْمُكَ، عَدْلٌ فِيَّ قَضَاؤُكَ، أَسْأَلُكَ بِكُلِّ اسْمٍ هُوَ لَكَ أَنْ تَجْعَلَ الْقُرْآنَ رَبِيعَ قَلْبِي، وَنُورَ صَدْرِي، وَجَلاءَ حُزْنِي، وَذَهَابَ هَمِّي`,source:'رواه أحمد وصححه الألباني'},
-    {id:'d_karb',label:'دعاء الكرب والشدائد',arabic:`لا إِلَهَ إِلا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لا إِلَهَ إِلا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لا إِلَهَ إِلا اللَّهُ رَبُّ السَّمَواتِ وَرَبُّ الأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ`,source:'متفق عليه (البخاري ومسلم)'},
-    {id:'d_dayn',label:'دعاء قضاء الدَّين',arabic:`اللَّهُمَّ اكْفِنِي بِحَلالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ`,source:'رواه الترمذي وحسنه الألباني'},
-    {id:'d_sahel',label:'دعاء من استصعب أمرٌ',arabic:`اللَّهُمَّ لا سَهْلَ إِلا مَا جَعَلْتَهُ سَهْلاً، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلاً`,source:'رواه ابن حبان وصححه الألباني'},
-  ]},
-];
-
-function renderDuasTab() {
-  const container = document.getElementById('az-cards-container');
-  container.innerHTML = '';
-
-  /* Search bar */
-  const searchWrap = document.createElement('div');
-  searchWrap.style.cssText = 'margin-bottom:16px;position:sticky;top:68px;z-index:5';
-  searchWrap.innerHTML = `<input type="text" id="duas-search" placeholder="🔍 ابحث عن دعاء..." onkeyup="filterDuasCards()"
-    style="width:100%;padding:12px 18px;border-radius:99px;border:1px solid var(--border);
-           background:var(--card);color:var(--ink);font-family:inherit;font-size:14px;
-           outline:none;box-shadow:var(--shadow-sm)">`;
-  container.appendChild(searchWrap);
-
-  AZ_DUAS.forEach(catObj => {
-    const catDiv = document.createElement('div');
-    catDiv.className = 'duas-cat';
-    catDiv.style.cssText = 'margin-bottom:24px';
-
-    const title = document.createElement('div');
-    title.className = 'section-title';
-    title.style.cssText = 'border-right:4px solid var(--gold);padding-right:12px;margin-bottom:14px';
-    title.textContent = catObj.cat;
-    catDiv.appendChild(title);
-
-    catObj.duas.forEach(dua => {
-      const card = document.createElement('div');
-      card.className = 'az-card duas-card';
-      card.style.cssText = 'cursor:pointer';
-      card.innerHTML = `
-        <div style="font-size:13px;font-weight:700;color:var(--green-deep);margin-bottom:8px">${dua.label}</div>
-        <div class="az-arabic">${dua.arabic}</div>
-        <div style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);font-size:11px;color:var(--muted);display:flex;align-items:center;justify-content:space-between">
-          <span>📖 ${dua.source}</span>
-          <div style="display:flex;gap:6px">
-            <button onclick="copyDua('${dua.id}',event)"
-              style="padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:none;
-                     font-family:inherit;font-size:11px;cursor:pointer;color:var(--muted)">📋 نسخ</button>
-            <button onclick="shareDua('${dua.id}',event)"
-              style="padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:none;
-                     font-family:inherit;font-size:11px;cursor:pointer;color:var(--muted)">📤</button>
-          </div>
-        </div>`;
-      catDiv.appendChild(card);
-    });
-
-    container.appendChild(catDiv);
-  });
+function getAdhkarCount(secId, itemIdx) {
+  try {
+    const st = JSON.parse(localStorage.getItem('zad_adhkar_counts') || '{}');
+    return st[`${secId}-${itemIdx}`] || 0;
+  } catch { return 0; }
+}
+function setAdhkarCount(secId, itemIdx, val) {
+  try {
+    const st = JSON.parse(localStorage.getItem('zad_adhkar_counts') || '{}');
+    st[`${secId}-${itemIdx}`] = val;
+    localStorage.setItem('zad_adhkar_counts', JSON.stringify(st));
+  } catch {}
 }
 
-function filterDuasCards() {
-  const q = document.getElementById('duas-search')?.value?.toLowerCase() || '';
-  document.querySelectorAll('.duas-card').forEach(card => {
-    card.style.display = card.innerText.toLowerCase().includes(q) ? '' : 'none';
-  });
-  document.querySelectorAll('.duas-cat').forEach(cat => {
-    const visible = [...cat.querySelectorAll('.duas-card')].some(c => c.style.display !== 'none');
-    cat.style.display = visible ? '' : 'none';
-  });
-}
-
-/* DuaStore for copy/share */
-function _getDuaById(id) {
-  for (const cat of AZ_DUAS) {
-    const found = cat.duas.find(d => d.id === id);
-    if (found) return found;
-  }
-  return null;
-}
-
-window.copyDua = function(id, e) {
-  e?.stopPropagation();
-  const d = _getDuaById(id);
-  if (!d) return;
-  navigator.clipboard?.writeText(d.arabic + '\n' + d.label + ' — ' + d.source);
-  if (typeof showToast === 'function') showToast('📋 تم نسخ الدعاء');
-};
-window.shareDua = function(id, e) {
-  e?.stopPropagation();
-  const d = _getDuaById(id);
-  if (!d) return;
-  const txt = `🤲 ${d.label}\n\n${d.arabic}\n\n📖 ${d.source}\n\nمن تطبيق زاد العشر`;
-  if (navigator.share) navigator.share({title:'دعاء', text:txt});
-  else { navigator.clipboard?.writeText(txt); if(typeof showToast==='function') showToast('✅ تم النسخ'); }
-};
-window.filterDuasCards = filterDuasCards;
-
-function switchTab(tab) {
-  currentTab = tab;
-  /* Update tab buttons */
-  document.querySelectorAll('.az-tab').forEach(b => b.classList.remove('active'));
-  const btn = document.getElementById('tab-' + tab);
-  if (btn) btn.classList.add('active');
-  renderTab(tab);
-}
-
-function getAdhkarState(section, id) {
-  return STATE.adhkar?.[section]?.[id] || 0;
-}
-
-function setAdhkarState(section, id, val) {
-  if (!STATE.adhkar)           STATE.adhkar = {};
-  if (!STATE.adhkar[section])  STATE.adhkar[section] = {};
-  STATE.adhkar[section][id] = val;
-  saveState();
-}
-
-function countAz(section, id, target) {
-  const cur  = getAdhkarState(section, id);
-  const next = cur + 1;
-  setAdhkarState(section, id, next);
-  if (navigator.vibrate) navigator.vibrate(15);
-
-  /* Update card DOM */
-  const cntEl  = document.getElementById('az-cnt-' + id);
-  const progEl = document.getElementById('az-prog-' + id);
-  const cardEl = document.getElementById('az-card-' + id);
-  const btnEl  = document.getElementById('az-btn-' + id);
-
-  const lap = next % target;  /* count within current lap */
-  const laps = Math.floor(next / target);
-  const pct  = Math.min(Math.round(((lap || (next > 0 ? target : 0)) / target) * 100), 100);
-
-  if (cntEl)  cntEl.textContent  = `${next} / ${target}${laps > 0 ? ' (×' + laps + ')' : ''}`;
-  if (progEl) progEl.style.width = pct + '%';
-
-  /* Done state on completing a lap */
-  if (next === target || (next > 0 && next % target === 0)) {
-    cardEl?.classList.add('az-done');
-    if (btnEl) { btnEl.textContent = '✅ مكتمل'; }
-    if (navigator.vibrate) navigator.vibrate([50,30,50]);
-    showToast('✅ مكتمل — بارك الله فيك');
-    checkBadges();
-  } else if (cardEl?.classList.contains('az-done')) {
-    /* continued counting beyond one lap */
-    cardEl.classList.remove('az-done');
-    if (btnEl) btnEl.textContent = '+ عدّ';
-  }
-  updateSectionProgress();
-}
-window.countAz = countAz;
-
-function resetAz(section, id, target) {
-  setAdhkarState(section, id, 0);
-  const cntEl  = document.getElementById('az-cnt-' + id);
-  const progEl = document.getElementById('az-prog-' + id);
-  const cardEl = document.getElementById('az-card-' + id);
-  const btnEl  = document.getElementById('az-btn-' + id);
-  if (cntEl)  cntEl.textContent  = `0 / ${target}`;
-  if (progEl) progEl.style.width = '0%';
-  cardEl?.classList.remove('az-done');
-  if (btnEl) btnEl.textContent = '+ عدّ';
-  updateSectionProgress();
-}
-window.resetAz = resetAz;
-
-function updateSectionProgress() {
-  const list = currentTab === 'morning' ? AZ_MORNING
-             : currentTab === 'evening' ? AZ_EVENING
-             : currentTab === 'ashra'   ? AZ_ASHRA
-             : (STATE.adhkar?.custom || []).map(c => ({...c, section:'custom'}));
-  if (!list.length) return;
-  const done = list.filter(d => (getAdhkarState(d.section || currentTab, d.id) >= d.target)).length;
-  const pct  = Math.round((done / list.length) * 100);
-  const bar  = document.getElementById('az-section-prog-bar');
-  if (bar) bar.style.width = pct + '%';
-}
-
-function buildCard(d, section, deletable) {
-  const cur  = getAdhkarState(section, d.id);
-  const lap  = cur % d.target;
-  const laps = Math.floor(cur / d.target);
-  const pct  = Math.min(Math.round(((lap || (cur > 0 ? d.target : 0)) / d.target) * 100), 100);
-  const done = cur >= d.target;
-
-  const card = document.createElement('div');
-  card.className = 'az-card' + (done ? ' az-done' : '');
-  card.id = 'az-card-' + d.id;
-
-  let deleteBtn = '';
-  if (deletable) {
-    deleteBtn = `<button class="az-delete" onclick="deleteCustomAdhkar('${d.id}')" title="حذف">✕</button>`;
-  }
-
-  card.innerHTML = `
-    ${deleteBtn}
-    <div class="az-arabic">${d.arabic}</div>
-    <div class="az-meta">
-      <span class="az-label">${d.source==='مخصص'||d.id?.startsWith('cu_')?zadEscapeHTML(d.label):d.label}</span>
-      <span class="az-source tag">${d.source}</span>
-    </div>
-    <div class="progress" style="margin:0 0 8px">
-      <span id="az-prog-${d.id}" style="width:${pct}%"></span>
-    </div>
-    <div class="az-count-row">
-      <span class="az-cnt-num" id="az-cnt-${d.id}">${cur} / ${d.target}${laps > 0 ? ' (×' + laps + ')' : ''}</span>
-      <button class="az-btn-count" id="az-btn-${d.id}"
-        onclick="countAz('${section}','${d.id}',${d.target})">
-        ${done ? '✅ مكتمل' : '+ عدّ'}
-      </button>
-      <button class="az-btn-reset" onclick="resetAz('${section}','${d.id}',${d.target})">↺</button>
-    </div>`;
-  return card;
-}
-
-function renderTab(tab) {
-  const container = document.getElementById('az-cards-container');
-  container.innerHTML = '';
-
-  if (tab === 'morning') {
-    AZ_MORNING.forEach(d => container.appendChild(buildCard(d, 'morning', false)));
-  } else if (tab === 'evening') {
-    AZ_EVENING.forEach(d => container.appendChild(buildCard(d, 'evening', false)));
-  } else if (tab === 'ashra') {
-    AZ_ASHRA.forEach(d => container.appendChild(buildCard(d, 'ashra', false)));
-  } else if (tab === 'duas') {
-    renderDuasTab();
-    updateSectionProgress();
+function renderAdhkarAccordion() {
+  const wrap = document.getElementById('adhkar-accordion');
+  if (!wrap) return;
+  const db = window.ADHKAR_DATABASE;
+  if (!db || !Object.keys(db).length) {
+    wrap.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">⏳ جارٍ تحميل الأذكار...</div>';
     return;
-  } else if (tab === 'custom') {
-    renderCustomTab(container);
   }
 
-  updateSectionProgress();
-}
-
-/* ── Custom Adhkar ─────────────────────────────────────────── */
-function renderCustomTab(container) {
-  /* Add form */
-  const form = document.createElement('div');
-  form.className = 'az-add-form';
-  form.innerHTML = `
-    <label>✏️ أضف ذكراً مخصصاً</label>
-    <textarea id="az-new-text" placeholder="اكتب نص الذكر بالعربية..." dir="rtl"></textarea>
-    <div class="az-add-row">
-      <div class="az-add-field">
-        <label>اسم / وصف</label>
-        <input id="az-new-label" type="text" placeholder="مثال: ذكر الطمأنينة" style="width:160px">
+  const sections = Object.values(db);
+  wrap.innerHTML = sections.map((sec, si) => {
+    const items = sec.items || [];
+    return `
+    <div class="adh-chapter" data-sec="${sec.id || si}" style="background:var(--card);border:1.5px solid var(--border);border-right:5px solid ${sec.color||'#1a5d47'};border-radius:14px;margin-bottom:10px;overflow:hidden">
+      <div class="adh-head" onclick="toggleAdhChapter(this)" style="display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer">
+        <div style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;background:${sec.color||'#1a5d47'}20;color:${sec.color||'#1a5d47'};flex-shrink:0">${sec.icon||'🤲'}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:15px;font-weight:800;color:var(--ink)">${zadEscapeHTML(sec.title||'')}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">${sec.time?'🕐 '+zadEscapeHTML(sec.time)+' · ':''}${items.length} أذكار</div>
+        </div>
+        <span class="adh-arrow" style="font-size:18px;color:var(--muted);transition:transform .25s">▾</span>
       </div>
-      <div class="az-add-field">
-        <label>العدد المستهدف</label>
-        <input id="az-new-target" type="number" value="33" min="1" max="1000" style="width:90px">
+      <div class="adh-body" style="display:none;padding:0 16px 16px;border-top:1px solid var(--border)">
+        ${items.map((item, ii) => {
+          const target = item.count || 1;
+          const cur = getAdhkarCount(sec.id||si, ii);
+          const done = cur >= target;
+          return `
+          <div class="adh-dhikr" style="background:var(--sand);border-radius:12px;padding:14px;margin-top:10px">
+            ${item.label?`<div style="font-size:13px;font-weight:700;color:${sec.color||'#1a5d47'};margin-bottom:6px">${zadEscapeHTML(item.label)}</div>`:''}
+            <div style="font-family:'Amiri',serif;font-size:18px;line-height:2.1;color:var(--ink);margin-bottom:10px">${zadEscapeHTML(item.ar||item.arabic||'')}</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding-top:8px;border-top:1px dashed var(--border)">
+              <span style="font-size:11px;color:var(--muted)">📖 ${zadEscapeHTML(item.source||item.src||'')}</span>
+              <button class="adh-count-btn" id="adhc-${sec.id||si}-${ii}" onclick="countAdh('${sec.id||si}',${ii},${target},event)"
+                style="padding:7px 16px;border-radius:10px;border:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:36px;${done?'background:var(--green-mid);opacity:.7':'background:var(--green-deep)'};color:#fff">
+                ${done?'✅ تمّ':`عُدّ (${cur}/${target})`}
+              </button>
+            </div>
+          </div>`;
+        }).join('')}
       </div>
-      <button class="btn btn-gold" style="padding:10px 20px;align-self:flex-end"
-        onclick="addCustomAdhkar()">+ أضف</button>
     </div>`;
-  container.appendChild(form);
+  }).join('');
+  console.log('[AdhkarAccordion] ✅ ' + sections.length + ' قسم');
+}
 
-  /* Existing custom cards */
-  const customs = STATE.adhkar?.custom || [];
-  if (customs.length === 0) {
-    const empty = document.createElement('p');
-    empty.style.cssText = 'text-align:center;color:var(--muted);padding:30px;font-size:14px';
-    empty.textContent = 'لم تضف أذكاراً مخصصة بعد — أضف أول ذكر أعلاه 👆';
-    container.appendChild(empty);
-  } else {
-    customs.forEach(d => container.appendChild(buildCard(d, 'custom', true)));
+function toggleAdhChapter(head) {
+  const body = head.nextElementSibling;
+  const arrow = head.querySelector('.adh-arrow');
+  const open = body.style.display === 'block';
+  body.style.display = open ? 'none' : 'block';
+  if (arrow) arrow.style.transform = open ? '' : 'rotate(180deg)';
+}
+
+function countAdh(secId, itemIdx, target, e) {
+  e?.stopPropagation();
+  let cur = getAdhkarCount(secId, itemIdx) + 1;
+  if (cur > target) cur = 0; /* إعادة من البداية */
+  setAdhkarCount(secId, itemIdx, cur);
+  const btn = document.getElementById(`adhc-${secId}-${itemIdx}`);
+  if (btn) {
+    const done = cur >= target;
+    btn.textContent = done ? '✅ تمّ' : `عُدّ (${cur}/${target})`;
+    btn.style.background = done ? 'var(--green-mid)' : 'var(--green-deep)';
+    btn.style.opacity = done ? '.7' : '1';
   }
+  if (navigator.vibrate && navigator.userActivation?.hasBeenActive) navigator.vibrate(15);
 }
 
-function addCustomAdhkar() {
-  const textEl   = document.getElementById('az-new-text');
-  const labelEl  = document.getElementById('az-new-label');
-  const targetEl = document.getElementById('az-new-target');
-  const text     = textEl?.value.trim();
-  const label    = labelEl?.value.trim() || 'ذكر مخصص';
-  const target   = Math.max(1, parseInt(targetEl?.value) || 33);
-
-  if (!text) { showToast('⚠️ اكتب نص الذكر أولاً'); return; }
-
-  if (!STATE.adhkar)         STATE.adhkar = {};
-  if (!STATE.adhkar.custom)  STATE.adhkar.custom = [];
-  if (!STATE.adhkar.counts)  STATE.adhkar.counts = {};
-
-  const id = 'cu_' + Date.now();
-  STATE.adhkar.custom.push({ id, text, arabic: text, label, target, source: 'مخصص' });
-  STATE.adhkar.counts[id] = 0;
-  saveState();
-
-  if (textEl)   textEl.value   = '';
-  if (labelEl)  labelEl.value  = '';
-  if (targetEl) targetEl.value = '33';
-
-  renderTab('custom');
-  showToast('✅ تم إضافة الذكر');
+function filterAdhkarAccordion() {
+  const q = (document.getElementById('adhkar-search')?.value || '').toLowerCase().trim();
+  document.querySelectorAll('.adh-chapter').forEach(ch => {
+    const dhikrs = ch.querySelectorAll('.adh-dhikr');
+    let anyVisible = false;
+    dhikrs.forEach(d => {
+      const match = d.innerText.toLowerCase().includes(q);
+      d.style.display = match ? '' : 'none';
+      if (match) anyVisible = true;
+    });
+    ch.style.display = (q === '' || anyVisible) ? '' : 'none';
+    /* افتح الأقسام اللي فيها نتائج أثناء البحث */
+    if (q !== '' && anyVisible) {
+      const body = ch.querySelector('.adh-body');
+      if (body) body.style.display = 'block';
+    }
+  });
 }
-window.addCustomAdhkar = addCustomAdhkar;
 
-function deleteCustomAdhkar(id) {
-  if (!STATE.adhkar?.custom) return;
-  STATE.adhkar.custom = STATE.adhkar.custom.filter(d => d.id !== id);
-  if (STATE.adhkar.custom_counts) delete STATE.adhkar.custom_counts[id];
-  saveState();
-  renderTab('custom');
-  showToast('🗑️ تم حذف الذكر');
-}
-window.deleteCustomAdhkar = deleteCustomAdhkar;
+window.toggleAdhChapter = toggleAdhChapter;
+window.countAdh = countAdh;
+window.filterAdhkarAccordion = filterAdhkarAccordion;
 
-/* ── Override countAdhkar for backward compat ─────────────── */
-window.countAdhkar = function(id, target) {
-  /* Find which section this belongs to */
-  const sections = ['morning','evening','ashra'];
-  let section = 'ashra';
-  for (const s of sections) {
-    const list = s==='morning'?AZ_MORNING:s==='evening'?AZ_EVENING:AZ_ASHRA;
-    if (list.find(d => d.id === id)) { section = s; break; }
-  }
-  countAz(section, id, target);
-};
-
+/* انتظر تحميل ADHKAR_DATABASE */
 document.addEventListener('DOMContentLoaded', () => {
-  /* Restore last tab */
-  const lastTab = STATE.adhkar?._lastTab || 'morning';
-  switchTab(lastTab);
+  let tries = 0;
+  const wait = setInterval(() => {
+    tries++;
+    if (window.ADHKAR_DATABASE && Object.keys(window.ADHKAR_DATABASE).length) {
+      clearInterval(wait);
+      renderAdhkarAccordion();
+    } else if (tries > 30) {
+      clearInterval(wait);
+      renderAdhkarAccordion(); /* اعرض رسالة التحميل */
+    }
+  }, 100);
 });
-
-/* Save active tab on switch — directly patch, no override needed */
-const _origSwitchTab_impl = switchTab;
-switchTab = function(tab) {
-  _origSwitchTab_impl(tab);
-  if (!STATE.adhkar) STATE.adhkar = {};
-  STATE.adhkar._lastTab = tab;
-  if (typeof saveState === 'function') saveState();
-};
 </script>
-  <!-- ═══ Visual Upgrade v2 ═══════════════════════════════ -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
   <script src="animations.js" defer></script>

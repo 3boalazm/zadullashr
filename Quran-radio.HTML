@@ -728,18 +728,36 @@ html[data-theme="oled"] .btn-primary { background: var(--sys-green); color: #001
 ════════════════════════════════════════════════ */
 .bottom-bar {
   position: fixed; bottom: 0; left: 0; right: 0;
-  background: rgba(255,255,255,.95);
-  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,.97);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
   border-top: 1px solid var(--border);
-  padding: 10px 20px 10px calc(20px + env(safe-area-inset-left));
-  display: flex; align-items: center;
-  gap: 12px; z-index: 500;
+  border-radius: 20px 20px 0 0;
+  padding: 0 0 env(safe-area-inset-bottom);
+  display: flex; flex-direction: column;
+  z-index: 500;
   transition: background .25s;
+  box-shadow: 0 -8px 32px rgba(14,59,46,.12);
 }
 html[data-theme="dark"] .bottom-bar,
 html[data-theme="oled"] .bottom-bar {
   background: rgba(20,31,28,.97);
 }
+
+/* قبضة السحب */
+.bb-handle {
+  width: 40px; height: 4px; border-radius: 2px;
+  background: var(--border); margin: 8px auto 4px;
+  cursor: pointer; flex-shrink: 0;
+}
+
+/* الصف المصغّر — أفقي */
+.bb-mini {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 16px 12px;
+  cursor: pointer;
+}
+
 .bb-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
 .bb-logo {
   width: 38px; height: 38px; border-radius: 11px;
@@ -792,6 +810,92 @@ html[data-theme="oled"] .eq span { background: var(--sys-green); }
 .bb-play:hover { opacity: .9; transform: scale(1.05); }
 html[data-theme="dark"] .bb-play,
 html[data-theme="oled"] .bb-play { background: var(--sys-green); color: #001a08; }
+
+/* ════════════════════════════════════════════════
+   POPUP PLAYER — اللوحة الموسّعة
+════════════════════════════════════════════════ */
+.bb-spinner {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid var(--border); border-top-color: var(--green-deep);
+  animation: spin .7s linear infinite; display: none; flex-shrink: 0;
+}
+.bb-spinner.show { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#bb-expand-arrow { flex-shrink: 0; }
+
+/* اللوحة الموسّعة — مخفية افتراضياً، تنفتح بالضغط */
+.bb-expanded {
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s;
+}
+.bottom-bar.open .bb-expanded { max-height: 380px; opacity: 1; }
+.bb-expanded-inner {
+  padding: 4px 20px 18px;
+  border-top: 1px solid var(--border);
+}
+.bb-full-name {
+  font-size: 16px; font-weight: 800; color: var(--ink);
+  margin: 14px 0 4px; text-align: center;
+}
+.bb-full-desc {
+  font-size: 12px; color: var(--muted); line-height: 1.6;
+  margin-bottom: 16px; text-align: center;
+}
+
+/* أزرار التحكم الكبيرة */
+.bb-main-controls {
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px; margin-bottom: 16px;
+}
+.bb-ctrl-lg {
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 1.5px solid var(--border); background: var(--sand);
+  color: var(--green-deep); font-size: 17px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .18s; flex-shrink: 0;
+}
+.bb-ctrl-lg:hover { background: var(--green-pale); border-color: var(--green-soft); transform: scale(1.06); }
+.bb-ctrl-play {
+  width: 62px; height: 62px; font-size: 26px;
+  background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+  color: #fff; border: none; box-shadow: 0 6px 20px rgba(14,59,46,.35);
+}
+.bb-ctrl-play:hover { transform: scale(1.08); }
+html[data-theme="dark"] .bb-ctrl-play,
+html[data-theme="oled"] .bb-ctrl-play { background: var(--sys-green); color: #001a08; }
+
+/* صف الصوت */
+.bb-vol-row {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+}
+.bb-vol-row input[type=range] {
+  flex: 1; height: 6px; border-radius: 3px; cursor: pointer;
+  accent-color: var(--green-deep);
+}
+.bb-vol-row span { font-size: 16px; flex-shrink: 0; }
+
+/* أزرار التخصيص */
+.bb-extras {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+}
+.bb-extra-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 10px 4px; border-radius: 12px;
+  border: 1.5px solid var(--border); background: var(--sand);
+  color: var(--ink); font-family: inherit; font-size: 11px; font-weight: 700;
+  cursor: pointer; transition: all .18s; min-height: 56px;
+  justify-content: center; text-align: center;
+}
+.bb-extra-btn:hover { border-color: var(--green-soft); background: var(--green-pale); }
+.bb-extra-btn.active { background: var(--green-deep); color: #fff; border-color: var(--green-deep); }
+
+@media (max-width: 480px) {
+  .bb-extras { grid-template-columns: repeat(3, 1fr); }
+  .bb-main-controls { gap: 10px; }
+  .bb-ctrl-lg { width: 42px; height: 42px; }
+  .bb-ctrl-play { width: 56px; height: 56px; }
+}
 
 /* ════════════════════════════════════════════════
    TOAST
@@ -922,6 +1026,7 @@ html[data-theme="oled"] .stream-error-banner { background: rgba(239,68,68,.12); 
 }
 
 </style>
+<link rel="stylesheet" href="css/premium-ui.css">
 </head>
 <body>
 

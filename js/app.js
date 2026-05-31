@@ -461,12 +461,14 @@ async function sendAIMessage(userMsg) {
   chatWrap.scrollTop = chatWrap.scrollHeight;
   try {
     /* Gemini via /api/gemini Edge Function — API key secure server-side */
+    /* CHAOS: timeout 30 ثانية حتى لا يعلّق المستخدم لو علّق الـ API */
     const res = await fetch('/api/gemini', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         messages: chatHistory.map(m => ({ role: m.role, content: m.content }))
-      })
+      }),
+      signal: AbortSignal.timeout(30000)
     });
     const data = await res.json();
     let reply = data.text || data.error || 'عذراً، حدث خطأ في الاتصال.';
@@ -878,6 +880,15 @@ function animateBadgeUnlock(id) {
   setTimeout(() => el.classList.remove('just-earned'), 1000);
 }
 function initPageTransition() {
+  /* ضمان: المحتوى ظاهر عند تحميل الصفحة (يصلح حالة بقاء opacity:0 من انتقال سابق) */
+  const resetMain = () => {
+    const m = document.querySelector('.main');
+    if (m) { m.style.opacity = '1'; m.style.transform = 'none'; }
+  };
+  resetMain();
+  /* عند الرجوع من الكاش (back/forward) المتصفح يحافظ على inline styles — أعد الضبط */
+  window.addEventListener('pageshow', resetMain);
+
   const links = document.querySelectorAll('.nav a, a.card');
   links.forEach(link => {
     link.addEventListener('click', function(e) {
@@ -1017,17 +1028,28 @@ function initPWA() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js')
       .then(reg => {
+        /* افحص وجود تحديث فوراً عند كل تحميل */
+        reg.update();
         /* Listen for SW updates */
         reg.addEventListener('updatefound', () => {
           const newWorker = reg.installing;
           newWorker?.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              showToast('🔄 تحديث متاح — أعد تحميل الصفحة للحصول على أحدث نسخة');
+              /* نسخة جديدة جاهزة — فعّلها فوراً */
+              newWorker.postMessage?.({ type: 'SKIP_WAITING' });
+              showToast('🔄 جارٍ تحديث التطبيق لأحدث نسخة...');
             }
           });
         });
       })
       .catch(() => {});
+    /* عند تفعيل SW جديد، أعد تحميل الصفحة مرة واحدة تلقائياً */
+    let _reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (_reloaded) return;
+      _reloaded = true;
+      window.location.reload();
+    });
     /* Listen for SW messages */
     navigator.serviceWorker.addEventListener('message', e => {
       if (e.data?.type === 'SW_UPDATED') {
@@ -2832,10 +2854,4 @@ function initClockFormat() {
   const main = document.querySelector('.main');
   if (main) obs.observe(main, { childList: true, subtree: true });
 }
-/* ── PWA Install FAB — تحميل تلقائي في كل الصفحات ── */
-(function () {
-  var s = document.createElement('script');
-  s.src = 'pwa-install-fab.js';
-  s.defer = true;
-  document.head.appendChild(s);
-})();
+/* ── PWA Install FAB — يُحمّل عبر وسم <script> في كل صفحة (لا حاجة للتحميل التلقائي) ── */

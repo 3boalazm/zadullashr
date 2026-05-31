@@ -437,20 +437,26 @@ html[data-theme="dark"] .cat-kamal,.asma-card:hover .cat-kamal{background:rgba(6
   <script src="js/seasons-module.js" defer></script>
   <script src="js/fixes-module.js" defer></script>
   <script src="js/share-button.js" defer></script>
-  <script src="js/tasbih-fab.js" defer></script>
   <script src="js/gps-fix.js" defer></script>
   <script src="js/nav-accordion.js" defer></script>
-  <script src="js/float-tasbih.js" defer></script>
     <script src="js/utils/helpers.js" defer></script>
   <script src="js/core/state-manager.js" defer></script>
   <script src="js/core/router.js" defer></script>
   <script src="js/ui/design-tokens.js" defer></script>
-  <script src="js/ui/bottom-nav.js" defer></script>
   <script src="js/ui/feedback.js" defer></script>
   <script src="js/ui/offline-ui.js" defer></script>
   <script src="js/ui/micro-interactions.js" defer></script>
+  <script src="js/ui/pattern-engine.js" defer></script>
   <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
 
+<script>
+/* قراءة آمنة من localStorage — تحمي من JSON تالف */
+function zadSafeParse(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch(e) { console.warn('[zad] بيانات تالفة في', key, '— استُخدم الافتراضي'); return fallback; }
+}
+</script>
 <script>
 /* ════ أسماء الله الحسنى — Full Script ════════════════════ */
 const NAMES = [
@@ -560,8 +566,8 @@ const KEY_FAV     = 'asma_fav';
 let currentHeroIdx = 0;
 let currentSheetIdx = null;
 
-function getReflected(){ return JSON.parse(localStorage.getItem(KEY_REFLECT)||'[]'); }
-function getFavs(){ return JSON.parse(localStorage.getItem(KEY_FAV)||'[]'); }
+function getReflected(){ return zadSafeParse(KEY_REFLECT,[]); }
+function getFavs(){ return zadSafeParse(KEY_FAV,[]); }
 
 /* ── Format meaning ───────────────────────────────────────── */
 function formatMeaning(m) {
@@ -626,7 +632,7 @@ function toggleReflect(idx) {
 }
 
 function checkBadges(count) {
-  let badges = JSON.parse(localStorage.getItem('zad_badges_asma') || '[]');
+  let badges = zadSafeParse('zad_badges_asma',[]);
   const grant = (id, msg) => { if (!badges.includes(id)) { badges.push(id); localStorage.setItem('zad_badges_asma', JSON.stringify(badges)); if(typeof showToast==='function') showToast(msg); } };
   if (count >= 10)  grant('asma_10', '🏅 وسام: تدبّر 10 أسماء!');
   if (count >= 50)  grant('asma_50', '🏅 وسام: المتدبر المتقدم — 50 اسماً!');

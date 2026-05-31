@@ -255,6 +255,13 @@ html[data-theme="dark"] .quiz-score,html[data-theme="oled"] .quiz-score{color:va
   <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
   <!-- Vercel Web Analytics -->
   <script>
+/* قراءة آمنة من localStorage — تحمي من JSON تالف */
+function zadSafeParse(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch(e) { console.warn('[zad] بيانات تالفة في', key, '— استُخدم الافتراضي'); return fallback; }
+}
+</script>
+<script>
     window.va = window.va || function() {
       (window.vaq = window.vaq || []).push(arguments);
     };
@@ -479,19 +486,18 @@ html[data-theme="dark"] .quiz-score,html[data-theme="oled"] .quiz-score{color:va
   <script src="js/seasons-module.js" defer></script>
   <script src="js/fixes-module.js" defer></script>
   <script src="js/share-button.js" defer></script>
-  <script src="js/tasbih-fab.js" defer></script>
   <script src="js/gps-fix.js" defer></script>
   <script src="js/nav-accordion.js" defer></script>
-  <script src="js/float-tasbih.js" defer></script>
     <script src="js/utils/helpers.js" defer></script>
   <script src="js/core/state-manager.js" defer></script>
   <script src="js/core/router.js" defer></script>
   <script src="js/ui/design-tokens.js" defer></script>
-  <script src="js/ui/bottom-nav.js" defer></script>
   <script src="js/ui/feedback.js" defer></script>
   <script src="js/ui/offline-ui.js" defer></script>
   <script src="js/ui/micro-interactions.js" defer></script>
+  <script src="js/ui/pattern-engine.js" defer></script>
   <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
 <script>
 /* ════════════════════════════════════════════════════════════
    KIDS MODE — ثريا
@@ -499,7 +505,7 @@ html[data-theme="dark"] .quiz-score,html[data-theme="oled"] .quiz-score{color:va
    ════════════════════════════════════════════════════════════ */
 
 const KIDS_KEY = 'zad_kids_v2';
-let kState = JSON.parse(localStorage.getItem(KIDS_KEY) || '{"tasks":{},"stars":0,"badges":[]}');
+let kState = zadSafeParse(KIDS_KEY, {tasks:{},stars:0,badges:[]});
 function saveKids(){ localStorage.setItem(KIDS_KEY, JSON.stringify(kState)); }
 
 /* ══ 1. STORY ═══════════════════════════════════════════════ */
