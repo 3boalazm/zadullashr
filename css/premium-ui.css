@@ -446,7 +446,8 @@ select:focus-visible,
   pointer-events: none;
   opacity: 0; transition: opacity .6s ease;
 }
-.app, .main, .sidebar { position: relative; z-index: 1; }
+/* رفع المحتوى فوق طبقة الزخرفة — بدون لمس الـ sidebar (له تموضعه الخاص) */
+.app, .main { position: relative; z-index: 1; }
 
 /* 1. زخرفة هندسية إسلامية (نجوم ثمانية) — الافتراضية */
 body[data-pattern="geometry"] #zad-pattern-bg {
