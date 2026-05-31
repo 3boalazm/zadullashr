@@ -309,3 +309,63 @@ h1, h2,
 @media (prefers-reduced-motion: reduce) {
   .nav a, .nav a .ico { transition: none !important; transform: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   RTL Stress — حماية النصوص الطويلة من كسر التصميم
+   ═══════════════════════════════════════════════════════════ */
+.verse .ar, .az-arabic, .adh-dhikr, .time-verse,
+.dua-text, .bb-full-name, .nw-hadith-text,
+.section-title, .page-title, .card p, .card div {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  max-width: 100%;
+}
+
+/* أسماء السور والعناوين الطويلة — لا تتجاوز الحاوية */
+.surah-name, .nav a span, .page-title,
+.zad-more-item-label, .adh-head > div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* الجداول (مواقيت الصلاة) — تمرير أفقي بدل الكسر على الموبايل */
+@media (max-width: 600px) {
+  .ten-days-wrap, .prayer-table-wrap, [class*="table-wrap"] {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Accessibility — focus states واضحة (WCAG AA - keyboard nav)
+   ═══════════════════════════════════════════════════════════ */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible,
+[onclick]:focus-visible,
+.card:focus-visible,
+.adh-head:focus-visible {
+  outline: 3px solid var(--gold-500, #c9a14a);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* skip-link للوصول السريع للمحتوى (screen readers) */
+.skip-to-content {
+  position: absolute; top: -60px; right: 16px; z-index: 9999;
+  background: var(--green-deep, #0e3b2e); color: #fff;
+  padding: 10px 18px; border-radius: 0 0 10px 10px;
+  font-weight: 700; text-decoration: none;
+  transition: top .2s;
+}
+.skip-to-content:focus { top: 0; }
+
+/* تباين أعلى للنصوص الخافتة (contrast) */
+.muted, .subtle, [style*="color:var(--muted)"] {
+  color: var(--muted, #6a6a64) !important;
+}

@@ -78,7 +78,8 @@ async function parseMcpResponse(res) {
   const ct = res.headers.get('content-type') || '';
   const raw = await res.text();
   if (ct.includes('application/json')) {
-    return JSON.parse(raw);
+    try { return JSON.parse(raw); }
+    catch { throw new Error('MCP: ردّ JSON غير صالح'); }
   }
   /* SSE: نلتقط آخر سطر data: يحمل JSON صالحاً */
   let parsed = null;

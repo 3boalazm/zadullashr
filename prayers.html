@@ -562,16 +562,26 @@ async function loadTodayPrayers(lat, lng, method = 5) {
 
 /* ── تحميل جدول العشر ────────────────────────────────────── */
 async function loadTenDaysTable(lat, lng, method = 5) {
-  const url = `https://api.aladhan.com/v1/hijriCalendar/1447/12?latitude=${lat}&longitude=${lng}&method=${method}`;
-  const res  = await fetch(url);
-  const data = await res.json();
-  if (data.code !== 200) throw new Error('Calendar API error');
+  try {
+    const url = `https://api.aladhan.com/v1/hijriCalendar/1447/12?latitude=${lat}&longitude=${lng}&method=${method}`;
+    const res  = await fetch(url, { signal: AbortSignal.timeout(10000) });
+    const data = await res.json();
+    if (data.code !== 200) throw new Error('Calendar API error');
 
-  const days = data.data;
-  renderTenDays(days); /* الشهر كله */
+    const days = data.data;
+    renderTenDays(days); /* الشهر كله */
 
-  localStorage.setItem('zad_ten_days_table', JSON.stringify(days));
-  localStorage.setItem('zad_ten_days_method', method);
+    localStorage.setItem('zad_ten_days_table', JSON.stringify(days));
+    localStorage.setItem('zad_ten_days_method', method);
+  } catch (e) {
+    /* فشل الشبكة أو timeout — اعرض الكاش لو موجود أو رسالة لطيفة */
+    const tl = document.getElementById('table-loading');
+    const cached = localStorage.getItem('zad_ten_days_table');
+    if (cached) {
+      try { renderTenDays(JSON.parse(cached)); return; } catch {}
+    }
+    if (tl) tl.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:13px;padding:16px">تعذّر تحميل الجدول — تحقّق من الإنترنت</div>';
+  }
 }
 
 function renderTenDays(days) {
@@ -789,8 +799,8 @@ function refreshLastKnownButton() {
 function reloadWithMethod() {
   if (_lat != null && _lng != null) {
     const method = parseInt(document.getElementById('method-select').value);
-    loadTodayPrayers(_lat, _lng, method);
-    loadTenDaysTable(_lat, _lng, method);
+    Promise.resolve(loadTodayPrayers(_lat, _lng, method)).catch(() => {});
+    loadTenDaysTable(_lat, _lng, method); /* تمسك أخطاءها داخلياً الآن */
   }
 }
 

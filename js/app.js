@@ -461,12 +461,14 @@ async function sendAIMessage(userMsg) {
   chatWrap.scrollTop = chatWrap.scrollHeight;
   try {
     /* Gemini via /api/gemini Edge Function — API key secure server-side */
+    /* CHAOS: timeout 30 ثانية حتى لا يعلّق المستخدم لو علّق الـ API */
     const res = await fetch('/api/gemini', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         messages: chatHistory.map(m => ({ role: m.role, content: m.content }))
-      })
+      }),
+      signal: AbortSignal.timeout(30000)
     });
     const data = await res.json();
     let reply = data.text || data.error || 'عذراً، حدث خطأ في الاتصال.';
