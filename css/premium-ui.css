@@ -218,10 +218,16 @@ main.main, #main-content {
 /* تطبيق الخط على العناوين فقط (بدون نصوص مُشكّلة — التشكيل يتقطّع على هذا الخط) */
 .page-title,
 .section-title,
-h1, h2,
+h1, h2, h3,
 .zdh-greet-text,
 .hero-title,
-.nw-hero-title {
+.nw-hero-title,
+.k-sec-title,
+.feat-title,
+.cl-title,
+.dua-card-title,
+.dua-block-title,
+.rh-title {
   font-family: 'ThmanyahDisplay', 'Amiri', serif !important;
   letter-spacing: -0.01em;
 }
@@ -250,4 +256,36 @@ main.main, #main-content { opacity: 1; }
     display: flex; align-items: center; justify-content: center;
     font-size: 22px; border-radius: 12px;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RTL — حماية النصوص الطويلة من كسر التصميم
+   ═══════════════════════════════════════════════════════════ */
+.verse .ar, .az-arabic, .adh-dhikr, .time-verse,
+.dua-text, .bb-full-name, .nw-hadith-text,
+.section-title, .page-title, .card p, .card div {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+.surah-name, .nav a span, .page-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 600px) {
+  .ten-days-wrap, .prayer-table-wrap, [class*="table-wrap"] {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Accessibility — focus states واضحة (keyboard navigation)
+   ═══════════════════════════════════════════════════════════ */
+a:focus-visible, button:focus-visible, input:focus-visible,
+textarea:focus-visible, select:focus-visible,
+[tabindex]:focus-visible, .card:focus-visible {
+  outline: 3px solid var(--gold, #c9a14a);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
