@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>فاحص الكونتراست — أداة المطوّر · زاد العشر</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,'Segoe UI',sans-serif;background:#0e1116;color:#e6e6e6;line-height:1.7;padding:20px;max-width:780px;margin:0 auto;direction:rtl}
+  h1{font-size:24px;margin-bottom:6px;color:#ff6b6b}
+  .sub{color:#888;font-size:14px;margin-bottom:24px}
+  .card{background:#171c24;border:1px solid #262d38;border-radius:14px;padding:18px;margin-bottom:18px}
+  .card h2{font-size:16px;margin-bottom:10px;color:#7ce89a}
+  .card p{font-size:13.5px;color:#bbb;margin-bottom:10px}
+  .btn{display:inline-block;background:#ff3b30;color:#fff;border:none;border-radius:10px;padding:12px 22px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;transition:transform .1s}
+  .btn:active{transform:scale(.96)}
+  .btn-2{background:#2a7a5f}
+  .bm{display:inline-block;background:#3a3f4b;color:#ffd479;border:1px dashed #ffd479;border-radius:8px;padding:10px 16px;font-weight:700;text-decoration:none;cursor:grab;font-size:14px}
+  code{background:#0a0d11;padding:2px 7px;border-radius:5px;color:#7ce89a;font-size:12px}
+  ol{padding-right:20px;font-size:13.5px;color:#bbb}
+  ol li{margin-bottom:6px}
+  .pages{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
+  .pg-link{background:#1f2530;color:#9db8d0;border:1px solid #2a3340;border-radius:7px;padding:6px 11px;font-size:12px;text-decoration:none;transition:all .15s}
+  .pg-link:hover{background:#2a7a5f;color:#fff}
+  .modes{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .mode-tag{background:#0a0d11;border:1px solid #333;border-radius:7px;padding:5px 10px;font-size:12px;color:#aaa}
+  .legend{font-size:12.5px;color:#999;margin-top:8px}
+  .legend b{color:#ff6b6b}
+</style>
+</head>
+<body>
+  <h1>🔍 فاحص الكونتراست</h1>
+  <div class="sub">أداة تشخيص لمطوّر زاد العشر — تفحص كل نصوص الصفحة وتقيس نسبة الكونتراست الفعلية (WCAG) وتُبرز المشاكل.</div>
+
+  <div class="card">
+    <h2>① افحص هذه الصفحة الآن</h2>
+    <p>اضغط الزر لفحص الصفحة الحالية. سيظهر تقرير أسفل الشاشة بالعناصر الضعيفة (مميَّزة بإطار أحمر متقطّع على الصفحة).</p>
+    <button class="btn" onclick="runTester()">🔍 افحص الصفحة الحالية</button>
+    <div class="legend">العتبة: نص عادي يحتاج ≥ <b>4.5</b> · نص كبير/عريض ≥ <b>3.0</b> (معيار WCAG AA)</div>
+  </div>
+
+  <div class="card">
+    <h2>② الأداة المحمولة (تعمل على أيّ صفحة)</h2>
+    <p>اسحب الزر التالي إلى شريط المفضّلة في متصفّحك. بعدها افتح أيّ صفحة في الموقع واضغطه ليفحصها — في أيّ وضع (فاتح/داكن/أوليد/عذر).</p>
+    <a class="bm" id="bookmarklet" href="#">🔍 فاحص زاد</a>
+    <div class="legend">على الموبايل: الأسهل تستخدم زرّ «افحص الصفحة الحالية» من القائمة أدناه بعد فتح كل صفحة.</div>
+  </div>
+
+  <div class="card">
+    <h2>③ طريقة الفحص الشامل (موصى بها)</h2>
+    <ol>
+      <li>افتح أيّ صفحة من القائمة تحت.</li>
+      <li>غيّر الوضع من السايد بار (فاتح → داكن → أوليد).</li>
+      <li>فعّل/عطّل <b>وضع زهرة (العذر)</b> وكرّر.</li>
+      <li>اضغط زر الفحص في كل حالة وسجّل المشاكل.</li>
+    </ol>
+    <div class="modes">
+      <span class="mode-tag">☀️ فاتح</span>
+      <span class="mode-tag">🌙 داكن</span>
+      <span class="mode-tag">⚫ أوليد</span>
+      <span class="mode-tag">🌸 + عذر</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>④ كل الصفحات (للتنقّل السريع)</h2>
+    <p>اضغط أيّ صفحة لفتحها، ثم استخدم الأداة المحمولة أو ارجع هنا.</p>
+    <div class="pages">
+      <a href="Quran-radio.HTML" class="pg-link">Quran-radio.HTML</a>
+<a href="about.html" class="pg-link">about.html</a>
+<a href="adhkar-categories.html" class="pg-link">adhkar-categories.html</a>
+<a href="adhkar-section.html" class="pg-link">adhkar-section.html</a>
+<a href="adhkar.html" class="pg-link">adhkar.html</a>
+<a href="ai.html" class="pg-link">ai.html</a>
+<a href="arafah-dua.html" class="pg-link">arafah-dua.html</a>
+<a href="arafah.html" class="pg-link">arafah.html</a>
+<a href="asma.html" class="pg-link">asma.html</a>
+<a href="badges.html" class="pg-link">badges.html</a>
+<a href="barnamaj.html" class="pg-link">barnamaj.html</a>
+<a href="demo.html" class="pg-link">demo.html</a>
+<a href="developer.html" class="pg-link">developer.html</a>
+<a href="diagnostics.html" class="pg-link">diagnostics.html</a>
+<a href="du'a.html" class="pg-link">du'a.html</a>
+<a href="dua-guide.html" class="pg-link">dua-guide.html</a>
+<a href="duas.html" class="pg-link">duas.html</a>
+<a href="fadael.html" class="pg-link">fadael.html</a>
+<a href="ghars.html" class="pg-link">ghars.html</a>
+<a href="group-board.html" class="pg-link">group-board.html</a>
+<a href="groups.html" class="pg-link">groups.html</a>
+<a href="hasad.html" class="pg-link">hasad.html</a>
+<a href="hasn.html" class="pg-link">hasn.html</a>
+<a href="hijri.html" class="pg-link">hijri.html</a>
+<a href="index.html" class="pg-link">index.html</a>
+<a href="kids-creativity.html" class="pg-link">kids-creativity.html</a>
+<a href="kids-fun.html" class="pg-link">kids-fun.html</a>
+<a href="kids-heroes.html" class="pg-link">kids-heroes.html</a>
+<a href="kids-parents.html" class="pg-link">kids-parents.html</a>
+<a href="kids-school.html" class="pg-link">kids-school.html</a>
+<a href="kids.html" class="pg-link">kids.html</a>
+<a href="manasik.html" class="pg-link">manasik.html</a>
+<a href="mushaf-quran.html" class="pg-link">mushaf-quran.html</a>
+<a href="mushaf.html" class="pg-link">mushaf.html</a>
+<a href="nawawi.html" class="pg-link">nawawi.html</a>
+<a href="odhiya.html" class="pg-link">odhiya.html</a>
+<a href="playlist.html" class="pg-link">playlist.html</a>
+<a href="prayers.html" class="pg-link">prayers.html</a>
+<a href="privacy.html" class="pg-link">privacy.html</a>
+<a href="profile.html" class="pg-link">profile.html</a>
+<a href="qibla.html" class="pg-link">qibla.html</a>
+<a href="report.html" class="pg-link">report.html</a>
+<a href="ruqyah.html" class="pg-link">ruqyah.html</a>
+<a href="sadaqah.html" class="pg-link">sadaqah.html</a>
+<a href="settings.html" class="pg-link">settings.html</a>
+<a href="summary.html" class="pg-link">summary.html</a>
+<a href="sunan.html" class="pg-link">sunan.html</a>
+<a href="takbeer.html" class="pg-link">takbeer.html</a>
+<a href="taqweem.html" class="pg-link">taqweem.html</a>
+<a href="tasmee.html" class="pg-link">tasmee.html</a>
+<a href="videos.html" class="pg-link">videos.html</a>
+<a href="worship.html" class="pg-link">worship.html</a>
+<a href="zad_al_ashr.html" class="pg-link">zad_al_ashr.html</a>
+<a href="zahra.html" class="pg-link">zahra.html</a>
+<a href="zakat.html" class="pg-link">zakat.html</a>
+    </div>
+  </div>
+
+<script>
+const TESTER_SRC = "/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n   \u0641\u0627\u062d\u0635 \u0627\u0644\u0643\u0648\u0646\u062a\u0631\u0627\u0633\u062a \u2014 \u0623\u062f\u0627\u0629 \u062a\u0634\u062e\u064a\u0635 \u0644\u0645\u0637\u0648\u0651\u0631 \u0632\u0627\u062f \u0627\u0644\u0639\u0634\u0631\n   \u062a\u0641\u062d\u0635 \u0643\u0644 \u0639\u0646\u0627\u0635\u0631 \u0627\u0644\u0646\u0635 \u0641\u064a \u0627\u0644\u0635\u0641\u062d\u0629 \u0627\u0644\u062d\u0627\u0644\u064a\u0629 \u0648\u062a\u0642\u064a\u0633 \u0646\u0633\u0628\u0629 \u0627\u0644\u0643\u0648\u0646\u062a\u0631\u0627\u0633\u062a\n   \u0627\u0644\u0641\u0639\u0644\u064a\u0629 (WCAG) \u0628\u064a\u0646 \u0644\u0648\u0646 \u0627\u0644\u0646\u0635 \u0648\u0627\u0644\u062e\u0644\u0641\u064a\u0629\u060c \u0648\u062a\u064f\u0628\u0631\u0632 \u0627\u0644\u0639\u0646\u0627\u0635\u0631 \u0627\u0644\u0636\u0639\u064a\u0641\u0629.\n   \u062a\u0639\u0645\u0644 \u0641\u064a \u0623\u064a \u0635\u0641\u062d\u0629 \u0648\u0623\u064a \u0648\u0636\u0639 (\u0644\u0627\u064a\u062a/\u062f\u0627\u0631\u0643/\u0623\u0648\u0644\u064a\u062f + \u0639\u0630\u0631).\n   \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */\n(function(){\n  'use strict';\n  if (window.__ctOpen) { document.getElementById('ct-panel')?.remove(); window.__ctOpen=false; return; }\n  window.__ctOpen = true;\n\n  /* \u2500\u2500 \u062d\u0633\u0627\u0628 \u0627\u0644\u0644\u0645\u0639\u0627\u0646 \u0648\u0627\u0644\u0643\u0648\u0646\u062a\u0631\u0627\u0633\u062a (WCAG 2.1) \u2500\u2500 */\n  function parseColor(str){\n    if(!str) return null;\n    const m = str.match(/rgba?\\(([^)]+)\\)/);\n    if(!m) return null;\n    const p = m[1].split(',').map(s=>parseFloat(s.trim()));\n    return { r:p[0], g:p[1], b:p[2], a:(p[3]===undefined?1:p[3]) };\n  }\n  function lum(c){\n    const f = v => { v/=255; return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4); };\n    return 0.2126*f(c.r)+0.7152*f(c.g)+0.0722*f(c.b);\n  }\n  function ratio(fg,bg){\n    const l1=lum(fg), l2=lum(bg);\n    const hi=Math.max(l1,l2), lo=Math.min(l1,l2);\n    return (hi+0.05)/(lo+0.05);\n  }\n  /* \u0627\u062f\u0645\u062c \u0644\u0648\u0646 \u0646\u0635 \u0634\u0628\u0647-\u0634\u0641\u0627\u0641 \u0641\u0648\u0642 \u0627\u0644\u062e\u0644\u0641\u064a\u0629 */\n  function blend(fg,bg){\n    if(fg.a>=1) return fg;\n    return { r: fg.r*fg.a + bg.r*(1-fg.a), g: fg.g*fg.a + bg.g*(1-fg.a), b: fg.b*fg.a + bg.b*(1-fg.a), a:1 };\n  }\n  /* \u0644\u0627\u0642\u064a \u0627\u0644\u062e\u0644\u0641\u064a\u0629 \u0627\u0644\u0641\u0639\u0644\u064a\u0629 (\u0627\u0635\u0639\u062f \u0644\u0644\u0623\u0628 \u0644\u0648 \u0634\u0641\u0627\u0641) */\n  function effectiveBg(el){\n    let node = el;\n    while(node && node !== document.documentElement){\n      const bg = parseColor(getComputedStyle(node).backgroundColor);\n      if(bg && bg.a > 0.05) return bg;\n      node = node.parentElement;\n    }\n    const bodyBg = parseColor(getComputedStyle(document.body).backgroundColor);\n    return (bodyBg && bodyBg.a>0.05) ? bodyBg : {r:255,g:255,b:255,a:1};\n  }\n\n  /* \u2500\u2500 \u0627\u0641\u062d\u0635 \u0643\u0644 \u0639\u0646\u0635\u0631 \u0646\u0635 \u0645\u0631\u0626\u064a \u2500\u2500 */\n  const results = [];\n  const seen = new Set();\n  document.querySelectorAll('p,span,a,h1,h2,h3,h4,h5,h6,li,td,th,label,button,div,small,b,strong,em').forEach(el=>{\n    /* \u0644\u0627\u0632\u0645 \u064a\u0643\u0648\u0646 \u0641\u064a\u0647 \u0646\u0635 \u0645\u0628\u0627\u0634\u0631 (\u0645\u0634 \u0628\u0633 \u0639\u0646\u0627\u0635\u0631 \u0623\u0628\u0646\u0627\u0621) */\n    const directText = Array.from(el.childNodes).some(n=>n.nodeType===3 && n.textContent.trim().length>1);\n    if(!directText) return;\n    const cs = getComputedStyle(el);\n    if(cs.display==='none' || cs.visibility==='hidden' || parseFloat(cs.opacity)<0.1) return;\n    const rect = el.getBoundingClientRect();\n    if(rect.width<4 || rect.height<4) return;\n\n    let fg = parseColor(cs.color);\n    if(!fg) return;\n    const bg = effectiveBg(el);\n    fg = blend(fg, bg);\n    const r = ratio(fg, bg);\n\n    /* \u0639\u062a\u0628\u0629 WCAG: \u0646\u0635 \u0643\u0628\u064a\u0631 (\u226518.66px \u0623\u0648 \u226514px \u063a\u0627\u0645\u0642) = 3.0\u060c \u0639\u0627\u062f\u064a = 4.5 */\n    const size = parseFloat(cs.fontSize);\n    const bold = (parseInt(cs.fontWeight)||400) >= 700;\n    const isLarge = size>=24 || (size>=18.66 && bold);\n    const threshold = isLarge ? 3.0 : 4.5;\n\n    if(r < threshold){\n      const txt = el.textContent.trim().slice(0,40);\n      const key = txt + '|' + Math.round(r*10);\n      if(seen.has(key)) return;\n      seen.add(key);\n      results.push({ el, r:r.toFixed(2), threshold, txt, size:Math.round(size), tag:el.tagName.toLowerCase() });\n      /* \u0639\u0644\u0651\u0645 \u0627\u0644\u0639\u0646\u0635\u0631 \u0628\u0635\u0631\u064a\u0627\u064b */\n      el.style.outline = '2px dashed #ff3b30';\n      el.style.outlineOffset = '1px';\n      el.dataset.ctMarked = '1';\n    }\n  });\n\n  results.sort((a,b)=>parseFloat(a.r)-parseFloat(b.r));\n\n  /* \u2500\u2500 \u0627\u0628\u0646\u0650 \u0644\u0648\u062d\u0629 \u0627\u0644\u062a\u0642\u0631\u064a\u0631 \u2500\u2500 */\n  const theme = document.documentElement.getAttribute('data-theme')||'light';\n  const excuse = document.documentElement.getAttribute('data-excuse')==='on';\n  const panel = document.createElement('div');\n  panel.id = 'ct-panel';\n  panel.style.cssText = 'position:fixed;bottom:0;right:0;left:0;max-height:55vh;z-index:999999;background:#0d0d0d;color:#eee;font-family:system-ui,sans-serif;font-size:13px;box-shadow:0 -8px 30px rgba(0,0,0,.5);border-top:3px solid #ff3b30;display:flex;flex-direction:column;direction:rtl';\n\n  const header = document.createElement('div');\n  header.style.cssText='padding:12px 16px;background:#1a1a1a;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;flex-wrap:wrap;gap:8px';\n  const modeLabel = '\u0627\u0644\u0648\u0636\u0639: '+(theme==='light'?'\u2600\ufe0f \u0641\u0627\u062a\u062d':theme==='dark'?'\ud83c\udf19 \u062f\u0627\u0643\u0646':'\u26ab \u0623\u0648\u0644\u064a\u062f')+(excuse?' + \ud83c\udf38 \u0639\u0630\u0631':'');\n  header.innerHTML = '<div><b style=\"color:#ff6b6b;font-size:15px\">\ud83d\udd0d \u0641\u0627\u062d\u0635 \u0627\u0644\u0643\u0648\u0646\u062a\u0631\u0627\u0633\u062a</b> &nbsp; <span style=\"color:#aaa\">'+modeLabel+'</span></div>'+\n    '<div style=\"display:flex;gap:8px;align-items:center\">'+\n      '<span style=\"background:'+(results.length?'#ff3b30':'#1a7d4f')+';padding:4px 12px;border-radius:99px;font-weight:700\">'+(results.length? results.length+' \u0645\u0634\u0643\u0644\u0629':'\u2705 \u0633\u0644\u064a\u0645')+'</span>'+\n      '<button id=\"ct-close\" style=\"background:#333;border:none;color:#fff;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:16px\">\u2715</button>'+\n    '</div>';\n  panel.appendChild(header);\n\n  const body = document.createElement('div');\n  body.style.cssText='overflow-y:auto;padding:8px 12px';\n  if(results.length===0){\n    body.innerHTML = '<div style=\"padding:24px;text-align:center;color:#4ade80\">\ud83c\udf89 \u0645\u0641\u064a\u0634 \u0645\u0634\u0627\u0643\u0644 \u0643\u0648\u0646\u062a\u0631\u0627\u0633\u062a \u0641\u064a \u0627\u0644\u0635\u0641\u062d\u0629 \u062f\u064a \u0628\u0627\u0644\u0648\u0636\u0639 \u0627\u0644\u062d\u0627\u0644\u064a!<br><small style=\"color:#888\">\u062c\u0631\u0651\u0628 \u0628\u0627\u0642\u064a \u0627\u0644\u0623\u0648\u0636\u0627\u0639 (\u0644\u0627\u064a\u062a/\u062f\u0627\u0631\u0643/\u0623\u0648\u0644\u064a\u062f/\u0639\u0630\u0631) \u0648\u0628\u0627\u0642\u064a \u0627\u0644\u0635\u0641\u062d\u0627\u062a.</small></div>';\n  } else {\n    results.forEach((res,i)=>{\n      const row = document.createElement('div');\n      row.style.cssText='padding:10px;border-bottom:1px solid #222;display:flex;gap:10px;align-items:center;cursor:pointer';\n      row.innerHTML =\n        '<span style=\"background:#ff3b30;color:#fff;border-radius:6px;padding:2px 8px;font-weight:700;font-size:12px;white-space:nowrap\">'+res.r+'</span>'+\n        '<span style=\"color:#888;font-size:11px;white-space:nowrap\">\u064a\u062d\u062a\u0627\u062c \u2265'+res.threshold+'</span>'+\n        '<span style=\"flex:1;color:#ddd;overflow:hidden;text-overflow:ellipsis;white-space:nowrap\">\u00ab'+res.txt+'\u00bb</span>'+\n        '<span style=\"color:#666;font-size:11px;white-space:nowrap\">&lt;'+res.tag+'&gt; '+res.size+'px</span>';\n      row.onclick = ()=>{ res.el.scrollIntoView({behavior:'smooth',block:'center'}); res.el.style.outline='3px solid #ffcc00'; setTimeout(()=>{res.el.style.outline='2px dashed #ff3b30';},1500); };\n      body.appendChild(row);\n    });\n  }\n  panel.appendChild(body);\n  document.body.appendChild(panel);\n\n  document.getElementById('ct-close').onclick = ()=>{\n    document.querySelectorAll('[data-ct-marked]').forEach(el=>{ el.style.outline=''; el.style.outlineOffset=''; delete el.dataset.ctMarked; });\n    panel.remove(); window.__ctOpen=false;\n  };\n\n  console.log('[\u0641\u0627\u062d\u0635 \u0627\u0644\u0643\u0648\u0646\u062a\u0631\u0627\u0633\u062a]', results.length, '\u0645\u0634\u0643\u0644\u0629 \u0641\u064a', location.pathname, '| \u0627\u0644\u0648\u0636\u0639:', theme, excuse?'+\u0639\u0630\u0631':'');\n})();\n";
+function runTester(){
+  try { (new Function(TESTER_SRC))(); }
+  catch(e){ alert('خطأ: '+e.message); }
+}
+/* اصنع الـ bookmarklet */
+const bm = 'javascript:(function(){var s=document.createElement("script");s.src=location.origin+"/contrast-tester.js?"+Date.now();document.body.appendChild(s);})();';
+document.getElementById('bookmarklet').href = bm;
+</script>
+</body>
+</html>
