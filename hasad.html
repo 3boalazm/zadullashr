@@ -346,6 +346,16 @@ html[data-theme="dark"] .share-harvest-btn,html[data-theme="oled"] .share-harves
       </div>
     </div>
 
+    <!-- مؤشر التوازن الإيماني -->
+    <div class="section-title">🕸️ مؤشر التوازن الإيماني</div>
+    <div class="sum-chart">
+      <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px;line-height:1.7">يوضّح توازن عباداتك بين المحاور الخمسة — كلما اتّسعت الشبكة كان أداؤك أكثر توازناً 🌿</p>
+      <div class="chart-container">
+        <canvas id="balance-chart"></canvas>
+      </div>
+      <div id="balance-hint" style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center;line-height:1.7"></div>
+    </div>
+
     <!-- Insights -->
     <div class="section-title">💡 رؤى مخصصة لأدائك</div>
     <div class="insight-card">
@@ -455,6 +465,7 @@ function loadHarvestPage() {
   renderAggregateStats(days, state, badges);
   renderPerformanceBars(days);
   renderActivityChart(days);
+  renderBalanceChart(state);
   renderInsights(state);
   renderBadgesCabinet(badges);
 
@@ -596,6 +607,82 @@ function renderActivityChart(days) {
       }
     }
   });
+}
+
+/* مؤشر التوازن الإيماني — radar chart من بيانات العبادات المحلية */
+let _balanceChart = null;
+function renderBalanceChart(state) {
+  const ctx = document.getElementById('balance-chart');
+  if (!ctx || typeof Chart === 'undefined') return;
+
+  /* احسب نسبة كل محور (0-100) من البيانات المتاحة محلياً */
+  const w = state.worship || {};
+  const prayers = ['fajr','zuhr','asr','maghrib','isha'];
+  const prayerPct = Math.round(prayers.filter(p=>w[p]).length / prayers.length * 100);
+
+  const mushaf = state.mushaf || {};
+  const quranPct = Math.min(100, Math.round(((mushaf.pagesRead || mushaf.juzDone*20 || 0) / 20) * 100)) || (w.quran?60:0);
+
+  const tasbih = state.tasbih || 0;
+  const takbeer = state.takbeer || 0;
+  const dhikrPct = Math.min(100, Math.round(((tasbih + takbeer) / 300) * 100));
+
+  const charity = state.charityDone ? (Array.isArray(state.charityDone) ? state.charityDone.length : Object.keys(state.charityDone).length) : 0;
+  const charityPct = Math.min(100, charity * 20);
+
+  const fasting = state.fasting || {};
+  const fastCount = typeof fasting === 'object' ? Object.values(fasting).filter(Boolean).length : 0;
+  const fastPct = Math.min(100, Math.round(fastCount / 9 * 100)) || (w.fasting?60:0);
+
+  const vals = [prayerPct, quranPct, dhikrPct, charityPct, fastPct];
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const grid = isDark ? 'rgba(255,255,255,.1)' : 'rgba(14,59,46,.12)';
+  const txt  = isDark ? '#9db8a0' : '#4a5a52';
+
+  if (_balanceChart) _balanceChart.destroy();
+  _balanceChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['الصلاة','القرآن','الذكر','الصدقة','الصيام'],
+      datasets: [{
+        label: 'التوازن',
+        data: vals,
+        borderColor: '#2a7a5f',
+        borderWidth: 2.5,
+        backgroundColor: 'rgba(42,122,95,.18)',
+        pointBackgroundColor: '#c9a14a',
+        pointBorderColor: '#fff',
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.label + ': ' + c.raw + '%' } } },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { display: false, stepSize: 25 },
+          grid: { color: grid },
+          angleLines: { color: grid },
+          pointLabels: { color: txt, font: { family: 'Tajawal', size: 13, weight: '700' } }
+        }
+      }
+    }
+  });
+
+  /* تلميح ذكي: أضعف محور */
+  const labels = ['الصلاة','القرآن','الذكر','الصدقة','الصيام'];
+  const minIdx = vals.indexOf(Math.min(...vals));
+  const maxIdx = vals.indexOf(Math.max(...vals));
+  const hint = document.getElementById('balance-hint');
+  if (hint) {
+    if (vals.every(v=>v===0)) {
+      hint.textContent = 'ابدأ بتسجيل عباداتك ليظهر مؤشر توازنك 🌱';
+    } else {
+      hint.innerHTML = '✨ أقوى محاورك: <b style="color:var(--green-deep)">'+labels[maxIdx]+'</b> — وأكثرها حاجةً لعنايتك: <b style="color:var(--gold-dark,#a87a1e)">'+labels[minIdx]+'</b>';
+    }
+  }
 }
 
 function renderInsights(state) {

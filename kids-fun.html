@@ -166,6 +166,56 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
 .ftab.active{background:var(--green-deep);border-color:var(--green-deep);color:#fff}
 html[data-theme="dark"] .ftab.active,html[data-theme="oled"] .ftab.active{background:var(--sys-green);border-color:var(--sys-green);color:#001a08}
 .filter-tabs::-webkit-scrollbar{display:none}
+/* ══ لعبة ابنِ الآية ══ */
+.ba-game{background:linear-gradient(135deg,var(--green-pale),var(--card));border:2px solid var(--green-soft);border-radius:20px;padding:18px;margin-bottom:24px;box-shadow:var(--shadow-sm)}
+.ba-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}
+.ba-hint{font-size:13px;font-weight:700;color:var(--ink);line-height:1.6}
+.ba-stars{font-size:14px;font-weight:900;color:var(--gold-dark,#a87a1e);white-space:nowrap;background:#fff;border-radius:99px;padding:4px 12px}
+.ba-surah{font-size:12px;font-weight:800;color:var(--green-deep);margin-bottom:10px;text-align:center;opacity:.85}
+.ba-slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:52px;background:rgba(255,255,255,.5);border:2px dashed var(--green-soft);border-radius:14px;padding:12px;margin-bottom:14px}
+html[data-theme="dark"] .ba-slots,html[data-theme="oled"] .ba-slots{background:rgba(255,255,255,.04)}
+.ba-bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:14px}
+.ba-word{font-family:'Amiri',serif;font-size:19px;font-weight:700;background:var(--card);border:2px solid var(--border);border-radius:12px;padding:8px 16px;cursor:pointer;transition:all .15s;color:var(--ink);user-select:none}
+.ba-word:hover{border-color:var(--green-mid);transform:translateY(-2px)}
+.ba-word:active{transform:scale(.94)}
+.ba-word.placed{background:var(--green-mid);color:#fff;border-color:var(--green-mid)}
+.ba-actions{display:flex;gap:8px}
+.ba-btn{flex:1;padding:11px;border-radius:12px;border:none;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:transform .1s}
+.ba-btn:active{transform:scale(.96)}
+.ba-check{background:var(--green-deep);color:#fff}
+.ba-next{background:var(--gold,#c9a14a);color:#3a2a08}
+.ba-reset{flex:0 0 auto;background:transparent;border:1.5px solid var(--border);color:var(--muted)}
+.ba-feedback{text-align:center;font-size:14px;font-weight:800;margin-top:12px;min-height:22px}
+.ba-feedback.ok{color:#1a7d4f}
+.ba-feedback.no{color:#c0392b}
+
+/* ══ لعبة تحدّي الأبطال ══ */
+.qz-game{background:linear-gradient(135deg,var(--gold-pale),var(--card));border:2px solid var(--gold,#c9a14a);border-radius:20px;padding:20px;margin-bottom:24px;box-shadow:var(--shadow-sm)}
+.qz-start,.qz-end{text-align:center;padding:10px}
+.qz-start-emoji,.qz-end-emoji{font-size:48px;margin-bottom:10px}
+.qz-start-title{font-size:18px;font-weight:900;color:var(--green-deep);font-family:'ThmanyahSans',sans-serif;margin-bottom:8px}
+html[data-theme="dark"] .qz-start-title,html[data-theme="oled"] .qz-start-title{color:var(--sys-green)}
+.qz-start-desc{font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:16px;max-width:440px;margin-inline:auto}
+.qz-start-btn{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;border:none;border-radius:14px;padding:13px 28px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;transition:transform .1s}
+.qz-start-btn:active{transform:scale(.96)}
+.qz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.qz-progress-txt{font-size:13px;font-weight:800;color:var(--muted)}
+.qz-score{font-size:15px;font-weight:900;color:var(--gold-dark,#a87a1e);background:#fff;border-radius:99px;padding:4px 14px}
+.qz-bar{height:8px;background:var(--sand-2);border-radius:99px;overflow:hidden;margin-bottom:16px}
+.qz-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--green-mid),var(--gold));border-radius:99px;transition:width .4s ease;width:0}
+.qz-stage{font-size:11px;font-weight:800;color:var(--green-deep);opacity:.7;margin-bottom:8px}
+.qz-question{font-size:16px;font-weight:800;color:var(--ink);line-height:1.7;margin-bottom:16px;font-family:'ThmanyahSans',sans-serif}
+.qz-options{display:flex;flex-direction:column;gap:10px}
+.qz-opt{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 16px;font-family:inherit;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:right;transition:all .15s}
+.qz-opt:hover{border-color:var(--green-soft);transform:translateY(-1px)}
+.qz-opt:active{transform:scale(.98)}
+.qz-opt.correct{background:#1a7d4f;border-color:#1a7d4f;color:#fff}
+.qz-opt.wrong{background:#c0392b;border-color:#c0392b;color:#fff;animation:qzShake .35s}
+.qz-opt.disabled{pointer-events:none;opacity:.65}
+@keyframes qzShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.qz-end-title{font-size:19px;font-weight:900;color:var(--green-deep);font-family:'ThmanyahSans',sans-serif;margin-bottom:8px}
+html[data-theme="dark"] .qz-end-title,html[data-theme="oled"] .qz-end-title{color:var(--sys-green)}
+.qz-end-msg{font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:16px}
 </style>
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t);try{if(p.excuseMode)document.documentElement.setAttribute('data-excuse','on')}catch(e){}})();</script>
 <script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
@@ -239,6 +289,52 @@ html[data-theme="dark"] .ftab.active,html[data-theme="oled"] .ftab.active{backgr
       <div class="k-htitle">شاشةُ المرح</div>
       <div class="k-intro">من قال إنّ التعلّم لا يكون ممتعاً؟ هنا جمعنا لكم أفضلَ الأفلام الكرتونية والتطبيقات الذكية التي تجعلُ وقتكم مفيداً ومسلّياً. شاهد أجملَ القصص والعب أذكى الألعاب التعليمية!</div>
     </div>
+
+    <!-- ══ لعبة: ابنِ الآية ══ -->
+    <div class="k-sec-title">🧩 العب: ابنِ الآية</div>
+    <div class="ba-game" id="ba-game">
+      <div class="ba-head">
+        <div class="ba-hint" id="ba-hint">رتّب الكلمات لتبني الآية الصحيحة 🌟</div>
+        <div class="ba-stars" id="ba-stars">⭐ <span id="ba-star-n">0</span></div>
+      </div>
+      <div class="ba-surah" id="ba-surah"></div>
+      <div class="ba-slots" id="ba-slots"></div>
+      <div class="ba-bank" id="ba-bank"></div>
+      <div class="ba-actions">
+        <button class="ba-btn ba-check" id="ba-check" onclick="baCheck()">✓ تحقّق</button>
+        <button class="ba-btn ba-next" id="ba-next" onclick="baNext()" style="display:none">التالية ←</button>
+        <button class="ba-btn ba-reset" onclick="baReset()">↺ إعادة</button>
+      </div>
+      <div class="ba-feedback" id="ba-feedback"></div>
+    </div>
+
+    <!-- ══ لعبة: تحدّي أبطال زاد العشر ══ -->
+    <div class="k-sec-title">🏆 تحدّي الأبطال</div>
+    <div class="qz-game" id="qz-game">
+      <div class="qz-start" id="qz-start">
+        <div class="qz-start-emoji">🦸</div>
+        <div class="qz-start-title">تحدّي أبطال زاد العشر</div>
+        <div class="qz-start-desc">أهلاً بك يا بطل! هل قرأتَ قصصنا وشاهدتَ فيديوهاتنا جيداً؟ اختبر ذكاءك واجمع النجوم لتصبح من كبار الأبطال! 🌟</div>
+        <button class="qz-start-btn" onclick="qzStart()">ابدأ التحدّي ←</button>
+      </div>
+      <div class="qz-play" id="qz-play" style="display:none">
+        <div class="qz-top">
+          <div class="qz-progress-txt"><span id="qz-cur">1</span> / <span id="qz-total">7</span></div>
+          <div class="qz-score">⭐ <span id="qz-score">0</span></div>
+        </div>
+        <div class="qz-bar"><span id="qz-bar-fill"></span></div>
+        <div class="qz-stage" id="qz-stage"></div>
+        <div class="qz-question" id="qz-question"></div>
+        <div class="qz-options" id="qz-options"></div>
+      </div>
+      <div class="qz-end" id="qz-end" style="display:none">
+        <div class="qz-end-emoji" id="qz-end-emoji">🎉</div>
+        <div class="qz-end-title" id="qz-end-title"></div>
+        <div class="qz-end-msg" id="qz-end-msg"></div>
+        <button class="qz-start-btn" onclick="qzStart()">العب مرّة أخرى ↺</button>
+      </div>
+    </div>
+
     <div class="k-sec-title">🎬 قنواتي وأفلامي المفضّلة</div>
     <div class="filter-tabs" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:20px;padding-bottom:4px">
       <button class="ftab active" onclick="filterKids('all',this)">الكل</button>
@@ -494,6 +590,170 @@ html[data-theme="dark"] .ftab.active,html[data-theme="oled"] .ftab.active{backgr
   <script src="js/diagnostics.js" defer></script>
   <script src="js/app.js" defer></script>
   <script src="js/pwa-install-fab.js" defer></script>
+<script>
+/* ══ لعبة ابنِ الآية — ترتيب كلمات آيات قصيرة (محلي بالكامل) ══ */
+(function(){
+  'use strict';
+  /* آيات قصيرة مناسبة للأطفال (بدون تشكيل ثقيل) */
+  var AYAT=[
+    {s:'سورة الإخلاص', w:['قُل','هو','اللَّهُ','أحدٌ']},
+    {s:'سورة الفاتحة', w:['الحمدُ','لِلَّهِ','ربِّ','العالمين']},
+    {s:'سورة الكوثر', w:['إنَّا','أعطيناكَ','الكوثر']},
+    {s:'سورة العصر', w:['إنَّ','الإنسانَ','لفي','خُسر']},
+    {s:'سورة الفيل', w:['ألم','ترَ','كيف','فعلَ','ربُّك']},
+    {s:'سورة الناس', w:['قُل','أعوذُ','بربِّ','الناس']},
+    {s:'سورة الفلق', w:['قُل','أعوذُ','بربِّ','الفلق']},
+    {s:'سورة النصر', w:['إذا','جاءَ','نصرُ','اللَّهِ','والفتح']}
+  ];
+  var KIDS_KEY='zad_kids_v2';
+  function kLoad(){ try{ return JSON.parse(localStorage.getItem(KIDS_KEY)||'{}')||{}; }catch(e){ return {}; } }
+  function kSave(o){ try{ localStorage.setItem(KIDS_KEY, JSON.stringify(o)); }catch(e){} }
+
+  var cur=0, placed=[];
+
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+
+  window.baLoad=function(){
+    var g=document.getElementById('ba-game'); if(!g) return;
+    var ay=AYAT[cur]; placed=[];
+    document.getElementById('ba-surah').textContent='﴿ '+ay.s+' ﴾';
+    document.getElementById('ba-slots').innerHTML='';
+    document.getElementById('ba-feedback').textContent='';
+    document.getElementById('ba-feedback').className='ba-feedback';
+    document.getElementById('ba-check').style.display='';
+    document.getElementById('ba-next').style.display='none';
+    var st=kLoad(); document.getElementById('ba-star-n').textContent=st.stars||0;
+    var bank=document.getElementById('ba-bank'); bank.innerHTML='';
+    shuffle(ay.w).forEach(function(word,i){
+      var b=document.createElement('button');
+      b.className='ba-word'; b.textContent=word; b.dataset.word=word;
+      b.onclick=function(){ baPlace(b); };
+      bank.appendChild(b);
+    });
+  };
+  function baPlace(btn){
+    if(btn.classList.contains('placed')) return;
+    btn.classList.add('placed');
+    placed.push(btn.dataset.word);
+    var slot=document.createElement('span');
+    slot.className='ba-word placed'; slot.textContent=btn.dataset.word;
+    slot.onclick=function(){ /* رجّع الكلمة */
+      var idx=placed.indexOf(btn.dataset.word);
+      if(idx>-1) placed.splice(idx,1);
+      slot.remove(); btn.classList.remove('placed');
+      document.getElementById('ba-feedback').textContent='';
+    };
+    document.getElementById('ba-slots').appendChild(slot);
+    if(navigator.vibrate) navigator.vibrate(10);
+  }
+  window.baCheck=function(){
+    var ay=AYAT[cur];
+    var fb=document.getElementById('ba-feedback');
+    if(placed.length<ay.w.length){ fb.textContent='رتّب كل الكلمات أولاً 🙂'; fb.className='ba-feedback'; return; }
+    var ok = placed.join(' ')===ay.w.join(' ');
+    if(ok){
+      fb.textContent='🎉 أحسنتَ! آيةٌ صحيحة'; fb.className='ba-feedback ok';
+      var st=kLoad(); st.stars=(st.stars||0)+2; kSave(st);
+      document.getElementById('ba-star-n').textContent=st.stars;
+      document.getElementById('ba-check').style.display='none';
+      document.getElementById('ba-next').style.display='';
+      if(navigator.vibrate) navigator.vibrate([15,40,15]);
+      if(typeof confetti==='function'){ try{ confetti({particleCount:60,spread:55,origin:{y:.7}}); }catch(e){} }
+    } else {
+      fb.textContent='حاول مرّة أخرى 💪'; fb.className='ba-feedback no';
+      if(navigator.vibrate) navigator.vibrate(40);
+    }
+  };
+  window.baNext=function(){ cur=(cur+1)%AYAT.length; baLoad(); };
+  window.baReset=function(){ baLoad(); };
+
+  document.addEventListener('DOMContentLoaded', function(){ cur=Math.floor(Math.random()*AYAT.length); baLoad(); });
+})();
+</script>
+<script>
+/* ══ لعبة تحدّي الأبطال — Quiz (محلي بالكامل) ══ */
+(function(){
+  'use strict';
+  var Q=[
+    {st:'قصص الأنبياء والصحابة', q:'ما اسم الغار الذي كان يتعبّد فيه النبي ﷺ قبل نزول الوحي؟', o:['غار ثور','غار حراء','غار أصحاب الكهف'], a:1},
+    {st:'قصص الأنبياء والصحابة', q:'من الصحابي الذي لُقّب بـ«أبي هريرة» لأنه كان يرعى قطةً ويعطف عليها؟', o:['عبد الرحمن بن صخر','عبد الله بن عمر','أنس بن مالك'], a:0},
+    {st:'قصص الأنبياء والصحابة', q:'من الصحابي الذي نام في فراش النبي ﷺ ليلة الهجرة ليحميه؟', o:['أبو بكر الصدّيق','عمر بن الخطّاب','عليّ بن أبي طالب'], a:2},
+    {st:'قصص الأنبياء والصحابة', q:'ما اسم الوادي الذي تكلّمت فيه النملة وحذّرت قومها من جيش سليمان عليه السلام؟', o:['وادي مكة','وادي النمل','وادي سيناء'], a:1},
+    {st:'كنوز الأخلاق والعبادة', q:'أيّ صحابيٍّ أنقذه صدقُه فتاب الله عليه بعد تخلّفه عن غزوة تبوك؟', o:['كعب بن مالك','بلال بن رباح','عثمان بن عفّان'], a:0},
+    {st:'كنوز الأخلاق والعبادة', q:'من أوّل مؤذّنٍ في الإسلام، وكان يردّد «أحدٌ أحد» أثناء تعذيبه؟', o:['أبو بكر الصدّيق','بلال بن رباح','عمّار بن ياسر'], a:1},
+    {st:'كنوز الأخلاق والعبادة', q:'ما اسم ناقة الرسول ﷺ التي كانت ترافقه في رحلاته؟', o:['الناقة البيضاء','القَصواء','البُراق'], a:1}
+  ];
+  var KIDS_KEY='zad_kids_v2';
+  function kLoad(){ try{ return JSON.parse(localStorage.getItem(KIDS_KEY)||'{}')||{}; }catch(e){ return {}; } }
+  function kSave(o){ try{ localStorage.setItem(KIDS_KEY, JSON.stringify(o)); }catch(e){} }
+
+  var idx=0, score=0, answered=false;
+
+  window.qzStart=function(){
+    idx=0; score=0; answered=false;
+    document.getElementById('qz-start').style.display='none';
+    document.getElementById('qz-end').style.display='none';
+    document.getElementById('qz-play').style.display='';
+    document.getElementById('qz-total').textContent=Q.length;
+    document.getElementById('qz-score').textContent='0';
+    qzRender();
+  };
+
+  function qzRender(){
+    answered=false;
+    var item=Q[idx];
+    document.getElementById('qz-cur').textContent=idx+1;
+    document.getElementById('qz-stage').textContent='▪ '+item.st;
+    document.getElementById('qz-question').textContent=item.q;
+    document.getElementById('qz-bar-fill').style.width=Math.round(idx/Q.length*100)+'%';
+    var box=document.getElementById('qz-options'); box.innerHTML='';
+    item.o.forEach(function(opt,i){
+      var b=document.createElement('button');
+      b.className='qz-opt'; b.textContent=opt;
+      b.onclick=function(){ qzAnswer(b,i,item.a); };
+      box.appendChild(b);
+    });
+  }
+
+  function qzAnswer(btn,chosen,correct){
+    if(answered) return; answered=true;
+    var opts=document.querySelectorAll('.qz-opt');
+    opts.forEach(function(o){ o.classList.add('disabled'); });
+    if(chosen===correct){
+      btn.classList.add('correct'); score++;
+      document.getElementById('qz-score').textContent=score;
+      if(navigator.vibrate) navigator.vibrate([12,30,12]);
+      if(typeof confetti==='function'){ try{ confetti({particleCount:40,spread:50,origin:{y:.7}}); }catch(e){} }
+    } else {
+      btn.classList.add('wrong');
+      opts[correct].classList.add('correct');
+      if(navigator.vibrate) navigator.vibrate(45);
+    }
+    setTimeout(qzNext, 1100);
+  }
+
+  function qzNext(){
+    idx++;
+    if(idx>=Q.length){ qzFinish(); return; }
+    qzRender();
+  }
+
+  function qzFinish(){
+    document.getElementById('qz-bar-fill').style.width='100%';
+    /* احفظ النجوم: نجمة لكل إجابة صحيحة */
+    var st=kLoad(); st.stars=(st.stars||0)+score; kSave(st);
+    document.getElementById('qz-play').style.display='none';
+    var end=document.getElementById('qz-end'); end.style.display='';
+    var full=(score===Q.length);
+    document.getElementById('qz-end-emoji').textContent=full?'🏅':'🌟';
+    document.getElementById('qz-end-title').textContent=full?'مبارك يا بطل!':'أحسنت!';
+    document.getElementById('qz-end-msg').innerHTML= full
+      ? 'أجبتَ على كل الأسئلة صحيحة — أنت الآن تحملُ <b>وسام الصدق والأمانة</b> وكسبتَ <b>'+score+'</b> نجوم! ⭐'
+      : 'أجبتَ على <b>'+score+'</b> من <b>'+Q.length+'</b> — كسبتَ <b>'+score+'</b> نجوم! حاول مرّة أخرى لتجمع المزيد 💪';
+    if(full && typeof confetti==='function'){ try{ confetti({particleCount:120,spread:80,origin:{y:.6}}); }catch(e){} }
+  }
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="animations.js" defer></script>
 <script src="menu.js" defer></script>

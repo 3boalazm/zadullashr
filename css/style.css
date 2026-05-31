@@ -2012,8 +2012,14 @@ html[data-theme="dark"] .theme-opt.active,html[data-theme="oled"] .theme-opt.act
    يُفعّل بـ data-excuse="on" على <html>
    ══════════════════════════════════════════════════════════ */
 html[data-excuse="on"]{
-  --gold:#d4789f; --gold-dark:#a84d77; --gold-soft:#e89bbb; --gold-pale:#fbeef4;
-  --green-deep:#8e4d6f; --green-mid:#a85d85; --green-soft:#c77fa3;
+  /* المصدر الجذري: غيّر متغيّرات العلامة نفسها — فتتبعها كل التدرّجات تلقائياً
+     (الكروت والهيروز تستخدم --brand-* أو --green-* المشتقّة منها) */
+  --brand-deep:#a84d77; --brand-mid:#b86397; --brand-soft:#c77fa3;
+  --brand-gold:#d4789f; --brand-gold-lt:#e89bbb; --brand-gold-dk:#8e4d6f;
+  --green-deep:#a84d77; --green-mid:#b86397; --green-soft:#c77fa3;
+  --gold:#d4789f; --gold-dark:#8e4d6f; --gold-soft:#e89bbb; --gold-pale:#fbeef4;
+  --green-pale:#fbeef4;
+  --border:rgba(168,77,119,.16);
 }
 html[data-excuse="on"] .topbar,
 html[data-excuse="on"] .brand-mark,
@@ -2029,4 +2035,62 @@ html[data-excuse="on"] .fab-ai{
 /* شارة صغيرة تذكّر أن وضع زهرة مفعّل */
 html[data-excuse="on"] .page-title::after{
   content:' 🌸'; font-size:.8em;
+}
+
+/* ── إصلاح التدرّجات الخضراء الثابتة: اقلبها وردية/بنفسجية في وضع زهرة ──
+   الكروت والهيروز كثيرٌ منها يستخدم ألوان hex ثابتة في الـ gradient
+   (لا متغيّرات) فلا تتأثر تلقائياً — هذه القاعدة تغطّيها صراحةً */
+html[data-excuse="on"] .hero,
+html[data-excuse="on"] .sum-hero,
+html[data-excuse="on"] .mn-hero,
+html[data-excuse="on"] .zk-hero,
+html[data-excuse="on"] .prayer-next,
+html[data-excuse="on"] .next-prayer,
+html[data-excuse="on"] .np-card,
+html[data-excuse="on"] .gh-hero,
+html[data-excuse="on"] .zh-hero,
+html[data-excuse="on"] .asma-hero,
+html[data-excuse="on"] .ai-hero,
+html[data-excuse="on"] .countdown-hero,
+html[data-excuse="on"] .next-hero,
+html[data-excuse="on"] .tasbeeh,
+html[data-excuse="on"] .af-dhikr-hub,
+html[data-excuse="on"] [class*="-hero"]{
+  background:linear-gradient(135deg,#d4789f 0%,#b86397 55%,#8e5ea8 130%) !important;
+  border-color:#e89bbb !important;
+}
+/* العناوين الذهبية/الفاتحة على الهيرو الوردي تبقى بيضاء */
+html[data-excuse="on"] .hero-title,
+html[data-excuse="on"] .hero-eyebrow,
+html[data-excuse="on"] .sum-hero-num{ color:#fff !important; }
+
+/* كروت الآية والصلاة القادمة: تدرّج وردي متناسق صريح (يمنع أي رمادي) */
+html[data-excuse="on"] .verse,
+html[data-excuse="on"] .prayer-card.is-next,
+html[data-excuse="on"] .pt-card.is-next{
+  background:linear-gradient(135deg,#fff,#fbeef4 60%,#f7dce9) !important;
+  border-color:#e89bbb !important;
+}
+html[data-excuse="on"] .verse .ar{ color:#a84d77 !important; }
+html[data-excuse="on"] .verse .src{ color:#8e5ea8 !important; }
+html[data-excuse="on"] .prayer-card.is-next .pc-time{ color:#a84d77 !important; }
+/* في الدارك/OLED: كروت الآية والصلاة بوردي داكن أنيق بدل الرمادي */
+html[data-excuse="on"][data-theme="dark"] .verse,
+html[data-excuse="on"][data-theme="oled"] .verse,
+html[data-excuse="on"][data-theme="dark"] .prayer-card.is-next,
+html[data-excuse="on"][data-theme="oled"] .prayer-card.is-next{
+  background:linear-gradient(135deg,rgba(212,120,159,.18),rgba(142,94,168,.12)) !important;
+  border-color:rgba(212,120,159,.4) !important;
+}
+html[data-excuse="on"][data-theme="dark"] .verse .ar,
+html[data-excuse="on"][data-theme="oled"] .verse .ar{ color:#f5c9dd !important; }
+/* العناوين الذهبية على الهيرو الوردي */
+html[data-excuse="on"] .hero-title,
+html[data-excuse="on"] .hero-eyebrow,
+html[data-excuse="on"] .sum-hero-num{ color:#fff !important; }
+/* الحلقات/الأشرطة التقدّمية الخضراء → وردية */
+html[data-excuse="on"] .progress span,
+html[data-excuse="on"] .prog-bar span,
+html[data-excuse="on"] [id*="bar-fill"]{
+  background:linear-gradient(90deg,#d4789f,#a84d77) !important;
 }
