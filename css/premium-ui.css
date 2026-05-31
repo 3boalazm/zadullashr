@@ -211,87 +211,49 @@ main.main, #main-content {
 @font-face{font-family:'ThmanyahText';src:url('../fonts/thmanyahseriftext-Bold.otf') format('opentype');font-weight:700;font-display:swap}
 @font-face{font-family:'ThmanyahText';src:url('../fonts/thmanyahseriftext-Regular.otf') format('opentype');font-weight:400;font-display:swap}
 
-/* تطبيق الخط على العناوين فقط (بدون نصوص مُشكّلة — التشكيل يتقطّع على هذا الخط) */
+/* تطبيق الخط على العناوين الرئيسية */
 .page-title,
 .section-title,
 h1, h2,
 .zdh-greet-text,
+.bb-full-name,
+.adh-ch-title,
 .hero-title,
-.nw-hero-title {
+.verse .ar {
   font-family: 'ThmanyahDisplay', 'Amiri', serif !important;
   letter-spacing: -0.01em;
 }
 
-/* النصوص القرآنية والأذكار المُشكّلة تبقى على Amiri (يعرض الحركات بدقة) */
-.verse .ar,
-.az-arabic,
-.adh-dhikr,
-.bb-full-name {
-  font-family: 'Amiri', 'Scheherazade New', serif !important;
-}
-
 /* ═══════════════════════════════════════════════════════════
-   Topbar كشريط عائم أسفل الشاشة على الموبايل
-   ─────────────────────────────────────────────────────────
-   ثابت (fixed) أسفل دائماً — قريب من الإيد، لا يختفي مع scroll
-   الشكل: برجر + اسم الصفحة + إشعارات في شريط بيضاوي
+   Topbar ثابت فوق على الموبايل (يظهر دايماً بدون scroll)
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
   .topbar {
-    position: fixed !important;
-    bottom: 0; right: 8px; left: 8px; top: auto !important;
-    z-index: 9000;
-    background: var(--card, #faf8f2) !important;
-    margin: 0 !important;
-    padding: 10px 14px !important;
-    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
-    border-radius: 22px 22px 0 0;
-    box-shadow: 0 -6px 28px -8px rgba(14,59,46,.28);
-    backdrop-filter: blur(18px) saturate(1.5);
-    -webkit-backdrop-filter: blur(18px) saturate(1.5);
-    display: grid !important;
-    grid-template-columns: auto 1fr auto;
-    align-items: center; gap: 10px;
-    border: 1px solid var(--border, #e8e4d8);
-    border-bottom: none;
+    position: sticky !important;
+    top: 0; z-index: 90;
+    background: var(--bg, #f5f4f0);
+    margin: 0 -16px 16px !important;
+    padding: 12px 16px calc(12px + env(safe-area-inset-top, 0px)) !important;
+    box-shadow: 0 2px 16px -8px rgba(0,0,0,.18);
+    backdrop-filter: blur(12px) saturate(1.4);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
   }
   html[data-theme="dark"] .topbar,
   html[data-theme="oled"] .topbar {
-    background: rgba(20,31,28,.96) !important;
-    box-shadow: 0 -6px 28px -8px rgba(0,0,0,.6);
+    background: rgba(10,20,16,.92);
   }
-
-  /* الترتيب: برجر يمين (RTL) · اسم وسط · إشعارات يسار — مطابق للصورة */
-  .topbar .tb-left, .topbar .tb-right { display: flex; align-items: center; gap: 6px; }
-  .topbar .tb-center { text-align: center; min-width: 0; overflow: hidden; }
-
-  /* البرجر الأسود البارز (زي الصورة) */
+  /* البرجر أكبر وأسهل للمس */
   .hamburger {
-    width: 46px; height: 46px;
+    width: 44px; height: 44px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 20px; border-radius: 14px;
-    background: var(--ink, #1a1a18); color: #fff;
-    border: none; flex-shrink: 0;
+    font-size: 22px; border-radius: 12px;
   }
-  /* زر الإشعارات في كارت أبيض */
-  .notif-btn {
-    width: 46px; height: 46px; border-radius: 14px;
-    background: var(--card, #fff); border: 1px solid var(--border, #eee);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px; flex-shrink: 0;
-  }
-  /* اسم الصفحة */
-  .page-title { font-size: 17px !important; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis; }
-  /* إخفاء زر اللغة من الشريط السفلي (توفير مساحة) */
-  .topbar .lang-btn { display: none; }
-  /* إخفاء اللوجو من الشريط السفلي */
-  .topbar .tb-logo { display: none; }
-
-  /* ═══ المحتوى: مارجين بسيط أعلى + مساحة فاضية أسفل للـ nav ═══ */
+  /* margins موحّدة للموبايل */
   .main, #main-content {
-    padding: 12px 16px 96px !important;
+    padding: 0 16px 80px !important;
   }
+  /* اسم الصفحة أصغر شوية على الموبايل */
+  .page-title { font-size: 20px !important; }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -337,160 +299,4 @@ h1, h2,
 
 @media (prefers-reduced-motion: reduce) {
   .nav a, .nav a .ico { transition: none !important; transform: none !important; }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   RTL Stress — حماية النصوص الطويلة من كسر التصميم
-   ═══════════════════════════════════════════════════════════ */
-.verse .ar, .az-arabic, .adh-dhikr, .time-verse,
-.dua-text, .bb-full-name, .nw-hadith-text,
-.section-title, .page-title, .card p, .card div {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-  max-width: 100%;
-}
-
-/* أسماء السور والعناوين الطويلة — لا تتجاوز الحاوية */
-.surah-name, .nav a span, .page-title,
-.zad-more-item-label, .adh-head > div {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* الجداول (مواقيت الصلاة) — تمرير أفقي بدل الكسر على الموبايل */
-@media (max-width: 600px) {
-  .ten-days-wrap, .prayer-table-wrap, [class*="table-wrap"] {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   Accessibility — focus states واضحة (WCAG AA - keyboard nav)
-   ═══════════════════════════════════════════════════════════ */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible,
-[tabindex]:focus-visible,
-[onclick]:focus-visible,
-.card:focus-visible,
-.adh-head:focus-visible {
-  outline: 3px solid var(--gold-500, #c9a14a);
-  outline-offset: 2px;
-  border-radius: 6px;
-}
-
-/* skip-link للوصول السريع للمحتوى (screen readers) */
-.skip-to-content {
-  position: absolute; top: -60px; right: 16px; z-index: 9999;
-  background: var(--green-deep, #0e3b2e); color: #fff;
-  padding: 10px 18px; border-radius: 0 0 10px 10px;
-  font-weight: 700; text-decoration: none;
-  transition: top .2s;
-}
-.skip-to-content:focus { top: 0; }
-
-/* تباين أعلى للنصوص الخافتة (contrast) */
-.muted, .subtle, [style*="color:var(--muted)"] {
-  color: var(--muted, #6a6a64) !important;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   popup الإشعارات — بعرض الشاشة كامل من أسفل (responsive)
-   يطلع فوق الشريط العائم السفلي
-   ═══════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  .notif-dropdown {
-    position: fixed !important;
-    bottom: 84px !important; top: auto !important;
-    left: 8px !important; right: 8px !important;
-    transform: none !important;
-    width: auto !important; max-width: none !important;
-    min-width: 0 !important;
-    max-height: 60vh; overflow-y: auto;
-    border-radius: 18px !important;
-    box-shadow: 0 -8px 32px -6px rgba(0,0,0,.28) !important;
-    z-index: 9001 !important;
-  }
-  .notif-dropdown.open {
-    display: flex !important; flex-direction: column;
-    animation: notifSlideUp .25s cubic-bezier(.4,0,.2,1) !important;
-  }
-  @keyframes notifSlideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  /* عناصر الإشعارات تملأ العرض */
-  .notif-dropdown .notif-item,
-  .notif-dropdown > * { width: 100%; box-sizing: border-box; }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   نظام الزخارف الخلفية (Patterns) — يحترم نظام الثيمات الحالي
-   ─────────────────────────────────────────────────────────
-   يستخدم currentColor المشتق من --ink فيتكيّف مع كل ثيم تلقائياً
-   opacity منخفضة جداً = لا يشتّت ولا يضرّ الكونتراست
-   ═══════════════════════════════════════════════════════════ */
-
-/* الحاوية الخلفية الثابتة (خلف كل المحتوى) */
-#zad-pattern-bg {
-  position: fixed; inset: 0; z-index: 0;
-  pointer-events: none;
-  opacity: 0; transition: opacity .6s ease;
-}
-.app, .main, .sidebar { position: relative; z-index: 1; }
-
-/* 1. زخرفة هندسية إسلامية (نجوم ثمانية) — الافتراضية */
-body[data-pattern="geometry"] #zad-pattern-bg {
-  opacity: 1;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l8 22 22 8-22 8-8 22-8-22-22-8 22-8z' fill='none' stroke='%230e3b2e' stroke-width='0.5' opacity='0.5'/%3E%3C/svg%3E");
-  background-size: 60px 60px;
-}
-html[data-theme="dark"] body[data-pattern="geometry"] #zad-pattern-bg,
-html[data-theme="oled"] body[data-pattern="geometry"] #zad-pattern-bg {
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l8 22 22 8-22 8-8 22-8-22-22-8 22-8z' fill='none' stroke='%234dd866' stroke-width='0.5' opacity='0.4'/%3E%3C/svg%3E");
-}
-
-/* 2. نقاط هادئة (سماء) */
-body[data-pattern="stars"] #zad-pattern-bg {
-  opacity: 1;
-  background-image: radial-gradient(circle, rgba(14,59,46,.10) 1px, transparent 1px);
-  background-size: 26px 26px;
-}
-html[data-theme="dark"] body[data-pattern="stars"] #zad-pattern-bg,
-html[data-theme="oled"] body[data-pattern="stars"] #zad-pattern-bg {
-  background-image: radial-gradient(circle, rgba(201,161,74,.14) 1px, transparent 1px);
-}
-
-/* 3. شبكة ناعمة */
-body[data-pattern="grid"] #zad-pattern-bg {
-  opacity: 1;
-  background-image:
-    linear-gradient(rgba(14,59,46,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(14,59,46,.05) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-html[data-theme="dark"] body[data-pattern="grid"] #zad-pattern-bg,
-html[data-theme="oled"] body[data-pattern="grid"] #zad-pattern-bg {
-  background-image:
-    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
-}
-
-/* 4. بدون زخرفة (الافتراضي لو مفيش اختيار) */
-body[data-pattern="none"] #zad-pattern-bg { opacity: 0; }
-
-@media (prefers-reduced-motion: reduce) {
-  #zad-pattern-bg { transition: none; }
-}
-
-/* أزرار اختيار الزخرفة/الثيم — الحالة النشطة */
-[data-pattern-btn].active {
-  border-color: var(--gold, #c9a14a) !important;
-  background: var(--gold-pale, #fdf5e0) !important;
-  box-shadow: 0 0 0 1px var(--gold, #c9a14a);
 }
