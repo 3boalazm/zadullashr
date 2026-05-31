@@ -1382,7 +1382,10 @@ const HIJRI_MONTH_LEN = [30,29,30,29,30,29,30,29,30,29,30,29];
    العدّادات (المثبّتة على هذا المرجع) وبقية الصفحات. مصدر واحد للحقيقة.
    ════════════════════════════════════════════════════════════════════════ */
 function getHijriDate(date = new Date()) {
-  const diffDays = Math.round((date - HIJRI_REF.greg) / 86400000);
+  /* نصفّر الوقت في التاريخين لتفادي خطأ يوم كامل بعد الظهر (Math.round) */
+  const dMid   = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const refMid = new Date(2026, 4, 18);
+  const diffDays = Math.round((dMid - refMid) / 86400000);
   let { year, month, day } = HIJRI_REF;
   let d = (day - 1) + diffDays;
   if (d >= 0) {

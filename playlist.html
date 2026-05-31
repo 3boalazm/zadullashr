@@ -583,6 +583,14 @@ function selectPlaylist(id) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  /* دعم ?pl= من شورت كت الصفحة الرئيسية */
+  try {
+    const plId = new URLSearchParams(location.search).get('pl');
+    if (plId) {
+      const found = PLAYLISTS.find(p => p.id === plId);
+      if (found) activePlaylist = found;
+    }
+  } catch(e) {}
   renderPlaylistSelector();
 });
 

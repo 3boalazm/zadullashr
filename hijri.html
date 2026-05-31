@@ -360,7 +360,10 @@ function gregToHijri(date) {
   /* موحّد: نحسب دائماً من المرجع الثابت DH1 (= 18 مايو = 1 ذو الحجة)
      ولا نعتمد على تاريخ الـ API الحي حتى لا يحدث تعارض مع باقي الموقع. */
   const msPerDay = 86400000;
-  const diff = Math.round((date - DH1) / msPerDay);
+  /* نصفّر الوقت في التاريخين لتفادي خطأ يوم كامل بعد الظهر (Math.round) */
+  const dMid  = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const refMid = new Date(DH1.getFullYear(), DH1.getMonth(), DH1.getDate());
+  const diff = Math.round((dMid - refMid) / msPerDay);
   let y=1447, m=12, d=1+diff;
   while (d > ML[(m-1)%12]) { d -= ML[(m-1)%12]; m++; if(m>12){m=1;y++;} }
   while (d < 1) { m--; if(m<1){m=12;y--;} d+=ML[(m-1)%12]; }

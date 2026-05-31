@@ -8,7 +8,7 @@
    تستجب الشبكة خلال 3 ثوانٍ نرجع فوراً للنسخة المخزّنة.
    ════════════════════════════════════════════════════════════ */
 
-const CACHE_STATIC = 'zad-20260531-2600';
+const CACHE_STATIC = 'zad-20260531-2900';
 const NET_TIMEOUT  = 3000; /* مهلة الشبكة قبل الرجوع للكاش (ms) */
 
 /* ── أصول تُخزَّن مسبقاً عند التثبيت ── */
@@ -20,7 +20,7 @@ const PRECACHE = [
   './fonts/thmanyahserifdisplay-Bold.otf', './fonts/thmanyahserifdisplay-Regular.otf',
   './icons/icon-192.svg', './icons/icon-512.svg',
   /* core JS */
-  './js/app.js', './js/ghars-stories.js', './js/diagnostics.js', './js/storage.js', './js/calendar.js',
+  './js/app.js', './js/adhkar-azkar.js', './js/ghars-stories.js', './js/diagnostics.js', './js/storage.js', './js/calendar.js',
   './js/design-system.js', './js/fixes-module.js',
   './js/utils/helpers.js', './js/core/state-manager.js', './js/core/router.js',
   './js/ui/design-tokens.js', './js/ui/feedback.js',
