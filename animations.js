@@ -39,15 +39,9 @@ function initPageEnter() {
     }
   }
   const navLinks = document.querySelectorAll('.nav a');
-  if (window.innerWidth > 768 && navLinks.length > 0) {
-    /* أمان: نترك التحكم بالـ opacity لـ GSAP عبر fromTo + clearProps
-       بدل تصفيرها بالـ JS العادي (لو فشل GSAP تفضل الروابط ظاهرة) */
-    navLinks.forEach(a => { a.style.animation = 'none'; });
-    tl.fromTo(navLinks,
-      { opacity: 0, x: 20 },
-      { opacity: 1, x: 0, duration: 0.35, stagger: 0.04, ease: 'back.out(1.2)', clearProps: 'all' },
-      0.15);
-  }
+  if (window.innerWidth > 768) navLinks.forEach(a => { a.style.animation = 'none'; a.style.opacity = '0'; });
+  if (window.innerWidth > 768) tl.to(navLinks, { opacity: 1, x: 0, duration: 0.35, stagger: 0.04,
+    ease: 'back.out(1.2)' }, 0.15);
   const hero = document.querySelector('.hero');
   if (hero) {
     hero.style.animation = 'none';
@@ -118,21 +112,16 @@ function initInteractiveGSAP() {
   });
   const _origBadge = window.updateBadgeUI;
   window.updateBadgeUI = function(id) {
-    /* شغّل الأصلية دائماً أولاً للحفاظ على الـ state — حتى لو الأنيميشن فشل */
-    if (typeof _origBadge === 'function') {
-      try { _origBadge(id); } catch (e) { console.warn('[badge] original failed:', e); }
-    }
+    if (_origBadge) _origBadge(id);
     const el = document.querySelector(`[data-badge="${id}"]`);
-    if (!el || typeof gsap === 'undefined') return;
-    try {
-      const medal = el.querySelector('.medal');
-      const t = gsap.timeline()
-        .from(el, { scale: 0.5, opacity: 0, duration: 0.5, ease: 'elastic.out(1.3, 0.5)' })
-        .fromTo(el,
-          { boxShadow: '0 0 0 0 rgba(201,161,74,.7)' },
-          { boxShadow: '0 0 32px 8px rgba(201,161,74,0)', duration: 1, ease: 'expo.out' }, '-=0.2');
-      if (medal) t.from(medal, { scale: 0, rotation: 360, duration: 0.6, ease: 'back.out(1.5)' }, '-=0.5');
-    } catch (e) { console.warn('[badge] animation failed:', e); }
+    if (!el) return;
+    const medal = el.querySelector('.medal');
+    gsap.timeline()
+      .from(el, { scale: 0.5, opacity: 0, duration: 0.5, ease: 'elastic.out(1.3, 0.5)' })
+      .fromTo(el,
+        { boxShadow: '0 0 0 0 rgba(201,161,74,.7)' },
+        { boxShadow: '0 0 32px 8px rgba(201,161,74,0)', duration: 1, ease: 'expo.out' }, '-=0.2')
+      .from(medal, { scale: 0, rotation: 360, duration: 0.6, ease: 'back.out(1.5)' }, '-=0.5');
   };
   const tsRing = document.getElementById('ts-ring');
   if (tsRing) {

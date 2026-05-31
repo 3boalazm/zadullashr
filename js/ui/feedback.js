@@ -27,13 +27,9 @@ const ZadFeedback = (() => {
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.remove('show'), duration);
 
-    /* haptic خفيف — مغلّف بأمان (المتصفح قد يمنعه قبل أول تفاعل) */
-    try {
-      if (navigator.vibrate && navigator.userActivation?.hasBeenActive) {
-        if (type === 'success') navigator.vibrate(20);
-        else if (type === 'error') navigator.vibrate([30, 20, 30]);
-      }
-    } catch {}
+    /* haptic خفيف */
+    if (type === 'success' && navigator.vibrate) navigator.vibrate(20);
+    if (type === 'error' && navigator.vibrate) navigator.vibrate([30, 20, 30]);
   }
 
   /* ── Loading overlay ─────────────────────────────────────────────────── */

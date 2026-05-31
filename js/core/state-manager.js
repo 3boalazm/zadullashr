@@ -87,20 +87,6 @@ const ZadState = (() => {
     }, 200);
   }
 
-  /* حفظ فوري (يتخطّى الـ debounce) — للاستخدام عند إغلاق الصفحة */
-  function flush() {
-    clearTimeout(_saveTimer);
-    try { if (_state) localStorage.setItem(STATE_KEY, JSON.stringify(_state)); } catch {}
-  }
-
-  /* CHAOS: لو المستخدم قفل الصفحة أثناء الحفظ المؤجّل — احفظ فوراً */
-  if (typeof window !== 'undefined') {
-    window.addEventListener('pagehide', flush);
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') flush();
-    });
-  }
-
   function init() {
     _state = load();
     /* daily reset */
@@ -182,7 +168,7 @@ const ZadState = (() => {
 
   /* ── Export ─────────────────────────────────────────────────────────── */
   return {
-    init, get, set, update, subscribe, save, load, flush,
+    init, get, set, update, subscribe, save, load,
     markWorship, addNotification, markNotifRead,
     /* للتوافق مع app.js */
     getState: () => _state,

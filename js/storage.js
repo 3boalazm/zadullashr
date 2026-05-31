@@ -222,10 +222,8 @@ async function migrateFromLocalStorage() {
     /* الملف الشخصي */
     const profileRaw = localStorage.getItem(PROFILE_KEY);
     if (profileRaw) {
-      try {
-        const profile = JSON.parse(profileRaw);
-        await db.profile.put({ key: 'main', ...profile });
-      } catch (e) { console.warn('[storage] ملف شخصي تالف — تم تخطّيه'); }
+      const profile = JSON.parse(profileRaw);
+      await db.profile.put({ key: 'main', ...profile });
     }
 
     /* بعد التأكد من النجاح — احذف localStorage القديم بأمان */

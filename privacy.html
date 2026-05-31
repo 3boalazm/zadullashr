@@ -120,10 +120,7 @@ html[data-theme="dark"] .pv-unknown,html[data-theme="oled"] .pv-unknown{backgrou
   /* تصدير JSON */
   document.getElementById('pv-export').addEventListener('click',function(){
     var data=localStorage.getItem(ZKEY)||'{}';
-    var parsed;
-    try { parsed = JSON.parse(data); }
-    catch(e) { parsed = { error: 'البيانات المحفوظة تالفة', raw: data }; }
-    var blob=new Blob([JSON.stringify(parsed,null,2)],{type:'application/json'});
+    var blob=new Blob([JSON.stringify(JSON.parse(data),null,2)],{type:'application/json'});
     var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='zad-data-backup.json';a.click();
     try{if(window.showToast)window.showToast('⬇️ تم تنزيل نسخة بياناتك');}catch(e){}
   });
@@ -149,18 +146,19 @@ html[data-theme="dark"] .pv-unknown,html[data-theme="oled"] .pv-unknown{backgrou
   <script src="js/seasons-module.js" defer></script>
   <script src="js/fixes-module.js" defer></script>
   <script src="js/share-button.js" defer></script>
+  <script src="js/tasbih-fab.js" defer></script>
   <script src="js/gps-fix.js" defer></script>
   <script src="js/nav-accordion.js" defer></script>
+  <script src="js/float-tasbih.js" defer></script>
     <script src="js/utils/helpers.js" defer></script>
   <script src="js/core/state-manager.js" defer></script>
   <script src="js/core/router.js" defer></script>
   <script src="js/ui/design-tokens.js" defer></script>
+  <script src="js/ui/bottom-nav.js" defer></script>
   <script src="js/ui/feedback.js" defer></script>
   <script src="js/ui/offline-ui.js" defer></script>
   <script src="js/ui/micro-interactions.js" defer></script>
-  <script src="js/ui/pattern-engine.js" defer></script>
   <script src="js/app.js" defer></script>
-  <script src="js/pwa-install-fab.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
 <script src="animations.js" defer></script>

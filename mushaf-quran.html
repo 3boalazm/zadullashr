@@ -205,13 +205,6 @@ html[data-theme="dark"] .last-page-indicator,html[data-theme="oled"] .last-page-
   <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
   <!-- Vercel Web Analytics -->
   <script>
-/* قراءة آمنة من localStorage — تحمي من JSON تالف */
-function zadSafeParse(key, fallback) {
-  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
-  catch(e) { console.warn('[zad] بيانات تالفة في', key, '— استُخدم الافتراضي'); return fallback; }
-}
-</script>
-<script>
     window.va = window.va || function() {
       (window.vaq = window.vaq || []).push(arguments);
     };
@@ -390,18 +383,19 @@ function zadSafeParse(key, fallback) {
   <script src="js/seasons-module.js" defer></script>
   <script src="js/fixes-module.js" defer></script>
   <script src="js/share-button.js" defer></script>
+  <script src="js/tasbih-fab.js" defer></script>
   <script src="js/gps-fix.js" defer></script>
   <script src="js/nav-accordion.js" defer></script>
+  <script src="js/float-tasbih.js" defer></script>
     <script src="js/utils/helpers.js" defer></script>
   <script src="js/core/state-manager.js" defer></script>
   <script src="js/core/router.js" defer></script>
   <script src="js/ui/design-tokens.js" defer></script>
+  <script src="js/ui/bottom-nav.js" defer></script>
   <script src="js/ui/feedback.js" defer></script>
   <script src="js/ui/offline-ui.js" defer></script>
   <script src="js/ui/micro-interactions.js" defer></script>
-  <script src="js/ui/pattern-engine.js" defer></script>
   <script src="js/app.js" defer></script>
-  <script src="js/pwa-install-fab.js" defer></script>
 <script>
 /* ════════════════════════════════════════════════════════════
    MUSHAF QURAN READER — With Auto-Save Last Page Feature
@@ -416,8 +410,8 @@ const _urlPage=parseInt(_urlParams.get('page')||'0');
 const _urlTo=parseInt(_urlParams.get('to')||'0');
 let _page=_urlPage||parseInt(localStorage.getItem(PAGE_KEY)||'1');
 let _pageEnd=_urlTo||0;
-let _bookmarks=zadSafeParse(BM_KEY,[]);
-let _pageCache=zadSafeParse(CACHE_KEY,{});
+let _bookmarks=JSON.parse(localStorage.getItem(BM_KEY)||'[]');
+let _pageCache=JSON.parse(localStorage.getItem(CACHE_KEY)||'{}');
 let _fontSize=parseInt(localStorage.getItem('zad_mfont')||'24');
 let _loading=false;
 let _lastSavedPage=parseInt(localStorage.getItem(LAST_PAGE_KEY)||'0'); /* ← آخر صفحة محفوظة */
@@ -696,22 +690,8 @@ window.doSearch = async function(q) {
   _srchAbort = new AbortController();
 
   try {
-    /* تطبيع النص العربي: إزالة التشكيل + توحيد الألف والياء للبحث الأدق */
-    const normalized = query
-      .replace(/[\u064B-\u065F\u0670]/g, '')  /* إزالة التشكيل */
-      .replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه')
-      .trim();
-
-    /* الـ endpoint الصحيح: البحث في النسخة العربية البسيطة (بدون تشكيل) */
-    const url = `https://api.alquran.cloud/v1/search/${encodeURIComponent(normalized)}/all/ar`;
-    const res = await fetch(url, { signal: _srchAbort.signal });
-
-    /* لو 404 معناها لا نتائج (ليس خطأ شبكة) */
-    if (res.status === 404) {
-      loadingEl.style.display = 'none';
-      emptyEl.style.display = 'block';
-      return;
-    }
+    const url = `https://api.alquran.cloud/v1/search/${encodeURIComponent(query)}/all/quran-uthmani`;
+    const res  = await fetch(url, { signal: _srchAbort.signal });
     if (!res.ok) throw new Error('API error ' + res.status);
     const data = await res.json();
     loadingEl.style.display = 'none';
@@ -725,18 +705,11 @@ window.doSearch = async function(q) {
       const verseNum  = h.numberInSurah || h.number;
       const surahNum  = h.surah?.number || '';
       const page      = h.page || 1;
-      /* تمييز النص المطابق — مع تأمين الـ regex من الرموز الخاصة */
-      const safeTerms = normalized.split(' ').filter(Boolean)
-        .map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-      let hilited = h.text;
-      if (safeTerms.length) {
-        try {
-          hilited = h.text.replace(
-            new RegExp(safeTerms.join('|'), 'g'),
-            m => `<mark style="background:rgba(201,161,74,.3);color:var(--ink);border-radius:3px;padding:0 2px">${m}</mark>`
-          );
-        } catch { hilited = h.text; }
-      }
+      /* تمييز النص المطابق */
+      const hilited = h.text.replace(
+        new RegExp(query.split(' ').filter(Boolean).join('|'), 'g'),
+        m => `<mark style="background:rgba(201,161,74,.3);color:var(--ink);border-radius:3px;padding:0 2px">${m}</mark>`
+      );
       return `
         <div onclick="loadPage(${page});toggleSearch();"
           style="background:var(--card);border:1.5px solid var(--border);border-radius:13px;

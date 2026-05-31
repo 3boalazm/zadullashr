@@ -223,13 +223,6 @@ html[data-theme="dark"] body{background:#0a1409}
   <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
   <!-- Vercel Web Analytics -->
   <script>
-/* قراءة آمنة من localStorage — تحمي من JSON تالف */
-function zadSafeParse(key, fallback) {
-  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
-  catch(e) { console.warn('[zad] بيانات تالفة في', key, '— استُخدم الافتراضي'); return fallback; }
-}
-</script>
-<script>
     window.va = window.va || function() {
       (window.vaq = window.vaq || []).push(arguments);
     };
@@ -290,23 +283,6 @@ function zadSafeParse(key, fallback) {
   </aside>
 
   <main class="main">
-    <!-- Topbar -->
-    <div class="topbar">
-      <div class="tb-left">
-        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
-        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a>
-      </div>
-      <div class="tb-center">
-        <div class="page-title">غرس <span>قصص الأطفال</span></div>
-      </div>
-      <div class="tb-right">
-        <div class="notif-wrap">
-          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
-          <div class="notif-dropdown" id="notif-dropdown"></div>
-        </div>
-      </div>
-    </div>
-
 <section style="padding:16px">
   <div style="text-align:center;margin-bottom:24px">
     <div style="font-size:48px">🌱</div>
@@ -384,22 +360,23 @@ function zadSafeParse(key, fallback) {
   <script src="js/seasons-module.js" defer></script>
   <script src="js/fixes-module.js" defer></script>
   <script src="js/share-button.js" defer></script>
+  <script src="js/tasbih-fab.js" defer></script>
   <script src="js/gps-fix.js" defer></script>
   <script src="js/nav-accordion.js" defer></script>
+  <script src="js/float-tasbih.js" defer></script>
     <script src="js/utils/helpers.js" defer></script>
   <script src="js/core/state-manager.js" defer></script>
   <script src="js/core/router.js" defer></script>
   <script src="js/ui/design-tokens.js" defer></script>
+  <script src="js/ui/bottom-nav.js" defer></script>
   <script src="js/ui/feedback.js" defer></script>
   <script src="js/ui/offline-ui.js" defer></script>
   <script src="js/ui/micro-interactions.js" defer></script>
-  <script src="js/ui/pattern-engine.js" defer></script>
   <script src="js/app.js" defer></script>
-  <script src="js/pwa-install-fab.js" defer></script>
 <script>
 /* ════ غرس — Ghars Kids Page JS ════════════════════════════ */
 const G_KEY = 'zad_ghars_v1';
-let gState = zadSafeParse(G_KEY, {stars:0,days:{},hajj:{},acts:{},quiz:{}});
+let gState = JSON.parse(localStorage.getItem(G_KEY) || '{"stars":0,"days":{},"hajj":{},"acts":{},"quiz":{}}');
 function saveG(){ localStorage.setItem(G_KEY, JSON.stringify(gState)); }
 
 /* ─ Days ──────────────────────────────────────────────── */

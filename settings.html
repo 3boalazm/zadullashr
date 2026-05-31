@@ -239,36 +239,6 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
         </div>
         <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center">OLED — أسود كامل لتوفير البطارية</div>
       </div>
-      <!-- Pattern selector -->
-      <div style="padding-top:14px;border-top:1px solid var(--border)">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-          <div class="ic">🕌</div>
-          <div class="lbl"><b>زخرفة الخلفية</b><small>لمسة جمالية خفيفة</small></div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <button data-pattern-btn="none" onclick="setPattern('none')"
-            style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
-            <div style="font-size:20px;margin-bottom:4px">⬜</div>
-            <div style="font-size:12px;font-weight:700;color:var(--ink)">بدون</div>
-          </button>
-          <button data-pattern-btn="geometry" onclick="setPattern('geometry')"
-            style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
-            <div style="font-size:20px;margin-bottom:4px">✦</div>
-            <div style="font-size:12px;font-weight:700;color:var(--ink)">زخرفة هندسية</div>
-          </button>
-          <button data-pattern-btn="stars" onclick="setPattern('stars')"
-            style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
-            <div style="font-size:20px;margin-bottom:4px">•</div>
-            <div style="font-size:12px;font-weight:700;color:var(--ink)">نقاط هادئة</div>
-          </button>
-          <button data-pattern-btn="grid" onclick="setPattern('grid')"
-            style="padding:12px 8px;border-radius:12px;border:2px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;text-align:center;transition:all .2s">
-            <div style="font-size:20px;margin-bottom:4px">▦</div>
-            <div style="font-size:12px;font-weight:700;color:var(--ink)">شبكة ناعمة</div>
-          </button>
-        </div>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center">زخارف خفيفة جداً لا تؤثّر على القراءة</div>
-      </div>
       <div style="padding-top:14px">
         <div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--sand);border-radius:12px;border:1px solid var(--border)">
           <span style="font-size:22px">⚙️</span>
@@ -452,18 +422,19 @@ localStorage.setItem('zad_vapid', 'BB1zUZMWooPF2AtSMAy2UwJf-fMFO8PbYlrHSJ6u5rm_H
   <script src="js/sync-module.js" defer></script>
   <script src="js/fixes-module.js" defer></script>
   <script src="js/share-button.js" defer></script>
+  <script src="js/tasbih-fab.js" defer></script>
   <script src="js/gps-fix.js" defer></script>
   <script src="js/nav-accordion.js" defer></script>
+  <script src="js/float-tasbih.js" defer></script>
     <script src="js/utils/helpers.js" defer></script>
   <script src="js/core/state-manager.js" defer></script>
   <script src="js/core/router.js" defer></script>
   <script src="js/ui/design-tokens.js" defer></script>
+  <script src="js/ui/bottom-nav.js" defer></script>
   <script src="js/ui/feedback.js" defer></script>
   <script src="js/ui/offline-ui.js" defer></script>
   <script src="js/ui/micro-interactions.js" defer></script>
-  <script src="js/ui/pattern-engine.js" defer></script>
   <script src="js/app.js" defer></script>
-  <script src="js/pwa-install-fab.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="animations.js" defer></script>
 <script>
