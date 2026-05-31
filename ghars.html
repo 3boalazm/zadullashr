@@ -223,6 +223,13 @@ html[data-theme="dark"] body{background:#0a1409}
   <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
   <!-- Vercel Web Analytics -->
   <script>
+/* قراءة آمنة من localStorage — تحمي من JSON تالف */
+function zadSafeParse(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch(e) { console.warn('[zad] بيانات تالفة في', key, '— استُخدم الافتراضي'); return fallback; }
+}
+</script>
+<script>
     window.va = window.va || function() {
       (window.vaq = window.vaq || []).push(arguments);
     };
@@ -362,7 +369,6 @@ html[data-theme="dark"] body{background:#0a1409}
   <script src="js/share-button.js" defer></script>
   <script src="js/gps-fix.js" defer></script>
   <script src="js/nav-accordion.js" defer></script>
-  <script src="js/float-tasbih.js" defer></script>
     <script src="js/utils/helpers.js" defer></script>
   <script src="js/core/state-manager.js" defer></script>
   <script src="js/core/router.js" defer></script>
@@ -371,10 +377,11 @@ html[data-theme="dark"] body{background:#0a1409}
   <script src="js/ui/offline-ui.js" defer></script>
   <script src="js/ui/micro-interactions.js" defer></script>
   <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
 <script>
 /* ════ غرس — Ghars Kids Page JS ════════════════════════════ */
 const G_KEY = 'zad_ghars_v1';
-let gState = JSON.parse(localStorage.getItem(G_KEY) || '{"stars":0,"days":{},"hajj":{},"acts":{},"quiz":{}}');
+let gState = zadSafeParse(G_KEY, {stars:0,days:{},hajj:{},acts:{},quiz:{}});
 function saveG(){ localStorage.setItem(G_KEY, JSON.stringify(gState)); }
 
 /* ─ Days ──────────────────────────────────────────────── */

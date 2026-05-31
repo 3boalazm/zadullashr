@@ -4,162 +4,115 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0e3b2e">
 <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<title>المحاضرات الإسلامية — زاد العشر</title>
+<title>لوحة التحكم — زاد العشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
+  media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"></noscript>
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/premium-ui.css">
-<style>
-@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
-@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
-html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
-h1,h2,h3,.page-title,.brand-name,.section-title,.vid-title,.speaker-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
-
-.vids-hero{background:linear-gradient(135deg,var(--green-deep),var(--green-mid) 60%,#1a7a4a);border-radius:22px;padding:32px 28px;color:#fff;position:relative;overflow:hidden;margin-bottom:24px}
-.vids-hero::before{content:'🎬';position:absolute;left:20px;bottom:10px;font-size:80px;opacity:.1;line-height:1}
-.vids-hero-eyebrow{font-size:12px;color:#e6c97a;font-weight:700;letter-spacing:2px;margin-bottom:8px}
-.vids-hero h1{font-size:28px;font-weight:900;margin-bottom:8px;line-height:1.3}
-.vids-hero p{font-size:14px;color:rgba(255,255,255,.8);max-width:480px;line-height:1.7;margin-bottom:18px}
-.vids-count-row{display:flex;gap:16px;flex-wrap:wrap}
-.vids-count-item{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:10px 16px;text-align:center}
-.vci-num{font-size:24px;font-weight:900;font-family:'ThmanyahSans',monospace;color:#e6c97a}
-.vci-lbl{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px}
-
-.filter-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:20px}
-.filter-tabs::-webkit-scrollbar{display:none}
-.ftab{padding:8px 18px;border-radius:99px;border:1.5px solid var(--border);background:var(--card);font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
-.ftab.active,.ftab:hover{background:var(--green-deep);border-color:var(--green-deep);color:#fff}
-html[data-theme="dark"] .ftab.active,html[data-theme="dark"] .ftab:hover,html[data-theme="oled"] .ftab.active,html[data-theme="oled"] .ftab:hover{background:var(--sys-green);border-color:var(--sys-green);color:#001a08}
-
-.vid-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:all .25s;margin-bottom:20px}
-.vid-card:hover{transform:translateY(-4px);box-shadow:var(--shadow),0 0 0 1px rgba(201,161,74,.2)}
-
-.vid-thumb-wrap{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:var(--sand-2);cursor:pointer}
-.vid-thumb{width:100%;height:100%;object-fit:cover;transition:transform .35s;display:block}
-.vid-thumb-wrap:hover .vid-thumb{transform:scale(1.04)}
-.vid-thumb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%);pointer-events:none}
-.vid-play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,.35)}
-.vid-thumb-wrap:hover .vid-play-btn{background:#fff;transform:translate(-50%,-50%) scale(1.1)}
-.vid-play-btn svg{margin-right:-3px}
-.vid-number-badge{position:absolute;top:10px;right:10px;background:var(--green-deep);color:#fff;font-size:11px;font-weight:900;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'ThmanyahSans',monospace}
-
-.vid-body{padding:18px 18px 14px}
-.vid-meta-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
-.speaker-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.vid-meta-text{flex:1;min-width:0}
-.speaker-name{font-size:13px;font-weight:700;color:var(--green-deep);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-html[data-theme="dark"] .speaker-name,html[data-theme="oled"] .speaker-name{color:var(--sys-green)}
-.vid-category{font-size:11px;color:var(--muted)}
-.vid-title{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:8px;line-height:1.4}
-.vid-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
-
-.vid-points-toggle{display:flex;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:9px 14px;cursor:pointer;font-size:13px;font-weight:700;color:var(--ink);transition:all .2s;width:100%;margin-bottom:8px}
-.vid-points-toggle:hover{border-color:var(--gold);background:var(--gold-pale)}
-.vid-points-toggle .toggle-ico{margin-right:auto;transition:transform .25s;font-size:12px;color:var(--muted)}
-.vid-points-toggle.open .toggle-ico{transform:rotate(180deg)}
-.vid-points{max-height:0;overflow:hidden;transition:max-height .35s var(--ease)}
-.vid-points.open{max-height:800px}
-.vid-points-inner{padding:4px 4px 8px}
-.vid-point{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-radius:10px;margin-bottom:6px;background:var(--green-pale);border:1px solid rgba(42,122,95,.1);font-size:13px;color:var(--ink);line-height:1.6}
-html[data-theme="dark"] .vid-point,html[data-theme="oled"] .vid-point{background:rgba(77,216,102,.05);border-color:rgba(77,216,102,.1)}
-.vid-point-ico{font-size:14px;flex-shrink:0;margin-top:2px}
-.vid-point-text b{display:block;font-size:12px;color:var(--green-deep);margin-bottom:2px}
-html[data-theme="dark"] .vid-point-text b,html[data-theme="oled"] .vid-point-text b{color:var(--sys-green)}
-
-.vid-full-summary{background:var(--card-2);border:1px solid var(--border);border-radius:12px;margin-top:8px}
-.vid-summary-section{padding:8px 0;border-bottom:1px dashed var(--border)}
-.vid-summary-section:last-child{border-bottom:none}
-.vid-summary-section h4{display:flex;align-items:center;gap:6px;margin:0 0 8px;font-size:13px;font-weight:700;color:var(--green-deep)}
-.vid-summary-section p,.vid-summary-section ul{font-size:13px;line-height:1.7;color:var(--muted);margin:0}
-.vid-summary-section ul{list-style:disc;padding-right:20px}
-.vid-summary-section .plan-grid{display:grid;gap:6px;background:var(--sand);border-radius:10px;padding:10px 12px;font-size:12px}
-
-.vid-extra-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)}
-.vid-action-btn{flex:1;min-width:80px;padding:8px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--sand);color:var(--ink);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:4px}
-.vid-action-btn:hover{border-color:var(--gold);background:var(--gold-pale);transform:translateY(-1px)}
-.vid-action-btn:active{transform:scale(.98)}
-.vid-action-btn.saved{background:var(--green-pale);border-color:var(--green-soft);color:var(--green-deep)}
-.vid-action-btn.favorited{background:rgba(255,45,85,.1);border-color:var(--sys-pink);color:var(--sys-pink)}
-
-.vid-footer{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid var(--border);background:var(--sand)}
-.vid-watch-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:var(--green-deep);color:#fff;border-radius:10px;text-decoration:none;font-size:13px;font-weight:700;transition:all .2s}
-.vid-watch-btn:hover{background:var(--green-mid);transform:translateY(-1px)}
-html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{background:var(--sys-green);color:#001a08}
-.vid-share-btn{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .2s;text-decoration:none;flex-shrink:0}
-.vid-share-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
-
-.player-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:600;display:none;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(12px);padding:20px}
-.player-overlay.open{display:flex}
-.player-wrap{width:100%;max-width:860px;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 20px 60px rgba(0,0,0,.8)}
-.player-wrap iframe{width:100%;height:100%;border:none}
-.player-close{position:absolute;top:20px;right:20px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.25);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
-.player-close:hover{background:rgba(255,255,255,.3)}
-.player-title{color:#fff;font-size:15px;font-weight:700;margin-top:16px;text-align:center;font-family:'ThmanyahSans',sans-serif;opacity:.9}
-
-@media(max-width:768px){.vids-hero{padding:22px 18px}.vids-hero h1{font-size:22px}.vid-title{font-size:15px}}
-@media(max-width:480px){.vid-extra-actions{flex-direction:column}.vid-action-btn{min-width:100%}.vid-summary-section h4{font-size:12px}.vid-summary-section p,.vid-summary-section ul{font-size:12px}}
-</style>
-<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
 <style>
   :root{--font-scale:1}
   body{font-size:calc(1rem * var(--font-scale))}
   .quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
+
+  
+  .arafah-hero-link{transition:transform .25s,box-shadow .25s;overflow:hidden}
+  .arafah-hero-link:hover{transform:translateY(-3px);box-shadow:0 16px 40px -12px rgba(201,161,74,.45)}
+  .arafah-hero-link:active{transform:scale(.99)}
+  @keyframes arafahPulse{0%,100%{background:rgba(255,255,255,.14)}50%{background:rgba(201,161,74,.32)}}
+
+  /* ═══ Font size ═══════════════════════════════════════════ */
   .font-size-options{display:flex;gap:8px}
   .font-size-options .fs-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;transition:all .2s;color:var(--ink)}
   .font-size-options .fs-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff}
   .fs-btn[data-size="small"]  span:first-child{font-size:14px;display:block;margin-bottom:4px}
   .fs-btn[data-size="medium"] span:first-child{font-size:19px;display:block;margin-bottom:4px}
   .fs-btn[data-size="large"]  span:first-child{font-size:24px;display:block;margin-bottom:4px}
+
+  /* ═══ Arafah Celebration ══════════════════════════════════ */
+  #arafah-celebrate{position:fixed;inset:0;z-index:99999;display:none;overflow:hidden;pointer-events:none;background:radial-gradient(circle at 50% 25%,rgba(14,59,46,.32),rgba(6,23,15,.12) 55%,transparent 80%);-webkit-backdrop-filter:blur(1px);backdrop-filter:blur(1px)}
+  #arafah-celebrate.show{display:block;animation:acFadeIn .7s ease}
+  @keyframes acFadeIn{from{opacity:0}to{opacity:1}}
+  #arafah-celebrate.hide{animation:acFadeOut .9s ease forwards}
+  @keyframes acFadeOut{to{opacity:0;visibility:hidden}}
+  .ac-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .ac-star{position:absolute;top:-20px;color:#e6c97a;opacity:0;will-change:transform,opacity;text-shadow:0 0 8px rgba(230,201,122,.85)}
+  @keyframes acFall{0%{transform:translateY(-30px) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:.9}100%{transform:translateY(105vh) rotate(360deg);opacity:0}}
+  .ac-glow{position:absolute;border-radius:50%;filter:blur(55px);pointer-events:none}
+  .ac-glow.g1{width:280px;height:280px;background:radial-gradient(circle,rgba(201,161,74,.28),transparent 70%);top:-70px;right:-50px;animation:acGlowFloat 8s ease-in-out infinite}
+  .ac-glow.g2{width:240px;height:240px;background:radial-gradient(circle,rgba(77,216,102,.18),transparent 70%);bottom:-60px;left:-40px;animation:acGlowFloat 10s ease-in-out infinite reverse}
+  @keyframes acGlowFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,30px) scale(1.15)}}
+  .ac-content{position:absolute;top:14%;left:50%;transform:translateX(-50%);width:calc(100% - 40px);max-width:360px;text-align:center;color:#fff;background:linear-gradient(150deg,rgba(26,93,71,.92),rgba(14,59,46,.94));border:1.5px solid rgba(201,161,74,.4);border-radius:22px;padding:22px 22px 20px;box-shadow:0 20px 50px -12px rgba(0,0,0,.5);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);animation:acCardIn .7s cubic-bezier(.34,1.56,.64,1) both}
+  @keyframes acCardIn{0%{opacity:0;transform:translateX(-50%) translateY(-30px) scale(.9)}100%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+  .ac-crescent{font-size:58px;line-height:1;margin-bottom:4px;display:inline-block;animation:acCrescentIn 1s cubic-bezier(.34,1.56,.64,1) both,acGlowPulse 3s ease-in-out infinite 1s;filter:drop-shadow(0 0 20px rgba(230,201,122,.7))}
+  @keyframes acCrescentIn{0%{transform:scale(0) rotate(-40deg);opacity:0}60%{transform:scale(1.25) rotate(10deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+  @keyframes acGlowPulse{0%,100%{filter:drop-shadow(0 0 20px rgba(230,201,122,.7))}50%{filter:drop-shadow(0 0 34px rgba(230,201,122,1))}}
+  .ac-eyebrow{font-size:11px;font-weight:800;letter-spacing:2.5px;color:#e6c97a;margin-bottom:6px;opacity:0;animation:acUp .6s ease .4s both}
+  .ac-title{font-size:26px;font-weight:900;font-family:'ThmanyahSans','Tajawal',sans-serif;margin-bottom:10px;line-height:1.35;opacity:0;animation:acUp .7s cubic-bezier(.34,1.56,.64,1) .6s both}
+  .ac-title .ac-gold{background:linear-gradient(135deg,#f0d98a,#c9a14a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .ac-verse{font-family:'Amiri',serif;font-size:15px;line-height:1.9;color:rgba(255,255,255,.9);opacity:0;animation:acUp .7s ease .9s both}
+  .ac-verse-src{font-size:10.5px;color:rgba(255,255,255,.5);margin-top:4px;opacity:0;animation:acUp .6s ease 1.1s both}
+  .ac-timer{height:3px;background:rgba(255,255,255,.15);border-radius:99px;margin-top:14px;overflow:hidden}
+  /* ── مدة الاحتفال: 3 ثواني ── */
+  .ac-timer-fill{height:100%;background:linear-gradient(90deg,#e6c97a,#c9a14a);width:100%;transform-origin:right;animation:acTimer 3s linear forwards}
+  @keyframes acTimer{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+  @keyframes acUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  @media(prefers-reduced-motion:reduce){.ac-star{display:none}.ac-crescent,.ac-eyebrow,.ac-title,.ac-verse,.ac-verse-src,.ac-content{animation:none!important;opacity:1!important}}
+
+  
+  50%{height:20px}}
+  50%{height:4px}}
+  @keyframes qpSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  50%{opacity:.3}}
+  #qp-btn:hover{background:rgba(255,255,255,.22)!important;transform:scale(1.08)}
+  #qp-wrap:hover{transform:translateY(-2px);transition:transform .25s}
 </style>
 <script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
-  <!-- Open Graph / Social Media Thumbnail -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="زاد العشر">
-  <meta property="og:url" content="https://zadullashr.vercel.app/videos.html">
-  <meta property="og:title" content="زاد العشر — أفضل أيام الدنيا">
-  <meta property="og:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
-  <meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="زاد العشر — تطبيق العبادة في عشر ذي الحجة">
-  <meta property="og:locale" content="ar_SA">
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="زاد العشر — أفضل أيام الدنيا">
-  <meta name="twitter:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
-  <meta name="twitter:image" content="https://zadullashr.vercel.app/og-image.png">
-  <!-- WhatsApp / general -->
-  <meta name="description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
-  <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
-  <!-- Vercel Web Analytics -->
-  <script>
-    window.va = window.va || function() {
-      (window.vaq = window.vaq || []).push(arguments);
-    };
-  </script>
-  <script defer src="/_vercel/insights/script.js"></script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="زاد العشر">
+<meta property="og:url" content="https://zadullashr.vercel.app/index.html">
+<meta property="og:title" content="زاد العشر — لوحة التحكم">
+<meta property="og:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+<meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="زاد العشر — تطبيق العبادة في عشر ذي الحجة">
+<meta property="og:locale" content="ar_SA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="زاد العشر — لوحة التحكم">
+<meta name="twitter:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
+<meta name="twitter:image" content="https://zadullashr.vercel.app/og-image.png">
+<meta name="description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+<link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="app">
+
   <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
       <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
       <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
-    <!-- Profile chip injected by JS -->
     <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
     <div class="theme-row">
       <span>🌙 الوضع الداكن</span>
       <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
     </div>
 <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
-        📲 تثبيت / تحميل التطبيق
-      </button>
+      📲 تثبيت / تحميل التطبيق
+    </button>
     <nav class="nav">
       <a href="index.html" class="active" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
       <div class="nav-sep">الصلاة والتقويم</div>
@@ -202,19 +155,15 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
   </aside>
 
   <main class="main">
+
     <div class="topbar">
-      <!-- LEFT: Burger + Logo -->
       <div class="tb-left">
         <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
-        <a href="index.html" class="tb-logo">
-          <img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر">
-        </a>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a>
       </div>
-      <!-- CENTER: Page name -->
       <div class="tb-center">
-        <div class="page-title">محاضرات <span>العشر</span></div>
+        <div class="page-title">زاد <span>العشر</span></div>
       </div>
-      <!-- RIGHT: Notif + Lang + Theme -->
       <div class="tb-right">
         <div class="notif-wrap">
           <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">
@@ -222,921 +171,510 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
           </button>
           <div class="notif-dropdown" id="notif-dropdown"></div>
         </div>
+        <button class="lang-btn" id="topbar-lang-btn" onclick="toggleLang?.()">EN</button>
+        <button class="btn-theme" onclick="safeToggleTheme?.()||toggleTheme?.()" aria-label="تبديل المظهر">🌙</button>
       </div>
     </div>
 
-    <div class="vids-hero">
-      <div class="vids-hero-eyebrow">🎬 مكتبة المحتوى</div>
-      <h1>محاضرات في فضل عشر ذي الحجة</h1>
-      <p>مجموعة مختارة من أبرز المحاضرات والخطب للاستعداد الإيماني والعلمي في أفضل أيام الدنيا</p>
-      <div class="vids-count-row">
-        <div class="vids-count-item"><div class="vci-num">15</div><div class="vci-lbl">محاضرة</div></div>
-        <div class="vids-count-item"><div class="vci-num">9</div><div class="vci-lbl">علماء</div></div>
-        <div class="vids-count-item"><div class="vci-num">100+</div><div class="vci-lbl">نقطة علمية</div></div>
+    <a href="hijri.html" class="hijri-bar" id="hijri-bar" style="text-decoration:none;cursor:pointer" title="عرض التقويم الهجري">
+      <div class="hijri-date">
+        <span class="hd-hijri" id="hijri-full">جارٍ التحميل...</span>
+        <span class="hd-miladi" id="miladi-full"></span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+        <span class="hijri-bar-ico">🗓️</span>
+        <span class="hijri-day-name" id="special-day-name" style="display:none"></span>
+      </div>
+    </a>
+
+    <!-- Prayer times card -->
+    <div class="card" style="margin-bottom:14px;padding:12px">
+      <a href="prayers.html" style="text-decoration:none" id="prayer-link-wrap">
+        <div id="next-prayer-bar" style="display:none;background:linear-gradient(135deg,var(--green-deep) 0%,var(--green-mid) 100%);border-radius:14px;padding:12px 16px;margin-bottom:10px;align-items:center;justify-content:space-between;color:#fff;gap:10px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:24px;line-height:1" id="np-ico">🕌</span>
+            <div>
+              <div style="font-size:10px;color:rgba(255,255,255,.65);margin-bottom:2px">الصلاة القادمة</div>
+              <div style="font-size:17px;font-weight:900;font-family:'ThmanyahSans',sans-serif;line-height:1" id="np-name">العصر</div>
+            </div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:22px;font-weight:900;font-family:'ThmanyahSans',monospace;color:#e6c97a;line-height:1" id="np-time">--:--</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:3px">يتبقى <span id="np-countdown" style="font-weight:700;color:rgba(255,255,255,.85)">--:--</span></div>
+          </div>
+        </div>
+      </a>
+      <button id="prayer-loc-btn" onclick="getUserLocation()" style="background:none;border:none;padding:6px 0;cursor:pointer;text-align:inherit;font:inherit;color:inherit;width:100%;font-size:13px;color:var(--muted)">
+        📍 <span id="prayer-loc-txt">اضغط لتحديد موقعك وعرض المواقيت</span>
+      </button>
+      <div class="prayer-bar prayer-bar-compact" id="prayer-bar" style="display:none">
+        <div class="prayer-pill"><div class="pp-name">الفجر</div><div class="pp-time" id="pt-fajr">--:--</div></div>
+        <div class="prayer-pill"><div class="pp-name">الشروق</div><div class="pp-time" id="pt-sunrise">--:--</div></div>
+        <div class="prayer-pill"><div class="pp-name">الظهر</div><div class="pp-time" id="pt-dhuhr">--:--</div></div>
+        <div class="prayer-pill"><div class="pp-name">العصر</div><div class="pp-time" id="pt-asr">--:--</div></div>
+        <div class="prayer-pill"><div class="pp-name">المغرب</div><div class="pp-time" id="pt-maghrib">--:--</div></div>
+        <div class="prayer-pill"><div class="pp-name">العشاء</div><div class="pp-time" id="pt-isha">--:--</div></div>
       </div>
     </div>
 
-    <div class="filter-tabs" id="vid-filter-tabs">
-      <button class="ftab active" data-cat="all" onclick="filterVideos('all')">الكل</button>
-      <button class="ftab" data-cat="ashr" onclick="filterVideos('ashr')">🕋 عشر ذي الحجة</button>
-      <button class="ftab" data-cat="ramadan" onclick="filterVideos('ramadan')">🌙 رمضان</button>
-      <button class="ftab" data-cat="muharram" onclick="filterVideos('muharram')">📅 محرم وعاشوراء</button>
-      <button class="ftab" data-cat="seerah" onclick="filterVideos('seerah')">📜 السيرة النبوية</button>
-      <button class="ftab" data-cat="fiqh" onclick="filterVideos('fiqh')">⚖️ الفقه والأحكام</button>
-      <button class="ftab" data-cat="kids" onclick="filterVideos('kids')">🧒 للأطفال</button>
+<script>
+    (function(){
+      const audio=null; /* zad-audio removed */
+      if(!audio)return;
+      let playing=false,spinAngle=0,spinRAF=null;
+      const pad=n=>String(Math.floor(Math.max(0,n))).padStart(2,'0');
+      const fmt=s=>isNaN(s)||!isFinite(s)?'0:00':`${Math.floor(s/60)}:${pad(s%60)}`;
+
+      function setPlaying(on){
+        playing=on;
+        if(btn)btn.textContent=on?'⏸':'▶';
+        if(wave)wave.style.opacity=on?'1':'0';
+        if(badge)badge.textContent=on?'▶ جارٍ التشغيل':'🎙️ خير يوم طلعت عليه الشمس';
+        if(dot)dot.style.animation=on?'qpDot 1s infinite':'';
+        if(on){
+          cancelAnimationFrame(spinRAF);
+          (function spin(){spinAngle=(spinAngle+0.4)%360;if(vinyl)vinyl.style.transform=`rotate(${spinAngle}deg)`;spinRAF=requestAnimationFrame(spin);})();
+        }else{cancelAnimationFrame(spinRAF);}
+      }
+
+      audio.addEventListener('timeupdate',()=>{
+        if(!audio.duration||isNaN(audio.duration))return;
+        const pct=(audio.currentTime/audio.duration)*100;
+        if(fill)fill.style.width=pct+'%';
+        if(timeEl)timeEl.textContent=`${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
+      });
+      audio.addEventListener('ended',()=>setPlaying(false));
+      audio.addEventListener('error',e=>{console.warn('Zad audio error:',e);if(badge)badge.textContent='⚠️ تعذّر تحميل الملف';});
+
+      window.zadToggle=function(){
+        if(playing){audio.pause();setPlaying(false);}
+        else{if(audio.readyState===0)audio.load();audio.play().then(()=>setPlaying(true)).catch(err=>{console.warn(err);if(badge)badge.textContent='⚠️ اضغط مجدداً للتشغيل';});}
+      };
+      window.zadSkip=function(s){if(audio.duration)audio.currentTime=Math.min(audio.currentTime+s,audio.duration);};
+      window.zadSeekClick=function(e,track){if(!audio.duration)return;const rect=track.getBoundingClientRect();audio.currentTime=((e.clientX-rect.left)/rect.width)*audio.duration;};
+
+      /* Hover on desktop → auto-play */
+      let hovered=false;
+      const wrap=document.getElementById('zad-wrap');
+      if(wrap){wrap.addEventListener('mouseenter',()=>{if(!hovered&&!playing){hovered=true;if(audio.readyState===0)audio.load();audio.play().then(()=>setPlaying(true)).catch(()=>{hovered=false;});}});}
+
+      /* IntersectionObserver — 60% visible → play, <20% → pause */
+      if('IntersectionObserver' in window&&wrap){
+        let observed=false;
+        const obs=new IntersectionObserver(entries=>{
+          entries.forEach(e=>{
+            if(e.isIntersecting&&e.intersectionRatio>=0.6&&!playing&&!observed){observed=true;if(audio.readyState===0)audio.load();audio.play().then(()=>setPlaying(true)).catch(()=>{observed=false;});}
+            if(!e.isIntersecting&&e.intersectionRatio<0.15&&playing){audio.pause();setPlaying(false);}
+          });
+        },{threshold:[0.15,0.6]});
+        obs.observe(wrap);
+      }
+    })();
+    </script>
+
+    <!-- ══ آية الصباح/المساء ══ -->
+    <div id="daily-verse-card" style="
+      background:linear-gradient(135deg,#0e3b2e,#1a5d47 70%,rgba(201,161,74,.3));
+      border-radius:18px;padding:18px 20px;margin-bottom:16px;color:#fff;
+      position:relative;overflow:hidden;box-shadow:0 8px 28px -10px rgba(14,59,46,.4)">
+      <div style="position:absolute;inset:auto -40px -50px auto;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.25),transparent 70%);pointer-events:none"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;position:relative;z-index:1">
+        <span id="dvc-eyebrow" style="font-size:11px;font-weight:800;letter-spacing:1.5px;color:#e6c97a">☀️ آية الصباح</span>
+        <button id="dvc-share" aria-label="مشاركة" style="background:rgba(255,255,255,.14);border:none;color:#fff;width:32px;height:32px;border-radius:9px;cursor:pointer;font-size:15px">🖼️</button>
+      </div>
+      <div id="dvc-text" style="font-family:'Amiri',serif;font-size:20px;line-height:2;color:#fff;margin-bottom:8px;position:relative;z-index:1">…</div>
+      <div id="dvc-src" style="font-size:12px;color:rgba(230,201,122,.9);font-weight:700;position:relative;z-index:1"></div>
+    </div>
+    <script>
+    (function(){
+      var MORNING=[
+        {t:'وَسَبِّحْ بِحَمْدِ رَبِّكَ قَبْلَ طُلُوعِ الشَّمْسِ وَقَبْلَ غُرُوبِهَا',s:'طه: 130'},
+        {t:'فَسُبْحَانَ اللَّهِ حِينَ تُمْسُونَ وَحِينَ تُصْبِحُونَ',s:'الروم: 17'},
+        {t:'وَاذْكُر رَّبَّكَ فِي نَفْسِكَ تَضَرُّعًا وَخِيفَةً',s:'الأعراف: 205'},
+        {t:'الَّذِينَ يَذْكُرُونَ اللَّهَ قِيَامًا وَقُعُودًا وَعَلَىٰ جُنُوبِهِمْ',s:'آل عمران: 191'}
+      ];
+      var EVENING=[
+        {t:'وَمِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ نَافِلَةً لَّكَ',s:'الإسراء: 79'},
+        {t:'تَتَجَافَىٰ جُنُوبُهُمْ عَنِ الْمَضَاجِعِ يَدْعُونَ رَبَّهُمْ خَوْفًا وَطَمَعًا',s:'السجدة: 16'},
+        {t:'وَبِالْأَسْحَارِ هُمْ يَسْتَغْفِرُونَ',s:'الذاريات: 18'},
+        {t:'كَانُوا قَلِيلًا مِّنَ اللَّيْلِ مَا يَهْجَعُونَ',s:'الذاريات: 17'}
+      ];
+      var h=new Date().getHours();
+      var isMorning=h>=4&&h<16;
+      var pool=isMorning?MORNING:EVENING;
+      var v=pool[new Date().getDate()%pool.length];
+      var eyebrow=document.getElementById('dvc-eyebrow');
+      var textEl=document.getElementById('dvc-text');
+      var srcEl=document.getElementById('dvc-src');
+      if(eyebrow)eyebrow.textContent=isMorning?'☀️ آية الصباح':'🌙 آية المساء';
+      if(textEl)textEl.textContent=v.t;
+      if(srcEl)srcEl.textContent='﴿ '+v.s+' ﴾';
+      var shareBtn=document.getElementById('dvc-share');
+      if(shareBtn)shareBtn.onclick=function(){
+        var txt=(isMorning?'☀️ آية الصباح':'🌙 آية المساء')+'\n\n'+v.t+'\n﴿ '+v.s+' ﴾\n\nزاد العشر';
+        if(navigator.share)navigator.share({text:txt});
+        else navigator.clipboard&&navigator.clipboard.writeText(txt);
+      };
+    })();
+    </script>
+
+    <!-- ══ Video Carousel ══ -->
+    <div class="section-title" style="margin-top:20px;display:flex;align-items:center;justify-content:space-between">
+      <span>🎬 محاضرات العشر</span>
+      <a href="videos.html" style="font-size:12px;color:var(--gold-dark);font-weight:700;text-decoration:none">عرض الكل ←</a>
+    </div>
+    <div class="vid-carousel" id="vid-carousel">
+      <div class="vc-track" id="vc-track"></div>
+    </div>
+    <div class="pwa-install-card" id="pwa-card" style="display:none" onclick="installPWA()">
+      <div class="pwa-install-ico">📲</div>
+      <div class="pwa-install-txt">
+        <b>ثبّت التطبيق على هاتفك</b>
+        <small>يعمل بدون إنترنت في المصلى والمسجد</small>
+      </div>
+      <button class="pwa-install-btn" id="pwa-install-btn">تثبيت</button>
     </div>
 
-    <div id="vids-container">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;margin-top:8px">
+      <div class="section-title" style="margin:0">🏅 أوسمتي</div>
+      <a href="badges.html" style="font-size:12px;color:var(--gold);font-weight:700;text-decoration:none">عرض الكل ←</a>
+    </div>
+    <div class="badges-grid-mini" id="mini-badges-container" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px;margin-bottom:20px"></div>
+    <div class="card" id="daily-content-card" style="display:none;border-color:rgba(201,161,74,.25);background:linear-gradient(135deg,var(--card),var(--gold-pale))"></div>
 
-      <!-- ═══════════════════════════════════
-           1: الشيخ أمجد سمير
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-vid-cat="ashr" data-tag="spiritual">
-        <div class="vid-thumb-wrap" onclick="openPlayer('57p126d5w9k','عشر ذي الحجة — الشيخ أمجد سمير')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/57p126d5w9k/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/57p126d5w9k/mqdefault.jpg'" alt="عشر ذي الحجة" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <span style="position:absolute;top:10px;left:10px;background:var(--gold);color:#3a2a08;font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px">⭐ مميز</span>
-          <div class="vid-number-badge">1</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#c9a14a,#8a6822)">🎤</div><div class="vid-meta-text"><div class="speaker-name">الشيخ أمجد سمير</div><div class="vid-category">💚 التزكية والإيمان</div></div></div>
-          <div class="vid-title">عشر ذي الحجة — التخطيط العملي</div>
-          <div class="vid-desc">كيفية التخطيط العملي لاستقبال عشر ذي الحجة، مع معالجة إيمانية لمفهوم "المتاح" من العبادات</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">⭐</span><div class="vid-point-text"><b>العشر موسم فاضح</b>يكشف صدق العبد في رغبته بالتعبد مقارنة بادعاءاته</div></div>
-            <div class="vid-point"><span class="vid-point-ico">📖</span><div class="vid-point-text"><b>إصلاح الفرائض أولاً</b>الصلوات الخمس في وقتها بالمسجد مع الخشوع</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🌙</span><div class="vid-point-text"><b>خطة الخروج من المعصية</b>عهد بترك معصية معينة تلازمك طوال السنة</div></div>
-            <div class="vid-point"><span class="vid-point-ico">📿</span><div class="vid-point-text"><b>إحياء التكبير المطلق</b>في كل مكان: البيت، السيارة، السوق</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>ينطلق الشيخ من حديث ابن عباس رضي الله عنهما، موضحاً أن الصحابة استشكلوا فضل العمل في العشر لأن فضل الجهاد كان مستقراً عندهم كذروة سنام الدين. ويؤكد أن العمل الصالح في هذه الأيام يفضل الجهاد، إلا في حالة واحدة وهي استشهاد الرجل وفقد ماله كله في المعركة.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>💡 الدروس المستفادة</h4><ul><li>العشر تميز الصادق من الكاذق في طلب الثواب</li><li>لا تبحث عن "غير المتاح" واترك العبادات الممكنة</li><li>إصلاح الفرائض أحب إلى الله من النوافل</li><li>التكبير المطلق يُحيي السنة في كل زمان ومكان</li></ul></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>📋 خطة عملية مقترحة</h4><div class="plan-grid"><div><b>🌅 الفجر:</b> صلاة الجماعة + أذكار الصباح</div><div><b>📖 الضحى:</b> قراءة جزء من القرآن مع تدبر</div><div><b>🕌 الظهر:</b> الصلاة في أول وقتها + ركعتي سنة</div><div><b>📿 العصر:</b> 100 تكبيرة موزعة خلال اليوم</div><div><b>🌙 المغرب:</b> دعاء مختصر + صدقة بسيطة</div><div><b>🌃 العشاء:</b> قيام ركعتين + استغفار</div></div></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>🔖 مراجع مقترحة</h4><p>"زاد المعاد" لابن القيم — "رياض الصالحين" للنووي — "صفة الصلاة" للألباني</p></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('57p126d5w9k')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('57p126d5w9k')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('57p126d5w9k',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=57p126d5w9k" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('57p126d5w9k','عشر ذي الحجة - الشيخ أمجد سمير')">📤</button>
-        </div>
-      </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;margin-top:6px">
+      <div class="section-title" style="margin:0">📊 إحصائيات اليوم</div>
+      <a href="summary.html" style="font-size:12px;color:var(--gold);font-weight:700;text-decoration:none">ملخص العشر ←</a>
+    </div>
+    <div class="stats-grid-2x2">
+      <a class="stat-card" href="takbeer.html"><div class="sc-ico">📿</div><div class="sc-val" id="stat-takbeer">0</div><div class="sc-lbl">التكبيرات</div></a>
+      <a class="stat-card" href="mushaf.html"><div class="sc-ico">📖</div><div class="sc-val" id="stat-juz">0</div><div class="sc-lbl">أجزاء الختمة</div></a>
+      <a class="stat-card" href="worship.html"><div class="sc-ico">🕌</div><div class="sc-val" id="stat-pray">0/5</div><div class="sc-lbl">صلوات جماعة</div></a>
+      <a class="stat-card" href="worship.html"><div class="sc-ico">🤲</div><div class="sc-val" id="stat-prog">0%</div><div class="sc-lbl">إنجاز الورد</div></a>
+    </div>
+    <div class="reset-info">
+      <div class="reset-dot"></div>
+      <span>يتجدد في <b id="next-reset-time">00:00:00</b></span>
+    </div>
 
-      <!-- ═══════════════════════════════════
-           2: د. أحمد العربي
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-vid-cat="ashr" data-tag="spiritual">
-        <div class="vid-thumb-wrap" onclick="openPlayer('smro5XFkoj0','لا تدخل العشر قبل مشاهدة هذا المقطع — د. أحمد العربي')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/smro5XFkoj0/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/smro5XFkoj0/mqdefault.jpg'" alt="لا تدخل العشر" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="vid-number-badge">2</div>
+    <div class="section-title">مؤشر الالتزام الروحاني</div>
+    <div class="card">
+      <div class="prog-ring-wrap">
+        <div class="prog-ring">
+          <svg viewBox="0 0 100 100" width="100" height="100">
+            <circle cx="50" cy="50" r="44" fill="none" stroke="var(--sand-2)" stroke-width="8"/>
+            <circle id="ring-circle" cx="50" cy="50" r="44" fill="none" stroke="url(#ringGrad)" stroke-width="8" stroke-linecap="round" style="stroke-dasharray:276.5;stroke-dashoffset:276.5;transition:stroke-dashoffset .8s ease"/>
+            <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#2a7a5f"/><stop offset="100%" stop-color="#c9a14a"/></linearGradient></defs>
+          </svg>
+          <div class="ring-pct"><span id="ring-pct">0%</span><span class="ring-lbl">إنجاز</span></div>
         </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#5856d6,#3a3882)">🎓</div><div class="vid-meta-text"><div class="speaker-name">د. أحمد العربي</div><div class="vid-category">💚 التزكية والإيمان</div></div></div>
-          <div class="vid-title">لا تدخل العشر قبل مشاهدة هذا المقطع</div>
-          <div class="vid-desc">التركيز على "مقام المحبة" في عشر ذي الحجة، وخصوصية يوم عرفة في العتق من النار</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">❤️</span><div class="vid-point-text"><b>أيام الحب والوصال</b>الشأن ليس أن تحب الله، بل أن يُحبك الله</div></div>
-            <div class="vid-point"><span class="vid-point-ico">⭐</span><div class="vid-point-text"><b>يوم عرفة ويوم النحر</b>أهم يومين في السنة — يوم الشعارات العظيمة والعتق من النار</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🤲</span><div class="vid-point-text"><b>حج الأرواح</b>من حبسه العذر يشارك الحجيج بقلبه وذلته وافتقاره</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🙏</span><div class="vid-point-text"><b>مقام الدعاء</b>الدعاء هو لب أعمال يوم عرفة — أكثر من "لا إله إلا الله"</div></div>
-            <div class="vid-point"><span class="vid-point-ico">😌</span><div class="vid-point-text"><b>الرجاء والحياء</b>جمع السلف بين عظيم الرجاء في المغفرة وعظيم الحياء من المعصية</div></div>
-            <div class="vid-point"><span class="vid-point-ico">✨</span><div class="vid-point-text"><b>وعد الله بالمغفرة</b>"يا ابن آدم إنك ما دعوتني ورجوتني غفرت لك على ما كان منك ولا أبالي"</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>يركز الدكتور على لفظة "أحب" في حديث النبي ﷺ، موضحاً أنها تفوق في معناها الأجر والثواب؛ فهي أيام تفتح للعبد باباً لكي يحبه الله ويقربه منه.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>💡 عظمة يومي عرفة والنحر</h4><ul><li>يوم عرفة: يوم "الشعارات العظيمة" وفيه مغفرة للسنة الماضية والمقبلة</li><li>أكثر يوم يعتق الله فيه رقاباً من النار — يشمل كل المسلمين</li><li>يوم النحر: يوم الحج الأكبر</li></ul></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>🤲 حج الأرواح والقلوب</h4><p>يوجه خطاباً مؤثراً لمن لم يستطع الحج، موضحاً أن العبد قد يسبق بقلبه وذلته مَن رحلوا بأبدانهم.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>🙏 مقام الدعاء في عرفة</h4><p>يؤكد أن "الدعاء هو لب أعمال يوم عرفة"، ويحث على الإكثار من "لا إله إلا الله وحده لا شريك له..." لتعظيم الرغبة وحسن الظن في قدرة الله على تحقيق المستحيلات.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>😌 الجمع بين الرجاء والحياء</h4><p>يستعرض أحوال السلف في عرفة، حيث كانوا يجمعون بين عظيم الرجاء وعظيم الحياء. يذكر قصة الفضيل بن عياض: "واسوأتاه وإن عفوت".</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>✨ وعد الله بالمغفرة</h4><p>يختم بالحديث القدسي: "يا ابن آدم إنك ما دعوتني ورجوتني غفرت لك على ما كان منك ولا أبالي".</p></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('smro5XFkoj0')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('smro5XFkoj0')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('smro5XFkoj0',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=smro5XFkoj0" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('smro5XFkoj0','لا تدخل العشر قبل مشاهدة هذا المقطع — د. أحمد العربي')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           3: الشيخ سمير مصطفى  ✅ BUG #1 FIXED — removed orphaned duplicate HTML
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-vid-cat="ashr" data-tag="fiqh">
-        <div class="vid-thumb-wrap" onclick="openPlayer('OusUlCU5WBI','العَشر الأُوَل من ذي الحِجَّة — الشيخ سمير مصطفى')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/OusUlCU5WBI/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/OusUlCU5WBI/mqdefault.jpg'" alt="العشر الأول" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="vid-number-badge">3</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar">👳</div><div class="vid-meta-text"><div class="speaker-name">الشيخ سمير مصطفى</div><div class="vid-category">⚖️ الفقه والأحكام</div></div></div>
-          <div class="vid-title">العَشر الأُوَل من ذي الحِجَّة</div>
-          <div class="vid-desc">خطبة علمية شاملة في اصطفاء الأزمنة وأدلة فضل العشر من القرآن والسنة مع أحكام الأضحية والصيام</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">🏆</span><div class="vid-point-text"><b>أفضل من العشر الأواخر</b>أيام عشر ذي الحجة أفضل من أيام رمضان لوجود عرفة والنحر</div></div>
-            <div class="vid-point"><span class="vid-point-ico">📖</span><div class="vid-point-text"><b>تفسير الشفع والوتر</b>"الشفع والوتر" = يوم النحر ويوم عرفة</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🌙</span><div class="vid-point-text"><b>الصيام المستحب</b>صيام التسعة كاملة، ويوم عرفة يكفر سنتين</div></div>
-            <div class="vid-point"><span class="vid-point-ico">📿</span><div class="vid-point-text"><b>الباقيات الصالحات</b>سبحان الله، الحمد لله، لا إله إلا الله، الله أكبر</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🐏</span><div class="vid-point-text"><b>شروط سن الأضحية</b>الإبل ٥ سنوات · البقر ٣ سنوات · المعز سنة · الضأن ٦ أشهر</div></div>
-            <div class="vid-point"><span class="vid-point-ico">⚠️</span><div class="vid-point-text"><b>استدراك رمضان</b>هذه الأيام فرصة لاستدراك ما فات في رمضان</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>يوضح الشيخ أن الله عز وجل يخلق ما يشاء ويختار، وقد فضل بعض الأزمنة على بعض. هذه الأيام أفضل أيام الدنيا، وينقل عن أهل العلم فضلها حتى على العشر الأواخر من رمضان.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>💡 التفصيل في المقارنة</h4><ul><li>أيام عشر ذي الحجة أفضل من أيام رمضان لوجود يوم عرفة ويوم النحر</li><li>ليالي العشر الأواخر من رمضان أفضل لوجود ليلة القدر</li><li>الجمع: صيام النهار في العشر + قيام الليل في رمضان</li></ul></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>📖 الأدلة من القرآن والسنة</h4><p>فسّر (والفجر وليالي عشر) بأنها عشر ذي الحجة، وأن (الشفع والوتر) هما يوم النحر ويوم عرفة.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>📋 العبادات العملية</h4><div class="plan-grid"><div><b>الصيام:</b> التسعة كاملة، ويوم عرفة يكفر سنتين</div><div><b>الذكر:</b> الباقيات الصالحات في سائر الأوقات</div><div><b>الأضحية:</b> الإبل ٥ سنوات، البقر ٣، المعز سنة، الضأن ٦ أشهر</div><div><b>قيام الليل:</b> لا يُترك في هذه الليالي العظيمة</div></div></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>⚠️ التحذير من الغفلة</h4><p>شدد على أن هذه الأيام فرصة لاستدراك ما فات في رمضان، وللوقاية من الفتن.</p></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('OusUlCU5WBI')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('OusUlCU5WBI')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('OusUlCU5WBI',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=OusUlCU5WBI" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('OusUlCU5WBI','العَشر الأُوَل — الشيخ سمير مصطفى')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           4: برنامج وعي (1)
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-vid-cat="ashr" data-tag="fiqh">
-        <div class="vid-thumb-wrap" onclick="openPlayer('YgKfcLUbu60','وعي ١٥ | أوائل ذي الحجة | أفضل أيام الدهر')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/YgKfcLUbu60/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/YgKfcLUbu60/mqdefault.jpg'" alt="أوائل ذي الحجة" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="vid-number-badge">4</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#5856d6,#8e44ad)">📺</div><div class="vid-meta-text"><div class="speaker-name">برنامج وعي — حازم الصديق وضيوفه</div><div class="vid-category">⚖️ الفقه والأحكام / 💚 التزكية</div></div></div>
-          <div class="vid-title">وعي ١٥ | أوائل ذي الحجة | أفضل أيام الدهر</div>
-          <div class="vid-desc">رؤية عميقة لاستيعاب القيمة الإيمانية للعشر، ويوم عرفة كتجديد لميثاق "ألست بربكم؟"</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">💫</span><div class="vid-point-text"><b>العشر كمال وتمام</b>إكمال ما بدأه رمضان — وليست أياماً منفصلة</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🤝</span><div class="vid-point-text"><b>سر يوم عرفة</b>يوم الميثاق — تجديد إقرار العبودية الخالصة لله</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🕌</span><div class="vid-point-text"><b>إصلاح الفرائض أولاً</b>الصلوات الخمس في وقتها بالمسجد هي الأساس</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🔄</span><div class="vid-point-text"><b>قرار التوبة</b>اجعل العشر نقطة انطلاق جديدة — ترك معصية ملازمة</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>يركز الفيديو على الجانب النفسي للمؤمن الذي قد يشعر بالفتور بعد رمضان؛ فتأتي العشر كرحمة من الله لفتح باب العودة.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>📋 الخطة العملية</h4><div class="plan-grid"><div><b>إصلاح الفرائض:</b> ضبط الصلوات الخمس في وقتها وفي المسجد</div><div><b>الصيام:</b> التسعة، ويوم عرفة يكفر سنتين</div><div><b>الذكر:</b> إحياء سنة التكبير المطلق في الشوارع والبيوت</div><div><b>الدعاء:</b> التركيز على الساعات قبيل غروب شمس يوم عرفة</div></div></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('YgKfcLUbu60')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('YgKfcLUbu60')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('YgKfcLUbu60',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=YgKfcLUbu60" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('YgKfcLUbu60','وعي ١٥ | أوائل ذي الحجة')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           5: برنامج وعي (2)
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-vid-cat="ashr" data-tag="practical">
-        <div class="vid-thumb-wrap" onclick="openPlayer('ZSo0_0zxYHQ','وعي ٩٤ | السر وراء يوم عرفة وعلاقته بالدعاء')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/ZSo0_0zxYHQ/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/ZSo0_0zxYHQ/mqdefault.jpg'" alt="السر وراء يوم عرفة" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="vid-number-badge">5</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#5856d6,#8e44ad)">📺</div><div class="vid-meta-text"><div class="speaker-name">برنامج وعي — حازم الصديق وضيوفه</div><div class="vid-category">📋 الخطط العملية</div></div></div>
-          <div class="vid-title">وعي ٩٤ | السر وراء يوم عرفة وعلاقته بالدعاء</div>
-          <div class="vid-desc">استكشاف المعاني العميقة ليوم عرفة والربط بين التوحيد والدعاء وموانع استجابة الدعاء</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">🤝</span><div class="vid-point-text"><b>يوم الميثاق</b>عرفة محطة سنوية لتجديد عهد "ألست بربكم؟"</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🙏</span><div class="vid-point-text"><b>مقام الافتقار</b>أجمل أبواب الدخول على الله</div></div>
-            <div class="vid-point"><span class="vid-point-ico">✅</span><div class="vid-point-text"><b>صور الإجابة الثلاث</b>تعجيل · ادخار في الآخرة · صرف السوء عنك</div></div>
-            <div class="vid-point"><span class="vid-point-ico">⚠️</span><div class="vid-point-text"><b>موانع الاستجابة</b>سوء الظن بالله · الاستعجال · القلب الغافل · أكل الحرام</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>يربط الفيديو بين يوم عرفة والميثاق الأزلي (ألست بربكم؟)؛ فيوم عرفة هو "محطة سنوية" لتجديد هذا العهد والإقرار بالوحدانية.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>📋 صور إجابة الدعاء الثلاث</h4><div class="plan-grid"><div><b>1. التعجيل:</b> أن يعطيك الله ما طلبت في الدنيا</div><div><b>2. الادخار:</b> أن يدخر لك أجر الدعاء في الآخرة</div><div><b>3. صرف السوء:</b> أن يرفع عنك من البلاء بقدر دعوتك</div></div></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>⚠️ موانع استجابة الدعاء</h4><ul><li>سوء الظن بالله وضعف اليقين</li><li>القلب الغافل اللاهي أثناء الدعاء</li><li>الاستعجال وترك الدعاء</li><li>أكل الحرام — من أعظم السدود</li></ul></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('ZSo0_0zxYHQ')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('ZSo0_0zxYHQ')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('ZSo0_0zxYHQ',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=ZSo0_0zxYHQ" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('ZSo0_0zxYHQ','وعي ٩٤ | السر وراء يوم عرفة')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           6: د. حازم شومان
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-vid-cat="ashr" data-tag="spiritual">
-        <div class="vid-thumb-wrap" onclick="openPlayer('zetXiUuqkiY','عشر ذي الحجة موسم الخواص — د. حازم شومان')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/zetXiUuqkiY/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/zetXiUuqkiY/mqdefault.jpg'" alt="موسم الخواص" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <span style="position:absolute;top:10px;left:10px;background:var(--gold);color:#3a2a08;font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px">⭐ مميز</span>
-          <div class="vid-number-badge">6</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#c9a14a,#8a6822)">🎓</div><div class="vid-meta-text"><div class="speaker-name">د. حازم شومان</div><div class="vid-category">💚 التزكية والإيمان</div></div></div>
-          <div class="vid-title">عشر ذي الحجة موسم الخواص</div>
-          <div class="vid-desc">لماذا العشر "موسم الخواص"؟ الشياطين غير مصفدة والجو فردي — اختبار حقيقي للصدق</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">👑</span><div class="vid-point-text"><b>موسم الخواص</b>الشياطين غير مصفدة، الجو فردي = اختبار حقيقي للصدق</div></div>
-            <div class="vid-point"><span class="vid-point-ico">📖</span><div class="vid-point-text"><b>ذُكرت 6 مرات</b>الله ذكر عشر ذي الحجة في القرآن ٦ مرات، ورمضان مرة واحدة</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🛡️</span><div class="vid-point-text"><b>الصلاح قبل الإصلاح</b>قوتك في "الجلوة" مستمدة من قوتك في "الخلوة" مع الله</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🌟</span><div class="vid-point-text"><b>وعود الله</b>الحماية من طوارق الشر + النفس الطيبة لمن يبدأ بذكر الله</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>يسميها "موسم الخواص" لأن الشياطين فيها غير مصفدة (على عكس رمضان)، والجو فيها فردي وليس جماعياً — اختبار حقيقي لصدق العبد. الله ذكر عشر ذي الحجة في القرآن 6 مرات بينما ذكر رمضان مرة واحدة.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>💡 معركة الصلاح والإصلاح</h4><ul><li>يفرق بين معركة الإصلاح (الدعوة الخارجية) ومعركة الصلاح (تطهير النفس)</li><li>قوة العبد في "الجلوة" مستمدة من قوته في "الخلوة" مع الله</li></ul></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>⚠️ تحذير مهم</h4><p>لا تكن "شذوذ صورة" — الملتزم الفاشل دراسياً أو المهمل في عمله يضر الدين. كن رجلاً في دينك ودنياك معاً.</p></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('zetXiUuqkiY')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('zetXiUuqkiY')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('zetXiUuqkiY',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=zetXiUuqkiY" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('zetXiUuqkiY','موسم الخواص — د. حازم شومان')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           7: د. أحمد عبد المنعم (1)
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-vid-cat="ashr" data-tag="spiritual">
-        <div class="vid-thumb-wrap" onclick="openPlayer('BMMa16hvRU8','موسم العَشر والذكر: حِكَم وأسرار — د. أحمد عبد المنعم')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/BMMa16hvRU8/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/BMMa16hvRU8/mqdefault.jpg'" alt="موسم العَشر والذكر" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="vid-number-badge">7</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#2a7a5f,#0e3b2e)">🎓</div><div class="vid-meta-text"><div class="speaker-name">د. أحمد عبد المنعم</div><div class="vid-category">💚 التزكية والإيمان</div></div></div>
-          <div class="vid-title">موسم العَشر والذكر: حِكَم وأسرار</div>
-          <div class="vid-desc">الربط بين عبادة الذكر وطبيعة الحركة في موسم العشر، وشرح عميق لمفهوم "سبق المفردون"</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">⚖️</span><div class="vid-point-text"><b>التلقي vs التطبيق</b>رمضان للتلقّي في سكون، والعشر للتطبيق والاحتكاك بالمجتمع</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🔋</span><div class="vid-point-text"><b>الذكر وقود الحركة</b>الزاد الذي يمد بالطاقة ويمنع الغفلة أثناء الانشغال</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🏆</span><div class="vid-point-text"><b>سبق المفردون</b>الذاكرون الله كثيراً أفردهم الذكر عن الغفلة ورفعت أرواحهم</div></div>
-            <div class="vid-point"><span class="vid-point-ico">📊</span><div class="vid-point-text"><b>مراتب الذكر الثلاث</b>لسان فقط ← لسان يُعلم القلب ← قلب يفيض على اللسان</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>رمضان موسم "التلقي" في سكون، والعشر موسم "التطبيق والحركة". هذا التحرك يستهلك الإيمان، ولذلك شرع الله الذكر ليكون "الوقود" الذي يمد المؤمن بالطاقة.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>📋 مراتب الذكر الثلاث (عن الإمام الغزالي)</h4><div class="plan-grid"><div><b>1. ذكر اللسان فقط:</b> والقلب غافل</div><div><b>2. اللسان يُعلم القلب:</b> يحاول استحضار المعنى</div><div><b>3. القلب يفيض على اللسان:</b> أعلى المراتب</div></div></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('BMMa16hvRU8')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('BMMa16hvRU8')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('BMMa16hvRU8',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=BMMa16hvRU8" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('BMMa16hvRU8','موسم العَشر والذكر')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           8: د. أحمد عبد المنعم (2)
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-vid-cat="ashr" data-tag="practical">
-        <div class="vid-thumb-wrap" onclick="openPlayer('Ul1FBSoszZk','لقاء العشر من ذي الحجة — د. أحمد عبد المنعم')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/Ul1FBSoszZk/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/Ul1FBSoszZk/mqdefault.jpg'" alt="لقاء العشر" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="vid-number-badge">8</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#2a7a5f,#0e3b2e)">🎓</div><div class="vid-meta-text"><div class="speaker-name">د. أحمد عبد المنعم</div><div class="vid-category">📋 الخطط العملية / 💚 التزكية</div></div></div>
-          <div class="vid-title">لقاء العشر من ذي الحجة</div>
-          <div class="vid-desc">العلاقة التكاملية بين مواسم الطاعات وكيف نحوّل بصيرة رمضان إلى واقع عملي في العشر</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">🏃</span><div class="vid-point-text"><b>الأركان الثلاثة</b>الحركة، التضحية، والذكر — الزاد أثناء التحرك في الطاعة</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🧘</span><div class="vid-point-text"><b>العبادة المستقلة</b>التدرب على الطاعة الفردية بدون الارتباط بصحبة أو بيئة</div></div>
-            <div class="vid-point"><span class="vid-point-ico">📜</span><div class="vid-point-text"><b>كمال الدين</b>"اليوم أكملت لكم دينكم" — الخروج بالنور للناس</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>رمضان موسم "استجلاء الرؤية" في هدوء، والعشر موسم "الحركة والتحرك" بهذا النور بين الناس. يوم عرفة = "اليوم أكملت لكم دينكم"، الكمال يتطلب تحويل المعاني إلى واقع حي.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>💡 الأركان الثلاثة</h4><ul><li>الحركة: التحرك لهذا الدين بالعلم والدعوة</li><li>التضحية: بذل الوقت والمجهود والمال لله</li><li>الذكر: "الزاد والمستمد" أثناء الحركة اليومية</li></ul></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>📚 ترشيحات كتب</h4><p>"الأركان الأربعة" — "لأنك الله" — "فن الذكر والدعاء" لمحمد الغزالي</p></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('Ul1FBSoszZk')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('Ul1FBSoszZk')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('Ul1FBSoszZk',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=Ul1FBSoszZk" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('Ul1FBSoszZk','لقاء العشر — د. أحمد عبد المنعم')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           9: الشيخ نبيل • د. أحمد العربي
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-vid-cat="ashr" data-tag="spiritual">
-        <div class="vid-thumb-wrap" onclick="openPlayer('PYOw_Exj2Bk','لقاء عرفة — الشيخ نبيل العوضي والدكتور أحمد العربي')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/PYOw_Exj2Bk/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/PYOw_Exj2Bk/mqdefault.jpg'" alt="لقاء عرفة" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <span style="position:absolute;top:10px;left:10px;background:#ff9500;color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px">⭐ يوم عرفة</span>
-          <div class="vid-number-badge">9</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#ff9500,#c97000)">🤝</div><div class="vid-meta-text"><div class="speaker-name">الشيخ نبيل العوضي • د. أحمد العربي</div><div class="vid-category">💚 التزكية والإيمان</div></div></div>
-          <div class="vid-title">لقاء عرفة — درة الأيام العشر</div>
-          <div class="vid-desc">تركيز مكثف على يوم عرفة وعظمته، وكيف يشارك غير الحاج الحجيجَ في الأجر بقلبه وذلته</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">⭐</span><div class="vid-point-text"><b>أفضل يوم في السنة</b>فضل نهار عرفة أعظم من ليالي رمضان</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🌟</span><div class="vid-point-text"><b>مباهاة الله بعباده</b>"انظروا إلى عبادي جاؤوني شعثاً غبراً"</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🔥</span><div class="vid-point-text"><b>العتق من النار</b>أكثر يوم يعتق الله فيه رقاباً — يشمل كل المسلمين</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🤲</span><div class="vid-point-text"><b>حج الأرواح</b>من حبسه العذر يشارك الحجيج بقلبه وذلته وافتقاره</div></div>
-            <div class="vid-point"><span class="vid-point-ico">💡</span><div class="vid-point-text"><b>نصيحة عملية</b>فرّغ نفسك من بعد العصر للمغرب — موعد مع ملك الملوك</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>يوم عرفة "درة" الأيام العشر وقمتها — يوم "الصادقين". فضل العشر في أيامها، ورمضان في لياليه؛ فيوم عرفة هو أفضل يوم في السنة عند الله.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>💡 فضائل يوم عرفة</h4><ul><li>المباهاة: الله يباهي بأهل الموقف الملائكة</li><li>العتق من النار: يشمل كل المسلمين لا الحجاج فقط</li><li>دحر الشيطان: لا يُرى في يوم أحقر منه في عرفة</li></ul></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>📋 أفضل الدعاء في عرفة</h4><p>"لا إله إلا الله وحده لا شريك له، له الملك وله الحمد يحيي ويميت وهو على كل شيء قدير". نُقل عن السلف: "ما دعونا دعوة في يوم عرفة إلا رأيناها كفلق الصبح".</p></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('PYOw_Exj2Bk')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('PYOw_Exj2Bk')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('PYOw_Exj2Bk',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=PYOw_Exj2Bk" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('PYOw_Exj2Bk','لقاء عرفة')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           10: الشيخ إبراهيم بشندي
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-vid-cat="ashr" data-tag="fiqh">
-        <div class="vid-thumb-wrap" onclick="openPlayer('WvlMcmE92Fw','العمل الصالح — العشر الأول من ذي الحجة')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/WvlMcmE92Fw/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/WvlMcmE92Fw/mqdefault.jpg'" alt="العمل الصالح" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="vid-number-badge">10</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#0e3b2e,#2a7a5f)">🎓</div><div class="vid-meta-text"><div class="speaker-name">الشيخ إبراهيم بشندي</div><div class="vid-category">⚖️ الفقه والأحكام / 💚 التزكية</div></div></div>
-          <div class="vid-title">العمل الصالح — العشر الأول من ذي الحجة</div>
-          <div class="vid-desc">فضل الأشهر الحرم وعشر ذي الحجة، مع التركيز على تعظيم العمل الصالح فيها ومقارنته بالجهاد ورمضان</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">🏆</span><div class="vid-point-text"><b>أحد الأشهر الحرم</b>ذي الحجة من الأشهر الحرم التي تضاعف فيها الحسنات والسيئات</div></div>
-            <div class="vid-point"><span class="vid-point-ico">⭐</span><div class="vid-point-text"><b>أفضل من الجهاد</b>العمل الصالح في العشر أحب إلى الله من الجهاد إلا في حالة الشهادة</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🌙</span><div class="vid-point-text"><b>قدسية الأيام</b>استحضر قدسيتها في قلبك كما تستحضر قدسية رمضان</div></div>
-            <div class="vid-point"><span class="vid-point-ico">📿</span><div class="vid-point-text"><b>الذكر علامة الأيام</b>التكبير والتحميد والتهليل — الصحابة كانوا يكبرون في الأسواق</div></div>
-            <div class="vid-point"><span class="vid-point-ico">📖</span><div class="vid-point-text"><b>ختم القرآن</b>استحب ختمه كل 3 أيام في العشر</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🤲</span><div class="vid-point-text"><b>بر الوالدين</b>الإكثار من الإحسان إليهما في هذه الأيام</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>ذي الحجة أحد الأشهر الحرم الأربعة، وأشدها حرمةً لاحتوائه على يومي النحر وعرفة، ولنزول آية كمال الدين فيه.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>⚠️ تصحيح مفهوم القدسية</h4><p>انتقد "التربية الشرعية المغلوطة" التي تجعل الناس يجتهدون في رمضان ويغفلون عن العشر، مع أن هذه الأيام والعمل فيها أحب إلى الله.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>📋 الأعمال المستحبة</h4><div class="plan-grid"><div><b>الذكر:</b> التكبير في الأسواق والشوارع إحياءً للسنة</div><div><b>القرآن:</b> ختمه كل 3 أيام (10 أجزاء يومياً)</div><div><b>الصيام:</b> مستحب استحباباً شديداً</div><div><b>بر الوالدين:</b> الإكثار من التودد والخدمة</div></div></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('WvlMcmE92Fw')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('WvlMcmE92Fw')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('WvlMcmE92Fw',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=WvlMcmE92Fw" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('WvlMcmE92Fw','العمل الصالح — الشيخ إبراهيم بشندي')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           11: الشيخ محمد الغليظ
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="practical">
-        <div class="vid-thumb-wrap" onclick="openPlayer('8O7V5aIib-k','عشر ذي الحجة أيام غير عادية — عالسكة')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/8O7V5aIib-k/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/8O7V5aIib-k/mqdefault.jpg'" alt="أيام غير عادية" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="vid-number-badge">11</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar">🎯</div><div class="vid-meta-text"><div class="speaker-name">الشيخ محمد الغليظ</div><div class="vid-category">📋 الخطط العملية</div></div></div>
-          <div class="vid-title">عشر ذي الحجة أيام غير عادية — عالسكة</div>
-          <div class="vid-desc">أسلوب شبابي وعملي — خطة مفصلة من 10 خطوات لاستغلال كل يوم وتجاوز العقبات النفسية</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 خطة الـ ١٠ خطوات</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">1️⃣</span><div class="vid-point-text"><b>التوبة اليومية</b>الإقلاع عن الذنوب فوراً والعزم على عدم العودة</div></div>
-            <div class="vid-point"><span class="vid-point-ico">2️⃣</span><div class="vid-point-text"><b>الصلاة</b>الفريضة بالجماعة + السنن الرواتب + قيام الليل</div></div>
-            <div class="vid-point"><span class="vid-point-ico">3️⃣</span><div class="vid-point-text"><b>الصيام</b>صيام ما تيسر — ويوم واحد قد يكون جسراً للجنة</div></div>
-            <div class="vid-point"><span class="vid-point-ico">4️⃣</span><div class="vid-point-text"><b>القرآن</b>ورد يومي للقراءة أو السماع — اسعَ لختم القرآن</div></div>
-            <div class="vid-point"><span class="vid-point-ico">5️⃣</span><div class="vid-point-text"><b>الذكر</b>الإكثار من الباقيات الصالحات + أذكار الصباح والمساء</div></div>
-            <div class="vid-point"><span class="vid-point-ico">6️⃣</span><div class="vid-point-text"><b>الصدقة</b>تصدق بما هو ثمين وغالٍ عليك</div></div>
-            <div class="vid-point"><span class="vid-point-ico">7️⃣</span><div class="vid-point-text"><b>صلة الرحم</b>زيارة أو مهاتفة الأقارب والمرضى</div></div>
-            <div class="vid-point"><span class="vid-point-ico">8️⃣</span><div class="vid-point-text"><b>الدعوة</b>شجّع من حولك وذكّرهم بالخير</div></div>
-            <div class="vid-point"><span class="vid-point-ico">9️⃣</span><div class="vid-point-text"><b>قرار عظيم</b>اتخذ قراراً حاسماً يغير حياتك (ترك معصية، لبس الحجاب...)</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🔟</span><div class="vid-point-text"><b>يوم عرفة</b>القمة — انقطع للدعاء والضراعة</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>خطة عملية شبابية لاستثمار أيام العشر، مع التركيز على تجاوز العقبات النفسية ومحاربة الكسل.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>⚠️ تنبيهات نفسية</h4><ul><li>مجاهدة النفس حتى لو لم تستمتع في البداية</li><li>التحذير من إهدار الوقت في السوشيال ميديا والخلافات</li><li>فقه الأولويات: الفرائض أولاً قبل النوافل</li></ul></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('8O7V5aIib-k')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('8O7V5aIib-k')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('8O7V5aIib-k',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=8O7V5aIib-k" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('8O7V5aIib-k','عشر ذي الحجة أيام غير عادية')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           12: د. أحمد العربي (2)
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="practical">
-        <div class="vid-thumb-wrap" onclick="openPlayer('OiSc1bkJGkE','أفضل خطة لعبادة عشر ذي الحجة — د. أحمد العربي')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/OiSc1bkJGkE/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/OiSc1bkJGkE/mqdefault.jpg'" alt="أفضل خطة لعبادة العشر" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="vid-number-badge">12</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#5856d6,#3a3882)">🎓</div><div class="vid-meta-text"><div class="speaker-name">د. أحمد العربي</div><div class="vid-category">📋 الخطط العملية</div></div></div>
-          <div class="vid-title">أفضل خطة لعبادة عشر ذي الحجة</div>
-          <div class="vid-desc">لماذا تُعد العشر أعظم مواسم العام؟ وكيف نستغل "النهار" لنيل مقام محبة الله الخاص؟</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">🌞</span><div class="vid-point-text"><b>نهار العشر أعظم</b>يوم "الصادقين" لغياب المحفز الجماعي</div></div>
-            <div class="vid-point"><span class="vid-point-ico">❤️</span><div class="vid-point-text"><b>مقام المحبة</b>العمل فيها باب لاستجلاب "حب الله" — أرفع من طلب الأجر</div></div>
-            <div class="vid-point"><span class="vid-point-ico">⭐</span><div class="vid-point-text"><b>يوم عرفة ويوم النحر</b>أهم يومين في السنة</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🛡️</span><div class="vid-point-text"><b>إدحار الشيطان</b>لا يُرى في يوم أحقر منه في يوم عرفة</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>العمل في العشر باب لاستجلاب حب الله للعبد، وهو أرفع من مجرد طلب الثواب. فضل العشر في أيامها (من الفجر للمغرب)، بينما فضل رمضان في لياليه.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>📋 حال النبي ﷺ في عرفة</h4><p>كان يدعو من الظهر للمغرب بتذلل وخضوع، لدرجة أنه كان يمسك الإناء بيد واحدة وتبقى الأخرى مرفوعة للسماء.</p></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('OiSc1bkJGkE')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('OiSc1bkJGkE')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('OiSc1bkJGkE',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=OiSc1bkJGkE" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('OiSc1bkJGkE','أفضل خطة لعبادة عشر ذي الحجة')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           13: الشيخ عبد السلام الشويعر
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="fiqh">
-        <div class="vid-thumb-wrap" onclick="openPlayer('S0zEqUKK9Xk','ثلاث مزايا عظيمة في عشر ذي الحجة — الشيخ عبد السلام الشويعر')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/S0zEqUKK9Xk/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/S0zEqUKK9Xk/mqdefault.jpg'" alt="ثلاث مزايا عظيمة" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="vid-number-badge">13</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#0e3b2e,#2a7a5f)">🎓</div><div class="vid-meta-text"><div class="speaker-name">الشيخ عبد السلام الشويعر</div><div class="vid-category">⚖️ الفقه والأحكام</div></div></div>
-          <div class="vid-title">ثلاث مزايا زمنية عظيمة في عشر ذي الحجة</div>
-          <div class="vid-desc">يكشف لماذا تجتمع في هذه الأيام ثلاث فضائل لا تتوفر في أي وقت آخر من العام</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 الثلاث مزايا الكبرى</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">🥇</span><div class="vid-point-text"><b>الميزة الأولى — الأشهر الحرم</b>ذنبها مضاعف والعمل الصالح ذو قدر كبير</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🥈</span><div class="vid-point-text"><b>الميزة الثانية — أفضل أيام العمل</b>حتى من الجهاد في سبيل الله</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🥉</span><div class="vid-point-text"><b>الميزة الثالثة — أفضل يومين</b>يوم عرفة + يوم النحر لا نظير لهما</div></div>
-            <div class="vid-point"><span class="vid-point-ico">📜</span><div class="vid-point-text"><b>حديث الختام</b>"خيركم من طال عمره وحسن عمله"</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>اجتماع ثلاث فضائل زمنية في عشر ذي الحجة يجعلها من أقدس الأزمان: وقوعها ضمن الأشهر الحرم، وكونها الأيام التي يكون العمل فيها أحب إلى الله، واشتمالها على أفضل يومين في السنة.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>📜 حديث الختام</h4><p>"خيركم من طال عمره وحسن عمله" — كل يوم في هذه المواسم يرفع منزلة المؤمن درجات.</p></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('S0zEqUKK9Xk')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('S0zEqUKK9Xk')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('S0zEqUKK9Xk',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=S0zEqUKK9Xk" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('S0zEqUKK9Xk','ثلاث مزايا زمنية')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           14: د. كريم عبد الحليم
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="spiritual">
-        <div class="vid-thumb-wrap" onclick="openPlayer('nnE0NuHUNsc','استراحة مع د. كريم عبد الحليم - عشر ذي الحجة')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/nnE0NuHUNsc/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/nnE0NuHUNsc/mqdefault.jpg'" alt="استراحة عشر ذي الحجة" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="vid-number-badge">14</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#2a7a5f,#0e3b2e)">🎓</div><div class="vid-meta-text"><div class="speaker-name">د. كريم عبد الحليم</div><div class="vid-category">💚 التزكية والإيمان</div></div></div>
-          <div class="vid-title">استراحة مع د. كريم عبد الحليم - عشر ذي الحجة</div>
-          <div class="vid-desc">التركيز على قيمة أيام عشر ذي الحجة من زاوية إيمانية ونفسية، مع مفهوم "العبودية المبنية على الحب"</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">💎</span><div class="vid-point-text"><b>دافع حب الله</b>معرفة ما يحبه الله محرك أقوى من مجرد طلب الثواب</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🕋</span><div class="vid-point-text"><b>نموذج إبراهيم</b>الثقة المطلقة في هداية الله كما في قصة الذبح</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🤲</span><div class="vid-point-text"><b>التوبة المستمرة</b>توبة المقصر المستشعر لعظمة الله لا فقط من ارتكب كبيرة</div></div>
-          </div></div>
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>🎯 الفكرة الأساسية</h4><p>دافع "أن الله يحب" هذا العمل هو محرك أقوى من مجرد طلب الثواب أو الخوف من العقاب.</p></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>💡 نموذج سيدنا إبراهيم عليه السلام</h4><ul><li>الابتلاء في قصة الذبح كان اختيارياً — أعلى مقامات البلاء</li><li>الهدف: تخليص قلب إبراهيم ليكون خالصاً لله وحده</li></ul></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>💡 النصيحة الختامية</h4><p>تفريغ الوقت للعبادة، والتعامل مع هذه الأيام ببشر واستبشار لا بتشنج وضغط نفسي.</p></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('nnE0NuHUNsc')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('nnE0NuHUNsc')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('nnE0NuHUNsc',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=nnE0NuHUNsc" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('nnE0NuHUNsc','استراحة مع د. كريم عبد الحليم')">📤</button>
-        </div>
-      </div>
-
-      <!-- 15: ياسر ممدوح -->
-      <div class="vid-card" data-tag="fiqh">
-        <div class="vid-thumb-wrap" onclick="openPlayer('YnX0MUgr0QQ','٤٠ معلومة عن عشر ذي الحجة في ١٥٠ ثانية')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/YnX0MUgr0QQ/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/YnX0MUgr0QQ/mqdefault.jpg'" alt="٤٠ معلومة عن عشر ذي الحجة" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="vid-number-badge">15</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#5856d6,#3a3882)">🎬</div><div class="vid-meta-text"><div class="speaker-name">ياسر ممدوح</div><div class="vid-category">⚖️ الفقه والأحكام / 💚 التزكية</div></div></div>
-          <div class="vid-title">٤٠ معلومة عن عشر ذي الحجة في ١٥٠ ثانية</div>
-          <div class="vid-desc">ملخص سريع وشامل لأهم المعلومات والأحكام عن عشر ذي الحجة ويوم عرفة والأضحية في دقيقتين ونصف</div>
-          
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">🗓️</span><div class="vid-point-text"><b>مكانة ذي الحجة</b>الشهر الثاني عشر وأحد الأشهر الحرم الأربعة</div></div>
-            <div class="vid-point"><span class="vid-point-ico">⭐</span><div class="vid-point-text"><b>فضل العشر</b>"خير أيام الدنيا" للعمل الصالح</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🌄</span><div class="vid-point-text"><b>يوم عرفة</b>خير يوم طلعت عليه الشمس، وصيامه يكفر سنتين</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🎉</span><div class="vid-point-text"><b>يوم النحر</b>يوم العيد وفيه تبدأ سنة الأضحية</div></div>
-            <div class="vid-point"><span class="vid-point-ico">✂️</span><div class="vid-point-text"><b>أحكام المضحي</b>يُسن عدم حلق الشعر أو قص الأظافر من بداية العشر</div></div>
-            <div class="vid-point"><span class="vid-point-ico">⏰</span><div class="vid-point-text"><b>وقت الأضحية</b>من بعد صلاة العيد يوم 10 حتى طلوع شمس يوم 13</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🍽️</span><div class="vid-point-text"><b>أيام التشريق</b>11 و12 و13 — أيام أكل وشرب، ويحرم صيامها</div></div>
-            <div class="vid-point"><span class="vid-point-ico">📿</span><div class="vid-point-text"><b>التكبير المقيد</b>من فجر عرفة حتى غروب يوم 13، دبر الصلوات</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🤲</span><div class="vid-point-text"><b>دعاء عرفة</b>"لا إله إلا الله وحده لا شريك له، له الملك وله الحمد..."</div></div>
-            <div class="vid-point"><span class="vid-point-ico">💝</span><div class="vid-point-text"><b>رسالة تفاؤل</b>هذه الفرص للمقصرين أيضاً — ابدأ بأي خطوة صغيرة</div></div>
-          </div></div>
-          
-          <button class="vid-points-toggle" onclick="toggleFullSummary(this)" style="margin-top:8px;background:var(--gold-pale);border-color:var(--gold)"><span>📖 عرض الملخص الكامل</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points vid-full-summary"><div class="vid-points-inner">
-            <div class="vid-summary-section"><h4>📋 أحكام عملية للمضحي</h4><div class="plan-grid"><div><b>المضحي:</b> لا يحلق شعره أو يقص أظافره من دخول العشر</div><div><b>وقت الأضحية:</b> من بعد صلاة العيد حتى طلوع شمس يوم 13</div><div><b>أيام التشريق:</b> أيام أكل وشرب، يحرم صيامها</div><div><b>التكبير المقيد:</b> من فجر عرفة حتى غروب 13 دبر الصلوات</div></div></div>
-            <div class="vid-summary-section" style="margin-top:12px"><h4>💝 رسالة للمقصرين</h4><p>هذه المواسم رسالة حب من الله للمقصرين — لا تنتظر الكمال، ابدأ الآن بما تستطيع.</p></div>
-          </div></div>
-          
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('YnX0MUgr0QQ')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="copyVidSummary('YnX0MUgr0QQ')">📋 نسخ</button>
-            <button class="vid-action-btn" onclick="addToFavorites('YnX0MUgr0QQ',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=YnX0MUgr0QQ" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('YnX0MUgr0QQ','٤٠ معلومة عن عشر ذي الحجة — ياسر ممدوح')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           16: الشيخ محمد سعد الشرقاوي (فاهم 84)
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="spiritual">
-        <div class="vid-thumb-wrap" onclick="openPlayer('Hqsv9UKWmIo','فاهم 84 — مشاهد عظمة الله عز وجل')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/Hqsv9UKWmIo/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/Hqsv9UKWmIo/mqdefault.jpg'" alt="مشاهد عظمة الله" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <span style="position:absolute;top:10px;left:10px;background:var(--sys-red,#e0432e);color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px">🆕 جديد</span>
-          <div class="vid-number-badge">16</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#0e3b2e,#2a7a5f)">🎙️</div><div class="vid-meta-text"><div class="speaker-name">الشيخ محمد سعد الشرقاوي</div><div class="vid-category">💚 التزكية / 🎙️ بودكاست فاهم</div></div></div>
-          <div class="vid-title">فاهم 84 — مشاهد عظمة الله عز وجل</div>
-          <div class="vid-desc">لقاءٌ عميقٌ ينقل الإيمان من معلوماتٍ ذهنية إلى حالةٍ قلبية تملأ القلب حياءً ومحبةً وخضوعاً لله — عبر استعراض مشاهد عظمة الذات والصفات والرحمة.</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">🌌</span><div class="vid-point-text"><b>عظمة الذات والقدرة</b>السماوات والأرض في قبضته، والكرسي بالنسبة للعرش كحلقةٍ في فلاة</div></div>
-            <div class="vid-point"><span class="vid-point-ico">👁️</span><div class="vid-point-text"><b>سعة العلم والسمع</b>يسمع تحاور المتجادلين ويعلم ما تسقط من ورقة قبل وقوعها</div></div>
-            <div class="vid-point"><span class="vid-point-ico">💗</span><div class="vid-point-text"><b>سعة الرحمة</b>مئةُ رحمة، أُنزلت واحدةٌ يتراحم بها الخلق وادُّخر تسعٌ وتسعون</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🛡️</span><div class="vid-point-text"><b>أثر التعظيم</b>من عظّم الله عظّم صلاته ومصحفه، وهانت في عينه هيبةُ المخلوقين</div></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('Hqsv9UKWmIo')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="addToFavorites('Hqsv9UKWmIo',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=Hqsv9UKWmIo" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('Hqsv9UKWmIo','فاهم 84 — مشاهد عظمة الله')">📤</button>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════
-           17: د. محمد ثروت (أعظم أيام حياتك)
-      ═══════════════════════════════════ -->
-      <div class="vid-card" data-tag="practical">
-        <div class="vid-thumb-wrap" onclick="openPlayer('OU7VykVF1iw','أعظم أيام حياتك — عشر ذي الحجة')">
-          <img class="vid-thumb" src="https://img.youtube.com/vi/OU7VykVF1iw/hqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/OU7VykVF1iw/mqdefault.jpg'" alt="أعظم أيام حياتك" loading="lazy">
-          <div class="vid-thumb-overlay"></div>
-          <div class="vid-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0e3b2e"><path d="M8 5v14l11-7z"/></svg></div>
-          <span style="position:absolute;top:10px;left:10px;background:var(--sys-red,#e0432e);color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px">🆕 جديد</span>
-          <span style="position:absolute;top:10px;left:74px;background:var(--gold);color:#3a2a08;font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px">🔥 مهم</span>
-          <div class="vid-number-badge">17</div>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta-row"><div class="speaker-avatar" style="background:linear-gradient(135deg,#0e3b2e,#2a7a5f)">🎓</div><div class="vid-meta-text"><div class="speaker-name">د. محمد ثروت</div><div class="vid-category">🏆 فضائل العشر / 📋 خطة عملية</div></div></div>
-          <div class="vid-title">أعظم أيام حياتك — عشر ذي الحجة</div>
-          <div class="vid-desc">هذه الأيام اختبارٌ لمدى إيمانك باسم الله «العظيم»؛ فبقَدْر تعظيمك لله يكون تعظيمك لما عظّمه من الأزمان. خطةٌ تربوية مبنية على «التحفّظ والتحفّز».</div>
-          <button class="vid-points-toggle" onclick="togglePoints(this)"><span>📌 النقاط الرئيسية</span><span class="toggle-ico">▼</span></button>
-          <div class="vid-points"><div class="vid-points-inner">
-            <div class="vid-point"><span class="vid-point-ico">💎</span><div class="vid-point-text"><b>خلاصة الخلاصة</b>أفضل التسعين يوماً الحرم المتتالية (ذو القعدة، ذو الحجة، المحرّم)</div></div>
-            <div class="vid-point"><span class="vid-point-ico">⚔️</span><div class="vid-point-text"><b>المعركة أشدّ من رمضان</b>الشياطين غيرُ مُصفَّدة، فتواجه نفسك والشيطان معاً</div></div>
-            <div class="vid-point"><span class="vid-point-ico">🛑</span><div class="vid-point-text"><b>التحفّظ</b>تكلّفُ الامتناع عن السيئات لأن وزنها أثقل في هذه الأيام</div></div>
-            <div class="vid-point"><span class="vid-point-ico">⚡</span><div class="vid-point-text"><b>التحفّز</b>الوثوب للطاعات فوراً دون تردد — ذكرٌ وصيامٌ وقيام</div></div>
-          </div></div>
-          <div class="vid-extra-actions">
-            <button class="vid-action-btn" onclick="saveVidNote('OU7VykVF1iw')">📝 ملاحظاتي</button>
-            <button class="vid-action-btn" onclick="addToFavorites('OU7VykVF1iw',event)">❤️ مفضلة</button>
-          </div>
-        </div>
-        <div class="vid-footer">
-          <a class="vid-watch-btn" href="https://www.youtube.com/watch?v=OU7VykVF1iw" target="_blank" rel="noopener">▶ مشاهدة على يوتيوب</a>
-          <button type="button" class="vid-share-btn" onclick="shareVid('OU7VykVF1iw','أعظم أيام حياتك — د. محمد ثروت')">📤</button>
-        </div>
-      </div>
-
-    </div><!-- /vids-container -->
-
-    <!-- ═══════════════════════════════════
-         الخلاصة العلمية
-    ═══════════════════════════════════ -->
-    <div class="card" style="background:linear-gradient(135deg,var(--card),var(--gold-pale));border-color:rgba(201,161,74,.2);margin-bottom:20px">
-      <div class="section-title" style="margin:0 0 12px">📚 خلاصة علمية من كل المحاضرات</div>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;font-size:13px">
-          <div style="font-weight:700;color:var(--gold-dark);margin-bottom:6px">⚖️ الأحكام الفقهية</div>
-          <ul style="list-style:none;color:var(--muted);line-height:2">
-            <li>· صيام الأيام التسعة مستحب</li>
-            <li>· يوم عرفة يكفر سنتين</li>
-            <li>· الأضحية سنة مؤكدة</li>
-            <li>· التكبير المطلق من دخول العشر</li>
+        <div class="prog-ring-info">
+          <b>ورد اليوم</b>
+          <ul>
+            <li>الصلوات الخمس في جماعة</li>
+            <li>السنن الرواتب والذكر</li>
+            <li>صيام النهار</li>
+            <li>التكبير والاستغفار</li>
           </ul>
-        </div>
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;font-size:13px">
-          <div style="font-weight:700;color:var(--green-deep);margin-bottom:6px">💚 الجانب الروحاني</div>
-          <ul style="list-style:none;color:var(--muted);line-height:2">
-            <li>· موسم الخواص — جو فردي</li>
-            <li>· الذكر وقود حركة المؤمن</li>
-            <li>· سبق المفردون — الذاكرون الله</li>
-            <li>· عرفة تجديد ميثاق العبودية</li>
-          </ul>
+          <div class="reset-info" style="margin-top:8px">
+            <div class="reset-dot"></div>
+            <span>يتجدد في <b id="next-reset-time2">00:00:00</b></span>
+          </div>
         </div>
       </div>
+    </div>
+
+    <div class="section-title">📖 آية اليوم</div>
+    <div class="verse-slider-container" id="verse-slider-container" style="position:relative;overflow:hidden;margin-bottom:16px">
+      <div class="verse-wrap" id="verse-wrap" style="display:flex;transition:transform 0.5s ease">
+        <div class="verse-track" id="verse-track"><div class="verse-slide" style="min-width:100%;padding:16px;text-align:center;opacity:.3"><div style="font-family:Amiri,serif;font-size:20px;color:var(--green-deep)">جارٍ تحميل الآية...</div></div></div>
+      </div>
+    </div>
+    <div class="verse-nav-row" style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px">
+      <button class="verse-arrow" onclick="slideVerse(-1)" style="background:var(--sand);border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;color:var(--green-deep)">‹</button>
+      <div class="verse-dots-row" id="verse-dots-row" style="display:flex;gap:6px"></div>
+      <button class="verse-arrow" onclick="slideVerse(1)" style="background:var(--sand);border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;color:var(--green-deep)">›</button>
+    </div>
+    <div class="verse-counter" id="verse-counter" style="text-align:center;font-size:12px;color:var(--muted);margin-bottom:4px">1/3</div>
+    <div id="verse-day-label" style="text-align:center;font-size:12px;color:var(--muted);margin-top:4px"></div>
+
+    <div class="section-title" style="margin-top:18px">ابدأ يومك الآن</div>
+    <div class="grid cols-3">
+      <a class="card quick-card" href="worship.html"><div class="ico-lg">📿</div><h3>ورد اليوم</h3><p>تابع جدول عباداتك</p></a>
+      <a class="card quick-card" href="mushaf.html"><div class="ico-lg">📖</div><h3>اقرأ القرآن</h3><p>متابعة خطة الختمة</p></a>
+      <a class="card quick-card" href="takbeer.html"><div class="ico-lg">🕋</div><h3>كبّر الله</h3><p>عداد التكبير المطلق</p></a>
+      <a class="card quick-card" href="adhkar.html"><div class="ico-lg">🤲</div><h3>الأذكار</h3><p>صباح ومساء وأذكار العشر</p></a>
+      <a class="card quick-card" href="summary.html"><div class="ico-lg">📈</div><h3>إحصاء العشر</h3><p>ملخص أيامك العشرة</p></a>
     </div>
 
   </main>
-  <a href="ai.html" class="fab-ai" aria-label="AI">🤖</a>
 </div>
 
-<!-- Player Overlay -->
-<div class="player-overlay" id="player-overlay" onclick="closePlayerIfOverlay(event)">
-  <button class="player-close" onclick="closePlayer()">✕</button>
-  <div class="player-wrap">
-    <iframe id="yt-iframe" title="مشغل الفيديو" allowfullscreen allow="autoplay; encrypted-media" loading="lazy"></iframe>
-  </div>
-  <div class="player-title" id="player-title"></div>
-</div>
-
+<!-- ══ Scripts ══ -->
 <script src="lang.js" defer></script>
 <script src="js/storage.js" defer></script>
   <script src="js/calendar.js" defer></script>
   <script src="js/design-system.js" defer></script>
   <script src="js/seasons-module.js" defer></script>
   <script src="js/fixes-module.js" defer></script>
-  <script src="js/audio-manager.js" defer></script>
+  <script src="js/goals-module.js" defer></script>
+  <script src="js/verse-enrich.js" defer></script>
   <script src="js/share-button.js" defer></script>
   <script src="js/gps-fix.js" defer></script>
   <script src="js/nav-accordion.js" defer></script>
-  <script src="js/float-tasbih.js" defer></script>
     <script src="js/utils/helpers.js" defer></script>
   <script src="js/core/state-manager.js" defer></script>
   <script src="js/core/router.js" defer></script>
   <script src="js/ui/design-tokens.js" defer></script>
   <script src="js/ui/feedback.js" defer></script>
+  <script src="js/ui/daily-hub.js" defer></script>
   <script src="js/ui/offline-ui.js" defer></script>
   <script src="js/ui/micro-interactions.js" defer></script>
   <script src="js/app.js" defer></script>
+
+
+<!-- ══ Main page scripts ══ -->
 <script>
-/* ══════════════════════════════════════════
-   Player
-══════════════════════════════════════════ */
-function openPlayer(id, title) {
-  const o = document.getElementById('player-overlay');
-  const f = document.getElementById('yt-iframe');
-  const t = document.getElementById('player-title');
-  if (f) f.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
-  if (t) t.textContent = title || '';
-  if (o) o.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closePlayer() {
-  const o = document.getElementById('player-overlay');
-  const f = document.getElementById('yt-iframe');
-  if (f) f.src = '';
-  if (o) o.classList.remove('open');
-  document.body.style.overflow = '';
-}
-function closePlayerIfOverlay(e) {
-  if (e.target === document.getElementById('player-overlay')) closePlayer();
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closePlayer(); });
+let _vi=0,_dayVerses=[],_hijriDay=1;
+function safeToggleTheme(){typeof toggleTheme==='function'?toggleTheme():null;}
+function quickWorship(type){const m={fajr:'worship.html',dhikr:'adhkar.html',takbeer:'takbeer.html',fasting:'worship.html'};window.location.href=m[type]||'worship.html';}
 
-/* ══════════════════════════════════════════
-   Toggles
-══════════════════════════════════════════ */
-function togglePoints(btn) {
-  btn.classList.toggle('open');
-  const p = btn.nextElementSibling;
-  if (p) p.classList.toggle('open');
+async function initHijriBar(){
+  try{
+    const now=new Date();
+    const res=await fetch(`https://api.aladhan.com/v1/gToH/${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()}`);
+    const json=await res.json();
+    if(json.code===200)applyHijriData(json.data.hijri,now);
+    else fallbackHijriDate();
+  }catch(e){fallbackHijriDate();}
+}
+function fallbackHijriDate(){applyHijriData({day:'9',month:{number:12,ar:'ذو الحجة'},year:1447},new Date());}
+const WEEK_AR=["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+const MILADI_AR=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+const HIJRI_MONTHS_AR=["محرّم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة"];
+function applyHijriData(hijri,now){
+  if(!hijri||!now)return;
+  const d=parseInt(hijri.day),mo=hijri.month.ar||HIJRI_MONTHS_AR[parseInt(hijri.month.number)-1],y=hijri.year;
+  _hijriDay=parseInt(hijri.month.number)===12?d:1;
+  const sub=document.getElementById('topbar-date-sub');if(sub)sub.textContent=`${d} ${mo} ${y} هـ`;
+  const hf=document.getElementById('hijri-full');if(hf)hf.textContent=`${WEEK_AR[now.getDay()]} · ${d} ${mo} ${y} هـ`;
+  const mf=document.getElementById('miladi-full');if(mf)mf.textContent=`${now.getDate()} ${MILADI_AR[now.getMonth()]} ${now.getFullYear()} م`;
+  if(typeof loadVersesForDay==='function')loadVersesForDay(_hijriDay);
 }
 
-function toggleFullSummary(btn) {
-  btn.classList.toggle('open');
-  const summary = btn.nextElementSibling;
-  if (summary && summary.classList.contains('vid-full-summary')) {
-    summary.classList.toggle('open');
-    summary.style.maxHeight = summary.classList.contains('open') ? '2000px' : '0';
-  }
+const BADGES=[
+  {id:'early_bird',ico:'⏰',name:'المبكّر',desc:'صليت الفجر'},
+  {id:'dhikr_100',ico:'📿',name:'الذاكرون',desc:'100 ذكر'},
+  {id:'fasting_all',ico:'🌙',name:'الصائمون',desc:'صيام كامل'},
+  {id:'quran_done',ico:'📖',name:'الخاتمون',desc:'أتممت القرآن'},
+  {id:'full_prayers',ico:'🕌',name:'المسارعون',desc:'5 صلوات'},
+  {id:'takbeer_1000',ico:'🔔',name:'المكبّرون',desc:'1000 تكبيرة'},
+  {id:'charity',ico:'💚',name:'المتصدقون',desc:'صدقة يومية'},
+  {id:'streak_3',ico:'🔥',name:'السابقة',desc:'3 أيام متتالية'},
+  {id:'arafah_done',ico:'⭐',name:'عرفة',desc:'أتممت عرفة'}
+];
+function renderMiniBadges(){
+  const c=document.getElementById('mini-badges-container');if(!c)return;
+  let state={};try{state=JSON.parse(localStorage.getItem('zad_v2')||'{}')}catch(e){}
+  const earned=state.badges||[];
+  c.innerHTML=BADGES.map(b=>{const isEarned=earned.includes(b.id);return`<a href="badges.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;border-radius:14px;background:${isEarned?'var(--gold-pale)':'var(--card)'};border:2px solid ${isEarned?'var(--gold)':'var(--border)'};text-decoration:none;transition:all 0.3s ease"><div style="font-size:32px;filter:${isEarned?'none':'grayscale(1)'}">${b.ico}</div><div style="font-size:12px;font-weight:700;color:${isEarned?'var(--green-deep)':'var(--muted)'};text-align:center">${b.name}</div><div style="font-size:10px;color:var(--muted);text-align:center">${b.desc}</div></a>`;}).join('');
 }
 
-/* ══════════════════════════════════════════
-   BUG #3 FIXED — STATE now declared locally in each function
-══════════════════════════════════════════ */
-function saveVidNote(vidId) {
-  let STATE = JSON.parse(localStorage.getItem('zad_v2') || '{}');
-  if (!STATE.vidNotes) STATE.vidNotes = {};
-  const currentNote = STATE.vidNotes[vidId] || '';
-  const newNote = prompt('✍️ اكتب ملاحظتك على هذا الفيديو:', currentNote);
-  if (newNote !== null) {
-    if (newNote.trim()) {
-      STATE.vidNotes[vidId] = newNote.trim();
-      if (typeof showToast === 'function') showToast('💾 تم حفظ ملاحظتك');
-    } else {
-      delete STATE.vidNotes[vidId];
-      if (typeof showToast === 'function') showToast('🗑️ تم حذف الملاحظة');
+const VERSES_FOR_10_DAYS={
+  1:[{ar:'وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ',src:'الفجر: 1-2',note:'أقسم الله بعشر ذي الحجة'},{ar:'وَيَذْكُرُوا اسْمَ اللَّهِ فِي أَيَّامٍ مَعْلُومَاتٍ',src:'الحج: 28',note:'الأيام المعلومات هي عشر ذي الحجة'}],
+  9:[{ar:'الْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِي',src:'المائدة: 3',note:'نزلت يوم عرفة'},{ar:'وَمَا مِنْ يَوْمٍ أَكْثَرَ مِنْ أَنْ يُعْتِقَ اللَّهُ فِيهِ عَبْدًا مِنَ النَّارِ مِنْ يَوْمِ عَرَفَةَ',src:'صحيح مسلم',note:'فضل يوم عرفة العظيم'}],
+  };
+function loadVersesForDay(day){
+  const wrap=document.getElementById('verse-wrap');if(!wrap)return;
+  _dayVerses=VERSES_FOR_10_DAYS[day]||VERSES_FOR_10_DAYS[1];
+  wrap.innerHTML=_dayVerses.map(v=>`<div class="verse-slide" style="min-width:100%;padding:10px;text-align:center"><blockquote style="font-family:Amiri,serif;font-size:var(--qf-size);color:var(--green-deep);margin-bottom:8px">"${v.ar}"</blockquote><cite style="font-size:12px;color:var(--gold);font-weight:700">${v.src}</cite><p style="font-size:13px;color:var(--muted);margin-top:4px">${v.note}</p></div>`).join('');
+  updateVerseSlider();
+}
+function updateVerseSlider(){
+  const wrap=document.getElementById('verse-wrap'),counter=document.getElementById('verse-counter');
+  if(wrap&&_dayVerses.length){wrap.style.transform=`translateX(${_vi*100}%)`;if(counter)counter.textContent=`${_vi+1}/${_dayVerses.length}`;}
+}
+function slideVerse(dir){_vi+=dir;if(_vi<0)_vi=_dayVerses.length-1;if(_vi>=_dayVerses.length)_vi=0;updateVerseSlider();}
+
+async function loadTopbarPrayers(){
+  const lat=parseFloat(localStorage.getItem('zad_lat')),lng=parseFloat(localStorage.getItem('zad_lng'));
+  if(lat&&lng&&lat>=-90&&lat<=90)await fetchPrayerTimes(lat,lng);
+}
+async function fetchPrayerTimes(lat,lng){
+  const btn=document.getElementById('prayer-loc-btn'),bar=document.getElementById('prayer-bar');
+  try{
+    const now=new Date();
+    const url=`https://api.aladhan.com/v1/timings/${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()}?latitude=${lat}&longitude=${lng}&method=4`;
+    const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),10000);
+    const res=await fetch(url,{signal:ctrl.signal});
+    const json=await res.json();
+    if(json.code===200){
+      const t=json.data.timings;
+      ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'].forEach((k,i)=>{const ids=['pt-fajr','pt-sunrise','pt-dhuhr','pt-asr','pt-maghrib','pt-isha'];const el=document.getElementById(ids[i]);if(el&&t[k])el.textContent=t[k].substring(0,5);});
+      if(bar)bar.style.display='flex';if(btn)btn.style.display='none';
     }
-    localStorage.setItem('zad_v2', JSON.stringify(STATE));
+  }catch(e){console.warn('Prayer error:',e);}
+}
+window.loadPrayerTimes=loadTopbarPrayers;
+
+function startResetCountdown(){
+  const el=document.getElementById('next-reset-time');if(!el)return;
+  function tick(){
+    const now=new Date(),next=new Date();next.setHours(24,0,0,0);
+    const diff=next-now;const pad=n=>String(n).padStart(2,'0');
+    el.textContent=`${pad(Math.floor(diff/3600000))}:${pad(Math.floor((diff%3600000)/60000))}:${pad(Math.floor((diff%60000)/1000))}`;
   }
+  tick();setInterval(tick,1000);
 }
 
-async function copyVidSummary(vidId) {
-  const vidCard = document.querySelector(`[onclick*="${vidId}"]`)?.closest('.vid-card');
-  if (!vidCard) return;
-  const title = vidCard.querySelector('.vid-title')?.textContent || '';
-  const speaker = vidCard.querySelector('.speaker-name')?.textContent || '';
-  const desc = vidCard.querySelector('.vid-desc')?.textContent || '';
-  const text = `🎬 ${title}\n👤 ${speaker}\n\n📝 ${desc}\n\n🔗 https://youtu.be/${vidId}`;
-  try {
-    await navigator.clipboard.writeText(text);
-    if (typeof showToast === 'function') showToast('📋 تم نسخ الملخص للحافظة');
-  } catch (err) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    if (typeof showToast === 'function') showToast('📋 تم نسخ الملخص');
-  }
+/* Notifications */
+const NOTIF_KEY='zad_notifications';
+function getNotifs(){try{return JSON.parse(localStorage.getItem(NOTIF_KEY)||'[]');}catch(e){return[];}}
+function saveNotifs(list){localStorage.setItem(NOTIF_KEY,JSON.stringify(list.slice(0,30)));}
+function addNotif(ico,title,sub,type='info'){const list=getNotifs();list.unshift({id:Date.now(),ico,title,sub,type,time:new Date().toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'}),read:false});saveNotifs(list);renderNotifBadge();}
+window.addNotif=addNotif;
+function renderNotifBadge(){const dot=document.getElementById('notif-dot');const unread=getNotifs().filter(n=>!n.read).length;if(dot)dot.className='notif-dot'+(unread>0?' show':'');}
+function renderNotifDropdown(){
+  const drop=document.getElementById('notif-dropdown');if(!drop)return;
+  const list=getNotifs();
+  if(!list.length){drop.innerHTML=`<div class="nd-header"><span>🔔 الإشعارات</span></div><div class="nd-empty">لا توجد إشعارات بعد</div><div class="nd-footer"><button class="primary" onclick="enablePushNotifications()">🔔 تفعيل الإشعارات</button></div>`;return;}
+  drop.innerHTML=`<div class="nd-header"><span>🔔 الإشعارات</span><button class="nd-clear" onclick="clearAllNotifs()">مسح الكل</button></div>${list.map(n=>`<div class="nd-item ${n.read?'':'unread'}" onclick="markNotifRead(${n.id})"><div class="nd-ico">${n.ico}</div><div class="nd-body"><div class="nd-title">${n.title}</div><div class="nd-sub">${n.sub}</div><div class="nd-time">${n.time}</div></div></div>`).join('')}<div class="nd-footer"><button onclick="closeNotifDropdown()">إغلاق</button><button class="primary" onclick="enablePushNotifications()">🔔 تفعيل التنبيهات</button></div>`;
+}
+function toggleNotifDropdown(){const drop=document.getElementById('notif-dropdown');if(!drop)return;const isOpen=drop.classList.contains('open');if(!isOpen){renderNotifDropdown();drop.classList.add('open');saveNotifs(getNotifs().map(n=>({...n,read:true})));renderNotifBadge();setTimeout(()=>{document.addEventListener('click',closeOnOutside,{once:true});},10);}else{drop.classList.remove('open');}}
+window.toggleNotifDropdown=toggleNotifDropdown;
+function closeOnOutside(e){const wrap=document.querySelector('.notif-wrap');if(wrap&&!wrap.contains(e.target))closeNotifDropdown();}
+function closeNotifDropdown(){document.getElementById('notif-dropdown')?.classList.remove('open');}
+window.closeNotifDropdown=closeNotifDropdown;
+function markNotifRead(id){saveNotifs(getNotifs().map(n=>n.id===id?{...n,read:true}:n));renderNotifBadge();renderNotifDropdown();}
+window.markNotifRead=markNotifRead;
+function clearAllNotifs(){saveNotifs([]);renderNotifDropdown();renderNotifBadge();}
+window.clearAllNotifs=clearAllNotifs;
+async function enablePushNotifications(){closeNotifDropdown();if(!('Notification' in window)){addNotif('⚠️','غير مدعوم','هذا المتصفح لا يدعم الإشعارات','warn');return;}if(Notification.permission==='granted'){addNotif('✅','الإشعارات مفعّلة','أنت تتلقى الإشعارات بالفعل','success');return;}const perm=await Notification.requestPermission();if(perm==='granted'){addNotif('✅','تم تفعيل الإشعارات','ستصلك تذكيرات بالورد والأذكار','success');}else{addNotif('❌','تم رفض الإشعارات','يمكنك تفعيلها من إعدادات المتصفح','error');}}
+window.enablePushNotifications=enablePushNotifications;
+window.showNotifPanel=toggleNotifDropdown;
+
+const VC_VIDEOS=[
+  {id:'57p126d5w9k',title:'عشر ذي الحجة — التخطيط العملي',badge:'⭐ مميز'},
+  {id:'smro5XFkoj0',title:'لا تدخل العشر قبل مشاهدة هذا',badge:'🔥 مهم'},
+  {id:'OusUlCU5WBI',title:'العَشر الأُوَل من ذي الحِجَّة',badge:''},
+  {id:'YgKfcLUbu60',title:'أوائل ذي الحجة | أفضل أيام الدهر',badge:''},
+  {id:'ZSo0_0zxYHQ',title:'السر وراء يوم عرفة وعلاقته بالدعاء',badge:'🌄 عرفة'},
+  {id:'zetXiUuqkiY',title:'عشر ذي الحجة موسم الخواص',badge:''},
+  {id:'BMMa16hvRU8',title:'موسم العَشر والذكر: حِكَم وأسرار',badge:''},
+  {id:'Ul1FBSoszZk',title:'لقاء العشر من ذي الحجة',badge:''},
+];
+function initVideoCarousel(){
+  const track=document.getElementById('vc-track');if(!track)return;
+  track.innerHTML=VC_VIDEOS.map(v=>`<a class="vc-card" href="https://youtu.be/${v.id}" target="_blank" rel="noopener"><img class="vc-thumb" src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" onerror="this.src='https://img.youtube.com/vi/${v.id}/default.jpg'" alt="${v.title}" loading="lazy"><div class="vc-info"><div class="vc-title">${v.title}</div>${v.badge?`<div class="vc-badge">${v.badge}</div>`:''}</div></a>`).join('');
+  const car=document.getElementById('vid-carousel');if(!car)return;
+  let isDown=false,startX=0,scrollLeft=0;
+  car.addEventListener('mousedown',e=>{isDown=true;startX=e.pageX-car.offsetLeft;scrollLeft=car.scrollLeft;});
+  car.addEventListener('mouseleave',()=>{isDown=false;});
+  car.addEventListener('mouseup',()=>{isDown=false;});
+  car.addEventListener('mousemove',e=>{if(!isDown)return;e.preventDefault();car.scrollLeft=scrollLeft-(e.pageX-car.offsetLeft-startX)*1.5;});
 }
 
-/* ══════════════════════════════════════════
-   BUG #3 + #4 FIXED — STATE local + event passed as parameter
-══════════════════════════════════════════ */
-function addToFavorites(vidId, evt) {
-  let STATE = JSON.parse(localStorage.getItem('zad_v2') || '{}');
-  if (!STATE.vidFavorites) STATE.vidFavorites = [];
-  const idx = STATE.vidFavorites.indexOf(vidId);
-  const btn = evt?.target?.closest('.vid-action-btn');
-  if (idx === -1) {
-    STATE.vidFavorites.push(vidId);
-    if (btn) { btn.classList.add('favorited'); btn.innerHTML = '❤️ مضافة'; }
-    if (typeof showToast === 'function') showToast('❤️ تمت الإضافة للمفضلة');
-  } else {
-    STATE.vidFavorites.splice(idx, 1);
-    if (btn) { btn.classList.remove('favorited'); btn.innerHTML = '❤️ مفضلة'; }
-    if (typeof showToast === 'function') showToast('🗑️ تمت الإزالة من المفضلة');
-  }
-  localStorage.setItem('zad_v2', JSON.stringify(STATE));
+function seedDailyNotifications(){
+  const KEY='zad_notif_seed_day',today=new Date().toISOString().split('T')[0];
+  if(localStorage.getItem(KEY)===today)return;
+  localStorage.setItem(KEY,today);
+    addNotif('📿','ذكّرك ربك','أكثر من التكبير والذكر — سبّح وكبّر واستغفر','info');
 }
 
-/* ══════════════════════════════════════════
-   Init favorites & notes state on load
-══════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
-  const STATE = JSON.parse(localStorage.getItem('zad_v2') || '{}');
-  if (STATE.vidFavorites?.length) {
-    STATE.vidFavorites.forEach(vidId => {
-      const btn = document.querySelector(`[onclick*="addToFavorites('${vidId}'"]`);
-      if (btn) { btn.classList.add('favorited'); btn.innerHTML = '❤️ مضافة'; }
-    });
-  }
-  if (STATE.vidNotes) {
-    Object.keys(STATE.vidNotes).forEach(vidId => {
-      const btn = document.querySelector(`[onclick*="saveVidNote('${vidId}')"]`);
-      if (btn && STATE.vidNotes[vidId]) {
-        btn.classList.add('saved');
-        btn.title = '📝 لديك ملاحظة محفوظة';
-      }
-    });
-  }
-});
+/* Next prayer bar */
+const NP_ICONS={Fajr:'🌅',Sunrise:'☀️',Dhuhr:'🌞',Asr:'🌤️',Maghrib:'🌇',Isha:'🌙'};
+const NP_NAMES={Fajr:'الفجر',Sunrise:'الشروق',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
+let _npTimer=null;
+function updateNextPrayerBar(timings){
+  const bar=document.getElementById('next-prayer-bar');if(!bar)return;
+  const now=new Date(),keys=['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+  let next=null,nextTime=null;
+  for(const k of keys){if(!timings[k])continue;const[hh,mm]=timings[k].split(':').map(Number);const t=new Date();t.setHours(hh,mm,0,0);if(t>now){next=k;nextTime=t;break;}}
+  if(!next)next='Fajr';if(!nextTime)return;
+  bar.style.cssText+=';display:flex;align-items:center;justify-content:space-between;';
+  const nameEl=document.getElementById('np-name'),icoEl=document.getElementById('np-ico'),timeEl=document.getElementById('np-time');
+  if(nameEl)nameEl.textContent=NP_NAMES[next]||next;
+  if(icoEl)icoEl.textContent=NP_ICONS[next]||'🕌';
+  if(timeEl)timeEl.textContent=timings[next]?.substring(0,5)||'--:--';
+  if(_npTimer)clearInterval(_npTimer);
+  _npTimer=setInterval(()=>{
+    const diff=nextTime-new Date();if(diff<=0){clearInterval(_npTimer);return;}
+    const hh=Math.floor(diff/3600000),mm=Math.floor((diff%3600000)/60000),ss=Math.floor((diff%60000)/1000);
+    const pad=n=>String(n).padStart(2,'0');
+    const cdEl=document.getElementById('np-countdown');if(cdEl)cdEl.textContent=hh>0?`${pad(hh)}:${pad(mm)}:${pad(ss)}`:`${pad(mm)}:${pad(ss)}`;
+  },1000);
+}
+function hookPrayerData(){
+  try{const cached=JSON.parse(localStorage.getItem('zad_prayer_cache')||'null');if(cached&&cached.timings)updateNextPrayerBar(cached.timings);}catch(e){}
+  const fajrEl=document.getElementById('pt-fajr');
+  if(fajrEl){const obs=new MutationObserver(()=>{const t={Fajr:document.getElementById('pt-fajr')?.textContent,Sunrise:document.getElementById('pt-sunrise')?.textContent,Dhuhr:document.getElementById('pt-dhuhr')?.textContent,Asr:document.getElementById('pt-asr')?.textContent,Maghrib:document.getElementById('pt-maghrib')?.textContent,Isha:document.getElementById('pt-isha')?.textContent};if(t.Fajr&&t.Fajr!=='--:--'){obs.disconnect();updateNextPrayerBar(t);localStorage.setItem('zad_prayer_cache',JSON.stringify({timings:t,ts:Date.now()}));const lb=document.getElementById('prayer-loc-btn');if(lb)lb.style.display='none';}});obs.observe(document.body,{childList:true,subtree:true,characterData:true});}
+}
 
-/* ══════════════════════════════════════════
-   Filter & Share
-══════════════════════════════════════════ */
-function filterVids(tag, btn) {
-  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.vid-card').forEach(c => {
-    c.style.display = (tag === 'all' || c.dataset.tag === tag) ? '' : 'none';
+document.addEventListener('DOMContentLoaded',()=>{
+  startResetCountdown();seedDailyNotifications();renderNotifBadge();
+  initVideoCarousel();hookPrayerData();initHijriBar();renderMiniBadges();loadTopbarPrayers();
   });
-}
-
-function shareVid(id, title) {
-  const url = `https://youtu.be/${id}`;
-  const text = `🕋 ${title}\n${url}`;
-  if (navigator.share) {
-    navigator.share({ title, url }).catch(() => {});
-  } else {
-    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-  }
-}
 </script>
-  <script src="menu.js" defer></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+
+<!-- ══ احتفال يوم عرفة (3 ثواني) ══ -->
+<div id="arafah-celebrate" role="dialog" aria-label="احتفال يوم عرفة">
+  <div class="ac-glow g1"></div>
+  <div class="ac-glow g2"></div>
+  <div class="ac-stars" id="ac-stars" aria-hidden="true"></div>
+  <div class="ac-content">
+    <div class="ac-crescent">🌙</div>
+    <div class="ac-eyebrow">⭐ اليوم التاسع ⭐</div>
+    <div class="ac-title">اليومَ هو <span class="ac-gold">يومُ عَرَفَة</span></div>
+    <div class="ac-verse">«مَا مِنْ يَوْمٍ أَكْثَرَ مِنْ أَنْ يُعْتِقَ اللهُ فِيهِ عَبْدًا مِنَ النَّارِ مِنْ يَوْمِ عَرَفَةَ»</div>
+    <div class="ac-verse-src">رواه مسلم</div>
+    <div class="ac-timer"><div class="ac-timer-fill"></div></div>
+  </div>
+</div>
+
 <script>
-function filterVideos(cat) {
-  document.querySelectorAll('.ftab').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
-  document.querySelectorAll('[data-vid-cat]').forEach(card => {
-    const c = card.dataset.vidCat || 'all';
-    card.style.display = (cat === 'all' || c === cat) ? '' : 'none';
-  });
+(function(){
+  var ARAFAH=new Date(2026,4,26);
+  function isArafahToday(){var n=new Date();return n.getFullYear()===ARAFAH.getFullYear()&&n.getMonth()===ARAFAH.getMonth()&&n.getDate()===ARAFAH.getDate();}
+  function seenKey(){return 'zad_arafah_celebrated_'+ARAFAH.toDateString();}
+  function alreadySeen(){try{return localStorage.getItem(seenKey())==='1';}catch(e){return false;}}
+  function markSeen(){try{localStorage.setItem(seenKey(),'1');}catch(e){}}
+  function spawnStars(){
+    var box=document.getElementById('ac-stars');if(!box)return;
+    var glyphs=['✦','✧','⭐','✨','◆','✸'];
+    var n=window.innerWidth<480?22:34;
+    for(var i=0;i<n;i++){var s=document.createElement('span');s.className='ac-star';s.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];var size=8+Math.random()*16;s.style.fontSize=size+'px';s.style.left=(Math.random()*100)+'%';var dur=4+Math.random()*5,delay=Math.random()*4;s.style.animation='acFall '+dur+'s linear '+delay+'s infinite';box.appendChild(s);}
+  }
+  function hideCelebration(){
+    var el=document.getElementById('arafah-celebrate');if(!el||!el.classList.contains('show'))return;
+    el.classList.add('hide');
+    setTimeout(function(){el.classList.remove('show','hide');var box=document.getElementById('ac-stars');if(box)box.innerHTML='';},950);
+  }
+  function showCelebration(){
+    var el=document.getElementById('arafah-celebrate');if(!el)return;
+    spawnStars();el.classList.add('show');
+    try{if(window.confetti){var burst=function(){window.confetti({particleCount:36,spread:75,origin:{y:.2},colors:['#e6c97a','#c9a14a','#4dd862','#ffffff'],scalar:.9});};setTimeout(burst,500);setTimeout(burst,1400);}}catch(e){}
+    if(navigator.vibrate)navigator.vibrate([20,40,20]);
+    markSeen();
+    /* ── 3 ثواني بدل 5 ── */
+    setTimeout(hideCelebration, 3000);
+  }
+  function maybeCelebrate(){if(!isArafahToday())return;if(alreadySeen())return;setTimeout(showCelebration,1400);}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',maybeCelebrate);}else{maybeCelebrate();}
+  window.zadShowArafahCelebration=function(){try{localStorage.removeItem(seenKey());}catch(e){}showCelebration();};
+})();
+</script>
+
+<script src="js/pwa-install-fab.js" defer></script>
+<script>
+/* getUserLocation — يوجّه لصفحة المواقيت */
+function getUserLocation() {
+  window.location.href = 'prayers.html';
 }
 </script>
 </body>

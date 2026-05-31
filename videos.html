@@ -973,7 +973,6 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
   <script src="js/share-button.js" defer></script>
   <script src="js/gps-fix.js" defer></script>
   <script src="js/nav-accordion.js" defer></script>
-  <script src="js/float-tasbih.js" defer></script>
     <script src="js/utils/helpers.js" defer></script>
   <script src="js/core/state-manager.js" defer></script>
   <script src="js/core/router.js" defer></script>
@@ -982,6 +981,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
   <script src="js/ui/offline-ui.js" defer></script>
   <script src="js/ui/micro-interactions.js" defer></script>
   <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
 <script>
 /* ══════════════════════════════════════════
    Player
@@ -1129,7 +1129,8 @@ function shareVid(id, title) {
   }
 }
 </script>
-  <script src="menu.js" defer>
+  <script src="menu.js" defer></script>
+<script>
 function filterVideos(cat) {
   document.querySelectorAll('.ftab').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
   document.querySelectorAll('[data-vid-cat]').forEach(card => {
