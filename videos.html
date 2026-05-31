@@ -103,7 +103,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
 @media(max-width:768px){.vids-hero{padding:22px 18px}.vids-hero h1{font-size:22px}.vid-title{font-size:15px}}
 @media(max-width:480px){.vid-extra-actions{flex-direction:column}.vid-action-btn{min-width:100%}.vid-summary-section h4{font-size:12px}.vid-summary-section p,.vid-summary-section ul{font-size:12px}}
 </style>
-<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t);try{if(p.excuseMode)document.documentElement.setAttribute('data-excuse','on')}catch(e){}})();</script>
 <style>
   :root{--font-scale:1}
   body{font-size:calc(1rem * var(--font-scale))}

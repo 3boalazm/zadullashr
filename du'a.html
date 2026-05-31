@@ -179,7 +179,7 @@ html[data-theme="oled"] .du-arabic{color:var(--sys-yellow,#ffd060)}
 <script>(function(){
   var s=localStorage.getItem('zad_v2');var t='light';
   try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}
-  document.documentElement.setAttribute('data-theme',t);
+  document.documentElement.setAttribute('data-theme',t);try{if(p.excuseMode)document.documentElement.setAttribute('data-excuse','on')}catch(e){};
   var saved=localStorage.getItem('zad_font_size');
   var map={small:0.875,medium:1,large:1.15};
   if(!saved||saved==='system'){var scale=1;try{var p2=document.createElement('div');p2.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p2);var rem=parseFloat(getComputedStyle(p2).width)||16;(document.head||document.documentElement).removeChild(p2);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}

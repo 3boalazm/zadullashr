@@ -269,7 +269,7 @@ html[data-theme="dark"] .sb-points li,html[data-theme="oled"] .sb-points li{colo
 .sec-title-outcome .question-mark{color:var(--gold-dark)}
 .sec-subtitle{font-size:12px;color:var(--muted);margin-bottom:16px;font-style:italic}
 </style>
-<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t);try{if(p.excuseMode)document.documentElement.setAttribute('data-excuse','on')}catch(e){}})();</script>
 <style>
   /* ── Performance fixes — تقليل اللاج عند التمرير ── */
   .fadael-content, .fadael-layout, .quran-cards,

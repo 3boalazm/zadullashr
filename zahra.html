@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<title>زهرة — رفيقة فترة العذر · زاد العشر</title>
+<meta charset="UTF-8">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e3b2e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
+<!-- Async font loading — eliminates render-blocking -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" id="google-fonts"
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&display=swap"
+  media="print" onload="this.media='all'">
+<noscript>
+  
+</noscript>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/premium-ui.css">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';fs=p.quranFontSize||24}catch(e){}document.documentElement.setAttribute('data-theme',t);try{if(p.excuseMode)document.documentElement.setAttribute('data-excuse','on')}catch(e){};document.documentElement.style.setProperty('--qf-size',fs+'px')})();</script>
+<style>
+  :root{--font-scale:1}
+  body{font-size:calc(1rem * var(--font-scale))}
+  .quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
+  .font-size-options{display:flex;gap:8px}
+  .font-size-options .fs-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;transition:all .2s;color:var(--ink)}
+  .font-size-options .fs-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff}
+  .fs-btn[data-size="small"]  span:first-child{font-size:14px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="medium"] span:first-child{font-size:19px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="large"]  span:first-child{font-size:24px;display:block;margin-bottom:4px}
+</style>
+<script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
+  <!-- Open Graph / Social Media Thumbnail -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="زاد العشر">
+  <meta property="og:url" content="https://zadullashr.vercel.app/sadaqah.html">
+  <meta property="og:title" content="زاد العشر — أفضل أيام الدنيا">
+  <meta property="og:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+  <meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="زاد العشر — تطبيق العبادة في عشر ذي الحجة">
+  <meta property="og:locale" content="ar_SA">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="زاد العشر — أفضل أيام الدنيا">
+  <meta name="twitter:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
+  <meta name="twitter:image" content="https://zadullashr.vercel.app/og-image.png">
+  <!-- WhatsApp / general -->
+  <meta name="description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
+  <link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function() {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+
+<style>
+/* ══ صفحة زهرة ══ */
+.zh-hero{background:linear-gradient(135deg,#d4789f 0%,#b86397 55%,#8e5ea8 120%);border-radius:24px;padding:32px 26px;color:#fff;text-align:center;position:relative;overflow:hidden;margin-bottom:20px;box-shadow:0 16px 48px -14px rgba(168,77,119,.5)}
+.zh-hero::before{content:'';position:absolute;inset:auto -60px -80px auto;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%)}
+.zh-hero-emoji{font-size:46px;margin-bottom:8px}
+.zh-hero-title{font-size:24px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:8px;line-height:1.35}
+.zh-hero-sub{font-size:13px;color:rgba(255,255,255,.9);margin-bottom:14px}
+.zh-hero-desc{font-size:13.5px;line-height:1.95;color:rgba(255,255,255,.95);max-width:540px;margin:0 auto;background:rgba(255,255,255,.12);border-radius:14px;padding:14px 16px}
+.zh-hero-desc b{color:#ffe1ef}
+.zh-toggle-card{background:var(--card);border:2px solid #e89bbb;border-radius:18px;padding:18px;margin-bottom:24px;box-shadow:0 8px 24px -10px rgba(212,120,159,.35)}
+.zh-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.zh-toggle-title{font-size:16px;font-weight:900;color:#a84d77;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .zh-toggle-title,html[data-theme="oled"] .zh-toggle-title{color:#e89bbb}
+.zh-toggle-sub{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.7}
+.zh-toggle-note{margin-top:14px;padding:12px 14px;border-radius:12px;background:#fbeef4;color:#8e4d6f;font-size:12.5px;line-height:1.8;display:none}
+html[data-theme="dark"] .zh-toggle-note,html[data-theme="oled"] .zh-toggle-note{background:rgba(212,120,159,.12);color:#e89bbb}
+.zh-switch{position:relative;display:inline-block;width:54px;height:30px;flex-shrink:0}
+.zh-switch input{opacity:0;width:0;height:0}
+.zh-slider{position:absolute;inset:0;background:var(--sand-2);border-radius:99px;transition:.3s;cursor:pointer}
+.zh-slider::before{content:'';position:absolute;height:24px;width:24px;right:3px;top:3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.zh-switch input:checked+.zh-slider{background:linear-gradient(135deg,#d4789f,#a84d77)}
+.zh-switch input:checked+.zh-slider::before{transform:translateX(-24px)}
+.zh-sec-title{font-size:17px;font-weight:900;font-family:'ThmanyahSans',sans-serif;color:var(--ink);margin:26px 0 14px;padding-right:12px;border-right:4px solid #d4789f}
+.zh-pillars{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px}
+.zh-pillar{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;transition:transform .15s,box-shadow .2s}
+.zh-pillar:hover{transform:translateY(-2px);box-shadow:0 8px 22px -10px rgba(212,120,159,.4);border-color:#e89bbb}
+.zh-pillar-ico{font-size:26px;margin-bottom:8px}
+.zh-pillar-t{font-size:14px;font-weight:800;color:#a84d77;margin-bottom:5px;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .zh-pillar-t,html[data-theme="oled"] .zh-pillar-t{color:#e89bbb}
+.zh-pillar-d{font-size:12px;color:var(--muted);line-height:1.85}
+.zh-rest-grid{display:flex;flex-direction:column;gap:10px}
+.zh-rest-card{background:var(--card);border:1px solid var(--border);border-right:4px solid #c9b3d4;border-radius:13px;padding:13px 16px}
+.zh-rest-card b{font-size:14px;color:var(--ink);display:block;margin-bottom:3px}
+.zh-rest-card span{font-size:12.5px;color:var(--muted);line-height:1.75}
+.zh-doors{display:flex;flex-direction:column;gap:10px}
+.zh-door{display:flex;gap:13px;align-items:flex-start;background:linear-gradient(135deg,#fdf5f9,var(--card));border:1px solid #f0d5e3;border-radius:15px;padding:14px 16px;transition:box-shadow .25s,transform .15s}
+.zh-door:hover{box-shadow:0 6px 20px -8px rgba(212,120,159,.45);transform:translateX(-3px)}
+html[data-theme="dark"] .zh-door,html[data-theme="oled"] .zh-door{background:rgba(212,120,159,.06);border-color:rgba(212,120,159,.2)}
+.zh-door-ico{font-size:26px;flex-shrink:0}
+.zh-door b{font-size:14px;color:#a84d77;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .zh-door b,html[data-theme="oled"] .zh-door b{color:#e89bbb}
+.zh-door p{font-size:12px;color:var(--muted);line-height:1.8;margin:4px 0 0}
+.zh-checklist-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:8px}
+.zh-cl-intro{font-size:12.5px;color:var(--muted);margin-bottom:14px;text-align:center}
+.zh-cl-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:var(--sand);margin-bottom:8px;cursor:pointer;transition:background .2s}
+.zh-cl-item:hover{background:var(--sand-2)}
+.zh-cl-item.done{background:#fbeef4}
+html[data-theme="dark"] .zh-cl-item.done,html[data-theme="oled"] .zh-cl-item.done{background:rgba(212,120,159,.12)}
+.zh-cl-item input{display:none}
+.zh-cl-box{width:28px;height:28px;border-radius:9px;border:2px solid #e89bbb;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;transition:all .2s}
+.zh-cl-item.done .zh-cl-box{background:#fbeef4;border-color:#d4789f}
+.zh-cl-text{font-size:13px;color:var(--ink);line-height:1.6}
+.zh-cl-item.done .zh-cl-text{color:#a84d77;font-weight:600}
+html[data-theme="dark"] .zh-cl-item.done .zh-cl-text,html[data-theme="oled"] .zh-cl-item.done .zh-cl-text{color:#e89bbb}
+.zh-cl-actions{display:flex;gap:10px;margin-top:14px}
+.zh-btn-reset{flex:1;padding:11px;border-radius:12px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.zh-btn-download{flex:2;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#d4789f,#a84d77);color:#fff;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:transform .1s}
+.zh-btn-download:active{transform:scale(.97)}
+.zh-sources{margin-top:22px;padding:14px 16px;border-radius:13px;background:var(--sand);font-size:11.5px;color:var(--muted);line-height:1.8;text-align:center}
+@media(max-width:600px){.zh-pillars{grid-template-columns:1fr}.zh-hero-title{font-size:21px}}
+</style>
+</head>
+
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar"></aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">🌸 زهرة</div></div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown&&toggleNotifDropdown()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ HERO: فقه المحبة ══ -->
+    <div class="zh-hero">
+      <div class="zh-hero-emoji">🌸</div>
+      <div class="zh-hero-title">نبضُ قلبكِ متّصلٌ بالله دائماً</div>
+      <div class="zh-hero-sub">إلى الطيبة في بستان زاد العشر — الأمّ والزوجة والابنة والمصلّية</div>
+      <p class="zh-hero-desc">
+        فترةُ العذر ليست انقطاعاً عن الله، بل تخفيفٌ ورحمة. تركُكِ للصلاة امتثالاً لأمره هو <b>عبادةُ كفٍّ وتقرّبٍ بالترك</b> تُؤجَرين عليها، كما تُؤجَرين على الفعل. أنتِ في معيّة الله بطاعتكِ لرخصته. 🤍
+      </p>
+    </div>
+
+    <!-- ══ Toggle: وضع زهرة ══ -->
+    <div class="zh-toggle-card" id="zh-toggle-card">
+      <div class="zh-toggle-row">
+        <div>
+          <div class="zh-toggle-title">🌸 تفعيل وضع زهرة</div>
+          <div class="zh-toggle-sub">يُعفي الصلاة والصيام من العدّادات ويحتسبها معذورة، ويُلبس التطبيق حُلّةً ورديّة لطيفة في كل الصفحات.</div>
+        </div>
+        <label class="zh-switch"><input type="checkbox" id="zh-switch"><span class="zh-slider"></span></label>
+      </div>
+      <div class="zh-toggle-note" id="zh-toggle-note"></div>
+    </div>
+
+    <!-- ══ المرتكزات الإيمانية الخمسة ══ -->
+    <div class="zh-sec-title">💎 خمسُ مرتكزاتٍ لطمأنينة قلبكِ</div>
+    <div class="zh-pillars">
+      <div class="zh-pillar">
+        <div class="zh-pillar-ico">🌷</div>
+        <div class="zh-pillar-t">العذرُ ليس نقصاً</div>
+        <div class="zh-pillar-d">الحيضُ أمرٌ كتبه الله رحمةً، لا ذنبٌ ولا عقوبة. قال ﷺ لعائشة: «هذا شيءٌ كتبه الله على بنات آدم».</div>
+      </div>
+      <div class="zh-pillar">
+        <div class="zh-pillar-ico">📖</div>
+        <div class="zh-pillar-t">أجركِ كاملٌ بالنيّة</div>
+        <div class="zh-pillar-d">إن كنتِ تحافظين على أورادكِ حال طهركِ، كُتب لكِ مثلها كاملةً في عذركِ: «إذا مرض العبد أو سافر كُتب له مثل ما كان يعمل».</div>
+      </div>
+      <div class="zh-pillar">
+        <div class="zh-pillar-ico">🕊️</div>
+        <div class="zh-pillar-t">الرحمةُ فوق التكليف</div>
+        <div class="zh-pillar-d">إسقاطُ الصلاة عنكِ حنانٌ بجسدكِ في ضعفه الطبيعي. والله «يحب أن تُؤتى رخصُه كما يحب أن تُؤتى عزائمه».</div>
+      </div>
+      <div class="zh-pillar">
+        <div class="zh-pillar-ico">💗</div>
+        <div class="zh-pillar-t">القلبُ متّصلٌ دائماً</div>
+        <div class="zh-pillar-d">طهارةُ القلب بالإيمان هي الكبرى، وبابُ المناجاة مفتوحٌ لا يُغلق أبداً. أنتِ قريبةٌ من الله في كل حال.</div>
+      </div>
+      <div class="zh-pillar">
+        <div class="zh-pillar-ico">🌿</div>
+        <div class="zh-pillar-t">عبادةُ الصبر</div>
+        <div class="zh-pillar-d">صبركِ على التغيّرات وترككِ للصلاة امتثالاً يرفع درجاتكِ: {إنما يُوفّى الصابرون أجرهم بغير حساب}.</div>
+      </div>
+    </div>
+
+    <!-- ══ مساحة الامتثال بالترك ══ -->
+    <div class="zh-sec-title">🕊️ مساحةُ الامتثال — ما يُرفَع عنكِ رحمةً</div>
+    <div class="zh-rest-grid">
+      <div class="zh-rest-card"><b>الصلاة</b><span>تستريحين من الفرض والنفل، ولا تُقضى بعد الطُّهر رحمةً بكِ.</span></div>
+      <div class="zh-rest-card"><b>الصوم</b><span>تتوقّفين عنه، وتُقضى أيامُ رمضان فقط على مهلٍ بعد الطُّهر.</span></div>
+      <div class="zh-rest-card"><b>الطواف</b><span>تؤجّلين الطواف حتى تطهري، وتفعلين سائر مناسك الحج والعمرة.</span></div>
+      <div class="zh-rest-card"><b>مسّ المصحف</b><span>تعتزلين المسَّ المباشر، وبابُ القراءة من الهاتف مفتوحٌ لكِ.</span></div>
+      <div class="zh-rest-card"><b>المكوث في المسجد</b><span>تبتعدين عن اللُّبث، ومصلّاكِ المنزلي ينتظر مناجاتكِ.</span></div>
+    </div>
+
+    <!-- ══ أبواب النور النشطة ══ -->
+    <div class="zh-sec-title">✨ أبوابُ النور — سبعُ مساحاتٍ للوصل الذي لا ينقطع</div>
+    <div class="zh-doors">
+      <div class="zh-door"><span class="zh-door-ico">🌙</span><div><b>همسُ الذكر</b><p>لسانُكِ الرطب بالتسبيح والتحميد والتهليل والصلاة على النبي ﷺ — حبلٌ موصولٌ بالسماء.</p></div></div>
+      <div class="zh-door"><span class="zh-door-ico">🤲</span><div><b>مناجاةُ السحر</b><p>الدعاءُ مخُّ العبادة، وقلبُكِ المنكسر في جوف الليل يطلب كل ما يتمنّى دون طهارة.</p></div></div>
+      <div class="zh-door"><span class="zh-door-ico">📱</span><div><b>تلاوةُ الشاشات</b><p>اقرئي أورادكِ من هاتفكِ، أو أنصتي لتلاوةٍ خاشعةٍ تُغذّي روحكِ.</p></div></div>
+      <div class="zh-door"><span class="zh-door-ico">📚</span><div><b>رياضُ العلم</b><p>درسٌ دينيّ، أو سيرةُ النبي ﷺ، أو مهارةٌ تربويّة — كلُّ دقيقةٍ رفعةٌ في درجاتكِ.</p></div></div>
+      <div class="zh-door"><span class="zh-door-ico">🤍</span><div><b>غيثُ الصدقة</b><p>الصدقةُ تطفئ الخطيئة، ومساهمتُكِ بكلمةٍ طيبةٍ أو مبلغٍ بسيطٍ تجارةٌ رابحة.</p></div></div>
+      <div class="zh-door"><span class="zh-door-ico">💞</span><div><b>أخلاقُ العشير</b><p>تبسّمُكِ لطفلكِ، ولمستُكِ الحانية، وطهيُكِ بنيّة إطعام أسرتكِ — عباداتٌ تُكتب لكِ.</p></div></div>
+      <div class="zh-door"><span class="zh-door-ico">🌸</span><div><b>سكينةُ النوم</b><p>توضّئي وضوءكِ اللطيف لآداب النوم، ونامي في كنف الله ورعايته.</p></div></div>
+    </div>
+
+    <!-- ══ مفكرة يومي النوراني ══ -->
+    <div class="zh-sec-title">📝 مفكّرةُ «يومي النوراني»</div>
+    <div class="zh-checklist-card">
+      <p class="zh-cl-intro">علّمي على وردكِ كلما أتممتِه — يُحفَظ تلقائياً ليومكِ 🤍</p>
+      <div id="zh-checklist"></div>
+      <div class="zh-cl-actions">
+        <button class="zh-btn-reset" onclick="zhResetChecklist()">↺ مفكّرة جديدة</button>
+        <button class="zh-btn-download" onclick="zhDownload()">📥 تحميل المفكّرة</button>
+      </div>
+    </div>
+
+    <!-- ══ المصادر ══ -->
+    <div class="zh-sources">
+      🌸 مصادرُنا التي نثق بها لأجلكِ: فتاوى اللجنة الدائمة · فتاوى الشيخ ابن عثيمين · كتاب «الحيض والنفاس وأحكامهما» للدكتور سعد الخثلان.
+    </div>
+  </main>
+  <a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
+</div>
+  <script src="lang.js" defer></script>
+  <script src="js/storage.js" defer></script>
+  <script src="js/calendar.js" defer></script>
+  <script src="js/core/state-manager.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   زهرة — رفيقة فترة العذر
+   • تخزين excuseMode في zad_v2 (نفس مفتاح وضع الانقطاع في جدول العبادات)
+   • تفعيل الوضع يضع data-excuse="on" على <html> → ثيم وردي على كل الصفحات
+   ════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  var ZKEY='zad_v2';
+  var EXEMPT=['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam','fasting'];
+
+  function load(){ try{ return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{}; }catch(e){ return {}; } }
+  function save(s){ try{ localStorage.setItem(ZKEY,JSON.stringify(s)); }catch(e){} if(window.STATE) window.STATE.excuseMode=s.excuseMode; }
+  function isOn(){ return !!load().excuseMode; }
+
+  function setMode(on){
+    var s=load();
+    s.excuseMode=on;
+    s.worship=s.worship||{};
+    s.excused=s.excused||{};
+    if(on){
+      EXEMPT.forEach(function(k){ if(!s.worship[k]){ s.worship[k]=true; s.excused[k]=true; } });
+    } else {
+      EXEMPT.forEach(function(k){ if(s.excused&&s.excused[k]){ s.worship[k]=false; delete s.excused[k]; } });
+    }
+    save(s);
+    applyVisual(on);
+  }
+
+  function applyVisual(on){
+    document.documentElement.setAttribute('data-excuse', on?'on':'off');
+    var sw=document.getElementById('zh-switch'); if(sw) sw.checked=on;
+    var note=document.getElementById('zh-toggle-note');
+    if(note){
+      note.textContent = on
+        ? '🌸 وضع زهرة مُفعَّل — رُفعت عنكِ الصلاة والصيام من العدّادات، وأنتِ في معيّة الله. تصفَّحي بقيّة التطبيق وستجدينه بحُلّةٍ ورديّة لطيفة.'
+        : '';
+      note.style.display = on ? 'block' : 'none';
+    }
+  }
+
+  window.zhToggle=function(){ setMode(!isOn()); };
+
+  /* ربط زر التبديل */
+  document.addEventListener('DOMContentLoaded', function(){
+    var sw=document.getElementById('zh-switch');
+    if(sw){ sw.checked=isOn(); sw.addEventListener('change', function(){ setMode(sw.checked); }); }
+    applyVisual(isOn());
+    renderChecklist();
+  });
+
+  /* ── مفكرة يومي النوراني (checklist) ── */
+  var CL_ITEMS=[
+    {id:'athkar', t:'وردُ الأذكار الصباحية والمسائية'},
+    {id:'munajah',t:'10 دقائق مناجاةٍ واستغفارٍ في السحر'},
+    {id:'ilm',    t:'الاستماعُ لربع ساعةٍ لدرسٍ أو تفسيرٍ'},
+    {id:'ihsan',  t:'لمسةُ إحسانٍ وجبرِ خاطرٍ لشخصٍ في بيتي'},
+    {id:'tasbih', t:'100 استغفار · 100 صلاةٍ على النبي ﷺ · 100 تسبيحة'},
+    {id:'sleep',  t:'النومُ على وضوءٍ مع أذكار المساء من الهاتف'}
+  ];
+  function clKey(){ var d=new Date(); return 'zad_zahra_cl_'+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+  function clLoad(){ try{ return JSON.parse(localStorage.getItem(clKey())||'{}')||{}; }catch(e){ return {}; } }
+  function clSave(o){ try{ localStorage.setItem(clKey(), JSON.stringify(o)); }catch(e){} }
+
+  window.renderChecklist=function(){
+    var wrap=document.getElementById('zh-checklist'); if(!wrap) return;
+    var done=clLoad();
+    wrap.innerHTML=CL_ITEMS.map(function(it){
+      var on=!!done[it.id];
+      return '<label class="zh-cl-item'+(on?' done':'')+'">'+
+        '<input type="checkbox" '+(on?'checked':'')+' onchange="zhCheck(\''+it.id+'\',this.checked)">'+
+        '<span class="zh-cl-box">'+(on?'🌸':'')+'</span>'+
+        '<span class="zh-cl-text">'+it.t+'</span></label>';
+    }).join('');
+  };
+  window.zhCheck=function(id,on){
+    var done=clLoad(); done[id]=on; clSave(done); renderChecklist();
+    if(on && navigator.vibrate) navigator.vibrate(12);
+  };
+  window.zhResetChecklist=function(){
+    clSave({}); renderChecklist();
+    if(typeof showToast==='function') showToast('🌸 مفكّرةٌ جديدةٌ ليومكِ');
+  };
+  window.zhDownload=function(){
+    var done=clLoad();
+    var lines=['🌸 مفكّرة «يومي النوراني» — زاد العشر','════════════════════',''];
+    CL_ITEMS.forEach(function(it){ lines.push((done[it.id]?'🌸 ':'🤍 ')+it.t); });
+    lines.push('','🤍 نبضُ قلبكِ متّصلٌ بالله دائماً');
+    var blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download='مفكرة-يومي-النوراني.txt';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    if(typeof showToast==='function') showToast('📥 تم تحميل مفكّرتكِ');
+  };
+})();
+</script>
+  <script src="animations.js" defer></script>
+  <script src="menu.js" defer></script>
+</body>
+</html>

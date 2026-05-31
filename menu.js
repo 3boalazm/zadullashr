@@ -75,7 +75,8 @@
     { href: 'developer.html',    icon: '🎨', label: 'عن المطوّر',       section: 'sec-settings' },
 
     { sep: 'وضع خاص', id: 'sec-special' },
-    { href: 'worship.html#excuse-card', icon: '🌸', label: 'وضع الانقطاع (عذر شرعي)', section: 'sec-special' },
+    { href: 'zahra.html',        icon: '🌸', label: 'زهرة — رفيقة العذر', section: 'sec-special' },
+    { href: 'worship.html#excuse-card', icon: '🌙', label: 'وضع الانقطاع (عذر شرعي)', section: 'sec-special' },
   ];
 
   /* ── مفاتيح التخزين ──────────────────────────────────────────────────── */

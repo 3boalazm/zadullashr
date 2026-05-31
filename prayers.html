@@ -122,7 +122,7 @@ html[data-theme="dark"] .city-chip,html[data-theme="oled"] .city-chip{background
   .pt-table th,.pt-table td{padding:7px 4px}
 }
 </style>
-<script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light',fs=24;try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t);try{if(p.excuseMode)document.documentElement.setAttribute('data-excuse','on')}catch(e){}})();</script>
 <style>
   :root{--font-scale:1}
   body{font-size:calc(1rem * var(--font-scale))}

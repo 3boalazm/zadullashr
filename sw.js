@@ -8,14 +8,14 @@
    تستجب الشبكة خلال 3 ثوانٍ نرجع فوراً للنسخة المخزّنة.
    ════════════════════════════════════════════════════════════ */
 
-const CACHE_STATIC = 'zad-20260531-3700';
+const CACHE_STATIC = 'zad-20260531-3800';
 const NET_TIMEOUT  = 3000; /* مهلة الشبكة قبل الرجوع للكاش (ms) */
 
 /* ── أصول تُخزَّن مسبقاً عند التثبيت ── */
 const PRECACHE = [
   './', './index.html', './404.html',
   './prayers.html', './adhkar.html', './mushaf.html', './takbeer.html',
-  './hasn.html', './worship.html', './settings.html', './hijri.html',
+  './hasn.html', './worship.html', './zahra.html', './settings.html', './hijri.html',
   './css/style.css', './css/premium-ui.css', './manifest.json',
   './fonts/thmanyahserifdisplay-Bold.otf', './fonts/thmanyahserifdisplay-Regular.otf',
   './icons/icon-192.svg', './icons/icon-512.svg',

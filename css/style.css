@@ -2006,3 +2006,27 @@ html[data-theme="oled"] .card {
 .theme-opt:hover{color:var(--ink)}
 .theme-opt.active{background:var(--green-deep);color:#fff;box-shadow:0 3px 10px -3px rgba(0,0,0,.3)}
 html[data-theme="dark"] .theme-opt.active,html[data-theme="oled"] .theme-opt.active{background:var(--sys-green);color:#001a08}
+
+/* ══════════════════════════════════════════════════════════
+   وضع زهرة (العذر الشرعي) — ثيم وردي لطيف على كل الصفحات
+   يُفعّل بـ data-excuse="on" على <html>
+   ══════════════════════════════════════════════════════════ */
+html[data-excuse="on"]{
+  --gold:#d4789f; --gold-dark:#a84d77; --gold-soft:#e89bbb; --gold-pale:#fbeef4;
+  --green-deep:#8e4d6f; --green-mid:#a85d85; --green-soft:#c77fa3;
+}
+html[data-excuse="on"] .topbar,
+html[data-excuse="on"] .brand-mark,
+html[data-excuse="on"] body{
+  /* لمسة وردية ناعمة على الخلفية العامة في الوضع الفاتح */
+}
+html[data-excuse="on"]:not([data-theme="dark"]):not([data-theme="oled"]) body{
+  background:linear-gradient(180deg,#fdf5f9,var(--bg));
+}
+html[data-excuse="on"] .fab-ai{
+  background:linear-gradient(135deg,#d4789f,#a84d77) !important;
+}
+/* شارة صغيرة تذكّر أن وضع زهرة مفعّل */
+html[data-excuse="on"] .page-title::after{
+  content:' 🌸'; font-size:.8em;
+}

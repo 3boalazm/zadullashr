@@ -201,7 +201,7 @@ html[data-theme="dark"] .cc-desc,html[data-theme="oled"] .cc-desc{color:rgba(255
 .skill-name{font-size:13px;font-weight:700;color:var(--ink)}
 .skill-desc{font-size:11px;color:var(--muted);line-height:1.4}
 </style>
-<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t)})();</script>
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light'}catch(e){}document.documentElement.setAttribute('data-theme',t);try{if(p.excuseMode)document.documentElement.setAttribute('data-excuse','on')}catch(e){}})();</script>
 <style>
   :root{--font-scale:1}
   body{font-size:calc(1rem * var(--font-scale))}
