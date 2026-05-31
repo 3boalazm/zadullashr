@@ -18,6 +18,26 @@
     } catch (e) { return false; }
   }
 
+  /* ── Network Monitor: يسجّل نداءات fetch الفاشلة (يعمل دائماً) ──── */
+  window.__zadNet = window.__zadNet || [];
+  if (!window.__zadFetchPatched && window.fetch) {
+    window.__zadFetchPatched = true;
+    var origFetch = window.fetch;
+    window.fetch = function () {
+      var url = (arguments[0] && arguments[0].url) || String(arguments[0] || '');
+      var t0 = Date.now();
+      return origFetch.apply(this, arguments).then(function (res) {
+        if (!res.ok) {
+          window.__zadNet.push({ url: url, status: res.status, ms: Date.now() - t0, ok: false });
+        }
+        return res;
+      }).catch(function (err) {
+        window.__zadNet.push({ url: url, status: 0, ms: Date.now() - t0, ok: false, error: String(err) });
+        throw err;
+      });
+    };
+  }
+
   if (!isDevMode()) {
     /* حتى بدون وضع المطوّر — نسجّل الأخطاء بصمت في الذاكرة للمراجعة لاحقاً */
     window.__zadErrors = window.__zadErrors || [];

@@ -145,7 +145,7 @@
       <a href="Quran-radio.HTML"><span class="ico">📻</span><span>إذاعة القرآن</span></a>
       <a href="videos.html"><span class="ico">🎬</span><span>المحاضرات الإسلامية</span></a>
       <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
-      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — قصص الأطفال</span></a>
+      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — قصص</span></a>
       <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
       <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
       <div class="nav-sep">الإعدادات</div>
@@ -157,7 +157,6 @@
   </aside>
 
   <main class="main">
-<section class="card" style="margin:16px"><h2 class="section-title">🎯 أهدافي الشخصية</h2><div id="goals-container"></div></section>
 
     <div class="topbar">
       <div class="tb-left">
@@ -179,6 +178,31 @@
         <div class="pf-hero-meta" id="pf-meta">— · انضممت اليوم</div>
       </div>
       <button class="pf-edit-btn" onclick="document.getElementById('pf-identity').scrollIntoView({behavior:'smooth'})">✏️ تعديل</button>
+    </div>
+
+    <!-- أهدافي الشخصية (تحت البانر) -->
+    <div class="pf-section" id="pf-goals-section">
+      <h2 class="pf-section-title">🎯 أهدافي الشخصية</h2>
+      <div id="goals-container"></div>
+    </div>
+
+    <!-- الرفيق الروحي: أكمل من حيث توقفت -->
+    <div class="pf-section" id="pf-companion">
+      <h2 class="pf-section-title">🌙 الرفيق الروحي</h2>
+      <div class="pf-row">
+        <div class="pf-row-label">آخر موضع قراءة<small id="pf-last-read">لم تبدأ القراءة بعد</small></div>
+        <a href="mushaf.html" class="pf-edit-btn" style="background:var(--green-deep);text-decoration:none;white-space:nowrap">▶️ أكمل</a>
+      </div>
+    </div>
+
+    <!-- الرتبة الحالية -->
+    <div class="pf-section" id="pf-rank">
+      <h2 class="pf-section-title">⭐ رتبتك الحالية</h2>
+      <div style="text-align:center;padding:8px 0">
+        <div id="pf-rank-icon" style="font-size:42px;margin-bottom:6px">🌱</div>
+        <div id="pf-rank-name" style="font-size:18px;font-weight:900;color:var(--green-deep)">مبتدئ</div>
+        <div id="pf-rank-hint" style="font-size:12px;color:var(--muted);margin-top:4px"></div>
+      </div>
     </div>
 
     <!-- إحصائيات سريعة -->
@@ -390,6 +414,36 @@ function hydrate(){
     const st = JSON.parse(localStorage.getItem('zad_v2')||'{}');
     if(st.badges) $('pf-stat-badges').textContent = Object.values(st.badges).filter(Boolean).length;
     if(st.streak!=null) $('pf-stat-streak').textContent = st.streak;
+  } catch(e){}
+
+  /* الرفيق الروحي: آخر موضع قراءة */
+  try {
+    const st = (window.STATE) || JSON.parse(localStorage.getItem('zad_state')||'{}');
+    const qp = st.quranProgress || {};
+    const el = $('pf-last-read');
+    if(el && (qp.lastRead || (qp.surah && qp.surah > 1) || (qp.juz && qp.juz > 1))){
+      el.textContent = 'الجزء ' + (qp.juz||1) + ' · صفحة ' + (qp.page||1);
+    }
+  } catch(e){}
+
+  /* الرتبة الحالية حسب الأيام المتتالية والأوسمة */
+  try {
+    const st = JSON.parse(localStorage.getItem('zad_v2')||'{}');
+    const streak = st.streak || 0;
+    const badges = st.badges ? Object.values(st.badges).filter(Boolean).length : 0;
+    const score = streak + badges * 2;
+    const RANKS = [
+      { min: 0,  icon: '🌱', name: 'مبتدئ',          next: 'واصِل 3 أيام لرتبة طالب علم' },
+      { min: 3,  icon: '📖', name: 'طالب علم',        next: 'واصِل 7 أيام لرتبة محافظ على الذكر' },
+      { min: 7,  icon: '🕌', name: 'محافظ على الذكر', next: 'واصِل 14 يوماً لرتبة مجتهد' },
+      { min: 14, icon: '⭐', name: 'مجتهد',           next: 'واصِل 30 يوماً لرتبة سابق بالخيرات' },
+      { min: 30, icon: '🏆', name: 'سابق بالخيرات',   next: 'ما شاء الله — استمر على هذا الخير' }
+    ];
+    let rank = RANKS[0];
+    for(const r of RANKS) if(score >= r.min) rank = r;
+    if($('pf-rank-icon')) $('pf-rank-icon').textContent = rank.icon;
+    if($('pf-rank-name')) $('pf-rank-name').textContent = rank.name;
+    if($('pf-rank-hint')) $('pf-rank-hint').textContent = rank.next;
   } catch(e){}
 
   /* حالة المزامنة */

@@ -150,9 +150,51 @@ async function runFullAudit(){
     (window.ZadDiag && window.ZadDiag.getErrors) ? window.ZadDiag.getErrors() : []
   );
 
+  /* 6. Button Scanner — يفحص أزرار هذه الصفحة (الدالة موجودة؟) */
+  results.buttons = scanButtons();
+
+  /* 7. Network Monitor — نداءات fetch الفاشلة المسجّلة */
+  results.network = (window.__zadNet || []).slice();
+
+  /* 8. Performance */
+  results.perf = collectPerf();
+
   renderResults();
   btn.disabled = false; btn.textContent = '🔄 إعادة الفحص';
   document.getElementById('progress').style.display = 'none';
+}
+
+/* يفحص كل زر/رابط فيه onclick — هل الدالة المُستدعاة موجودة فعلاً؟ */
+function scanButtons(){
+  var out = [];
+  var els = document.querySelectorAll('[onclick]');
+  els.forEach(function(el){
+    var code = el.getAttribute('onclick') || '';
+    /* استخرج اسم الدالة الأولى */
+    var m = code.match(/([a-zA-Z_$][\w$]*)\s*\(/);
+    if(!m) return;
+    var fn = m[1];
+    /* تجاهل كلمات JS عادية */
+    if(['if','for','while','return','this','document','window','location','alert','confirm'].indexOf(fn) !== -1) return;
+    var exists = typeof window[fn] === 'function';
+    out.push({
+      label: (el.textContent||'').trim().slice(0,30) || el.getAttribute('aria-label') || fn,
+      fn: fn, ok: exists
+    });
+  });
+  return out;
+}
+
+/* يقيس الأداء من Performance API */
+function collectPerf(){
+  try{
+    var nav = performance.getEntriesByType('navigation')[0];
+    var loadMs = nav ? Math.round(nav.loadEventEnd - nav.startTime) : 0;
+    var domNodes = document.getElementsByTagName('*').length;
+    var res = performance.getEntriesByType('resource');
+    var slow = res.filter(function(r){ return r.duration > 1000; }).length;
+    return { loadMs: loadMs, domNodes: domNodes, resources: res.length, slow: slow };
+  }catch(e){ return { error: String(e) }; }
 }
 
 function renderResults(){
@@ -195,6 +237,37 @@ function renderResults(){
     rowHtml('عدد المفاتيح', String(results.storage.keys||0), 'ok') +
     rowHtml('الحجم', (results.storage.sizeKB||0)+' KB', results.storage.sizeKB>4000?'warn':'ok') +
     '</div>';
+
+  /* الأزرار (Button Scanner) */
+  var btnsBad = (results.buttons||[]).filter(function(b){return !b.ok;});
+  if(results.buttons && results.buttons.length){
+    html += sectionHtml('🔘 أزرار هذه الصفحة ('+results.buttons.length+')',
+      results.buttons.map(function(b){
+        return rowHtml(b.label+' → '+b.fn+'()', b.ok?'✅ موجودة':'❌ دالة مفقودة', b.ok?'ok':'err');
+      }), btnsBad.length);
+  }
+
+  /* الشبكة (Network Monitor) */
+  if(results.network && results.network.length){
+    html += sectionHtml('🌐 نداءات فشلت', results.network.map(function(n){
+      return rowHtml(n.url, (n.status||'فشل')+' · '+n.ms+'ms', 'err');
+    }), results.network.length);
+  } else {
+    html += '<div class="diag-section"><h2>🌐 الشبكة '+
+      '<span class="diag-badge ok">سليم</span></h2>'+
+      '<div class="diag-empty">✅ لا توجد نداءات فاشلة مسجّلة</div></div>';
+  }
+
+  /* الأداء (Performance) */
+  if(results.perf && !results.perf.error){
+    var p = results.perf;
+    html += '<div class="diag-section"><h2>⚡ الأداء</h2>' +
+      rowHtml('زمن التحميل', p.loadMs+' ms', p.loadMs>3000?'warn':'ok') +
+      rowHtml('عناصر DOM', String(p.domNodes), p.domNodes>1500?'warn':'ok') +
+      rowHtml('موارد محمّلة', String(p.resources), 'ok') +
+      rowHtml('موارد بطيئة (>1s)', String(p.slow), p.slow>0?'warn':'ok') +
+      '</div>';
+  }
 
   /* أخطاء JS */
   if(jsErrs.length){
