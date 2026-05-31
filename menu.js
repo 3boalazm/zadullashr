@@ -42,8 +42,10 @@
     { href: 'arafah.html',       icon: '🌄', label: 'يوم عرفة',         section: 'sec-hajj' },
     { href: 'arafah-dua.html',   icon: '🤲', label: 'دعاء يوم عرفة',   section: 'sec-hajj' },
     { href: 'odhiya.html',       icon: '🐏', label: 'دليل الأضحية',     section: 'sec-hajj' },
-    { href: 'zakat.html',        icon: '🧮', label: 'حاسبة الزكاة',     section: 'sec-hajj' },
     { href: 'sadaqah.html',      icon: '💚', label: 'صدقة العشر',       section: 'sec-hajj' },
+
+    { sep: 'تطبيقات العبادات', id: 'sec-tools' },
+    { href: 'zakat.html',        icon: '🧮', label: 'حاسبة الزكاة',     section: 'sec-tools' },
 
     { sep: 'التعلّم والترفيه', id: 'sec-learn' },
     { href: 'videos.html',       icon: '🎬', label: 'محاضرات العشر',   section: 'sec-learn' },
@@ -52,7 +54,7 @@
 
     { sep: 'ركن الأطفال 🌟', id: 'sec-kids' },
     { href: 'kids.html',             icon: '🌟', label: 'ثُريّا — الرئيسية',  section: 'sec-kids' },
-    { href: 'ghars.html',            icon: '🌱', label: 'غرس — رحلة الحج',   section: 'sec-kids' },
+    { href: 'ghars.html',            icon: '🌱', label: 'غرس — قصص للأطفال', section: 'sec-kids' },
     { href: 'kids-heroes.html',      icon: '🦁', label: 'عرين الأبطال',      section: 'sec-kids' },
     { href: 'kids-school.html',      icon: '🏫', label: 'مدرستي الجميلة',    section: 'sec-kids' },
     { href: 'kids-fun.html',         icon: '🎮', label: 'شاشة المرح',        section: 'sec-kids' },
@@ -71,6 +73,9 @@
     { href: 'report.html',       icon: '🚩', label: 'بلاغ مشكلة',       section: 'sec-settings' },
     { href: 'about.html',        icon: 'ℹ️', label: 'عن التطبيق',       section: 'sec-settings' },
     { href: 'developer.html',    icon: '🎨', label: 'عن المطوّر',       section: 'sec-settings' },
+
+    { sep: 'وضع خاص', id: 'sec-special' },
+    { href: 'worship.html#excuse-card', icon: '🌸', label: 'وضع الانقطاع (عذر شرعي)', section: 'sec-special' },
   ];
 
   /* ── مفاتيح التخزين ──────────────────────────────────────────────────── */

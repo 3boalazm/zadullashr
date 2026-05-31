@@ -50,21 +50,34 @@ function checkDayReset(s) {
 }
 let STATE = checkDayReset(loadState());
 function applyTheme(theme) {
+  if (!['light','dark','oled'].includes(theme)) theme = 'light';
   STATE.theme = theme;
   document.documentElement.setAttribute('data-theme', theme);
   document.querySelectorAll('.dark-switch').forEach(el => { el.checked = theme !== 'light'; });
-  document.querySelectorAll('.btn-theme').forEach(btn => { btn.textContent = theme === 'light' ? '🌙' : theme === 'oled' ? '⚫' : '☀️'; });
+  const icon = theme === 'light' ? '🌙' : theme === 'dark' ? '⚫' : '☀️';
+  const lbl  = theme === 'light' ? 'الوضع الداكن' : theme === 'dark' ? 'وضع OLED' : 'الوضع الفاتح';
+  document.querySelectorAll('.btn-theme').forEach(btn => { btn.textContent = icon; });
+  document.querySelectorAll('.theme-row span').forEach(s => { if(s.textContent.includes('وضع')||s.textContent.includes('داكن')||s.textContent.includes('OLED')||s.textContent.includes('فاتح')) s.textContent = '🌓 ' + lbl; });
+  document.querySelectorAll('.theme-card,.theme-opt').forEach(c => {
+    c.classList.toggle('active', c.dataset.theme === theme);
+  });
   saveState();
-  /* احفظ في zad_v2 كمان — لأن الـ inline theme loader في كل صفحة يقرأ منه */
+  /* احفظ في zad_v2 كمان — لأن الـ inline theme loader في كل صفحة يقرأ منه (مصدر الحقيقة عند تحميل أي صفحة) */
   try {
     const v2 = JSON.parse(localStorage.getItem('zad_v2') || '{}');
     v2.theme = theme;
     localStorage.setItem('zad_v2', JSON.stringify(v2));
   } catch (e) {}
 }
-function toggleTheme() {
-  applyTheme(STATE.theme === 'dark' ? 'light' : 'dark');
+window.applyTheme = applyTheme;
+/* دورة الأوضاع الثلاثة: فاتح → داكن → OLED → فاتح */
+function cycleTheme() {
+  const order = ['light','dark','oled'];
+  const cur = order.indexOf(STATE.theme || 'light');
+  applyTheme(order[(cur + 1) % 3]);
 }
+window.cycleTheme = cycleTheme;
+function toggleTheme() { cycleTheme(); }
 window.toggleTheme = toggleTheme;
 function applyQuranFont(size) {
   size = size || STATE.quranFontSize || 24;
@@ -963,23 +976,6 @@ function applyFontSize(size) {
   } catch(e) {}
 })();
 window.applyFontSize = applyFontSize;
-window.applyTheme = function(theme) {
-  STATE.theme = theme;
-  document.documentElement.setAttribute('data-theme', theme);
-  document.querySelectorAll('.dark-switch').forEach(el => {
-    el.checked = (theme === 'dark' || theme === 'oled');
-  });
-  document.querySelectorAll('#oled-sw').forEach(el => {
-    el.checked = (theme === 'oled');
-  });
-  document.querySelectorAll('.btn-theme').forEach(btn => {
-    btn.textContent = (theme === 'dark' || theme === 'oled') ? '☀️' : '🌙';
-  });
-  document.querySelectorAll('.theme-card').forEach(c => {
-    c.classList.toggle('active', c.dataset.theme === theme);
-  });
-  saveState();
-};
 let deferredInstall = null;
 /* ── Geolocation singleton — prevents double GPS call ── */
 let _geoPromise = null;

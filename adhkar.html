@@ -303,6 +303,38 @@ window.zadEscapeHTML = zadEscapeHTML;
 }
 .az-tab { position:relative; }
 
+/* ══ Accordion (ستايل الأقسام القديم) ══ */
+.adhkar-menu-card{display:flex;align-items:center;gap:14px;padding:16px;border-radius:16px;background:var(--card);border:1.5px solid var(--border);border-right-width:5px;margin-bottom:12px;cursor:pointer;transition:transform .15s,box-shadow .2s;box-shadow:var(--shadow-sm)}
+.adhkar-menu-card:hover{box-shadow:var(--shadow)}
+.adhkar-menu-card:active{transform:scale(.985)}
+.amc-icon{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.amc-body{flex:1}
+.amc-title{font-size:17px;font-weight:800;color:var(--ink);font-family:'ThmanyahSans',sans-serif}
+.amc-count{font-size:12.5px;color:var(--muted);margin-top:3px}
+.amc-arrow{font-size:16px;color:var(--muted);flex-shrink:0}
+.az-acc{margin-bottom:4px}
+.az-acc.open .adhkar-menu-card{margin-bottom:10px}
+.az-acc-body{animation:accDown .3s ease}
+@keyframes accDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.afs-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px;box-shadow:var(--shadow-sm);transition:border-color .2s,background .2s}
+.afs-card.afs-done{background:rgba(77,216,102,.05);border-color:rgba(77,216,102,.45)}
+.afs-label{font-size:13px;font-weight:800;color:var(--green-deep);margin-bottom:10px}
+html[data-theme="dark"] .afs-label,html[data-theme="oled"] .afs-label{color:var(--sys-green)}
+.afs-arabic{font-family:'Amiri',serif;font-size:20px;line-height:2.1;text-align:center;color:var(--green-deep);margin-bottom:12px}
+html[data-theme="dark"] .afs-arabic,html[data-theme="oled"] .afs-arabic{color:var(--sys-yellow)}
+.afs-virtue{font-size:12.5px;color:var(--gold-dark);background:rgba(201,161,74,.08);padding:9px 13px;border-radius:10px;margin-bottom:12px;line-height:1.7}
+.afs-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.afs-source{font-size:11.5px;color:var(--muted);flex:1;min-width:120px}
+.afs-counter{display:flex;align-items:center;gap:8px}
+.afs-count-num{font-size:13px;font-weight:800;min-width:62px;text-align:center;color:var(--ink);font-feature-settings:"tnum"}
+.afs-count-btn{min-width:60px;padding:10px 18px;border-radius:12px;border:none;background:var(--green-deep);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s}
+.afs-count-btn:hover{background:var(--green-mid);transform:translateY(-1px)}
+.afs-count-btn:active{transform:scale(.95)}
+html[data-theme="dark"] .afs-count-btn,html[data-theme="oled"] .afs-count-btn{background:var(--sys-green);color:#001a08}
+.afs-progress{height:6px;background:var(--sand-2);border-radius:3px;overflow:hidden;margin-top:12px}
+.afs-progress span{display:block;height:100%;border-radius:3px;transition:width .35s}
+@media(max-width:600px){.afs-arabic{font-size:18px}.afs-footer{gap:8px}.afs-source{min-width:100%}}
+
 /* Floating nav — base */
 #az-fab-nav {
   position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(20px);
@@ -372,9 +404,10 @@ html[data-theme="oled"] .az-card:hover {
     </a>
     <!-- Profile chip injected by JS -->
     <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
-    <div class="theme-row">
-      <span>🌙 الوضع الداكن</span>
-      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
     </div>
 <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
         📲 تثبيت / تحميل التطبيق
@@ -454,34 +487,24 @@ html[data-theme="oled"] .az-card:hover {
       <div style="flex:1"><div style="font-size:13.5px;font-weight:800">أدعية يوم عرفة المباركة</div><div style="font-size:11.5px;color:rgba(255,255,255,.8);margin-top:2px">خير الدعاء دعاء يوم عرفة — اضغط للأدعية المنظّمة ←</div></div>
     </a>
 
-    <!-- ══ Tab Nav ══ -->
-    <div class="az-tabs" role="tablist" id="az-tabs-bar">
-      <button class="az-tab active" id="tab-morning" onclick="switchTab('morning')"><span class="tab-ico">🌅</span>الصباح</button>
-      <button class="az-tab" id="tab-evening" onclick="switchTab('evening')"><span class="tab-ico">🌙</span>المساء</button>
-      <button class="az-tab" id="tab-sleep" onclick="switchTab('sleep')"><span class="tab-ico">😴</span>النوم</button>
-      <button class="az-tab" id="tab-salah" onclick="switchTab('salah')"><span class="tab-ico">🕌</span>الصلاة</button>
-      <button class="az-tab" id="tab-daily" onclick="switchTab('daily')"><span class="tab-ico">🏠</span>اليومية</button>
-      <button class="az-tab" id="tab-travel" onclick="switchTab('travel')"><span class="tab-ico">✈️</span>السفر</button>
-      <button class="az-tab" id="tab-baqi" onclick="switchTab('baqi')"><span class="tab-ico">⭐</span>الباقيات</button>
-      <button class="az-tab" id="tab-custom" onclick="switchTab('custom')"><span class="tab-ico">✏️</span>مخصص</button>
+    <!-- ══ Accordion: section cards ══ -->
+    <div class="az-intro">
+      <h2 class="section-title" style="font-size:20px;margin-bottom:4px"><span style="color:var(--gold)">📿</span> كل الأذكار</h2>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:6px"><span id="az-sec-count">14</span> قسماً موثّقاً — اضغط أي قسم لعرض أذكاره كاملة</p>
     </div>
 
-    <!-- Progress strip -->
-    <div class="az-section-prog"><span id="az-section-prog-bar" style="width:0%"></span></div>
+    <!-- Quick filter -->
+    <div style="margin-bottom:16px">
+      <input type="text" id="az-search" placeholder="🔍 ابحث في كل الأذكار..." onkeyup="filterAccordion()"
+        style="width:100%;padding:12px 18px;border-radius:99px;border:1px solid var(--border);
+               background:var(--card);color:var(--ink);font-family:inherit;font-size:14px;
+               outline:none;box-shadow:var(--shadow-sm)">
+    </div>
 
-    <!-- Cards container -->
-    <div id="az-cards-container"></div>
+    <div id="az-accordion"></div>
 
     <!-- ══ Floating Quick-Nav ══ -->
-    <div id="az-fab-nav">
-      <button onclick="switchTabScroll('morning')" title="الصباح">🌅</button>
-      <button onclick="switchTabScroll('evening')" title="المساء">🌙</button>
-      <button onclick="switchTabScroll('sleep')" title="النوم">😴</button>
-      <button onclick="switchTabScroll('salah')" title="الصلاة">🕌</button>
-      <button onclick="switchTabScroll('daily')" title="اليومية">🏠</button>
-      <button onclick="switchTabScroll('travel')" title="السفر">✈️</button>
-      <button onclick="switchTabScroll('baqi')" title="الباقيات">⭐</button>
-    </div>
+    <div id="az-fab-nav"></div>
   </main>
   <a href="ai.html" class="fab-ai">🤖</a>
 </div>
@@ -509,11 +532,10 @@ html[data-theme="oled"] .az-card:hover {
   <script src="js/adhkar-azkar.js" defer></script>
 <script>
 /* ════════════════════════════════════════════════════════════
-   زاد العشر — صفحة الأذكار (تابات + بار تنقل عائم)
-   البيانات في js/adhkar-azkar.js (window.AZ_DATA) — بدون تشكيل
+   صفحة الأذكار — أكورديون (ستايل قديم) + محتوى كامل بدون تشكيل
+   البيانات: window.AZ_SECTIONS  (js/adhkar-azkar.js)
    ════════════════════════════════════════════════════════════ */
-let currentTab = 'morning';
-
+function esc(s){ return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function getCount(sec, id){ return (window.STATE?.adhkar?.[sec]?.[id]) || 0; }
 function setCount(sec, id, val){
   if(!STATE.adhkar) STATE.adhkar = {};
@@ -521,41 +543,71 @@ function setCount(sec, id, val){
   STATE.adhkar[sec][id] = val;
   if(typeof saveState === 'function') saveState();
 }
-function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-function buildCard(d, sec, idx, deletable){
-  const cur = getCount(sec, d.id);
-  const tgt = d.n || d.target || 1;
-  const lap = cur % tgt;
-  const laps = Math.floor(cur / tgt);
-  const pct = Math.min(Math.round(((lap || (cur>0?tgt:0))/tgt)*100), 100);
+/* بناء كارت ذكر واحد داخل قسم */
+function cardHTML(d, sec){
+  const cur = getCount(sec, d.id), tgt = d.n || 1;
+  const lap = cur % tgt, laps = Math.floor(cur/tgt);
+  const pct = Math.min(Math.round(((lap||(cur>0?tgt:0))/tgt)*100),100);
   const done = cur >= tgt;
-
-  const el = document.createElement('div');
-  el.className = 'az-card az-card-new' + (done ? ' az-done' : '');
-  el.id = 'az-card-' + d.id;
-  el.style.setProperty('--i', idx);
-
-  const delBtn = deletable ? `<button class="az-delete" onclick="deleteCu('${d.id}')" title="حذف">✕</button>` : '';
-
-  el.innerHTML = `
-    ${delBtn}
-    <div class="az-arabic">${esc(d.ar || d.arabic)}</div>
-    <div class="az-meta">
-      <span class="az-label">${esc(d.label)}</span>
-      <span class="az-source tag">${esc(d.src || d.source || '')}</span>
+  const virtue = d.virtue ? `<div class="afs-virtue">⭐ ${esc(d.virtue)}</div>` : '';
+  return `<div class="afs-card${done?' afs-done':''}" id="az-card-${d.id}">
+    <div class="afs-label">${esc(d.label)}</div>
+    <div class="afs-arabic">${esc(d.ar)}</div>
+    ${virtue}
+    <div class="afs-footer">
+      <span class="afs-source">📖 ${esc(d.src)}</span>
+      <div class="afs-counter">
+        <button onclick="shareAz('${sec}','${d.id}')" style="background:none;border:none;font-size:16px;cursor:pointer;opacity:.55" title="مشاركة">📤</button>
+        <button class="afs-reset" onclick="resetOne('${sec}','${d.id}')" title="إعادة" style="width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer">↺</button>
+        <span class="afs-count-num" id="az-cnt-${d.id}">${cur} / ${tgt}${laps>0?' (×'+laps+')':''}</span>
+        <button class="afs-count-btn" id="az-btn-${d.id}" onclick="tap('${sec}','${d.id}',${tgt})">${done?'✅':'+ عدّ'}</button>
+      </div>
     </div>
-    <div class="progress" style="margin:0 0 8px">
-      <span id="az-prog-${d.id}" style="width:${pct}%;transition:width .4s"></span>
-    </div>
-    <div class="az-count-row">
-      <span class="az-cnt-num" id="az-cnt-${d.id}">${cur}<small style="font-size:11px;font-weight:500;opacity:.6"> / ${tgt}${laps>0?' (×'+laps+')':''}</small></span>
-      <button class="az-btn-count" id="az-btn-${d.id}" onclick="tap('${sec}','${d.id}',${tgt})">${done?'✅ مكتمل':'+ عدّ'}</button>
-      <button class="az-btn-reset" onclick="resetOne('${sec}','${d.id}',${tgt})" title="إعادة">↺</button>
-      <button onclick="shareAz('${sec}','${d.id}')" style="background:none;border:none;font-size:14px;cursor:pointer;opacity:.5;padding:4px" title="مشاركة">📤</button>
-    </div>`;
-  return el;
+    <div class="afs-progress"><span id="az-prog-${d.id}" style="width:${pct}%;background:${done?'var(--sys-green,#4dd866)':'linear-gradient(90deg,var(--green-soft,#2a9d6f),var(--gold,#c9a14a))'}"></span></div>
+  </div>`;
 }
+
+/* بناء الأكورديون كامل */
+function renderAccordion(){
+  const wrap = document.getElementById('az-accordion');
+  if(!wrap || !window.AZ_SECTIONS) return;
+  const open = (STATE?.adhkar?._openSec) || null;
+  wrap.innerHTML = window.AZ_SECTIONS.map(sec => {
+    const n = sec.items.length;
+    const isOpen = open === sec.key;
+    const body = sec.items.map(d => cardHTML(d, sec.key)).join('');
+    return `<div class="az-acc${isOpen?' open':''}" data-sec="${sec.key}" id="acc-${sec.key}">
+      <div class="adhkar-menu-card" style="border-color:${sec.color};border-right-color:${sec.color}" onclick="toggleSec('${sec.key}')">
+        <div class="amc-icon" style="background:${sec.color}22">${sec.icon}</div>
+        <div class="amc-body">
+          <div class="amc-title">${esc(sec.title)}</div>
+          <div class="amc-count">${n} أذكار · ${esc(sec.sub)}</div>
+        </div>
+        <span class="amc-arrow" id="arr-${sec.key}">${isOpen?'▲':'▾'}</span>
+      </div>
+      <div class="az-acc-body" id="body-${sec.key}" style="${isOpen?'':'display:none'}">${body}</div>
+    </div>`;
+  }).join('');
+}
+
+window.toggleSec = function(key){
+  const body = document.getElementById('body-'+key);
+  const arr  = document.getElementById('arr-'+key);
+  const acc  = document.getElementById('acc-'+key);
+  if(!body) return;
+  const willOpen = body.style.display === 'none' || !body.style.display;
+  /* أغلق الباقي (أكورديون كلاسيكي) */
+  document.querySelectorAll('.az-acc-body').forEach(b=>{ if(b!==body) b.style.display='none'; });
+  document.querySelectorAll('.amc-arrow').forEach(a=>a.textContent='▾');
+  document.querySelectorAll('.az-acc').forEach(a=>a.classList.remove('open'));
+  body.style.display = willOpen ? 'block' : 'none';
+  if(arr) arr.textContent = willOpen ? '▲' : '▾';
+  if(willOpen){ acc?.classList.add('open'); acc?.scrollIntoView({behavior:'smooth',block:'start'}); }
+  if(!STATE.adhkar) STATE.adhkar = {};
+  STATE.adhkar._openSec = willOpen ? key : null;
+  if(typeof saveState==='function') saveState();
+};
 
 window.tap = function(sec, id, tgt){
   const next = getCount(sec, id) + 1;
@@ -565,143 +617,84 @@ window.tap = function(sec, id, tgt){
         cardEl=document.getElementById('az-card-'+id), btnEl=document.getElementById('az-btn-'+id);
   const lap=next%tgt, laps=Math.floor(next/tgt);
   const pct=Math.min(Math.round(((lap||(next>0?tgt:0))/tgt)*100),100);
-  if(cntEl) cntEl.innerHTML = `${next}<small style="font-size:11px;font-weight:500;opacity:.6"> / ${tgt}${laps>0?' (×'+laps+')':''}</small>`;
-  if(progEl) progEl.style.width = pct + '%';
+  if(cntEl) cntEl.textContent = `${next} / ${tgt}${laps>0?' (×'+laps+')':''}`;
+  if(progEl) progEl.style.width = pct+'%';
   if(next===tgt || (next>0 && next%tgt===0)){
-    cardEl?.classList.add('az-done');
-    if(btnEl) btnEl.textContent = '✅ مكتمل';
+    cardEl?.classList.add('afs-done');
+    if(progEl) progEl.style.background='var(--sys-green,#4dd866)';
+    if(btnEl) btnEl.textContent='✅';
     if(navigator.vibrate) navigator.vibrate([40,20,40]);
     if(typeof showToast==='function') showToast('✅ مكتمل — بارك الله فيك');
     if(typeof confetti!=='undefined') confetti({particleCount:40,spread:50,origin:{y:.7},colors:['#0e3b2e','#c9a14a','#fff']});
   } else {
-    cardEl?.classList.remove('az-done');
-    if(btnEl) btnEl.textContent = '+ عدّ';
+    cardEl?.classList.remove('afs-done');
+    if(btnEl) btnEl.textContent='+ عدّ';
   }
-  updateProgress();
 };
 
-window.resetOne = function(sec, id, tgt){
+window.resetOne = function(sec, id){
   setCount(sec, id, 0);
   const c=document.getElementById('az-cnt-'+id), p=document.getElementById('az-prog-'+id),
         ca=document.getElementById('az-card-'+id), b=document.getElementById('az-btn-'+id);
-  if(c) c.innerHTML = `0<small style="font-size:11px;font-weight:500;opacity:.6"> / ${tgt}</small>`;
-  if(p) p.style.width='0%'; ca?.classList.remove('az-done'); if(b) b.textContent='+ عدّ';
-  updateProgress();
+  const tgt = (()=>{ for(const s of window.AZ_SECTIONS){ const it=s.items.find(x=>x.id===id); if(it) return it.n||1; } return 1; })();
+  if(c) c.textContent = `0 / ${tgt}`;
+  if(p){ p.style.width='0%'; p.style.background='linear-gradient(90deg,var(--green-soft,#2a9d6f),var(--gold,#c9a14a))'; }
+  ca?.classList.remove('afs-done'); if(b) b.textContent='+ عدّ';
 };
 
 window.shareAz = function(sec, id){
-  const list = (sec==='custom') ? (STATE.adhkar?.custom||[]) : (window.AZ_DATA[sec]||[]);
-  const d = list.find(x => x.id === id);
+  let d=null; for(const s of window.AZ_SECTIONS){ const it=s.items.find(x=>x.id===id); if(it){d=it;break;} }
   if(!d) return;
-  const txt = `🤲 ${d.label}\n\n${d.ar||d.arabic}\n\n📖 ${d.src||d.source||''}\n\nمن تطبيق زاد العشر`;
+  const txt = `🤲 ${d.label}\n\n${d.ar}\n\n📖 ${d.src}\n\nمن تطبيق زاد العشر`;
   if(navigator.share) navigator.share({title:'ذكر', text:txt});
   else { navigator.clipboard?.writeText(txt); if(typeof showToast==='function') showToast('📋 تم النسخ'); }
 };
 
-function updateProgress(){
-  const list = (currentTab==='custom') ? (STATE.adhkar?.custom||[]) : (window.AZ_DATA[currentTab]||[]);
-  if(!list.length){ const b=document.getElementById('az-section-prog-bar'); if(b)b.style.width='0%'; return; }
-  const done = list.filter(d => getCount(currentTab, d.id) >= (d.n||d.target||1)).length;
-  const pct = Math.round((done/list.length)*100);
-  const bar = document.getElementById('az-section-prog-bar');
-  if(bar) bar.style.width = pct + '%';
+/* بحث: يفتح الأقسام اللي فيها نتيجة ويخفي غير المطابق */
+window.filterAccordion = function(){
+  const q = (document.getElementById('az-search')?.value||'').trim().toLowerCase();
+  if(!q){ renderAccordion(); return; }
+  document.querySelectorAll('.az-acc').forEach(acc=>{
+    const cards = acc.querySelectorAll('.afs-card');
+    let any=false;
+    cards.forEach(c=>{ const m=c.innerText.toLowerCase().includes(q); c.style.display=m?'':'none'; if(m)any=true; });
+    const body=acc.querySelector('.az-acc-body'), arr=acc.querySelector('.amc-arrow');
+    acc.style.display = any?'':'none';
+    if(any){ body.style.display='block'; if(arr)arr.textContent='▲'; }
+  });
+};
+
+/* بار التنقل العائم: يبني نفسه من الأقسام */
+function buildFab(){
+  const fab=document.getElementById('az-fab-nav');
+  if(!fab||!window.AZ_SECTIONS) return;
+  fab.innerHTML = window.AZ_SECTIONS.slice(0,8).map(s=>
+    `<button onclick="jumpSec('${s.key}')" title="${esc(s.title)}">${s.icon}</button>`).join('');
 }
-
-window.switchTab = function(tab){
-  currentTab = tab;
-  document.querySelectorAll('.az-tab').forEach(b => b.classList.remove('active'));
-  const btn = document.getElementById('tab-'+tab);
-  if(btn){ btn.classList.add('active'); btn.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}); }
-  const container = document.getElementById('az-cards-container');
-  container.innerHTML = '';
-  if(tab === 'custom'){
-    renderCustom(container);
-  } else {
-    const list = window.AZ_DATA[tab] || [];
-    list.forEach((d,i) => container.appendChild(buildCard(d, tab, i, false)));
-  }
-  updateProgress();
-  if(!STATE.adhkar) STATE.adhkar = {};
-  STATE.adhkar._lastTab = tab;
-  if(typeof saveState==='function') saveState();
+window.jumpSec = function(key){
+  const body=document.getElementById('body-'+key);
+  if(body && (body.style.display==='none'||!body.style.display)) toggleSec(key);
+  document.getElementById('acc-'+key)?.scrollIntoView({behavior:'smooth',block:'start'});
 };
-
-window.switchTabScroll = function(tab){
-  switchTab(tab);
-  document.getElementById('az-tabs-bar')?.scrollIntoView({behavior:'smooth', block:'start'});
-};
-
-function renderCustom(container){
-  const form = document.createElement('div');
-  form.className = 'az-add-form';
-  form.innerHTML = `
-    <label>✏️ أضف ذكراً مخصصاً</label>
-    <textarea id="az-new-text" placeholder="اكتب نص الذكر بالعربية..." dir="rtl"></textarea>
-    <div class="az-add-row">
-      <div class="az-add-field"><label>الاسم</label>
-        <input id="az-new-label" type="text" placeholder="مثال: ذكر الطمأنينة" style="width:160px"></div>
-      <div class="az-add-field"><label>العدد</label>
-        <input id="az-new-target" type="number" value="33" min="1" max="1000" style="width:80px"></div>
-      <button class="btn btn-gold" style="padding:10px 20px;align-self:flex-end" onclick="addCu()">+ أضف</button>
-    </div>`;
-  container.appendChild(form);
-  const customs = STATE.adhkar?.custom || [];
-  if(!customs.length){
-    container.insertAdjacentHTML('beforeend', `<p style="text-align:center;color:var(--muted);padding:30px;font-size:14px">لم تضف أذكاراً مخصصة بعد 👆</p>`);
-  } else {
-    customs.forEach((d,i) => container.appendChild(buildCard({...d, ar:d.arabic||d.text, src:d.source||'مخصص'}, 'custom', i, true)));
-  }
-}
-
-window.addCu = function(){
-  const text=document.getElementById('az-new-text')?.value.trim();
-  const label=document.getElementById('az-new-label')?.value.trim() || 'ذكر مخصص';
-  const target=Math.max(1, parseInt(document.getElementById('az-new-target')?.value) || 33);
-  if(!text){ if(typeof showToast==='function') showToast('⚠️ اكتب نص الذكر أولاً'); return; }
-  if(!STATE.adhkar) STATE.adhkar = {};
-  if(!STATE.adhkar.custom) STATE.adhkar.custom = [];
-  const id = 'cu_' + Date.now();
-  STATE.adhkar.custom.push({ id, arabic:text, label, target, source:'مخصص' });
-  if(typeof saveState==='function') saveState();
-  switchTab('custom');
-  if(typeof showToast==='function') showToast('✅ تم إضافة الذكر');
-};
-
-window.deleteCu = function(id){
-  if(!STATE.adhkar?.custom) return;
-  STATE.adhkar.custom = STATE.adhkar.custom.filter(d => d.id !== id);
-  if(typeof saveState==='function') saveState();
-  switchTab('custom');
-  if(typeof showToast==='function') showToast('🗑️ تم الحذف');
-};
-
-/* البار العائم: يظهر عند تمرير شريط التابات لأعلى */
 (function(){
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if(!ticking){
-      requestAnimationFrame(() => {
-        const tabsEl=document.getElementById('az-tabs-bar'), fab=document.getElementById('az-fab-nav');
-        if(tabsEl && fab){
-          if(tabsEl.getBoundingClientRect().bottom < 0) fab.classList.add('visible');
-          else fab.classList.remove('visible');
-        }
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, {passive:true});
+  let ticking=false;
+  window.addEventListener('scroll',()=>{
+    if(!ticking){ requestAnimationFrame(()=>{
+      const acc=document.getElementById('az-accordion'), fab=document.getElementById('az-fab-nav');
+      if(acc&&fab){ fab.classList.toggle('visible', acc.getBoundingClientRect().top < -40); }
+      ticking=false;
+    }); ticking=true; }
+  },{passive:true});
 })();
-
-/* توافق خلفي */
-window.countAz = (sec,id,tgt)=>tap(sec,id,tgt);
-window.resetAz = (sec,id,tgt)=>resetOne(sec,id,tgt);
 
 document.addEventListener('DOMContentLoaded', () => {
   function boot(){
-    if(!window.AZ_DATA || typeof STATE === 'undefined'){ setTimeout(boot, 80); return; }
-    const lastTab = STATE?.adhkar?._lastTab || 'morning';
-    switchTab(lastTab);
+    if(!window.AZ_SECTIONS || typeof STATE==='undefined'){ setTimeout(boot,80); return; }
+    const c=document.getElementById('az-sec-count'); if(c) c.textContent=window.AZ_SECTIONS.length;
+    renderAccordion();
+    buildFab();
+    /* افتح أول قسم افتراضياً لو مفيش محفوظ */
+    if(!STATE?.adhkar?._openSec) toggleSec(window.AZ_SECTIONS[0].key);
   }
   boot();
 });

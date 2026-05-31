@@ -85,9 +85,10 @@ html[data-theme="dark"] .check.done .box,html[data-theme="oled"] .check.done .bo
     </a>
     <!-- Profile chip injected by JS -->
     <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
-    <div class="theme-row">
-      <span>🌙 الوضع الداكن</span>
-      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
     </div>
 <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
         📲 تثبيت / تحميل التطبيق
@@ -150,31 +151,13 @@ html[data-theme="dark"] .check.done .box,html[data-theme="oled"] .check.done .bo
       </div>
     </div>
 
-    <!-- ══ 1. HERO: العد التنازلي + هدف اليوم ══════════════ -->
+    <!-- ══ 1. HERO: ترحيب يومي ══════════════ -->
     <div style="background:linear-gradient(135deg,#0e3b2e,#1a5d47,#c9a14a 180%);border-radius:20px;padding:22px;color:#fff;margin-bottom:16px;position:relative;overflow:hidden">
-      <div style="position:absolute;top:-20px;left:-20px;font-size:120px;opacity:.06;line-height:1">⭐</div>
-      <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:4px">العد التنازلي</div>
-      <div style="font-size:15px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:14px" id="w-hero-label">إلى يوم عرفة المبارك</div>
-      <div style="display:flex;gap:10px;margin-bottom:14px">
-        <div style="text-align:center;background:rgba(255,255,255,.12);border-radius:12px;padding:8px 14px;min-width:54px">
-          <div style="font-size:24px;font-weight:900;font-family:'ThmanyahSans',monospace;line-height:1" id="w-cd-d">--</div>
-          <div style="font-size:10px;opacity:.7;margin-top:2px">أيام</div>
-        </div>
-        <div style="text-align:center;background:rgba(255,255,255,.12);border-radius:12px;padding:8px 14px;min-width:54px">
-          <div style="font-size:24px;font-weight:900;font-family:'ThmanyahSans',monospace;line-height:1" id="w-cd-h">--</div>
-          <div style="font-size:10px;opacity:.7;margin-top:2px">ساعات</div>
-        </div>
-        <div style="text-align:center;background:rgba(255,255,255,.12);border-radius:12px;padding:8px 14px;min-width:54px">
-          <div style="font-size:24px;font-weight:900;font-family:'ThmanyahSans',monospace;line-height:1" id="w-cd-m">--</div>
-          <div style="font-size:10px;opacity:.7;margin-top:2px">دقائق</div>
-        </div>
-        <div style="text-align:center;background:rgba(255,255,255,.12);border-radius:12px;padding:8px 14px;min-width:54px">
-          <div style="font-size:24px;font-weight:900;font-family:'ThmanyahSans',monospace;line-height:1" id="w-cd-s">--</div>
-          <div style="font-size:10px;opacity:.7;margin-top:2px">ثوانٍ</div>
-        </div>
-      </div>
+      <div style="position:absolute;top:-20px;left:-20px;font-size:120px;opacity:.06;line-height:1">✅</div>
+      <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:4px">وردك اليومي</div>
+      <div style="font-size:18px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:10px" id="w-hero-label">جدول العبادات اليومي</div>
       <div style="background:rgba(255,255,255,.1);border-radius:10px;padding:10px;font-size:12px;line-height:1.7">
-        💡 العمل الصالح في هذه الأيام <strong>أحب إلى الله</strong> من الجهاد في سبيله — رواه البخاري
+        💡 قال ﷺ: <strong>أحب الأعمال إلى الله أدومها وإن قلّ</strong> — رواه البخاري ومسلم
       </div>
     </div>
 
@@ -251,23 +234,6 @@ html[data-theme="dark"] .check.done .box,html[data-theme="oled"] .check.done .bo
     <div class="check" data-key="sadaqah"><div class="box">✓</div><div class="label">الصدقة اليومية</div><div class="meta">ولو قليل</div></div>
     <div class="check" data-key="silah"><div class="box">✓</div><div class="label">صلة رحم — مكالمة أو رسالة</div></div>
     <div class="check" data-key="sunnah_daily"><div class="box">✓</div><div class="label">إحياء سنة مهجورة</div><div class="meta">البسملة · التيامن · الوضوء</div></div>
-
-    <!-- ══ 5. تتبع الصيام ════════════════════════════════════ -->
-    <div class="section-title">📅 تتبع الصيام — الأيام التسعة</div>
-    <div class="card" style="margin-bottom:16px">
-      <p style="margin-bottom:14px;font-size:13px;color:var(--muted)">⭐ = يوم عرفة — صيامه يكفّر سنتين · انقر لتسجيل الصيام</p>
-      <div class="fast-grid">
-        <div class="fast-day" data-day="1"><span>١</span><span class="fast-lbl">يوم</span></div>
-        <div class="fast-day" data-day="2"><span>٢</span><span class="fast-lbl">يوم</span></div>
-        <div class="fast-day" data-day="3"><span>٣</span><span class="fast-lbl">يوم</span></div>
-        <div class="fast-day" data-day="4"><span>٤</span><span class="fast-lbl">يوم</span></div>
-        <div class="fast-day" data-day="5"><span>٥</span><span class="fast-lbl">يوم</span></div>
-        <div class="fast-day" data-day="6"><span>٦</span><span class="fast-lbl">يوم</span></div>
-        <div class="fast-day" data-day="7"><span>٧</span><span class="fast-lbl">يوم</span></div>
-        <div class="fast-day" data-day="8"><span>٨</span><span class="fast-lbl">يوم</span></div>
-        <div class="fast-day arafah" data-day="9"><span>٩</span><span class="fast-lbl">عرفة ⭐</span></div>
-      </div>
-    </div>
 
     <!-- ══ 6. خطة الختمة القرآنية ═══════════════════════════ -->
     <div class="section-title">📖 خطة الختمة — 10 أيام</div>
@@ -367,23 +333,25 @@ function getState(){
 }
 function saveState(s){ localStorage.setItem(W_KEY, JSON.stringify(s)); }
 
-/* ── Countdown to Arafa ─────────────────────────────────── */
+/* ── Countdown to Arafa (تمت إزالته من جدول العبادات اليومي) ─── */
 function startWorshipCountdown(){
+  if(!document.getElementById('w-cd-d')) return; /* العناصر اتشالت — اخرج بأمان */
   function tick(){
     const arafa = new Date(2026, 4, 26, 0, 0, 0);
     const diff  = arafa - new Date();
     if(diff <= 0){
-      document.getElementById('w-hero-label').textContent = 'يوم عرفة المبارك ⭐';
+      const lbl=document.getElementById('w-hero-label'); if(lbl) lbl.textContent='يوم عرفة المبارك ⭐';
       ['w-cd-d','w-cd-h','w-cd-m','w-cd-s'].forEach(id=>{
         const el=document.getElementById(id); if(el)el.textContent='00';
       });
       return;
     }
     const pad = n=>String(Math.floor(Math.max(0,n))).padStart(2,'0');
-    document.getElementById('w-cd-d').textContent = pad(diff/86400000);
-    document.getElementById('w-cd-h').textContent = pad((diff%86400000)/3600000);
-    document.getElementById('w-cd-m').textContent = pad((diff%3600000)/60000);
-    document.getElementById('w-cd-s').textContent = pad((diff%60000)/1000);
+    const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=pad(v);};
+    set('w-cd-d',diff/86400000);
+    set('w-cd-h',(diff%86400000)/3600000);
+    set('w-cd-m',(diff%3600000)/60000);
+    set('w-cd-s',(diff%60000)/1000);
   }
   tick(); setInterval(tick,1000);
 }
@@ -721,7 +689,18 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('excuse-switch').addEventListener('change',function(e){ setOn(e.target.checked); });
   }
 
-  function init(){ buildCard(); applyVisual(isOn()); }
+  function init(){
+    buildCard(); applyVisual(isOn());
+    /* لو جاء المستخدم من شورت كت المنيو (#excuse-card) — مرّر إليه وأبرِزه */
+    if(location.hash === '#excuse-card'){
+      setTimeout(()=>{
+        const c=document.getElementById('excuse-card');
+        if(c){ c.scrollIntoView({behavior:'smooth',block:'center'});
+          c.style.transition='box-shadow .4s'; c.style.boxShadow='0 0 0 3px var(--gold)';
+          setTimeout(()=>{ c.style.boxShadow=''; }, 2000); }
+      }, 300);
+    }
+  }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
   else init();
 })();

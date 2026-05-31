@@ -280,9 +280,10 @@ function zadSafeParse(key, fallback) {
     </a>
     <!-- Profile chip injected by JS -->
     <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
-    <div class="theme-row">
-      <span>🌙 الوضع الداكن</span>
-      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
     </div>
 <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
         📲 تثبيت / تحميل التطبيق
@@ -425,7 +426,7 @@ function zadSafeParse(key, fallback) {
       <!-- Link to غرس for more -->
       <a href="ghars.html" style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0e6b3f,#1a9a5a);border-radius:14px;padding:14px;text-decoration:none;color:#fff;margin-top:8px">
         <span style="font-size:28px">🌱</span>
-        <div><div style="font-size:14px;font-weight:800">اكتشفي المزيد في غرس!</div><div style="font-size:11px;opacity:.8">خطوات الحج والأيام العشر والاختبارات</div></div>
+        <div><div style="font-size:14px;font-weight:800">اكتشفي المزيد في غرس!</div><div style="font-size:11px;opacity:.8">٣٠ قصة شيقة من السيرة والقرآن والقيم</div></div>
         <span style="margin-right:auto;font-size:18px">←</span>
       </a>
     </div>
@@ -469,8 +470,8 @@ function zadSafeParse(key, fallback) {
       <a href="ghars.html" style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0e6b3f,#1a9a5a);border-radius:16px;padding:16px 18px;text-decoration:none;color:#fff" >
         <span style="font-size:32px">🌱</span>
         <div>
-          <div style="font-size:15px;font-weight:800;font-family:'ThmanyahSans',sans-serif">رحلة الحج — غرس</div>
-          <div style="font-size:12px;opacity:.8;margin-top:2px">قصص الحج والأنشطة والأيام العشر للأطفال</div>
+          <div style="font-size:15px;font-weight:800;font-family:'ThmanyahSans',sans-serif">غرس — قصص للأطفال</div>
+          <div style="font-size:12px;opacity:.8;margin-top:2px">٣٠ قصة من السيرة والقرآن والقيم الجميلة للأطفال</div>
         </div>
         <span style="font-size:20px;margin-right:auto;opacity:.7">←</span>
       </a>
@@ -720,6 +721,26 @@ const DICT = [
   {
     ico:'📿', word:'الباقيات الصالحات', hint:'أفضل الكلمات',
     body:'الباقيات الصالحات هي أفضل الكلمات التي يقولها المسلم:\n🔵 سبحان الله  🟢 الحمد لله  🟡 لا إله إلا الله  🔴 الله أكبر\n\nهذه الكلمات تملأ الميزان يوم القيامة!'
+  },
+  {
+    ico:'🔄', word:'الطواف', hint:'الدوران حول الكعبة',
+    body:'الطواف هو أن يدور الحاج حول الكعبة سبع مرات وهو يدعو الله! 🕋\nيبدأ من عند الحجر الأسود ويلف وهو يقول:\n"سبحان الله، والحمد لله، ولا إله إلا الله، والله أكبر"\nتخيّل كل الحجاج يدورون معاً كدائرة جميلة حول بيت الله! 💫'
+  },
+  {
+    ico:'🏃', word:'السعي', hint:'بين الصفا والمروة',
+    body:'السعي هو المشي والجري الخفيف بين جبلين صغيرين اسمهما الصفا والمروة، سبع مرات! 🏃\nهذا تذكير بقصة السيدة هاجر أم إسماعيل، لما كانت تبحث عن الماء لطفلها… فأخرج الله لها ماء زمزم! 💧'
+  },
+  {
+    ico:'💧', word:'ماء زمزم', hint:'أطهر ماء',
+    body:'زمزم هو ماء مبارك خرج من الأرض بأمر الله عند قدمَي الطفل إسماعيل! 💧\nمنذ آلاف السنين والناس يشربون منه ولا ينضب أبداً!\nقال النبي ﷺ إنه ماء طعام وشفاء، ونشربه ونحن ندعو الله بما نتمنى! 🤲'
+  },
+  {
+    ico:'⛺', word:'مِنى ومزدلفة',hint:'محطات الحجاج',
+    body:'في الحج ينتقل الحجاج بين أماكن جميلة:\n⛺ مِنى: مدينة الخيام البيضاء حيث يبيت الحجاج\n🌌 مزدلفة: يبيتون فيها تحت السماء والنجوم ويجمعون حصى صغيراً\nرحلة مليئة بالذكر والدعاء والفرح! 🌟'
+  },
+  {
+    ico:'🪨', word:'رمي الجمرات', hint:'رمي الحصى الصغير',
+    body:'بعد العيد يرمي الحجاج حصى صغيراً على ثلاثة أعمدة في مِنى! 🪨\nهذا تذكير بأن سيدنا إبراهيم رفض وسوسة الشيطان وأطاع الله.\nنتعلم منها أن نقول "لا" للأفكار السيئة ونطيع الله دائماً! 💪'
   }
 ];
 

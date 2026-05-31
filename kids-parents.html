@@ -70,6 +70,35 @@ html[data-theme="dark"] .k-task.done .kb,html[data-theme="oled"] .k-task.done .k
 .k-task.done .kt b{text-decoration:line-through;opacity:.6}
 .k-task .kt small{font-size:11px;color:var(--muted);display:block;margin-top:1px}
 .k-reward{display:none;text-align:center;background:linear-gradient(135deg,var(--gold-pale),var(--card));border:1.5px solid rgba(201,161,74,.4);border-radius:15px;padding:16px;font-size:15px;font-weight:800;color:var(--gold-dark);margin-top:6px}
+
+/* ══ SOS الطوارئ التربوي ══ */
+.sos-card{background:linear-gradient(135deg,#c0392b,#7d241a);border-radius:18px;padding:18px 20px;margin-bottom:14px;box-shadow:0 8px 24px -8px rgba(192,57,43,.5);color:#fff}
+.sos-head{display:flex;align-items:flex-start;gap:13px;margin-bottom:14px}
+.sos-ico{font-size:30px;flex-shrink:0}
+.sos-t{font-size:16px;font-weight:900}
+.sos-s{font-size:12px;color:rgba(255,255,255,.85);margin-top:3px;line-height:1.6}
+.sos-opts{display:flex;flex-direction:column;gap:8px}
+.sos-opt{width:100%;text-align:right;padding:13px 16px;border-radius:13px;border:none;background:rgba(255,255,255,.15);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s}
+.sos-opt:hover{background:rgba(255,255,255,.28);transform:translateX(-3px)}
+.sos-opt:active{transform:scale(.98)}
+.sos-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9999;align-items:flex-end;justify-content:center;padding:0}
+.sos-overlay.open{display:flex;animation:sosFade .25s ease}
+@keyframes sosFade{from{opacity:0}to{opacity:1}}
+.sos-modal{background:var(--bg);border-radius:22px 22px 0 0;width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;padding:18px 18px 22px;animation:sosUp .3s cubic-bezier(.22,.68,0,1.2)}
+@keyframes sosUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sos-modal-head{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:900;color:var(--ink);padding-bottom:12px;border-bottom:1.5px solid var(--border);margin-bottom:12px}
+.sos-modal-head #sos-modal-ico{font-size:22px}
+.sos-x{margin-right:auto;width:30px;height:30px;border-radius:50%;border:none;background:var(--sand-2);color:var(--muted);font-size:14px;cursor:pointer}
+.sos-chat{overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:4px 2px}
+.sos-msg{background:var(--card);border:1.5px solid var(--border);border-radius:16px;border-top-right-radius:5px;padding:13px 15px;font-size:13.5px;line-height:1.85;color:var(--ink);box-shadow:var(--shadow-sm);opacity:0;transform:translateY(12px);animation:sosMsg .4s ease forwards}
+@keyframes sosMsg{to{opacity:1;transform:translateY(0)}}
+.sos-msg b{color:var(--green-deep)}
+html[data-theme="dark"] .sos-msg b,html[data-theme="oled"] .sos-msg b{color:var(--sys-green)}
+.sos-step-n{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--green-deep);color:#fff;font-size:12px;font-weight:900;margin-left:8px;flex-shrink:0}
+html[data-theme="dark"] .sos-step-n,html[data-theme="oled"] .sos-step-n{background:var(--sys-green);color:#001a08}
+.sos-done{margin-top:16px;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;transition:transform .1s}
+.sos-done:active{transform:scale(.97)}
+
 html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--sys-yellow)}
 .k-reward.show{display:block;animation:zadFadeUp .5s ease both}
 </style>
@@ -86,7 +115,11 @@ html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--
       <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
     <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
-    <div class="theme-row"><span>🌙 الوضع الداكن</span><label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label></div>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
+    </div>
 <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
     <nav class="nav">
       <a href="index.html" class="active" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
@@ -141,6 +174,34 @@ html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--
       <div class="k-htitle">دليلُ المربّي</div>
       <div class="k-intro">أعزّاءنا المربّين، هذا القسمُ مخصّصٌ لكم ليكونَ دليلاً في اختيار المحتوى الأنسب لأطفالكم، وتنظيمِ وقتهم أمام الشاشات بطريقةٍ تربويةٍ آمنة.</div>
     </div>
+
+    <!-- ══ زر الطوارئ التربوي ══ -->
+    <div class="k-sec-title">🚨 إسعافات تربوية فورية</div>
+    <div class="sos-card">
+      <div class="sos-head">
+        <span class="sos-ico">🆘</span>
+        <div><div class="sos-t">أنقذوني! طفلي الآن...</div>
+        <div class="sos-s">اختر الموقف — وستظهر لك 3 خطوات هادئة تتصرّف بها في اللحظة</div></div>
+      </div>
+      <div class="sos-opts">
+        <button class="sos-opt" onclick="openSOS('tantrum')">😭 نوبة بكاء وصراخ عارمة</button>
+        <button class="sos-opt" onclick="openSOS('fight')">🥊 شجار واشتباك بين الإخوة</button>
+        <button class="sos-opt" onclick="openSOS('defiance')">🙅 عناد ورفض تنفيذ الأمر</button>
+      </div>
+    </div>
+
+    <!-- SOS Modal -->
+    <div class="sos-overlay" id="sos-overlay" onclick="if(event.target===this)closeSOS()">
+      <div class="sos-modal">
+        <div class="sos-modal-head">
+          <span id="sos-modal-ico">🆘</span>
+          <span id="sos-modal-title">الموقف</span>
+          <button class="sos-x" onclick="closeSOS()" aria-label="إغلاق">✕</button>
+        </div>
+        <div class="sos-chat" id="sos-chat"></div>
+        <button class="sos-done" onclick="closeSOS()">تمت السيطرة بنجاح — الحَمْدُ لله 🤍</button>
+      </div>
+    </div>
     <div class="k-sec-title">✅ معاييرُ اختيار المحتوى</div>
     <div class="k-card"><ul class="k-steps"><li><b>مضمونٌ سليمٌ عقدياً وأخلاقياً</b> — خالٍ مما يخالف العقيدة.</li><li><b>لغةٌ عربيةٌ فصيحةٌ وسهلة</b> — لتنمية مهارات الطفل اللغوية.</li><li><b>حلقاتٌ قصيرة</b> — لا تزيد عن 10–15 دقيقة لتجنّب الملل.</li></ul></div>
     <div class="k-sec-title">👀 منهجيةُ المشاهدة الذكية</div>
@@ -177,6 +238,46 @@ html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--
   <script src="js/pwa-install-fab.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="animations.js" defer></script>
+<script>
+/* ══ إسعافات تربوية فورية (SOS) ══ */
+const SOS_DATA = {
+  tantrum: { ico:'😭', title:'نوبة بكاء وصراخ', steps:[
+    '<b>اخفض نبرتك وجسدك.</b> لا تصرخ ولا تهدد، انزل لمستوى طوله. صراخك «وقود» لنوبته. اصمت 10 ثوانٍ وتنفّس بهدوء ليرى فيك الاستقرار.',
+    '<b>سمِّ المشاعر واحجب السلوك.</b> قل بجملة واحدة حازمة هادئة: «أنا عارف إنك زعلان ومحبط، زعلك مفهوم — بس الصراخ مش هيغيّر القرار».',
+    '<b>التشتيت الذكي.</b> غيّر البيئة فوراً دون نقاش السبب: «يلا نشوف القطة اللي بره» أو «ساعدني نختار العصير». لو رفض، احتضنه صامتاً حتى يُفرِّغ شحنته.'
+  ]},
+  fight: { ico:'🥊', title:'شجار بين الإخوة', steps:[
+    '<b>الفصل الجسدي الفوري دون محاكمة.</b> افصل بينهما في مكانين فوراً: «هتوقفوا دلوقتي، الأمان في بيتنا خط أحمر». لا تسأل «مين البادي؟» الآن — عقولهم في وضع هجوم.',
+    '<b>تبريد المشاعر.</b> اترك كل طفل يهدأ 3 دقائق، واطلب منهم أخذ 5 أنفاس عميقة.',
+    '<b>جلسة الإنصاف.</b> اجلس معهما، كل طرف يحكي ماذا حدث <b>دون مقاطعة</b>، ثم اسأل: «إيه الحل العادل في رأيكم؟» — حوّلهم من خصوم إلى شركاء في الحل.'
+  ]},
+  defiance: { ico:'🙅', title:'عناد ورفض الأمر', steps:[
+    '<b>اتصال قبل التوجيه.</b> لا تنادِ من غرفة بعيدة. اذهب إليه، ضع يدك على كتفه، تأكد أنه ينظر لعينيك، ثم قل الأمر.',
+    '<b>صيغة «عندما... إذن...».</b> اربط الفعل بالنتيجة المحبوبة دون تهديد: «عندما تنتهي من لمّ الألعاب، إذن نبدأ قصة قبل النوم».',
+    '<b>العدّ التنازلي.</b> «هعدّ من 5 لـ 1، وعند 1 نتحرك سوا للمهمة: 5.. 4..». نبرة العدّ تنبّه دماغه بوجود إطار زمني لإنهاء المقاومة.'
+  ]}
+};
+window.openSOS = function(key){
+  const d = SOS_DATA[key]; if(!d) return;
+  document.getElementById('sos-modal-ico').textContent = d.ico;
+  document.getElementById('sos-modal-title').textContent = d.title;
+  const chat = document.getElementById('sos-chat');
+  chat.innerHTML = '';
+  d.steps.forEach((s,i)=>{
+    const m = document.createElement('div');
+    m.className = 'sos-msg';
+    m.style.animationDelay = (i*180)+'ms';
+    m.innerHTML = `<span class="sos-step-n">${i+1}</span>${s}`;
+    chat.appendChild(m);
+  });
+  document.getElementById('sos-overlay').classList.add('open');
+  if(navigator.vibrate) navigator.vibrate(15);
+};
+window.closeSOS = function(){
+  document.getElementById('sos-overlay').classList.remove('open');
+};
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeSOS(); });
+</script>
 <script src="menu.js" defer></script>
 </body>
 </html>

@@ -301,3 +301,48 @@ html[data-theme="oled"] {
   --muted: #c2d8c4;      /* كان b8cfba — أوضح على الأسود */
   --muted-2: #8aae8c;
 }
+
+/* ════════════════════════════════════════════════════════════
+   إصلاح الكونتراست الجذري — نصوص واضحة على الخلفية الغامقة
+   (يُحمَّل بعد style.css فيكسب الأولوية — مصدر الحقيقة للكونتراست)
+   ════════════════════════════════════════════════════════════ */
+html[data-theme="dark"]{
+  --ink:#eaf5ea;          /* كان d8ead8 — أنصع وأوضح */
+  --muted:#a8c5ab;        /* نص ثانوي واضح */
+  --muted-2:#7e9e80;
+}
+html[data-theme="oled"]{
+  --ink:#ffffff;          /* أبيض كامل على الأسود */
+  --muted:#cadccb;
+  --muted-2:#90b292;
+}
+/* النصوص العامة: امنع أي بهتان (opacity منخفض) على الغامق */
+html[data-theme="dark"] body,
+html[data-theme="oled"] body{ color:var(--ink); }
+
+/* العناوين الخضراء على الغامق → فاتحة واضحة */
+html[data-theme="dark"] .section-title,
+html[data-theme="oled"] .section-title{ color:var(--ink); }
+
+/* آية اليوم والآيات: أخضر فاتح ناصع + لا شفافية */
+html[data-theme="dark"] .verse .ar,
+html[data-theme="oled"] .verse .ar{ color:#7ce89a; opacity:1; }
+html[data-theme="dark"] .verse .src,
+html[data-theme="oled"] .verse .src{ color:var(--gold-soft); opacity:1; }
+
+/* النصوص الباهتة جداً داخل الكروت — ارفع وضوحها بلطف (بدون !important حتى لا نكسر العناصر الزخرفية) */
+html[data-theme="dark"] .verse .src,
+html[data-theme="oled"] .verse .src{ color:var(--gold-soft); }
+
+/* تأكيد: نصوص الـ muted لا تختفي */
+html[data-theme="dark"] .muted, html[data-theme="dark"] [class*="-sub"], html[data-theme="dark"] small,
+html[data-theme="oled"] .muted, html[data-theme="oled"] [class*="-sub"], html[data-theme="oled"] small{
+  color:var(--muted);
+}
+
+/* ══ Theme segmented control (للصفحات اللي تحمّل premium-ui فقط مثل إذاعة القرآن) ══ */
+.theme-seg{display:flex;gap:5px;background:var(--sand);border:1px solid var(--border);border-radius:13px;padding:5px;margin:10px 0}
+.theme-opt{flex:1;padding:9px 6px;border-radius:9px;border:none;background:transparent;color:var(--muted);font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;transition:all .18s;white-space:nowrap}
+.theme-opt:hover{color:var(--ink)}
+.theme-opt.active{background:var(--green-deep);color:#fff}
+html[data-theme="dark"] .theme-opt.active,html[data-theme="oled"] .theme-opt.active{background:var(--sys-green);color:#001a08}

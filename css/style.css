@@ -1999,3 +1999,10 @@ html[data-theme="oled"] .card {
 @media (prefers-reduced-motion: reduce){
   ::view-transition-old(root),::view-transition-new(root){ animation:none !important; }
 }
+
+/* ══ Theme segmented control (3 modes: light/dark/oled) ══ */
+.theme-seg{display:flex;gap:5px;background:var(--sand);border:1px solid var(--border);border-radius:13px;padding:5px;margin:10px 0}
+.theme-opt{flex:1;padding:9px 6px;border-radius:9px;border:none;background:transparent;color:var(--muted);font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;transition:all .18s;white-space:nowrap}
+.theme-opt:hover{color:var(--ink)}
+.theme-opt.active{background:var(--green-deep);color:#fff;box-shadow:0 3px 10px -3px rgba(0,0,0,.3)}
+html[data-theme="dark"] .theme-opt.active,html[data-theme="oled"] .theme-opt.active{background:var(--sys-green);color:#001a08}

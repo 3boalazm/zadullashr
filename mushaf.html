@@ -237,9 +237,10 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
     </a>
     <!-- Profile chip injected by JS -->
     <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
-    <div class="theme-row">
-      <span>🌙 الوضع الداكن</span>
-      <label class="toggle-pill"><input type="checkbox" class="dark-switch"><span class="tgl-sl"></span></label>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
     </div>
 <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
         📲 تثبيت / تحميل التطبيق
@@ -339,10 +340,6 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
     </div>
 
     <!-- ══ Plan Selection ══════════════════════════════════════ -->
-    <a href="arafah-dua.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;background:linear-gradient(135deg,#3a2410,#6b4518 70%,rgba(201,161,74,.35));border-radius:14px;padding:13px 16px;margin-bottom:18px;color:#fff;box-shadow:0 6px 20px -8px rgba(107,69,24,.5)">
-      <span style="font-size:26px;flex-shrink:0">🌄</span>
-      <div style="flex:1"><div style="font-size:13.5px;font-weight:800">يوم عرفة قريب — اجعل لك وِرداً من القرآن</div><div style="font-size:11.5px;color:rgba(255,255,255,.8);margin-top:2px">اضغط لأدعية يوم عرفة المباركة ←</div></div>
-    </a>
 
     <div class="section-title">📋 اختر خطة القراءة</div>
     <div class="plan-grid" id="plan-grid">
