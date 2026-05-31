@@ -8,7 +8,7 @@
    تستجب الشبكة خلال 3 ثوانٍ نرجع فوراً للنسخة المخزّنة.
    ════════════════════════════════════════════════════════════ */
 
-const CACHE_STATIC = 'zad-20260530-2100';
+const CACHE_STATIC = 'zad-20260530-2200';
 const NET_TIMEOUT  = 3000; /* مهلة الشبكة قبل الرجوع للكاش (ms) */
 
 /* ── أصول تُخزَّن مسبقاً عند التثبيت ── */
@@ -22,7 +22,7 @@ const PRECACHE = [
   './js/app.js', './js/storage.js', './js/calendar.js',
   './js/design-system.js', './js/fixes-module.js',
   './js/utils/helpers.js', './js/core/state-manager.js', './js/core/router.js',
-  './js/ui/design-tokens.js', './js/ui/bottom-nav.js', './js/ui/feedback.js',
+  './js/ui/design-tokens.js', './js/ui/feedback.js',
   './js/ui/daily-hub.js', './js/ui/micro-interactions.js', './js/ui/offline-ui.js', './js/float-tasbih.js', './js/nav-accordion.js',
   /* adhkar offline data */
   './js/adhkar-database.js', './js/adhkar-complete.js',
