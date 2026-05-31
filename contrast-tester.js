@@ -1,163 +1,258 @@
 /* ════════════════════════════════════════════════════════════
-   فاحص الكونتراست v2 — أداة تشخيص لمطوّر زاد العشر
-   إصلاحات: كشف خلفيات التدرّج (gradient)، تجاهل الإيموجي،
-   تجاهل العناصر المخفية فعلياً، fallback أذكى للخلفية.
+   فاحص الكونتراست v3 — أداة تشخيص لمطوّر زاد العشر
+   • فحص الصفحة الحالية + فحص كل الموقع (عبر iframe، same-origin)
+   • الضغط على مشكلة → سكرول + تحديد واضح
+   • تقرير نصّي قابل للنسخ
    ════════════════════════════════════════════════════════════ */
 (function(){
   'use strict';
-  if (window.__ctOpen) { document.getElementById('ct-panel')?.remove(); window.__ctOpen=false;
-    document.querySelectorAll('[data-ct-marked]').forEach(el=>{ el.style.outline=''; delete el.dataset.ctMarked; }); return; }
+  if (window.__ctOpen) {
+    document.getElementById('ct-panel')?.remove();
+    document.querySelectorAll('[data-ct-marked]').forEach(el=>{ el.style.outline=''; el.style.boxShadow=''; delete el.dataset.ctMarked; });
+    window.__ctOpen=false; return;
+  }
   window.__ctOpen = true;
 
+  /* قائمة صفحات الموقع للفحص الشامل */
+  var SITE_PAGES = ["index.html","prayers.html","qibla.html","hijri.html","taqweem.html","mushaf.html","mushaf-quran.html","tasmee.html","adhkar.html","adhkar-categories.html","adhkar-section.html","hasn.html","du'a.html","dua-guide.html","nawawi.html","ruqyah.html","sunan.html","worship.html","fadael.html","arafah.html","arafah-dua.html","odhiya.html","manasik.html","sadaqah.html","zakat.html","hasad.html","summary.html","badges.html","groups.html","group-board.html","barnamaj.html","playlist.html","Quran-radio.HTML","videos.html","asma.html","ai.html","kids.html","kids-fun.html","kids-creativity.html","kids-school.html","kids-heroes.html","kids-parents.html","ghars.html","zahra.html","profile.html","settings.html","report.html","about.html","developer.html","privacy.html","takbeer.html"];
+
+  /* ── دوال الكونتراست (WCAG 2.1) ── */
   function parseColor(str){
     if(!str || str==='transparent') return null;
-    const m = str.match(/rgba?\(([^)]+)\)/);
-    if(!m) return null;
-    const p = m[1].split(',').map(s=>parseFloat(s.trim()));
+    var m = str.match(/rgba?\(([^)]+)\)/); if(!m) return null;
+    var p = m[1].split(',').map(function(s){return parseFloat(s.trim());});
     return { r:p[0], g:p[1], b:p[2], a:(p[3]===undefined?1:p[3]) };
   }
-  function lum(c){
-    const f = v => { v/=255; return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4); };
-    return 0.2126*f(c.r)+0.7152*f(c.g)+0.0722*f(c.b);
-  }
-  function ratio(fg,bg){
-    const l1=lum(fg), l2=lum(bg);
-    const hi=Math.max(l1,l2), lo=Math.min(l1,l2);
-    return (hi+0.05)/(lo+0.05);
-  }
-  function blend(fg,bg){
-    if(fg.a>=1) return fg;
-    return { r: fg.r*fg.a + bg.r*(1-fg.a), g: fg.g*fg.a + bg.g*(1-fg.a), b: fg.b*fg.a + bg.b*(1-fg.a), a:1 };
-  }
-  /* هل للعنصر خلفية تدرّج/صورة؟ (يجعل قياس لون الخلفية غير موثوق) */
-  function hasGradient(node){
-    const bi = getComputedStyle(node).backgroundImage;
-    return bi && bi !== 'none' && /gradient|url/.test(bi);
-  }
-  /* الخلفية الفعلية — مع إيقاف الفحص لو صادفنا تدرّجاً (غير قابل للقياس بثقة) */
-  function effectiveBg(el){
-    let node = el;
-    while(node && node !== document.documentElement){
-      if(hasGradient(node)) return null; /* تدرّج → تخطَّ هذا العنصر */
-      const bg = parseColor(getComputedStyle(node).backgroundColor);
-      if(bg && bg.a > 0.5) return bg;
-      node = node.parentElement;
-    }
-    const bodyBg = parseColor(getComputedStyle(document.body).backgroundColor);
-    if(hasGradient(document.body)) return null;
-    return (bodyBg && bodyBg.a>0.5) ? bodyBg : {r:255,g:255,b:255,a:1};
-  }
-  /* نص يتكوّن أساساً من إيموجي/رموز؟ (قياس الكونتراست له بلا معنى) */
-  function isMostlyEmoji(t){
-    const stripped = t.replace(/[\s\u0660-\u0669\u0030-\u0039:.،·\-/]/g,'');
-    if(!stripped) return true;
-    const emoji = (stripped.match(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F1E6}-\u{1F1FF}\u200d\u2190-\u21FF\u25A0-\u25FF\u2B00-\u2BFF]/gu)||[]).length;
-    return emoji >= stripped.length * 0.5;
-  }
-  /* هل العنصر ظاهر فعلاً على الشاشة (لا داخل sidebar مغلق مثلاً)؟ */
-  function trulyVisible(el){
-    const r = el.getBoundingClientRect();
-    if(r.width<4 || r.height<4) return false;
-    /* خارج إطار الشاشة تماماً (مثل sidebar منزاح) */
-    if(r.right < 0 || r.left > innerWidth + 5) return false;
-    let node = el;
-    while(node && node!==document.body){
-      const cs = getComputedStyle(node);
-      if(cs.display==='none' || cs.visibility==='hidden' || parseFloat(cs.opacity)<0.1) return false;
-      /* عنصر مطويّ بـ transform خارج الشاشة */
-      if(cs.transform && cs.transform!=='none' && /matrix.*-?\d{3,}/.test(cs.transform)){
-        const tr = node.getBoundingClientRect();
-        if(tr.right<0 || tr.left>innerWidth+5) return false;
+  function lum(c){ var f=function(v){ v/=255; return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4); }; return 0.2126*f(c.r)+0.7152*f(c.g)+0.0722*f(c.b); }
+  function ratio(fg,bg){ var l1=lum(fg),l2=lum(bg),hi=Math.max(l1,l2),lo=Math.min(l1,l2); return (hi+0.05)/(lo+0.05); }
+  function blend(fg,bg){ if(fg.a>=1) return fg; return { r:fg.r*fg.a+bg.r*(1-fg.a), g:fg.g*fg.a+bg.g*(1-fg.a), b:fg.b*fg.a+bg.b*(1-fg.a), a:1 }; }
+
+  /* ── فحص مستند (الصفحة الحالية أو داخل iframe) ── */
+  function scanDoc(doc, win){
+    win = win || window;
+    function hasGradient(node){ var bi=win.getComputedStyle(node).backgroundImage; return bi && bi!=='none' && /gradient|url/.test(bi); }
+    function effectiveBg(el){
+      var node=el;
+      while(node && node!==doc.documentElement){
+        if(hasGradient(node)) return null;
+        var bg=parseColor(win.getComputedStyle(node).backgroundColor);
+        if(bg && bg.a>0.5) return bg;
+        node=node.parentElement;
       }
-      node = node.parentElement;
+      if(hasGradient(doc.body)) return null;
+      var bb=parseColor(win.getComputedStyle(doc.body).backgroundColor);
+      return (bb && bb.a>0.5) ? bb : {r:255,g:255,b:255,a:1};
     }
-    return true;
+    function isMostlyEmoji(t){
+      var s=t.replace(/[\s\u0660-\u0669\u0030-\u0039:.،·\-/]/g,'');
+      if(!s) return true;
+      var e=(s.match(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F1E6}-\u{1F1FF}\u200d\u2190-\u21FF\u25A0-\u25FF\u2B00-\u2BFF]/gu)||[]).length;
+      return e >= s.length*0.5;
+    }
+    function trulyVisible(el){
+      var r=el.getBoundingClientRect();
+      if(r.width<4 || r.height<4) return false;
+      if(r.right<0 || r.left>(win.innerWidth||doc.documentElement.clientWidth)+5) return false;
+      var node=el;
+      while(node && node!==doc.body){
+        var cs=win.getComputedStyle(node);
+        if(cs.display==='none'||cs.visibility==='hidden'||parseFloat(cs.opacity)<0.1) return false;
+        node=node.parentElement;
+      }
+      return true;
+    }
+    var out=[], skipped={emoji:0,gradient:0,hidden:0}, seen={};
+    var els=doc.querySelectorAll('p,span,a,h1,h2,h3,h4,h5,h6,li,td,th,label,button,small,b,strong,em');
+    Array.prototype.forEach.call(els, function(el){
+      var direct=Array.prototype.some.call(el.childNodes,function(n){return n.nodeType===3 && n.textContent.trim().length>1;});
+      if(!direct) return;
+      var raw=el.textContent.trim();
+      if(isMostlyEmoji(raw)){ skipped.emoji++; return; }
+      if(!trulyVisible(el)){ skipped.hidden++; return; }
+      var cs=win.getComputedStyle(el);
+      var fg=parseColor(cs.color); if(!fg) return;
+      var bg=effectiveBg(el);
+      if(!bg){ skipped.gradient++; return; }
+      fg=blend(fg,bg);
+      var r=ratio(fg,bg);
+      var size=parseFloat(cs.fontSize), bold=(parseInt(cs.fontWeight)||400)>=700;
+      var isLarge=size>=24||(size>=18.66&&bold), threshold=isLarge?3.0:4.5;
+      if(r<threshold){
+        var txt=raw.slice(0,45), key=txt+'|'+Math.round(r*10);
+        if(seen[key]) return; seen[key]=1;
+        out.push({ el:el, r:r.toFixed(2), threshold:threshold, txt:txt, size:Math.round(size), tag:el.tagName.toLowerCase() });
+      }
+    });
+    out.sort(function(a,b){return parseFloat(a.r)-parseFloat(b.r);});
+    return { results:out, skipped:skipped };
   }
 
-  const results = [];
-  const skipped = { gradient:0, emoji:0, hidden:0 };
-  const seen = new Set();
-  document.querySelectorAll('p,span,a,h1,h2,h3,h4,h5,h6,li,td,th,label,button,small,b,strong,em,.du-card-label,.section-title').forEach(el=>{
-    const directText = Array.from(el.childNodes).some(n=>n.nodeType===3 && n.textContent.trim().length>1);
-    if(!directText) return;
-    const rawTxt = el.textContent.trim();
-    if(isMostlyEmoji(rawTxt)){ skipped.emoji++; return; }
-    if(!trulyVisible(el)){ skipped.hidden++; return; }
+  /* ── حدّد عنصراً بصرياً (سكرول + إطار + توهّج) ── */
+  function highlight(el){
+    el.scrollIntoView({behavior:'smooth',block:'center'});
+    el.style.transition='outline .2s,box-shadow .2s';
+    el.style.outline='3px solid #ffcc00';
+    el.style.boxShadow='0 0 0 6px rgba(255,204,0,.3)';
+    setTimeout(function(){ el.style.outline='2px dashed #ff3b30'; el.style.boxShadow=''; }, 1800);
+  }
 
-    const cs = getComputedStyle(el);
-    let fg = parseColor(cs.color);
-    if(!fg) return;
-    const bg = effectiveBg(el);
-    if(!bg){ skipped.gradient++; return; } /* خلفية تدرّج — نتخطّاها (تحتاج فحصاً بصرياً) */
-    fg = blend(fg, bg);
-    const r = ratio(fg, bg);
+  /* ── فحص الصفحة الحالية وبناء اللوحة ── */
+  var scan = scanDoc(document, window);
+  var results = scan.results, skipped = scan.skipped;
+  results.forEach(function(res){ res.el.style.outline='2px dashed #ff3b30'; res.el.style.outlineOffset='1px'; res.el.dataset.ctMarked='1'; });
 
-    const size = parseFloat(cs.fontSize);
-    const bold = (parseInt(cs.fontWeight)||400) >= 700;
-    const isLarge = size>=24 || (size>=18.66 && bold);
-    const threshold = isLarge ? 3.0 : 4.5;
+  var theme=document.documentElement.getAttribute('data-theme')||'light';
+  var excuse=document.documentElement.getAttribute('data-excuse')==='on';
+  var modeLabel='الوضع: '+(theme==='light'?'☀️ فاتح':theme==='dark'?'🌙 داكن':'⚫ أوليد')+(excuse?' + 🌸 عذر':'');
 
-    if(r < threshold){
-      const txt = rawTxt.slice(0,40);
-      const key = txt + '|' + Math.round(r*10);
-      if(seen.has(key)) return;
-      seen.add(key);
-      results.push({ el, r:r.toFixed(2), threshold, txt, size:Math.round(size), tag:el.tagName.toLowerCase() });
-      el.style.outline = '2px dashed #ff3b30';
-      el.style.outlineOffset = '1px';
-      el.dataset.ctMarked = '1';
-    }
-  });
+  var panel=document.createElement('div');
+  panel.id='ct-panel';
+  panel.style.cssText='position:fixed;bottom:0;right:0;left:0;max-height:62vh;z-index:999999;background:#0d0d0d;color:#eee;font-family:system-ui,sans-serif;font-size:13px;box-shadow:0 -8px 30px rgba(0,0,0,.5);border-top:3px solid #ff3b30;display:flex;flex-direction:column;direction:rtl';
 
-  results.sort((a,b)=>parseFloat(a.r)-parseFloat(b.r));
+  function buildHeader(){
+    var h=document.createElement('div');
+    h.style.cssText='padding:12px 16px;background:#1a1a1a;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;flex-wrap:wrap;gap:8px';
+    h.innerHTML='<div><b style="color:#ff6b6b;font-size:15px">🔍 فاحص الكونتراست</b> &nbsp; <span style="color:#aaa">'+modeLabel+'</span></div>'+
+      '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">'+
+        '<span id="ct-count" style="background:'+(results.length?'#ff3b30':'#1a7d4f')+';padding:4px 12px;border-radius:99px;font-weight:700">'+(results.length?results.length+' مشكلة':'✅ سليم')+'</span>'+
+        '<button id="ct-report" style="background:#2a7a5f;border:none;color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px">📋 نسخ التقرير</button>'+
+        '<button id="ct-scanall" style="background:#c9851a;border:none;color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px">🌐 فحص كل الموقع</button>'+
+        '<button id="ct-close" style="background:#333;border:none;color:#fff;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:16px">✕</button>'+
+      '</div>';
+    return h;
+  }
+  panel.appendChild(buildHeader());
 
-  const theme = document.documentElement.getAttribute('data-theme')||'light';
-  const excuse = document.documentElement.getAttribute('data-excuse')==='on';
-  const panel = document.createElement('div');
-  panel.id = 'ct-panel';
-  panel.style.cssText = 'position:fixed;bottom:0;right:0;left:0;max-height:60vh;z-index:999999;background:#0d0d0d;color:#eee;font-family:system-ui,sans-serif;font-size:13px;box-shadow:0 -8px 30px rgba(0,0,0,.5);border-top:3px solid #ff3b30;display:flex;flex-direction:column;direction:rtl';
-
-  const header = document.createElement('div');
-  header.style.cssText='padding:12px 16px;background:#1a1a1a;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;flex-wrap:wrap;gap:8px';
-  const modeLabel = 'الوضع: '+(theme==='light'?'☀️ فاتح':theme==='dark'?'🌙 داكن':'⚫ أوليد')+(excuse?' + 🌸 عذر':'');
-  header.innerHTML = '<div><b style="color:#ff6b6b;font-size:15px">🔍 فاحص الكونتراست</b> &nbsp; <span style="color:#aaa">'+modeLabel+'</span></div>'+
-    '<div style="display:flex;gap:8px;align-items:center">'+
-      '<span style="background:'+(results.length?'#ff3b30':'#1a7d4f')+';padding:4px 12px;border-radius:99px;font-weight:700">'+(results.length? results.length+' مشكلة حقيقية':'✅ سليم')+'</span>'+
-      '<button id="ct-close" style="background:#333;border:none;color:#fff;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:16px">✕</button>'+
-    '</div>';
-  panel.appendChild(header);
-
-  /* شريط ملاحظات عمّا تم تخطّيه */
-  const note = document.createElement('div');
+  var note=document.createElement('div');
   note.style.cssText='padding:7px 16px;background:#11151a;color:#888;font-size:11.5px;flex-shrink:0;border-bottom:1px solid #222';
-  note.innerHTML = 'تُخطّيت تلقائياً: '+skipped.emoji+' إيموجي · '+skipped.gradient+' على خلفية متدرّجة (تحتاج عيناً بشرية) · '+skipped.hidden+' مخفية. <b style="color:#aaa">هذه ليست أخطاءً.</b>';
+  note.innerHTML='تُخطّيت: '+skipped.emoji+' إيموجي · '+skipped.gradient+' على تدرّج (تحتاج عيناً) · '+skipped.hidden+' مخفية. <b style="color:#aaa">ليست أخطاءً.</b>';
   panel.appendChild(note);
 
-  const body = document.createElement('div');
-  body.style.cssText='overflow-y:auto;padding:8px 12px';
-  if(results.length===0){
-    body.innerHTML = '<div style="padding:24px;text-align:center;color:#4ade80">🎉 مفيش مشاكل كونتراست حقيقية في الصفحة دي بالوضع الحالي!<br><small style="color:#888">العناصر على الخلفيات المتدرّجة تحتاج فحصاً بالعين (الأداة تتخطّاها لتجنّب التنبيهات الكاذبة).</small></div>';
-  } else {
-    results.forEach((res)=>{
-      const row = document.createElement('div');
-      row.style.cssText='padding:10px;border-bottom:1px solid #222;display:flex;gap:10px;align-items:center;cursor:pointer';
-      const sev = parseFloat(res.r) < res.threshold*0.6 ? '#ff3b30' : '#ff9500';
-      row.innerHTML =
-        '<span style="background:'+sev+';color:#fff;border-radius:6px;padding:2px 8px;font-weight:700;font-size:12px;white-space:nowrap">'+res.r+'</span>'+
-        '<span style="color:#888;font-size:11px;white-space:nowrap">≥'+res.threshold+'</span>'+
-        '<span style="flex:1;color:#ddd;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">«'+res.txt+'»</span>'+
-        '<span style="color:#666;font-size:11px;white-space:nowrap">&lt;'+res.tag+'&gt; '+res.size+'px</span>';
-      row.onclick = ()=>{ res.el.scrollIntoView({behavior:'smooth',block:'center'}); res.el.style.outline='3px solid #ffcc00'; setTimeout(()=>{res.el.style.outline='2px dashed #ff3b30';},1500); };
-      body.appendChild(row);
-    });
-  }
+  var body=document.createElement('div');
+  body.id='ct-body';
+  body.style.cssText='overflow-y:auto;padding:8px 12px;flex:1';
+  renderResults(body, results, true);
   panel.appendChild(body);
   document.body.appendChild(panel);
 
-  document.getElementById('ct-close').onclick = ()=>{
-    document.querySelectorAll('[data-ct-marked]').forEach(el=>{ el.style.outline=''; el.style.outlineOffset=''; delete el.dataset.ctMarked; });
+  function renderResults(container, list, local){
+    if(list.length===0){
+      container.innerHTML='<div style="padding:24px;text-align:center;color:#4ade80">🎉 مفيش مشاكل كونتراست حقيقية في الوضع الحالي!<br><small style="color:#888">العناصر على الخلفيات المتدرّجة تحتاج فحصاً بالعين.</small></div>';
+      return;
+    }
+    container.innerHTML='';
+    list.forEach(function(res){
+      var row=document.createElement('div');
+      row.style.cssText='padding:10px;border-bottom:1px solid #222;display:flex;gap:10px;align-items:center;'+(local?'cursor:pointer':'');
+      var sev=parseFloat(res.r)<res.threshold*0.6?'#ff3b30':'#ff9500';
+      row.innerHTML='<span style="background:'+sev+';color:#fff;border-radius:6px;padding:2px 8px;font-weight:700;font-size:12px;white-space:nowrap">'+res.r+'</span>'+
+        '<span style="color:#888;font-size:11px;white-space:nowrap">≥'+res.threshold+'</span>'+
+        (res.page?'<span style="color:#7ce89a;font-size:11px;white-space:nowrap">'+res.page+'</span>':'')+
+        '<span style="flex:1;color:#ddd;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">«'+res.txt+'»</span>'+
+        '<span style="color:#666;font-size:11px;white-space:nowrap">&lt;'+res.tag+'&gt; '+res.size+'px</span>';
+      if(local && res.el){ row.onclick=function(){ highlight(res.el); }; }
+      container.appendChild(row);
+    });
+  }
+
+  /* ── زر الإغلاق ── */
+  document.getElementById('ct-close').onclick=function(){
+    document.querySelectorAll('[data-ct-marked]').forEach(function(el){ el.style.outline=''; el.style.outlineOffset=''; el.style.boxShadow=''; delete el.dataset.ctMarked; });
     panel.remove(); window.__ctOpen=false;
   };
 
-  console.log('[فاحص الكونتراست v2]', results.length, 'مشكلة حقيقية | تخطّى:', skipped, '| الوضع:', theme, excuse?'+عذر':'');
+  /* ── زر التقرير (نسخ) ── */
+  var lastReport = { mode:modeLabel, page:location.pathname.split('/').pop()||'index.html', results:results, skipped:skipped, full:null };
+  document.getElementById('ct-report').onclick=function(){
+    var txt = buildReportText(lastReport);
+    copyText(txt);
+    var btn=document.getElementById('ct-report');
+    var orig=btn.textContent; btn.textContent='✅ تم النسخ'; setTimeout(function(){btn.textContent=orig;},1500);
+  };
+
+  function buildReportText(rep){
+    var L=[];
+    L.push('═══ تقرير فاحص الكونتراست — زاد العشر ═══');
+    L.push('التاريخ: '+new Date().toLocaleString('ar-EG'));
+    if(rep.full){
+      L.push('النطاق: كل الموقع ('+rep.full.pagesScanned+' صفحة) · '+rep.mode);
+      L.push('إجمالي المشاكل الحقيقية: '+rep.full.total);
+      L.push('');
+      rep.full.byPage.forEach(function(pg){
+        if(pg.results.length===0) return;
+        L.push('▼ '+pg.page+' ('+pg.results.length+')');
+        pg.results.forEach(function(r){ L.push('   '+r.r+' (≥'+r.threshold+') «'+r.txt+'» <'+r.tag+'> '+r.size+'px'); });
+      });
+      if(rep.full.failed.length){ L.push(''); L.push('تعذّر فحصها: '+rep.full.failed.join(', ')); }
+    } else {
+      L.push('النطاق: صفحة واحدة ('+rep.page+') · '+rep.mode);
+      L.push('مشاكل حقيقية: '+rep.results.length+' · تُخطّي: '+rep.skipped.emoji+' إيموجي، '+rep.skipped.gradient+' تدرّج، '+rep.skipped.hidden+' مخفية');
+      L.push('');
+      if(rep.results.length===0){ L.push('✅ لا مشاكل.'); }
+      rep.results.forEach(function(r){ L.push(r.r+' (يحتاج ≥'+r.threshold+') «'+r.txt+'» <'+r.tag+'> '+r.size+'px'); });
+    }
+    L.push('');
+    L.push('ملاحظة: العناصر على خلفيات متدرّجة مُستثناة (تحتاج فحصاً بالعين).');
+    return L.join('\n');
+  }
+  function copyText(t){
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t).catch(function(){ fallbackCopy(t); }); }
+    else fallbackCopy(t);
+  }
+  function fallbackCopy(t){
+    var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+  }
+
+  /* ── زر فحص كل الموقع (عبر iframe، same-origin) ── */
+  document.getElementById('ct-scanall').onclick=function(){
+    var btn=document.getElementById('ct-scanall'); btn.disabled=true; btn.style.opacity='0.6';
+    var base=location.href.replace(/[^/]*$/,''); /* مجلد الموقع */
+    var qs = (excuse?'':''); /* الأوضاع تُورّث من localStorage تلقائياً عبر الـ inline loader */
+    var byPage=[], failed=[], total=0, done=0;
+    body.innerHTML='<div style="padding:20px;text-align:center;color:#ffcc00">🌐 جارٍ فحص '+SITE_PAGES.length+' صفحة...<br><div id="ct-prog" style="margin-top:10px;color:#888"></div></div>';
+    var prog=document.getElementById('ct-prog');
+
+    var iframe=document.createElement('iframe');
+    iframe.style.cssText='position:fixed;width:1024px;height:768px;left:-9999px;top:0;border:0';
+    document.body.appendChild(iframe);
+
+    var i=0;
+    function nextPage(){
+      if(i>=SITE_PAGES.length){ finishAll(); return; }
+      var page=SITE_PAGES[i];
+      if(prog) prog.textContent='('+(i+1)+'/'+SITE_PAGES.length+') '+page;
+      var to=setTimeout(function(){ failed.push(page); i++; nextPage(); }, 8000);
+      iframe.onload=function(){
+        clearTimeout(to);
+        setTimeout(function(){ /* انتظر الـ render والـ JS */
+          try{
+            var idoc=iframe.contentDocument, iwin=iframe.contentWindow;
+            var s=scanDoc(idoc, iwin);
+            byPage.push({ page:page, results:s.results.map(function(r){return {r:r.r,threshold:r.threshold,txt:r.txt,tag:r.tag,size:r.size,page:page};}) });
+            total+=s.results.length;
+          }catch(e){ failed.push(page); }
+          done++; i++; nextPage();
+        }, 900);
+      };
+      try{ iframe.src = base + encodeURI(page); }
+      catch(e){ failed.push(page); i++; nextPage(); }
+    }
+    function finishAll(){
+      iframe.remove(); btn.disabled=false; btn.style.opacity='1';
+      var flat=[];
+      byPage.forEach(function(pg){ pg.results.forEach(function(r){ flat.push(r); }); });
+      flat.sort(function(a,b){return parseFloat(a.r)-parseFloat(b.r);});
+      lastReport.full={ pagesScanned:done, total:total, byPage:byPage, failed:failed };
+      document.getElementById('ct-count').textContent=total+' مشكلة (كل الموقع)';
+      document.getElementById('ct-count').style.background = total?'#ff3b30':'#1a7d4f';
+      note.innerHTML='🌐 فُحصت '+done+' صفحة'+(failed.length?' · تعذّر '+failed.length:'')+' · اضغط «نسخ التقرير» للتفاصيل الكاملة. <b style="color:#aaa">المشاكل مرتّبة بالأسوأ.</b>';
+      renderResults(body, flat, false);
+    }
+    nextPage();
+  };
+
+  console.log('[فاحص الكونتراست v3]', results.length, 'مشكلة | تخطّى:', skipped, '| الوضع:', theme, excuse?'+عذر':'');
 })();

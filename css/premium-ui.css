@@ -342,7 +342,7 @@ html[data-theme="oled"] .muted, html[data-theme="oled"] [class*="-sub"], html[da
 
 /* ══ Theme segmented control (للصفحات اللي تحمّل premium-ui فقط مثل إذاعة القرآن) ══ */
 .theme-seg{display:flex;gap:5px;background:var(--sand);border:1px solid var(--border);border-radius:13px;padding:5px;margin:10px 0}
-.theme-opt{flex:1;padding:9px 6px;border-radius:9px;border:none;background:transparent;color:var(--muted);font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;transition:all .18s;white-space:nowrap}
+.theme-opt{flex:1;padding:9px 6px;border-radius:9px;border:none;background:transparent;color:var(--ink);color:color-mix(in srgb,var(--ink) 78%,transparent);font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;transition:all .18s;white-space:nowrap}
 .theme-opt:hover{color:var(--ink)}
 .theme-opt.active{background:var(--green-deep);color:#fff}
 html[data-theme="dark"] .theme-opt.active,html[data-theme="oled"] .theme-opt.active{background:var(--sys-green);color:#001a08}
