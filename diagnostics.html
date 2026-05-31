@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t);})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مركز التشخيص — زاد العشر</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/premium-ui.css">
+<style>
+  .diag-wrap{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+  .diag-hero{text-align:center;margin-bottom:24px}
+  .diag-hero h1{font-size:24px;font-weight:900;color:var(--green-deep);margin-bottom:6px}
+  .diag-hero p{color:var(--muted);font-size:14px}
+  .diag-run{display:block;width:100%;max-width:320px;margin:18px auto;padding:16px;
+    border:none;border-radius:14px;background:var(--green-deep);color:#fff;
+    font-family:inherit;font-size:16px;font-weight:800;cursor:pointer;min-height:52px}
+  .diag-run:disabled{opacity:.6;cursor:wait}
+  .diag-score{text-align:center;font-size:48px;font-weight:900;margin:20px 0 6px}
+  .diag-score.good{color:#1a7d4f}.diag-score.warn{color:#d98a00}.diag-score.bad{color:#c0392b}
+  .diag-section{background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:16px;margin-bottom:14px}
+  .diag-section h2{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:12px;
+    display:flex;justify-content:space-between;align-items:center}
+  .diag-badge{font-size:12px;padding:3px 10px;border-radius:20px;font-weight:700}
+  .diag-badge.ok{background:rgba(26,125,79,.15);color:#1a7d4f}
+  .diag-badge.warn{background:rgba(217,138,0,.15);color:#d98a00}
+  .diag-badge.err{background:rgba(192,57,43,.15);color:#c0392b}
+  .diag-row{display:flex;justify-content:space-between;align-items:center;
+    padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;gap:10px}
+  .diag-row:last-child{border-bottom:none}
+  .diag-row .name{color:var(--ink);word-break:break-all}
+  .diag-row .status{flex-shrink:0;font-weight:700}
+  .diag-row .status.ok{color:#1a7d4f}
+  .diag-row .status.warn{color:#d98a00}
+  .diag-row .status.err{color:#c0392b}
+  .diag-empty{color:var(--muted);text-align:center;padding:20px;font-size:14px}
+  .diag-progress{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:10px 0}
+  .diag-progress span{display:block;height:100%;background:var(--green-deep);transition:width .3s}
+  .diag-back{display:inline-block;margin-bottom:16px;color:var(--green-deep);
+    text-decoration:none;font-weight:700;font-size:14px}
+</style>
+</head>
+<body>
+<main class="main" id="main-content" style="margin:0 auto">
+<div class="diag-wrap">
+  <a href="index.html" class="diag-back">→ العودة للرئيسية</a>
+  <div class="diag-hero">
+    <h1>🩺 مركز التشخيص</h1>
+    <p>فحص شامل لصحة التطبيق — للمطوّر فقط</p>
+  </div>
+
+  <button class="diag-run" id="run-btn" onclick="runFullAudit()">▶️ ابدأ الفحص الشامل</button>
+  <div class="diag-progress" id="progress" style="display:none"><span style="width:0"></span></div>
+
+  <div id="results"></div>
+</div>
+</main>
+
+<script>
+/* قائمة الصفحات الأساسية للفحص */
+var PAGES = [
+  'index.html','prayers.html','qibla.html','hijri.html','taqweem.html',
+  'mushaf.html','mushaf-quran.html','tasmee.html','worship.html',
+  'adhkar.html','hasn.html','du\'a.html','dua-guide.html','adhkar-categories.html',
+  'manasik.html','odhiya.html','arafah.html','ghars.html',
+  'ai.html','Quran-radio.HTML','videos.html','playlist.html',
+  'settings.html','profile.html','privacy.html','about.html','developer.html',
+  'zakat.html','asma.html','badges.html','summary.html','hasad.html'
+];
+
+/* الموارد الحرجة */
+var ASSETS = [
+  'css/style.css','css/premium-ui.css','sw.js','manifest.json',
+  'js/app.js','js/storage.js','js/core/state-manager.js','js/calendar.js',
+  'icons/icon-192.svg'
+];
+
+var results = {};
+
+function setProgress(pct){
+  var p = document.getElementById('progress');
+  p.style.display = 'block';
+  p.querySelector('span').style.width = pct + '%';
+}
+
+async function checkUrl(url){
+  try{
+    var res = await fetch(url, {method:'GET', cache:'no-store'});
+    var ct = res.headers.get('content-type') || '';
+    return { url:url, status:res.status, ok:res.ok, ct:ct };
+  }catch(e){
+    return { url:url, status:0, ok:false, error:String(e) };
+  }
+}
+
+async function runFullAudit(){
+  var btn = document.getElementById('run-btn');
+  btn.disabled = true; btn.textContent = '⏳ جارٍ الفحص...';
+  document.getElementById('results').innerHTML = '';
+  results = { pages:[], assets:[], sw:null, storage:null, errors:[] };
+
+  var total = PAGES.length + ASSETS.length;
+  var done = 0;
+
+  /* 1. فحص الصفحات */
+  for(var i=0;i<PAGES.length;i++){
+    var r = await checkUrl(PAGES[i]);
+    /* لو رجّع HTML بدل اللي متوقّع = تمام للصفحات */
+    r.healthy = r.ok && r.status === 200;
+    results.pages.push(r);
+    done++; setProgress(Math.round(done/total*100));
+  }
+
+  /* 2. فحص الموارد */
+  for(var j=0;j<ASSETS.length;j++){
+    var a = await checkUrl(ASSETS[j]);
+    /* تأكد إن JS/CSS رجّع نوع صح مش HTML (مشكلة api.js الشهيرة) */
+    var expectJs = /\.js$/.test(ASSETS[j]);
+    var expectCss = /\.css$/.test(ASSETS[j]);
+    a.healthy = a.ok;
+    if(a.ok && expectJs && a.ct.indexOf('html') !== -1){
+      a.healthy = false; a.warn = 'رجّع HTML بدل JS!';
+    }
+    if(a.ok && expectCss && a.ct.indexOf('html') !== -1){
+      a.healthy = false; a.warn = 'رجّع HTML بدل CSS!';
+    }
+    results.assets.push(a);
+    done++; setProgress(Math.round(done/total*100));
+  }
+
+  /* 3. Service Worker */
+  if('serviceWorker' in navigator){
+    var regs = await navigator.serviceWorker.getRegistrations();
+    results.sw = { count:regs.length, active: regs.some(function(r){return r.active;}) };
+  } else {
+    results.sw = { count:0, active:false, unsupported:true };
+  }
+
+  /* 4. Storage */
+  try{
+    var keys = Object.keys(localStorage);
+    var size = 0;
+    keys.forEach(function(k){ size += (localStorage.getItem(k)||'').length; });
+    results.storage = { keys:keys.length, sizeKB:Math.round(size/1024) };
+  }catch(e){ results.storage = { error:String(e) }; }
+
+  /* 5. أخطاء مسجّلة من الـ overlay */
+  results.errors = (window.__zadErrors || []).concat(
+    (window.ZadDiag && window.ZadDiag.getErrors) ? window.ZadDiag.getErrors() : []
+  );
+
+  renderResults();
+  btn.disabled = false; btn.textContent = '🔄 إعادة الفحص';
+  document.getElementById('progress').style.display = 'none';
+}
+
+function renderResults(){
+  var pagesBad = results.pages.filter(function(p){return !p.healthy;});
+  var assetsBad = results.assets.filter(function(a){return !a.healthy;});
+  var jsErrs = results.errors.filter(function(e){return e.type==='js'||e.type==='promise';});
+
+  /* حساب السكور */
+  var totalChecks = results.pages.length + results.assets.length;
+  var passed = (results.pages.length - pagesBad.length) + (results.assets.length - assetsBad.length);
+  var score = Math.round(passed/totalChecks*100);
+  var scoreClass = score >= 90 ? 'good' : (score >= 70 ? 'warn' : 'bad');
+
+  var html = '<div class="diag-score '+scoreClass+'">'+score+'/100</div>' +
+    '<p style="text-align:center;color:var(--muted);margin-bottom:20px">' +
+    passed+' نجح · '+(pagesBad.length+assetsBad.length)+' مشكلة · '+jsErrs.length+' خطأ JS</p>';
+
+  /* الموارد الحرجة (الأهم) */
+  html += sectionHtml('📦 الموارد الحرجة', results.assets.map(function(a){
+    var st = a.healthy ? 'ok' : 'err';
+    var label = a.healthy ? '✅ '+a.status : '❌ '+(a.warn||a.status||'فشل');
+    return rowHtml(a.url, label, st);
+  }), assetsBad.length);
+
+  /* الصفحات */
+  html += sectionHtml('📄 الصفحات ('+results.pages.length+')', results.pages.map(function(p){
+    var st = p.healthy ? 'ok' : 'err';
+    return rowHtml(p.url, p.healthy ? '✅ '+p.status : '❌ '+(p.status||'فشل'), st);
+  }), pagesBad.length);
+
+  /* Service Worker */
+  var swOk = results.sw && results.sw.active;
+  html += '<div class="diag-section"><h2>⚙️ Service Worker '+
+    '<span class="diag-badge '+(swOk?'ok':'warn')+'">'+(swOk?'نشط':'غير نشط')+'</span></h2>' +
+    rowHtml('عدد التسجيلات', String(results.sw.count), results.sw.count===1?'ok':'warn') +
+    rowHtml('نشط', swOk?'نعم':'لا', swOk?'ok':'warn') + '</div>';
+
+  /* Storage */
+  html += '<div class="diag-section"><h2>💾 التخزين المحلي</h2>' +
+    rowHtml('عدد المفاتيح', String(results.storage.keys||0), 'ok') +
+    rowHtml('الحجم', (results.storage.sizeKB||0)+' KB', results.storage.sizeKB>4000?'warn':'ok') +
+    '</div>';
+
+  /* أخطاء JS */
+  if(jsErrs.length){
+    html += sectionHtml('🔴 أخطاء JavaScript', jsErrs.map(function(e){
+      return rowHtml((e.file||'')+(e.line?':'+e.line:''), e.msg, 'err');
+    }), jsErrs.length);
+  } else {
+    html += '<div class="diag-section"><h2>🔴 أخطاء JavaScript '+
+      '<span class="diag-badge ok">نظيف</span></h2>'+
+      '<div class="diag-empty">✅ لا توجد أخطاء JS مسجّلة</div></div>';
+  }
+
+  document.getElementById('results').innerHTML = html;
+}
+
+function sectionHtml(title, rows, badCount){
+  var cls = badCount===0 ? 'ok' : (badCount<=2 ? 'warn' : 'err');
+  var txt = badCount===0 ? 'سليم' : badCount+' مشكلة';
+  return '<div class="diag-section"><h2>'+title+
+    '<span class="diag-badge '+cls+'">'+txt+'</span></h2>'+rows.join('')+'</div>';
+}
+
+function rowHtml(name, status, cls){
+  return '<div class="diag-row"><span class="name">'+esc(name)+'</span>'+
+    '<span class="status '+cls+'">'+esc(status)+'</span></div>';
+}
+
+function esc(s){
+  return String(s).replace(/[&<>"]/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+  });
+}
+</script>
+</body>
+</html>
