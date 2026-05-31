@@ -190,12 +190,7 @@ async function syncServerTime() {
     _serverTimeOffset = serverMs - after;
     console.log(`[Time] الفارق مع السيرفر: ${Math.round(_serverTimeOffset / 1000)} ثانية`);
 
-    /* تنبيه فقط لو الفارق كبير وحقيقي (>5 دقائق) */
-    if (Math.abs(_serverTimeOffset) > 300000) {
-      if (typeof showToast === 'function') {
-        showToast('⏰ توقيت جهازك غير دقيق — تم ضبط العدادات تلقائياً');
-      }
-    }
+    /* الضبط يتم تلقائياً في الخلفية — لا حاجة لإزعاج المستخدم بإشعار */
   } catch {
     _serverTimeOffset = 0; /* fallback آمن لتوقيت الجهاز */
   }
