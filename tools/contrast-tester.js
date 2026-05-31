@@ -249,7 +249,7 @@
   /* ── الفحص الشامل عبر كل التوليفات المختارة ── */
   function runFullScan(modes){
     var btn=document.getElementById('ct-scanall'); btn.disabled=true; btn.style.opacity='0.6';
-    var base=location.href.replace(/[^/]*$/,'');
+    var base=location.href.replace(/[^/]*$/,'').replace(/tools\/$/,'');
     var byPage=[], failed=[], total=0, done=0;
     /* قائمة المهام: كل صفحة × كل وضع */
     var jobs=[];

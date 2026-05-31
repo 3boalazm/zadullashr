@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>محاكي المكان والزمان — أداة المطوّر · زاد العشر</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #080c10;
+  --surface:  #0d1219;
+  --border:   #1a2535;
+  --border2:  #243040;
+  --gold:     #d4a842;
+  --gold2:    #f0c86a;
+  --green:    #2ecc8a;
+  --red:      #ff4757;
+  --orange:   #ff7c3a;
+  --blue:     #4fa3e8;
+  --muted:    #4a5a70;
+  --text:     #c8d8e8;
+  --text2:    #8a9ab0;
+  --mono:     'IBM Plex Mono', monospace;
+  --arabic:   'Tajawal', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--arabic);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  direction:rtl;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(212,168,66,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,168,66,.03) 1px, transparent 1px);
+  background-size:40px 40px;
+  z-index:0;
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:24px 16px 60px}
+
+/* ── tools navbar ── */
+.tools-navbar{position:sticky;top:0;z-index:500;display:flex;align-items:center;gap:12px;background:#0a0d11;border-bottom:1px solid #1e2430;padding:10px 16px;margin:-24px -16px 24px;flex-wrap:wrap}
+.tnav-home{color:#7ce89a;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;padding:6px 10px;border-radius:7px;background:#0d1f17;border:1px solid #1a5c3a}
+.tnav-home:hover{background:#123523}
+.tnav-links{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.tnav-link{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;text-decoration:none;padding:6px 12px;border-radius:8px;border:1px solid;transition:all .15s;white-space:nowrap}
+.tnav-link:hover{transform:translateY(-1px)}
+.tnav-ico{font-size:14px}
+@media(max-width:600px){.tnav-link span:not(.tnav-ico){display:none}.tnav-link{padding:8px 10px}}
+
+.hdr{display:flex;align-items:center;gap:14px;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.hdr-icon{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#1c2d1a,#2a4530);border:1px solid #2ecc8a44;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.hdr h1{font-size:20px;font-weight:900;color:var(--gold2);line-height:1.2}
+.hdr p{font-size:12.5px;color:var(--text2);margin-top:2px}
+.badge{font-family:var(--mono);font-size:10px;background:#1a2535;color:var(--blue);border:1px solid #243050;border-radius:4px;padding:2px 7px;margin-right:8px}
+
+.tabs{display:flex;gap:0;margin-bottom:24px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:4px;overflow:hidden}
+.tab{flex:1;padding:10px 6px;text-align:center;font-size:14px;font-weight:700;cursor:pointer;border-radius:9px;color:var(--text2);transition:all .2s;border:none;background:none;font-family:var(--arabic)}
+.tab.active{background:linear-gradient(135deg,#1c2a1a,#1a3020);color:var(--green);box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.tab:not(.active):hover{color:var(--text);background:#131c24}
+
+.section{display:none}
+.section.active{display:block}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px}
+.card-title{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title span{font-size:18px}
+
+.region-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:16px}
+.region-btn{background:#0d1520;border:1px solid var(--border2);border-radius:10px;padding:10px 12px;cursor:pointer;text-align:right;transition:all .18s;font-family:var(--arabic)}
+.region-btn:hover{border-color:var(--gold);background:#131d2a}
+.region-btn.active{border-color:var(--green);background:#0d1e15;box-shadow:0 0 0 1px var(--green)22}
+.region-btn .rname{font-size:13px;font-weight:700;color:var(--text);display:block}
+.region-btn .rcoord{font-family:var(--mono);font-size:10px;color:var(--text2);display:block;margin-top:3px}
+.region-btn .rflag{font-size:16px;display:block;margin-bottom:4px}
+
+.coords-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
+.inp-group{display:flex;flex-direction:column;gap:5px}
+.inp-label{font-size:11.5px;color:var(--text2);font-weight:700}
+.inp{background:#080c10;border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-family:var(--mono);font-size:13px;width:100%;outline:none;transition:border .15s}
+.inp:focus{border-color:var(--gold)}
+.inp::placeholder{color:var(--muted)}
+
+.time-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.time-presets{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.preset-btn{background:#0d1520;border:1px solid var(--border2);border-radius:8px;padding:6px 13px;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--text2);font-family:var(--arabic);transition:all .15s}
+.preset-btn:hover{border-color:var(--blue);color:var(--blue)}
+.preset-btn.active{border-color:var(--orange);color:var(--orange);background:#1a1508}
+
+.inject-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px 16px;background:#080e14;border:1px solid var(--border);border-radius:10px;margin-top:12px}
+.btn-inject{background:linear-gradient(135deg,#1a3a20,#1e4a28);border:1px solid var(--green)66;color:var(--green);font-family:var(--arabic);font-size:14px;font-weight:700;padding:10px 22px;border-radius:9px;cursor:pointer;transition:all .15s}
+.btn-inject:hover{background:linear-gradient(135deg,#1e4a28,#245c30);box-shadow:0 0 16px var(--green)22}
+.btn-inject:active{transform:scale(.97)}
+.btn-reset{background:#1a1520;border:1px solid #ff475744;color:var(--red);font-family:var(--arabic);font-size:13px;font-weight:700;padding:9px 18px;border-radius:9px;cursor:pointer;transition:all .15s}
+.btn-reset:hover{background:#221015;border-color:var(--red)}
+.inject-status{font-family:var(--mono);font-size:12px;color:var(--text2);flex:1;text-align:left}
+
+.log{background:#030608;border:1px solid var(--border);border-radius:10px;padding:12px;height:160px;overflow-y:auto;font-family:var(--mono);font-size:11.5px;color:#4a6a50;margin-top:14px}
+.log-line{padding:2px 0;border-bottom:1px solid #0d1219}
+.log-line.ok{color:var(--green)}
+.log-line.warn{color:var(--orange)}
+.log-line.err{color:var(--red)}
+.log-line.info{color:var(--blue)}
+
+.offline-scenarios{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:16px}
+.scenario-card{background:#0d1219;border:1px solid var(--border2);border-radius:12px;padding:14px;cursor:pointer;transition:all .18s;font-family:var(--arabic)}
+.scenario-card:hover{border-color:var(--orange);background:#131a20}
+.scenario-card.active{border-color:var(--orange);background:#1a1208;box-shadow:0 0 0 1px var(--orange)22}
+.sc-icon{font-size:24px;margin-bottom:8px;display:block}
+.sc-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.sc-desc{font-size:11.5px;color:var(--text2);line-height:1.5}
+.sc-badge{display:inline-block;font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:4px;margin-top:6px}
+.sc-badge.chaos{background:#1a1208;color:var(--orange);border:1px solid #ff7c3a44}
+.sc-badge.hard{background:#1a0808;color:var(--red);border:1px solid #ff475744}
+.sc-badge.soft{background:#081a10;color:var(--green);border:1px solid #2ecc8a44}
+
+.res-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.res-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#080c10;border-radius:8px;border:1px solid var(--border)}
+.res-icon{font-size:14px;flex-shrink:0}
+.res-name{flex:1;font-size:12.5px;color:var(--text2);font-family:var(--mono)}
+.res-status{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:4px}
+.res-status.cached{background:#081a10;color:var(--green);border:1px solid #2ecc8a44}
+.res-status.missing{background:#1a0808;color:var(--red);border:1px solid #ff475744}
+.res-status.unknown{background:#1a1520;color:var(--muted);border:1px solid var(--border2)}
+.res-status.checking{background:#08121a;color:var(--blue);border:1px solid #4fa3e844}
+
+.progress-wrap{height:6px;background:#131c24;border-radius:3px;margin:10px 0;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:3px;transition:width .4s ease;width:0%}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.stat-val{font-family:var(--mono);font-size:22px;font-weight:600;line-height:1}
+.stat-lbl{font-size:11px;color:var(--text2);margin-top:4px}
+.stat.green .stat-val{color:var(--green)}
+.stat.orange .stat-val{color:var(--orange)}
+.stat.red .stat-val{color:var(--red)}
+.stat.blue .stat-val{color:var(--blue)}
+
+.mock-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#1a3a20,#1e4a28);border-bottom:2px solid var(--green);padding:8px 16px;font-size:12px;color:var(--green);font-family:var(--mono);direction:rtl;align-items:center;gap:12px}
+.mock-banner.visible{display:flex}
+.mock-banner b{color:var(--gold2)}
+.mock-banner .close-banner{margin-right:auto;cursor:pointer;color:var(--text2);font-size:14px;background:none;border:none;font-family:var(--mono)}
+
+.btn-copy{background:#0d1219;border:1px solid var(--border2);color:var(--text2);font-family:var(--arabic);font-size:12px;padding:6px 14px;border-radius:7px;cursor:pointer;transition:all .15s}
+.btn-copy:hover{border-color:var(--blue);color:var(--blue)}
+
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+@media(max-width:600px){
+  .coords-row{grid-template-columns:1fr 1fr}
+  .time-row{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="tools-navbar">
+  <a href="../index.html" class="tnav-home" title="رجوع للتطبيق">← التطبيق</a>
+  <div class="tnav-links">
+    <a href="index.html" class="tnav-link" style="background:#171c24;color:#9db8d0;border-color:#262d38"><span class="tnav-ico">🧰</span><span>كل الأدوات</span></a>
+    <a href="contrast.html" class="tnav-link" style="background:#171c24;color:#9db8d0;border-color:#262d38"><span class="tnav-ico">🔍</span><span>فاحص الكونتراست</span></a>
+    <a href="content.html" class="tnav-link" style="background:#171c24;color:#9db8d0;border-color:#262d38"><span class="tnav-ico">📋</span><span>متتبّع المحتوى</span></a>
+    <a href="geotime.html" class="tnav-link" style="background:#2ecc8a22;color:#2ecc8a;border-color:#2ecc8a66"><span class="tnav-ico">🌍</span><span>محاكي المكان/الزمان</span></a>
+    <a href="security.html" class="tnav-link" style="background:#171c24;color:#9db8d0;border-color:#262d38"><span class="tnav-ico">🔐</span><span>فاحص الأمان</span></a>
+  </div>
+</div>
+
+<div id="mock-banner" class="mock-banner">
+  <span>🟢 MOCK ACTIVE</span>
+  <span id="banner-loc">—</span>
+  <span>|</span>
+  <span id="banner-time">—</span>
+  <button class="close-banner" onclick="resetAll()">✕ إيقاف</button>
+</div>
+
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="hdr-icon">🌍</div>
+    <div>
+      <h1>محاكي المكان والزمان <span class="badge">DEV TOOL</span></h1>
+      <p>اختبر أوقات الصلاة · القبلة · حسابات الحج في أي مكان وزمن · زاد العشر</p>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('geo',this)">🌍 محاكي الموقع</button>
+    <button class="tab" onclick="switchTab('time',this)">⏱ محاكي الوقت</button>
+    <button class="tab" onclick="switchTab('offline',this)">📡 اختبار أوفلاين</button>
+  </div>
+
+  <!-- ══════════════ TAB: GEO ══════════════ -->
+  <div id="tab-geo" class="section active">
+
+    <div class="stats">
+      <div class="stat green"><div class="stat-val" id="s-lat">—</div><div class="stat-lbl">Latitude</div></div>
+      <div class="stat green"><div class="stat-val" id="s-lng">—</div><div class="stat-lbl">Longitude</div></div>
+      <div class="stat blue"><div class="stat-val" id="s-qibla">—°</div><div class="stat-lbl">اتجاه القبلة</div></div>
+      <div class="stat orange"><div class="stat-val" id="s-fajr">—</div><div class="stat-lbl">الفجر (تقريبي)</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>📍</span> مناطق الاختبار المدمجة</div>
+      <div class="region-grid" id="region-grid"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>✏️</span> إحداثيات مخصصة</div>
+      <div class="coords-row">
+        <div class="inp-group">
+          <label class="inp-label">خط العرض (Lat)</label>
+          <input id="custom-lat" class="inp" type="number" step="0.0001" min="-90" max="90" placeholder="21.3891">
+        </div>
+        <div class="inp-group">
+          <label class="inp-label">خط الطول (Lng)</label>
+          <input id="custom-lng" class="inp" type="number" step="0.0001" min="-180" max="180" placeholder="39.8579">
+        </div>
+        <div class="inp-group">
+          <label class="inp-label">الدقة (Accuracy م)</label>
+          <input id="custom-acc" class="inp" type="number" value="10" min="1" max="5000">
+        </div>
+      </div>
+      <div class="inject-bar">
+        <button class="btn-inject" onclick="injectGeo()">🌍 حقن الموقع</button>
+        <button class="btn-reset" onclick="resetGeo()">✕ إعادة ضبط GPS</button>
+        <span id="geo-status" class="inject-status">جاهز</span>
+        <button class="btn-copy" onclick="copyGeoCode()">نسخ الكود</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>📋</span> سجل الاختبارات</div>
+      <div id="geo-log" class="log"><div class="log-line info">» جاهز للاختبار — اختر منطقة أو أدخل إحداثيات</div></div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ TAB: TIME ══════════════ -->
+  <div id="tab-time" class="section">
+
+    <div class="card">
+      <div class="card-title"><span>⏱</span> أوقات الاختبار المهمة</div>
+      <div class="time-presets" id="time-presets"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>📅</span> وقت مخصص</div>
+      <div class="time-row">
+        <div class="inp-group">
+          <label class="inp-label">التاريخ</label>
+          <input id="custom-date" class="inp" type="date">
+        </div>
+        <div class="inp-group">
+          <label class="inp-label">الوقت</label>
+          <input id="custom-time-inp" class="inp" type="time">
+        </div>
+      </div>
+      <div class="inject-bar">
+        <button class="btn-inject" onclick="injectTime()">⏱ حقن الوقت</button>
+        <button class="btn-reset" onclick="resetTime()">✕ استعادة الوقت الحقيقي</button>
+        <span id="time-status" class="inject-status">الوقت الحقيقي نشط</span>
+        <button class="btn-copy" onclick="copyTimeCode()">نسخ الكود</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>⚡</span> محاكاة سريعة: تسريع الوقت</div>
+      <p style="font-size:12.5px;color:var(--text2);margin-bottom:12px">شغّل الوقت بسرعة مضاعفة لرؤية انتقالات أوقات الصلاة في الوقت الفعلي</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="preset-btn" onclick="speedTime(10)">⚡ 10x</button>
+        <button class="preset-btn" onclick="speedTime(60)">⚡ 60x</button>
+        <button class="preset-btn" onclick="speedTime(360)">⚡ 360x (يوم/دقيقة)</button>
+        <button class="preset-btn" onclick="speedTime(1440)">⚡ 1440x (يوم/ثانية)</button>
+        <button class="btn-reset" onclick="resetTime()" style="font-size:12px;padding:7px 14px">إيقاف</button>
+      </div>
+      <div id="speed-display" style="font-family:var(--mono);font-size:12px;color:var(--text2);margin-top:10px;display:none">
+        ⏩ الوقت المحاكى: <b id="speed-clock" style="color:var(--gold2)">—</b>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>📋</span> سجل الاختبارات</div>
+      <div id="time-log" class="log"><div class="log-line info">» جاهز لمحاكاة الوقت</div></div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ TAB: OFFLINE ══════════════ -->
+  <div id="tab-offline" class="section">
+
+    <div class="stats">
+      <div class="stat green"><div class="stat-val" id="os-cached">—</div><div class="stat-lbl">موارد مخبّأة</div></div>
+      <div class="stat red"><div class="stat-val" id="os-missing">—</div><div class="stat-lbl">غير مخبّأة</div></div>
+      <div class="stat blue"><div class="stat-val" id="os-score">—</div><div class="stat-lbl">Offline Score</div></div>
+      <div class="stat orange"><div class="stat-val" id="os-sw">—</div><div class="stat-lbl">Service Worker</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>📡</span> سيناريوهات الاختبار</div>
+      <div class="offline-scenarios" id="offline-scenarios"></div>
+      <div class="inject-bar">
+        <button class="btn-inject" onclick="applyOfflineScenario()">📡 تطبيق السيناريو</button>
+        <button class="btn-reset" onclick="restoreNetwork()">✅ استعادة الشبكة</button>
+        <span id="offline-status" class="inject-status">الشبكة عاملة</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>🗄️</span> فحص الموارد الأوفلاين</div>
+      <p style="font-size:12.5px;color:var(--text2);margin-bottom:12px">يفحص الـ Cache API لمعرفة ما هو متاح بدون إنترنت</p>
+      <button class="btn-inject" onclick="checkCacheResources()" style="margin-bottom:12px">🔍 فحص الكاش</button>
+      <div class="progress-wrap"><div id="cache-progress" class="progress-bar"></div></div>
+      <div class="res-list" id="res-list"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>🎲</span> وضع الفوضى (Chaos Mode)</div>
+      <p style="font-size:12.5px;color:var(--text2);margin-bottom:12px">يقطع الشبكة بشكل عشوائي كل فترة — اختبر سلوك التطبيق تحت ظروف متقطعة</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="preset-btn" id="chaos-btn" onclick="toggleChaos()">🎲 تشغيل Chaos Mode</button>
+        <select id="chaos-interval" class="inp" style="width:auto;padding:7px 12px">
+          <option value="3000">قطع كل 3 ثوانٍ</option>
+          <option value="8000" selected>قطع كل 8 ثوانٍ</option>
+          <option value="15000">قطع كل 15 ثانية</option>
+          <option value="30000">قطع كل 30 ثانية</option>
+        </select>
+      </div>
+      <div id="chaos-status" style="font-family:var(--mono);font-size:12px;color:var(--muted)">غير نشط</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>📋</span> سجل الاختبارات</div>
+      <div id="offline-log" class="log"><div class="log-line info">» ابدأ الفحص لرؤية النتائج</div></div>
+    </div>
+
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+/* ══════════════════════════════════════════════════════ DATA ══ */
+const REGIONS = [
+  { name:'مكة المكرمة',  flag:'🕋', lat:21.3891,  lng:39.8579,  tz:'Asia/Riyadh',     note:'مرجع القبلة' },
+  { name:'الرياض',       flag:'🇸🇦', lat:24.6877,  lng:46.7219,  tz:'Asia/Riyadh',     note:'' },
+  { name:'القاهرة',      flag:'🇪🇬', lat:30.0444,  lng:31.2357,  tz:'Africa/Cairo',    note:'' },
+  { name:'لندن',         flag:'🇬🇧', lat:51.5074,  lng:-0.1278,  tz:'Europe/London',   note:'شتاء قصير' },
+  { name:'أوسلو',        flag:'🇳🇴', lat:59.9139,  lng:10.7522,  tz:'Europe/Oslo',     note:'فجر طويل جداً' },
+  { name:'ريكيافيك',     flag:'🇮🇸', lat:64.1355,  lng:-21.8954, tz:'Atlantic/Reykjavik', note:'⚠ شمس منتصف الليل' },
+  { name:'أنكوريج',      flag:'🇺🇸', lat:61.2181,  lng:-149.9003,tz:'America/Anchorage',note:'خط عرض عالٍ' },
+  { name:'تورونتو',      flag:'🇨🇦', lat:43.6532,  lng:-79.3832, tz:'America/Toronto', note:'' },
+  { name:'جاكرتا',       flag:'🇮🇩', lat:-6.2088,  lng:106.8456, tz:'Asia/Jakarta',    note:'جنوب خط الاستواء' },
+  { name:'كيب تاون',     flag:'🇿🇦', lat:-33.9249, lng:18.4241,  tz:'Africa/Johannesburg',note:'جنوب أقصى' },
+  { name:'طوكيو',        flag:'🇯🇵', lat:35.6762,  lng:139.6503, tz:'Asia/Tokyo',      note:'' },
+  { name:'نيويورك',      flag:'🇺🇸', lat:40.7128,  lng:-74.0060, tz:'America/New_York',note:'' },
+];
+
+const TIME_PRESETS = [
+  { label:'🌙 قبيل الفجر',      offset: ()=>{ let d=new Date(); d.setHours(4,15,0); return d; }, note:'حساسية حسابات الفجر' },
+  { label:'🌅 بعد الفجر',       offset: ()=>{ let d=new Date(); d.setHours(5,30,0); return d; }, note:'' },
+  { label:'☀️ وقت الظهر',       offset: ()=>{ let d=new Date(); d.setHours(12,0,0); return d; }, note:'' },
+  { label:'🌇 قبيل المغرب',     offset: ()=>{ let d=new Date(); d.setHours(18,30,0); return d; }, note:'انتقال حساس' },
+  { label:'🌃 العشاء',          offset: ()=>{ let d=new Date(); d.setHours(20,0,0); return d; }, note:'' },
+  { label:'🎉 1 ذو الحجة',      offset: ()=>{ let d=new Date(2025,4,29); return d; },             note:'أول العشر' },
+  { label:'🕌 يوم عرفة (9)',    offset: ()=>{ let d=new Date(2025,5,6); return d; },              note:'أعظم يوم' },
+  { label:'🐑 يوم النحر (10)',   offset: ()=>{ let d=new Date(2025,5,7); return d; },              note:'عيد الأضحى' },
+  { label:'🌙 رمضان 1',         offset: ()=>{ let d=new Date(2026,2,1); return d; },              note:'اختبار الهلال' },
+  { label:'🌑 نهاية رمضان',     offset: ()=>{ let d=new Date(2026,3,1); return d; },              note:'عيد الفطر' },
+];
+
+const OFFLINE_SCENARIOS = [
+  { icon:'✈️', name:'وضع الطيران',      desc:'انقطاع كامل — لا شبكة نهائياً',    type:'hard',   fn:'simulateFlightMode' },
+  { icon:'📶', name:'شبكة بطيئة',        desc:'تأخير 3 ثوانٍ لكل طلب',            type:'soft',   fn:'simulateSlow' },
+  { icon:'🔄', name:'انقطاع متقطع',      desc:'50% من الطلبات تفشل',              type:'chaos',  fn:'simulateFlaky' },
+  { icon:'🕌', name:'أثناء الطواف',       desc:'قطع في منتصف التحميل',             type:'chaos',  fn:'simulateMidLoad' },
+  { icon:'🏔️', name:'منطقة نائية',        desc:'timeout بعد 10 ثوانٍ',             type:'hard',   fn:'simulateTimeout' },
+  { icon:'🔋', name:'Data Saver',        desc:'تقييد الحجم — أقل من 100KB',       type:'soft',   fn:'simulateDataSaver' },
+];
+
+const CRITICAL_RESOURCES = [
+  { name:'أذكار الصباح',     key:'adhkar-morning', path:'adhkar.html' },
+  { name:'أدعية عرفة',       key:'arafah-duas',    path:'arafah-dua.html' },
+  { name:'المصحف',            key:'mushaf',          path:'mushaf.html' },
+  { name:'بيانات الصلاة',    key:'prayers-data',   path:'prayers.html' },
+  { name:'بيانات القبلة',    key:'qibla-data',     path:'qibla.html' },
+  { name:'الحصن (الأدعية)',  key:'hasn-data',      path:'hasn.html' },
+  { name:'البرنامج اليومي',  key:'barnamaj',       path:'barnamaj.html' },
+  { name:'أذكار المساء',     key:'adhkar-evening', path:'adhkar.html' },
+];
+
+/* ══════════════════════════════════════════════════════ STATE ══ */
+let activeRegion = null;
+let activeTimePreset = null;
+let activeScenario = null;
+let mockGeoActive = false;
+let mockTimeActive = false;
+let mockOfflineActive = false;
+let chaosActive = false;
+let chaosTimer = null;
+let speedTimer = null;
+let speedBase = null;
+let speedMult = 1;
+
+const _origGeo = navigator.geolocation ? navigator.geolocation.getCurrentPosition.bind(navigator.geolocation) : null;
+const _origWatch = navigator.geolocation ? navigator.geolocation.watchPosition.bind(navigator.geolocation) : null;
+const _origDate = Date;
+const _origFetch = window.fetch.bind(window);
+const _origXHROpen = XMLHttpRequest.prototype.open;
+
+/* ══════════════════════════════════════════════════════ TABS ══ */
+function switchTab(id, btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ══════════════════════════════════════════════════════ HELPERS ══ */
+function log(logId, msg, type='info'){
+  const el = document.getElementById(logId);
+  const d = document.createElement('div');
+  d.className = 'log-line '+type;
+  const now = new Date().toLocaleTimeString('ar-EG');
+  d.textContent = '['+now+'] '+msg;
+  el.insertBefore(d, el.firstChild);
+  while(el.children.length > 50) el.removeChild(el.lastChild);
+}
+
+function calcQibla(lat, lng){
+  const mLat = 21.3891 * Math.PI/180;
+  const mLng = 39.8579 * Math.PI/180;
+  const uLat = lat * Math.PI/180;
+  const dLng = mLng - lng * Math.PI/180;
+  const y = Math.sin(dLng) * Math.cos(mLat);
+  const x = Math.cos(uLat)*Math.sin(mLat) - Math.sin(uLat)*Math.cos(mLat)*Math.cos(dLng);
+  return ((Math.atan2(y,x)*180/Math.PI)+360)%360;
+}
+
+function estimateFajr(lat){
+  if(Math.abs(lat)>60) return '⚠ حرج';
+  const base = 5.5 - (lat/90)*1.5;
+  const h = Math.floor(base);
+  const m = Math.round((base-h)*60);
+  return h+':'+(m<10?'0'+m:m);
+}
+
+function updateGeoStats(lat, lng){
+  document.getElementById('s-lat').textContent = lat.toFixed(4);
+  document.getElementById('s-lng').textContent = lng.toFixed(4);
+  const q = calcQibla(lat,lng);
+  document.getElementById('s-qibla').textContent = Math.round(q)+'°';
+  document.getElementById('s-fajr').textContent = estimateFajr(lat);
+}
+
+function showBanner(){
+  document.getElementById('mock-banner').classList.add('visible');
+  document.body.style.paddingTop = '44px';
+}
+function hideBanner(){
+  document.getElementById('mock-banner').classList.remove('visible');
+  document.body.style.paddingTop = '';
+}
+function updateBanner(){
+  const locParts = [];
+  if(mockGeoActive && activeRegion) locParts.push('📍 '+activeRegion.name);
+  else if(mockGeoActive) locParts.push('📍 مخصص');
+  document.getElementById('banner-loc').textContent = locParts.join(' ') || '—';
+  if(mockTimeActive){
+    document.getElementById('banner-time').textContent = '⏱ وقت محاكى';
+  } else {
+    document.getElementById('banner-time').textContent = '⏰ وقت حقيقي';
+  }
+  if(mockGeoActive || mockTimeActive || mockOfflineActive) showBanner();
+  else hideBanner();
+}
+
+/* ══════════════════════════════════════════════════════ GEO MOCK ══ */
+function buildRegionGrid(){
+  const grid = document.getElementById('region-grid');
+  REGIONS.forEach((r,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'region-btn';
+    btn.id = 'region-'+i;
+    btn.innerHTML = `<span class="rflag">${r.flag}</span><span class="rname">${r.name}</span><span class="rcoord">${r.lat.toFixed(2)}, ${r.lng.toFixed(2)}</span>${r.note?`<span style="font-size:10px;color:var(--orange);margin-top:2px;display:block">${r.note}</span>`:''}`;
+    btn.onclick = ()=>selectRegion(i, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function selectRegion(i, btn){
+  document.querySelectorAll('.region-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  activeRegion = REGIONS[i];
+  document.getElementById('custom-lat').value = activeRegion.lat;
+  document.getElementById('custom-lng').value = activeRegion.lng;
+  updateGeoStats(activeRegion.lat, activeRegion.lng);
+  log('geo-log', `اخترت: ${activeRegion.name} (${activeRegion.lat}, ${activeRegion.lng})`, 'info');
+}
+
+function injectGeo(){
+  const lat = parseFloat(document.getElementById('custom-lat').value);
+  const lng = parseFloat(document.getElementById('custom-lng').value);
+  const acc = parseFloat(document.getElementById('custom-acc').value)||10;
+  if(isNaN(lat)||isNaN(lng)){ log('geo-log','⚠ أدخل إحداثيات صحيحة','warn'); return; }
+
+  const mockPos = {
+    coords:{latitude:lat,longitude:lng,accuracy:acc,altitude:null,altitudeAccuracy:null,heading:null,speed:null},
+    timestamp:Date.now()
+  };
+
+  navigator.geolocation.getCurrentPosition = (success,error,opts)=>{
+    log('geo-log',`📍 getCurrentPosition → (${lat.toFixed(4)}, ${lng.toFixed(4)}) acc:${acc}م`,'ok');
+    setTimeout(()=>success(mockPos), 50);
+  };
+  navigator.geolocation.watchPosition = (success,error,opts)=>{
+    log('geo-log',`👁 watchPosition → (${lat.toFixed(4)}, ${lng.toFixed(4)})`,'ok');
+    success(mockPos);
+    return 999;
+  };
+
+  mockGeoActive = true;
+  updateGeoStats(lat,lng);
+  updateBanner();
+  document.getElementById('geo-status').textContent = `✅ نشط — (${lat.toFixed(4)}, ${lng.toFixed(4)})`;
+  document.getElementById('geo-status').style.color = 'var(--green)';
+  log('geo-log',`✅ تم حقن الموقع: ${activeRegion?.name||'مخصص'} — القبلة: ${Math.round(calcQibla(lat,lng))}°`,'ok');
+  if(Math.abs(lat)>63) log('geo-log','⚠ تحذير: خط عرض عالٍ — تحقق من صحة حسابات الفجر/العشاء','warn');
+}
+
+function resetGeo(){
+  if(_origGeo) navigator.geolocation.getCurrentPosition = _origGeo;
+  if(_origWatch) navigator.geolocation.watchPosition = _origWatch;
+  mockGeoActive = false;
+  activeRegion = null;
+  document.querySelectorAll('.region-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('s-lat').textContent='—';
+  document.getElementById('s-lng').textContent='—';
+  document.getElementById('s-qibla').textContent='—°';
+  document.getElementById('s-fajr').textContent='—';
+  document.getElementById('geo-status').textContent='تم الإعادة — GPS حقيقي';
+  document.getElementById('geo-status').style.color='var(--text2)';
+  updateBanner();
+  log('geo-log','🔄 تم إعادة ضبط GPS للموقع الحقيقي','warn');
+}
+
+function copyGeoCode(){
+  const lat = document.getElementById('custom-lat').value||'21.3891';
+  const lng = document.getElementById('custom-lng').value||'39.8579';
+  const code = `// Mock GPS — paste in DevTools console
+navigator.geolocation.getCurrentPosition = (cb)=>cb({coords:{latitude:${lat},longitude:${lng},accuracy:10},timestamp:Date.now()});
+navigator.geolocation.watchPosition = (cb)=>{cb({coords:{latitude:${lat},longitude:${lng},accuracy:10},timestamp:Date.now()});return 1;};
+console.log('📍 GPS mocked → ${lat}, ${lng}');`;
+  navigator.clipboard?.writeText(code);
+  log('geo-log','📋 تم نسخ كود المحاكاة للـ DevTools','info');
+}
+
+/* ══════════════════════════════════════════════════════ TIME MOCK ══ */
+function buildTimePresets(){
+  const wrap = document.getElementById('time-presets');
+  TIME_PRESETS.forEach((p,i)=>{
+    const btn = document.createElement('button');
+    btn.className='preset-btn';
+    btn.id='tp-'+i;
+    btn.textContent=p.label;
+    btn.title=p.note;
+    btn.onclick=()=>selectTimePreset(i,btn);
+    wrap.appendChild(btn);
+  });
+}
+
+function selectTimePreset(i, btn){
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  activeTimePreset = TIME_PRESETS[i];
+  const d = activeTimePreset.offset();
+  document.getElementById('custom-date').value = d.toISOString().split('T')[0];
+  document.getElementById('custom-time-inp').value = d.toTimeString().slice(0,5);
+  log('time-log',`اخترت: ${activeTimePreset.label}${activeTimePreset.note?' — '+activeTimePreset.note:''}`, 'info');
+}
+
+function injectTime(){
+  const dateVal = document.getElementById('custom-date').value;
+  const timeVal = document.getElementById('custom-time-inp').value;
+  if(!dateVal||!timeVal){ log('time-log','⚠ أدخل تاريخ ووقت','warn'); return; }
+
+  const target = new Date(dateVal+'T'+timeVal+':00');
+  const offset = target.getTime() - _origDate.now();
+
+  class MockDate extends _origDate {
+    constructor(...args){
+      if(args.length===0) super(_origDate.now()+offset);
+      else super(...args);
+    }
+    static now(){ return _origDate.now()+offset; }
+  }
+  window.Date = MockDate;
+  mockTimeActive = true;
+  stopSpeed();
+  updateBanner();
+  document.getElementById('time-status').textContent = `✅ ${target.toLocaleString('ar-EG')}`;
+  document.getElementById('time-status').style.color='var(--green)';
+  log('time-log',`✅ الوقت المحاكى: ${target.toLocaleString('ar-EG')} (offset: ${Math.round(offset/1000/60)} دقيقة)`,'ok');
+}
+
+function resetTime(){
+  window.Date = _origDate;
+  mockTimeActive = false;
+  stopSpeed();
+  updateBanner();
+  document.getElementById('time-status').textContent='الوقت الحقيقي نشط';
+  document.getElementById('time-status').style.color='var(--text2)';
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  log('time-log','🔄 استعادة الوقت الحقيقي','warn');
+}
+
+function speedTime(mult){
+  stopSpeed();
+  speedBase = _origDate.now();
+  speedMult = mult;
+  const startReal = _origDate.now();
+
+  class SpeedDate extends _origDate {
+    constructor(...args){
+      if(args.length===0){
+        const elapsed = (_origDate.now()-startReal)*speedMult;
+        super(speedBase+elapsed);
+      } else super(...args);
+    }
+    static now(){
+      const elapsed = (_origDate.now()-startReal)*speedMult;
+      return speedBase+elapsed;
+    }
+  }
+  window.Date = SpeedDate;
+  mockTimeActive = true;
+  document.getElementById('speed-display').style.display='block';
+  updateBanner();
+  log('time-log',`⚡ تسريع x${mult} — يوم = ${mult>=1440?'ثانية':mult>=60?'دقيقة':mult+'× طبيعي'}`,'ok');
+
+  speedTimer = setInterval(()=>{
+    const fakeNow = new window.Date();
+    document.getElementById('speed-clock').textContent = fakeNow.toLocaleString('ar-EG');
+  }, 200);
+}
+
+function stopSpeed(){
+  if(speedTimer){ clearInterval(speedTimer); speedTimer=null; }
+  document.getElementById('speed-display').style.display='none';
+}
+
+function copyTimeCode(){
+  const dateVal = document.getElementById('custom-date').value||new Date().toISOString().split('T')[0];
+  const timeVal = document.getElementById('custom-time-inp').value||'04:30';
+  const code = `// Mock Date — paste in DevTools console
+const _target = new Date('${dateVal}T${timeVal}:00');
+const _offset = _target.getTime() - Date.now();
+const _orig = Date;
+class MockDate extends _orig { constructor(...a){if(!a.length)super(_orig.now()+_offset);else super(...a);} static now(){return _orig.now()+_offset;} }
+window.Date = MockDate;
+console.log('⏱ Date mocked →', new Date().toLocaleString());`;
+  navigator.clipboard?.writeText(code);
+  log('time-log','📋 تم نسخ كود المحاكاة للـ DevTools','info');
+}
+
+/* ══════════════════════════════════════════════════════ OFFLINE MOCK ══ */
+function buildScenarios(){
+  const wrap = document.getElementById('offline-scenarios');
+  OFFLINE_SCENARIOS.forEach((s,i)=>{
+    const card = document.createElement('div');
+    card.className='scenario-card';
+    card.id='sc-'+i;
+    card.innerHTML=`<span class="sc-icon">${s.icon}</span><div class="sc-name">${s.name}</div><div class="sc-desc">${s.desc}</div><span class="sc-badge ${s.type}">${s.type==='hard'?'قطع كامل':s.type==='chaos'?'عشوائي':'محدود'}</span>`;
+    card.onclick=()=>{ document.querySelectorAll('.scenario-card').forEach(c=>c.classList.remove('active')); card.classList.add('active'); activeScenario=i; };
+    wrap.appendChild(card);
+  });
+}
+
+let _fetchMode = null;
+
+function applyOfflineScenario(){
+  if(activeScenario===null){ log('offline-log','⚠ اختر سيناريو أولاً','warn'); return; }
+  const sc = OFFLINE_SCENARIOS[activeScenario];
+  _fetchMode = sc.fn;
+  mockOfflineActive = true;
+
+  window.fetch = function(url,...args){
+    return applyFetchMock(_fetchMode, url, ...args);
+  };
+  XMLHttpRequest.prototype.open = function(m,u,...a){
+    this._mockMode=_fetchMode;
+    return _origXHROpen.call(this,m,u,...a);
+  };
+
+  updateBanner();
+  document.getElementById('offline-status').textContent=`🔴 ${sc.name} نشط`;
+  document.getElementById('offline-status').style.color='var(--red)';
+  log('offline-log',`🔴 تطبيق سيناريو: ${sc.name} — ${sc.desc}`,'err');
+}
+
+function applyFetchMock(mode, url, ...args){
+  switch(mode){
+    case 'simulateFlightMode':
+      log('offline-log',`✈️ BLOCKED: ${url}`,'err');
+      return Promise.reject(new TypeError('Failed to fetch (flight mode mock)'));
+
+    case 'simulateSlow':
+      log('offline-log',`📶 SLOW: ${url}`,'warn');
+      return new Promise((res,rej)=>setTimeout(()=>_origFetch(url,...args).then(res).catch(rej),3000));
+
+    case 'simulateFlaky':
+      if(Math.random()<0.5){
+        log('offline-log',`🔄 FAIL (50%): ${url}`,'err');
+        return Promise.reject(new TypeError('Failed to fetch (flaky mock)'));
+      }
+      log('offline-log',`🔄 OK (50%): ${url}`,'ok');
+      return _origFetch(url,...args);
+
+    case 'simulateMidLoad':
+      log('offline-log',`🕌 MID-LOAD CUT: ${url}`,'err');
+      return new Promise((res,rej)=>setTimeout(()=>rej(new TypeError('Connection cut mid-load')), 500+Math.random()*2000));
+
+    case 'simulateTimeout':
+      log('offline-log',`🏔️ TIMEOUT: ${url}`,'warn');
+      return new Promise((_,rej)=>setTimeout(()=>rej(new TypeError('Timeout')),10000));
+
+    case 'simulateDataSaver':
+      log('offline-log',`🔋 DATA SAVER — checking size: ${url}`,'info');
+      return _origFetch(url,...args).then(r=>{
+        const cl=r.headers.get('content-length');
+        if(cl && parseInt(cl)>100000){ log('offline-log',`🔋 BLOCKED >100KB: ${url}`,'err'); return Response.error(); }
+        return r;
+      });
+
+    default:
+      return _origFetch(url,...args);
+  }
+}
+
+function restoreNetwork(){
+  window.fetch = _origFetch;
+  XMLHttpRequest.prototype.open = _origXHROpen;
+  mockOfflineActive = false;
+  _fetchMode = null;
+  stopChaos();
+  document.querySelectorAll('.scenario-card').forEach(c=>c.classList.remove('active'));
+  activeScenario=null;
+  updateBanner();
+  document.getElementById('offline-status').textContent='✅ الشبكة عاملة';
+  document.getElementById('offline-status').style.color='var(--green)';
+  log('offline-log','✅ استعادة الشبكة الحقيقية','ok');
+}
+
+async function checkCacheResources(){
+  const list = document.getElementById('res-list');
+  const bar = document.getElementById('cache-progress');
+  list.innerHTML='';
+  let cached=0, missing=0;
+
+  if(!('caches' in window)){
+    log('offline-log','⚠ Cache API غير متاحة في هذه البيئة (يحتاج HTTPS أو localhost)','warn');
+    document.getElementById('os-cached').textContent='N/A';
+    document.getElementById('os-missing').textContent='N/A';
+    document.getElementById('os-score').textContent='N/A';
+    document.getElementById('os-sw').textContent=navigator.serviceWorker?'✅':'❌';
+    return;
+  }
+
+  bar.style.width='10%';
+  log('offline-log','🔍 جارٍ فحص الكاش...','info');
+
+  let cacheNames=[];
+  try{ cacheNames = await caches.keys(); }catch(e){}
+  bar.style.width='30%';
+
+  const allCached = [];
+  for(const name of cacheNames){
+    const cache = await caches.open(name);
+    const keys = await cache.keys();
+    keys.forEach(r=>allCached.push(r.url));
+  }
+  bar.style.width='60%';
+
+  CRITICAL_RESOURCES.forEach((res,i)=>{
+    const row=document.createElement('div');
+    row.className='res-row';
+    const isCached = allCached.some(u=>u.includes(res.path)||u.includes(res.key));
+    if(isCached) cached++; else missing++;
+    row.innerHTML=`<span class="res-icon">${isCached?'✅':'❌'}</span><span class="res-name">${res.name}</span><code style="font-family:var(--mono);font-size:10px;color:var(--muted)">${res.path}</code><span class="res-status ${isCached?'cached':'missing'}">${isCached?'مخبّأ':'مفقود'}</span>`;
+    list.appendChild(row);
+    setTimeout(()=>bar.style.width=(60+(i+1)/CRITICAL_RESOURCES.length*35)+'%',i*50);
+  });
+
+  setTimeout(()=>{
+    bar.style.width='100%';
+    const score=Math.round(cached/CRITICAL_RESOURCES.length*100);
+    document.getElementById('os-cached').textContent=cached;
+    document.getElementById('os-missing').textContent=missing;
+    document.getElementById('os-score').textContent=score+'%';
+    document.getElementById('os-sw').textContent=navigator.serviceWorker?'✅':'❌';
+    log('offline-log',`📦 الكاش: ${cached}/${CRITICAL_RESOURCES.length} موارد — Score: ${score}%`,score>=80?'ok':score>=50?'warn':'err');
+    if(missing>0) log('offline-log',`⚠ ${missing} موارد حرجة غير مخبّأة — ستفشل أوفلاين!`,'err');
+  },CRITICAL_RESOURCES.length*60);
+}
+
+function toggleChaos(){
+  const btn=document.getElementById('chaos-btn');
+  if(chaosActive){ stopChaos(); btn.textContent='🎲 تشغيل Chaos Mode'; return; }
+  chaosActive=true;
+  btn.textContent='🛑 إيقاف Chaos Mode';
+  btn.style.borderColor='var(--red)';
+  btn.style.color='var(--red)';
+  runChaos();
+}
+function runChaos(){
+  const interval=parseInt(document.getElementById('chaos-interval').value)||8000;
+  let online=true;
+  function flip(){
+    online=!online;
+    if(online){
+      window.fetch=_origFetch;
+      document.getElementById('chaos-status').textContent='🟢 شبكة متصلة';
+      document.getElementById('chaos-status').style.color='var(--green)';
+      log('offline-log','🟢 CHAOS: شبكة متصلة','ok');
+    } else {
+      window.fetch=(u,...a)=>Promise.reject(new TypeError('Chaos: offline'));
+      document.getElementById('chaos-status').textContent='🔴 شبكة مقطوعة';
+      document.getElementById('chaos-status').style.color='var(--red)';
+      log('offline-log','🔴 CHAOS: شبكة مقطوعة','err');
+    }
+    if(chaosActive) chaosTimer=setTimeout(flip, interval*(0.7+Math.random()*0.6));
+  }
+  chaosTimer=setTimeout(flip,500);
+}
+function stopChaos(){
+  chaosActive=false;
+  if(chaosTimer){clearTimeout(chaosTimer);chaosTimer=null;}
+  window.fetch=_origFetch;
+  document.getElementById('chaos-status').textContent='غير نشط';
+  document.getElementById('chaos-status').style.color='var(--muted)';
+  const btn=document.getElementById('chaos-btn');
+  btn.style.borderColor='';btn.style.color='';
+}
+
+/* ══════════════════════════════════════════════════════ RESET ALL ══ */
+function resetAll(){
+  resetGeo();
+  resetTime();
+  restoreNetwork();
+}
+
+/* ══════════════════════════════════════════════════════ INIT ══ */
+buildRegionGrid();
+buildTimePresets();
+buildScenarios();
+
+const now=new Date();
+document.getElementById('custom-date').value=now.toISOString().split('T')[0];
+document.getElementById('custom-time-inp').value=now.toTimeString().slice(0,5);
+
+if(navigator.serviceWorker){
+  navigator.serviceWorker.getRegistrations().then(regs=>{
+    document.getElementById('os-sw').textContent=regs.length?'✅ '+regs.length:'⚠ لا يوجد';
+  });
+} else {
+  document.getElementById('os-sw').textContent='❌';
+}
+</script>
+</body>
+</html>

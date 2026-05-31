@@ -245,7 +245,7 @@
   document.getElementById('mt-scanall').onclick=function(){
     var btn=document.getElementById('mt-scanall'); btn.disabled=true; btn.style.opacity='0.6';
     switchTab('auto');
-    var base=location.href.replace(/[^/]*$/,'');
+    var base=location.href.replace(/[^/]*$/,'').replace(/tools\/$/,'');
     var flat=[], failed=[], done=0;
     body.innerHTML='<div style="padding:20px;text-align:center;color:#f0a830">🌐 جارٍ فحص '+SITE_PAGES.length+' صفحة...<br><div id="mt-prog" style="margin-top:10px;color:#888"></div></div>';
     var prog=document.getElementById('mt-prog');

@@ -141,7 +141,7 @@ const ZadShare = {
       .zss-text { font-size: 13px; color: var(--muted, #888); margin-bottom: 14px; line-height: 1.6; }
       .zad-share-btn-full { display: inline-flex; align-items: center; gap: 8px;
         padding: 12px 28px; border-radius: 14px; border: 1.5px solid var(--zad-green-700, #1a5d47);
-        background: var(--card, #fff); color: var(--zad-green-700, #1a5d47);
+        background: var(--card, #fff); color: var(--green-deep, #0e3b2e);
         font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
         min-height: 48px; transition: all .2s; }
       .zad-share-btn-full:hover { background: var(--zad-green-900, #0e3b2e); color: #fff; border-color: var(--zad-green-900, #0e3b2e); }

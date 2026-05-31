@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>أدوات المطوّر · زاد العشر</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,'Segoe UI',sans-serif;background:#0e1116;color:#e6e6e6;line-height:1.7;padding:20px;max-width:780px;margin:0 auto;direction:rtl}
+  h1{font-size:26px;margin-bottom:6px;color:#9db8d0}
+  .sub{color:#888;font-size:14px;margin-bottom:24px}
+  .tools-list{display:flex;flex-direction:column;gap:12px}
+  .tool-card{display:flex;align-items:center;gap:16px;background:#171c24;border:1px solid #262d38;border-radius:14px;padding:18px;text-decoration:none;transition:all .18s}
+  .tool-card:hover{transform:translateY(-2px);background:#1b212b}
+  .tc-icon{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+  .tc-body{flex:1;min-width:0}
+  .tc-name{font-size:16px;font-weight:800;margin-bottom:3px}
+  .tc-desc{font-size:12.5px;color:#aaa;line-height:1.6}
+  .tc-arrow{font-size:20px;color:#555;flex-shrink:0}
+  .note{margin-top:24px;background:#171c24;border:1px solid #262d38;border-radius:12px;padding:16px;font-size:13px;color:#999}
+  .note b{color:#7ce89a}
+
+.tools-navbar{position:sticky;top:0;z-index:500;display:flex;align-items:center;gap:12px;background:#0a0d11;border-bottom:1px solid #1e2430;padding:10px 16px;margin:-20px -20px 24px;flex-wrap:wrap}
+.tnav-home{color:#7ce89a;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;padding:6px 10px;border-radius:7px;background:#0d1f17;border:1px solid #1a5c3a}
+.tnav-home:hover{background:#123523}
+.tnav-links{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.tnav-link{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;text-decoration:none;padding:6px 12px;border-radius:8px;border:1px solid;transition:all .15s;white-space:nowrap}
+.tnav-link:hover{transform:translateY(-1px)}
+.tnav-ico{font-size:14px}
+@media(max-width:600px){.tnav-link span:not(.tnav-ico){display:none}.tnav-link{padding:8px 10px}}
+
+</style>
+</head>
+<body>
+<div class="tools-navbar"><a href="../index.html" class="tnav-home" title="رجوع للتطبيق">← التطبيق</a><div class="tnav-links"><a href="index.html" class="tnav-link" style="background:#9db8d022;color:#9db8d0;border-color:#9db8d066"><span class="tnav-ico">🧰</span><span>كل الأدوات</span></a><a href="contrast.html" class="tnav-link" style="background:#171c24;color:#9db8d0;border-color:#262d38"><span class="tnav-ico">🔍</span><span>فاحص الكونتراست</span></a><a href="content.html" class="tnav-link" style="background:#171c24;color:#9db8d0;border-color:#262d38"><span class="tnav-ico">📋</span><span>متتبّع المحتوى</span></a><a href="geotime.html" class="tnav-link" style="background:#171c24;color:#9db8d0;border-color:#262d38"><span class="tnav-ico">🌍</span><span>محاكي المكان/الزمان</span></a><a href="security.html" class="tnav-link" style="background:#171c24;color:#9db8d0;border-color:#262d38"><span class="tnav-ico">🔐</span><span>فاحص الأمان</span></a></div></div>
+
+  <h1>🧰 أدوات المطوّر</h1>
+  <div class="sub">مجموعة أدوات تشخيص لمشروع زاد العشر — كل أداة تفحص جانباً مختلفاً من جودة الموقع.</div>
+
+  <div class="tools-list">
+    <a href="contrast.html" class="tool-card" style="border-color:#ff6b6b33">
+      <div class="tc-icon" style="background:#ff6b6b1a;border:1px solid #ff6b6b44">🔍</div>
+      <div class="tc-body">
+        <div class="tc-name" style="color:#ff6b6b">فاحص الكونتراست</div>
+        <div class="tc-desc">يفحص كل نصوص الموقع ويقيس كونتراست WCAG، يبرز الضعيف في كل الأوضاع (فاتح/داكن/أوليد/عذر).</div>
+      </div>
+      <div class="tc-arrow">←</div>
+    </a>
+    <a href="content.html" class="tool-card" style="border-color:#f0a83033">
+      <div class="tc-icon" style="background:#f0a8301a;border:1px solid #f0a83044">📋</div>
+      <div class="tc-body">
+        <div class="tc-name" style="color:#f0a830">متتبّع المحتوى</div>
+        <div class="tc-desc">يرصد placeholders والأقسام الفاضية والروابط المكسورة آلياً، + تتبّع يدوي للنواقص الشرعية.</div>
+      </div>
+      <div class="tc-arrow">←</div>
+    </a>
+    <a href="geotime.html" class="tool-card" style="border-color:#2ecc8a33">
+      <div class="tc-icon" style="background:#2ecc8a1a;border:1px solid #2ecc8a44">🌍</div>
+      <div class="tc-body">
+        <div class="tc-name" style="color:#2ecc8a">محاكي المكان/الزمان</div>
+        <div class="tc-desc">يحاكي GPS وأوقات مختلفة (مكة/أوسلو/ريكيافيك...) لاختبار حسابات الصلاة والقبلة + اختبار أوفلاين.</div>
+      </div>
+      <div class="tc-arrow">←</div>
+    </a>
+    <a href="security.html" class="tool-card" style="border-color:#ff950033">
+      <div class="tc-icon" style="background:#ff95001a;border:1px solid #ff950044">🔐</div>
+      <div class="tc-body">
+        <div class="tc-name" style="color:#ff9500">فاحص الأمان</div>
+        <div class="tc-desc">يكشف ثغرات الأمان الشائعة: Mixed Content، SRI ناقص، iframes بلا sandbox، secrets، eval().</div>
+      </div>
+      <div class="tc-arrow">←</div>
+    </a>
+  </div>
+
+  <div class="note">
+    <b>💡 ملاحظة:</b> هذه الأدوات للتطوير فقط. كل أداة لها زرّ «فحص كل الموقع» يفحص الصفحات تلقائياً، وزرّ «نسخ التقرير» لمشاركة النتائج. أغلبها يدعم bookmarklet تسحبه لشريط المفضّلة لفحص أي صفحة مباشرةً.
+  </div>
+
+</body>
+</html>
