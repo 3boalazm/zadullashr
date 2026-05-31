@@ -1017,17 +1017,28 @@ function initPWA() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js')
       .then(reg => {
+        /* افحص وجود تحديث فوراً عند كل تحميل */
+        reg.update();
         /* Listen for SW updates */
         reg.addEventListener('updatefound', () => {
           const newWorker = reg.installing;
           newWorker?.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              showToast('🔄 تحديث متاح — أعد تحميل الصفحة للحصول على أحدث نسخة');
+              /* نسخة جديدة جاهزة — فعّلها فوراً */
+              newWorker.postMessage?.({ type: 'SKIP_WAITING' });
+              showToast('🔄 جارٍ تحديث التطبيق لأحدث نسخة...');
             }
           });
         });
       })
       .catch(() => {});
+    /* عند تفعيل SW جديد، أعد تحميل الصفحة مرة واحدة تلقائياً */
+    let _reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (_reloaded) return;
+      _reloaded = true;
+      window.location.reload();
+    });
     /* Listen for SW messages */
     navigator.serviceWorker.addEventListener('message', e => {
       if (e.data?.type === 'SW_UPDATED') {
@@ -2832,10 +2843,4 @@ function initClockFormat() {
   const main = document.querySelector('.main');
   if (main) obs.observe(main, { childList: true, subtree: true });
 }
-/* ── PWA Install FAB — تحميل تلقائي في كل الصفحات ── */
-(function () {
-  var s = document.createElement('script');
-  s.src = 'pwa-install-fab.js';
-  s.defer = true;
-  document.head.appendChild(s);
-})();
+/* ── PWA Install FAB — يُحمّل عبر وسم <script> في كل صفحة (لا حاجة للتحميل التلقائي) ── */
