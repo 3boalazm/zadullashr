@@ -880,15 +880,6 @@ function animateBadgeUnlock(id) {
   setTimeout(() => el.classList.remove('just-earned'), 1000);
 }
 function initPageTransition() {
-  /* ضمان: المحتوى ظاهر عند تحميل الصفحة (يصلح حالة بقاء opacity:0 من انتقال سابق) */
-  const resetMain = () => {
-    const m = document.querySelector('.main');
-    if (m) { m.style.opacity = '1'; m.style.transform = 'none'; }
-  };
-  resetMain();
-  /* عند الرجوع من الكاش (back/forward) المتصفح يحافظ على inline styles — أعد الضبط */
-  window.addEventListener('pageshow', resetMain);
-
   const links = document.querySelectorAll('.nav a, a.card');
   links.forEach(link => {
     link.addEventListener('click', function(e) {

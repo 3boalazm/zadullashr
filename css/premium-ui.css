@@ -150,9 +150,7 @@ html[data-theme="dark"] .glow-soft {
   to   { opacity: 1; transform: translateY(0); }
 }
 main.main, #main-content {
-  animation: zad-page-enter .4s cubic-bezier(.4,0,.2,1);
-  /* بدون 'both' — لو فشل الأنيميشن لأي سبب يفضل المحتوى ظاهر */
-  opacity: 1;
+  animation: zad-page-enter .4s cubic-bezier(.4,0,.2,1) both;
 }
 
 /* دخول البطاقات بتتابع (stagger) */
@@ -161,10 +159,8 @@ main.main, #main-content {
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 .stagger-in > * {
-  animation: zad-card-enter .45s cubic-bezier(.4,0,.2,1);
+  animation: zad-card-enter .45s cubic-bezier(.4,0,.2,1) both;
 }
-/* ضمان: عناصر stagger ظاهرة دائماً حتى لو فشل الأنيميشن */
-.stagger-in > * { opacity: 1; }
 .stagger-in > *:nth-child(1) { animation-delay: .05s; }
 .stagger-in > *:nth-child(2) { animation-delay: .10s; }
 .stagger-in > *:nth-child(3) { animation-delay: .15s; }
@@ -446,8 +442,7 @@ select:focus-visible,
   pointer-events: none;
   opacity: 0; transition: opacity .6s ease;
 }
-/* رفع المحتوى فوق طبقة الزخرفة — بدون لمس الـ sidebar (له تموضعه الخاص) */
-.app, .main { position: relative; z-index: 1; }
+.app, .main, .sidebar { position: relative; z-index: 1; }
 
 /* 1. زخرفة هندسية إسلامية (نجوم ثمانية) — الافتراضية */
 body[data-pattern="geometry"] #zad-pattern-bg {
