@@ -289,3 +289,15 @@ textarea:focus-visible, select:focus-visible,
   outline-offset: 2px;
   border-radius: 6px;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   تحسين كونتراست النص الخافت في dark/oled (كان باهت)
+   ═══════════════════════════════════════════════════════════ */
+html[data-theme="dark"] {
+  --muted: #9db8a0;      /* كان 7a9a7a — أفتح وأوضح */
+  --muted-2: #6a8a6c;    /* كان 4a6a4a */
+}
+html[data-theme="oled"] {
+  --muted: #c2d8c4;      /* كان b8cfba — أوضح على الأسود */
+  --muted-2: #8aae8c;
+}

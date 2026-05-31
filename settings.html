@@ -628,6 +628,10 @@ function setTheme(t) {
     const s = JSON.parse(localStorage.getItem('zad_v2') || '{}');
     s.theme = t; localStorage.setItem('zad_v2', JSON.stringify(s));
   } catch(e) {}
+  /* زامن مع STATE (state-manager) عشان زر الـ topbar يبقى متّسق */
+  try {
+    if (window.STATE) { window.STATE.theme = t; if (window.saveState) window.saveState(); }
+  } catch(e) {}
   updateThemeBtns(t);
   if (typeof showToast === 'function') {
     const labels = { light:'☀️ الوضع الفاتح', dark:'🌙 الوضع الداكن', oled:'⚫ الوضع OLED' };

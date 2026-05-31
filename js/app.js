@@ -55,6 +55,12 @@ function applyTheme(theme) {
   document.querySelectorAll('.dark-switch').forEach(el => { el.checked = theme !== 'light'; });
   document.querySelectorAll('.btn-theme').forEach(btn => { btn.textContent = theme === 'light' ? '🌙' : theme === 'oled' ? '⚫' : '☀️'; });
   saveState();
+  /* احفظ في zad_v2 كمان — لأن الـ inline theme loader في كل صفحة يقرأ منه */
+  try {
+    const v2 = JSON.parse(localStorage.getItem('zad_v2') || '{}');
+    v2.theme = theme;
+    localStorage.setItem('zad_v2', JSON.stringify(v2));
+  } catch (e) {}
 }
 function toggleTheme() {
   applyTheme(STATE.theme === 'dark' ? 'light' : 'dark');
