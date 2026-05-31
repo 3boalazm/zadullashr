@@ -148,6 +148,7 @@
       row.innerHTML='<span style="background:'+sev+';color:#fff;border-radius:6px;padding:2px 8px;font-weight:700;font-size:12px;white-space:nowrap">'+res.r+'</span>'+
         '<span style="color:#888;font-size:11px;white-space:nowrap">≥'+res.threshold+'</span>'+
         (res.page?'<span style="color:#7ce89a;font-size:11px;white-space:nowrap">'+res.page+'</span>':'')+
+        (res.mode?'<span style="color:#f0a830;font-size:11px;white-space:nowrap;background:#2a2310;padding:1px 7px;border-radius:5px">'+res.mode+'</span>':'')+
         '<span style="flex:1;color:#ddd;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">«'+res.txt+'»</span>'+
         '<span style="color:#666;font-size:11px;white-space:nowrap">&lt;'+res.tag+'&gt; '+res.size+'px</span>';
       if(local && res.el){ row.onclick=function(){ highlight(res.el); }; }
@@ -175,13 +176,16 @@
     L.push('═══ تقرير فاحص الكونتراست — زاد العشر ═══');
     L.push('التاريخ: '+new Date().toLocaleString('ar-EG'));
     if(rep.full){
-      L.push('النطاق: كل الموقع ('+rep.full.pagesScanned+' صفحة) · '+rep.mode);
-      L.push('إجمالي المشاكل الحقيقية: '+rep.full.total);
+      L.push('النطاق: كل الموقع ('+rep.full.pagesScanned+' صفحة)');
+      L.push('الأوضاع المفحوصة: '+(rep.full.modesScanned?rep.full.modesScanned.join(' · '):'—'));
+      L.push('إجمالي المشاكل: '+rep.full.total);
       L.push('');
-      rep.full.byPage.forEach(function(pg){
-        if(pg.results.length===0) return;
-        L.push('▼ '+pg.page+' ('+pg.results.length+')');
-        pg.results.forEach(function(r){ L.push('   '+r.r+' (≥'+r.threshold+') «'+r.txt+'» <'+r.tag+'> '+r.size+'px'); });
+      /* جمّع حسب الصفحة */
+      var grouped={};
+      rep.full.byPage.forEach(function(pg){ pg.results.forEach(function(r){ (grouped[r.page]=grouped[r.page]||[]).push(r); }); });
+      Object.keys(grouped).forEach(function(pgName){
+        L.push('▼ '+pgName+' ('+grouped[pgName].length+')');
+        grouped[pgName].forEach(function(r){ L.push('   ['+(r.mode||'?')+'] '+r.r+' (≥'+r.threshold+') «'+r.txt+'» <'+r.tag+'> '+r.size+'px'); });
       });
       if(rep.full.failed.length){ L.push(''); L.push('تعذّر فحصها: '+rep.full.failed.join(', ')); }
     } else {
@@ -208,51 +212,108 @@
 
   /* ── زر فحص كل الموقع (عبر iframe، same-origin) ── */
   document.getElementById('ct-scanall').onclick=function(){
+    showModePicker();
+  };
+
+  /* ── اختيار الأوضاع المراد فحصها ── */
+  function showModePicker(){
+    var MODES=[
+      {id:'light',      theme:'light', excuse:false, label:'☀️ فاتح'},
+      {id:'dark',       theme:'dark',  excuse:false, label:'🌙 داكن'},
+      {id:'oled',       theme:'oled',  excuse:false, label:'⚫ أوليد'},
+      {id:'excuse-light',theme:'light',excuse:true,  label:'🌸 عذر + فاتح'},
+      {id:'excuse-dark', theme:'dark', excuse:true,  label:'🌸 عذر + داكن'}
+    ];
+    var def={light:true,dark:true,oled:true,'excuse-light':true,'excuse-dark':true};
+    body.innerHTML='<div style="padding:14px">'+
+      '<div style="color:#ffcc00;font-weight:700;margin-bottom:12px">اختر الأوضاع المراد فحصها في كل صفحة:</div>'+
+      '<div id="ct-modes" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">'+
+        MODES.map(function(m){ return '<label style="display:flex;align-items:center;gap:10px;background:#1a1a1a;padding:10px 14px;border-radius:10px;cursor:pointer">'+
+          '<input type="checkbox" data-mode="'+m.id+'" '+(def[m.id]?'checked':'')+' style="width:18px;height:18px;cursor:pointer">'+
+          '<span style="font-size:14px;font-weight:700">'+m.label+'</span></label>'; }).join('')+
+      '</div>'+
+      '<div style="display:flex;gap:8px">'+
+        '<button id="ct-go" style="flex:1;background:#c9851a;border:none;color:#fff;padding:12px;border-radius:10px;font-weight:800;cursor:pointer;font-family:inherit;font-size:14px">▶ ابدأ الفحص الشامل</button>'+
+        '<button id="ct-cancel" style="background:#333;border:none;color:#ccc;padding:12px 18px;border-radius:10px;cursor:pointer;font-family:inherit">إلغاء</button>'+
+      '</div>'+
+      '<div style="color:#888;font-size:12px;margin-top:10px">كل وضع مختار يضاعف زمن الفحص. الفحص يطبّق الوضع على كل صفحة داخلياً (لا يغيّر إعداداتك).</div>'+
+    '</div>';
+    document.getElementById('ct-cancel').onclick=function(){ renderResults(body, results, true); };
+    document.getElementById('ct-go').onclick=function(){
+      var chosen=MODES.filter(function(m){ return document.querySelector('[data-mode="'+m.id+'"]').checked; });
+      if(!chosen.length){ alert('اختر وضعاً واحداً على الأقل'); return; }
+      runFullScan(chosen);
+    };
+  }
+
+  /* ── الفحص الشامل عبر كل التوليفات المختارة ── */
+  function runFullScan(modes){
     var btn=document.getElementById('ct-scanall'); btn.disabled=true; btn.style.opacity='0.6';
-    var base=location.href.replace(/[^/]*$/,''); /* مجلد الموقع */
-    var qs = (excuse?'':''); /* الأوضاع تُورّث من localStorage تلقائياً عبر الـ inline loader */
+    var base=location.href.replace(/[^/]*$/,'');
     var byPage=[], failed=[], total=0, done=0;
-    body.innerHTML='<div style="padding:20px;text-align:center;color:#ffcc00">🌐 جارٍ فحص '+SITE_PAGES.length+' صفحة...<br><div id="ct-prog" style="margin-top:10px;color:#888"></div></div>';
+    /* قائمة المهام: كل صفحة × كل وضع */
+    var jobs=[];
+    SITE_PAGES.forEach(function(page){ modes.forEach(function(mode){ jobs.push({page:page,mode:mode}); }); });
+
+    body.innerHTML='<div style="padding:20px;text-align:center;color:#ffcc00">🌐 فحص '+SITE_PAGES.length+' صفحة × '+modes.length+' وضع = '+jobs.length+' فحص...<br><div id="ct-prog" style="margin-top:10px;color:#888"></div></div>';
     var prog=document.getElementById('ct-prog');
 
     var iframe=document.createElement('iframe');
     iframe.style.cssText='position:fixed;width:1024px;height:768px;left:-9999px;top:0;border:0';
     document.body.appendChild(iframe);
 
-    var i=0;
-    function nextPage(){
-      if(i>=SITE_PAGES.length){ finishAll(); return; }
-      var page=SITE_PAGES[i];
-      if(prog) prog.textContent='('+(i+1)+'/'+SITE_PAGES.length+') '+page;
-      var to=setTimeout(function(){ failed.push(page); i++; nextPage(); }, 8000);
+    var j=0;
+    function nextJob(){
+      if(j>=jobs.length){ finishAll(); return; }
+      var job=jobs[j], page=job.page, mode=job.mode;
+      if(prog) prog.textContent='('+(j+1)+'/'+jobs.length+') '+page+' — '+mode.label;
+      var to=setTimeout(function(){ if(failed.indexOf(page)<0) failed.push(page); j++; nextJob(); }, 8000);
       iframe.onload=function(){
         clearTimeout(to);
-        setTimeout(function(){ /* انتظر الـ render والـ JS */
+        setTimeout(function(){
           try{
             var idoc=iframe.contentDocument, iwin=iframe.contentWindow;
-            var s=scanDoc(idoc, iwin);
-            byPage.push({ page:page, results:s.results.map(function(r){return {r:r.r,threshold:r.threshold,txt:r.txt,tag:r.tag,size:r.size,page:page};}) });
-            total+=s.results.length;
-          }catch(e){ failed.push(page); }
-          done++; i++; nextPage();
-        }, 900);
+            /* طبّق الوضع على الـ iframe مباشرةً */
+            idoc.documentElement.setAttribute('data-theme', mode.theme);
+            if(mode.excuse) idoc.documentElement.setAttribute('data-excuse','on');
+            else idoc.documentElement.removeAttribute('data-excuse');
+            /* انتظر إعادة الرسم ثم افحص */
+            setTimeout(function(){
+              try{
+                var s=scanDoc(idoc, iwin);
+                if(s.results.length){
+                  byPage.push({ page:page, mode:mode.label, results:s.results.map(function(r){return {r:r.r,threshold:r.threshold,txt:r.txt,tag:r.tag,size:r.size,page:page,mode:mode.label};}) });
+                  total+=s.results.length;
+                }
+              }catch(e){}
+              done++; j++; nextJob();
+            }, 250);
+          }catch(e){ if(failed.indexOf(page)<0) failed.push(page); j++; nextJob(); }
+        }, 600);
       };
-      try{ iframe.src = base + encodeURI(page); }
-      catch(e){ failed.push(page); i++; nextPage(); }
+      /* أعِد تحميل الصفحة فقط عند تغيّر الصفحة (لا الوضع) لتسريع الفحص */
+      var needReload = (j===0) || (jobs[j-1].page !== page);
+      if(needReload){
+        try{ iframe.src = base + encodeURI(page); }
+        catch(e){ if(failed.indexOf(page)<0) failed.push(page); j++; nextJob(); }
+      } else {
+        /* نفس الصفحة، وضع مختلف — طبّق مباشرةً بدون إعادة تحميل */
+        iframe.onload();
+      }
     }
     function finishAll(){
       iframe.remove(); btn.disabled=false; btn.style.opacity='1';
       var flat=[];
       byPage.forEach(function(pg){ pg.results.forEach(function(r){ flat.push(r); }); });
       flat.sort(function(a,b){return parseFloat(a.r)-parseFloat(b.r);});
-      lastReport.full={ pagesScanned:done, total:total, byPage:byPage, failed:failed };
-      document.getElementById('ct-count').textContent=total+' مشكلة (كل الموقع)';
+      lastReport.full={ pagesScanned:SITE_PAGES.length, modesScanned:modes.map(function(m){return m.label;}), total:total, byPage:byPage, failed:failed };
+      document.getElementById('ct-count').textContent=total+' مشكلة';
       document.getElementById('ct-count').style.background = total?'#ff3b30':'#1a7d4f';
-      note.innerHTML='🌐 فُحصت '+done+' صفحة'+(failed.length?' · تعذّر '+failed.length:'')+' · اضغط «نسخ التقرير» للتفاصيل الكاملة. <b style="color:#aaa">المشاكل مرتّبة بالأسوأ.</b>';
+      note.innerHTML='🌐 فُحصت '+SITE_PAGES.length+' صفحة × '+modes.length+' وضع'+(failed.length?' · تعذّر '+failed.length:'')+' · اضغط «نسخ التقرير». <b style="color:#aaa">مرتّبة بالأسوأ.</b>';
       renderResults(body, flat, false);
     }
-    nextPage();
-  };
+    nextJob();
+  }
 
   console.log('[فاحص الكونتراست v3]', results.length, 'مشكلة | تخطّى:', skipped, '| الوضع:', theme, excuse?'+عذر':'');
 })();
