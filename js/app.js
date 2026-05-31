@@ -461,12 +461,14 @@ async function sendAIMessage(userMsg) {
   chatWrap.scrollTop = chatWrap.scrollHeight;
   try {
     /* Gemini via /api/gemini Edge Function — API key secure server-side */
+    /* CHAOS: timeout 30 ثانية حتى لا يعلّق المستخدم لو علّق الـ API */
     const res = await fetch('/api/gemini', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         messages: chatHistory.map(m => ({ role: m.role, content: m.content }))
-      })
+      }),
+      signal: AbortSignal.timeout(30000)
     });
     const data = await res.json();
     let reply = data.text || data.error || 'عذراً، حدث خطأ في الاتصال.';
@@ -878,6 +880,15 @@ function animateBadgeUnlock(id) {
   setTimeout(() => el.classList.remove('just-earned'), 1000);
 }
 function initPageTransition() {
+  /* ضمان: المحتوى ظاهر عند تحميل الصفحة (يصلح حالة بقاء opacity:0 من انتقال سابق) */
+  const resetMain = () => {
+    const m = document.querySelector('.main');
+    if (m) { m.style.opacity = '1'; m.style.transform = 'none'; }
+  };
+  resetMain();
+  /* عند الرجوع من الكاش (back/forward) المتصفح يحافظ على inline styles — أعد الضبط */
+  window.addEventListener('pageshow', resetMain);
+
   const links = document.querySelectorAll('.nav a, a.card');
   links.forEach(link => {
     link.addEventListener('click', function(e) {

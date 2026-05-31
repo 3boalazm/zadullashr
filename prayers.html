@@ -353,7 +353,7 @@ html[data-theme="dark"] .city-chip,html[data-theme="oled"] .city-chip{background
       </div>
 
       <!-- 10-day Dhul Hijjah table -->
-      <div class="section-title" style="margin-top:20px">📅 جدول صلوات أيام العشر</div>
+      <div class="section-title" style="margin-top:20px">📅 جدول مواقيت الشهر (ذو الحجة)</div>
       <div class="card" style="overflow-x:auto;padding:0">
         <div id="table-loading" style="padding:20px;text-align:center;color:var(--muted);font-size:13px">جارٍ تحميل جدول العشر...</div>
         <table class="pt-table" id="ten-days-table" style="display:none">
@@ -400,6 +400,7 @@ html[data-theme="dark"] .city-chip,html[data-theme="oled"] .city-chip{background
   <script src="js/ui/feedback.js" defer></script>
   <script src="js/ui/offline-ui.js" defer></script>
   <script src="js/ui/micro-interactions.js" defer></script>
+  <script src="js/ui/pattern-engine.js" defer></script>
   <script src="js/app.js" defer></script>
   <script src="js/pwa-install-fab.js" defer></script>
 <script>
@@ -562,28 +563,38 @@ async function loadTodayPrayers(lat, lng, method = 5) {
 
 /* ── تحميل جدول العشر ────────────────────────────────────── */
 async function loadTenDaysTable(lat, lng, method = 5) {
-  const url = `https://api.aladhan.com/v1/hijriCalendar/1447/12?latitude=${lat}&longitude=${lng}&method=${method}`;
-  const res  = await fetch(url);
-  const data = await res.json();
-  if (data.code !== 200) throw new Error('Calendar API error');
+  try {
+    const url = `https://api.aladhan.com/v1/hijriCalendar/1447/12?latitude=${lat}&longitude=${lng}&method=${method}`;
+    const res  = await fetch(url, { signal: AbortSignal.timeout(10000) });
+    const data = await res.json();
+    if (data.code !== 200) throw new Error('Calendar API error');
 
-  const days = data.data;
-  renderTenDays(days.slice(0, 10));
+    const days = data.data;
+    renderTenDays(days); /* الشهر كله */
 
-  localStorage.setItem('zad_ten_days_table', JSON.stringify(days.slice(0,10)));
-  localStorage.setItem('zad_ten_days_method', method);
+    localStorage.setItem('zad_ten_days_table', JSON.stringify(days));
+    localStorage.setItem('zad_ten_days_method', method);
+  } catch (e) {
+    /* فشل الشبكة أو timeout — اعرض الكاش لو موجود أو رسالة لطيفة */
+    const tl = document.getElementById('table-loading');
+    const cached = localStorage.getItem('zad_ten_days_table');
+    if (cached) {
+      try { renderTenDays(JSON.parse(cached)); return; } catch {}
+    }
+    if (tl) tl.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:13px;padding:16px">تعذّر تحميل الجدول — تحقّق من الإنترنت</div>';
+  }
 }
 
 function renderTenDays(days) {
-  const SPECIAL = { 8:'التروية', 9:'عرفة ⭐', 10:'العيد 🎉' };
+  const SPECIAL = { 8:'التروية', 9:'عرفة ⭐', 10:'العيد 🎉', 11:'التشريق', 12:'التشريق', 13:'التشريق' };
   const today = new Date().toDateString();
   const tbody = document.getElementById('ten-days-tbody');
   if (!tbody) return;
 
-  tbody.innerHTML = days.map((dayData, i) => {
-    const dayNum  = i + 1;
+  tbody.innerHTML = days.map((dayData) => {
     const t       = dayData.timings;
     const gregDay = dayData.date.gregorian;
+    const dayNum  = parseInt(dayData.date.hijri?.day, 10) || 0; /* اليوم الهجري الحقيقي */
     const isSpecial = !!SPECIAL[dayNum];
     let isToday = false;
     try {
@@ -789,8 +800,8 @@ function refreshLastKnownButton() {
 function reloadWithMethod() {
   if (_lat != null && _lng != null) {
     const method = parseInt(document.getElementById('method-select').value);
-    loadTodayPrayers(_lat, _lng, method);
-    loadTenDaysTable(_lat, _lng, method);
+    Promise.resolve(loadTodayPrayers(_lat, _lng, method)).catch(() => {});
+    loadTenDaysTable(_lat, _lng, method); /* تمسك أخطاءها داخلياً الآن */
   }
 }
 
