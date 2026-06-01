@@ -50,13 +50,24 @@
       }
     });
 
-    /* 2. أقسام/كروت فاضية (عنوان قسم بدون محتوى بعده) */
+    /* 2. أقسام/كروت فاضية فعلاً (تتجاهل التفاعلية والمتولّدة بـ JS) */
     var cards = doc.querySelectorAll('.card,.section,[class*="-card"],[class*="-section"]');
     Array.prototype.forEach.call(cards, function(el){
       var txt = (el.textContent||'').trim();
       var hasMedia = el.querySelector('img,canvas,svg,iframe,input,select,textarea,audio,video');
       var cs = win.getComputedStyle(el);
       if(cs.display==='none') return;
+      /* تجاهل: عناصر تفاعلية (onclick/href) = مقصودة، ليست نقصاً */
+      if(el.hasAttribute('onclick') || el.closest('a,button') || el.querySelector('a,button')) return;
+      /* تجاهل: عناصر لها أبناء (محتواها ليس نصّياً مباشراً — قد يكون بطاقة مركّبة) */
+      if(el.children.length > 0) return;
+      /* تجاهل: عناصر لها data-* (تُملأ بـ JS لاحقاً) */
+      var hasData=false;
+      for(var a=0;a<el.attributes.length;a++){ if(el.attributes[a].name.indexOf('data-')===0){hasData=true;break;} }
+      if(hasData) return;
+      /* تجاهل: داخل حاوية ديناميكية (id فيه grid/list/container/wrap) */
+      var p=el.parentElement;
+      if(p && /grid|list|container|wrap|results|items|cards/i.test((p.id||'')+' '+(p.className||''))) return;
       if(txt.length < 3 && !hasMedia){
         var r=el.getBoundingClientRect();
         if(r.width>20 && r.height>10){

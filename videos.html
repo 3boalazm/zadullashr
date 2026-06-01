@@ -959,7 +959,7 @@ html[data-theme="dark"] .vid-watch-btn,html[data-theme="oled"] .vid-watch-btn{ba
 <div class="player-overlay" id="player-overlay" onclick="closePlayerIfOverlay(event)">
   <button class="player-close" onclick="closePlayer()">✕</button>
   <div class="player-wrap">
-    <iframe id="yt-iframe" title="مشغل الفيديو" allowfullscreen allow="autoplay; encrypted-media" loading="lazy"></iframe>
+    <iframe sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox" id="yt-iframe" title="مشغل الفيديو" allowfullscreen allow="autoplay; encrypted-media" loading="lazy"></iframe>
   </div>
   <div class="player-title" id="player-title"></div>
 </div>

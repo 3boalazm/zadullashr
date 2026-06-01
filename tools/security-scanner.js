@@ -60,11 +60,18 @@
     });
 
     /* ── 3. External scripts بدون integrity ── */
+    var TRUSTED_CDN = /(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com|unpkg\.com|gstatic\.com|googleapis\.com|w\.soundcloud\.com)/;
     doc.querySelectorAll('script[src]').forEach(function(s){
       var src = s.getAttribute('src') || '';
       if((src.startsWith('http://') || src.startsWith('https://')) && !src.includes(location.hostname)){
         if(!s.getAttribute('integrity')){
-          issues.push({ sev:'warning', cat:'Missing SRI', msg:'Script خارجي بدون integrity (Subresource Integrity)', tag:'script', detail:src.slice(0,80), el:s });
+          var trusted = TRUSTED_CDN.test(src);
+          issues.push({
+            sev: trusted ? 'info' : 'warning',
+            cat:'Missing SRI',
+            msg: trusted ? 'مكتبة من CDN موثوق بدون integrity (يُفضّل إضافته، لكن المصدر موثوق)' : 'Script خارجي من مصدر غير معروف بدون integrity — خطر',
+            tag:'script', detail:src.slice(0,80), el:s
+          });
         }
       }
     });
@@ -85,15 +92,26 @@
     });
 
     /* ── 6. Inline event handlers (onclick= في HTML) ── */
+    /* خطر فعلي فقط إذا احتوى المعالج على دمج نصوص (+) أو قوالب — قد يحقن قيمة غير موثوقة.
+       استدعاء دالة ثابتة (onclick="foo()") ممارسة شائعة وآمنة → ملاحظة لا تحذير. */
     var allEls = doc.querySelectorAll('*');
     var inlineEvtCount = 0;
     Array.prototype.forEach.call(allEls, function(el){
-      if(inlineEvtCount >= 5) return;
+      if(inlineEvtCount >= 8) return;
       var attrs = el.attributes;
       for(var i=0; i<attrs.length; i++){
         if(/^on[a-z]+/.test(attrs[i].name)){
+          var val = attrs[i].value || '';
+          /* دمج نصوص أو قوالب أو innerHTML = خطر فعلي محتمل */
+          var risky = /[`]|\+\s*[a-zA-Z_$]|innerHTML|document\.write|eval\(/.test(val);
           inlineEvtCount++;
-          issues.push({ sev:'warning', cat:'Inline Event Handler', msg:'معالج حدث inline في HTML (ممارسة XSS-prone)', tag:el.tagName.toLowerCase(), detail:attrs[i].name+'="'+attrs[i].value.slice(0,50)+'"', el:el });
+          issues.push({
+            sev: risky ? 'warning' : 'info',
+            cat:'Inline Event Handler',
+            msg: risky ? 'معالج حدث inline يحتوي دمجاً ديناميكياً — راجِعه (خطر XSS محتمل)' : 'معالج حدث inline (ممارسة شائعة آمنة هنا — يُفضّل addEventListener)',
+            tag:el.tagName.toLowerCase(),
+            detail:attrs[i].name+'="'+val.slice(0,50)+'"', el:el
+          });
           break;
         }
       }
