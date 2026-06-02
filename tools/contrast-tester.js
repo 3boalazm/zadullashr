@@ -267,17 +267,32 @@
       if(j>=jobs.length){ finishAll(); return; }
       var job=jobs[j], page=job.page, mode=job.mode;
       if(prog) prog.textContent='('+(j+1)+'/'+jobs.length+') '+page+' — '+mode.label;
-      var to=setTimeout(function(){ if(failed.indexOf(page)<0) failed.push(page); j++; nextJob(); }, 8000);
+      var to=setTimeout(function(){ if(failed.indexOf(page)<0) failed.push(page); j++; nextJob(); }, 15000);
       iframe.onload=function(){
         clearTimeout(to);
-        setTimeout(function(){
+        /* انتظر حتى تكتمل الصفحة + يحقن menu.js و share-button.js الـ CSS الديناميكي.
+           هذه السكربتات تعمل async بعد load، فالفحص المبكر يلتقط ستايل المتصفح الخام
+           (سبب الأرقام الوهمية 1.08/1.36). ننتظر حقن الـ <style> أو حدّاً زمنياً. */
+        var iwinE = iframe.contentWindow, idocE = iframe.contentDocument;
+        var waited = 0, STEP = 150, MAX_WAIT = 2500;
+        function ready(){
+          try{
+            if(!idocE || idocE.readyState !== 'complete') return false;
+            /* تأكد أن السكربتات الديناميكية حقنت ستايلها (عدد <style> أو وجود زر المشاركة) */
+            var styleCount = idocE.querySelectorAll('style').length;
+            var hasShare = idocE.querySelector('.zad-share-btn-full, .zad-inst-btn, .zad-install-row');
+            return styleCount >= 2 || hasShare !== null || waited >= MAX_WAIT;
+          }catch(e){ return true; }
+        }
+        function waitThenScan(){
+          if(!ready() && waited < MAX_WAIT){ waited += STEP; setTimeout(waitThenScan, STEP); return; }
           try{
             var idoc=iframe.contentDocument, iwin=iframe.contentWindow;
             /* طبّق الوضع على الـ iframe مباشرةً */
             idoc.documentElement.setAttribute('data-theme', mode.theme);
             if(mode.excuse) idoc.documentElement.setAttribute('data-excuse','on');
             else idoc.documentElement.removeAttribute('data-excuse');
-            /* انتظر إعادة الرسم ثم افحص */
+            /* انتظر إعادة الرسم بعد تبديل الثيم ثم افحص */
             setTimeout(function(){
               try{
                 var s=scanDoc(idoc, iwin);
@@ -287,9 +302,10 @@
                 }
               }catch(e){}
               done++; j++; nextJob();
-            }, 250);
+            }, 500);
           }catch(e){ if(failed.indexOf(page)<0) failed.push(page); j++; nextJob(); }
-        }, 600);
+        }
+        waitThenScan();
       };
       /* أعِد تحميل الصفحة فقط عند تغيّر الصفحة (لا الوضع) لتسريع الفحص */
       var needReload = (j===0) || (jobs[j-1].page !== page);
