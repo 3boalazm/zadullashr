@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>حواء — عبادتي في عذري · زاد العشر</title>
+<meta name="description" content="حواء: دليلٌ عمليٌّ للعبادات التي لا تتوقّف في فترة العذر، مع وِردٍ يوميٍّ يبقيكِ موصولةً بالله.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/premium-ui.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+.hw-hero{background:linear-gradient(135deg,#5b3a6e 0%,#7d5a92 55%,#c9a14a 155%);border-radius:22px;padding:30px 26px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px;box-shadow:0 16px 48px -12px rgba(91,58,110,.4)}
+.hw-hero::after{content:'🌙';position:absolute;top:16px;left:24px;font-size:54px;opacity:.16;line-height:1}
+.hw-eyebrow{font-size:11px;color:#f0dca8;letter-spacing:3px;font-weight:700;margin-bottom:8px}
+.hw-title{font-size:27px;font-weight:900;line-height:1.25;margin-bottom:8px;font-family:'ThmanyahSans',sans-serif}
+.hw-sub{font-size:13.5px;color:rgba(255,255,255,.88);line-height:1.85;max-width:560px}
+/* الفرق بين زهرة وحواء */
+.hw-diff{display:flex;gap:10px;align-items:flex-start;background:var(--sand);border:1px solid var(--border);border-radius:14px;padding:13px 15px;font-size:12.8px;line-height:1.8;color:var(--ink);margin-bottom:16px}
+.hw-diff .di{font-size:20px;flex-shrink:0}
+.hw-diff a{color:var(--gold);font-weight:700;text-decoration:none}
+.hw-sec-title{display:flex;align-items:center;gap:10px;margin:24px 0 12px;font-size:16px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .hw-sec-title,html[data-theme="oled"] .hw-sec-title{color:var(--sys-green)}
+.hw-sec-title::before{content:"";width:5px;height:18px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+.hw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:11px;margin-bottom:14px}
+.hw-item{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow-sm)}
+.hw-item .ico{font-size:24px;display:block;margin-bottom:7px}
+.hw-item h3{font-size:13.5px;font-weight:800;color:var(--green-deep);margin:0 0 4px}
+html[data-theme="dark"] .hw-item h3,html[data-theme="oled"] .hw-item h3{color:var(--sys-green)}
+.hw-item p{font-size:12px;color:var(--muted);line-height:1.7;margin:0}
+.hw-mercy{background:var(--green-pale);border-right:4px solid var(--green-soft);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+html[data-theme="dark"] .hw-mercy,html[data-theme="oled"] .hw-mercy{background:rgba(42,122,95,.12)}
+.hw-mercy p{font-size:13px;line-height:1.95;color:var(--ink);margin:0 0 6px}
+.hw-mercy p:last-child{margin-bottom:0}
+.hw-mercy b{color:var(--green-deep)}
+html[data-theme="dark"] .hw-mercy b,html[data-theme="oled"] .hw-mercy b{color:var(--sys-green)}
+/* الورد اليومي */
+.hw-ward{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow-sm);margin-bottom:14px}
+.hw-ward-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.hw-ward-top .t{font-size:14px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .hw-ward-top .t,html[data-theme="oled"] .hw-ward-top .t{color:var(--sys-green)}
+.hw-ward-count{font-size:12px;font-weight:800;color:#3a2e10;background:linear-gradient(135deg,var(--gold),#e6c97a);border-radius:999px;padding:4px 12px}
+.hw-tasks{display:grid;gap:9px}
+.hw-task{display:flex;align-items:center;gap:10px;background:var(--sand);border:1.5px solid var(--border);border-radius:12px;padding:11px 13px;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;transition:all .2s;font-family:inherit;text-align:right;width:100%}
+.hw-task .bx{width:22px;height:22px;border-radius:7px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .2s}
+.hw-task.done{background:var(--green-pale);border-color:var(--green-soft)}
+html[data-theme="dark"] .hw-task.done,html[data-theme="oled"] .hw-task.done{background:rgba(42,122,95,.12)}
+.hw-task.done .bx{background:var(--green-deep);border-color:var(--green-deep);color:#fff}
+.hw-task .e{font-size:18px}
+.hw-cross{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#fbeefb,var(--card));border:1.5px solid #e6c6e6;border-radius:16px;padding:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s}
+html[data-theme="dark"] .hw-cross,html[data-theme="oled"] .hw-cross{background:rgba(150,90,150,.12);border-color:rgba(150,90,150,.3)}
+.hw-cross:hover{transform:translateY(-2px)}
+.hw-cross .cx-ico{font-size:30px;flex-shrink:0}
+.hw-cross .cx-t{font-size:15px;font-weight:800;color:#7d5a92}
+html[data-theme="dark"] .hw-cross .cx-t,html[data-theme="oled"] .hw-cross .cx-t{color:#d6a8e8}
+.hw-cross .cx-s{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
+    </div>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav" aria-label="القائمة الرئيسية">
+      <a href="index.html" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">🌙 حواء</div></div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <header class="hw-hero">
+      <div class="hw-eyebrow">عبادةٌ لا تتوقّف</div>
+      <h1 class="hw-title">حواء — عبادتي في عذري</h1>
+      <p class="hw-sub">عذرُكِ ليس انقطاعًا عن الله، بل بابٌ آخرُ للقرب. هنا دليلٌ عمليٌّ بما يمكنكِ فعلُه يوميًا لتبقَي موصولةً بربّكِ، ووِردٌ يوميٌّ يرافقكِ.</p>
+    </header>
+
+    <div class="hw-diff">
+      <span class="di">💡</span>
+      <div><b>«زهرة» تطمئنُ قلبكِ، و«حواء» ترتّبُ عبادتكِ.</b> زهرة رفيقةٌ للمشاعر والطمأنينة، أمّا حواء فدليلٌ عمليٌّ يوميّ: ماذا تفعلين الآن خطوةً بخطوة. <a href="zahra.html">زيارة زهرة 🌸</a></div>
+    </div>
+
+    <h2 class="hw-sec-title">🌿 عباداتٌ لا تتوقّف</h2>
+    <div class="hw-grid">
+      <div class="hw-item"><span class="ico">📿</span><h3>الذكر والتسبيح</h3><p>سبحان الله، الحمد لله، لا إله إلا الله، الله أكبر — في كل وقت.</p></div>
+      <div class="hw-item"><span class="ico">🤲</span><h3>الدعاء</h3><p>ادعي بكل ما تحبّين؛ بابُ الدعاء مفتوحٌ دائمًا بلا شرط.</p></div>
+      <div class="hw-item"><span class="ico">🌟</span><h3>الاستغفار</h3><p>أكثري من «أستغفر الله» — تطهيرٌ ورفعةٌ للدرجات.</p></div>
+      <div class="hw-item"><span class="ico">🕊️</span><h3>الصلاة على النبي ﷺ</h3><p>«اللهم صلِّ وسلّم على نبيّنا محمد» — تُؤجَرين بكل صلاة.</p></div>
+      <div class="hw-item"><span class="ico">🎧</span><h3>سماع القرآن</h3><p>استمعي وتدبّري؛ والقراءةُ فيها سعةٌ عند كثيرٍ من أهل العلم.</p></div>
+      <div class="hw-item"><span class="ico">📚</span><h3>طلب العلم</h3><p>اقرئي وتعلّمي سيرةً أو فقهًا أو تفسيرًا — العلمُ عبادة.</p></div>
+      <div class="hw-item"><span class="ico">💚</span><h3>الصدقة والإحسان</h3><p>صدقةٌ ولو يسيرة، وبرٌّ بالوالدين وصلةٌ للرحم.</p></div>
+      <div class="hw-item"><span class="ico">🍽️</span><h3>إفطار الصائمين</h3><p>تفطيرُ صائمٍ لكِ مثلُ أجره — بابُ خيرٍ واسع.</p></div>
+    </div>
+
+    <h2 class="hw-sec-title">🤍 رخصةٌ ورحمة — ما خُفِّف عنكِ</h2>
+    <div class="hw-mercy">
+      <p>تركُكِ لما رخّص اللهُ في تركه هو <b>عبادةُ امتثالٍ</b> تُؤجَرين عليها:</p>
+      <p>🕌 <b>الصلاة:</b> تُترَك في فترة العذر، ولا تُقضى — رحمةً بكِ.</p>
+      <p>🌙 <b>الصوم:</b> يُترَك، ويُقضى بعد ذلك عند القدرة.</p>
+      <p>🕋 <b>الطواف بالبيت:</b> يُؤجَّل حتى الطُّهر، وبقيّةُ المناسك تُؤدّى.</p>
+    </div>
+
+    <h2 class="hw-sec-title">📋 وِردي اليومي في عذري</h2>
+    <div class="hw-ward">
+      <div class="hw-ward-top"><span class="t">حافظي على وصلكِ بالله</span><span class="hw-ward-count" id="hw-count">0 / 6</span></div>
+      <div class="hw-tasks" id="hw-tasks"></div>
+    </div>
+
+    <a class="hw-cross" href="zahra.html">
+      <span class="cx-ico">🌸</span>
+      <span><span class="cx-t">رفيقتكِ زهرة</span><span class="cx-s">كلماتُ طمأنينةٍ ودعمٍ لقلبكِ في فترة العذر</span></span>
+    </a>
+
+    <div style="height:40px"></div>
+  </main>
+</div>
+
+<script>
+/* وِرد حواء اليومي — تخزين محلّي بسيط مع تجدّد يومي */
+(function(){
+  'use strict';
+  var ZKEY='zad_v2';
+  function today(){return new Date().toISOString().split('T')[0];}
+  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
+  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
+  var WARD=[
+    {e:'📿',t:'سبّحتُ وذكرتُ الله'},
+    {e:'🌟',t:'استغفرتُ'},
+    {e:'🕊️',t:'صلّيتُ على النبي ﷺ'},
+    {e:'🤲',t:'دعوتُ بما أحب'},
+    {e:'🎧',t:'سمعتُ قرآنًا'},
+    {e:'💚',t:'فعلتُ خيرًا (صدقة/برّ)'}
+  ];
+  function state(){var s=read();var d=s.hawwa;if(!d||d.day!==today()){d={day:today(),done:{}};s.hawwa=d;write(s);}return s;}
+  function render(){
+    var s=state(),done=s.hawwa.done||{};
+    var w=document.getElementById('hw-tasks');if(!w)return;
+    w.innerHTML=WARD.map(function(x,i){var dn=!!done[i];
+      return '<button class="hw-task'+(dn?' done':'')+'" data-i="'+i+'"><span class="bx">'+(dn?'✓':'')+'</span><span class="e">'+x.e+'</span><span>'+x.t+'</span></button>';}).join('');
+    var n=Object.keys(done).filter(function(k){return done[k];}).length;
+    var c=document.getElementById('hw-count');if(c)c.textContent=n+' / '+WARD.length;
+  }
+  document.addEventListener('click',function(e){
+    if(!e.target.closest)return;var t=e.target.closest('.hw-task');if(!t)return;
+    var i=t.dataset.i,s=state();s.hawwa.done=s.hawwa.done||{};
+    if(s.hawwa.done[i])delete s.hawwa.done[i];else s.hawwa.done[i]=1;
+    write(s);if(navigator.vibrate)navigator.vibrate(15);render();
+  });
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
+})();
+</script>
+  <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+<script src="command-palette.js" defer></script>
+</body>
+</html>

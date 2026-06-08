@@ -20,7 +20,7 @@
 البنية جاهزة بالكامل، تحتاج فقط 3 خطوات لمرّة واحدة:
 
 ### الخطوة 1: تفعيل Cloud Messaging
-- في [Firebase Console](https://console.firebase.google.com) → مشروع `zad`
+- في [Firebase Console](https://console.firebase.google.com) → مشروع `zadullashr`
 - **Project Settings → Cloud Messaging** → فعّل الخدمة.
 
 ### الخطوة 2: مفتاح VAPID

@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#1a5d47">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<title>نادي الإبداع · زاد</title>
+<title>نادي الإبداع · زاد العشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
@@ -26,6 +26,37 @@ h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabi
 .k-sec-title{display:flex;align-items:center;gap:10px;margin:24px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
 html[data-theme="dark"] .k-sec-title,html[data-theme="oled"] .k-sec-title{color:var(--sys-green)}
 .k-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+
+/* ════ نادي الإبداع — طبقة اللعب (نور + بطاقات + مختبر ذكاء) ════ */
+.cc-dash{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+.cc-light{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),#e6c97a);color:#3a2e10;font-weight:900;font-size:15px;padding:7px 15px;border-radius:999px}
+.cc-badges{display:flex;flex-wrap:wrap;gap:7px}
+.cc-badge{display:flex;align-items:center;gap:5px;background:var(--green-pale);border:1.5px solid var(--green-soft);border-radius:11px;padding:6px 10px;font-size:11.5px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .cc-badge,html[data-theme="oled"] .cc-badge{background:rgba(42,122,95,.12);color:var(--sys-green)}
+.cc-badge.locked{background:var(--sand);border-style:dashed;border-color:var(--border);color:var(--muted);filter:grayscale(.7);opacity:.7}
+.cc-badge .be{font-size:14px}
+
+.cc-deeds{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cc-deed{display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px;cursor:pointer;transition:all .2s;font-family:inherit;text-align:right;width:100%}
+.cc-deed:hover{border-color:var(--green-soft);transform:translateY(-2px)}
+.cc-deed .cc-d-e{font-size:24px;flex-shrink:0}
+.cc-deed .cc-d-t{font-size:12.8px;font-weight:700;color:var(--ink);flex:1}
+.cc-deed .cc-d-box{width:22px;height:22px;border-radius:7px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .2s}
+.cc-deed.done{background:var(--green-pale);border-color:var(--green-soft)}
+html[data-theme="dark"] .cc-deed.done,html[data-theme="oled"] .cc-deed.done{background:rgba(42,122,95,.12)}
+.cc-deed.done .cc-d-box{background:var(--green-deep);border-color:var(--green-deep);color:#fff}
+
+.cc-q{background:var(--card);border:1.5px solid var(--border);border-radius:15px;padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+.cc-q-q{font-size:13.5px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;gap:8px}
+.cc-q-q .cc-qn{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cc-opts{display:flex;flex-wrap:wrap;gap:8px}
+.cc-opt{background:var(--sand);border:1.5px solid var(--border);border-radius:11px;padding:9px 14px;font-size:12.8px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .18s;font-family:inherit}
+.cc-opt:hover{border-color:var(--gold)}
+.cc-opt.correct{background:var(--green-deep);border-color:var(--green-deep);color:#fff}
+.cc-opt.wrong{background:#ffe2e2;border-color:#ff6b6b;color:#a01919}
+html[data-theme="dark"] .cc-opt.wrong,html[data-theme="oled"] .cc-opt.wrong{background:rgba(255,107,107,.18);color:#ff9b9b}
+.cc-q.answered .cc-opt{cursor:default;pointer-events:none;opacity:.85}
+.cc-q.answered .cc-opt.correct{opacity:1}
 .k-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow-sm);margin-bottom:12px}
 .k-card p{font-size:13.5px;color:var(--muted);line-height:1.9}
 .k-list{list-style:none;display:flex;flex-wrap:wrap;gap:9px;margin-top:6px}
@@ -82,8 +113,8 @@ html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--
 <div class="app">
   <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
-      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد" style="width:36px;height:36px;border-radius:10px"></div>
-      <div><div class="brand-name">زاد</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
     <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
     <div class="theme-seg" id="theme-seg">
@@ -92,49 +123,14 @@ html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--
       <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
     </div>
 <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
-    <nav class="nav">
-      <a href="index.html" class="active" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
-      <div class="nav-sep">الصلاة والتقويم</div>
-      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
-      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
-      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
-      <a href="taqweem.html"><span class="ico">🗓️</span><span>التقويم السنوي</span></a>
-      <div class="nav-sep">القرآن والعبادة</div>
-      <a href="mushaf.html"><span class="ico">📖</span><span>الورد القرآني</span></a>
-      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
-      <a href="tasmee.html"><span class="ico">🎙️</span><span>التسميع</span></a>
-      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
-      <a href="hasn.html"><span class="ico">🛡️</span><span>حصن المسلم</span></a>
-      <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
-      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
-      <div class="nav-sep">الحج والمناسك</div>
-      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
-      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
-      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
-      <a href="manasik.html"><span class="ico">🕋</span><span>المناسك التفاعلية</span></a>
-      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
-      <div class="nav-sep">المتابعة</div>
-      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
-      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
-      <a href="zakat.html"><span class="ico">🧮</span><span>حاسبة الزكاة</span></a>
-      <div class="nav-sep">التعلم والترفيه</div>
-      <a href="playlist.html"><span class="ico">🎵</span><span>البلاي ليست</span></a>
-      <a href="Quran-radio.HTML"><span class="ico">📻</span><span>إذاعة القرآن</span></a>
-      <a href="videos.html"><span class="ico">🎬</span><span>المحاضرات الإسلامية</span></a>
-      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
-      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — قصص</span></a>
-      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
-      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
-      <div class="nav-sep">الإعدادات</div>
-      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
-      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
-      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    <nav class="nav" aria-label="القائمة الرئيسية">
+      <a href="index.html" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
     </nav>
-    <div class="side-foot">زاد 2026 · بدون إعلانات 📴</div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div class="tb-left"><button class="hamburger" id="hamburger" aria-label="القائمة">☰</button><a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد"></a></div>
+      <div class="tb-left"><button class="hamburger" id="hamburger" aria-label="القائمة">☰</button><a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a></div>
       <div class="tb-center"><div class="page-title">نادي <span>الإبداع</span></div></div>
       <div class="tb-right">
         <div class="notif-wrap"><button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button><div class="notif-dropdown" id="notif-dropdown"></div></div>
@@ -145,12 +141,27 @@ html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--
       <div class="k-htitle">نادي الإبداع</div>
       <div class="k-intro">حان وقتُ العمل يا أبطال! سنحوّلُ ما تعلّمناه إلى مشاريعَ فنيةٍ وألعابٍ ذكية. استعدّوا لتزيين المنزل، والمشاركة في المسابقات، واكتشاف عجائب الطبيعة!</div>
     </div>
+    <div class="k-sec-title">🌟 لوحةُ المبدع</div>
+    <div class="cc-dash">
+      <div class="cc-light">✨ <span id="cc-light-n">0</span> نور</div>
+      <div class="cc-badges" id="cc-badges"></div>
+    </div>
+
+    <div class="k-sec-title">🎁 بطاقاتُ الأعمال الصالحة (اليوم)</div>
+    <div class="k-card" style="padding:14px 16px">
+      <p style="margin-bottom:10px;font-size:12.5px;color:var(--muted)">نفّذ العملَ الصالحَ واضغط على بطاقته — كلُّ بطاقة ✨ 10 نور! تتجدّد كلَّ يوم.</p>
+      <div class="cc-deeds" id="cc-deeds"></div>
+    </div>
+
     <div class="k-sec-title">🛠️ مشاريعُ منزليةٌ ممتعة</div>
     <div class="k-card"><p><b>🎁 علبةُ الأعمال الصالحة:</b> زيّن علبةً وضع فيها مهاماً يومية (ابتسامة، مساعدة الأهل، «سبحان الله» 10 مرات) واسحب ورقةً كل يومٍ لتنفّذها.</p></div><div class="k-card"><p><b>⛺ خيمةُ الاعتكاف المنزلي:</b> اصنع ركناً هادئاً للقراءة والذكر بالأغطية والوسائد والأنوار الهادئة.</p></div><div class="k-card"><p><b>📮 صندوقُ البريد العائلي:</b> تبادلوا رسائلَ الشكر والتشجيع بين أفراد الأسرة لتعزيز الحب والترابط.</p></div>
     <div class="k-sec-title">🍃 مختبرُ الطبيعة</div>
     <div class="k-card"><p><b>تأمّل ورقة الشجر:</b> اجمع أوراقَ الشجر المتساقطة، تأمّل ألوانها وعروقها، وتذكّر أنّ الله يعلمُ سقوطَ كلِّ ورقة: <span style="font-family:Amiri,serif;color:var(--green-deep);font-weight:700">«وَمَا تَسْقُطُ مِنْ وَرَقَةٍ إِلَّا يَعْلَمُهَا»</span> (الأنعام: 59) — ثم اصنع منها لوحةً فنية.</p></div>
     <div class="k-sec-title">🧠 تحدّي الذكاء</div>
     <div class="k-quiz" id="k-quiz"></div>
+    <div class="k-sec-title">🧪 اختبر ذكاءك</div>
+    <div class="k-card" style="padding:13px 16px;margin-bottom:6px"><p style="font-size:12.5px;color:var(--muted);margin:0">جاوب صح وخُد ✨ 5 نور لكلِّ إجابة صحيحة! 🧠</p></div>
+    <div id="cc-brain"></div>
     <div class="k-sec-title">🌟 روتينُ البطل اليومي</div>
     <div class="k-card"><p>أنجِز مهامَّ يومِك واضغط على كلِّ مهمةٍ بعد إتمامها — ويتجدّد كلَّ صباح:</p><div class="k-prog"><i id="k-prog-bar" style="width:0%"></i></div><div class="k-prog-txt" id="k-prog-txt">0 / 8</div><div id="k-routine"></div><div class="k-reward" id="k-reward">🎉 أحسنت يا بطل! أتممتَ مهامك اليوم بنجاح</div></div>
     <div class="k-sec-title">🎮 ألعابٌ هادفة</div>
@@ -209,6 +220,87 @@ html[data-theme="dark"] .k-reward,html[data-theme="oled"] .k-reward{color:var(--
     if(rw){var full=n>=TASKS.length;rw.classList.toggle('show',full);if(full){try{if(window.confetti)window.confetti({particleCount:80,spread:75,origin:{y:.6}});}catch(e){}}}
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
+})();
+</script>
+<script>
+/* ════ نادي الإبداع — طبقة اللعب (نور موحّد + بطاقات + مختبر ذكاء) ════ */
+(function(){
+  'use strict';
+  var ZKEY='zad_v2';
+  function today(){return new Date().toISOString().split('T')[0];}
+  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
+  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
+  function set(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
+  function cc(){var s=read();s.kidsCreativity=s.kidsCreativity||{};return s;}
+  /* نفس محفظة النور المستخدمة في «مدرستي الجميلة» */
+  function totalLight(){var s=read(),k=s.kidsSchool||{};
+    var w=Object.keys(k.wudu||{}).length,sa=Object.keys(k.salah||{}).length,akh=k.akhlaq||{},as=0;
+    for(var x in akh)as+=akh[x]||0;return w*10+sa*10+as*5+(k.light||0);}
+
+  var DEEDS=[{e:'😊',t:'ابتسمتُ في وجه الناس'},{e:'🧡',t:'ساعدتُ والديَّ'},{e:'📿',t:'ذكرتُ اللهَ 20 مرّة'},{e:'🚫',t:'لم أكذب اليوم'}];
+  var BRAIN=[
+    {q:'النبيُّ الذي أُلقِي في النار فجعلها اللهُ برداً وسلاماً؟',o:['نوح','إبراهيم','يونس'],c:1},
+    {q:'أوّلُ من آمن من الرجال؟',o:['عمر','أبو بكر الصدّيق','عليّ'],c:1},
+    {q:'أوّلُ ركنٍ من أركان الإسلام؟',o:['الصلاة','الشهادتان','الزكاة'],c:1},
+    {q:'ماذا نفعلُ لنتطهّرَ قبل الصلاة؟',o:['الأكل','الوضوء','النوم'],c:1},
+    {q:'في أيِّ غارٍ اختبأ النبيُّ ﷺ وأبو بكرٍ ليلةَ الهجرة؟',o:['حراء','ثور','أُحد'],c:1},
+    {q:'أيُّ نبيٍّ ابتلعه الحوتُ ثم نجّاه الله؟',o:['يونس','موسى','داود'],c:0}
+  ];
+
+  function renderDash(){
+    set('cc-light-n',totalLight());
+    var s=cc().kidsCreativity,dt=s.deedsTotal||0,bc=s.brainCorrect||0;
+    var badges=[{e:'🎨',t:'فنان مسلم',on:dt>=3},{e:'🏠',t:'مهندس الخير',on:dt>=8},{e:'🧠',t:'عبقري صغير',on:bc>=5},{e:'🌟',t:'عقل ذهبي',on:bc>=10}];
+    var w=document.getElementById('cc-badges');
+    if(w)w.innerHTML=badges.map(function(b){return '<span class="cc-badge'+(b.on?'':' locked')+'"><span class="be">'+(b.on?b.e:'🔒')+'</span>'+b.t+'</span>';}).join('');
+  }
+  function renderDeeds(){
+    var s=read();s.kidsCreativity=s.kidsCreativity||{};
+    var d=s.kidsCreativity.deeds;
+    if(!d||d.day!==today()){d={day:today(),done:{}};s.kidsCreativity.deeds=d;write(s);}
+    var w=document.getElementById('cc-deeds');if(!w)return;
+    w.innerHTML=DEEDS.map(function(x,i){var done=!!d.done[i];
+      return '<button class="cc-deed'+(done?' done':'')+'" data-deed="'+i+'"><span class="cc-d-e">'+x.e+'</span><span class="cc-d-t">'+x.t+'</span><span class="cc-d-box">'+(done?'✓':'')+'</span></button>';}).join('');
+  }
+  function renderBrain(){
+    var ans=cc().kidsCreativity.brain||{};
+    var w=document.getElementById('cc-brain');if(!w)return;
+    w.innerHTML=BRAIN.map(function(q,i){var done=ans[i]!=null;
+      var opts=q.o.map(function(op,oi){var cls='cc-opt';
+        if(done){if(oi===q.c)cls+=' correct';else if(ans[i]===oi)cls+=' wrong';}
+        return '<button class="'+cls+'" data-bq="'+i+'" data-bo="'+oi+'">'+op+'</button>';}).join('');
+      return '<div class="cc-q'+(done?' answered':'')+'"><div class="cc-q-q"><span class="cc-qn">'+(i+1)+'</span><span>'+q.q+'</span></div><div class="cc-opts">'+opts+'</div></div>';}).join('');
+  }
+
+  document.addEventListener('click',function(e){
+    if(!e.target.closest)return;
+    var dd=e.target.closest('.cc-deed');
+    if(dd){var i=+dd.dataset.deed,s=read();s.kidsCreativity=s.kidsCreativity||{};
+      var d=s.kidsCreativity.deeds;if(!d||d.day!==today())d={day:today(),done:{}};
+      if(!d.done[i]){d.done[i]=1;s.kidsCreativity.deeds=d;s.kidsCreativity.deedsTotal=(s.kidsCreativity.deedsTotal||0)+1;
+        s.kidsSchool=s.kidsSchool||{};s.kidsSchool.light=(s.kidsSchool.light||0)+10;write(s);
+        if(navigator.vibrate)navigator.vibrate(18);
+        try{if(window.confetti)window.confetti({particleCount:35,spread:55,origin:{y:.7}});}catch(_){}
+        if(window.showToast)window.showToast('✨ +10 نور! بطلٌ صالح 💚');
+        renderDeeds();renderDash();}
+      return;}
+    var op=e.target.closest('.cc-opt');
+    if(op){var qi=+op.dataset.bq,oi=+op.dataset.bo,s2=read();s2.kidsCreativity=s2.kidsCreativity||{};s2.kidsCreativity.brain=s2.kidsCreativity.brain||{};
+      if(s2.kidsCreativity.brain[qi]!=null)return;
+      s2.kidsCreativity.brain[qi]=oi;
+      var correct=(oi===BRAIN[qi].c);
+      if(correct){s2.kidsCreativity.brainCorrect=(s2.kidsCreativity.brainCorrect||0)+1;s2.kidsSchool=s2.kidsSchool||{};s2.kidsSchool.light=(s2.kidsSchool.light||0)+5;}
+      write(s2);
+      if(navigator.vibrate)navigator.vibrate(correct?20:8);
+      if(correct){try{if(window.confetti)window.confetti({particleCount:30,spread:50,origin:{y:.7}});}catch(_){}if(window.showToast)window.showToast('✅ صحيح! ✨ +5 نور');}
+      else if(window.showToast)window.showToast('🔄 الإجابة الصحيحة ظاهرةٌ بالأخضر');
+      renderBrain();renderDash();
+      return;}
+  });
+
+  window.addEventListener('focus',renderDash);
+  function init(){renderDash();renderDeeds();renderBrain();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
 <script src="lang.js" defer></script>

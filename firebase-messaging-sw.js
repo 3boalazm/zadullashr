@@ -8,10 +8,10 @@ importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-com
 
 firebase.initializeApp({
   apiKey: "AIzaSyBgs8kMenbiTaJP4d1eEWv6zmp-kGoExqM",
-  authDomain: "zad.firebaseapp.com",
-  databaseURL: "https://zad-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "zad",
-  storageBucket: "zad.appspot.com",
+  authDomain: "zadullashr.firebaseapp.com",
+  databaseURL: "https://zadullashr-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "zadullashr",
+  storageBucket: "zadullashr.appspot.com",
   messagingSenderId: "1001954401018",
   appId: "1:1001954401018:web:7271f17d574371ff018743"
 });
@@ -21,7 +21,7 @@ var messaging = firebase.messaging();
 /* إشعارات الخلفية (التطبيق مغلق) */
 messaging.onBackgroundMessage(function (payload) {
   var n = payload.notification || {};
-  var title = n.title || 'زاد';
+  var title = n.title || 'زاد العشر';
   self.registration.showNotification(title, {
     body: n.body || 'لديك تحديث جديد',
     icon: './icons/icon-192.svg',

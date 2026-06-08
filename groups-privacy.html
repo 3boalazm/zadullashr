@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>الخصوصية وكيف يعمل — التنافس العائلي — زاد العشر</title>
+<meta name="description" content="كيف يعمل التنافس العائلي في زاد العشر مع خصوصية كاملة: ماذا يُشارَك وما لا يُشارَك، النظام المحلي أولاً، الهوية المقنّعة، وميزات التفاعل العائلي.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/premium-ui.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,h4,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+.gpv-hero{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 60%,#c9a14a 150%);border-radius:22px;padding:30px 26px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.gpv-hero::after{content:'🛡️';position:absolute;top:16px;left:24px;font-size:54px;opacity:.14;line-height:1}
+.gpv-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:3px;font-weight:700;margin-bottom:8px}
+.gpv-title{font-size:26px;font-weight:900;line-height:1.25;margin-bottom:8px;font-family:'ThmanyahSans',sans-serif}
+.gpv-sub{font-size:13.5px;color:rgba(255,255,255,.85);line-height:1.85;max-width:600px}
+
+.gpv-sec-title{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .gpv-sec-title,html[data-theme="oled"] .gpv-sec-title{color:var(--sys-green)}
+.gpv-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+
+/* shared/not-shared */
+.gpv-policy{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px}
+@media(max-width:520px){.gpv-policy{grid-template-columns:1fr}}
+.gpv-pol{border-radius:16px;padding:16px;border:1.5px solid var(--border);background:var(--card);box-shadow:var(--shadow-sm)}
+.gpv-pol.ok{border-color:var(--green-soft);background:var(--green-pale)}
+html[data-theme="dark"] .gpv-pol.ok,html[data-theme="oled"] .gpv-pol.ok{background:rgba(42,122,95,.12)}
+.gpv-pol.no{border-color:#ffb4b4;background:#fff4f4}
+html[data-theme="dark"] .gpv-pol.no,html[data-theme="oled"] .gpv-pol.no{background:rgba(255,107,107,.1);border-color:rgba(255,107,107,.4)}
+.gpv-pol h4{font-size:14px;font-weight:800;margin:0 0 8px}
+.gpv-pol.ok h4{color:var(--green-deep)}
+html[data-theme="dark"] .gpv-pol.ok h4,html[data-theme="oled"] .gpv-pol.ok h4{color:var(--sys-green)}
+.gpv-pol.no h4{color:#c0392b}
+html[data-theme="dark"] .gpv-pol.no h4,html[data-theme="oled"] .gpv-pol.no h4{color:#ff9b9b}
+.gpv-pol ul{list-style:none;padding:0;margin:0}
+.gpv-pol li{font-size:12.8px;line-height:1.9;color:var(--ink)}
+
+/* how it works grid */
+.gpv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:6px}
+.gpv-item{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:15px;box-shadow:var(--shadow-sm)}
+.gpv-item .ico{font-size:26px;display:block;margin-bottom:8px}
+.gpv-item h4{font-size:14px;font-weight:800;color:var(--green-deep);margin:0 0 4px}
+html[data-theme="dark"] .gpv-item h4,html[data-theme="oled"] .gpv-item h4{color:var(--sys-green)}
+.gpv-item p{font-size:12.5px;line-height:1.75;color:var(--muted);margin:0}
+
+/* feature cards */
+.gpv-feat{display:flex;gap:13px;align-items:flex-start;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:15px 16px;margin-bottom:11px;box-shadow:var(--shadow-sm)}
+.gpv-feat .fe{font-size:30px;line-height:1;flex-shrink:0}
+.gpv-feat .ft-t{font-size:14.5px;font-weight:800;color:var(--green-deep);margin-bottom:3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+html[data-theme="dark"] .gpv-feat .ft-t,html[data-theme="oled"] .gpv-feat .ft-t{color:var(--sys-green)}
+.gpv-feat .ft-s{font-size:12.8px;line-height:1.8;color:var(--ink)}
+.gpv-soon{font-size:10px;font-weight:800;color:#3a2e10;background:linear-gradient(135deg,var(--gold),#e6c97a);border-radius:999px;padding:2px 9px}
+
+.gpv-back{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,border-color .18s;margin-top:8px}
+.gpv-back:hover{transform:translateY(-2px);border-color:var(--gold)}
+.gpv-back .bi{font-size:28px}
+.gpv-back .bt{font-size:14.5px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .gpv-back .bt,html[data-theme="oled"] .gpv-back .bt{color:var(--sys-green)}
+.gpv-back .bs{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
+    </div>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav" aria-label="القائمة الرئيسية">
+      <a href="index.html" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">الخصوصية <span>وكيف يعمل</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <header class="gpv-hero">
+      <div class="gpv-eyebrow">تنافسٌ بخصوصيةٍ كاملة</div>
+      <h1 class="gpv-title">الخصوصية وكيف يعمل التنافس العائلي</h1>
+      <p class="gpv-sub">تتنافس عائلتك على الطاعات وأنت مطمئنٌّ تمامًا: تُشارَك نسبتُك فقط، ولا يرى أحدٌ تفاصيلَ عباداتك. هنا تعرف بالضبط ما يُشارَك وما لا يُشارَك، وكيف صُمِّم النظام، وأفكار التفاعل العائلي القادمة.</p>
+    </header>
+
+    <!-- ماذا يُشارَك -->
+    <h2 class="gpv-sec-title">🔒 ماذا يُشارَك ومالا يُشارَك</h2>
+    <div class="gpv-policy">
+      <div class="gpv-pol ok">
+        <h4>✅ يُشارَك فقط</h4>
+        <ul>
+          <li>• نسبةُ الإنجاز اليومية (%)</li>
+          <li>• أيامُ الالتزام المتتالية (اللهب)</li>
+          <li>• الوسامُ المكتسَب</li>
+          <li>• اسمُك المستعار فقط</li>
+        </ul>
+      </div>
+      <div class="gpv-pol no">
+        <h4>⛔ لا يُشارَك أبداً</h4>
+        <ul>
+          <li>• نوعُ العبادة أو تفاصيلها</li>
+          <li>• اسمُك الحقيقي أو بياناتك</li>
+          <li>• ماذا صلّيت أو قرأت أو ذكرت</li>
+          <li>• موقعُك أو جهازك</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- كيف يعمل -->
+    <h2 class="gpv-sec-title">⚙️ كيف يعمل النظام</h2>
+    <div class="gpv-grid">
+      <div class="gpv-item"><span class="ico">📵</span><h4>محليٌّ أولاً</h4><p>تفاصيلُ عباداتك (الصلاة، الذكر، المهام) تُحسَب وتُخزَّن على جهازك فقط ولا تغادره.</p></div>
+      <div class="gpv-item"><span class="ico">☁️</span><h4>يُرفَع الرقمُ فقط</h4><p>عند الاتصال يُرفَع رقمُك النهائي (مثلاً 85%) دون أيِّ تفصيل عن العبادة نفسها.</p></div>
+      <div class="gpv-item"><span class="ico">🎭</span><h4>هويةٌ مقنّعة</h4><p>لك مُعرّفٌ مجهول واسمٌ مستعار يفصلان هويتَك الحقيقية تمامًا عن لوحة المنافسة.</p></div>
+      <div class="gpv-item"><span class="ico">📦</span><h4>يعمل بدون إنترنت</h4><p>التطبيقُ PWA؛ تُكمل عباداتك دون اتصال، ويتزامن الرقمُ النهائي تلقائيًا عند عودة الشبكة.</p></div>
+    </div>
+
+    <!-- ميزات التفاعل -->
+    <h2 class="gpv-sec-title">💡 أفكارُ التفاعل العائلي</h2>
+    <div class="gpv-feat"><span class="fe">🏠</span><div><div class="ft-t">نورُ البيت <span class="gpv-soon">قريبًا</span></div><div class="ft-s">مؤشّرٌ جماعيٌّ يجمع نِسَبَ أفراد البيت في «طاقةٍ» واحدة تضيء كلّما اقترب البيتُ من 100% — تنافسٌ يصنع لُحمة لا فُرقة.</div></div></div>
+    <div class="gpv-feat"><span class="fe">🤲</span><div><div class="ft-t">الدعاءُ بظهر الغيب <span class="gpv-soon">قريبًا</span></div><div class="ft-s">ترسل لأخيك «دعوةً بالثبات»، فيصله إشعارٌ: «أحدٌ من مجموعتك يدعو لك الآن» — دون أن يعرف أحدُكما الآخر.</div></div></div>
+    <div class="gpv-feat"><span class="fe">🔥</span><div><div class="ft-t">مرِّر الشُّعلة <span class="gpv-soon">قريبًا</span></div><div class="ft-s">تُنهي وردَك الصباحي فتمرّر الشعلةَ لعضوٍ آخر يكمّل المسيرة، ويبقى البيتُ متّقد الهمّة طوال اليوم.</div></div></div>
+    <div class="gpv-feat"><span class="fe">🆘</span><div><div class="ft-t">نداءُ الاستغاثة (إنقاذ اللهب) <span class="gpv-soon">قريبًا</span></div><div class="ft-s">لو لهبُ أحد الإخوة في خطر، يضيء نداءٌ صامت فيرسل له الأعضاءُ رسائلَ تحفيزٍ مكتوبةً مسبقًا — لا تنمّر ولا كشفَ هوية.</div></div></div>
+    <div class="gpv-feat"><span class="fe">💧</span><div><div class="ft-t">صندوقُ الطاعات المشترك <span class="gpv-soon">قريبًا</span></div><div class="ft-s">هدفٌ جماعيٌّ أسبوعي؛ كلُّ نسبةٍ تصبّ في صندوقٍ يرتفع منسوبُه أمام الجميع، وعند امتلائه يُفتَح محتوًى محفّزٌ للعائلة.</div></div></div>
+    <div class="gpv-feat"><span class="fe">🪢</span><div><div class="ft-t">شدُّ الحبل بين البيوت <span class="gpv-soon">قريبًا</span></div><div class="ft-s">يتحدّى بيتُك بيتًا آخر، ومتوسّطُ إنجاز أفرادكم يحرّك الحبلَ لصالحكم لحظيًا — حماسٌ يشتدّ قبل المغرب!</div></div></div>
+    <div class="gpv-feat"><span class="fe">👼</span><div><div class="ft-t">الملَكُ الخفيّ <span class="gpv-soon">قريبًا</span></div><div class="ft-s">كلَّ أسبوعٍ يُعيَّن لك «ملَكٌ خفيّ» سرّيٌّ يشجّعك ويدعو لك، ويُكشَف في النهاية باسمه المستعار — محبّةٌ بظهر الغيب.</div></div></div>
+
+    <h2 class="gpv-sec-title">↪️ ابدأ المنافسة</h2>
+    <a class="gpv-back" href="groups.html">
+      <span class="bi">👨‍👩‍👧</span>
+      <span><span class="bt">المجموعات والمنافسة</span><br><span class="bs">أنشئ مجموعةً أو انضمّ بكودٍ، وتابع لوحة عائلتك ←</span></span>
+    </a>
+
+    <div style="height:40px"></div>
+  </main>
+</div>
+
+  <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+<script src="command-palette.js" defer></script>
+</body>
+</html>

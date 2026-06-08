@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════════════════
-   menu.js v3 — المنيو الموحّد المحدّث لـ "زاد"
+   menu.js v3 — المنيو الموحّد المحدّث لـ "زاد العشر"
    جديد v3:
    • أقسام قابلة للطي (accordion) — يُفتح القسم النشط تلقائياً.
    • محوّل اللغة بثلاثة أزرار ظاهرة (العربية / English / قريباً).
@@ -34,6 +34,7 @@
     { href: 'dua-guide.html',    icon: '🙏', label: 'قيم الدعاء',       section: 'sec-dhikr' },
     { href: 'ruqyah.html',       icon: '🛡️', label: 'الرقية الشرعية',  section: 'sec-dhikr' },
     { href: 'sunan.html',        icon: '🌙', label: 'السنن المهجورة',  section: 'sec-dhikr' },
+    { href: 'asma.html',         icon: '🌺', label: 'أسماء الله الحسنى',section: 'sec-dhikr' },
     { href: 'worship.html',      icon: '✅', label: 'جدول العبادات',    section: 'sec-dhikr' },
 
     { sep: 'الحج والمناسك', id: 'sec-hajj' },
@@ -43,14 +44,18 @@
     { href: 'arafah-dua.html',   icon: '🤲', label: 'دعاء يوم عرفة',   section: 'sec-hajj' },
     { href: 'odhiya.html',       icon: '🐏', label: 'دليل الأضحية',     section: 'sec-hajj' },
     { href: 'sadaqah.html',      icon: '💚', label: 'صدقة العشر',       section: 'sec-hajj' },
+    { href: 'hasad.html',        icon: '📊', label: 'حصاد العشر',       section: 'sec-hajj' },
+    { href: 'hikayat-hajj.html', icon: '🕋', label: 'حكاية حج (للأطفال)', section: 'sec-hajj' },
 
-    { sep: 'تطبيقات العبادات', id: 'sec-tools' },
-    { href: 'zakat.html',        icon: '🧮', label: 'حاسبة الزكاة',     section: 'sec-tools' },
+    { sep: 'الزكاة 💰', id: 'sec-tools' },
+    { href: 'zakat-ahkam.html',  icon: '📋', label: 'أحكام الزكاة',          section: 'sec-tools' },
+    { href: 'zakat-anwa.html',   icon: '📊', label: 'أنواع الزكاة وحسابها',  section: 'sec-tools' },
+    { href: 'zakat.html',        icon: '🧮', label: 'حاسبة الزكاة',          section: 'sec-tools' },
 
-    { sep: 'التعلّم والترفيه', id: 'sec-learn' },
-    { href: 'videos.html',       icon: '🎬', label: 'محاضرات العشر',   section: 'sec-learn' },
-    { href: 'playlist.html',     icon: '🎵', label: 'قائمة التشغيل',   section: 'sec-learn' },
-    { href: 'asma.html',         icon: '🌺', label: 'أسماء الله الحسنى',section: 'sec-learn' },
+    { sep: 'المكتبة الشاملة 📚', id: 'sec-learn' },
+    { href: 'playlist.html',        icon: '🎵', label: 'المكتبة الصوتية', section: 'sec-learn' },
+    { href: 'videos.html',          icon: '🎬', label: 'المكتبة المرئية', section: 'sec-learn' },
+    { href: 'maktaba-nassiya.html', icon: '📖', label: 'المكتبة النصية',  section: 'sec-learn' },
 
     { sep: 'ركن الأطفال 🌟', id: 'sec-kids' },
     { href: 'kids.html',             icon: '🌟', label: 'ثُريّا — الرئيسية',  section: 'sec-kids' },
@@ -62,10 +67,13 @@
     { href: 'kids-parents.html',     icon: '👨‍👧', label: 'دليل المربي',     section: 'sec-kids' },
 
     { sep: 'المتابعة', id: 'sec-track' },
-    { href: 'hasad.html',        icon: '📊', label: 'حصاد العشر',      section: 'sec-track' },
+    { href: 'hasad-month.html',  icon: '🗓️', label: 'حصاد الشهر',       section: 'sec-track' },
     { href: 'summary.html',      icon: '📈', label: 'إحصاء العشر',     section: 'sec-track' },
-    { href: 'groups.html',       icon: '👨‍👩‍👧', label: 'التنافس العائلي', section: 'sec-track' },
     { href: 'badges.html',       icon: '🏅', label: 'أوسمتي',           section: 'sec-track' },
+
+    { sep: 'التنافس العائلي 👨‍👩‍👧', id: 'sec-family' },
+    { href: 'groups.html',         icon: '👨‍👩‍👧', label: 'المجموعات والمنافسة', section: 'sec-family' },
+    { href: 'groups-privacy.html', icon: '🔒', label: 'الخصوصية وكيف يعمل',   section: 'sec-family' },
 
     { sep: 'الإعدادات', id: 'sec-settings' },
     { href: 'profile.html',      icon: '👤', label: 'حسابي',            section: 'sec-settings' },
@@ -75,8 +83,8 @@
     { href: 'developer.html',    icon: '🎨', label: 'عن المطوّر',       section: 'sec-settings' },
 
     { sep: 'وضع خاص', id: 'sec-special' },
-    { href: 'zahra.html',        icon: '🌸', label: 'زهرة — رفيقة العذر', section: 'sec-special' },
-    { href: 'worship.html#excuse-card', icon: '🌙', label: 'وضع الانقطاع (عذر شرعي)', section: 'sec-special' },
+    { href: 'zahra.html',        icon: '🌸', label: 'زهرة — رفيقةُ العذر',   section: 'sec-special' },
+    { href: 'hawwa.html',        icon: '🌙', label: 'حواء — عبادتي في عذري', section: 'sec-special' },
   ];
 
   /* ── مفاتيح التخزين ──────────────────────────────────────────────────── */
@@ -84,7 +92,7 @@
   const STORE_SCROLL  = 'zad_menu_scroll';  /* موضع التمرير */
 
   /* ── الأقسام المفتوحة افتراضياً ─────────────────────────────────────── */
-  const ALL_SECTIONS = ['sec-prayer','sec-quran','sec-hajj','sec-learn','sec-kids','sec-track','sec-settings'];
+  const ALL_SECTIONS = ['sec-prayer','sec-quran','sec-hajj','sec-learn','sec-kids','sec-track','sec-family','sec-settings'];
   function getOpenSections() {
     try {
       const stored = localStorage.getItem(STORE_OPEN);
@@ -553,9 +561,9 @@
 
   window._zadShareApp = function() {
     /* يشارك رابط الموقع — استبدل APP_APK_URL بملف APK فعلي حين يتوفر */
-    const APP_URL = 'https://zad.vercel.app';
+    const APP_URL = 'https://zadullashr.vercel.app';
     if (navigator.share) {
-      navigator.share({ title: 'زاد', text: 'رفيقك في عشر ذي الحجة 🌙', url: APP_URL });
+      navigator.share({ title: 'زاد العشر', text: 'رفيقك في عشر ذي الحجة 🌙', url: APP_URL });
     } else {
       navigator.clipboard?.writeText(APP_URL).then(() => {
         if (typeof showToast === 'function') showToast('✅ تم نسخ رابط التطبيق');
@@ -769,7 +777,7 @@
      يبحث عن الكاردات المعروفة ويُضيف أزرار مشاركة (نص + PNG) عليها
      ════════════════════════════════════════════════════════════════════ */
 
-  const ZAD_APP_URL = 'https://zad.vercel.app';
+  const ZAD_APP_URL = 'https://zadullashr.vercel.app';
 
   /* ── خريطة أنواع الكاردات المدعومة ─────────────────────────────────── */
   const CARD_MAP = [
@@ -794,7 +802,7 @@
   ];
 
   function initGlobalShare() {
-    const pageName = (document.title || 'زاد').split('—')[0].trim();
+    const pageName = (document.title || 'زاد العشر').split('—')[0].trim();
     CARD_MAP.forEach(({ sel, title: tSel, body: bSel, src: sSel }) => {
       document.querySelectorAll(sel).forEach(card => {
         if (card.querySelector('.zad-sr')) return; /* مُضافة مسبقاً */
@@ -950,7 +958,7 @@
       cx.textAlign = 'right';
       cx.font = 'bold 17px Tajawal, sans-serif';
       cx.fillStyle = T.gold;
-      cx.fillText('✦ زاد — ' + pageName, W - PAD, 74);
+      cx.fillText('✦ زاد العشر — ' + pageName, W - PAD, 74);
 
       /* نقطة زخرفية يسار الترويسة */
       cx.beginPath(); cx.arc(PAD + 6, 68, 5, 0, Math.PI * 2);
@@ -1022,7 +1030,7 @@
 
       cx.font = 'bold 16px Tajawal, sans-serif';
       cx.fillStyle = T.gold; cx.textAlign = 'right';
-      cx.fillText('🌙 zad.vercel.app', W - PAD, footY);
+      cx.fillText('🌙 zadullashr.vercel.app', W - PAD, footY);
       cx.font = '14px Tajawal, sans-serif';
       cx.fillStyle = T.muted; cx.textAlign = 'left';
       cx.fillText(isDark ? '🌑 نسخة داكنة' : '☀️ نسخة فاتحة', PAD, footY);

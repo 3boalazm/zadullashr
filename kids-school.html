@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#1a5d47">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<title>مدرستي الجميلة · زاد</title>
+<title>مدرستي الجميلة · زاد العشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
@@ -26,6 +26,54 @@ h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabi
 .k-sec-title{display:flex;align-items:center;gap:10px;margin:24px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
 html[data-theme="dark"] .k-sec-title,html[data-theme="oled"] .k-sec-title{color:var(--sys-green)}
 .k-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+
+/* ════ طبقة اللعب — مرشد + لوحة + مهام + بستان ════ */
+.ks-mascot{display:flex;gap:13px;align-items:center;background:linear-gradient(135deg,var(--green-pale),var(--card));border:1.5px solid var(--green-soft);border-radius:18px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+html[data-theme="dark"] .ks-mascot,html[data-theme="oled"] .ks-mascot{background:rgba(42,122,95,.12)}
+.ks-mascot .ks-owl{font-size:42px;line-height:1;flex-shrink:0;animation:ksFloat 3s ease-in-out infinite}
+@keyframes ksFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.ks-mascot .ks-bubble b{display:block;font-size:13.5px;font-weight:800;color:var(--green-deep);margin-bottom:2px}
+html[data-theme="dark"] .ks-mascot .ks-bubble b,html[data-theme="oled"] .ks-mascot .ks-bubble b{color:var(--sys-green)}
+.ks-mascot .ks-bubble span{font-size:12.5px;color:var(--ink);line-height:1.7}
+
+.ks-dash{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+.ks-dash-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.ks-level{display:flex;align-items:center;gap:9px}
+.ks-level .ks-lvl-badge{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(14,59,46,.3)}
+.ks-level .ks-lvl-name{font-size:14px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .ks-level .ks-lvl-name,html[data-theme="oled"] .ks-level .ks-lvl-name{color:var(--sys-green)}
+.ks-level .ks-lvl-sub{font-size:11px;color:var(--muted)}
+.ks-light{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),#e6c97a);color:#3a2e10;font-weight:900;font-size:15px;padding:6px 14px;border-radius:999px;flex-shrink:0}
+.ks-lvl-bar{height:9px;background:var(--sand);border-radius:99px;overflow:hidden;margin-bottom:12px}
+.ks-lvl-fill{height:100%;background:linear-gradient(90deg,var(--green-soft),var(--gold));border-radius:99px;transition:width .5s cubic-bezier(.34,1.56,.64,1)}
+.ks-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.ks-stat{background:var(--sand);border-radius:12px;padding:10px 12px;text-align:center}
+.ks-stat .ks-stat-n{font-size:18px;font-weight:900;color:var(--green-deep)}
+html[data-theme="dark"] .ks-stat .ks-stat-n,html[data-theme="oled"] .ks-stat .ks-stat-n{color:var(--sys-green)}
+.ks-stat .ks-stat-l{font-size:11px;color:var(--muted);margin-top:2px}
+.ks-badges{display:flex;flex-wrap:wrap;gap:8px}
+.ks-badge{display:flex;align-items:center;gap:6px;background:var(--green-pale);border:1.5px solid var(--green-soft);border-radius:12px;padding:7px 11px;font-size:12px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .ks-badge,html[data-theme="oled"] .ks-badge{background:rgba(42,122,95,.12);color:var(--sys-green)}
+.ks-badge.locked{background:var(--sand);border-style:dashed;border-color:var(--border);color:var(--muted);filter:grayscale(.7);opacity:.75}
+.ks-badge .be{font-size:16px}
+
+.ks-daily{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.ks-mission{display:flex;align-items:center;gap:9px;background:var(--card);border:1.5px solid var(--border);border-radius:13px;padding:11px 12px;font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .2s;font-family:inherit;text-align:right;width:100%}
+.ks-mission .ks-m-box{width:22px;height:22px;border-radius:7px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .2s}
+.ks-mission.done{background:var(--green-pale);border-color:var(--green-soft)}
+html[data-theme="dark"] .ks-mission.done,html[data-theme="oled"] .ks-mission.done{background:rgba(42,122,95,.12)}
+.ks-mission.done .ks-m-box{background:var(--green-deep);border-color:var(--green-deep);color:#fff}
+.ks-mission.done .ks-m-t{color:var(--green-deep)}
+html[data-theme="dark"] .ks-mission.done .ks-m-t,html[data-theme="oled"] .ks-mission.done .ks-m-t{color:var(--sys-green)}
+
+.ks-garden{display:flex;flex-wrap:wrap;gap:10px}
+.ks-plant{background:var(--card);border:1.5px solid var(--border);border-radius:15px;padding:12px 10px;min-width:92px;flex:1;text-align:center;cursor:pointer;transition:transform .2s,border-color .2s;font-family:inherit}
+.ks-plant:hover{transform:translateY(-3px);border-color:var(--green-soft)}
+.ks-plant:active{transform:scale(.95)}
+.ks-plant .ks-plant-e{font-size:30px;line-height:1;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.ks-plant.grow .ks-plant-e{transform:scale(1.3)}
+.ks-plant .ks-plant-n{font-size:12px;font-weight:800;color:var(--ink);margin-top:6px}
+.ks-plant .ks-plant-stage{font-size:10px;color:var(--muted);margin-top:2px}
 .k-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow-sm);margin-bottom:12px}
 .k-card p{font-size:13.5px;color:var(--muted);line-height:1.9}
 .k-list{list-style:none;display:flex;flex-wrap:wrap;gap:9px;margin-top:6px}
@@ -182,8 +230,8 @@ html[data-theme="dark"] .jr-medal .jr-medal-t,html[data-theme="oled"] .jr-medal 
 <div class="app">
   <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
-      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد" style="width:36px;height:36px;border-radius:10px"></div>
-      <div><div class="brand-name">زاد</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
     <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
     <div class="theme-seg" id="theme-seg">
@@ -192,49 +240,14 @@ html[data-theme="dark"] .jr-medal .jr-medal-t,html[data-theme="oled"] .jr-medal 
       <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
     </div>
 <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
-    <nav class="nav">
-      <a href="index.html" class="active" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
-      <div class="nav-sep">الصلاة والتقويم</div>
-      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
-      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
-      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
-      <a href="taqweem.html"><span class="ico">🗓️</span><span>التقويم السنوي</span></a>
-      <div class="nav-sep">القرآن والعبادة</div>
-      <a href="mushaf.html"><span class="ico">📖</span><span>الورد القرآني</span></a>
-      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
-      <a href="tasmee.html"><span class="ico">🎙️</span><span>التسميع</span></a>
-      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
-      <a href="hasn.html"><span class="ico">🛡️</span><span>حصن المسلم</span></a>
-      <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
-      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
-      <div class="nav-sep">الحج والمناسك</div>
-      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
-      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
-      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
-      <a href="manasik.html"><span class="ico">🕋</span><span>المناسك التفاعلية</span></a>
-      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
-      <div class="nav-sep">المتابعة</div>
-      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
-      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
-      <a href="zakat.html"><span class="ico">🧮</span><span>حاسبة الزكاة</span></a>
-      <div class="nav-sep">التعلم والترفيه</div>
-      <a href="playlist.html"><span class="ico">🎵</span><span>البلاي ليست</span></a>
-      <a href="Quran-radio.HTML"><span class="ico">📻</span><span>إذاعة القرآن</span></a>
-      <a href="videos.html"><span class="ico">🎬</span><span>المحاضرات الإسلامية</span></a>
-      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
-      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — قصص</span></a>
-      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
-      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
-      <div class="nav-sep">الإعدادات</div>
-      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
-      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
-      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    <nav class="nav" aria-label="القائمة الرئيسية">
+      <a href="index.html" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
     </nav>
-    <div class="side-foot">زاد 2026 · بدون إعلانات 📴</div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div class="tb-left"><button class="hamburger" id="hamburger" aria-label="القائمة">☰</button><a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد"></a></div>
+      <div class="tb-left"><button class="hamburger" id="hamburger" aria-label="القائمة">☰</button><a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a></div>
       <div class="tb-center"><div class="page-title">مدرستي <span>الجميلة</span></div></div>
       <div class="tb-right">
         <div class="notif-wrap"><button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button><div class="notif-dropdown" id="notif-dropdown"></div></div>
@@ -245,6 +258,35 @@ html[data-theme="dark"] .jr-medal .jr-medal-t,html[data-theme="oled"] .jr-medal 
       <div class="k-htitle">مدرستي الجميلة</div>
       <div class="k-intro">كونُك مسلماً صغيراً يعني أن تكونَ صاحبَ خُلُقٍ جميلٍ وعبادةٍ صحيحة. سنتعلّمُ كيف نتوضّأ ونصلّي كما فعل نبيُّنا ﷺ، وكيف نجعلُ الصدقَ والأمانةَ صفاتِنا الدائمة. هيّا بنا ننمو ونرتقي!</div>
     </div>
+    <!-- ════ طبقة اللعب الجامعة ════ -->
+    <div class="ks-mascot">
+      <div class="ks-owl">🦉</div>
+      <div class="ks-bubble"><b id="ks-mascot-name">الشيخ نور</b><span id="ks-mascot-say">أهلاً يا بطل! أنا الشيخ نور، رفيقُك في مدرستك الجميلة. يلا نتعلّم ونجمع النور سوا! ✨</span></div>
+    </div>
+
+    <div class="k-sec-title">🌟 لوحتي</div>
+    <div class="ks-dash">
+      <div class="ks-dash-top">
+        <div class="ks-level">
+          <div class="ks-lvl-badge" id="ks-lvl-num">1</div>
+          <div><div class="ks-lvl-name" id="ks-lvl-name">مبتدئ 🌱</div><div class="ks-lvl-sub" id="ks-lvl-sub">المستوى 1</div></div>
+        </div>
+        <div class="ks-light">✨ <span id="ks-light-n">0</span> نور</div>
+      </div>
+      <div class="ks-lvl-bar"><div class="ks-lvl-fill" id="ks-lvl-fill" style="width:0%"></div></div>
+      <div class="ks-stats">
+        <div class="ks-stat"><div class="ks-stat-n" id="ks-stat-wudu">0/7</div><div class="ks-stat-l">💧 محطّات الوضوء</div></div>
+        <div class="ks-stat"><div class="ks-stat-n" id="ks-stat-salah">0/11</div><div class="ks-stat-l">🕌 خطوات الصلاة</div></div>
+      </div>
+      <div class="ks-badges" id="ks-badges"></div>
+    </div>
+
+    <div class="k-sec-title">🎯 مهمّةُ اليوم</div>
+    <div class="k-card" style="padding:14px 16px">
+      <p style="margin-bottom:10px;font-size:12.5px;color:var(--muted)">كلُّ مهمّةٍ تكمّلها = ✨ 10 نور! تتجدّد كلَّ يوم.</p>
+      <div class="ks-daily" id="ks-daily"></div>
+    </div>
+
     <div class="k-sec-title">💧 رحلتي مع الوضوء</div>
     <div class="k-card" style="padding:14px 16px">
       <p style="margin-bottom:12px">اضغط على كلِّ محطّةٍ لتتعلّمها، واجمع النجوم حتى تكمل رحلتك! ✨</p>
@@ -267,7 +309,10 @@ html[data-theme="dark"] .jr-medal .jr-medal-t,html[data-theme="oled"] .jr-medal 
     <div class="k-sec-title">🌟 أركانُ الإسلام الخمسة</div>
     <div class="k-card"><ul class="k-list"><li>🕋 الشهادتان</li><li>🕌 الصلاة</li><li>💚 الزكاة</li><li>🌙 الصوم</li><li>🧳 الحج</li></ul></div>
     <div class="k-sec-title">🌳 بستانُ الأخلاق</div>
-    <div class="k-card"><p>قيمٌ نزرعها كل يوم:</p><ul class="k-list"><li>الصدق</li><li>الأمانة</li><li>برّ الوالدين</li><li>الاستئذان</li><li>النظافةُ من الإيمان</li></ul></div>
+    <div class="k-card" style="padding:14px 16px">
+      <p style="margin-bottom:10px">كلَّ ما تفعلُ خُلقاً جميلاً، اضغط على نبتته لتكبر! 🌱 ← 🌿 ← 🌳</p>
+      <div class="ks-garden" id="ks-garden"></div>
+    </div>
     <div class="k-sec-title">🌙 أذكاري حصني</div>
     <div class="k-card"><p>حصنُك من الله: أذكارُ الصباح والمساء وأذكارُ النوم.</p><div class="k-list" style="margin-top:8px"><a class="k-res" style="margin:0;flex:1;min-width:200px" href="adhkar.html"><span class="ri">📿</span><div class="rt"><b>افتح صفحة الأذكار</b><small>أذكارُ الصباح والمساء والنوم</small></div><span class="rarr">←</span></a></div></div>
     <div class="k-sec-title">🔗 مصادرُ مختارة</div>
@@ -420,6 +465,93 @@ html[data-theme="dark"] .jr-medal .jr-medal-t,html[data-theme="oled"] .jr-medal 
   });
 
   paintProgress('wudu'); paintProgress('salah');
+})();
+</script>
+
+<script>
+/* ════ مدرستي الجميلة — طبقة اللعب (مرشد + لوحة + مهام + بستان) ════ */
+(function(){
+  'use strict';
+  var ZKEY='zad_v2';
+  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
+  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
+  function ks(){var s=read();s.kidsSchool=s.kidsSchool||{};return s;}
+  function today(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
+  function set(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
+
+  var AKHLAQ=[{n:'الصدق'},{n:'الأمانة'},{n:'برّ الوالدين'},{n:'الاستئذان'},{n:'النظافة'}];
+  var STAGE_E=['🌰','🌱','🌿','🌳'];
+  var STAGE_T=['بذرة','تنبت','تكبر','مثمرة'];
+  var MISSIONS=[{e:'🕌',t:'صلّيتُ صلاةً اليوم'},{e:'📿',t:'ذكرتُ اللهَ'},{e:'🌱',t:'فعلتُ خُلقاً جميلاً'},{e:'📖',t:'تعلّمتُ شيئاً جديداً'}];
+
+  function countDone(j){return Object.keys(ks().kidsSchool[j]||{}).length;}
+  function akhStages(){var a=ks().kidsSchool.akhlaq||{},sum=0;AKHLAQ.forEach(function(x){sum+=(a[x.n]||0);});return sum;}
+  function totalLight(){return countDone('wudu')*10+countDone('salah')*10+akhStages()*5+((ks().kidsSchool.light)||0);}
+  function tier(l){return l<=5?'مبتدئ 🌱':l<=15?'متعلّم 🌿':l<=30?'بطل صغير 🌳':'قدوة 🕌';}
+
+  function render(){
+    var s=ks(), wD=countDone('wudu'), sD=countDone('salah'), light=totalLight();
+    var level=Math.floor(light/40)+1, into=light%40, pct=Math.round(into/40*100);
+    set('ks-lvl-num',level); set('ks-lvl-name',tier(level));
+    set('ks-lvl-sub','المستوى '+level+' · '+(40-into)+' نور للتالي');
+    set('ks-light-n',light);
+    var fill=document.getElementById('ks-lvl-fill'); if(fill)fill.style.width=pct+'%';
+    set('ks-stat-wudu',wD+'/7'); set('ks-stat-salah',sD+'/11');
+    var akh=s.kidsSchool.akhlaq||{}, allAkh=AKHLAQ.every(function(x){return (akh[x.n]||0)>=3;});
+    var badges=[{e:'💧',t:'بطل الوضوء',on:wD>=7},{e:'🕌',t:'فارس الصلاة',on:sD>=11},{e:'🌳',t:'بُستاني الأخضر',on:allAkh},{e:'🌟',t:'قدوة الأخلاق',on:level>=10}];
+    var bw=document.getElementById('ks-badges');
+    if(bw)bw.innerHTML=badges.map(function(b){return '<span class="ks-badge'+(b.on?'':' locked')+'"><span class="be">'+(b.on?b.e:'🔒')+'</span>'+b.t+'</span>';}).join('');
+    var msg = wD<7 ? 'كمّل رحلة الوضوء وخُد ✨ نور على كل محطّة! 💧'
+            : sD<11 ? 'عظيم! دلوقتي يلا نتعلّم الصلاة خطوة بخطوة. 🕌'
+            : !allAkh ? 'ما شاء الله! ازرع أخلاقك في البستان لتكبر معك. 🌳'
+            : 'أنت بطلٌ حقيقي يا قدوة! 🌟 استمرّ على الخير كلَّ يوم.';
+    set('ks-mascot-say',msg);
+    renderDaily(); renderGarden();
+  }
+
+  function renderDaily(){
+    var s=ks(), d=s.kidsSchool.daily;
+    if(!d||d.day!==today()){d={day:today(),m:{}};s.kidsSchool.daily=d;write(s);}
+    var w=document.getElementById('ks-daily'); if(!w)return;
+    w.innerHTML=MISSIONS.map(function(m,i){var done=!!d.m[i];
+      return '<button class="ks-mission'+(done?' done':'')+'" data-m="'+i+'"><span class="ks-m-box">'+(done?'✓':'')+'</span><span class="ks-m-t">'+m.e+' '+m.t+'</span></button>';}).join('');
+  }
+
+  function renderGarden(){
+    var a=ks().kidsSchool.akhlaq||{};
+    var w=document.getElementById('ks-garden'); if(!w)return;
+    w.innerHTML=AKHLAQ.map(function(x){var st=a[x.n]||0;
+      return '<button class="ks-plant" data-akh="'+x.n+'"><div class="ks-plant-e">'+STAGE_E[st]+'</div><div class="ks-plant-n">'+x.n+'</div><div class="ks-plant-stage">'+STAGE_T[st]+'</div></button>';}).join('');
+  }
+
+  document.addEventListener('click',function(e){
+    if(!e.target.closest)return;
+    var mb=e.target.closest('.ks-mission');
+    if(mb){var i=+mb.dataset.m,s=ks(),d=s.kidsSchool.daily;
+      if(!d||d.day!==today())d={day:today(),m:{}};
+      if(!d.m[i]){d.m[i]=1;s.kidsSchool.daily=d;s.kidsSchool.light=(s.kidsSchool.light||0)+10;write(s);
+        if(navigator.vibrate)navigator.vibrate(20);
+        try{if(window.confetti)window.confetti({particleCount:40,spread:55,origin:{y:.7}});}catch(_){}
+        if(window.showToast)window.showToast('✨ +10 نور! أحسنت يا بطل');
+        render();}
+      return;}
+    var pl=e.target.closest('.ks-plant');
+    if(pl){var name=pl.dataset.akh,s2=ks();s2.kidsSchool.akhlaq=s2.kidsSchool.akhlaq||{};
+      var cur=s2.kidsSchool.akhlaq[name]||0;
+      if(cur<3){s2.kidsSchool.akhlaq[name]=cur+1;write(s2);
+        pl.classList.add('grow');setTimeout(function(){pl.classList.remove('grow');},320);
+        if(navigator.vibrate)navigator.vibrate(15);
+        if(window.showToast)window.showToast('🌱 نبتةُ «'+name+'» كبرت! ✨ +5 نور');
+        render();}
+      else if(window.showToast)window.showToast('🌳 «'+name+'» مثمرةٌ بالكامل، ما شاء الله!');
+      return;}
+  });
+
+  var jd=document.getElementById('jr-done'); if(jd)jd.addEventListener('click',function(){setTimeout(render,60);});
+  window.addEventListener('focus',render);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)render();});
+
+  render();
 })();
 </script>
 </body>

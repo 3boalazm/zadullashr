@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#1a5d47">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<title>عرين الأبطال · زاد</title>
+<title>عرين الأبطال · زاد العشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
@@ -28,6 +28,15 @@ html[data-theme="dark"] .k-sec-title,html[data-theme="oled"] .k-sec-title{color:
 .k-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
 .k-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow-sm);margin-bottom:12px}
 .k-card p{font-size:13.5px;color:var(--muted);line-height:1.9}
+.cat-desc{font-size:13.5px;color:var(--ink);line-height:1.95;margin:0 0 10px}
+.cat-goals{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;padding:0;list-style:none}
+.cat-goals li{font-size:11.5px;font-weight:700;color:var(--green-deep);background:var(--green-pale);border-radius:999px;padding:4px 11px}
+html[data-theme="dark"] .cat-goals li,html[data-theme="oled"] .cat-goals li{color:var(--sys-green);background:rgba(77,216,102,.12)}
+.roster-label{font-size:12px;font-weight:800;color:var(--green-deep);margin:14px 0 7px;display:flex;align-items:center;gap:6px}
+html[data-theme="dark"] .roster-label,html[data-theme="oled"] .roster-label{color:var(--sys-green)}
+.roster-grid{display:flex;flex-wrap:wrap;gap:8px}
+.roster-chip{display:inline-flex;align-items:center;gap:6px;background:var(--sand);border:1.5px dashed var(--border);border-radius:14px;padding:8px 13px;font-size:12.5px;font-weight:700;color:var(--muted)}
+.cat-hint{font-size:11px;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:6px;line-height:1.6}
 .k-list{list-style:none;display:flex;flex-wrap:wrap;gap:9px;margin-top:6px}
 .k-list li{background:var(--sand);border:1px solid var(--border);border-radius:13px;padding:9px 14px;font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:7px}
 .k-steps{list-style:none;counter-reset:s;margin-top:6px}
@@ -186,8 +195,8 @@ html[data-theme="dark"] .hc-vow .n,html[data-theme="oled"] .hc-vow .n{background
 <div class="app">
   <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
-      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد" style="width:36px;height:36px;border-radius:10px"></div>
-      <div><div class="brand-name">زاد</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
     <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
     <div class="theme-seg" id="theme-seg">
@@ -196,49 +205,14 @@ html[data-theme="dark"] .hc-vow .n,html[data-theme="oled"] .hc-vow .n{background
       <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
     </div>
 <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
-    <nav class="nav">
-      <a href="index.html" class="active" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
-      <div class="nav-sep">الصلاة والتقويم</div>
-      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
-      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
-      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
-      <a href="taqweem.html"><span class="ico">🗓️</span><span>التقويم السنوي</span></a>
-      <div class="nav-sep">القرآن والعبادة</div>
-      <a href="mushaf.html"><span class="ico">📖</span><span>الورد القرآني</span></a>
-      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
-      <a href="tasmee.html"><span class="ico">🎙️</span><span>التسميع</span></a>
-      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
-      <a href="hasn.html"><span class="ico">🛡️</span><span>حصن المسلم</span></a>
-      <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
-      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
-      <div class="nav-sep">الحج والمناسك</div>
-      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
-      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
-      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
-      <a href="manasik.html"><span class="ico">🕋</span><span>المناسك التفاعلية</span></a>
-      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
-      <div class="nav-sep">المتابعة</div>
-      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
-      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
-      <a href="zakat.html"><span class="ico">🧮</span><span>حاسبة الزكاة</span></a>
-      <div class="nav-sep">التعلم والترفيه</div>
-      <a href="playlist.html"><span class="ico">🎵</span><span>البلاي ليست</span></a>
-      <a href="Quran-radio.HTML"><span class="ico">📻</span><span>إذاعة القرآن</span></a>
-      <a href="videos.html"><span class="ico">🎬</span><span>المحاضرات الإسلامية</span></a>
-      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
-      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — قصص</span></a>
-      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
-      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
-      <div class="nav-sep">الإعدادات</div>
-      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
-      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
-      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    <nav class="nav" aria-label="القائمة الرئيسية">
+      <a href="index.html" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
     </nav>
-    <div class="side-foot">زاد 2026 · بدون إعلانات 📴</div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div class="tb-left"><button class="hamburger" id="hamburger" aria-label="القائمة">☰</button><a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد"></a></div>
+      <div class="tb-left"><button class="hamburger" id="hamburger" aria-label="القائمة">☰</button><a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a></div>
       <div class="tb-center"><div class="page-title">عرين <span>الأبطال</span></div></div>
       <div class="tb-right">
         <div class="notif-wrap"><button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button><div class="notif-dropdown" id="notif-dropdown"></div></div>
@@ -247,14 +221,63 @@ html[data-theme="dark"] .hc-vow .n,html[data-theme="oled"] .hc-vow .n{background
     <div class="k-hero">
       <div class="k-eyebrow">🦁 قدواتي</div>
       <div class="k-htitle">عرينُ الأبطال</div>
-      <div class="k-intro">مرحباً بكم يا أبطال زاد! سنسافرُ عبر الزمن لنلتقيَ بأعظم الشخصيات — نتعلّمُ الشجاعةَ من الصحابة، والحكمةَ من الأنبياء، والذكاءَ من العلماء. هل أنتم مستعدّون للرحلة؟</div>
+      <div class="k-intro">مرحباً بكم يا أبطال زاد العشر! سنسافرُ عبر الزمن لنلتقيَ بأعظم الشخصيات — نتعلّمُ الشجاعةَ من الصحابة، والحكمةَ من الأنبياء، والذكاءَ من العلماء. هل أنتم مستعدّون للرحلة؟</div>
     </div>
-    <div class="k-sec-title">📖 أنبياء الله — منبع الإيمان</div>
-    <div class="k-card"><p>نعيش مع أنبياء الله ونتعلّم منهم الصبر واليقين:</p><div class="hero-grid"><button class="hero-btn" data-hero="adam"><span class="he">🌍</span><span>آدم وحوّاء</span></button><button class="hero-btn" data-hero="nuh"><span class="he">🚢</span><span>نوح وسفينته</span></button><button class="hero-btn" data-hero="ibrahim"><span class="he">🪓</span><span>إبراهيم محطّم الأصنام</span></button><button class="hero-btn" data-hero="yunus"><span class="he">🐋</span><span>يونس والحوت</span></button><button class="hero-btn" data-hero="yusuf"><span class="he">👑</span><span>يوسف الصدّيق</span></button><button class="hero-btn" data-hero="isa"><span class="he">🕊️</span><span>عيسى عليه السلام</span></button></div></div>
-    <div class="k-sec-title">⭐ كنوز الصحابة</div>
-    <div class="k-card"><p>مواقفُ بطوليةٌ تعلّمنا القيم:</p><div class="hero-grid"><button class="hero-btn" data-hero="abubakr"><span class="he">🤍</span><span>إخلاص أبي بكر</span></button><button class="hero-btn" data-hero="umar"><span class="he">⚖️</span><span>عدل عمر</span></button><button class="hero-btn" data-hero="uthman"><span class="he">💛</span><span>كرم عثمان</span></button><button class="hero-btn" data-hero="ali"><span class="he">🦁</span><span>شجاعة عليّ</span></button><button class="hero-btn" data-hero="bilal"><span class="he">🔥</span><span>ثبات بلال</span></button><button class="hero-btn" data-hero="anas"><span class="he">🌿</span><span>خدمة أنس</span></button><button class="hero-btn" data-hero="kaab"><span class="he">🗣️</span><span>صدق كعب بن مالك</span></button></div></div>
-    <div class="k-sec-title">🏰 عظماءُ صنعوا التاريخ</div>
-    <div class="k-card"><p>قادةٌ وعلماءُ أناروا العالم:</p><div class="hero-grid"><button class="hero-btn" data-hero="salahuddin"><span class="he">🕌</span><span>صلاح الدين — فتح القدس</span></button><button class="hero-btn" data-hero="fatih"><span class="he">🏯</span><span>محمد الفاتح — القسطنطينية</span></button><button class="hero-btn" data-hero="scientists"><span class="he">📚</span><span>علماء المسلمين</span></button></div></div>
+    <div class="k-sec-title">🗂️ أقسامُ العرين</div>
+    <div class="k-card"><p class="cat-desc">رحلةٌ بين ستّةِ أقسامٍ من أعظمِ شخصيّاتِ الإسلام. الأبطالُ ذوو الإطارِ المضيء لهم <b>قصّةٌ كاملةٌ تفاعليّة</b> — اضغط عليهم لتقرأها! والمكتوبون بإطارٍ متقطّعٍ هم روسترُ القسم، تُضافُ قصصُهم تِباعاً بإذن الله. 🦁</p></div>
+
+    <div class="k-sec-title">🌟 قصص الأنبياء — منبع الإيمان</div>
+    <div class="k-card">
+      <p class="cat-desc">قصصُ الأنبياء ليست مجرّدَ أحداثٍ تاريخية، بل دروسٌ إيمانيةٌ تعلّمنا الصبرَ والتوكّلَ واليقينَ بالله.</p>
+      <ul class="cat-goals"><li>🤍 اليقين</li><li>⏳ الصبر</li><li>🙏 التوكّل</li><li>💪 الثبات</li></ul>
+      <div class="hero-grid"><button class="hero-btn" data-hero="adam"><span class="he">🌍</span><span>آدم وحوّاء</span></button><button class="hero-btn" data-hero="nuh"><span class="he">🚢</span><span>نوح وسفينته</span></button><button class="hero-btn" data-hero="ibrahim"><span class="he">🪓</span><span>إبراهيم محطّم الأصنام</span></button><button class="hero-btn" data-hero="yunus"><span class="he">🐋</span><span>يونس والحوت</span></button><button class="hero-btn" data-hero="yusuf"><span class="he">👑</span><span>يوسف الصدّيق</span></button><button class="hero-btn" data-hero="isa"><span class="he">🕊️</span><span>عيسى عليه السلام</span></button></div>
+      <div class="roster-label">🔜 أنبياءٌ في الطريق</div>
+      <div class="roster-grid"><span class="roster-chip">🌟 إسماعيل</span><span class="roster-chip">🌊 موسى</span><span class="roster-chip">🎶 داود</span><span class="roster-chip">👑 سليمان</span><span class="roster-chip">🕌 محمد ﷺ</span></div>
+    </div>
+
+    <div class="k-sec-title">⭐ الصحابة الأبطال</div>
+    <div class="k-card">
+      <p class="cat-desc">رحلةٌ بين أعظمِ جيلٍ عرفته البشرية؛ الجيلُ الذي ربّاه النبيُّ ﷺ فحمل رسالةَ الإسلامِ إلى العالم، وضحّى بالمالِ والنفسِ والوقتِ لنصرةِ الدين.</p>
+      <ul class="cat-goals"><li>❤️ الإيمان الحق</li><li>🎁 التضحية والصبر</li><li>🧭 القيادة والمسؤولية</li><li>🌸 الأخلاق النبوية</li></ul>
+      <div class="hero-grid"><button class="hero-btn" data-hero="abubakr"><span class="he">🤍</span><span>إخلاص أبي بكر</span></button><button class="hero-btn" data-hero="umar"><span class="he">⚖️</span><span>عدل عمر</span></button><button class="hero-btn" data-hero="uthman"><span class="he">💛</span><span>كرم عثمان</span></button><button class="hero-btn" data-hero="ali"><span class="he">🦁</span><span>شجاعة عليّ</span></button><button class="hero-btn" data-hero="bilal"><span class="he">🔥</span><span>ثبات بلال</span></button><button class="hero-btn" data-hero="anas"><span class="he">🌿</span><span>خدمة أنس</span></button><button class="hero-btn" data-hero="kaab"><span class="he">🗣️</span><span>صدق كعب</span></button></div>
+      <div class="roster-label">🔜 صحابةٌ في الطريق</div>
+      <div class="roster-grid"><span class="roster-chip">🦁 حمزة بن عبد المطلب</span><span class="roster-chip">⚔️ خالد بن الوليد</span><span class="roster-chip">📜 مصعب بن عمير</span><span class="roster-chip">🏹 سعد بن أبي وقاص</span><span class="roster-chip">🛡️ أبو عبيدة بن الجرّاح</span></div>
+    </div>
+
+    <div class="k-sec-title">⚔️ القادة العسكريون</div>
+    <div class="k-card">
+      <p class="cat-desc">قصصُ القادةِ الذين سطّروا صفحاتٍ من البطولةِ والذكاءِ العسكريِّ والإدارةِ الحكيمة، وقادوا جيوشَ المسلمين في أصعبِ الظروف.</p>
+      <ul class="cat-goals"><li>♟️ التخطيط الاستراتيجي</li><li>🔥 القيادة تحت الضغط</li><li>🎯 اتّخاذ القرار</li><li>🧯 إدارة الأزمات</li></ul>
+      <div class="hero-grid"><button class="hero-btn" data-hero="salahuddin"><span class="he">🕌</span><span>صلاح الدين — فتح القدس</span></button><button class="hero-btn" data-hero="fatih"><span class="he">🏯</span><span>محمد الفاتح — القسطنطينية</span></button></div>
+      <div class="roster-label">🔜 قادةٌ في الطريق</div>
+      <div class="roster-grid"><span class="roster-chip">⚔️ خالد بن الوليد</span><span class="roster-chip">🌊 طارق بن زياد</span><span class="roster-chip">🏛️ عمرو بن العاص</span><span class="roster-chip">🐎 القعقاع بن عمرو</span><span class="roster-chip">🕌 نور الدين زنكي</span><span class="roster-chip">🏰 يوسف بن تاشفين</span></div>
+    </div>
+
+    <div class="k-sec-title">📚 العلماء والأئمة</div>
+    <div class="k-card">
+      <p class="cat-desc">رحلةٌ في حياةِ العلماءِ الذين حفِظ اللهُ بهم الدين، وتركوا تراثاً علميّاً ما زال يُنتفَعُ به حتى اليوم.</p>
+      <ul class="cat-goals"><li>📖 سِيَر العلماء</li><li>🧠 منهج طلب العلم</li><li>✍️ أشهر المؤلّفات</li><li>💡 مواقف مُلهِمة</li></ul>
+      <div class="hero-grid"><button class="hero-btn" data-hero="scientists"><span class="he">📚</span><span>علماء المسلمين</span></button></div>
+      <div class="roster-label">🔜 أئمّةٌ في الطريق</div>
+      <div class="roster-grid"><span class="roster-chip">📗 الإمام الشافعي</span><span class="roster-chip">📘 أبو حنيفة النعمان</span><span class="roster-chip">📙 مالك بن أنس</span><span class="roster-chip">📕 أحمد بن حنبل</span><span class="roster-chip">📖 البخاري</span><span class="roster-chip">📖 مسلم</span><span class="roster-chip">🖋️ ابن تيمية</span><span class="roster-chip">🖋️ ابن القيم</span><span class="roster-chip">🕌 النووي</span></div>
+    </div>
+
+    <div class="k-sec-title">👑 النساء العظيمات في الإسلام</div>
+    <div class="k-card">
+      <p class="cat-desc">قصصُ النساءِ اللاتي تركن أثراً خالداً في تاريخِ الإسلامِ بالإيمانِ والعلمِ والصبرِ والتضحية — قدواتٌ مُلهِمةٌ لكلِّ فتاة.</p>
+      <ul class="cat-goals"><li>🌷 دور المرأة في بناء الأمّة</li><li>✨ قدواتٌ مُلهِمة</li><li>📖 سِيَر الصحابيّات</li></ul>
+      <div class="roster-label">🔜 بطلاتٌ في الطريق</div>
+      <div class="roster-grid"><span class="roster-chip">🤍 خديجة بنت خويلد</span><span class="roster-chip">📚 عائشة بنت أبي بكر</span><span class="roster-chip">🌸 فاطمة الزهراء</span><span class="roster-chip">🏔️ أسماء بنت أبي بكر</span><span class="roster-chip">🕊️ أمّ سلمة</span><span class="roster-chip">🛡️ نسيبة بنت كعب</span><span class="roster-chip">🔥 سميّة بنت خيّاط</span></div>
+    </div>
+
+    <div class="k-sec-title">🌱 أبطالٌ صغارُ السن</div>
+    <div class="k-card">
+      <p class="cat-desc">ليس العظماءُ دائماً كبارَ السن! التاريخُ الإسلاميُّ مليءٌ بالشبابِ والأطفالِ الذين صنعوا إنجازاتٍ عظيمةً وهم في أعمارٍ صغيرة.</p>
+      <ul class="cat-goals"><li>💪 تحمّل المسؤولية</li><li>🦁 الشجاعة</li><li>📖 حبّ العلم</li><li>🤲 الثقة بالله</li></ul>
+      <div class="roster-label">🔜 أبطالٌ صغارٌ في الطريق</div>
+      <div class="roster-grid"><span class="roster-chip">🦁 عليّ بن أبي طالب</span><span class="roster-chip">📚 عبد الله بن عباس</span><span class="roster-chip">🐎 أسامة بن زيد</span><span class="roster-chip">✍️ زيد بن ثابت</span><span class="roster-chip">🛡️ عبد الله بن الزبير</span><span class="roster-chip">🏯 محمد الفاتح</span></div>
+      <div class="cat-hint">👆 قصّتا عليٍّ ومحمدٍ الفاتح الكاملتان موجودتان في قسمَي «الصحابة» و«القادة».</div>
+    </div>
     <div class="k-sec-title">🔗 مصادرُ مختارة</div>
     <a class="k-res" href="https://apps.apple.com/us/app/%D9%82%D8%B5%D8%B5-%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86-%D9%84%D9%84%D8%A3%D8%B7%D9%81%D8%A7%D9%84-%D8%A7%D9%84%D8%A3%D9%86%D8%A8%D9%8A%D8%A7%D8%A1/id1578082367?l=ar" target="_blank" rel="noopener noreferrer"><span class="ri">📱</span><div class="rt"><b>تطبيق قصص القرآن للأطفال</b><small>20 قصة نبوية تفاعلية مترجمة لعدة لغات</small></div><span class="rarr">↗</span></a><a class="k-res" href="https://www.instagram.com/noorybooks/" target="_blank" rel="noopener noreferrer"><span class="ri">📚</span><div class="rt"><b>مكتبة نوري</b><small>أكبر مكتبة رقمية لقصص الصحابة والأنبياء المصوّرة</small></div><span class="rarr">↗</span></a><a class="k-res" href="https://www.katakeet1.com/2020/06/Islamic-cartoon-films.html" target="_blank" rel="noopener noreferrer"><span class="ri">🎬</span><div class="rt"><b>بوابة كتاكيت</b><small>تجميعٌ لأفلام كرتون هادفة: أحكام القرآن، قصص من السنة</small></div><span class="rarr">↗</span></a>
 
@@ -267,8 +290,8 @@ html[data-theme="dark"] .hc-vow .n,html[data-theme="oled"] .hc-vow .n{background
     <div class="hc-box" role="dialog" aria-modal="true">
       <div class="hc-head">
         <div class="crest">🦁🛡️</div>
-        <h3>ميثاقُ بطلِ «زاد» الصغير</h3>
-        <p>أنا بطلُ زاد، أتعهّدُ أمام الله أن أجعلَ هذه القيمَ شعاري في الحياة:</p>
+        <h3>ميثاقُ بطلِ «زاد العشر» الصغير</h3>
+        <p>أنا بطلُ زاد العشر، أتعهّدُ أمام الله أن أجعلَ هذه القيمَ شعاري في الحياة:</p>
       </div>
       <div class="hc-body">
         <div class="hc-vow"><span class="n">1</span><div><b>النظافةُ من الإيمان</b><small>سأحافظُ على نظافةِ مكاني وثيابي، فالله يحبُّ المتطهّرين.</small></div></div>
@@ -377,9 +400,9 @@ html[data-theme="dark"] .hc-vow .n,html[data-theme="oled"] .hc-vow .n{background
   $('hs-like').addEventListener('click',function(){var s=likes();s.kidsHeroes.likes[cur]=!s.kidsHeroes.likes[cur];if(!s.kidsHeroes.likes[cur])delete s.kidsHeroes.likes[cur];write(s);paintLike();if(navigator.vibrate)navigator.vibrate(15);});
   $('hs-link').addEventListener('click',function(){
     var st=STORIES[cur];
-    var fullText='✨ '+st.e+' '+st.n+'\n\n'+st.story.join('\n\n')+'\n\n💡 '+st.lesson+'\n\nعرين الأبطال | زاد';
+    var fullText='✨ '+st.e+' '+st.n+'\n\n'+st.story.join('\n\n')+'\n\n💡 '+st.lesson+'\n\nعرين الأبطال | زاد العشر';
     if(window.ZadShare&&window.ZadShare.text){
-      window.ZadShare.text(st.e+' '+st.n, st.story.join(' '), 'عرين الأبطال — قصص للصغار', 'زاد');
+      window.ZadShare.text(st.e+' '+st.n, st.story.join(' '), 'عرين الأبطال — قصص للصغار', 'زاد العشر');
     } else if(navigator.share){
       navigator.share({title:st.n+' — عرين الأبطال',text:fullText}).catch(function(){});
     } else if(navigator.clipboard){
@@ -391,9 +414,9 @@ html[data-theme="dark"] .hc-vow .n,html[data-theme="oled"] .hc-vow .n{background
     var st=STORIES[cur];
     /* نظام المشاركة العالمي ZadShare (من menu.js) */
     if(window.ZadShare&&window.ZadShare.png){
-      window.ZadShare.png(st.e+' '+st.n, st.share, 'عرين الأبطال — قصص للصغار', 'زاد');
+      window.ZadShare.png(st.e+' '+st.n, st.share, 'عرين الأبطال — قصص للصغار', 'زاد العشر');
     } else if(window.ZadShareCard){
-      window.ZadShareCard({title:st.e+' '+st.n,body:st.share,source:'عرين الأبطال — قصص للصغار',tag:'زاد · قصص الأبطال'});
+      window.ZadShareCard({title:st.e+' '+st.n,body:st.share,source:'عرين الأبطال — قصص للصغار',tag:'زاد العشر · قصص الأبطال'});
     } else if(window.showToast){
       window.showToast('جارٍ تجهيز الصورة…');
     }

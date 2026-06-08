@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>أحكام الزكاة — زاد العشر</title>
+<meta name="description" content="أحكام الزكاة: تعريفها وشروط وجوبها والنصاب والنسبة ومصارفها الثمانية ووقتها وزكاة الفطر.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/premium-ui.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+/* Hero */
+.zk-hero{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 60%,#c9a14a 150%);border-radius:22px;padding:30px 26px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.zk-hero::after{content:'💰';position:absolute;top:16px;left:24px;font-size:54px;opacity:.12;line-height:1}
+.zk-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:3px;font-weight:700;margin-bottom:8px}
+.zk-title{font-size:27px;font-weight:900;line-height:1.25;margin-bottom:8px;font-family:'ThmanyahSans',sans-serif}
+.zk-sub{font-size:13.5px;color:rgba(255,255,255,.85);line-height:1.85;max-width:600px}
+
+/* Section title */
+.zk-sec-title{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .zk-sec-title,html[data-theme="oled"] .zk-sec-title{color:var(--sys-green)}
+.zk-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+
+/* Card */
+.zk-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px 18px;box-shadow:var(--shadow-sm);margin-bottom:14px}
+.zk-card p{font-size:14px;line-height:1.95;color:var(--ink);margin:0 0 6px}
+.zk-card p:last-child{margin-bottom:0}
+.zk-h3{font-size:15px;font-weight:800;color:var(--green-deep);margin:0 0 6px;display:flex;align-items:center;gap:8px}
+html[data-theme="dark"] .zk-h3,html[data-theme="oled"] .zk-h3{color:var(--sys-green)}
+
+/* Ayah / hadith box */
+.zk-ayah{background:var(--green-pale);border-right:4px solid var(--green-soft);border-radius:12px;padding:14px 16px;margin:10px 0;font-family:'Amiri',serif;font-size:17px;line-height:2;color:var(--green-deep);text-align:center}
+html[data-theme="dark"] .zk-ayah,html[data-theme="oled"] .zk-ayah{color:var(--sys-green);background:rgba(42,122,95,.12)}
+.zk-ayah .src{display:block;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:11.5px;color:var(--muted);margin-top:6px;font-weight:600}
+
+/* Grid of items */
+.zk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:14px}
+.zk-item{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow-sm)}
+.zk-item .ico{font-size:24px;display:block;margin-bottom:8px}
+.zk-item h4{font-size:14px;font-weight:800;color:var(--green-deep);margin:0 0 4px}
+html[data-theme="dark"] .zk-item h4,html[data-theme="oled"] .zk-item h4{color:var(--sys-green)}
+.zk-item p{font-size:12.5px;line-height:1.7;color:var(--muted);margin:0}
+
+/* numbered list */
+.zk-steps{list-style:none;padding:0;margin:0;counter-reset:zk}
+.zk-steps li{counter-increment:zk;position:relative;padding:10px 44px 10px 6px;border-bottom:1px solid var(--border);font-size:13.5px;line-height:1.8;color:var(--ink)}
+.zk-steps li:last-child{border-bottom:none}
+.zk-steps li::before{content:counter(zk);position:absolute;right:6px;top:9px;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+
+/* pill / percent badge */
+.zk-pill{display:inline-block;background:linear-gradient(135deg,var(--gold),#e6c97a);color:#3a2e10;font-weight:800;font-size:13px;padding:4px 12px;border-radius:999px;margin:2px 0}
+
+/* note */
+.zk-note{display:flex;gap:10px;background:var(--sand);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:12.8px;line-height:1.75;color:var(--ink);margin:10px 0}
+.zk-note .ni{font-size:18px;flex-shrink:0}
+
+/* compare table */
+.zk-table{width:100%;border-collapse:collapse;background:var(--card);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;font-size:13px;margin-bottom:14px}
+.zk-table th{background:var(--green-deep);color:#fff;padding:11px;font-weight:800;font-size:13.5px}
+.zk-table td{padding:11px 12px;border-top:1px solid var(--border);color:var(--ink);text-align:center;line-height:1.7}
+.zk-table tr:nth-child(even) td{background:var(--sand)}
+
+/* cross links */
+.zk-cross{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0 8px}
+@media(max-width:520px){.zk-cross{grid-template-columns:1fr}}
+.zk-cross a{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,border-color .18s}
+.zk-cross a:hover{transform:translateY(-2px);border-color:var(--gold)}
+.zk-cross .cx-ico{font-size:28px;flex-shrink:0}
+.zk-cross .cx-t{font-size:14.5px;font-weight:800;color:var(--green-deep);margin-bottom:2px}
+html[data-theme="dark"] .zk-cross .cx-t,html[data-theme="oled"] .zk-cross .cx-t{color:var(--sys-green)}
+.zk-cross .cx-s{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
+    </div>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav" aria-label="القائمة الرئيسية">
+      <a href="index.html" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">أحكام <span>الزكاة</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <header class="zk-hero">
+      <div class="zk-eyebrow">الركن الثالث من أركان الإسلام</div>
+      <h1 class="zk-title">أحكام الزكاة</h1>
+      <p class="zk-sub">عبادة مالية فرضها الله على المستطيعين بشروط محددة، لتطهير المال والنفس وتحقيق التكافل الاجتماعي. تعرّف على تعريفها وشروطها ونصابها ومصارفها ووقتها.</p>
+    </header>
+
+    <!-- ما هي الزكاة -->
+    <h2 class="zk-sec-title">💰 ما هي الزكاة؟</h2>
+    <div class="zk-card">
+      <p>الزكاة هي الركن الثالث من أركان الإسلام، عبادة مالية فرضها الله تعالى على المسلمين المستطيعين بشروط محددة؛ لتطهير المال والنفس وتحقيق التكافل الاجتماعي.</p>
+      <div class="zk-ayah">وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ<span class="src">سورة البقرة</span></div>
+      <div class="zk-ayah">بُنِيَ الإسلامُ على خمسٍ<span class="src">متفق عليه</span></div>
+    </div>
+
+    <!-- أهمية الزكاة -->
+    <h2 class="zk-sec-title">📖 أهمية الزكاة</h2>
+    <div class="zk-grid">
+      <div class="zk-item"><span class="ico">🧼</span><h4>تطهير المال</h4><p>تطهّر المال من الشحّ والبخل وتزكّي النفس.</p></div>
+      <div class="zk-item"><span class="ico">🌱</span><h4>تنمية البركة</h4><p>﴿يَمْحَقُ اللَّهُ الرِّبَا وَيُرْبِي الصَّدَقَاتِ﴾.</p></div>
+      <div class="zk-item"><span class="ico">🤝</span><h4>التكافل الاجتماعي</h4><p>تساعد الفقراء والمحتاجين على العيش الكريم.</p></div>
+      <div class="zk-item"><span class="ico">🏆</span><h4>الفوز يوم القيامة</h4><p>من أعظم الأعمال التي تقرّب العبد إلى الله.</p></div>
+    </div>
+
+    <!-- شروط الوجوب -->
+    <h2 class="zk-sec-title">⚖️ شروط وجوب الزكاة</h2>
+    <div class="zk-grid">
+      <div class="zk-item"><span class="ico">☪️</span><h4>الإسلام</h4><p>فلا تجب على غير المسلم.</p></div>
+      <div class="zk-item"><span class="ico">🏅</span><h4>ملك النصاب</h4><p>بلوغ المال الحدّ الأدنى الذي تجب عنده الزكاة.</p></div>
+      <div class="zk-item"><span class="ico">🔑</span><h4>تمام الملك</h4><p>أن يكون المال مملوكًا لصاحبه ملكًا كاملًا.</p></div>
+      <div class="zk-item"><span class="ico">📅</span><h4>حولان الحول</h4><p>مرور سنة هجرية كاملة على المال.</p></div>
+    </div>
+    <div class="zk-note"><span class="ni">ℹ️</span><div><strong>استثناءات:</strong> بعض أنواع الزكاة لا يُشترط لها حولٌ كامل، مثل الزروع والثمار، والرِّكاز والمعادن.</div></div>
+
+    <!-- النصاب -->
+    <h2 class="zk-sec-title">🏆 ما هو النصاب؟</h2>
+    <div class="zk-card">
+      <p>النصاب هو الحدّ الأدنى للمال الذي إذا بلغه المسلم وجبت عليه الزكاة، ويعادل تقريبًا:</p>
+    </div>
+    <div class="zk-grid">
+      <div class="zk-item"><span class="ico">🥇</span><h4>الذهب</h4><p>85 جرامًا من الذهب الخالص (عيار 24).</p></div>
+      <div class="zk-item"><span class="ico">🥈</span><h4>الفضة</h4><p>595 جرامًا من الفضة.</p></div>
+    </div>
+    <div class="zk-note"><span class="ni">💡</span><div>يُفضّل في التطبيقات الحديثة جلب سعر الذهب يوميًا وحساب النصاب تلقائيًا — وهو ما توفّره <a href="zakat.html" style="color:var(--gold);font-weight:700">حاسبة الزكاة</a>.</div></div>
+
+    <!-- النسبة -->
+    <h2 class="zk-sec-title">🧮 نسبة الزكاة</h2>
+    <div class="zk-card">
+      <p>النسبة الأساسية لزكاة المال: <span class="zk-pill">2.5%</span></p>
+      <p>كل 1,000 جنيه = 25 جنيه &nbsp;•&nbsp; كل 10,000 جنيه = 250 جنيه &nbsp;•&nbsp; كل 100,000 جنيه = 2,500 جنيه.</p>
+    </div>
+
+    <!-- المصارف الثمانية -->
+    <h2 class="zk-sec-title">👥 مصارف الزكاة الثمانية</h2>
+    <div class="zk-card"><div class="zk-ayah">إِنَّمَا الصَّدَقَاتُ لِلْفُقَرَاءِ وَالْمَسَاكِينِ وَالْعَامِلِينَ عَلَيْهَا وَالْمُؤَلَّفَةِ قُلُوبُهُمْ وَفِي الرِّقَابِ وَالْغَارِمِينَ وَفِي سَبِيلِ اللَّهِ وَابْنِ السَّبِيلِ<span class="src">سورة التوبة</span></div></div>
+    <div class="zk-grid">
+      <div class="zk-item"><span class="ico">1️⃣</span><h4>الفقراء</h4><p>من لا يجدون كفايتهم.</p></div>
+      <div class="zk-item"><span class="ico">2️⃣</span><h4>المساكين</h4><p>من يجدون بعض الكفاية ولا تكفيهم.</p></div>
+      <div class="zk-item"><span class="ico">3️⃣</span><h4>العاملون عليها</h4><p>القائمون على جمعها وتوزيعها.</p></div>
+      <div class="zk-item"><span class="ico">4️⃣</span><h4>المؤلَّفة قلوبهم</h4><p>وفق الضوابط الشرعية.</p></div>
+      <div class="zk-item"><span class="ico">5️⃣</span><h4>في الرقاب</h4><p>تحرير الرقاب من العبودية.</p></div>
+      <div class="zk-item"><span class="ico">6️⃣</span><h4>الغارمون</h4><p>المدينون العاجزون عن السداد.</p></div>
+      <div class="zk-item"><span class="ico">7️⃣</span><h4>في سبيل الله</h4><p>في المصالح الشرعية المعتبرة.</p></div>
+      <div class="zk-item"><span class="ico">8️⃣</span><h4>ابن السبيل</h4><p>المسافر المنقطع عن بلده.</p></div>
+    </div>
+
+    <!-- متى أخرج الزكاة -->
+    <h2 class="zk-sec-title">⏰ متى أُخرِج الزكاة؟</h2>
+    <div class="zk-card">
+      <p>تجب الزكاة عندما يبلغ المال النصاب ويمرّ عليه حولٌ هجريٌّ كامل.</p>
+      <div class="zk-note"><span class="ni">⚠️</span><div>لا يُشترط إخراجها في رمضان، لكن كثيرًا من الناس يفضّلونه لعظم الأجر. ولا يجوز تأخير الزكاة عن موعدها لانتظار رمضان إذا حان وقتها قبله.</div></div>
+    </div>
+
+    <!-- رمضان -->
+    <h2 class="zk-sec-title">🌙 الزكاة في رمضان</h2>
+    <div class="zk-grid">
+      <div class="zk-item"><span class="ico">✨</span><h4>مضاعفة الأجر</h4><p>الصدقة في رمضان أعظم أجرًا.</p></div>
+      <div class="zk-item"><span class="ico">👐</span><h4>كثرة المحتاجين</h4><p>الحاجة تشتدّ في الشهر الفضيل.</p></div>
+      <div class="zk-item"><span class="ico">🧠</span><h4>سهولة التذكّر</h4><p>موعدٌ ثابت يسهّل الالتزام.</p></div>
+    </div>
+
+    <!-- الفرق بين الزكاة والصدقة -->
+    <h2 class="zk-sec-title">🤲 الفرق بين الزكاة والصدقة</h2>
+    <table class="zk-table">
+      <thead><tr><th>الزكاة</th><th>الصدقة</th></tr></thead>
+      <tbody>
+        <tr><td>واجبة</td><td>مستحبة</td></tr>
+        <tr><td>لها نصاب</td><td>لا نصاب لها</td></tr>
+        <tr><td>لها مصارف محددة</td><td>أوسع في المصارف</td></tr>
+        <tr><td>ركن من أركان الإسلام</td><td>نافلة</td></tr>
+      </tbody>
+    </table>
+
+    <!-- زكاة الفطر -->
+    <h2 class="zk-sec-title">🎁 زكاة الفطر</h2>
+    <div class="zk-card">
+      <h3 class="zk-h3">📝 تعريفها</h3>
+      <p>صدقة واجبة بسبب الفطر من رمضان.</p>
+      <h3 class="zk-h3">🕰️ وقتها</h3>
+      <p>من غروب شمس آخر يوم من رمضان، وأفضل وقتٍ لها قبل صلاة العيد.</p>
+      <h3 class="zk-h3">👨‍👩‍👧 على من تجب؟</h3>
+      <p>على المسلم عن نفسه وعمّن يعولهم.</p>
+      <h3 class="zk-h3">🌟 الحكمة منها</h3>
+      <p>طُهرةٌ للصائم، وإغناءٌ للفقراء يوم العيد.</p>
+    </div>
+
+    <!-- cross links -->
+    <h2 class="zk-sec-title">↪️ تابع في قسم الزكاة</h2>
+    <nav class="zk-cross" aria-label="صفحات الزكاة">
+      <a href="zakat-anwa.html"><span class="cx-ico">📊</span><span><span class="cx-t">أنواع الزكاة وحسابها</span><span class="cx-s">الأموال الزكوية وخطوات الحساب والأسئلة الشائعة</span></span></a>
+      <a href="zakat.html"><span class="cx-ico">🧮</span><span><span class="cx-t">حاسبة الزكاة</span><span class="cx-s">احسب زكاتك بدقّة على المال والذهب والتجارة</span></span></a>
+    </nav>
+
+    <div style="height:40px"></div>
+  </main>
+</div>
+
+  <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+<script src="command-palette.js" defer></script>
+</body>
+</html>

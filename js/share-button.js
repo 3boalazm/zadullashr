@@ -11,25 +11,25 @@ const ZadShare = {
   getPageShareData() {
     const page = window.location.pathname.split('/').pop().replace('.html', '') || 'index';
     const url = window.location.href;
-    const title = document.title || 'زاد';
+    const title = document.title || 'زاد العشر';
 
     /* وصف مخصّص لكل صفحة */
     const descriptions = {
-      index:    'زاد — رفيقك الروحاني في أفضل أيام الدنيا',
-      adhkar:   'أذكار موثّقة من زاد — الصباح والمساء وأكثر',
-      'adhkar-categories': 'كل الأذكار في مكان واحد — زاد',
-      mushaf:   'تابع ختمتك في زاد',
-      takbeer:  'سبّح وكبّر مع زاد',
-      hasad:    'حصاد عبادتي في زاد',
-      arafah:   'برنامج يوم عرفة — زاد',
-      taqweem:  'التقويم الإسلامي السنوي — زاد',
-      fadael:   'فضائل عشر ذي الحجة — زاد',
+      index:    'زاد العشر — رفيقك الروحاني في أفضل أيام الدنيا',
+      adhkar:   'أذكار موثّقة من زاد العشر — الصباح والمساء وأكثر',
+      'adhkar-categories': 'كل الأذكار في مكان واحد — زاد العشر',
+      mushaf:   'تابع ختمتك في زاد العشر',
+      takbeer:  'سبّح وكبّر مع زاد العشر',
+      hasad:    'حصاد عبادتي في زاد العشر',
+      arafah:   'برنامج يوم عرفة — زاد العشر',
+      taqweem:  'التقويم الإسلامي السنوي — زاد العشر',
+      fadael:   'فضائل عشر ذي الحجة — زاد العشر',
     };
 
     return {
       url,
       title,
-      text: descriptions[page] || 'اكتشف زاد — رفيقك في عشر ذي الحجة',
+      text: descriptions[page] || 'اكتشف زاد العشر — رفيقك في عشر ذي الحجة',
     };
   },
 

@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   زاد — طبقة التخزين الموحّدة
+   زاد العشر — طبقة التخزين الموحّدة
    الفيز الثاني: استبدال localStorage بـ IndexedDB عبر Dexie.js
    
    المبدأ: Single Source of Truth — كل البيانات تمر من هنا فقط
@@ -396,7 +396,7 @@ async function exportAllData() {
     _meta: {
       version:    3,
       exportedAt: new Date().toISOString(),
-      app:        'زاد',
+      app:        'زاد العشر',
     },
     state:      await db.state.toArray(),
     worshipLog: await db.worshipLog.toArray(),
@@ -433,8 +433,8 @@ async function importData(jsonText, mode = 'replace') {
   }
 
   /* تحقق بسيط */
-  if (!payload._meta || payload._meta.app !== 'زاد') {
-    throw new Error('الملف لا ينتمي لتطبيق زاد');
+  if (!payload._meta || payload._meta.app !== 'زاد العشر') {
+    throw new Error('الملف لا ينتمي لتطبيق زاد العشر');
   }
 
   const db = await initDB();

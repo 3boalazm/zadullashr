@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   زاد — Complete i18n System (AR / EN / FR)
+   زاد العشر — Complete i18n System (AR / EN / FR)
    • واجهة المستخدم: ترجمة ثابتة (بدون API، تعمل أوفلاين).
    • الأذكار: ترانزليتريشن + معنى منسوخ يدوياً (لا ترجمة آلية للنص الشرعي).
    • القرآن/الحديث: استخدم تراجم معتمدة عبر API (alquran.cloud) — لا تُترجم آلياً.
@@ -8,7 +8,7 @@
 const TRANSLATIONS = {
 ar: {
   /* ─ App shell ─────────────────────────────────────────── */
-  'brand.name': 'زاد', 'brand.sub': 'أفضل أيام الدنيا',
+  'brand.name': 'زاد العشر', 'brand.sub': 'أفضل أيام الدنيا',
   'common.darkMode': '🌙 الوضع الداكن', 'common.language': '🌐 اللغة',
   'common.search': 'ابحث في التطبيق...', 'common.noAds': 'يعمل بدون إنترنت 📴',
   'common.done': '✅ تم', 'common.reset': 'إعادة', 'common.save': 'حفظ', 'common.send': 'إرسال',
@@ -197,11 +197,11 @@ ar: {
   'settings.data.noads':'صفر إعلانات','settings.data.noads.sub':'خشوع رقمي بلا مشتّتات',
   'settings.data.reset':'مسح جميع البيانات',
   /* ─ About ───────────────────────────────────────────────── */
-  'about.title':'عن التطبيق','about.sub':'زاد — رفيقك الذكي في أفضل أيام الدنيا',
+  'about.title':'عن التطبيق','about.sub':'زاد العشر — رفيقك الذكي في أفضل أيام الدنيا',
   'about.dev':'مصطفى أبو العزم',
   'about.dev.title':'مصمم واجهات · مطور تطبيقات ويب · مبتكر تجربة المستخدم',
   'about.contact':'تواصل معي','about.social':'تابعني على',
-  'about.app.title':'عن زاد','about.sources':'المصادر الشرعية',
+  'about.app.title':'عن زاد العشر','about.sources':'المصادر الشرعية',
   'about.tech':'التقنيات المستخدمة',
 },
 en: {
@@ -705,7 +705,7 @@ const I18N = {
     /* العلامة التجارية */
     const bn = document.querySelector('.brand-name');
     const bs = document.querySelector('.brand-sub');
-    if (bn) bn.textContent = isAr ? 'زاد' : 'Zad Al-Ashr';
+    if (bn) bn.textContent = isAr ? 'زاد العشر' : 'Zad Al-Ashr';
     if (bs) bs.textContent = isAr ? 'أفضل أيام الدنيا' : (lang==='fr' ? 'Les meilleurs jours sur terre' : 'The Best Days on Earth');
 
     /* روابط القائمة + الفواصل */

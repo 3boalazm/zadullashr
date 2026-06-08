@@ -9,7 +9,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<title>لوحة التحكم — زاد</title>
+<title>لوحة التحكم — زاد العشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
@@ -78,21 +78,21 @@
 </style>
 <script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="زاد">
-<meta property="og:url" content="https://zad.vercel.app/index.html">
-<meta property="og:title" content="زاد — لوحة التحكم">
+<meta property="og:site_name" content="زاد العشر">
+<meta property="og:url" content="https://zadullashr.vercel.app/index.html">
+<meta property="og:title" content="زاد العشر — لوحة التحكم">
 <meta property="og:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
-<meta property="og:image" content="https://zad.vercel.app/og-image.png">
+<meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="زاد — تطبيق العبادة في عشر ذي الحجة">
+<meta property="og:image:alt" content="زاد العشر — تطبيق العبادة في عشر ذي الحجة">
 <meta property="og:locale" content="ar_SA">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="زاد — لوحة التحكم">
+<meta name="twitter:title" content="زاد العشر — لوحة التحكم">
 <meta name="twitter:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
-<meta name="twitter:image" content="https://zad.vercel.app/og-image.png">
+<meta name="twitter:image" content="https://zadullashr.vercel.app/og-image.png">
 <meta name="description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
-<link rel="apple-touch-icon" href="https://zad.vercel.app/og-image.png">
+<link rel="apple-touch-icon" href="https://zadullashr.vercel.app/og-image.png">
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -102,8 +102,8 @@
 
   <aside class="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
-      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد" style="width:36px;height:36px;border-radius:10px"></div>
-      <div><div class="brand-name">زاد</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
     </a>
     <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
     <div class="theme-seg" id="theme-seg">
@@ -114,45 +114,10 @@
 <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">
       📲 تثبيت / تحميل التطبيق
     </button>
-    <nav class="nav">
-      <a href="index.html" class="active" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
-      <div class="nav-sep">الصلاة والتقويم</div>
-      <a href="prayers.html"><span class="ico">🕌</span><span>مواقيت الصلاة</span></a>
-      <a href="qibla.html"><span class="ico">🧭</span><span>اتجاه القبلة</span></a>
-      <a href="hijri.html"><span class="ico">🗓️</span><span>التقويم الهجري</span></a>
-      <a href="taqweem.html"><span class="ico">🗓️</span><span>التقويم السنوي</span></a>
-      <div class="nav-sep">القرآن والعبادة</div>
-      <a href="mushaf.html"><span class="ico">📖</span><span>الورد القرآني</span></a>
-      <a href="mushaf-quran.html"><span class="ico">🕋📖</span><span>المصحف الشريف</span></a>
-      <a href="tasmee.html"><span class="ico">🎙️</span><span>التسميع</span></a>
-      <a href="adhkar.html"><span class="ico">🤲</span><span>الأذكار والدعاء</span></a>
-      <a href="hasn.html"><span class="ico">🛡️</span><span>حصن المسلم</span></a>
-      <a href="duas.html"><span class="ico">🌿</span><span>الأدعية</span></a>
-      <a href="worship.html"><span class="ico">✅</span><span>جدول العبادات</span></a>
-      <div class="nav-sep">الحج والمناسك</div>
-      <a href="fadael.html"><span class="ico">✨</span><span>فضائل العشر</span></a>
-      <a href="arafah.html"><span class="ico">🌄</span><span>يوم عرفة</span></a>
-      <a href="odhiya.html"><span class="ico">🐏</span><span>دليل الأضحية</span></a>
-      <a href="manasik.html"><span class="ico">🕋</span><span>المناسك التفاعلية</span></a>
-      <a href="sadaqah.html"><span class="ico">💚</span><span>صدقة العشر</span></a>
-      <div class="nav-sep">المتابعة</div>
-      <a href="hasad.html"><span class="ico">📊</span><span>حصاد العشر</span></a>
-      <a href="badges.html"><span class="ico">🏅</span><span>أوسمتي</span></a>
-      <a href="zakat.html"><span class="ico">🧮</span><span>حاسبة الزكاة</span></a>
-      <div class="nav-sep">التعلم والترفيه</div>
-      <a href="playlist.html"><span class="ico">🎵</span><span>البلاي ليست</span></a>
-      <a href="Quran-radio.HTML"><span class="ico">📻</span><span>إذاعة القرآن</span></a>
-      <a href="videos.html"><span class="ico">🎬</span><span>المحاضرات الإسلامية</span></a>
-      <a href="kids.html"><span class="ico">🌟</span><span>ثُريّا — وضع الأطفال</span></a>
-      <a href="ghars.html"><span class="ico">🌱</span><span>غرس — قصص</span></a>
-      <a href="asma.html"><span class="ico">🌺</span><span>أسماء الله الحسنى</span></a>
-      <a href="ai.html"><span class="ico">🤖</span><span>تدبّر بالذكاء</span></a>
-      <div class="nav-sep">الإعدادات</div>
-      <a href="settings.html"><span class="ico">⚙️</span><span>الإعدادات</span></a>
-      <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
-      <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
+    <nav class="nav" aria-label="القائمة الرئيسية">
+      <a href="index.html" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
     </nav>
-    <div class="side-foot">زاد 2026 · بدون إعلانات 📴</div>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
   </aside>
 
   <main class="main">
@@ -160,7 +125,7 @@
     <div class="topbar">
       <div class="tb-left">
         <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
-        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد"></a>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a>
       </div>
       <div class="tb-center">
         <div class="page-title">زاد <span>العشر</span></div>
@@ -312,7 +277,7 @@
       if(srcEl)srcEl.textContent='﴿ '+v.s+' ﴾';
       var shareBtn=document.getElementById('dvc-share');
       if(shareBtn)shareBtn.onclick=function(){
-        var txt=(isMorning?'☀️ آية الصباح':'🌙 آية المساء')+'\n\n'+v.t+'\n﴿ '+v.s+' ﴾\n\nزاد';
+        var txt=(isMorning?'☀️ آية الصباح':'🌙 آية المساء')+'\n\n'+v.t+'\n﴿ '+v.s+' ﴾\n\nزاد العشر';
         if(navigator.share)navigator.share({text:txt});
         else navigator.clipboard&&navigator.clipboard.writeText(txt);
       };

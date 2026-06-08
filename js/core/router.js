@@ -86,7 +86,7 @@ const ZadRouter = (() => {
     /* تحديث document.title */
     const route = ROUTES[currentPage()];
     if (route && !document.title.includes(route.title)) {
-      document.title = `${route.title} — زاد`;
+      document.title = `${route.title} — زاد العشر`;
     }
   }
 

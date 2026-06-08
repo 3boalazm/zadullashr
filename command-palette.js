@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    command-palette.js — شريط الأوامر (Ctrl+K) + اختصارات لوحة المفاتيح
-   لتطبيق زاد · بحث سريع في الصفحات + أوامر + اختصارات
+   لتطبيق زاد العشر · بحث سريع في الصفحات + أوامر + اختصارات
    ═══════════════════════════════════════════════════════════════ */
 (function(){
   'use strict';
@@ -200,7 +200,7 @@
     fab.id='zad-cmd-fab';
     fab.setAttribute('aria-label','شريط الأوامر — بحث سريع');
     fab.innerHTML='🔍';
-    fab.style.cssText='position:fixed;bottom:80px;left:16px;z-index:1999;width:46px;height:46px;border-radius:50%;border:none;background:var(--green-deep,#0e3b2e);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;opacity:.85;transition:opacity .2s';
+    fab.style.cssText='position:fixed;bottom:160px;left:20px;z-index:9499;width:46px;height:46px;border-radius:50%;border:none;background:var(--green-deep,#0e3b2e);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;opacity:.85;transition:opacity .2s';
     fab.onmouseenter=function(){ fab.style.opacity='1'; };
     fab.onmouseleave=function(){ fab.style.opacity='.85'; };
     fab.onclick=open;

@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   فاحص إمكانية الوصول (a11y) v1 — أداة تشخيص لمطوّر زاد
+   فاحص إمكانية الوصول (a11y) v1 — أداة تشخيص لمطوّر زاد العشر
    • يفحص معايير WCAG: alt، ARIA، labels، ترتيب العناوين، الأزرار الفارغة
    • تنقّل لوحة المفاتيح، lang، اتجاه RTL
    • الضغط على مشكلة → سكرول + تحديد · نسخ تقرير · فحص كل الموقع
@@ -208,7 +208,7 @@
   var lastReport={ page:location.pathname.split('/').pop()||'index.html', issues:issues, full:null };
 
   document.getElementById('a11y-report').onclick=function(){
-    var L=['═══ تقرير إمكانية الوصول — زاد ═══','التاريخ: '+new Date().toLocaleString('ar-EG'),''];
+    var L=['═══ تقرير إمكانية الوصول — زاد العشر ═══','التاريخ: '+new Date().toLocaleString('ar-EG'),''];
     if(lastReport.full){
       L.push('النطاق: كل الموقع ('+lastReport.full.pagesScanned+' صفحة)');
       L.push('إجمالي المشاكل: '+lastReport.full.total); L.push('');

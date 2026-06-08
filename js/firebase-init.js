@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════════════════
-   firebase-init.js — تهيئة Firebase لمشروع «زاد»
+   firebase-init.js — تهيئة Firebase لمشروع «زاد العشر»
    • يُحمَّل بعد سكربتات Firebase compat SDK (app / auth / database).
    • يُهيّئ التطبيق ويكشف window.ZadFirebase = { app, auth, db }.
    • مفتاح الويب ليس سرّاً (مُعرّف مشروع)؛ الحماية عبر قواعد RTDB + تقييد المفتاح بالنطاقات.
@@ -12,10 +12,10 @@
   }
   var firebaseConfig = {
     apiKey: 'AIzaSyBgs8kMenbiTaJP4d1eEWv6zmp-kGoExqM',
-    authDomain: 'zad.firebaseapp.com',
-    databaseURL: 'https://zad-default-rtdb.europe-west1.firebasedatabase.app',
-    projectId: 'zad',
-    storageBucket: 'zad.firebasestorage.app',
+    authDomain: 'zadullashr.firebaseapp.com',
+    databaseURL: 'https://zadullashr-default-rtdb.europe-west1.firebasedatabase.app',
+    projectId: 'zadullashr',
+    storageBucket: 'zadullashr.firebasestorage.app',
     messagingSenderId: '1001954401018',
     appId: '1:1001954401018:web:7271f17d574371ff018743',
     measurementId: 'G-W6PZ48LXYJ'

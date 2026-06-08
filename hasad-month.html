@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>حصاد الشهر — زاد العشر</title>
+<meta name="description" content="حصاد الشهر: متابعةٌ شاملةٌ لكلّ عباداتك وأنشطتك خلال الشهر — صلاة، صيام، قرآن، تكبير وأكثر.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/premium-ui.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name,.hm-hero-num{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+.hm-hero{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 55%,#c9a14a 150%);border-radius:22px;padding:26px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4);text-align:center}
+.hm-hero::after{content:'📊';position:absolute;top:14px;left:20px;font-size:50px;opacity:.13;line-height:1}
+.hm-hero-month{font-size:13px;color:#f0dca8;font-weight:700;letter-spacing:1px;margin-bottom:6px}
+.hm-hero-num{font-size:46px;font-weight:900;line-height:1}
+.hm-hero-lbl{font-size:13px;color:rgba(255,255,255,.85);margin-top:4px}
+.hm-hero-sub{font-size:12px;color:rgba(255,255,255,.7);margin-top:8px}
+.hm-sec-title{display:flex;align-items:center;gap:10px;margin:22px 0 12px;font-size:16px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .hm-sec-title,html[data-theme="oled"] .hm-sec-title{color:var(--sys-green)}
+.hm-sec-title::before{content:"";width:5px;height:18px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+/* شبكة الشهر (heatmap) */
+.hm-cal{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px;box-shadow:var(--shadow-sm);margin-bottom:14px}
+.hm-wk{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:6px}
+.hm-wk span{text-align:center;font-size:10.5px;font-weight:700;color:var(--muted)}
+.hm-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.hm-cell{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--muted);background:var(--sand);border:1px solid transparent}
+.hm-cell.l0{background:var(--sand);color:var(--muted)}
+.hm-cell.l1{background:rgba(42,122,95,.22);color:var(--green-deep)}
+.hm-cell.l2{background:rgba(42,122,95,.5);color:#fff}
+.hm-cell.l3{background:var(--green-deep);color:#fff}
+.hm-cell.l4{background:linear-gradient(135deg,var(--green-deep),var(--gold));color:#fff}
+.hm-cell.today{outline:2px solid var(--gold);outline-offset:1px}
+.hm-cell.empty{background:transparent;border:none}
+html[data-theme="dark"] .hm-cell.l1,html[data-theme="oled"] .hm-cell.l1{color:var(--sys-green)}
+.hm-legend{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:11px;font-size:10.5px;color:var(--muted)}
+.hm-legend i{width:13px;height:13px;border-radius:4px;display:inline-block}
+/* بطاقات الإحصاء */
+.hm-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:11px;margin-bottom:14px}
+.hm-stat{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:15px 13px;box-shadow:var(--shadow-sm);text-align:center}
+.hm-stat .se{font-size:24px;display:block;margin-bottom:5px}
+.hm-stat .sv{font-size:23px;font-weight:900;color:var(--green-deep);line-height:1;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .hm-stat .sv,html[data-theme="oled"] .hm-stat .sv{color:var(--sys-green)}
+.hm-stat .sl{font-size:11.5px;color:var(--muted);margin-top:5px}
+.hm-note{font-size:11.5px;color:var(--muted);line-height:1.7;background:var(--sand);border-radius:12px;padding:11px 13px;margin-bottom:14px}
+.hm-cross{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,border-color .18s}
+.hm-cross:hover{transform:translateY(-2px);border-color:var(--gold)}
+.hm-cross .cx-ico{font-size:28px;flex-shrink:0}
+.hm-cross .cx-t{font-size:14px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .hm-cross .cx-t,html[data-theme="oled"] .hm-cross .cx-t{color:var(--sys-green)}
+.hm-cross .cx-s{font-size:11.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
+    </div>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav" aria-label="القائمة الرئيسية">
+      <a href="index.html" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+    </nav>
+    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">حصاد <span>الشهر</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <header class="hm-hero">
+      <div class="hm-hero-month" id="hm-month">—</div>
+      <div class="hm-hero-num" id="hm-pct">0%</div>
+      <div class="hm-hero-lbl">متوسّط الالتزام خلال الشهر</div>
+      <div class="hm-hero-sub" id="hm-active">— يومًا نشطًا</div>
+    </header>
+
+    <h2 class="hm-sec-title">📅 أيام الشهر يومًا بيوم</h2>
+    <div class="hm-cal">
+      <div class="hm-wk"><span>السبت</span><span>الأحد</span><span>الإثنين</span><span>الثلاثاء</span><span>الأربعاء</span><span>الخميس</span><span>الجمعة</span></div>
+      <div class="hm-grid" id="hm-grid"></div>
+      <div class="hm-legend"><span>أقل</span><i class="hm-cell l0" style="aspect-ratio:auto"></i><i class="hm-cell l1" style="aspect-ratio:auto"></i><i class="hm-cell l2" style="aspect-ratio:auto"></i><i class="hm-cell l3" style="aspect-ratio:auto"></i><i class="hm-cell l4" style="aspect-ratio:auto"></i><span>أكثر</span></div>
+    </div>
+
+    <h2 class="hm-sec-title">🏆 حصادك خلال الشهر</h2>
+    <div class="hm-stats" id="hm-stats"></div>
+    <div class="hm-note">📌 الأرقام «خلال الشهر» تُحسب من سجلّك اليومي المحفوظ على جهازك. كلّما واظبت على تسجيل عباداتك يوميًا، صار حصادك أدقّ وأجمل. 💚</div>
+
+    <h2 class="hm-sec-title">↪️ متابعةٌ أخرى</h2>
+    <a class="hm-cross" href="hasad.html">
+      <span class="cx-ico">🌙</span>
+      <span><span class="cx-t">حصاد العشر</span><span class="cx-s">متابعةٌ خاصةٌ بأيام عشر ذي الحجة</span></span>
+    </a>
+
+    <div style="height:40px"></div>
+  </main>
+</div>
+
+<script>
+/* حصاد الشهر — تجميع شامل من سجلّ zad_v2 (آمن ومستقل) */
+(function(){
+  'use strict';
+  function read(){try{return JSON.parse(localStorage.getItem('zad_v2')||'{}')||{};}catch(e){return{};}}
+  function keyOf(dt){return dt.toISOString().split('T')[0];}
+  var AR_MONTHS=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  /* مفاتيح اليوم الحالي (مطابقة لما يُسجَّل في app.js) */
+  var TODAY_KEYS=['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam','morning_dhikr','evening_dhikr','takbeer_100','tawbah'];
+  function todayPct(s){var w=s.worship||{};var d=TODAY_KEYS.filter(function(k){return w[k];}).length;return Math.round(d/TODAY_KEYS.length*100);}
+  function level(p){return p<=0?0:p<40?1:p<70?2:p<90?3:4;}
+
+  function run(){
+    var s=read(), hist=s.history||{};
+    var now=new Date(), y=now.getFullYear(), m=now.getMonth();
+    var daysInMonth=new Date(y,m+1,0).getDate();
+    var todayK=keyOf(new Date());
+    document.getElementById('hm-month').textContent=AR_MONTHS[m]+' '+y;
+
+    /* بناء أيام الشهر */
+    var firstWeekday=new Date(y,m,1).getDay();        /* 0=أحد .. 6=سبت */
+    var lead=(firstWeekday+1)%7;                       /* أعمدة فارغة قبل اليوم 1 (السبت أول عمود) */
+    var grid=document.getElementById('hm-grid'), html='';
+    for(var i=0;i<lead;i++)html+='<div class="hm-cell empty"></div>';
+    var sumPct=0, active=0, bestPct=0, bestDay=0;
+    for(var d=1;d<=daysInMonth;d++){
+      var dt=new Date(y,m,d), k=keyOf(dt);
+      var h=hist[k]||{};
+      var pct=(k===todayK)?Math.max(h.pct||0,todayPct(s)):(h.pct||0);
+      if(pct>0){sumPct+=pct;active++;}
+      if(pct>bestPct){bestPct=pct;bestDay=d;}
+      var cls='hm-cell l'+level(pct)+(k===todayK?' today':'');
+      html+='<div class="'+cls+'" title="يوم '+d+' — '+pct+'%">'+d+'</div>';
+    }
+    grid.innerHTML=html;
+    var avg=active>0?Math.round(sumPct/active):0;
+    document.getElementById('hm-pct').textContent=avg+'%';
+    document.getElementById('hm-active').textContent=active+' من '+daysInMonth+' يومًا نشطًا'+(bestDay?' · أفضل يوم: '+bestDay+' ('+bestPct+'%)':'');
+
+    /* فروقات تراكمية خلال الشهر (takbeer / juz / zad / fasting) */
+    var monthKeys=Object.keys(hist).filter(function(k){var p=k.split('-');return +p[0]===y && (+p[1]-1)===m;}).sort();
+    var beforeKeys=Object.keys(hist).filter(function(k){return k<keyOf(new Date(y,m,1));}).sort();
+    var baseline=beforeKeys.length?hist[beforeKeys[beforeKeys.length-1]]:null;
+    function delta(field){
+      if(!monthKeys.length)return 0;
+      var last=hist[monthKeys[monthKeys.length-1]]||{};
+      var base=baseline?(baseline[field]||0):((hist[monthKeys[0]]||{})[field]||0);
+      return Math.max(0,(last[field]||0)-base);
+    }
+    var mTakbeer=delta('takbeer'), mJuz=delta('juz'), mZad=delta('zad'), mFast=delta('fasting');
+    /* الصيام: لو السجل التراكمي صفر، نقع على عدد أيام الصيام المسجّلة */
+    if(!mFast){var fcount=Object.values(s.fasting||{}).filter(Boolean).length; mFast=fcount;}
+
+    var streak=s.streak||0, badges=(s.badges||[]).length;
+    var stats=[
+      {e:'✅',v:avg+'%',l:'متوسّط الالتزام'},
+      {e:'🗓️',v:active,l:'أيام نشطة'},
+      {e:'🌙',v:mFast,l:'أيام صيام'},
+      {e:'📿',v:mTakbeer.toLocaleString('ar-EG'),l:'تكبيرات الشهر'},
+      {e:'📖',v:mJuz,l:'أجزاء قرآن'},
+      {e:'⭐',v:mZad.toLocaleString('ar-EG'),l:'نقاط زاد'},
+      {e:'🔥',v:streak,l:'سلسلة الأيام'},
+      {e:'🏅',v:badges,l:'أوسمة'}
+    ];
+    document.getElementById('hm-stats').innerHTML=stats.map(function(x){
+      return '<div class="hm-stat"><span class="se">'+x.e+'</span><div class="sv">'+x.v+'</div><div class="sl">'+x.l+'</div></div>';
+    }).join('');
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
+  window.addEventListener('focus',run);
+})();
+</script>
+  <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+<script src="command-palette.js" defer></script>
+</body>
+</html>

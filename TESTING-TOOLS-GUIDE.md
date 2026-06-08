@@ -1,4 +1,4 @@
-# 🧰 دليل أدوات الاختبار — زاد
+# 🧰 دليل أدوات الاختبار — زاد العشر
 **مخصّص لمشروعك:** PWA · Vanilla JS · Multi-page · Vercel · Service Worker
 
 > القاعدة: ابدأ بالمجاني والمدمج في المتصفح، وما تروحش لأدوات احترافية إلا لو احتجت. معظم اللي محتاجه موجود في **Chrome DevTools** اللي في إيدك دلوقتي.
@@ -26,7 +26,7 @@
 **مدمج في Chrome DevTools** — مش محتاج تثبيت.
 
 **الطريقة:**
-1. افتح الموقع المنشور (zad.vercel.app)
+1. افتح الموقع المنشور (zadullashr.vercel.app)
 2. F12 → تبويب **Lighthouse**
 3. اختر **Mobile** + كل الفئات (Performance, PWA, Accessibility, Best Practices, SEO)
 4. **Analyze page load**
@@ -105,7 +105,7 @@ console.timeEnd('stress');
 أداة CLI مجانية لـ load testing على الـ APIs:
 ```bash
 npm install -g artillery
-artillery quick --count 50 --num 10 https://zad.vercel.app/api/gemini
+artillery quick --count 50 --num 10 https://zadullashr.vercel.app/api/gemini
 ```
 بيبعت 500 request ويقولك متوسط الاستجابة + الفشل. **مهم:** Vercel Edge عنده حدود، فمتبالغش عشان ما تستهلكش الـ quota.
 
@@ -125,15 +125,15 @@ npm init playwright@latest
 const { test, expect } = require('@playwright/test');
 
 test('الأذكار تفتح وتعمل', async ({ page }) => {
-  await page.goto('https://zad.vercel.app/adhkar.html');
+  await page.goto('https://zadullashr.vercel.app/adhkar.html');
   await page.click('.adh-head >> nth=0');  // افتح أول قسم
   await expect(page.locator('.adh-body').first()).toBeVisible();
 });
 
 test('التطبيق يعمل offline', async ({ page, context }) => {
-  await page.goto('https://zad.vercel.app/');
+  await page.goto('https://zadullashr.vercel.app/');
   await context.setOffline(true);  // اقطع النت
-  await page.goto('https://zad.vercel.app/adhkar.html');
+  await page.goto('https://zadullashr.vercel.app/adhkar.html');
   await expect(page.locator('#adhkar-accordion')).toBeVisible();
 });
 ```
