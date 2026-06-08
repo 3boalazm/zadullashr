@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>زاد العشر — أفضل أيام الدنيا</title>
+<title>زاد — أفضل أيام الدنيا</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -1107,7 +1107,7 @@ img { max-width: 100%; display: block; }
   <header class="top-bar">
     <div class="brand">
       <div class="brand-logo">🕋</div>
-      <span>زاد العشر</span>
+      <span>زاد</span>
     </div>
     <div class="top-actions">
       <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" title="تبديل الوضع">🌙</button>
@@ -1911,7 +1911,7 @@ img { max-width: 100%; display: block; }
         <div class="share-quote" id="shareQuote">
           ﴿ وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ ﴾
         </div>
-        <div class="share-source" id="shareSource">سورة الفجر — تطبيق زاد العشر</div>
+        <div class="share-source" id="shareSource">سورة الفجر — تطبيق زاد</div>
         <div class="share-btns">
           <button class="share-btn primary" onclick="copyShare()">📋 نسخ</button>
           <button class="share-btn secondary" onclick="shareNative()">📤 مشاركة</button>
@@ -2041,7 +2041,7 @@ img { max-width: 100%; display: block; }
         <div class="setting-row">
           <div class="setting-ico">ℹ️</div>
           <div class="setting-label">
-            <div class="setting-name">زاد العشر — الإصدار 2.0</div>
+            <div class="setting-name">زاد — الإصدار 2.0</div>
             <div class="setting-sub">تطبيق إسلامي | بلا إعلانات | مفتوح المصدر</div>
           </div>
         </div>
@@ -2578,7 +2578,7 @@ function setShareCard(el) {
   const text = el.querySelector('.quote-text').textContent;
   const src  = el.querySelector('.quote-src').textContent;
   document.getElementById('shareQuote').textContent  = text;
-  document.getElementById('shareSource').textContent = src + ' — تطبيق زاد العشر';
+  document.getElementById('shareSource').textContent = src + ' — تطبيق زاد';
   showToast('تم تحديد البطاقة — جاهزة للمشاركة 📤');
 }
 
@@ -2591,7 +2591,7 @@ function copyShare() {
 function shareNative() {
   const t = document.getElementById('shareQuote').textContent;
   if (navigator.share) {
-    navigator.share({ title:'زاد العشر', text: t });
+    navigator.share({ title:'زاد', text: t });
   } else {
     copyShare();
   }

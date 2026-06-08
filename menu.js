@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════════════════
-   menu.js v3 — المنيو الموحّد المحدّث لـ "زاد العشر"
+   menu.js v3 — المنيو الموحّد المحدّث لـ "زاد"
    جديد v3:
    • أقسام قابلة للطي (accordion) — يُفتح القسم النشط تلقائياً.
    • محوّل اللغة بثلاثة أزرار ظاهرة (العربية / English / قريباً).
@@ -553,9 +553,9 @@
 
   window._zadShareApp = function() {
     /* يشارك رابط الموقع — استبدل APP_APK_URL بملف APK فعلي حين يتوفر */
-    const APP_URL = 'https://zadullashr.vercel.app';
+    const APP_URL = 'https://zad.vercel.app';
     if (navigator.share) {
-      navigator.share({ title: 'زاد العشر', text: 'رفيقك في عشر ذي الحجة 🌙', url: APP_URL });
+      navigator.share({ title: 'زاد', text: 'رفيقك في عشر ذي الحجة 🌙', url: APP_URL });
     } else {
       navigator.clipboard?.writeText(APP_URL).then(() => {
         if (typeof showToast === 'function') showToast('✅ تم نسخ رابط التطبيق');
@@ -769,7 +769,7 @@
      يبحث عن الكاردات المعروفة ويُضيف أزرار مشاركة (نص + PNG) عليها
      ════════════════════════════════════════════════════════════════════ */
 
-  const ZAD_APP_URL = 'https://zadullashr.vercel.app';
+  const ZAD_APP_URL = 'https://zad.vercel.app';
 
   /* ── خريطة أنواع الكاردات المدعومة ─────────────────────────────────── */
   const CARD_MAP = [
@@ -794,7 +794,7 @@
   ];
 
   function initGlobalShare() {
-    const pageName = (document.title || 'زاد العشر').split('—')[0].trim();
+    const pageName = (document.title || 'زاد').split('—')[0].trim();
     CARD_MAP.forEach(({ sel, title: tSel, body: bSel, src: sSel }) => {
       document.querySelectorAll(sel).forEach(card => {
         if (card.querySelector('.zad-sr')) return; /* مُضافة مسبقاً */
@@ -950,7 +950,7 @@
       cx.textAlign = 'right';
       cx.font = 'bold 17px Tajawal, sans-serif';
       cx.fillStyle = T.gold;
-      cx.fillText('✦ زاد العشر — ' + pageName, W - PAD, 74);
+      cx.fillText('✦ زاد — ' + pageName, W - PAD, 74);
 
       /* نقطة زخرفية يسار الترويسة */
       cx.beginPath(); cx.arc(PAD + 6, 68, 5, 0, Math.PI * 2);
@@ -1022,7 +1022,7 @@
 
       cx.font = 'bold 16px Tajawal, sans-serif';
       cx.fillStyle = T.gold; cx.textAlign = 'right';
-      cx.fillText('🌙 zadullashr.vercel.app', W - PAD, footY);
+      cx.fillText('🌙 zad.vercel.app', W - PAD, footY);
       cx.font = '14px Tajawal, sans-serif';
       cx.fillStyle = T.muted; cx.textAlign = 'left';
       cx.fillText(isDark ? '🌑 نسخة داكنة' : '☀️ نسخة فاتحة', PAD, footY);

@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   فاحص الأداء v1 — أداة تشخيص لمطوّر زاد العشر
+   فاحص الأداء v1 — أداة تشخيص لمطوّر زاد
    • يقيس Core Web Vitals الحقيقية (LCP/CLS/FCP) من PerformanceObserver
    • أزمنة التحميل (TTFB/DOMContentLoaded/Load) من Navigation Timing
    • تحليل الموارد (عدد/حجم/أبطأ) + الذاكرة (Chrome)
@@ -197,7 +197,7 @@
   document.getElementById('pt-refresh').onclick=function(){ M=collectMetrics(); renderMetrics(M); };
 
   document.getElementById('pt-report').onclick=function(){
-    var L=['═══ تقرير الأداء — زاد العشر ═══','الصفحة: '+(location.pathname.split('/').pop()||'index.html'),'التاريخ: '+new Date().toLocaleString('ar-EG'),''];
+    var L=['═══ تقرير الأداء — زاد ═══','الصفحة: '+(location.pathname.split('/').pop()||'index.html'),'التاريخ: '+new Date().toLocaleString('ar-EG'),''];
     L.push('── Core Web Vitals ──');
     L.push('LCP: '+(M.vitals.lcp!=null?M.vitals.lcp+'ms':'—')+' | FCP: '+(M.vitals.fcp!=null?M.vitals.fcp+'ms':'—')+' | CLS: '+M.vitals.cls);
     L.push('');

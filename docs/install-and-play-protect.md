@@ -5,7 +5,7 @@
 
 ## الحل الأفضل (بلا تغليف) — تثبيت WebAPK عبر Chrome
 أبسط وأأمن طريقة، ولا تُطلق تحذير Play Protect إطلاقاً:
-1. افتح الموقع في **Chrome على أندرويد** (مثلاً `https://zadullashr.web.app`).
+1. افتح الموقع في **Chrome على أندرويد** (مثلاً `https://zad.web.app`).
 2. القائمة (⋮) → **Add to Home screen / Install app**.
 3. Chrome يولّد **WebAPK** تلقائياً باستخدام أحدث `targetSdkVersion` الخاص به — فلا يظهر التحذير، ويعمل أوفلاين وكتطبيقٍ كامل.
 

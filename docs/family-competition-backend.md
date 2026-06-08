@@ -1,6 +1,6 @@
 # دليل ربط «التنافس العائلي» بالخادم — Firebase / Supabase
 
-> **الركيزة الرابعة:** مجموعات التنافس العائلي (Anonymous Groups) في تطبيق *زاد العشر*.
+> **الركيزة الرابعة:** مجموعات التنافس العائلي (Anonymous Groups) في تطبيق *زاد*.
 > هذا الدليل يشرح كيف تُحوِّل الميزة من **وضعٍ محلي تجريبي** إلى **مزامنةٍ حيّة بين الأجهزة** دون تغيير أي سطرٍ في صفحات التطبيق (`groups.html` / `group-board.html`).
 
 ---
@@ -403,7 +403,7 @@ window.Groups = chooseAdapter();
 
 الصيغة المعتمدة: `zaad://group/join/[groupId]` (مولَّدة عبر `Groups.deepLink`).
 
-- **PWA / ويب:** أضف بديلاً ويبياً يُحوِّل للرمز — مثلاً `https://zadullashr.app/groups.html?join=CODE`. الصفحة `groups.html` تقرأ `?join=` تلقائياً وتملأ حقل الرمز.
+- **PWA / ويب:** أضف بديلاً ويبياً يُحوِّل للرمز — مثلاً `https://zad.app/groups.html?join=CODE`. الصفحة `groups.html` تقرأ `?join=` تلقائياً وتملأ حقل الرمز.
 - **أندرويد:** عرّف الـ scheme في `manifest.json` ضمن `protocol_handlers`، أو App Links للنطاق.
 - **iOS:** Universal Links عبر `apple-app-site-association` إن أُطلق غلافٌ أصلي.
 
@@ -500,7 +500,7 @@ if (Groups.subscribe) {
 
 ---
 
-## ملحق: الربط الفعلي لمشروع `zadullashr` (Realtime Database + Auth)
+## ملحق: الربط الفعلي لمشروع `zad` (Realtime Database + Auth)
 
 تم تفعيل **Auth (Google + Email)** و**Realtime Database** فعلياً. الكود التالي مُضمَّن في التطبيق:
 `js/firebase-init.js` (التهيئة) · `js/firebase-auth.js` (محوّل المصادقة `ZadAuth`) · `js/groups.firebase.js` (محوّل المجموعات على RTDB) — ومربوطة في `groups.html`.
@@ -543,7 +543,7 @@ userGroups/{uid}/{gid}: true     // فهرس مجموعاتي
 ```
 
 ### إعدادات لازمة في Console
-1. **Authorized domains** (Authentication → Settings): أضِف نطاق استضافتك (`zadullashr.web.app`، `zadullashr.firebaseapp.com`، و`localhost` للتجربة، وأي نطاق مخصّص) — وإلا يفشل تسجيل دخول Google.
+1. **Authorized domains** (Authentication → Settings): أضِف نطاق استضافتك (`zad.web.app`، `zad.firebaseapp.com`، و`localhost` للتجربة، وأي نطاق مخصّص) — وإلا يفشل تسجيل دخول Google.
 2. **API key restriction** (Google Cloud Console → Credentials): قيّد مفتاح الويب على نطاقاتك (HTTP referrers).
 3. القواعد أعلاه تمنع أيّ مستخدمٍ من الكتابة في صفِّ غيره، وتُلزم `pct ∈ [0..100]`.
 

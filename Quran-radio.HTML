@@ -9,7 +9,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.svg">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<title>إذاعات القرآن الكريم — زاد العشر</title>
+<title>إذاعات القرآن الكريم — زاد</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
@@ -1037,10 +1037,10 @@ html[data-theme="oled"] .stream-error-banner { background: rgba(239,68,68,.12); 
   <aside class="sidebar" id="sidebar">
     <a href="index.html" class="brand" style="text-decoration:none;color:inherit">
       <div class="brand-mark">
-        <img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" onerror="this.style.display='none';this.parentNode.innerHTML='🕋'">
+        <img fetchpriority="high" src="icons/icon-192.svg" alt="زاد" onerror="this.style.display='none';this.parentNode.innerHTML='🕋'">
       </div>
       <div>
-        <div class="brand-name">زاد العشر</div>
+        <div class="brand-name">زاد</div>
         <div class="brand-sub">أفضل أيام الدنيا</div>
       </div>
     </a>
@@ -1094,7 +1094,7 @@ html[data-theme="oled"] .stream-error-banner { background: rgba(239,68,68,.12); 
       <a href="report.html"><span class="ico">🚩</span><span>بلاغ مشكلة</span></a>
       <a href="about.html"><span class="ico">👤</span><span>عن التطبيق</span></a>
     </nav>
-    <div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>
+    <div class="side-foot">زاد 2026 · بدون إعلانات 📴</div>
   </aside>
 
   <!-- ═══════════════ MAIN ═══════════════ -->
@@ -1104,7 +1104,7 @@ html[data-theme="oled"] .stream-error-banner { background: rgba(239,68,68,.12); 
     <div class="topbar">
       <div class="tb-left">
         <button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="القائمة">☰</button>
-        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد"></a>
       </div>
       <div class="tb-center">
         <div class="page-title">إذاعات <span>القرآن</span></div>
@@ -1984,7 +1984,7 @@ function updateMediaSession() {
   navigator.mediaSession.metadata = new MediaMetadata({
     title:  current.name,
     artist: current.flag + ' ' + current.country,
-    album:  'إذاعات القرآن الكريم — زاد العشر',
+    album:  'إذاعات القرآن الكريم — زاد',
     artwork: [{ src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Quran_icon.png/512px-Quran_icon.png', sizes: '512x512', type: 'image/png' }]
   });
   navigator.mediaSession.setActionHandler('play',          () => { audio.play(); isPlaying=true; updatePlayBtns(true); });
@@ -2078,7 +2078,7 @@ function showQualityInfo() {
 
 async function shareStation() {
   if (!current) return;
-  const text = `🎙️ ${current.name}\n${current.desc||''}\n\nمن تطبيق زاد العشر`;
+  const text = `🎙️ ${current.name}\n${current.desc||''}\n\nمن تطبيق زاد`;
   if (navigator.share) { try { await navigator.share({ title: current.name, text }); return; } catch {} }
   navigator.clipboard?.writeText(text).then(() => showToast('✅ تم نسخ معلومات الإذاعة'));
 }

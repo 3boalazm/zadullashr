@@ -1110,7 +1110,7 @@ function scheduleReminders() {
   }
 
   /* Immediate confirmation */
-  notify('✅ زاد العشر — التذكيرات مفعّلة', 'ستصلك تذكيرات بالورد والأذكار والمواعيد المهمة', 1000);
+  notify('✅ زاد — التذكيرات مفعّلة', 'ستصلك تذكيرات بالورد والأذكار والمواعيد المهمة', 1000);
 
   /* Morning adhkar — 6am */
   const now = new Date();
@@ -1469,7 +1469,7 @@ function initContextualDashboard() {
   const heroEl   = document.querySelector('.hero');
   const notifEl  = document.getElementById('notif-banner');
   if (isArafahDay()) {
-    document.title = '⭐ يوم عرفة — زاد العشر';
+    document.title = '⭐ يوم عرفة — زاد';
     if (heroEye)  heroEye.textContent = '⭐ يوم عرفة — يوم الإجابة العظمى';
     if (heroH1)   heroH1.innerHTML    = 'ربيع القلوب وعتق الرقاب';
     if (heroP)    heroP.textContent   = 'أكثر من الدعاء والذكر — خير الدعاء دعاء يوم عرفة';
@@ -2537,7 +2537,7 @@ function showProfileModal(forceNew = false) {
       <!-- Header -->
       <div style="background:linear-gradient(135deg,#0e3b2e,#1a5d47);padding:28px 24px;text-align:center;color:#fff;position:relative">
         <div style="font-size:52px;margin-bottom:10px">🌙</div>
-        <div style="font-size:22px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:4px">مرحباً بك في زاد العشر</div>
+        <div style="font-size:22px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:4px">مرحباً بك في زاد</div>
         <div style="font-size:12px;color:rgba(255,255,255,.75)">رفيقك في أفضل أيام الدنيا</div>
       </div>
 
@@ -2629,7 +2629,7 @@ function selectProfileType(type) {
   if (hint && hintText) {
     hint.style.display = '';
     hintText.textContent = type === 'adult'
-      ? '🧑 وضع الراشد: كامل الميزات — جدول عبادات، فضائل، مصحف، تدبر بالذكاء الاصطناعي، وكل صفحات زاد العشر.'
+      ? '🧑 وضع الراشد: كامل الميزات — جدول عبادات، فضائل، مصحف، تدبر بالذكاء الاصطناعي، وكل صفحات زاد.'
       : '🧒 وضع الطفل: نفس الموقع بالكامل مع إبراز صفحات ثُريّا وغرس — قصص الأنبياء، خطوات الحج، أنشطة، وأناشيد للأطفال.';
   }
 
@@ -2665,7 +2665,7 @@ function submitProfile() {
   if (_selectedType === 'child' && !window.location.href.includes('kids.html') && !window.location.href.includes('ghars.html')) {
     if (typeof showToast === 'function') showToast(`أهلاً ${name}! 🌟 تم تفعيل وضع الأطفال`);
   } else {
-    if (typeof showToast === 'function') showToast(`أهلاً ${name}! 🌙 مرحباً بك في زاد العشر`);
+    if (typeof showToast === 'function') showToast(`أهلاً ${name}! 🌙 مرحباً بك في زاد`);
   }
 }
 

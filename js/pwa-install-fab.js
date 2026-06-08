@@ -129,7 +129,7 @@
     var fab = document.createElement('div');
     fab.id   = FAB_ID;
     fab.setAttribute('role', 'button');
-    fab.setAttribute('aria-label', 'تثبيت تطبيق زاد العشر');
+    fab.setAttribute('aria-label', 'تثبيت تطبيق زاد');
     fab.setAttribute('tabindex', '0');
     fab.innerHTML = [
       '<span class="pfab-ico" aria-hidden="true">📲</span>',

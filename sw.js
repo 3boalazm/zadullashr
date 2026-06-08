@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════
-   زاد العشر — Service Worker
+   زاد — Service Worker
    Version: 20260522-2340
    Strategy: Network-First WITH TIMEOUT (HTML/CSS/JS) + Cache-First (media)
 
