@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════
-   زاد العشر — Service Worker
+   زاد — Service Worker
    Version: 20260522-2340
    Strategy: Network-First WITH TIMEOUT (HTML/CSS/JS) + Cache-First (media)
 
@@ -8,7 +8,7 @@
    تستجب الشبكة خلال 3 ثوانٍ نرجع فوراً للنسخة المخزّنة.
    ════════════════════════════════════════════════════════════ */
 
-const CACHE_STATIC = 'zad-20260610-7100';
+const CACHE_STATIC = 'zad-20260610-7500';
 const NET_TIMEOUT  = 3000; /* مهلة الشبكة قبل الرجوع للكاش (ms) */
 
 /* ── أصول تُخزَّن مسبقاً عند التثبيت ── */
@@ -21,7 +21,7 @@ const PRECACHE = [
   './icons/icon-192.svg', './icons/icon-512.svg',
   /* core JS */
   './js/app.js', './js/adhkar-azkar.js', './js/ghars-stories.js', './js/diagnostics.js', './js/storage.js', './js/calendar.js',
-  './menu.js', './command-palette.js',
+  './menu.js', './command-palette.js', './js/ui/bottom-nav.js', './js/ui/progress-rollup.js',
   './js/design-system.js', './js/fixes-module.js',
   './js/utils/helpers.js', './js/core/state-manager.js', './js/core/router.js',
   './js/ui/design-tokens.js', './js/ui/feedback.js',

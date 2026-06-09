@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════════════════
-   menu.js v3 — المنيو الموحّد المحدّث لـ "زاد العشر"
+   menu.js v3 — المنيو الموحّد المحدّث لـ "زاد"
    جديد v3:
    • أقسام قابلة للطي (accordion) — يُفتح القسم النشط تلقائياً.
    • محوّل اللغة بثلاثة أزرار ظاهرة (العربية / English / قريباً).
@@ -562,7 +562,7 @@
     /* يشارك رابط الموقع — استبدل APP_APK_URL بملف APK فعلي حين يتوفر */
     const APP_URL = 'https://zadullashr.vercel.app';
     if (navigator.share) {
-      navigator.share({ title: 'زاد العشر', text: 'رفيقك في عشر ذي الحجة 🌙', url: APP_URL });
+      navigator.share({ title: 'زاد', text: 'رفيقك في عشر ذي الحجة 🌙', url: APP_URL });
     } else {
       navigator.clipboard?.writeText(APP_URL).then(() => {
         if (typeof showToast === 'function') showToast('✅ تم نسخ رابط التطبيق');
@@ -730,8 +730,8 @@
      يبنيها menu.js تلقائياً — فلا حاجة لتكرار الهيكل في كل صفحة. */
   const SIDEBAR_SHELL =
     '<a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">' +
-      '<div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>' +
-      '<div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>' +
+      '<div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد" style="width:36px;height:36px;border-radius:10px"></div>' +
+      '<div><div class="brand-name">زاد</div><div class="brand-sub">أفضل أيام الدنيا</div></div>' +
     '</a>' +
     '<div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>' +
     '<div class="theme-seg" id="theme-seg">' +
@@ -741,7 +741,7 @@
     '</div>' +
     '<button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>' +
     '<nav class="nav" aria-label="القائمة الرئيسية"><a href="index.html" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a></nav>' +
-    '<div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>';
+    '<div class="side-foot">زاد 2026 · بدون إعلانات 📴</div>';
 
   function ensureSidebarShell(sidebar) {
     if (!sidebar) return;
@@ -827,7 +827,7 @@
   ];
 
   function initGlobalShare() {
-    const pageName = (document.title || 'زاد العشر').split('—')[0].trim();
+    const pageName = (document.title || 'زاد').split('—')[0].trim();
     CARD_MAP.forEach(({ sel, title: tSel, body: bSel, src: sSel }) => {
       document.querySelectorAll(sel).forEach(card => {
         if (card.querySelector('.zad-sr')) return; /* مُضافة مسبقاً */
@@ -983,7 +983,7 @@
       cx.textAlign = 'right';
       cx.font = 'bold 17px Tajawal, sans-serif';
       cx.fillStyle = T.gold;
-      cx.fillText('✦ زاد العشر — ' + pageName, W - PAD, 74);
+      cx.fillText('✦ زاد — ' + pageName, W - PAD, 74);
 
       /* نقطة زخرفية يسار الترويسة */
       cx.beginPath(); cx.arc(PAD + 6, 68, 5, 0, Math.PI * 2);
@@ -1098,4 +1098,17 @@
 
   /* تصدير عام */
   window.ZadShare = { text: _zadShareText, png: _zadSharePng };
+})();
+/* ═══ تفعيل شريط التنقل السفلي (bottom-nav) على كل الصفحات التي تحمّل menu.js ═══
+   آمن ومتكرّر-المنع: يحمّل الملف مرة واحدة ثم يستدعي init (الذي هو idempotent). */
+(function loadZadBottomNav() {
+  if (window.__zadBnavWired) return;
+  window.__zadBnavWired = true;
+  function go() { try { window.ZadBottomNav && window.ZadBottomNav.init(); } catch (e) {} }
+  if (window.ZadBottomNav) { go(); return; }
+  var s = document.createElement('script');
+  s.src = 'js/ui/bottom-nav.js';
+  s.defer = true;
+  s.onload = go;
+  document.head.appendChild(s);
 })();

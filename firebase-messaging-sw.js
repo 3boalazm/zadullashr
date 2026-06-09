@@ -21,7 +21,7 @@ var messaging = firebase.messaging();
 /* إشعارات الخلفية (التطبيق مغلق) */
 messaging.onBackgroundMessage(function (payload) {
   var n = payload.notification || {};
-  var title = n.title || 'زاد العشر';
+  var title = n.title || 'زاد';
   self.registration.showNotification(title, {
     body: n.body || 'لديك تحديث جديد',
     icon: './icons/icon-192.svg',

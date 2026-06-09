@@ -55,7 +55,7 @@
                 messaging.onMessage(function (payload) {
                   var n = (payload && payload.notification) || {};
                   if (typeof window.addNotif === 'function')
-                    window.addNotif('🔔', n.title || 'زاد العشر', n.body || '', 'info');
+                    window.addNotif('🔔', n.title || 'زاد', n.body || '', 'info');
                   if (typeof window.showToast === 'function')
                     window.showToast('🔔 ' + (n.title || 'إشعار جديد'));
                 });

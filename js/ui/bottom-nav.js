@@ -11,39 +11,64 @@ const ZadBottomNav = (() => {
 
   /* تبويبات الـ bottom nav — مطابقة لـ ZadRouter.TABS */
   const TABS = [
-    { id: 'home',   icon: '🏠', label: 'الرئيسية', href: 'index.html',   pages: ['index.html'] },
+    { id: 'home',   icon: '🏠', label: 'الرئيسية', href: 'index.html',   pages: ['index.html','summary.html','profile.html','badges.html','hasad.html','hasad-month.html','ghars.html','about.html','demo.html','report.html','developer.html','diagnostics.html','zad_al_ashr.html','404.html'] },
     { id: 'quran',  icon: '📖', label: 'القرآن',   href: 'mushaf.html',  pages: ['mushaf.html','mushaf-quran.html','tasmee.html'] },
-    { id: 'adhkar', icon: '🤲', label: 'الأذكار',  href: 'adhkar.html',  pages: ['adhkar.html','hasn.html','adhkar-categories.html','du\'a.html','dua-guide.html'] },
-    { id: 'prayer', icon: '🕌', label: 'الصلاة',   href: 'prayers.html', pages: ['prayers.html','qibla.html','hijri.html','taqweem.html'] },
-    { id: 'more',   icon: '⚙️', label: 'المزيد',   href: '#more-menu',   pages: [] },
+    { id: 'adhkar', icon: '🤲', label: 'الأذكار',  href: 'adhkar.html',  pages: ['adhkar.html','adhkar-categories.html','adhkar-section.html','hasn.html','du\'a.html','duas.html','dua-guide.html','arafah-dua.html','ruqyah.html','asma.html','nawawi.html','sunan.html','takbeer.html'] },
+    { id: 'prayer', icon: '🕌', label: 'الصلاة',   href: 'prayers.html', pages: ['prayers.html','qibla.html','hijri.html','taqweem.html','barnamaj.html','worship.html'] },
+    { id: 'more',   icon: '⚙️', label: 'المزيد',   href: '#more-menu',   pages: ['manasik.html','odhiya.html','arafah.html','zakat.html','zakat-ahkam.html','zakat-anwa.html','fadael.html','videos.html','playlist.html','Quran-radio.HTML','maktaba-nassiya.html','ai.html','groups.html','group-board.html','groups-privacy.html','hawwa.html','zahra.html','sadaqah.html','kids.html','kids-school.html','kids-creativity.html','kids-heroes.html','kids-fun.html','kids-parents.html','hikayat-hajj.html','settings.html','privacy.html'] },
   ];
 
-  /* قائمة "المزيد" */
+  /* قائمة "المزيد" — اختصارات منسّقة (الدليل الكامل في القائمة الجانبية) */
   const MORE_ITEMS = [
+    { icon: '🕋', label: 'مناسك الحج',       href: 'manasik.html' },
+    { icon: '📅', label: 'برنامج اليوم',     href: 'barnamaj.html' },
+    { icon: '💝', label: 'صدقة',             href: 'sadaqah.html' },
+    { icon: '🧮', label: 'حاسبة الزكاة',     href: 'zakat.html' },
+    { icon: '👨‍👩‍👧', label: 'التنافس العائلي', href: 'groups.html' },
+    { icon: '🌟', label: 'ركن الأطفال',      href: 'kids.html' },
     { icon: '📺', label: 'المحاضرات',         href: 'videos.html' },
     { icon: '📻', label: 'إذاعة القرآن',      href: 'Quran-radio.HTML' },
     { icon: '🎵', label: 'البلاي ليست',       href: 'playlist.html' },
     { icon: '🤖', label: 'تدبّر بالذكاء',    href: 'ai.html' },
-    { icon: '📊', label: 'حصاد العشر',        href: 'hasad.html' },
-    { icon: '🧮', label: 'حاسبة الزكاة',     href: 'zakat.html' },
     { icon: '💎', label: 'أسماء الله الحسنى', href: 'asma.html' },
-    { icon: '📅', label: 'جدول العبادات',    href: 'worship.html' },
     { icon: '🏅', label: 'أوسمتي',            href: 'badges.html' },
+    { icon: '📊', label: 'حصاد العشر',        href: 'hasad.html' },
     { icon: '⚙️', label: 'الإعدادات',         href: 'settings.html' },
   ];
+
+  /* تبويبات وضع الأطفال — مبسّطة وآمنة للطفل (كل الصفحات تبقى متاحة عبر القائمة الجانبية) */
+  const KID_TABS = [
+    { id: 'khome',   icon: '🏠', label: 'الركن',   href: 'kids.html',            pages: ['kids.html','kids-parents.html','hikayat-hajj.html'] },
+    { id: 'kschool', icon: '🎓', label: 'مدرستي',  href: 'kids-school.html',     pages: ['kids-school.html'] },
+    { id: 'kcreate', icon: '🎨', label: 'إبداع',   href: 'kids-creativity.html', pages: ['kids-creativity.html'] },
+    { id: 'kfun',    icon: '🎬', label: 'المرح',   href: 'kids-fun.html',        pages: ['kids-fun.html','kids-heroes.html'] },
+    { id: 'kadult',  icon: '👨‍👩‍👧', label: 'الكبار', action: "ZadBottomNav.setMode('adult')", pages: [] },
+  ];
+
+  /* وضع التنقّل: 'adult' | 'kids' — مفتاح مستقل لا يمسّ بيانات الأطفال (zad_kids_v2) */
+  const MODE_KEY = 'zad_nav_mode';
+  function getMode() { try { return localStorage.getItem(MODE_KEY) === 'kids' ? 'kids' : 'adult'; } catch (e) { return 'adult'; } }
+  function activeTabs() { return getMode() === 'kids' ? KID_TABS : TABS; }
+  function setMode(m) {
+    const mode = (m === 'kids') ? 'kids' : 'adult';
+    try { localStorage.setItem(MODE_KEY, mode); } catch (e) {}
+    /* انتقل لوجهة الوضع الجديد؛ تُعاد بناء التبويبات تلقائيًا عند التحميل */
+    window.location.href = (mode === 'kids') ? 'kids.html' : 'index.html';
+  }
 
   let moreOpen = false;
 
   /* ── الصفحة الحالية ─────────────────────────────────────────────────── */
   function getActiveTab() {
     const page = window.location.pathname.split('/').pop() || 'index.html';
-    for (const tab of TABS) {
+    const tabs = activeTabs();
+    for (const tab of tabs) {
       if (tab.pages.includes(page)) return tab.id;
       if (tab.href === page) return tab.id;
     }
-    /* افحص المزيد */
-    if (MORE_ITEMS.some(i => i.href === page)) return 'more';
-    return 'home';
+    /* في وضع الكبار: صفحات شيت "المزيد" تُبرز تبويب المزيد */
+    if (getMode() === 'adult' && MORE_ITEMS.some(i => i.href === page)) return 'more';
+    return tabs[0].id;
   }
 
   /* ── Inject CSS ─────────────────────────────────────────────────────── */
@@ -119,6 +144,7 @@ const ZadBottomNav = (() => {
       }
       .zad-more-item:active { background: var(--border, #eee); }
       .zad-more-item.current { background: var(--green-pale, #e8f4ef); color: var(--green-deep, #0e3b2e); }
+      .zad-more-item.zad-more-mode { background: linear-gradient(135deg, var(--gold,#c9a14a), #e6c97a); color: #3a2e10; font-weight: 900; }
       .zad-more-item-icon { font-size: 26px; }
       .zad-more-item-label { font-size: 11px; font-weight: 700; text-align: center; }
 
@@ -129,8 +155,7 @@ const ZadBottomNav = (() => {
         main.main, #main-content, .main {
           padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
         }
-        /* إخفاء الـ sidebar على الموبايل لأن الـ bottom nav بيعوّضها */
-        .sidebar { display: none !important; }
+        /* القائمة الجانبية تظل متاحة على الموبايل عبر زر القائمة (الدليل الكامل) */
         main.main, #main-content, .main { margin-right: 0 !important; }
       }
 
@@ -147,52 +172,62 @@ const ZadBottomNav = (() => {
     const page = window.location.pathname.split('/').pop() || 'index.html';
 
     /* Bottom Nav */
+    const tabs = activeTabs();
     const nav = document.createElement('nav');
     nav.className = 'zad-bnav';
     nav.setAttribute('aria-label', 'التنقل الرئيسي');
     nav.innerHTML = `<div class="zad-bnav-inner">` +
-      TABS.map(tab => {
+      tabs.map(tab => {
         const isActive = tab.id === activeTab;
         const isMore = tab.id === 'more';
-        const href = isMore ? 'javascript:void(0)' : (ZadRouter?.getLastPage?.(tab.id) || tab.href);
+        const isAction = isMore || !!tab.action;
+        const el = isAction ? 'button' : 'a';
+        const onclick = isMore ? `ZadBottomNav.toggleMore()` : (tab.action || '');
+        const attr = isAction ? `onclick="${onclick}"` : `href="${(typeof ZadRouter !== 'undefined' && ZadRouter?.getLastPage?.(tab.id)) || tab.href}"`;
         return `
-          <${isMore ? 'button' : 'a'} 
+          <${el}
             class="zad-bnav-tab${isActive ? ' active' : ''}"
-            ${isMore ? `onclick="ZadBottomNav.toggleMore()"` : `href="${href}"`}
+            ${attr}
             aria-label="${tab.label}"
             ${isActive ? 'aria-current="page"' : ''}>
             <span class="zad-bnav-icon" aria-hidden="true">${tab.icon}</span>
             <span class="zad-bnav-label">${tab.label}</span>
-          </${isMore ? 'button' : 'a'}>`;
+          </${el}>`;
       }).join('') +
     `</div>`;
 
-    /* More Overlay */
-    const overlay = document.createElement('div');
-    overlay.className = 'zad-more-overlay';
-    overlay.id = 'zad-more-overlay';
-    overlay.onclick = () => closeMore();
-
-    /* More Sheet */
-    const sheet = document.createElement('div');
-    sheet.className = 'zad-more-sheet';
-    sheet.id = 'zad-more-sheet';
-    sheet.innerHTML = `
-      <div class="zad-more-handle"></div>
-      <div class="zad-more-title">المزيد من الميزات</div>
-      <div class="zad-more-grid">
-        ${MORE_ITEMS.map(item => `
-          <a class="zad-more-item${item.href === page ? ' current' : ''}"
-             href="${item.href}" onclick="ZadBottomNav.closeMore()">
-            <span class="zad-more-item-icon">${item.icon}</span>
-            <span class="zad-more-item-label">${item.label}</span>
-          </a>
-        `).join('')}
-      </div>`;
-
     document.body.appendChild(nav);
-    document.body.appendChild(overlay);
-    document.body.appendChild(sheet);
+
+    /* شيت "المزيد" يظهر في وضع الكبار فقط (وضع الأطفال له تبويب «الكبار» للرجوع) */
+    if (getMode() === 'adult') {
+      const overlay = document.createElement('div');
+      overlay.className = 'zad-more-overlay';
+      overlay.id = 'zad-more-overlay';
+      overlay.onclick = () => closeMore();
+
+      const sheet = document.createElement('div');
+      sheet.className = 'zad-more-sheet';
+      sheet.id = 'zad-more-sheet';
+      sheet.innerHTML = `
+        <div class="zad-more-handle"></div>
+        <div class="zad-more-title">المزيد من الميزات</div>
+        <div class="zad-more-grid">
+          <button class="zad-more-item zad-more-mode" onclick="ZadBottomNav.setMode('kids')">
+            <span class="zad-more-item-icon">🌟</span>
+            <span class="zad-more-item-label">وضع الأطفال</span>
+          </button>
+          ${MORE_ITEMS.map(item => `
+            <a class="zad-more-item${item.href === page ? ' current' : ''}"
+               href="${item.href}" onclick="ZadBottomNav.closeMore()">
+              <span class="zad-more-item-icon">${item.icon}</span>
+              <span class="zad-more-item-label">${item.label}</span>
+            </a>
+          `).join('')}
+        </div>`;
+
+      document.body.appendChild(overlay);
+      document.body.appendChild(sheet);
+    }
   }
 
   /* ── Toggle More ──────────────────────────────────────────────────────── */
@@ -215,13 +250,14 @@ const ZadBottomNav = (() => {
 
   /* ── Init ─────────────────────────────────────────────────────────────── */
   function init() {
+    if (document.querySelector('.zad-bnav')) return; /* idempotent — لا تبنِ مرتين */
     injectCSS();
     build();
     /* أغلق الـ more sheet بالـ Escape */
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMore(); });
   }
 
-  return { init, toggleMore, closeMore, getActiveTab };
+  return { init, toggleMore, closeMore, getActiveTab, setMode, getMode };
 })();
 
 window.ZadBottomNav = ZadBottomNav;

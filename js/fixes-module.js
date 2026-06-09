@@ -355,7 +355,7 @@ async function shareAchievement(title, subtitle) {
   ctx.textAlign = 'center';
   ctx.fillStyle = '#c9a14a';
   ctx.font = 'bold 80px Arial';
-  ctx.fillText('زاد العشر', 540, 300);
+  ctx.fillText('زاد', 540, 300);
 
   ctx.fillStyle = '#fff';
   ctx.font = 'bold 64px Arial';
@@ -377,7 +377,7 @@ async function shareAchievement(title, subtitle) {
     /* Web Share API لو مدعوم */
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try {
-        await navigator.share({ files: [file], title: 'زاد العشر', text: title });
+        await navigator.share({ files: [file], title: 'زاد', text: title });
         return;
       } catch {}
     }
