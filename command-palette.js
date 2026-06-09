@@ -200,7 +200,7 @@
     fab.id='zad-cmd-fab';
     fab.setAttribute('aria-label','شريط الأوامر — بحث سريع');
     fab.innerHTML='🔍';
-    fab.style.cssText='position:fixed;bottom:160px;left:20px;z-index:9499;width:46px;height:46px;border-radius:50%;border:none;background:var(--green-deep,#0e3b2e);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;opacity:.85;transition:opacity .2s';
+    fab.style.cssText='position:fixed;bottom:168px;left:20px;z-index:9498;width:46px;height:46px;border-radius:50%;border:none;background:var(--green-deep,#0e3b2e);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;opacity:.85;transition:opacity .2s';
     fab.onmouseenter=function(){ fab.style.opacity='1'; };
     fab.onmouseleave=function(){ fab.style.opacity='.85'; };
     fab.onclick=open;

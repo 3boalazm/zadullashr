@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#0e3b2e">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<title>الورد القرآني — زاد العشر</title>
+<title>الورد اليومي — زاد العشر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
@@ -36,8 +36,32 @@ h1,h2,h3,.page-title,.section-title,.brand-name{font-family:'ThmanyahSans','IBM 
 .mh-arrow{margin-right:auto;font-size:22px;opacity:.6;flex-shrink:0}
 
 /* ══ Plan Cards ════════════════════════════════════════════ */
-.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-@media(max-width:480px){.plan-grid{grid-template-columns:1fr}}
+.plan-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:340px){.plan-grid{grid-template-columns:1fr}}
+/* ════ تتبع الحفظ — رحلة الثلاثين جزءًا ════ */
+#quran-preview{display:none!important}
+.hifz30{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:16px;box-shadow:var(--shadow-sm);margin-bottom:20px}
+.hifz30-top{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.hifz30-ring{width:74px;height:74px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;font-family:'ThmanyahSans',sans-serif;background:conic-gradient(var(--gold) 0deg,var(--green-deep) 0deg);position:relative}
+.hifz30-ring::after{content:'';position:absolute;inset:7px;border-radius:50%;background:var(--card)}
+.hifz30-ring span,.hifz30-ring{z-index:1}
+.hifz30-ring b{position:relative;z-index:2;color:var(--green-deep)}
+html[data-theme="dark"] .hifz30-ring b,html[data-theme="oled"] .hifz30-ring b{color:var(--sys-green)}
+.hifz30-info{flex:1;min-width:0}
+.hifz30-t{font-size:15px;font-weight:800;color:var(--green-deep);font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .hifz30-t,html[data-theme="oled"] .hifz30-t{color:var(--sys-green)}
+.hifz30-s{font-size:12.5px;color:var(--muted);margin:3px 0 8px}
+.hifz30-barwrap{height:9px;background:var(--sand);border-radius:99px;overflow:hidden}
+.hifz30-bar{height:100%;background:linear-gradient(90deg,var(--green-deep),var(--gold));border-radius:99px;transition:width .5s ease}
+.hifz30-msg{font-size:12px;color:var(--gold);font-weight:700;margin-top:8px}
+.hifz30-track{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+@media(max-width:380px){.hifz30-track{grid-template-columns:repeat(5,1fr)}}
+.h30-cell{aspect-ratio:1;border-radius:10px;border:1.5px solid var(--border);background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--muted);cursor:pointer;transition:all .18s;font-family:inherit;position:relative}
+.h30-cell:hover{border-color:var(--gold);transform:translateY(-2px)}
+.h30-cell.done{background:var(--green-deep);border-color:var(--green-deep);color:#fff;box-shadow:0 4px 12px -4px rgba(14,59,46,.5)}
+.h30-cell.done::after{content:'✓';position:absolute;top:-5px;right:-5px;width:17px;height:17px;border-radius:50%;background:var(--gold);color:#3a2e10;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:900}
+.hifz30-hint{font-size:11.5px;color:var(--muted);text-align:center;margin:13px 0 0;line-height:1.7}
+
 .plan-card{
   background:var(--card);border:2px solid var(--border);
   border-radius:16px;padding:16px 14px;text-align:center;
@@ -204,7 +228,7 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="زاد العشر">
   <meta property="og:url" content="https://zadullashr.vercel.app/mushaf.html">
-  <meta property="og:title" content="الورد القرآني — زاد العشر">
+  <meta property="og:title" content="الورد اليومي — زاد العشر">
   <meta property="og:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر، جدول العبادات وأكثر">
   <meta property="og:image" content="https://zadullashr.vercel.app/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -213,7 +237,7 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
   <meta property="og:locale" content="ar_SA">
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="الورد القرآني — زاد العشر">
+  <meta name="twitter:title" content="الورد اليومي — زاد العشر">
   <meta name="twitter:description" content="رفيقك في عشر ذي الحجة — مواقيت الصلاة، ورد القرآن، المسبحة، فضائل العشر">
   <meta name="twitter:image" content="https://zadullashr.vercel.app/og-image.png">
   <!-- WhatsApp / general -->
@@ -252,8 +276,6 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
   </aside>
 
   <main class="main">
-<section class="card" style="margin:16px"><h2 class="section-title">📖 خطط الختمة</h2><div id="khatma-plans"></div></section>
-<section class="card" style="margin:16px"><h2 class="section-title">🧠 تتبع الحفظ (جزء عمّ)</h2><div id="hifz-tracker"></div></section>
 
     <div class="topbar">
       <!-- LEFT: Burger + Logo -->
@@ -265,7 +287,7 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
       </div>
       <!-- CENTER: Page name -->
       <div class="tb-center">
-        <div class="page-title">ورد <span>العشر</span></div>
+        <div class="page-title">الورد <span>اليومي</span></div>
       </div>
       <!-- RIGHT: Notif + Lang + Theme -->
       <div class="tb-right">
@@ -442,17 +464,25 @@ html[data-theme="oled"] .quran-preview{background:linear-gradient(180deg,#0c0900
     </div>
 
     <!-- ══ Gems Section ════════════════════════════════════════ -->
-    <div class="section-title">💎 جواهر القرآن في العشر</div>
-    <div id="gems-container"></div>
+    <div class="section-title">🧠 تتبع الحفظ — رحلةُ الثلاثين جزءًا</div>
+    <div class="hifz30">
+      <div class="hifz30-top">
+        <div class="hifz30-ring" id="h30-ring"><b id="h30-pct">0%</b></div>
+        <div class="hifz30-info">
+          <div class="hifz30-t">رحلةُ حفظ القرآن</div>
+          <div class="hifz30-s"><span id="h30-count">0</span> من 30 جزءًا</div>
+          <div class="hifz30-barwrap"><div class="hifz30-bar" id="h30-bar" style="width:0%"></div></div>
+          <div class="hifz30-msg" id="h30-msg">ابدأ رحلتك… كلُّ جزءٍ خطوةٌ نحو حفظ كتاب الله 🌟</div>
+        </div>
+      </div>
+      <div class="hifz30-track" id="h30-grid" role="list" aria-label="أجزاء القرآن الثلاثون"></div>
+      <p class="hifz30-hint">اضغط على رقم الجزء عند إتمام حفظه — يُحفظ تقدّمك تلقائيًا على جهازك. 💚</p>
+    </div>
+    <div id="khatma-plans" style="display:none" aria-hidden="true"></div>
+    <div id="hifz-tracker" style="display:none" aria-hidden="true"></div>
 
     <!-- ══ Quran Preview ══════════════════════════════════════ -->
-    <div class="section-title">
-      <span>معاينة الورد</span>
-      <div class="font-ctrl" style="margin-right:auto">
-        <button class="fc-btn" onclick="changeFontSize(-2)">A−</button>
-        <button class="fc-btn" onclick="changeFontSize(+2)">A+</button>
-      </div>
-    </div>
+    
     <div class="quran-preview" id="quran-preview">
       <div class="qp-header">
         <span id="qp-src">سورة الحج — الآية 27</span>
@@ -873,5 +903,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
   <script src="menu.js" defer></script>
 <script src="command-palette.js" defer></script>
+<script>
+/* ════ ترتيب الورد اليومي + تتبع الحفظ (٣٠ جزءًا) ════ */
+(function(){
+  'use strict';
+  function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn);else fn();}
+
+  /* 1) إعادة الترتيب: «ورد اليوم» قبل «اختر خطة القراءة» */
+  function reorder(){
+    var planGrid=document.getElementById('plan-grid');
+    var planTitle=planGrid?planGrid.previousElementSibling:null;       /* عنوان «اختر خطة القراءة» */
+    var wirdTitle=document.getElementById('wird-title-el');
+    var wirdWrap=wirdTitle?wirdTitle.nextElementSibling:null;          /* .wird-wrap */
+    if(planTitle&&planGrid&&wirdWrap&&wirdWrap.parentNode){
+      try{ wirdWrap.after(planTitle, planGrid); }catch(e){
+        wirdWrap.parentNode.insertBefore(planTitle,wirdWrap.nextSibling);
+        wirdWrap.parentNode.insertBefore(planGrid,planTitle.nextSibling);
+      }
+    }
+  }
+
+  /* 2) تتبع الحفظ — 30 جزءًا */
+  var ZKEY='zad_v2';
+  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
+  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
+  function getMap(){var s=read();s.hifz30=s.hifz30||{juz:{}};if(!s.hifz30.juz)s.hifz30.juz={};return s;}
+  var MSGS=[
+    'ابدأ رحلتك… كلُّ جزءٍ خطوةٌ نحو حفظ كتاب الله 🌟',
+    'بدايةٌ مباركة! واصِل، فالقرآنُ يرفعُ صاحبه 🤍',
+    'ما شاء الله، تقدّمٌ جميل! أنت من أهل القرآن 📖',
+    'رائع! تجاوزتَ الثلث — ثبّتك الله 💚',
+    'نصفُ الطريق! «خيرُكم من تعلّم القرآن وعلّمه» ✨',
+    'تجاوزتَ الثلثين — قاربتَ على الإكليل 👑',
+    'سبحان الله! ختمتَ حفظ القرآن كاملًا — تاجُ الوقار لوالديك 🏆'
+  ];
+  function msgFor(n){ if(n===0)return MSGS[0]; if(n>=30)return MSGS[6]; if(n>=20)return MSGS[5]; if(n>=15)return MSGS[4]; if(n>=10)return MSGS[3]; if(n>=5)return MSGS[2]; return MSGS[1]; }
+
+  function renderHifz30(){
+    var grid=document.getElementById('h30-grid'); if(!grid)return;
+    var s=getMap(), map=s.hifz30.juz;
+    var done=0,html='';
+    for(var j=1;j<=30;j++){var on=!!map[j]; if(on)done++;
+      html+='<button class="h30-cell'+(on?' done':'')+'" data-juz="'+j+'" role="listitem" aria-pressed="'+on+'" aria-label="الجزء '+j+'">'+j+'</button>';
+    }
+    grid.innerHTML=html;
+    var pct=Math.round(done/30*100);
+    var pctEl=document.getElementById('h30-pct'); if(pctEl)pctEl.textContent=pct+'%';
+    var cnt=document.getElementById('h30-count'); if(cnt)cnt.textContent=done;
+    var bar=document.getElementById('h30-bar'); if(bar)bar.style.width=pct+'%';
+    var ring=document.getElementById('h30-ring'); if(ring)ring.style.background='conic-gradient(var(--gold) '+(pct*3.6)+'deg,var(--green-deep) 0deg)';
+    var msg=document.getElementById('h30-msg'); if(msg)msg.textContent=msgFor(done);
+  }
+  function onClick(e){
+    var c=e.target.closest&&e.target.closest('.h30-cell'); if(!c)return;
+    var j=c.dataset.juz, s=getMap();
+    if(s.hifz30.juz[j])delete s.hifz30.juz[j];else s.hifz30.juz[j]=1;
+    write(s);
+    if(navigator.vibrate)navigator.vibrate(15);
+    if(s.hifz30.juz[j]){try{if(window.triggerConfetti)window.triggerConfetti();}catch(_){}}
+    renderHifz30();
+  }
+
+  ready(function(){
+    reorder();
+    var grid=document.getElementById('h30-grid');
+    if(grid){ grid.addEventListener('click',onClick); renderHifz30(); }
+  });
+  window.addEventListener('focus',renderHifz30);
+})();
+</script>
 </body>
 </html>

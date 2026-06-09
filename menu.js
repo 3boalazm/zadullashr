@@ -22,7 +22,7 @@
     { href: 'barnamaj.html',     icon: '📅', label: 'برنامج اليوم',     section: 'sec-prayer' },
 
     { sep: 'القرآن الكريم', id: 'sec-quran' },
-    { href: 'mushaf.html',       icon: '📖', label: 'ورد العشر',        section: 'sec-quran' },
+    { href: 'mushaf.html',       icon: '📖', label: 'الورد اليومي',      section: 'sec-quran' },
     { href: 'mushaf-quran.html', icon: '🕋', label: 'المصحف الشريف',   section: 'sec-quran' },
     { href: 'Quran-radio.HTML',  icon: '📻', label: 'إذاعات القرآن',   section: 'sec-quran' },
     { href: 'takbeer.html',      icon: '📿', label: 'المسبحة',          section: 'sec-quran' },
@@ -726,9 +726,35 @@
   /* ══════════════════════════════════════════════════════════════════════
      الدالة الرئيسية
      ════════════════════════════════════════════════════════════════════ */
+  /* ════ قالب السايد بار الموحّد (مصدر واحد) ════
+     أيّ صفحة فيها <aside class="sidebar"></aside> فارغة أو ناقصة الهيكل،
+     يبنيها menu.js تلقائياً — فلا حاجة لتكرار الهيكل في كل صفحة. */
+  const SIDEBAR_SHELL =
+    '<a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">' +
+      '<div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر" style="width:36px;height:36px;border-radius:10px"></div>' +
+      '<div><div class="brand-name">زاد العشر</div><div class="brand-sub">أفضل أيام الدنيا</div></div>' +
+    '</a>' +
+    '<div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>' +
+    '<div class="theme-seg" id="theme-seg">' +
+      '<button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme(\'light\')">☀️ فاتح</button>' +
+      '<button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme(\'dark\')">🌙 داكن</button>' +
+      '<button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme(\'oled\')">⚫ OLED</button>' +
+    '</div>' +
+    '<button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>' +
+    '<nav class="nav" aria-label="القائمة الرئيسية"><a href="index.html" class="active"><span class="ico">🏠</span><span>لوحة التحكم</span></a></nav>' +
+    '<div class="side-foot">زاد العشر 2026 · بدون إعلانات 📴</div>';
+
+  function ensureSidebarShell(sidebar) {
+    if (!sidebar) return;
+    /* لو الهيكل الأساسي موجود (nav + brand) نسيبه زي ما هو لتفادي أي تعارض */
+    if (sidebar.querySelector('.nav') && sidebar.querySelector('.brand')) return;
+    sidebar.innerHTML = SIDEBAR_SHELL;
+  }
+
   function init() {
     injectStyle();
     const sidebar = document.querySelector('.sidebar');
+    ensureSidebarShell(sidebar);
     const navEl   = document.querySelector('.sidebar .nav') || document.querySelector('.nav');
     if (navEl) {
       buildNav(navEl);

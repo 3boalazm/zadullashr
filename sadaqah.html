@@ -60,6 +60,21 @@
     };
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
+<style>
+.sad-dashbox{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:16px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+.sad-stats{display:flex;gap:12px;margin-bottom:14px}
+.sad-stat{flex:1;text-align:center;background:var(--sand);border-radius:14px;padding:12px}
+.sad-stat .sv{font-size:26px;font-weight:900;color:var(--green-deep);font-family:'ThmanyahSans',sans-serif;line-height:1}
+html[data-theme="dark"] .sad-stat .sv,html[data-theme="oled"] .sad-stat .sv{color:var(--sys-green)}
+.sad-stat .sl{font-size:11px;color:var(--muted);margin-top:5px}
+.sad-badges{display:flex;flex-wrap:wrap;gap:8px}
+.sad-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-pale);border:1.5px solid var(--green-soft);border-radius:11px;padding:7px 11px;font-size:11.5px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .sad-badge,html[data-theme="oled"] .sad-badge{background:rgba(42,122,95,.12);color:var(--sys-green)}
+.sad-badge.off{background:var(--sand);border-style:dashed;border-color:var(--border);color:var(--muted);filter:grayscale(.6);opacity:.7}
+.charity-act.act-done{border-color:var(--green-soft);background:var(--green-pale)}
+html[data-theme="dark"] .charity-act.act-done,html[data-theme="oled"] .charity-act.act-done{background:rgba(42,122,95,.12)}
+.charity-act.act-done .btn{background:var(--green-deep)!important;color:#fff!important;border-color:var(--green-deep)!important}
+</style>
 </head>
 <body>
 <div class="reading-progress-bar"><div class="reading-progress-fill" id="rpb"></div></div>
@@ -131,6 +146,91 @@
   <!-- Floating AI Button -->
   <a href="ai.html" class="fab-ai" title="تدبّر بالذكاء الاصطناعي" aria-label="مساعد الذكاء الاصطناعي">🤖</a>
 </div>
+  <script>
+/* ════ صدقة العشر — تجديد يومي + أوسمة خاصة بالصفحة ════ */
+(function(){
+  'use strict';
+  var DAILY={food:1,water:1,quran:1,kin:1};   /* تتجدّد كل يوم */
+  var ONCE ={sheep:1,orphan:1};                /* مرة واحدة: أضحية + كفالة يتيم */
+  var ZKEY='zad_v2';
+  function read(){try{return JSON.parse(localStorage.getItem(ZKEY)||'{}')||{};}catch(e){return{};}}
+  function write(s){try{localStorage.setItem(ZKEY,JSON.stringify(s));}catch(e){}}
+  function today(){return new Date().toISOString().split('T')[0];}
+  function yday(){var d=new Date();d.setDate(d.getDate()-1);return d.toISOString().split('T')[0];}
+  function toast(m){if(window.showToast)window.showToast(m);}
+  function st(){
+    var s=read();
+    s.sadaqahPage=s.sadaqahPage||{day:today(),daily:{},once:{},total:0,streak:0,lastDay:''};
+    if(s.sadaqahPage.day!==today()){s.sadaqahPage.daily={};s.sadaqahPage.day=today();write(s);}
+    return s;
+  }
+
+  function badges(sp){
+    return [
+      {e:'🤲',t:'يدٌ معطاء',on:(sp.total||0)>=5},
+      {e:'🌟',t:'سخاءٌ دائم',on:(sp.total||0)>=15},
+      {e:'🐑',t:'مُضحٍّ',on:!!sp.once.sheep},
+      {e:'👨‍👩‍👧',t:'كافلُ يتيم',on:!!sp.once.orphan},
+      {e:'🔥',t:'سلسلةُ العطاء',on:(sp.streak||0)>=3}
+    ];
+  }
+  function renderDash(){
+    var sp=st().sadaqahPage;
+    var el=document.getElementById('sad-dash'); if(!el)return;
+    var bs=badges(sp).map(function(b){return '<span class="sad-badge'+(b.on?'':' off')+'">'+(b.on?b.e:'🔒')+' '+b.t+'</span>';}).join('');
+    el.innerHTML=
+      '<div class="sad-stats">'+
+        '<div class="sad-stat"><div class="sv">'+(sp.total||0)+'</div><div class="sl">أعمالٌ سُجِّلت</div></div>'+
+        '<div class="sad-stat"><div class="sv">'+(sp.streak||0)+'</div><div class="sl">سلسلة العطاء (يوم)</div></div>'+
+      '</div><div class="sad-badges">'+bs+'</div>';
+  }
+  function refreshCards(){
+    var sp=st().sadaqahPage;
+    document.querySelectorAll('.charity-act[data-act]').forEach(function(card){
+      var act=card.dataset.act, btn=card.querySelector('button'); if(!btn)return;
+      var done = ONCE[act] ? !!sp.once[act] : !!sp.daily[act];
+      card.classList.toggle('act-done',done);
+      if(done){ btn.textContent = ONCE[act] ? '✅ تم' : '✅ تم اليوم'; }
+    });
+  }
+  function recordAct(act,card){
+    var s=st(), sp=s.sadaqahPage;
+    if(ONCE[act]){ if(sp.once[act]){toast('سجّلته بالفعل ✅');return;} sp.once[act]=1; }
+    else { if(sp.daily[act]){toast('سجّلته اليوم — يتجدّد غدًا 🌙');return;} sp.daily[act]=1; }
+    sp.total=(sp.total||0)+1;
+    /* سلسلة الأيام */
+    var t=today();
+    if(sp.lastDay!==t){ sp.streak = (sp.lastDay===yday()) ? (sp.streak||0)+1 : 1; sp.lastDay=t; }
+    /* تغذية النقاط العامة (مرّة لكل نوع) */
+    s.charityDone=s.charityDone||[]; if(s.charityDone.indexOf(act)<0)s.charityDone.push(act);
+    write(s);
+    if(navigator.vibrate)navigator.vibrate(18);
+    try{if(window.triggerConfetti)window.triggerConfetti();}catch(_){}
+    toast('💝 بارك الله فيك — '+(card.querySelector('h3')?card.querySelector('h3').textContent:''));
+    refreshCards(); renderDash();
+  }
+
+  function wire(){
+    /* نحقن الداشبورد فوق الشبكة */
+    var grid=document.querySelector('.grid.cols-3') || (document.querySelector('.charity-act')||{}).parentNode;
+    if(grid && !document.getElementById('sad-dash')){
+      var t=document.createElement('div'); t.className='section-title'; t.textContent='🏆 عطاؤك وأوسمتك';
+      var d=document.createElement('div'); d.id='sad-dash'; d.className='sad-dashbox';
+      grid.parentNode.insertBefore(t,grid); grid.parentNode.insertBefore(d,grid);
+    }
+    /* نستنسخ الكروت لإزالة مستمع app.js الدائم ثم نربط منطقنا */
+    document.querySelectorAll('.charity-act[data-act]').forEach(function(card){
+      var fresh=card.cloneNode(true); card.parentNode.replaceChild(fresh,card);
+      fresh.addEventListener('click',function(e){ e.stopPropagation(); recordAct(fresh.dataset.act,fresh); });
+    });
+    refreshCards(); renderDash();
+  }
+  /* بعد ما يخلّص app.js (defer) — DOMContentLoaded */
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(wire,0);});
+  else setTimeout(wire,0);
+  window.addEventListener('focus',function(){refreshCards();renderDash();});
+})();
+</script>
   <script src="lang.js" defer></script>
   <script src="js/storage.js" defer></script>
   <script src="js/calendar.js" defer></script>

@@ -860,7 +860,7 @@ function initSmartCountdown() {
     }
     if (lbl) {
       const days = Math.floor((ARAFAH_DAY - now) / 86400000);
-      lbl.textContent = days === 0 ? 'غداً يوم عرفة ⏳' : 'تبقّى ' + days + ' ' + (days===1?'يوم':'أيام') + ' على يوم عرفة ⏳';
+      lbl.textContent = days === 0 ? 'غداً يوم عرفة ⏳' : 'تبقّى ' + days + ' ' + (days===1?'يوم':'يومًا') + ' على عرفة العام القادم (' + (ARAFAH_DAY.getFullYear()-579) + 'هـ تقريبًا) 🌄';
     }
   } else {
     const daysWrap    = document.getElementById('ar-cd-days');

@@ -49,7 +49,9 @@ html[data-theme="dark"] .cal-month-lbl,html[data-theme="oled"] .cal-month-lbl{co
 .cal-day:hover{border-color:var(--gold);background:var(--gold-pale)}
 .cal-day.empty{background:transparent;pointer-events:none}
 .cal-day.other-month{opacity:.35}
-.cal-day.today-day{border-color:var(--green-deep);background:linear-gradient(135deg,var(--green-deep),var(--green-mid));box-shadow:0 4px 16px rgba(14,59,46,.4);transform:scale(1.04);z-index:2}
+.cal-day.today-day{border-color:var(--gold);background:linear-gradient(135deg,var(--green-deep),var(--green-mid));box-shadow:0 0 0 3px var(--gold),0 6px 22px rgba(14,59,46,.5);transform:scale(1.14);z-index:3;position:relative;animation:todayPulse 2.6s ease-in-out infinite}
+@keyframes todayPulse{0%,100%{box-shadow:0 0 0 3px var(--gold),0 6px 22px rgba(14,59,46,.5)}50%{box-shadow:0 0 0 5px var(--gold),0 8px 28px rgba(201,161,74,.55)}}
+.cal-day.today-day::before{content:"اليوم";position:absolute;top:-9px;right:50%;transform:translateX(50%);background:var(--gold);color:#3a2e10;font-size:8.5px;font-weight:800;padding:1px 7px;border-radius:999px;white-space:nowrap;font-family:'IBM Plex Sans Arabic',sans-serif}
 html[data-theme="dark"] .cal-day.today-day,
 html[data-theme="oled"] .cal-day.today-day{background:linear-gradient(135deg,#0e3b2e,#1a5d47);border-color:#1a5d47}
 .cal-day.special-day{border-color:var(--gold);background:rgba(201,161,74,.1)}
@@ -67,7 +69,7 @@ body[data-caltype="greg"] .cd-secondary{font-size:15px;font-weight:700;color:var
 /* Today: big bold white number on filled green cell (all themes/modes) */
 .cal-day.today-day .cd-primary,
 html[data-theme="dark"] .cal-day.today-day .cd-primary,
-html[data-theme="oled"] .cal-day.today-day .cd-primary{font-size:26px;font-weight:800;color:#fff;line-height:1;text-shadow:0 1px 4px rgba(0,0,0,.35)}
+html[data-theme="oled"] .cal-day.today-day .cd-primary{font-size:34px;font-weight:900;color:#fff;line-height:1;text-shadow:0 1px 5px rgba(0,0,0,.4)}
 .cal-day.today-day .cd-secondary,
 html[data-theme="dark"] .cal-day.today-day .cd-secondary,
 html[data-theme="oled"] .cal-day.today-day .cd-secondary{color:rgba(255,255,255,.85);font-weight:700}
