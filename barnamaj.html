@@ -54,6 +54,46 @@ html[data-theme="dark"] .bz-act-hadith,html[data-theme="oled"] .bz-act-hadith{co
 .bz-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--sand);color:var(--muted);margin-top:4px}
 .bz-arafah-badge{background:linear-gradient(135deg,#c9a14a,#e6c97a);color:#3a2a08;border-radius:99px;padding:3px 12px;font-size:11px;font-weight:800;display:inline-block;margin-bottom:10px}
 
+
+/* ── جدول العبادات (مدموج من worship) ── */
+
+  :root{--font-scale:1}
+  body{font-size:calc(1rem * var(--font-scale))}
+  .quran-text,.quran,[data-quran],.mushaf,.ayah,.ts-ayah-text,.basmala-txt,.surah-title-box{font-size:revert!important}
+  .font-size-options{display:flex;gap:8px}
+  .font-size-options .fs-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;transition:all .2s;color:var(--ink)}
+  .font-size-options .fs-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff}
+  .fs-btn[data-size="small"]  span:first-child{font-size:14px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="medium"] span:first-child{font-size:19px;display:block;margin-bottom:4px}
+  .fs-btn[data-size="large"]  span:first-child{font-size:24px;display:block;margin-bottom:4px}
+
+/* ═══ عناصر العبادات (checklist) + أنيميشن الإتمام ═══ */
+.check{display:flex;align-items:center;gap:12px;padding:13px 15px;background:var(--card);border:2px solid var(--border);border-radius:14px;margin-bottom:9px;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.check:hover{border-color:var(--green-soft);transform:translateX(-3px)}
+.check:active{transform:scale(.98)}
+.check .box{width:30px;height:30px;flex-shrink:0;border:2px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:transparent;background:var(--sand);transition:all .25s cubic-bezier(.34,1.56,.64,1)}
+.check .label{flex:1;font-size:14px;font-weight:700;color:var(--ink);transition:all .2s}
+.check .meta{font-size:11px;font-weight:700;color:var(--muted);background:var(--sand);padding:3px 10px;border-radius:99px;flex-shrink:0}
+/* الحالة المكتملة */
+.check.done{background:linear-gradient(135deg,var(--green-pale),var(--card));border-color:var(--green-soft);animation:checkDone .45s cubic-bezier(.34,1.56,.64,1)}
+.check.done .box{background:var(--green-deep);border-color:var(--green-deep);color:#fff;animation:boxPop .4s cubic-bezier(.34,1.56,.64,1)}
+.check.done .label{color:var(--green-deep)}
+html[data-theme="dark"] .check.done .label,html[data-theme="oled"] .check.done .label{color:var(--sys-green)}
+html[data-theme="dark"] .check.done .box,html[data-theme="oled"] .check.done .box{background:var(--sys-green);border-color:var(--sys-green);color:#001a08}
+/* وميض أخضر عند الإتمام */
+.check.done::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(77,216,102,.25),transparent 70%);opacity:0;animation:checkFlash .6s ease}
+@keyframes checkDone{0%{transform:scale(1)}40%{transform:scale(1.025)}100%{transform:scale(1)}}
+@keyframes boxPop{0%{transform:scale(.6) rotate(-12deg)}55%{transform:scale(1.25) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes checkFlash{0%{opacity:.8}100%{opacity:0}}
+
+
+/* بانر المناسبات */
+.occasion-banner{background:linear-gradient(135deg,var(--green-pale),var(--gold-pale));border:1.5px solid var(--gold);border-radius:14px;padding:12px 14px;margin-bottom:14px;display:flex;flex-direction:column;gap:8px}
+html[data-theme="dark"] .occasion-banner,html[data-theme="oled"] .occasion-banner{background:rgba(201,161,74,.1);border-color:rgba(201,161,74,.4)}
+.occasion-banner .occ-row{display:flex;align-items:flex-start;gap:9px;font-size:13px;font-weight:700;color:var(--green-deep);line-height:1.7}
+html[data-theme="dark"] .occasion-banner .occ-row,html[data-theme="oled"] .occasion-banner .occ-row{color:var(--sys-green)}
+.occasion-banner .occ-e{font-size:18px;flex-shrink:0}
+
 </style>
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t);try{if(p.excuseMode)document.documentElement.setAttribute('data-excuse','on')}catch(e){}})();</script>
 <script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
@@ -85,129 +125,218 @@ html[data-theme="dark"] .bz-act-hadith,html[data-theme="oled"] .bz-act-hadith{co
       <div class="tb-right">
       </div>
     </div>
-<div class="bz-hero"><h1>🕌 برنامج اليوم — نوافذ الإنتاجية</h1><p>بدلاً من التقويم التقليدي، نُعيد هيكلة يومك حول الصلوات الخمس كـ«نوافذ إنتاجية» — كلُّ فترةٍ بين صلاتين نافذةٌ تُحدِّد فيها مهامَّك الدنيوية والروحية.</p></div><div class="bz-now" id="bz-now">🕒 جارٍ تحديد نافذتك الحالية…</div>    <div class="bz-win" id="bz-fajr" data-w="fajr"><div class="top"><span class="nm">🌅 الفجر ← الشروق</span><span class="dur">~90 دقيقة</span></div><div class="tasks">📋 وردٌ قرآنيٌّ للصباح · أذكار الصباح · تهجّد</div><div class="scr">🖥️ بطاقة «وقت الخلوة» بخلفيةٍ فجريةٍ هادئة</div><div class="bz-links"><a href="adhkar.html">أذكار الصباح ←</a><a href="mushaf.html">ورد القرآن ←</a></div></div>
-    <div class="bz-win" id="bz-shuruq" data-w="shuruq"><div class="top"><span class="nm">☀️ الشروق ← الظهر</span><span class="dur">~5–6 ساعات</span></div><div class="tasks">📋 العمل · الدراسة · المهام الدنيوية الكبرى</div><div class="scr">🖥️ قائمةُ مهامٍ دنيوية مع مؤشّر «الوقت المتبقّي للظهر»</div><div class="bz-links"><a href="worship.html">جدول العبادات ←</a></div></div>
+<div class="bz-hero"><h1>🕌 برنامج اليوم — نوافذ الإنتاجية</h1><p>بدلاً من التقويم التقليدي، نُعيد هيكلة يومك حول الصلوات الخمس كـ«نوافذ إنتاجية» — كلُّ فترةٍ بين صلاتين نافذةٌ تُحدِّد فيها مهامَّك الدنيوية والروحية.</p></div><div class="bz-now" id="bz-now">🕒 جارٍ تحديد نافذتك الحالية…</div>
+<div class="occasion-banner" id="occasion-banner" style="display:none"></div>    <div class="bz-win" id="bz-fajr" data-w="fajr"><div class="top"><span class="nm">🌅 الفجر ← الشروق</span><span class="dur">~90 دقيقة</span></div><div class="tasks">📋 وردٌ قرآنيٌّ للصباح · أذكار الصباح · تهجّد</div><div class="scr">🖥️ بطاقة «وقت الخلوة» بخلفيةٍ فجريةٍ هادئة</div><div class="bz-links"><a href="adhkar.html">أذكار الصباح ←</a><a href="mushaf.html">ورد القرآن ←</a></div></div>
+    <div class="bz-win" id="bz-shuruq" data-w="shuruq"><div class="top"><span class="nm">☀️ الشروق ← الظهر</span><span class="dur">~5–6 ساعات</span></div><div class="tasks">📋 العمل · الدراسة · المهام الدنيوية الكبرى</div><div class="scr">🖥️ قائمةُ مهامٍ دنيوية مع مؤشّر «الوقت المتبقّي للظهر»</div><div class="bz-links"><a href="#worship-tracker">جدول العبادات ←</a></div></div>
     <div class="bz-win" id="bz-dhuhr" data-w="dhuhr"><div class="top"><span class="nm">🌤️ الظهر ← العصر</span><span class="dur">~3–4 ساعات</span></div><div class="tasks">📋 استراحةُ قيلولة · مهامٌ متوسطة · صدقة</div><div class="scr">🖥️ بطاقةُ «نافذة الظهيرة» مع تذكير القيلولة</div><div class="bz-links"><a href="sadaqah.html">سجّل صدقة ←</a></div></div>
     <div class="bz-win" id="bz-asr" data-w="asr"><div class="top"><span class="nm">🌇 العصر ← المغرب</span><span class="dur">~3 ساعات</span></div><div class="tasks">📋 أذكار المساء · وردٌ قرآنيٌّ مسائي · تواصلٌ اجتماعي</div><div class="scr">🖥️ بطاقةُ «الذهب الأصفر» — أفضلُ وقتٍ للذكر</div><div class="bz-links"><a href="adhkar.html">أذكار المساء ←</a><a href="takbeer.html">المسبحة ←</a></div></div>
     <div class="bz-win" id="bz-maghrib" data-w="maghrib"><div class="top"><span class="nm">🌆 المغرب ← العشاء</span><span class="dur">~90 دقيقة</span></div><div class="tasks">📋 أذكار المساء · قراءةٌ علمية · تعليمُ الأسرة</div><div class="scr">🖥️ بطاقةُ «ساعة الأسرة» مع اقتراح نشاطٍ عائليٍّ ديني</div><div class="bz-links"><a href="kids-heroes.html">ركن الأطفال ←</a><a href="fadael.html">فضائل العشر ←</a></div></div>
     <div class="bz-win" id="bz-isha" data-w="isha"><div class="top"><span class="nm">🌙 العشاء ← الفجر</span><span class="dur">ليل</span></div><div class="tasks">📋 قيامُ الليل · استردادُ الورد الفائت</div><div class="scr">🖥️ وضع OLED Black تلقائي · عدّاد قيام الليل</div><div class="bz-links"><a href="mushaf.html">ورد القرآن ←</a><a href="settings.html">الإعدادات ←</a></div></div>
 <div class="card" style="margin-top:6px;font-size:12px;color:var(--muted);line-height:1.8">⏱️ النافذةُ الحالية تُحدَّد تقريبياً بالساعة، وتدقّ أكثر عند تفعيل موقعك لحساب مواقيت الصلاة.</div>
 
-<!-- ══════════════════════════════════════════════
-     الأعمال اليومية المستحبة في عشر ذي الحجة
-     مستخلصة من المصادر الشرعية
-     ══════════════════════════════════════════ -->
 
+<div id="worship-tracker"></div>
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد العشر"></a>
+      </div>
+      <div class="tb-center">
+        <div class="page-title">جدول <span>العبادات</span></div>
+      </div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 1. HERO: ترحيب يومي ══════════════ -->
+    <div style="background:linear-gradient(135deg,#0e3b2e,#1a5d47,#c9a14a 180%);border-radius:20px;padding:22px;color:#fff;margin-bottom:16px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:-20px;left:-20px;font-size:120px;opacity:.06;line-height:1">✅</div>
+      <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:4px">وردك اليومي</div>
+      <div style="font-size:18px;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin-bottom:10px" id="w-hero-label">جدول العبادات اليومي</div>
+      <div style="background:rgba(255,255,255,.1);border-radius:10px;padding:10px;font-size:12px;line-height:1.7">
+        💡 قال ﷺ: <strong>أحب الأعمال إلى الله أدومها وإن قلّ</strong> — رواه البخاري ومسلم
+      </div>
+    </div>
+
+    <!-- ══ 2. مؤشر الالتزام الروحاني ═══════════════════════ -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="prog-ring-wrap">
+        <div class="prog-ring">
+          <svg viewBox="0 0 100 100" width="90" height="90">
+            <circle cx="50" cy="50" r="44" fill="none" stroke="var(--sand-2)" stroke-width="8"/>
+            <circle id="ring-circle" cx="50" cy="50" r="44" fill="none" stroke="url(#ringGrad2)" stroke-width="8" stroke-linecap="round" style="stroke-dasharray:276.5;stroke-dashoffset:276.5;transition:stroke-dashoffset .8s ease"/>
+            <defs><linearGradient id="ringGrad2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#2a7a5f"/><stop offset="100%" stop-color="#c9a14a"/></linearGradient></defs>
+          </svg>
+          <div class="ring-pct"><span id="ring-pct" style="font-size:18px">0%</span></div>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:6px">مؤشر الالتزام الروحاني</div>
+          <div class="progress"><span id="prog-bar" style="width:0%"></span></div>
+          <div style="margin-top:8px;font-size:13px;color:var(--muted)" id="prog-txt">0 من 16 عبادة</div>
+          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+            <button onclick="shareProgress()" style="padding:7px 14px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;color:var(--green-deep)">📊 شارك تقدمك</button>
+            <button onclick="requestNotifPermission()" style="padding:7px 14px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;color:var(--muted)">🔔 تذكيرات</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 3. ركن الاستعداد ══════════════════════════════════ -->
+    <div class="section-title">🚀 ركن الاستعداد — ابدأ رحلتك</div>
+    <div class="card" style="margin-bottom:12px;border-right:4px solid var(--green-deep)">
+      <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:8px">🤍 تجديد النية</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:12px">استقبل هذه الأيام بنية <strong>"التعرض لنفحات الله"</strong> — استحضر يقين "من صدق الله صدقه الله"</div>
+      <div id="niyya-check" onclick="toggleNiyya()" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--sand);border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:all .2s">
+        <div id="niyya-box" style="width:24px;height:24px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;flex-shrink:0"></div>
+        <span style="font-size:13px;font-weight:700;color:var(--ink)">نويت اليوم العمل لله وحده خالصاً</span>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;border-right:4px solid var(--gold)">
+      <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:10px">🌿 التوبة الجراحية</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:12px">لا تسمح لذنوبك أن تعيق انطلاقتك — طبّق شروط التوبة الثلاثة:</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink)"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">1</span>الإقلاع الفوري عن الذنب</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink)"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">2</span>الندم القلبي الصادق على ما فات</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink)"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">3</span>العزم الجازم على عدم العودة</div>
+      </div>
+      <div id="tawbah-check" onclick="toggleTawbah()" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--sand);border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:all .2s">
+        <div id="tawbah-box" style="width:24px;height:24px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;flex-shrink:0"></div>
+        <span style="font-size:13px;font-weight:700;color:var(--ink)">تبت إلى الله وجددت العهد اليوم</span>
+      </div>
+    </div>
+
+    <!-- ══ 4. الورد اليومي — الفرائض والسنن ════════════════ -->
+    <div class="section-title">🕌 الفرائض</div>
+    <div class="check" data-key="fajr"><div class="box">✓</div><div class="label">صلاة الفجر في جماعة</div><div class="meta">فجر</div></div>
+    <div class="check" data-key="zuhr"><div class="box">✓</div><div class="label">صلاة الظهر في جماعة</div><div class="meta">ظهر</div></div>
+    <div class="check" data-key="asr"><div class="box">✓</div><div class="label">صلاة العصر في جماعة</div><div class="meta">عصر</div></div>
+    <div class="check" data-key="maghrib"><div class="box">✓</div><div class="label">صلاة المغرب في جماعة</div><div class="meta">مغرب</div></div>
+    <div class="check" data-key="isha"><div class="box">✓</div><div class="label">صلاة العشاء في جماعة</div><div class="meta">عشاء</div></div>
+
+    <div class="section-title">⭐ السنن والنوافل</div>
+    <div class="check" data-key="rawatib"><div class="box">✓</div><div class="label">السنن الرواتب — 12 ركعة</div><div class="meta">بيت في الجنة ✨</div></div>
+    <div class="check" data-key="duha"><div class="box">✓</div><div class="label">صلاة الضحى</div><div class="meta">صدقة عن 360 مفصل</div></div>
+    <div class="check" data-key="qiyam"><div class="box">✓</div><div class="label">قيام الليل</div><div class="meta">يعدل قيام ليلة القدر</div></div>
+
+    <div class="section-title">📿 الذكر والاستغفار</div>
+    <div class="check" data-key="morning_dhikr"><div class="box">✓</div><div class="label">أذكار الصباح</div><div class="meta">3 دقائق</div></div>
+    <div class="check" data-key="evening_dhikr"><div class="box">✓</div><div class="label">أذكار المساء</div><div class="meta">3 دقائق</div></div>
+    <div class="check" data-key="takbeer_100"><div class="box">✓</div><div class="label">تكبير + تسبيح + تهليل</div><div class="meta">100 مرة لكل منها</div></div>
+    <div class="check" data-key="tawbah"><div class="box">✓</div><div class="label">استغفار + تجديد التوبة</div></div>
+    <div class="check" data-key="salah_nabi"><div class="box">✓</div><div class="label">الصلاة على النبي ﷺ</div><div class="meta">100 مرة</div></div>
+
+    <div class="section-title">🌙 الصيام والعطاء</div>
+    <div class="check" data-key="fasting"><div class="box">✓</div><div class="label">صيام اليوم</div><div class="meta">أفضل أيام الصيام</div></div>
+    <div class="check" data-key="sadaqah"><div class="box">✓</div><div class="label">الصدقة اليومية</div><div class="meta">ولو قليل</div></div>
+    <div class="check" data-key="silah"><div class="box">✓</div><div class="label">صلة رحم — مكالمة أو رسالة</div></div>
+    <div class="check" data-key="sunnah_daily"><div class="box">✓</div><div class="label">إحياء سنة مهجورة</div><div class="meta">البسملة · التيامن · الوضوء</div></div>
+
+    <!-- ══ 6. خطة الختمة القرآنية ═══════════════════════════ -->
+    <div class="section-title">📖 خطة الختمة — 10 أيام</div>
+    <div class="card" style="padding:0;overflow:hidden;margin-bottom:16px">
+      <div style="background:linear-gradient(135deg,var(--green-deep),var(--green-mid));padding:14px 18px;color:#fff;display:flex;align-items:center;gap:10px">
+        <span style="font-size:24px">📖</span>
+        <div>
+          <div style="font-size:14px;font-weight:800;font-family:'ThmanyahSans',sans-serif">خطة ختمة القرآن</div>
+          <div style="font-size:11px;opacity:.8;margin-top:2px">جزء تقريباً كل يوم — وتختم القرآن في 10 أيام!</div>
+        </div>
+      </div>
+      <div id="khatma-grid" style="display:flex;flex-direction:column"></div>
+    </div>
+
+    <!-- ══ 7. ركن التواصل والدعاء ════════════════════════════ -->
+    <div class="section-title">🤲 تحدي الدعاء والعطاء</div>
+    <div class="card" style="margin-bottom:12px">
+      <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:10px">🎯 تحدي الدعاء لـ 100 شخص</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:12px">ادعُ لـ <strong>10 أشخاص يومياً</strong> — أهل · أصدقاء · معلمين · جيران</div>
+      <div style="background:var(--sand);border-radius:12px;padding:14px;font-family:'Amiri',serif;font-size:14px;color:var(--ink);direction:rtl;line-height:2;margin-bottom:12px">
+        "اللهم اغفر للمؤمنين والمؤمنات والمسلمين والمسلمات الأحياء منهم والأموات"
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:13px;color:var(--muted)">أشخاص دعوت لهم اليوم</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button onclick="adjustDua(-1)" style="width:28px;height:28px;border-radius:8px;border:1.5px solid var(--border);background:none;cursor:pointer;font-size:16px;font-weight:700;color:var(--muted)">−</button>
+          <span id="dua-count" style="font-size:20px;font-weight:900;font-family:'ThmanyahSans',monospace;color:var(--green-deep);min-width:30px;text-align:center">0</span>
+          <button onclick="adjustDua(1)" style="width:28px;height:28px;border-radius:8px;border:1.5px solid var(--green-deep);background:var(--green-deep);cursor:pointer;font-size:16px;font-weight:700;color:#fff">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px">
+      <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:10px">📞 صلة الرحم اليومية</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:12px">مكالمة أو رسالة لأحد أقاربك اليوم — نموذج مقترح:</div>
+      <div style="background:var(--sand);border-radius:12px;padding:12px;font-size:13px;color:var(--muted);direction:rtl;line-height:1.7;margin-bottom:12px">
+        "إزيك يا [الاسم].. يارب تكون بخير.. حبيت أقولك إن كان ليك نصيب كبير من دعائي النهاردة" 💛
+      </div>
+      <div class="check" data-key="silah" style="margin:0"><div class="box">✓</div><div class="label">تممت صلة الرحم اليوم</div></div>
+    </div>
+
+    <!-- ══ 8. إحياء السنن ════════════════════════════════════ -->
+    <div class="section-title">✨ إحياء السنن اليومية</div>
+    <div id="sunnah-cards" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px"></div>
+
+    <!-- ══ 9. قائمة الممنوعات ════════════════════════════════ -->
+    <div class="section-title">📊 إحصائيات اليوم</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+      <div class="card" style="text-align:center;padding:16px">
+        <div style="font-size:28px;font-weight:900;color:var(--green-deep);font-family:'ThmanyahSans',monospace" id="stat-done-count">0</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">عبادة مكتملة</div>
+      </div>
+      <div class="card" style="text-align:center;padding:16px">
+        <div style="font-size:28px;font-weight:900;color:var(--gold-dark);font-family:'ThmanyahSans',monospace" id="stat-streak">0</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">يوم متتالي 🔥</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+      <button class="btn btn-primary" onclick="shareProgress()">📊 شارك تقدمك</button>
+      <button class="btn btn-ghost" onclick="requestNotifPermission()">🔔 تذكيرات الورد</button>
+    </div>
+  
+
+<!-- ══ أعمال على مدار العام ══ -->
 <div class="bz-section">
-  <div class="bz-section-title">🌟 الأعمال المستحبة في أيام العشر</div>
-
+  <div class="bz-section-title">🌿 أعمالٌ مستحبّة على مدار العام</div>
   <div class="bz-act">
-    <div class="bz-act-head">1️⃣ التوبة الصادقة والاستعداد القلبي</div>
-    <div class="bz-act-body">البدء بالإقلاع عن الذنوب والمعاصي والندم عليها — فالمعاصي تحرم العبد فضل ربه. عقد النية على اغتنام كل لحظة، ومن صدق الله صدقه الله.</div>
-    <div class="bz-links"><a href="settings.html">تحديد النية ←</a></div>
+    <div class="bz-act-head">🌙 صيام الاثنين والخميس</div>
+    <div class="bz-act-hadith">«تُعرَضُ الأعمالُ يومَ الاثنينِ والخميسِ، فأُحِبُّ أن يُعرَضَ عملي وأنا صائم»</div>
+    <div class="bz-tag">رواه الترمذي</div>
   </div>
-
   <div class="bz-act">
-    <div class="bz-act-head">2️⃣ الصيام (خاصة يوم عرفة)</div>
-    <div class="bz-act-hadith">«صِيَامُ يَوْمِ عَرَفَةَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ وَالَّتِي بَعْدَهُ»</div>
-    <div class="bz-tag">رواه مسلم (1162)</div>
-    <div class="bz-act-body" style="margin-top:8px">يُسن صيام الأيام التسعة أو ما تيسّر — ويوم عرفة هو آكدها لغير الحاج.</div>
-    <div class="bz-links"><a href="arafah.html">برنامج يوم عرفة ←</a><a href="worship.html">جدول العبادات ←</a></div>
+    <div class="bz-act-head">🤍 الأيام البيض (13–14–15 من كل شهر هجري)</div>
+    <div class="bz-act-body">صيام ثلاثة أيامٍ من كل شهر يَعدِل صيام الدهر، وأفضلها البيض لاكتمال القمر فيها.</div>
+    <div class="bz-tag">متفق عليه</div>
   </div>
-
   <div class="bz-act">
-    <div class="bz-act-head">3️⃣ إحياء سنة التكبير والذكر</div>
-    <div class="bz-act-hadith">اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، لَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ</div>
+    <div class="bz-act-head">🕌 برنامج يوم الجمعة — سيّد الأيام</div>
     <div class="bz-act-body">
-      <b>التكبير المطلق:</b> من أول ذي الحجة إلى آخر أيام التشريق (١٣ ذي الحجة) في كل وقت.<br>
-      <b>التكبير المقيد:</b> لغير الحاج من فجر يوم عرفة إلى عصر آخر أيام التشريق.
+      الاغتسال والتطيّب ولبس أحسن الثياب.<br>
+      قراءة سورة الكهف (نورٌ بين الجمعتين).<br>
+      الإكثار من الصلاة على النبي ﷺ.<br>
+      تحرّي ساعة الإجابة في آخر ساعةٍ بعد العصر.
     </div>
-    <div class="bz-links"><a href="takbeer.html">المسبحة والتكبير ←</a></div>
-  </div>
-
-  <div class="bz-act">
-    <div class="bz-act-head">4️⃣ المحافظة على الصلوات والنوافل</div>
-    <div class="bz-act-body">
-      الالتزام بالصلوات الخمس في وقتها مع الجماعة للرجال.<br>
-      المحافظة على السنن الرواتب وصلاة الضحى.<br>
-      إحياء الليالي العشر بالقيام والوتر ولو بركعات قليلة.
-    </div>
-    <div class="bz-links"><a href="worship.html">جدول العبادات ←</a></div>
-  </div>
-
-  <div class="bz-act">
-    <div class="bz-act-head">5️⃣ ورد القرآن الكريم والتدبر</div>
-    <div class="bz-act-body">تخصيص ورد يومي (جزء أو جزأين) للسعي نحو ختم القرآن خلال العشر. الاستعانة بتطبيق المصحف للمراجعة.</div>
-    <div class="bz-links"><a href="mushaf.html">الورد القرآني ←</a><a href="mushaf-quran.html">المصحف الشريف ←</a></div>
-  </div>
-
-  <div class="bz-act">
-    <div class="bz-act-head">6️⃣ الصدقة وأعمال البر</div>
-    <div class="bz-act-body">
-      إخراج مبلغ بسيط يومياً.<br>
-      صلة الرحم وزيارة الأقارب وإصلاح العلاقات.<br>
-      الشفقة بالضعفاء، كفالة الأيتام، زيارة المرضى، إماطة الأذى.
-    </div>
-    <div class="bz-links"><a href="sadaqah.html">صدقة العشر ←</a></div>
-  </div>
-
-  <div class="bz-act">
-    <div class="bz-act-head">7️⃣ أحكام الأضحية (لمن عزم عليها)</div>
-    <div class="bz-act-body">من دخل ذو الحجة وعزم على الأضحية، يحرم عليه أخذ شيء من شعره أو أظفاره أو بشرته حتى يذبح.<br><b>مهم:</b> هذا النهي خاص بصاحب الأضحية فقط.</div>
-    <div class="bz-links"><a href="odhiya.html">دليل الأضحية ←</a></div>
+    <div class="bz-links"><a href="adhkar.html">أذكار ←</a><a href="duas.html">أدعية ←</a></div>
   </div>
 </div>
 
-<!-- ══ برنامج يوم عرفة (الحج في بيتك) ══ -->
+<!-- ══ روابط سريعة ══ -->
 <div class="bz-section">
-  <div class="bz-section-title">🌄 برنامج يوم عرفة — الحج في بيتك</div>
-  <span class="bz-arafah-badge">⭐ 9 ذو الحجة — 26 مايو</span>
-
-  <div class="bz-act">
-    <div class="bz-act-head">🌙 السحر — قبل الفجر</div>
-    <div class="bz-act-body">الاستيقاظ للاستغفار والدعاء وصلاة ركعتين نافلة.</div>
-  </div>
-
-  <div class="bz-act" style="border-color:rgba(201,161,74,.35);background:var(--gold-pale)">
-    <div class="bz-act-head">🌅 الفجر إلى الشروق — أجر حجة وعمرة</div>
-    <div class="bz-act-hadith">«من صلى الفجر في جماعة ثم قعد يذكر الله حتى تطلع الشمس ثم صلى ركعتين كانت له كأجر حجة وعمرة تامة تامة تامة»</div>
-    <div class="bz-tag">رواه الترمذي — اغتنمها يوم عرفة خاصةً</div>
-    <div class="bz-links" style="margin-top:8px"><a href="adhkar.html">أذكار الصباح ←</a><a href="mushaf.html">ورد القرآن ←</a></div>
-  </div>
-
-  <div class="bz-act">
-    <div class="bz-act-head">☀️ طوال النهار — صيام وذكر ودعاء</div>
-    <div class="bz-act-body">
-      صوم اليوم — يكفّر السنة الماضية والسنة الباقية.<br>
-      الإكثار من التكبير والتهليل والتحميد والاستغفار.<br>
-      قراءة القرآن بتدبر وخشوع.
-    </div>
-    <div class="bz-links"><a href="takbeer.html">التكبير ←</a></div>
-  </div>
-
-  <div class="bz-act" style="border-color:rgba(14,59,46,.3)">
-    <div class="bz-act-head">🌇 العشية — من العصر للمغرب (أفضل الأوقات)</div>
-    <div class="bz-act-hadith">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
-    <div class="bz-tag">خير الدعاء دعاء يوم عرفة — رواه الترمذي</div>
-    <div class="bz-act-body" style="margin-top:8px">تفرّغ كامل للدعاء والإلحاح على الله بالعتق من النار — وقت الخلوة التامة.</div>
-    <div class="bz-links"><a href="arafah.html">برنامج عرفة الكامل ←</a><a href="dua-guide.html">قيم الدعاء ←</a></div>
+  <div class="bz-section-title">⚡ روابط سريعة</div>
+  <div class="bz-links" style="display:flex;gap:10px;flex-wrap:wrap">
+    <a class="btn btn-primary" href="adhkar.html">📿 الأذكار</a>
+    <a class="btn btn-ghost" href="duas.html">🤲 الأدعية</a>
+    <a class="btn btn-ghost" href="mushaf.html">📖 الورد اليومي</a>
+    <a class="btn btn-ghost" href="takbeer.html">🕋 المسبحة</a>
   </div>
 </div>
 
-<!-- ══ سنن يوم العيد ══ -->
-<div class="bz-section">
-  <div class="bz-section-title">🎉 سنن يوم العيد (١٠ ذو الحجة)</div>
-
-  <div class="bz-act">
-    <div class="bz-act-head">الاستعداد للعيد</div>
-    <div class="bz-act-body">
-      الاغتسال والتطيب ولبس أحسن الثياب لاستقبال يوم الجائزة.<br>
-      الحرص على صلاة العيد في المصلى ومخالفة الطريق.<br>
-      الأكل من الأضحية — يُسن أن يكون أول ما يأكله المضحي من لحم أضحيته.
-    </div>
-    <div class="bz-links"><a href="odhiya.html">دليل الأضحية ←</a><a href="takbeer.html">تكبيرات العيد ←</a></div>
-  </div>
-</div>
   </main>
 </div>
 <script>
@@ -240,6 +369,302 @@ html[data-theme="dark"] .bz-act-hadith,html[data-theme="oled"] .bz-act-hadith{co
   setInterval(paint,60000);
 })();
 </script>
+<script>
+/* ════ جدول العبادات — Enhanced Worship Tracker ════════════ */
+const W_KEY = 'zad_v2';
+
+function getState(){
+  try{return JSON.parse(localStorage.getItem(W_KEY)||'{}');}catch(e){return {};}
+}
+function saveState(s){ localStorage.setItem(W_KEY, JSON.stringify(s)); }
+
+/* ── Countdown to Arafa (تمت إزالته من جدول العبادات اليومي) ─── */
+function startWorshipCountdown(){
+  if(!document.getElementById('w-cd-d')) return; /* العناصر اتشالت — اخرج بأمان */
+  function tick(){
+    const arafa = new Date(2026, 4, 26, 0, 0, 0);
+    const diff  = arafa - new Date();
+    if(diff <= 0){
+      const lbl=document.getElementById('w-hero-label'); if(lbl) lbl.textContent='يوم عرفة المبارك ⭐';
+      ['w-cd-d','w-cd-h','w-cd-m','w-cd-s'].forEach(id=>{
+        const el=document.getElementById(id); if(el)el.textContent='00';
+      });
+      return;
+    }
+    const pad = n=>String(Math.floor(Math.max(0,n))).padStart(2,'0');
+    const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=pad(v);};
+    set('w-cd-d',diff/86400000);
+    set('w-cd-h',(diff%86400000)/3600000);
+    set('w-cd-m',(diff%3600000)/60000);
+    set('w-cd-s',(diff%60000)/1000);
+  }
+  tick(); setInterval(tick,1000);
+}
+
+/* ── Niyya + Tawbah toggles ─────────────────────────────── */
+let niyyaDone=false, tawbahDone=false;
+function toggleNiyya(){
+  niyyaDone=!niyyaDone;
+  const box=document.getElementById('niyya-box');
+  const wrap=document.getElementById('niyya-check');
+  if(box){box.textContent=niyyaDone?'✓':'';box.style.background=niyyaDone?'var(--green-deep)':'';box.style.color=niyyaDone?'#fff':'';}
+  if(wrap){wrap.style.borderColor=niyyaDone?'var(--green-deep)':'var(--border)';wrap.style.background=niyyaDone?'rgba(14,59,46,.05)':'var(--sand)';}
+  updateRing();
+}
+function toggleTawbah(){
+  tawbahDone=!tawbahDone;
+  const box=document.getElementById('tawbah-box');
+  const wrap=document.getElementById('tawbah-check');
+  if(box){box.textContent=tawbahDone?'✓':'';box.style.background=tawbahDone?'var(--gold)':'';box.style.color=tawbahDone?'#fff':'';}
+  if(wrap){wrap.style.borderColor=tawbahDone?'var(--gold)':'var(--border)';wrap.style.background=tawbahDone?'rgba(201,161,74,.05)':'var(--sand)';}
+  updateRing();
+}
+
+/* ── Checklist ──────────────────────────────────────────── */
+const TOTAL_ITEMS = 16;
+function initChecklist(){
+  const s = getState();
+  const worship = s.worship||{};
+  document.querySelectorAll('.check').forEach(el=>{
+    const key=el.dataset.key;
+    const done=worship[key]||false;
+    if(done) el.classList.add('done');  /* بدون أنيميشن عند التحميل */
+    el.addEventListener('click',()=>{
+      const now=!((getState().worship||{})[key]);
+      const state=getState();
+      if(!state.worship)state.worship={};
+      state.worship[key]=now;
+      saveState(state);
+      applyCheck(el,now);
+      updateRing();
+      if(now){
+        try{ if(navigator.vibrate) navigator.vibrate([15,30,15]); }catch(e){}
+        if(typeof confetti!=='undefined'){
+          confetti({particleCount:30,spread:60,origin:{y:.7},colors:['#0e3b2e','#c9a14a','#fff']});
+        }
+      }
+    });
+  });
+  updateRing();
+}
+
+function applyCheck(el,done){
+  /* إعادة تشغيل الأنيميشن عند الإتمام */
+  if(done){ el.classList.remove('done'); void el.offsetWidth; el.classList.add('done'); }
+  else { el.classList.remove('done'); }
+}
+
+function updateRing(){
+  const s=getState();
+  const worship=s.worship||{};
+  const keys=['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam',
+               'morning_dhikr','evening_dhikr','takbeer_100','tawbah',
+               'salah_nabi','fasting','sadaqah','silah','sunnah_daily'];
+  const done=keys.filter(k=>worship[k]).length + (niyyaDone?1:0) + (tawbahDone?1:0);
+  const total=TOTAL_ITEMS;
+  const pct=Math.min(100,Math.round(done/total*100));
+
+  const bar=document.getElementById('prog-bar');
+  const txt=document.getElementById('prog-txt');
+  const rpct=document.getElementById('ring-pct');
+  const circle=document.getElementById('ring-circle');
+  const statDone=document.getElementById('stat-done-count');
+
+  if(bar)bar.style.width=pct+'%';
+  if(txt)txt.textContent=done+' من '+total+' عبادة';
+  if(rpct)rpct.textContent=pct+'%';
+  if(circle){const offset=276.5-(276.5*pct/100);circle.style.strokeDashoffset=offset;}
+  if(statDone)statDone.textContent=done;
+
+  /* Streak */
+  const streak=s.streak||0;
+  const statStreak=document.getElementById('stat-streak');
+  if(statStreak)statStreak.textContent=streak;
+}
+
+/* ── Fasting tracker ────────────────────────────────────── */
+function initFasting(){
+  const s=getState();
+  const fasting=s.fastingDays||{};
+  document.querySelectorAll('.fast-day').forEach(el=>{
+    const d=el.dataset.day;
+    if(fasting[d])el.classList.add('done');
+    el.addEventListener('click',()=>{
+      const state=getState();
+      if(!state.fastingDays)state.fastingDays={};
+      state.fastingDays[d]=!state.fastingDays[d];
+      el.classList.toggle('done');
+      saveState(state);
+    });
+  });
+}
+
+/* ── Khatma plan ────────────────────────────────────────── */
+const KHATMA=[
+  {d:1,label:'اليوم الأول',  surahs:'الفاتحة → آل عمران',  ajza:'1–3'},
+  {d:2,label:'اليوم الثاني', surahs:'النساء → الأنعام',     ajza:'4–7'},
+  {d:3,label:'اليوم الثالث', surahs:'الأعراف → التوبة',     ajza:'8–11'},
+  {d:4,label:'اليوم الرابع', surahs:'يونس → الرعد',         ajza:'11–13'},
+  {d:5,label:'اليوم الخامس', surahs:'إبراهيم → الكهف',     ajza:'13–16'},
+  {d:6,label:'اليوم السادس', surahs:'مريم → المؤمنون',     ajza:'16–18'},
+  {d:7,label:'اليوم السابع', surahs:'الشعراء → الأحزاب',   ajza:'19–22'},
+  {d:8,label:'اليوم الثامن', surahs:'سبأ → فصلت',          ajza:'22–24'},
+  {d:9,label:'اليوم التاسع', surahs:'الشورى → الحديد',     ajza:'25–27'},
+  {d:10,label:'اليوم العاشر',surahs:'المجادلة → الناس',    ajza:'28–30'},
+];
+
+function renderKhatma(){
+  const el=document.getElementById('khatma-grid');
+  if(!el)return;
+  const s=getState();
+  const done=s.khatma||{};
+  el.innerHTML=KHATMA.map(k=>`
+    <div onclick="toggleKhatmaDay(${k.d})" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;background:${done[k.d]?'rgba(14,59,46,.05)':'transparent'}">
+      <div>
+        <div style="font-size:12px;font-weight:800;color:${done[k.d]?'var(--green-deep)':'var(--ink)'}">${k.label} — الجزء ${k.ajza}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${k.surahs}</div>
+      </div>
+      <div style="width:28px;height:28px;border-radius:8px;border:2px solid ${done[k.d]?'var(--green-deep)':'var(--border)'};background:${done[k.d]?'var(--green-deep)':'transparent'};display:flex;align-items:center;justify-content:center;color:${done[k.d]?'#fff':'transparent'};font-size:14px;flex-shrink:0;transition:all .2s">✓</div>
+    </div>`).join('');
+}
+
+function toggleKhatmaDay(d){
+  const state=getState();
+  if(!state.khatma)state.khatma={};
+  state.khatma[d]=!state.khatma[d];
+  saveState(state);
+  renderKhatma();
+}
+
+/* ── Dua counter ────────────────────────────────────────── */
+let duaCount=0;
+function adjustDua(n){
+  duaCount=Math.max(0,Math.min(100,duaCount+n));
+  const el=document.getElementById('dua-count');
+  if(el){el.textContent=duaCount;el.style.color=duaCount>=10?'var(--gold-dark)':'var(--green-deep)';}
+}
+
+/* ── Sunnah cards ────────────────────────────────────────── */
+const SUNNAHS=[
+  {ico:'🤲',title:'البسملة',    desc:'قبل كل عمل'},
+  {ico:'👋',title:'التيامن',    desc:'ابدأ باليمين دائماً'},
+  {ico:'💧',title:'الوضوء',     desc:'قبل النوم'},
+  {ico:'🪥',title:'السواك',     desc:'عند الاستيقاظ'},
+  {ico:'🍽️',title:'الأكل باليمين',desc:'وذكر الله'},
+  {ico:'🚪',title:'دخول البيت', desc:'بالسلام'},
+];
+
+function renderSunnahs(){
+  const el=document.getElementById('sunnah-cards');
+  if(!el)return;
+  const s=getState();
+  const done=s.sunnahDone||{};
+  el.innerHTML=SUNNAHS.map((sn,i)=>`
+    <div onclick="toggleSunnah(${i})" style="background:var(--card);border:1.5px solid ${done[i]?'var(--gold)':'var(--border)'};border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;background:${done[i]?'rgba(201,161,74,.08)':'var(--card)'}">
+      <div style="font-size:24px;margin-bottom:6px">${sn.ico}</div>
+      <div style="font-size:13px;font-weight:800;color:var(--ink);margin-bottom:2px">${sn.title}</div>
+      <div style="font-size:11px;color:var(--muted)">${sn.desc}</div>
+      ${done[i]?'<div style="font-size:10px;color:var(--gold-dark);font-weight:700;margin-top:6px">✅ مكتمل</div>':''}
+    </div>`).join('');
+}
+
+function toggleSunnah(i){
+  const state=getState();
+  if(!state.sunnahDone)state.sunnahDone={};
+  state.sunnahDone[i]=!state.sunnahDone[i];
+  saveState(state);
+  renderSunnahs();
+}
+
+/* ── Forbidden list ─────────────────────────────────────── */
+const FORBIDDEN=[
+  {ico:'📺',title:'التلفزيون',        warn:'إغلاق تام أو الحد الأدنى'},
+  {ico:'📱',title:'السوشيال ميديا',   warn:'خارج أوقات الضرورة فقط'},
+  {ico:'👅',title:'الغيبة والنميمة',  warn:'احفظ لسانك — هدم البيوت'},
+  {ico:'😴',title:'النوم الكثير',      warn:'إدارة ذكية للوقت'},
+];
+
+function renderForbidden(){
+  const el=document.getElementById('forbidden-list');
+  if(!el)return;
+  el.innerHTML=FORBIDDEN.map((f,i)=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid rgba(255,59,48,.1);${i===FORBIDDEN.length-1?'border-bottom:none':''}">
+      <span style="font-size:22px">${f.ico}</span>
+      <div>
+        <div style="font-size:13px;font-weight:800;color:var(--ink)">${f.title}</div>
+        <div style="font-size:11px;color:var(--muted)">${f.warn}</div>
+      </div>
+      <span style="margin-right:auto;font-size:18px;color:rgba(255,59,48,.6)">🚫</span>
+    </div>`).join('');
+}
+
+/* ── Share ──────────────────────────────────────────────── */
+function shareProgress(){
+  const s=getState();
+  const worship=s.worship||{};
+  const keys=['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam',
+               'morning_dhikr','evening_dhikr','takbeer_100','tawbah'];
+  const done=keys.filter(k=>worship[k]).length;
+  const pct=Math.round(done/keys.length*100);
+  const text=`🌙 زاد العشر\n📊 إنجازي اليوم: ${pct}%\n✅ ${done} عبادة مكتملة\n🔗 zadullashr.vercel.app`;
+  if(navigator.share){navigator.share({title:'زاد العشر',text});}
+  else{navigator.clipboard?.writeText(text);if(typeof showToast==='function')showToast('✅ تم نسخ التقدم');}
+}
+
+function requestNotifPermission(){
+  if(typeof enablePushNotifications==='function')enablePushNotifications();
+  else if(typeof showToast==='function')showToast('🔔 الإشعارات قيد التفعيل');
+}
+
+/* ── Init ───────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded',()=>{
+  startWorshipCountdown();
+  initChecklist();
+  initFasting();
+  renderKhatma();
+  renderSunnahs();
+  renderForbidden();
+  updateRing();
+});
+</script>
+
+<script>
+/* ════ بانر المناسبات والأيام الفاضلة ════ */
+(function(){
+  'use strict';
+  function hijri(){
+    try{
+      var f=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{day:'numeric',month:'numeric'});
+      var p=f.formatToParts(new Date());
+      return {d:+(p.find(x=>x.type==='day').value), m:+(p.find(x=>x.type==='month').value)};
+    }catch(e){return null;}
+  }
+  function occasions(){
+    var now=new Date(), dow=now.getDay(), h=hijri(), out=[];
+    if(h){
+      if(h.m===12 && h.d>=1 && h.d<=9) out.push({e:'🕋',t:'نحن في عشر ذي الحجة — أفضل أيام الدنيا، فأكثِر من الذكر والعمل الصالح.'});
+      if(h.m===12 && h.d===9) out.push({e:'🌄',t:'اليوم يوم عرفة — صيامه يكفّر سنتين لغير الحاج.'});
+      if(h.m===12 && h.d>=10 && h.d<=13) out.push({e:'🎉',t:'أيام عيد الأضحى والتشريق — أيام أكلٍ وشربٍ وذكرٍ لله.'});
+      if(h.m===1 && h.d===10) out.push({e:'🤍',t:'اليوم عاشوراء — صيامه يكفّر السنة الماضية.'});
+      if(h.m===1 && h.d===9) out.push({e:'🤍',t:'غدًا عاشوراء — يُستحب صيام التاسع معه.'});
+      if(h.m===9) out.push({e:'🌙',t:'نحن في رمضان — شهر الصيام والقرآن، فاغتنمه.'});
+      if(h.m!==12 && h.d>=13 && h.d<=15) out.push({e:'🤍',t:'الأيام البيض ('+h.d+' من الشهر) — يُستحب صيامها.'});
+    }
+    if(dow===1||dow===4) out.push({e:'🌿',t:(dow===1?'يوم الاثنين':'يوم الخميس')+' — تُعرض فيه الأعمال، ويُستحب صيامه.'});
+    if(dow===5) out.push({e:'🕌',t:'اليوم الجمعة — سيد الأيام: اقرأ سورة الكهف وأكثِر الصلاة على النبي ﷺ.'});
+    return out;
+  }
+  function render(){
+    var el=document.getElementById('occasion-banner'); if(!el) return;
+    var items=occasions();
+    if(!items.length){ el.style.display='none'; return; }
+    el.innerHTML=items.map(function(o){return '<div class="occ-row"><span class="occ-e">'+o.e+'</span><span>'+o.t+'</span></div>';}).join('');
+    el.style.display='block';
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
+})();
+</script>
+
 <script src="lang.js" defer></script>
 <script src="js/storage.js" defer></script>
   <script src="js/calendar.js" defer></script>

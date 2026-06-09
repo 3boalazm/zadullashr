@@ -79,6 +79,12 @@ html[data-theme="dark"] .cc-btn.primary,html[data-theme="oled"] .cc-btn.primary{
 .cc-done{text-align:center;font-size:14px;font-weight:800;color:var(--sys-green);margin-top:10px;min-height:20px}
 
 /* ══ Timeline ══════════════════════════════════════════ */
+.nusuk-tabs{display:flex;gap:8px;margin-bottom:10px}
+.nusuk-tab{flex:1;padding:11px 8px;border-radius:13px;border:1.5px solid var(--border);background:var(--card);font-family:inherit;font-size:13.5px;font-weight:800;color:var(--muted);cursor:pointer;transition:all .2s}
+.nusuk-tab.active{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;border-color:transparent;box-shadow:0 6px 18px -8px rgba(14,59,46,.5)}
+html[data-theme="dark"] .nusuk-tab.active,html[data-theme="oled"] .nusuk-tab.active{color:#001a08;background:linear-gradient(135deg,var(--sys-green),#2eb84d)}
+.nusuk-hint{font-size:12.5px;font-weight:700;color:var(--muted);background:var(--green-pale);border-radius:11px;padding:10px 13px;line-height:1.7;margin-bottom:16px}
+html[data-theme="dark"] .nusuk-hint,html[data-theme="oled"] .nusuk-hint{background:rgba(77,216,102,.07)}
 .timeline{position:relative;padding-right:8px}
 .tl-stage{position:relative;padding:0 32px 20px 0;border-right:2.5px solid var(--border);margin-right:14px}
 .tl-stage:last-child{border-right-color:transparent}
@@ -198,7 +204,7 @@ html[data-theme="dark"] .src-card h3,html[data-theme="oled"] .src-card h3{color:
     <div class="mn-progress-bar">
       <div class="mpb-top">
         <div class="mpb-title">🧭 مسار النسك</div>
-        <div class="mpb-count"><span id="mpb-done">0</span> / 7 مراحل</div>
+        <div class="mpb-count"><span id="mpb-done">0</span> / <span id="mpb-total">7</span> مراحل</div>
       </div>
       <div class="mpb-progress"><span id="mpb-fill"></span></div>
     </div>
@@ -246,6 +252,8 @@ html[data-theme="dark"] .src-card h3,html[data-theme="oled"] .src-card h3{color:
 
     <!-- ═══ Interactive timeline ═══ -->
     <h2 class="section-title" id="sec-timeline">التراك لاين — المسار الزمني للشعائر</h2>
+    <div class="nusuk-tabs" id="nusuk-tabs"></div>
+    <div class="nusuk-hint" id="nusuk-hint"></div>
     <div class="timeline" id="timeline"></div>
 
     <!-- ═══ Tools ═══ -->
@@ -300,6 +308,7 @@ function writeHajj(obj){
 let HAJJ = readHajj();
 if (!HAJJ.stages)   HAJJ.stages   = {};
 if (!HAJJ.counters) HAJJ.counters = { tawaf:0, sai:0, jamarat:0 };
+if (!HAJJ.nusuk)    HAJJ.nusuk    = 'tamattu';   /* النسك الافتراضي */
 
 function toast(msg){
   try{ if (typeof window.showToast === 'function'){ window.showToast(msg); return; } }catch(e){}
@@ -368,36 +377,119 @@ function ccInit(){
 }
 
 /* ══════════════════ Timeline (7 مراحل) ══════════════════ */
-const STAGES = [
-  { id:'ihram', emoji:'👕', name:'الاستعداد والإحرام', date:'قبل ٨ ذي الحجة',
-    rite:'أحكام المواقيت، الغُسل ولُبس الإحرام، والإكثار من التلبية: «لبيك اللهم لبيك…».',
-    tool:'قائمة أدعية التلبية + دليل أحكام الإحرام (يعمل أوفلاين).',
-    alert:'أنت تقترب من الميقات.. استعِدّ للإحرام ونوِ الدخول في النسك.' },
-  { id:'tarwiyah', emoji:'⛺', name:'يوم التروية — المبيت بمنى', date:'٨ ذي الحجة',
-    rite:'التوجّه إلى منى، والمبيت فيها، وصلاة الظهر والعصر والمغرب والعشاء والفجر قصراً بلا جمع.',
-    tool:'خريطة تفاعلية لمخيمات منى وأماكن الخدمات.',
-    alert:'تذكّر: قصرٌ بلا جمع في منى — أكثِر من الذكر والاستعداد لعرفة.' },
-  { id:'arafah', emoji:'🌄', name:'يوم عرفة — الركن الأعظم', date:'٩ ذي الحجة',
-    rite:'التوجّه لعرفة بعد الشروق، والوقوف بها حتى الغروب مع الإكثار من الدعاء والتهليل.',
-    tool:'قائمة أدعية يوم عرفة + خطبة عرفة (بثٌّ مباشر عند توفّره).',
-    alert:'خيرُ الدعاء دعاءُ يوم عرفة.. استثمِر هذه الساعات ولا تنشغل عنها.' },
-  { id:'muzdalifah', emoji:'🌌', name:'ليلة المزدلفة', date:'ليلة ١٠ ذي الحجة',
-    rite:'النَّفرة إلى مزدلفة بعد الغروب، وصلاة المغرب والعشاء جمعاً وقصراً، وجمع الحصى.',
-    tool:'بوصلة القبلة «أوفلاين» لضمان صحّة الصلاة في الخلاء.',
-    alert:'اجمع حصى الجمار من مزدلفة أو الطريق، وبِت بها حتى الفجر.' },
-  { id:'nahr', emoji:'🐏', name:'يوم النحر — العيد', date:'١٠ ذي الحجة',
-    rite:'رمي جمرة العقبة الكبرى، ثم ذبح الهَدي، ثم الحلق أو التقصير، ثم طواف الإفاضة.',
-    tool:'دليل أحكام الأضحية وسنن العيد + عدّاد الجمرات أعلى الصفحة.',
-    alert:'تمّ الرمي.. انتقِل الآن للذبح ثم الحلق/التقصير ثم طواف الإفاضة.' },
-  { id:'tashreeq', emoji:'🪨', name:'أيام التشريق', date:'١١ – ١٣ ذي الحجة',
-    rite:'المبيت بمنى ورمي الجمرات الثلاث (الصغرى ثم الوسطى ثم الكبرى) بعد الزوال.',
-    tool:'عدّاد الجمرات لضمان رمي ٧ حصياتٍ لكل جمرة بالترتيب.',
-    alert:'الرمي بعد الزوال — ابدأ بالصغرى فالوسطى فالكبرى، سبعٌ لكلٍّ منها.' },
-  { id:'wada', emoji:'👋', name:'الوداع والختام', date:'قبل المغادرة',
-    rite:'طواف الوداع آخِرَ عهدِك بالبيت قبل مغادرة مكة.',
-    tool:'الحصاد الرقمي: ملخّص رحلتك الإيمانية وإنجاز المناسك.',
-    alert:'مبارَكٌ إتمامُ النسك.. تقبّل الله، واجعل آخِر عهدك بالبيت الطواف.' },
-];
+/* ══════════════ مراحل النسك حسب نوعه ══════════════
+   مراحل مشتركة + مراحل خاصة بكل نسك (تمتّع/قِران/إفراد) */
+const S_ARAFAH = { id:'arafah', emoji:'🌄', name:'يوم عرفة — الركن الأعظم', date:'٩ ذي الحجة',
+  rite:'التوجّه لعرفة بعد الشروق، والوقوف بها حتى الغروب مع الإكثار من الدعاء والتهليل.',
+  tool:'قائمة أدعية يوم عرفة + خطبة عرفة (بثٌّ مباشر عند توفّره).',
+  alert:'خيرُ الدعاء دعاءُ يوم عرفة.. استثمِر هذه الساعات ولا تنشغل عنها.' };
+const S_MUZ = { id:'muzdalifah', emoji:'🌌', name:'ليلة المزدلفة', date:'ليلة ١٠ ذي الحجة',
+  rite:'النَّفرة إلى مزدلفة بعد الغروب، وصلاة المغرب والعشاء جمعاً وقصراً، وجمع الحصى.',
+  tool:'بوصلة القبلة «أوفلاين» لضمان صحّة الصلاة في الخلاء.',
+  alert:'اجمع حصى الجمار من مزدلفة أو الطريق، وبِت بها حتى الفجر.' };
+const S_TARWIYAH = { id:'tarwiyah', emoji:'⛺', name:'يوم التروية — المبيت بمنى', date:'٨ ذي الحجة',
+  rite:'التوجّه إلى منى، والمبيت فيها، وصلاة الظهر والعصر والمغرب والعشاء والفجر قصراً بلا جمع.',
+  tool:'خريطة تفاعلية لمخيمات منى وأماكن الخدمات.',
+  alert:'تذكّر: قصرٌ بلا جمع في منى — أكثِر من الذكر والاستعداد لعرفة.' };
+const S_TASHREEQ = { id:'tashreeq', emoji:'🪨', name:'أيام التشريق', date:'١١ – ١٣ ذي الحجة',
+  rite:'المبيت بمنى ورمي الجمرات الثلاث (الصغرى ثم الوسطى ثم الكبرى) بعد الزوال.',
+  tool:'عدّاد الجمرات لضمان رمي ٧ حصياتٍ لكل جمرة بالترتيب.',
+  alert:'الرمي بعد الزوال — ابدأ بالصغرى فالوسطى فالكبرى، سبعٌ لكلٍّ منها.' };
+const S_WADA = { id:'wada', emoji:'👋', name:'الوداع والختام', date:'قبل المغادرة',
+  rite:'طواف الوداع آخِرَ عهدِك بالبيت قبل مغادرة مكة.',
+  tool:'الحصاد الرقمي: ملخّص رحلتك الإيمانية وإنجاز المناسك.',
+  alert:'مبارَكٌ إتمامُ النسك.. تقبّل الله، واجعل آخِر عهدك بالبيت الطواف.' };
+
+const NUSUK_STAGES = {
+  tamattu: [
+    { id:'t_umrah_ihram', emoji:'👕', name:'الإحرام بالعمرة', date:'من الميقات',
+      rite:'في أشهر الحج تُحرم بالعمرة وحدها من الميقات بعد الغُسل، وتلبّي: «لبيك اللهم عُمرةً».',
+      tool:'أحكام المواقيت + أدعية التلبية (أوفلاين).',
+      alert:'انوِ العمرة عند الميقات وأكثِر من التلبية حتى ترى الكعبة.' },
+    { id:'t_umrah_tawaf', emoji:'🕋', name:'طواف العمرة', date:'عند الوصول لمكة',
+      rite:'سبعة أشواطٍ حول الكعبة تبدأ من الحجر الأسود، ثم ركعتان خلف المقام.',
+      tool:'عدّاد الطواف أعلى الصفحة (سبعة أشواط).',
+      alert:'ابدأ من الحجر الأسود واختم بركعتين خلف المقام.' },
+    { id:'t_umrah_sai', emoji:'🚶', name:'سعي العمرة', date:'بعد الطواف',
+      rite:'السعي بين الصفا والمروة سبعة أشواط، يبدأ بالصفا ويُختم بالمروة.',
+      tool:'عدّاد السعي (سبعة أشواط).',
+      alert:'ابدأ بالصفا واختم بالمروة — سبعة أشواط.' },
+    { id:'t_tahallul', emoji:'✂️', name:'التقصير والتحلّل من العمرة', date:'بعد السعي',
+      rite:'تقصّر من شعرك فتتحلّل من العمرة تحلّلاً كاملاً، وتبقى حلالاً بمكة حتى يوم التروية.',
+      tool:'تذكير بأنك تحلّلت — أنت الآن في انتظار الحج.',
+      alert:'تمّت العمرة — تحلّلْ تحلّلاً كاملاً وانتظر التروية للإحرام بالحج.' },
+    { id:'t_hajj_ihram', emoji:'👕', name:'الإحرام بالحج (يوم التروية)', date:'٨ ذي الحجة',
+      rite:'يوم الثامن تُحرم بالحج من مكانك في مكة: «لبيك اللهم حجًّا»، ثم تتوجه لمنى.',
+      tool:'أدعية التلبية + خريطة منى.',
+      alert:'أحرِم بالحج صباح الثامن وتوجّه لمنى للمبيت.' },
+    S_ARAFAH, S_MUZ,
+    { id:'t_nahr', emoji:'🐏', name:'يوم النحر — العيد', date:'١٠ ذي الحجة',
+      rite:'رمي جمرة العقبة، ثم ذبح الهَدي (واجبٌ على المتمتّع)، ثم الحلق/التقصير، ثم طواف الإفاضة، ثم سعي الحج (سعيٌ ثانٍ على المتمتّع).',
+      tool:'دليل الهَدي وسنن العيد + عدّاد الجمرات.',
+      alert:'على المتمتّع هَديٌ واجب، وله سعيان: سعي العمرة وسعي الحج.' },
+    S_TASHREEQ, S_WADA
+  ],
+  qiran: [
+    { id:'q_ihram', emoji:'👕', name:'الإحرام بالقِران', date:'من الميقات',
+      rite:'تُحرم بالحج والعمرة معاً من الميقات: «لبيك اللهم عُمرةً وحجًّا»، وتبقى محرماً حتى يوم النحر.',
+      tool:'أحكام المواقيت + أدعية التلبية (أوفلاين).',
+      alert:'القارن لا يتحلّل بين العمرة والحج — يبقى محرماً حتى النحر.' },
+    { id:'q_qudum', emoji:'🕋', name:'طواف القدوم والسعي', date:'عند الوصول لمكة',
+      rite:'طواف القدوم سبعة أشواط، ويُسنّ السعي بعده ويُجزئ عن سعي الحج (سعيٌ واحد للقارن).',
+      tool:'عدّاد الطواف والسعي أعلى الصفحة.',
+      alert:'يكفي القارن سعيٌ واحد — لا تتحلّل بعده.' },
+    S_TARWIYAH, S_ARAFAH, S_MUZ,
+    { id:'q_nahr', emoji:'🐏', name:'يوم النحر — العيد', date:'١٠ ذي الحجة',
+      rite:'رمي جمرة العقبة، ثم ذبح الهَدي (واجبٌ على القارن)، ثم الحلق/التقصير، ثم طواف الإفاضة.',
+      tool:'دليل الهَدي وسنن العيد + عدّاد الجمرات.',
+      alert:'على القارن هَديٌ واجب كالمتمتّع.' },
+    S_TASHREEQ, S_WADA
+  ],
+  ifrad: [
+    { id:'i_ihram', emoji:'👕', name:'الإحرام بالحج (إفراد)', date:'من الميقات',
+      rite:'تُحرم بالحج وحده من الميقات: «لبيك اللهم حجًّا»، وتبقى محرماً حتى يوم النحر.',
+      tool:'أحكام المواقيت + أدعية التلبية (أوفلاين).',
+      alert:'المفرِد يُحرم بالحج فقط ويبقى محرماً حتى النحر.' },
+    { id:'i_qudum', emoji:'🕋', name:'طواف القدوم والسعي', date:'عند الوصول لمكة',
+      rite:'طواف القدوم سبعة أشواط، ويسعى للحج بعده، وله تأخير السعي إلى ما بعد طواف الإفاضة.',
+      tool:'عدّاد الطواف والسعي أعلى الصفحة.',
+      alert:'لك تقديم سعي الحج بعد القدوم أو تأخيره ليوم النحر.' },
+    S_TARWIYAH, S_ARAFAH, S_MUZ,
+    { id:'i_nahr', emoji:'🐏', name:'يوم النحر — العيد', date:'١٠ ذي الحجة',
+      rite:'رمي جمرة العقبة، ثم الحلق/التقصير، ثم طواف الإفاضة (وسعي الحج إن لم تسعَ بعد القدوم). ولا هَدي واجب على المفرِد.',
+      tool:'سنن العيد + عدّاد الجمرات.',
+      alert:'لا هَديَ واجبٌ على المفرِد — والسعي مرّةٌ واحدة.' },
+    S_TASHREEQ, S_WADA
+  ]
+};
+const NUSUK_META = {
+  tamattu:{ label:'تمتّع', desc:'عمرة في أشهر الحج ثم تحلّل، ثم إحرامٌ بالحج يوم التروية. عليه هَديٌ واجب وله سعيان.' },
+  qiran:  { label:'قِران', desc:'إحرامٌ بالحج والعمرة معاً دون تحلّل بينهما. عليه هَديٌ واجب ويكفيه سعيٌ واحد.' },
+  ifrad:  { label:'إفراد', desc:'إحرامٌ بالحج وحده. لا هَديَ واجبٌ عليه ويكفيه سعيٌ واحد.' }
+};
+let STAGES = NUSUK_STAGES[HAJJ.nusuk] || NUSUK_STAGES.tamattu;
+
+function renderNusukTabs(){
+  const wrap = document.getElementById('nusuk-tabs'); if(!wrap) return;
+  wrap.innerHTML = ['tamattu','qiran','ifrad'].map(k =>
+    `<button class="nusuk-tab ${HAJJ.nusuk===k?'active':''}" data-nusuk="${k}">${NUSUK_META[k].label}</button>`).join('');
+  const hint = document.getElementById('nusuk-hint');
+  if(hint) hint.textContent = '🧭 ' + NUSUK_META[HAJJ.nusuk].desc;
+  wrap.querySelectorAll('.nusuk-tab').forEach(b=>{
+    b.addEventListener('click', ()=> setNusuk(b.dataset.nusuk));
+  });
+}
+function setNusuk(type){
+  if(!NUSUK_STAGES[type]) return;
+  HAJJ.nusuk = type;
+  STAGES = NUSUK_STAGES[type];
+  writeHajj(HAJJ);
+  renderNusukTabs();
+  renderTimeline();
+  updateProgress();
+  if (navigator.vibrate) navigator.vibrate(15);
+  toast('🧭 المسار الآن لنُسك ' + NUSUK_META[type].label);
+}
 
 function renderTimeline(){
   const root = document.getElementById('timeline');
@@ -442,10 +534,11 @@ function renderTimeline(){
 
 function updateProgress(){
   const total = STAGES.length;
-  const done = Object.keys(HAJJ.stages).filter(k => HAJJ.stages[k]).length;
-  const pct = Math.round((done / total) * 100);
+  const done = STAGES.filter(s => HAJJ.stages[s.id]).length;
+  const pct = total ? Math.round((done / total) * 100) : 0;
   const fill = document.getElementById('mpb-fill'); if (fill) fill.style.width = pct + '%';
   const md = document.getElementById('mpb-done'); if (md) md.textContent = done;
+  const mt = document.getElementById('mpb-total'); if (mt) mt.textContent = total;
   const hd = document.getElementById('hs-done'); if (hd) hd.textContent = done;
 }
 
@@ -493,6 +586,7 @@ function bindTOC(){
 
 document.addEventListener('DOMContentLoaded', () => {
   ccInit();
+  renderNusukTabs();
   renderTimeline();
   renderFeatures();
   updateProgress();

@@ -336,8 +336,16 @@ html[data-theme="dark"] .afs-count-btn,html[data-theme="oled"] .afs-count-btn{ba
 @media(max-width:600px){.afs-arabic{font-size:18px}.afs-footer{gap:8px}.afs-source{min-width:100%}}
 
 /* Floating nav — base */
+/* شريط اختصارات الفئات (أعلى الصفحة) */
+.az-top-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px;margin-bottom:16px;-webkit-overflow-scrolling:touch}
+.az-top-chips::-webkit-scrollbar{display:none}
+.az-chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1.5px solid var(--border);border-radius:999px;padding:8px 14px;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer;white-space:nowrap;transition:all .18s;box-shadow:var(--shadow-sm)}
+.az-chip:hover,.az-chip:active{border-color:var(--gold);transform:translateY(-1px)}
+.az-chip .az-chip-i{font-size:15px}
+#az-fab-nav::-webkit-scrollbar{display:none}
 #az-fab-nav {
-  position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(20px);
+  position:fixed; bottom:150px; left:50%; transform:translateX(-50%) translateY(20px);
+  max-width:min(90vw,520px); overflow-x:auto; scrollbar-width:none;
   background:var(--card); border:1px solid var(--border); border-radius:99px;
   padding:6px 10px; display:flex; gap:4px;
   box-shadow:0 8px 32px rgba(0,0,0,.15); z-index:200;
@@ -466,6 +474,7 @@ html[data-theme="oled"] .az-card:hover {
                outline:none;box-shadow:var(--shadow-sm)">
     </div>
 
+    <div class="az-top-chips" id="az-top-chips"></div>
     <div id="az-accordion"></div>
 
     <!-- ══ Floating Quick-Nav ══ -->
@@ -541,7 +550,7 @@ function renderAccordion(){
   wrap.innerHTML = window.AZ_SECTIONS.map(sec => {
     const n = sec.items.length;
     const isOpen = open === sec.key;
-    const body = sec.items.map(d => cardHTML(d, sec.key)).join('');
+    const body = isOpen ? sec.items.map(d => cardHTML(d, sec.key)).join('') : '';
     return `<div class="az-acc${isOpen?' open':''}" data-sec="${sec.key}" id="acc-${sec.key}">
       <div class="adhkar-menu-card" style="border-color:${sec.color};border-right-color:${sec.color}" onclick="toggleSec('${sec.key}')">
         <div class="amc-icon" style="background:${sec.color}22">${sec.icon}</div>
@@ -551,7 +560,7 @@ function renderAccordion(){
         </div>
         <span class="amc-arrow" id="arr-${sec.key}">${isOpen?'▲':'▾'}</span>
       </div>
-      <div class="az-acc-body" id="body-${sec.key}" style="${isOpen?'':'display:none'}">${body}</div>
+      <div class="az-acc-body" id="body-${sec.key}" data-rendered="${isOpen?'1':'0'}" style="${isOpen?'':'display:none'}">${body}</div>
     </div>`;
   }).join('');
 }
@@ -562,6 +571,10 @@ window.toggleSec = function(key){
   const acc  = document.getElementById('acc-'+key);
   if(!body) return;
   const willOpen = body.style.display === 'none' || !body.style.display;
+  if(willOpen && body.dataset.rendered!=='1' && window.AZ_SECTIONS){
+    const sec=window.AZ_SECTIONS.find(s=>s.key===key);
+    if(sec){ body.innerHTML=sec.items.map(d=>cardHTML(d,key)).join(''); body.dataset.rendered='1'; }
+  }
   /* أغلق الباقي (أكورديون كلاسيكي) */
   document.querySelectorAll('.az-acc-body').forEach(b=>{ if(b!==body) b.style.display='none'; });
   document.querySelectorAll('.amc-arrow').forEach(a=>a.textContent='▾');
@@ -619,6 +632,7 @@ window.shareAz = function(sec, id){
 window.filterAccordion = function(){
   const q = (document.getElementById('az-search')?.value||'').trim().toLowerCase();
   if(!q){ renderAccordion(); return; }
+  renderAllBodies();
   document.querySelectorAll('.az-acc').forEach(acc=>{
     const cards = acc.querySelectorAll('.afs-card');
     let any=false;
@@ -628,6 +642,25 @@ window.filterAccordion = function(){
     if(any){ body.style.display='block'; if(arr)arr.textContent='▲'; }
   });
 };
+
+/* بناء كل أجسام الأقسام (للبحث) */
+function renderAllBodies(){
+  if(!window.AZ_SECTIONS) return;
+  document.querySelectorAll('.az-acc-body').forEach(body=>{
+    if(body.dataset.rendered==='1') return;
+    const key=body.id.replace('body-','');
+    const sec=window.AZ_SECTIONS.find(s=>s.key===key);
+    if(sec){ body.innerHTML=sec.items.map(d=>cardHTML(d,key)).join(''); body.dataset.rendered='1'; }
+  });
+}
+
+/* شريط اختصارات الفئات في الأعلى (زي صفحة الأدعية) */
+function buildTopChips(){
+  const el=document.getElementById('az-top-chips');
+  if(!el||!window.AZ_SECTIONS) return;
+  el.innerHTML=window.AZ_SECTIONS.map(s=>
+    `<button class="az-chip" onclick="jumpSec('${s.key}')" title="${esc(s.title)}"><span class="az-chip-i">${s.icon}</span><span>${esc(s.title)}</span></button>`).join('');
+}
 
 /* بار التنقل العائم: يبني نفسه من الأقسام */
 function buildFab(){
@@ -657,6 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!window.AZ_SECTIONS || typeof STATE==='undefined'){ setTimeout(boot,80); return; }
     const c=document.getElementById('az-sec-count'); if(c) c.textContent=window.AZ_SECTIONS.length;
     renderAccordion();
+    buildTopChips();
     buildFab();
     /* افتح أول قسم افتراضياً لو مفيش محفوظ */
     if(!STATE?.adhkar?._openSec) toggleSec(window.AZ_SECTIONS[0].key);

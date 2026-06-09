@@ -35,7 +35,6 @@
     { href: 'ruqyah.html',       icon: '🛡️', label: 'الرقية الشرعية',  section: 'sec-dhikr' },
     { href: 'sunan.html',        icon: '🌙', label: 'السنن المهجورة',  section: 'sec-dhikr' },
     { href: 'asma.html',         icon: '🌺', label: 'أسماء الله الحسنى',section: 'sec-dhikr' },
-    { href: 'worship.html',      icon: '✅', label: 'جدول العبادات',    section: 'sec-dhikr' },
 
     { sep: 'الحج والمناسك', id: 'sec-hajj' },
     { href: 'fadael.html',       icon: '✨', label: 'فضائل العشر',     section: 'sec-hajj' },

@@ -324,8 +324,8 @@
     <div class="stats-grid-2x2">
       <a class="stat-card" href="takbeer.html"><div class="sc-ico">📿</div><div class="sc-val" id="stat-takbeer">0</div><div class="sc-lbl">التكبيرات</div></a>
       <a class="stat-card" href="mushaf.html"><div class="sc-ico">📖</div><div class="sc-val" id="stat-juz">0</div><div class="sc-lbl">أجزاء الختمة</div></a>
-      <a class="stat-card" href="worship.html"><div class="sc-ico">🕌</div><div class="sc-val" id="stat-pray">0/5</div><div class="sc-lbl">صلوات جماعة</div></a>
-      <a class="stat-card" href="worship.html"><div class="sc-ico">🤲</div><div class="sc-val" id="stat-prog">0%</div><div class="sc-lbl">إنجاز الورد</div></a>
+      <a class="stat-card" href="barnamaj.html"><div class="sc-ico">🕌</div><div class="sc-val" id="stat-pray">0/5</div><div class="sc-lbl">صلوات جماعة</div></a>
+      <a class="stat-card" href="barnamaj.html"><div class="sc-ico">🤲</div><div class="sc-val" id="stat-prog">0%</div><div class="sc-lbl">إنجاز الورد</div></a>
     </div>
     <div class="reset-info">
       <div class="reset-dot"></div>
@@ -375,7 +375,7 @@
 
     <div class="section-title" style="margin-top:18px">ابدأ يومك الآن</div>
     <div class="grid cols-3">
-      <a class="card quick-card" href="worship.html"><div class="ico-lg">📿</div><h3>ورد اليوم</h3><p>تابع جدول عباداتك</p></a>
+      <a class="card quick-card" href="barnamaj.html"><div class="ico-lg">📿</div><h3>ورد اليوم</h3><p>تابع جدول عباداتك</p></a>
       <a class="card quick-card" href="mushaf.html"><div class="ico-lg">📖</div><h3>اقرأ القرآن</h3><p>متابعة خطة الختمة</p></a>
       <a class="card quick-card" href="takbeer.html"><div class="ico-lg">🕋</div><h3>كبّر الله</h3><p>عداد التكبير المطلق</p></a>
       <a class="card quick-card" href="adhkar.html"><div class="ico-lg">🤲</div><h3>الأذكار</h3><p>صباح ومساء وأذكار العشر</p></a>
@@ -413,16 +413,17 @@
 <script>
 let _vi=0,_dayVerses=[],_hijriDay=1;
 function safeToggleTheme(){typeof toggleTheme==='function'?toggleTheme():null;}
-function quickWorship(type){const m={fajr:'worship.html',dhikr:'adhkar.html',takbeer:'takbeer.html',fasting:'worship.html'};window.location.href=m[type]||'worship.html';}
+function quickWorship(type){const m={fajr:'barnamaj.html',dhikr:'adhkar.html',takbeer:'takbeer.html',fasting:'barnamaj.html'};window.location.href=m[type]||'barnamaj.html';}
 
-async function initHijriBar(){
+function initHijriBar(){
+  /* موحّد مع صفحة التقويم: تقويم أم القرى عبر Intl (يعمل أوفلاين بلا تعارض). */
   try{
     const now=new Date();
-    const res=await fetch(`https://api.aladhan.com/v1/gToH/${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()}`);
-    const json=await res.json();
-    if(json.code===200)applyHijriData(json.data.hijri,now);
-    else fallbackHijriDate();
-  }catch(e){fallbackHijriDate();}
+    const f=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{day:'numeric',month:'numeric',year:'numeric'});
+    const p=f.formatToParts(now);
+    const d=+p.find(x=>x.type==='day').value, mn=+p.find(x=>x.type==='month').value, y=+p.find(x=>x.type==='year').value;
+    applyHijriData({day:d, month:{number:mn, ar:HIJRI_MONTHS_AR[mn-1]}, year:y}, now);
+  }catch(e){ fallbackHijriDate(); }
 }
 function fallbackHijriDate(){applyHijriData({day:'9',month:{number:12,ar:'ذو الحجة'},year:1447},new Date());}
 const WEEK_AR=["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];

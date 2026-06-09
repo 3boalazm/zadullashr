@@ -319,7 +319,7 @@ html[data-theme="dark"] .city-chip,html[data-theme="oled"] .city-chip{background
       </div>
 
       <!-- 10-day Dhul Hijjah table -->
-      <div class="section-title" style="margin-top:20px">📅 جدول مواقيت الشهر (ذو الحجة)</div>
+      <div class="section-title" style="margin-top:20px" id="month-table-title">📅 جدول مواقيت الشهر</div>
       <div class="card" style="overflow-x:auto;padding:0">
         <div id="table-loading" style="padding:20px;text-align:center;color:var(--muted);font-size:13px">جارٍ تحميل جدول العشر...</div>
         <table class="pt-table" id="ten-days-table" style="display:none">
@@ -438,21 +438,26 @@ function getNextPrayer(timings) {
   }
   return { name: 'Fajr', time: timings['Fajr']?.substring(0,5), tomorrow: true };
 }
-function startCountdown(targetTime, isTomorrow) {
+function startCountdown(targetTime) {
   clearInterval(window._prayerTimer);
-  window._prayerTimer = setInterval(() => {
+  const el = () => document.getElementById('np-remains');
+  if (!targetTime || targetTime.indexOf(':') < 0) { const e=el(); if(e) e.textContent='--:--:--'; return; }
+  function tick() {
     const now = new Date();
     const [hh, mm] = targetTime.split(':').map(Number);
     let target = new Date(now);
     target.setHours(hh, mm, 0, 0);
-    if (isTomorrow || target <= now) target.setDate(target.getDate() + 1);
-    const diff = target - now;
+    /* لو الوقت عدّى اليوم، انقله لبكرة — يصحّح نفسه تلقائياً عبر منتصف الليل */
+    if (target <= now) target.setDate(target.getDate() + 1);
+    const diff = Math.max(0, target - now);
     const h = String(Math.floor(diff / 3600000)).padStart(2,'0');
     const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
     const s = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
-    const el = document.getElementById('np-remains');
-    if (el) el.textContent = `${h}:${m}:${s}`;
-  }, 1000);
+    const e = el();
+    if (e) e.textContent = `${h}:${m}:${s}`;
+  }
+  tick();                                   /* تحديث فوري بلا انتظار ثانية */
+  window._prayerTimer = setInterval(tick, 1000);
 }
 
 /* ── عرض صلوات اليوم ─────────────────────────────────────── */
@@ -482,7 +487,7 @@ function renderTodayPrayers(timings) {
   const npTime = document.getElementById('np-time');
   if (npName) npName.textContent = PRAYER_NAMES_AR[next.name] || next.name;
   if (npTime) npTime.textContent = next.time;
-  startCountdown(next.time, next.tomorrow);
+  startCountdown(next.time);
 }
 
 /* ── تحميل مواقيت اليوم ──────────────────────────────────── */
@@ -529,8 +534,17 @@ async function loadTodayPrayers(lat, lng, method = 5) {
 
 /* ── تحميل جدول العشر ────────────────────────────────────── */
 async function loadTenDaysTable(lat, lng, method = 5) {
+  /* الشهر الهجري الحالي تلقائياً (أم القرى) — يتدوّر طوال السنة */
+  let hy = 1447, hm = 12;
   try {
-    const url = `https://api.aladhan.com/v1/hijriCalendar/1447/12?latitude=${lat}&longitude=${lng}&method=${method}`;
+    const _f = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{month:'numeric',year:'numeric'});
+    const _p = _f.formatToParts(new Date());
+    hm = +_p.find(x=>x.type==='month').value;
+    hy = +_p.find(x=>x.type==='year').value;
+  } catch(e){}
+  const cacheKey = `zad_month_table_${hy}_${hm}`;
+  try {
+    const url = `https://api.aladhan.com/v1/hijriCalendar/${hy}/${hm}?latitude=${lat}&longitude=${lng}&method=${method}`;
     const res  = await fetch(url, { signal: AbortSignal.timeout(10000) });
     const data = await res.json();
     if (data.code !== 200) throw new Error('Calendar API error');
@@ -538,12 +552,12 @@ async function loadTenDaysTable(lat, lng, method = 5) {
     const days = data.data;
     renderTenDays(days); /* الشهر كله */
 
-    localStorage.setItem('zad_ten_days_table', JSON.stringify(days));
-    localStorage.setItem('zad_ten_days_method', method);
+    localStorage.setItem(cacheKey, JSON.stringify(days));
+    localStorage.setItem('zad_month_table_method', method);
   } catch (e) {
     /* فشل الشبكة أو timeout — اعرض الكاش لو موجود أو رسالة لطيفة */
     const tl = document.getElementById('table-loading');
-    const cached = localStorage.getItem('zad_ten_days_table');
+    const cached = localStorage.getItem(cacheKey);
     if (cached) {
       try { renderTenDays(JSON.parse(cached)); return; } catch {}
     }
@@ -552,16 +566,30 @@ async function loadTenDaysTable(lat, lng, method = 5) {
 }
 
 function renderTenDays(days) {
-  const SPECIAL = { 8:'التروية', 9:'عرفة ⭐', 10:'العيد 🎉', 11:'التشريق', 12:'التشريق', 13:'التشريق' };
+  if (!Array.isArray(days) || !days.length) return;
+  /* أيام مميزة في ذي الحجة فقط؛ والأيام البيض (13-14-15) في أي شهر */
+  const DH_SPECIAL = { 8:'التروية', 9:'عرفة ⭐', 10:'العيد 🎉', 11:'التشريق', 12:'التشريق', 13:'التشريق' };
   const today = new Date().toDateString();
   const tbody = document.getElementById('ten-days-tbody');
   if (!tbody) return;
+
+  /* اسم الشهر الهجري الفعلي من البيانات */
+  const hMonth = days[0]?.date?.hijri?.month;
+  const hMonthNum = parseInt(hMonth?.number, 10) || 0;
+  const hMonthAr  = hMonth?.ar || '';
+  const hYear     = days[0]?.date?.hijri?.year || '';
+  const titleEl = document.getElementById('month-table-title');
+  if (titleEl) titleEl.textContent = `📅 جدول مواقيت شهر ${hMonthAr} ${hYear}هـ`;
 
   tbody.innerHTML = days.map((dayData) => {
     const t       = dayData.timings;
     const gregDay = dayData.date.gregorian;
     const dayNum  = parseInt(dayData.date.hijri?.day, 10) || 0; /* اليوم الهجري الحقيقي */
-    const isSpecial = !!SPECIAL[dayNum];
+    const mAr     = dayData.date.hijri?.month?.ar || hMonthAr;
+    let badge = '';
+    if (hMonthNum === 12 && DH_SPECIAL[dayNum]) badge = DH_SPECIAL[dayNum];
+    else if (dayNum >= 13 && dayNum <= 15)      badge = 'الأيام البيض 🤍';
+    const isSpecial = !!badge;
     let isToday = false;
     try {
       const gregDate = new Date(`${gregDay.year}-${String(gregDay.month.number).padStart(2,'0')}-${String(gregDay.day).padStart(2,'0')}`);
@@ -569,8 +597,8 @@ function renderTenDays(days) {
     } catch(e) {}
     return `<tr class="${(isSpecial||isToday) ? 'special-row' : ''}">
       <td class="day-col">
-        <div>${dayNum} ذو الحجة</div>
-        ${isSpecial ? `<div class="special-badge">${SPECIAL[dayNum]}</div>` : ''}
+        <div>${dayNum} ${mAr}</div>
+        ${isSpecial ? `<div class="special-badge">${badge}</div>` : ''}
         <div style="font-size:9px;color:var(--muted);font-weight:400;direction:ltr">${gregDay.day}/${gregDay.month.number}</div>
       </td>
       <td>${t.Fajr?.substring(0,5)||'—'}</td>

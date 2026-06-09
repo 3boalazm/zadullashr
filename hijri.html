@@ -302,47 +302,31 @@ let calType   = 'hijri'; /* 'hijri' | 'greg' */
 let curHijriY = 1447, curHijriM = 12;
 let curGregY  = new Date().getFullYear(), curGregM = new Date().getMonth() + 1;
 
-/* ── Hijri calculation ───────────────────────────────────── */
-const ML = [30,29,30,29,30,29,30,29,30,29,30,29];
-function hijriToGreg(hy, hm, hd) {
-  /* Offset from DH1 reference */
-  let refY = 1447, refM = 12, refD = 1;
-  /* Days from DH1 to (hy,hm,hd) */
-  let days = 0;
-  if (hy > refY || (hy === refY && hm > refM) || (hy === refY && hm === refM && hd > refD)) {
-    /* Forward from ref */
-    let y = refY, m = refM, d = refD;
-    while (y < hy || m < hm || d < hd) {
-      if (y === hy && m === hm && d === hd) break;
-      d++; days++;
-      if (d > ML[(m-1)%12]) { d=1; m++; if(m>12){m=1;y++;} }
-    }
-  } else {
-    /* Backward from ref */
-    let y = refY, m = refM, d = refD;
-    while (y > hy || m > hm || d > hd) {
-      if (y === hy && m === hm && d === hd) break;
-      d--; days--;
-      if (d < 1) { m--; if(m<1){m=12;y--;} d=ML[(m-1)%12]; }
-    }
-  }
-  const greg = new Date(DH1);
-  greg.setDate(DH1.getDate() + days);
-  return greg;
+/* ── Hijri calculation: تقويم أم القرى عبر Intl ──────────────
+   موحّد مع الصفحة الرئيسية، يعمل أوفلاين، ويتطابق مع مصدر Aladhan (أم القرى). */
+function _hijParts(date){
+  const f = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {day:'numeric', month:'numeric', year:'numeric'});
+  const p = f.formatToParts(date);
+  return {
+    y:+p.find(x=>x.type==='year').value,
+    m:+p.find(x=>x.type==='month').value,
+    d:+p.find(x=>x.type==='day').value
+  };
 }
-
-function gregToHijri(date) {
-  /* موحّد: نحسب دائماً من المرجع الثابت DH1 (= 18 مايو = 1 ذو الحجة)
-     ولا نعتمد على تاريخ الـ API الحي حتى لا يحدث تعارض مع باقي الموقع. */
-  const msPerDay = 86400000;
-  /* نصفّر الوقت في التاريخين لتفادي خطأ يوم كامل بعد الظهر (Math.round) */
-  const dMid  = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  const refMid = new Date(DH1.getFullYear(), DH1.getMonth(), DH1.getDate());
-  const diff = Math.round((dMid - refMid) / msPerDay);
-  let y=1447, m=12, d=1+diff;
-  while (d > ML[(m-1)%12]) { d -= ML[(m-1)%12]; m++; if(m>12){m=1;y++;} }
-  while (d < 1) { m--; if(m<1){m=12;y--;} d+=ML[(m-1)%12]; }
-  return {y, m, d};
+function gregToHijri(date){
+  try { return _hijParts(date); }
+  catch(e){ return {y:1447, m:12, d:1}; }
+}
+function hijriToGreg(hy, hm, hd){
+  /* تقدير مبدئي من المرجع DH1 ثم بحثٌ دقيق عن اليوم المطابق */
+  const approx = Math.round(((hy-1447)*354.367) + ((hm-12)*29.53) + (hd-1));
+  let guess = new Date(DH1); guess.setDate(guess.getDate() + approx);
+  for (let off=-45; off<=45; off++){
+    const dt = new Date(guess.getFullYear(), guess.getMonth(), guess.getDate()+off);
+    const x  = _hijParts(dt);
+    if (x.y===hy && x.m===hm && x.d===hd) return dt;
+  }
+  return guess;
 }
 
 /* ── Special days ─────────────────────────────────────────── */
@@ -533,7 +517,7 @@ function showDayPopup(hy, hm, hd) {
       <div style="font-size:13px;color:var(--muted);margin-top:4px;direction:ltr">${WEEK_AR[greg.getDay()]} · ${greg.getDate()} ${GREG_MONTHS_AR[greg.getMonth()]} ${greg.getFullYear()}</div>
       ${sp ? `<div class="cd-badge special" style="margin-top:8px;padding:5px 16px;font-size:13px">${sp.label}</div>` : ''}
     </div>
-    ${hm===12&&hd>=1&&hd<=9 ? `<a href="worship.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">📿 سجّل عبادات اليوم ${hd} →</a>` : ''}
+    ${hm===12&&hd>=1&&hd<=9 ? `<a href="barnamaj.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">📿 سجّل عبادات اليوم ${hd} →</a>` : ''}
     ${hd===9&&hm===12 ? `<a href="arafah.html" class="btn btn-gold" style="width:100%;justify-content:center;margin-top:8px">🌄 برنامج يوم عرفة →</a>` : ''}
   `;
   document.getElementById('day-popup').classList.add('show');

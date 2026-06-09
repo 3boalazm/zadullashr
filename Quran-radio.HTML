@@ -229,10 +229,12 @@ html[data-theme="oled"] .nav a.active { color: var(--sys-green); }
 ════════════════════════════════════════════════ */
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 0 20px;
+  padding: 14px 4px; gap: 12px;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 24px;
-  gap: 12px;
+  margin-bottom: 20px;
+  position: sticky; top: 0; z-index: 60;
+  background: var(--bg-soft);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
 }
 .tb-left  { display: flex; align-items: center; gap: 10px; }
 .tb-center { flex: 1; text-align: center; }
@@ -400,6 +402,7 @@ html[data-theme="oled"] .np-label { color: var(--sys-green); }
 
 /* Controls */
 .np-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.ctrl-btn.bg-toggle.on { background: var(--gold); color: #3a2e10; }
 .ctrl-btn {
   width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--border);
   background: var(--sand); color: var(--green-deep);
@@ -1159,6 +1162,7 @@ html[data-theme="oled"] .stream-error-banner { background: rgba(239,68,68,.12); 
       </div>
 
       <div class="np-controls">
+        <button class="ctrl-btn bg-toggle on" id="bg-toggle" onclick="toggleBgPlay()" title="التشغيل في الخلفية">🎧</button>
         <span class="sleep-pill" id="sleep-pill">⏱ <span id="sleep-txt">—</span></span>
         <button class="ctrl-btn" onclick="openSleepModal()" title="مؤقت النوم">⏱</button>
         <button class="ctrl-btn" onclick="prevStation()" title="السابق">⏮</button>
@@ -1533,6 +1537,36 @@ const STATIONS = [
       'https://stream.zeno.fm/GPhDTR',
     ], logoBg:'linear-gradient(135deg,#1a1a2e,#16213e)'
   },
+  { id:15, name:'مشاري راشد العفاسي', country:'الكويت', flag:'🇰🇼', cat:'quran', icon:'🎙️',
+    desc:'تلاوات خاشعة بصوت الشيخ مشاري راشد العفاسي على مدار الساعة.', quality:'HQ',
+    urls:['https://backup.qurango.net/radio/mishary_alafasy','https://stream.zeno.fm/GPhDTR','https://stream.radiojar.com/8s5u5tpdtwzuv'], logoBg:'linear-gradient(135deg,#0e3b2e,#1f5e4b)' },
+  { id:16, name:'ماهر المعيقلي', country:'السعودية', flag:'🇸🇦', cat:'saudi', icon:'🕋',
+    desc:'إمام الحرم المكي — تلاوة مرتلة بصوت الشيخ ماهر المعيقلي.', quality:'HQ',
+    urls:['https://backup.qurango.net/radio/maher_almuaiqly','https://stream.zeno.fm/GPhDTR','https://n0d.radiojar.com/quranfm.aac'], logoBg:'linear-gradient(135deg,#1f5e4b,#2a7a5e)' },
+  { id:17, name:'عبد الرحمن السديس', country:'السعودية', flag:'🇸🇦', cat:'saudi', icon:'🕌',
+    desc:'إمام الحرم المكي الشريف — تلاوات مؤثّرة بصوت الشيخ السديس.', quality:'HQ',
+    urls:['https://backup.qurango.net/radio/abdurrahman_alsudaes','https://stream.zeno.fm/GPhDTR','https://stream.radiojar.com/8s5u5tpdtwzuv'], logoBg:'linear-gradient(135deg,#2a1a0a,#4a3010)' },
+  { id:18, name:'سعود الشريم', country:'السعودية', flag:'🇸🇦', cat:'saudi', icon:'🎙️',
+    desc:'إمام الحرم المكي — تلاوة مرتلة بصوت الشيخ سعود الشريم.', quality:'HQ',
+    urls:['https://backup.qurango.net/radio/saud_alshuraim','https://stream.zeno.fm/GPhDTR','https://n0d.radiojar.com/quranfm.aac'], logoBg:'linear-gradient(135deg,#0a2a20,#1a5e47)' },
+  { id:19, name:'أحمد العجمي', country:'السعودية', flag:'🇸🇦', cat:'saudi', icon:'📖',
+    desc:'تلاوات خاشعة بصوت الشيخ أحمد بن علي العجمي.', quality:'HQ',
+    urls:['https://backup.qurango.net/radio/ahmad_alajamy','https://stream.zeno.fm/GPhDTR','https://stream.radiojar.com/8s5u5tpdtwzuv'], logoBg:'linear-gradient(135deg,#1a1a2e,#16213e)' },
+  { id:20, name:'ياسر الدوسري', country:'السعودية', flag:'🇸🇦', cat:'saudi', icon:'🎙️',
+    desc:'إمام الحرم المكي — تلاوة عذبة بصوت الشيخ ياسر الدوسري.', quality:'HQ',
+    urls:['https://backup.qurango.net/radio/yasser_aldossari','https://stream.zeno.fm/GPhDTR','https://n0d.radiojar.com/quranfm.aac'], logoBg:'linear-gradient(135deg,#0e3b2e,#1f5e4b)' },
+  { id:21, name:'سعد الغامدي', country:'السعودية', flag:'🇸🇦', cat:'saudi', icon:'📿',
+    desc:'تلاوات مرتلة هادئة بصوت الشيخ سعد الغامدي.', quality:'HQ',
+    urls:['https://backup.qurango.net/radio/saad_alghamidi','https://stream.zeno.fm/GPhDTR','https://stream.radiojar.com/8s5u5tpdtwzuv'], logoBg:'linear-gradient(135deg,#1f5e4b,#2a7a5e)' },
+  { id:22, name:'ناصر القطامي', country:'السعودية', flag:'🇸🇦', cat:'saudi', icon:'🎙️',
+    desc:'تلاوات خاشعة بصوت الشيخ ناصر القطامي.', quality:'HQ',
+    urls:['https://backup.qurango.net/radio/nasser_alqatami','https://stream.zeno.fm/GPhDTR','https://n0d.radiojar.com/quranfm.aac'], logoBg:'linear-gradient(135deg,#2a1a0a,#4a3010)' },
+  { id:23, name:'أبو بكر الشاطري', country:'السعودية', flag:'🇸🇦', cat:'quran', icon:'📖',
+    desc:'تلاوة مرتلة عذبة بصوت الشيخ أبو بكر الشاطري.', quality:'HQ',
+    urls:['https://backup.qurango.net/radio/abu_bakr_alshatri','https://stream.zeno.fm/GPhDTR','https://stream.radiojar.com/8s5u5tpdtwzuv'], logoBg:'linear-gradient(135deg,#0a2a20,#1a5e47)' },
+  { id:24, name:'إذاعة تفسير القرآن', country:'متنوّع', flag:'📚', cat:'official', icon:'📚',
+    desc:'بثٌّ متواصل لتفسير آيات القرآن الكريم وبيان معانيها.', quality:'HQ',
+    urls:['https://backup.qurango.net/radio/tafseer','https://stream.zeno.fm/GPhDTR','https://n0d.radiojar.com/quranfm.aac'], logoBg:'linear-gradient(135deg,#1a1a2e,#16213e)' },
 ];
 
 /* ════════════════════════════════════════
@@ -2134,6 +2168,7 @@ window.updateUI = function() {
 
 /* إعادة الاتصال عند عودة الصفحة للأمام */
 document.addEventListener('visibilitychange', () => {
+  if (document.hidden && !bgPlay && !audio.paused) { audio.pause(); }
   if (!document.hidden && isPlaying && audio.paused && current) {
     console.log('[Radio] Tab resumed — reconnecting…');
     currentUrlIdx = 0;
@@ -2141,6 +2176,21 @@ document.addEventListener('visibilitychange', () => {
   }
   if (!document.hidden && isPlaying) requestWakeLock();
 });
+
+/* ════ تشغيل في الخلفية (تبديل) ════ */
+let bgPlay = localStorage.getItem('zad_radio_bgplay') !== '0';   /* مُفعّل افتراضيًا */
+function applyBgToggleUI(){
+  const b = document.getElementById('bg-toggle');
+  if (b){ b.classList.toggle('on', bgPlay); b.style.opacity = bgPlay ? '1' : '.45'; }
+}
+function toggleBgPlay(){
+  bgPlay = !bgPlay;
+  try { localStorage.setItem('zad_radio_bgplay', bgPlay ? '1' : '0'); } catch(e){}
+  applyBgToggleUI();
+  if (typeof showToast === 'function') showToast(bgPlay ? '🎧 التشغيل في الخلفية مُفعّل' : '⏸ سيتوقّف الصوت عند الخروج من الصفحة');
+}
+window.toggleBgPlay = toggleBgPlay;
+document.addEventListener('DOMContentLoaded', applyBgToggleUI);
 
 /* إغلاق الـ popup بالضغط خارجه */
 document.addEventListener('click', (e) => {
