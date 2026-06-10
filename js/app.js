@@ -7,6 +7,7 @@ function loadState() {
 }
 let _saveTimer;
 function saveState() {
+  if (window.ZadState && typeof window.ZadState.save === 'function') { window.ZadState.save(); return; }
   clearTimeout(_saveTimer);
   _saveTimer = setTimeout(() => {
     try { localStorage.setItem(KEY, JSON.stringify(STATE)); } catch (e) {}
@@ -48,7 +49,21 @@ function checkDayReset(s) {
   }
   return s;
 }
-let STATE = checkDayReset(loadState());
+/* Phase 1: مصدر واحد للحقيقة — STATE هو نفس كائن ZadState._state (نفس المرجع) */
+let STATE;
+if (window.ZadState && typeof window.ZadState.getState === 'function' && window.ZadState.getState()) {
+  STATE = window.ZadState.getState();          /* نفس المرجع — أي تعديل على STATE = تعديل على _state */
+  const _appDefaults = defaultState();          /* اضمن وجود المفاتيح التي يتوقعها app.js دون مسح ما هو موجود */
+  for (const _k in _appDefaults) if (STATE[_k] === undefined) STATE[_k] = _appDefaults[_k];
+} else {
+  STATE = checkDayReset(loadState());           /* fallback لو ZadState غير محمّل */
+}
+/* Phase 0/1: احفظ فوراً عند إغلاق/إخفاء الصفحة (طبقة أمان إضافية فوق flush الخاص بـ ZadState) */
+function flushState() { clearTimeout(_saveTimer); try { localStorage.setItem(KEY, JSON.stringify(STATE)); } catch (e) {} }
+if (typeof window !== 'undefined') {
+  window.addEventListener('pagehide', flushState);
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') flushState(); });
+}
 function applyTheme(theme) {
   if (!['light','dark','oled'].includes(theme)) theme = 'light';
   STATE.theme = theme;

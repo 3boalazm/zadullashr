@@ -394,7 +394,8 @@ function renderHijriMonth(hy, hm) {
   /* Find first day of this Hijri month */
   const firstDay   = hijriToGreg(hy, hm, 1);
   const startDow   = firstDay.getDay(); /* 0=Sun */
-  const daysInMonth = ML[(hm-1)%12];
+  const nextFirst   = (hm === 12) ? hijriToGreg(hy + 1, 1, 1) : hijriToGreg(hy, hm + 1, 1);
+  const daysInMonth = Math.round((nextFirst - firstDay) / 86400000);
 
   const today = new Date();
   const grid  = document.getElementById('cal-grid');

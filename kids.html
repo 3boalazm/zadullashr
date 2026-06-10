@@ -503,10 +503,10 @@ const STORIES = [
   }
 ];
 
-let storyIdx = 0;
+let kStoryIdx = 0;
 
 function renderStory() {
-  const s = STORIES[storyIdx];
+  const s = STORIES[kStoryIdx];
   const icoEl   = document.getElementById('story-ico-big');
   const titleEl = document.getElementById('story-title');
   const bodyEl  = document.getElementById('story-body');
@@ -518,29 +518,29 @@ function renderStory() {
   if (titleEl) titleEl.textContent = s.title;
   if (bodyEl)  bodyEl.textContent  = s.body;
   if (moral)   { moral.textContent = s.moral; moral.classList.toggle('show', !!s.moral); }
-  if (countEl) countEl.textContent = `${storyIdx+1} / ${STORIES.length}`;
+  if (countEl) countEl.textContent = `${kStoryIdx+1} / ${STORIES.length}`;
 
   /* Dots */
   if (dotsEl) {
     dotsEl.innerHTML = '';
     STORIES.forEach((_, i) => {
       const d = document.createElement('div');
-      d.className = 'story-dot' + (i === storyIdx ? ' active' : '');
-      d.onclick = () => { storyIdx = i; renderStory(); };
+      d.className = 'story-dot' + (i === kStoryIdx ? ' active' : '');
+      d.onclick = () => { kStoryIdx = i; renderStory(); };
       dotsEl.appendChild(d);
     });
   }
 
   /* Disable prev on first */
   const prev = document.getElementById('story-prev');
-  if (prev) prev.disabled = storyIdx === 0;
+  if (prev) prev.disabled = kStoryIdx === 0;
 }
 
 function storyNav(dir) {
-  storyIdx = Math.max(0, Math.min(STORIES.length - 1, storyIdx + dir));
+  kStoryIdx = Math.max(0, Math.min(STORIES.length - 1, kStoryIdx + dir));
   renderStory();
   /* Give star for completing story */
-  if (storyIdx === STORIES.length - 1 && !kState.story_done) {
+  if (kStoryIdx === STORIES.length - 1 && !kState.story_done) {
     kState.story_done = true; kState.stars += 2; saveKids();
     updateStars(); showBadgeToast('🌟 أنهيت القصة! +2 نجمة');
   }
@@ -827,15 +827,15 @@ function answerQ(idx, btn) {
 function quizNextQ() { quizIdx++; renderQuiz(); }
 
 /* ══ BADGE TOAST ════════════════════════════════════════════ */
-let toastTimer;
+let kToastTimer;
 function showBadgeToast(msg) {
   const el = document.getElementById('badge-toast');
   const txt = document.getElementById('badge-toast-txt');
   if (!el || !txt) return;
   txt.textContent = msg;
   el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
+  clearTimeout(kToastTimer);
+  kToastTimer = setTimeout(() => el.classList.remove('show'), 2500);
 }
 
 /* ══ CONFETTI ═══════════════════════════════════════════════ */
@@ -869,7 +869,7 @@ document.addEventListener('DOMContentLoaded', () => {
     STORIES.forEach((_, i) => {
       const d = document.createElement('div');
       d.className = 'story-dot' + (i === 0 ? ' active' : '');
-      d.onclick = () => { storyIdx = i; renderStory(); };
+      d.onclick = () => { kStoryIdx = i; renderStory(); };
       dotsEl.appendChild(d);
     });
   }

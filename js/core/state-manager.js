@@ -155,6 +155,41 @@ const ZadState = (() => {
     _listeners.get('*')?.forEach(fn => fn(_state));
   }
 
+  /* ── Phase 0: merge-safe writes (no whole-object overwrite) ───────────── */
+  function _deepMerge(target, src) {
+    for (const k in src) {
+      const v = src[k];
+      if (v && typeof v === 'object' && !Array.isArray(v)) {
+        if (!target[k] || typeof target[k] !== 'object' || Array.isArray(target[k])) target[k] = {};
+        _deepMerge(target[k], v);
+      } else {
+        target[k] = v;
+      }
+    }
+    return target;
+  }
+
+  /* patch: deep-merge a partial into state — sibling keys are preserved
+     (this is what eliminates the lost-update / clobber class) */
+  function patch(partial) {
+    if (!_state) init();
+    _deepMerge(_state, partial || {});
+    window.STATE = _state;
+    save();
+    const touched = Object.keys(partial || {});
+    touched.forEach(k => _listeners.get(k)?.forEach(fn => fn(get(k))));
+    _listeners.get('*')?.forEach(fn => fn(_state));
+  }
+
+  /* transaction: read-modify-write under the single in-memory copy */
+  function transaction(fn) {
+    if (!_state) init();
+    fn(_state);
+    window.STATE = _state;
+    save();
+    _listeners.get('*')?.forEach(fn => fn(_state));
+  }
+
   /* ── Pub/Sub ──────────────────────────────────────────────────────────── */
   function subscribe(key, fn) {
     if (!_listeners.has(key)) _listeners.set(key, new Set());
@@ -182,7 +217,7 @@ const ZadState = (() => {
 
   /* ── Export ─────────────────────────────────────────────────────────── */
   return {
-    init, get, set, update, subscribe, save, load, flush,
+    init, get, set, update, patch, transaction, subscribe, save, load, flush,
     markWorship, addNotification, markNotifRead,
     /* للتوافق مع app.js */
     getState: () => _state,

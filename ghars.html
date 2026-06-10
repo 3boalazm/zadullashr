@@ -507,6 +507,7 @@ const DAYS_DATA = [
 
 function renderDays(){
   const el = document.getElementById('days-grid');
+  if(!el) return;
   el.innerHTML = DAYS_DATA.map(d => `
     <div class="day-card ${gState.days[d.n]?'done':''}" onclick="earnDay(${d.n})">
       <span class="day-ico">${d.ico}</span>
@@ -555,6 +556,7 @@ const HAJJ_STEPS = [
 
 function renderHajjSteps(){
   const el = document.getElementById('hajj-steps-list');
+  if(!el) return;
   el.innerHTML = HAJJ_STEPS.map(s => `
     <div class="hajj-step ${gState.hajj[s.n]?'done':''}" onclick="earnHajjStep(${s.n})">
       <div class="step-num">${s.n}</div>
@@ -588,6 +590,7 @@ const ACTS = [
 
 function renderActivities(){
   const el = document.getElementById('activities-grid');
+  if(!el) return;
   el.innerHTML = ACTS.map(a => `
     <div class="act-card ${gState.acts[a.id]?'done':''}" onclick="earnAct('${a.id}')">
       <span class="act-done-badge">✅ مكتمل</span>
@@ -618,6 +621,7 @@ const NASHEEDS = [
 
 function renderNasheeds(){
   const el = document.getElementById('nasheed-list');
+  if(!el) return;
   el.innerHTML = NASHEEDS.map(n => `
     <div class="nasheed-card" onclick="playNasheed('${n.title}')">
       <div class="nasheed-ico">${n.ico}</div>
@@ -654,6 +658,7 @@ let quizIdx = 0, quizScore = 0;
 
 function renderQuiz(){
   const el = document.getElementById('quiz-container');
+  if(!el) return;
   if (quizIdx >= QUIZ_Q.length) {
     const pct = Math.round(quizScore/QUIZ_Q.length*100);
     el.innerHTML = `
@@ -722,8 +727,8 @@ function updateStars(){
                 Object.keys(gState.acts||{}).length +
                 (gState.quiz?.done ? 3 : 0) +
                 Object.keys(gState).filter(k=>k.startsWith('story_')).length;
-  document.getElementById('g-stars').textContent = `⭐ ${gState.stars||0}`;
-  document.getElementById('g-done-count').textContent = total;
+  const gs = document.getElementById('g-stars'); if (gs) gs.textContent = `⭐ ${gState.stars||0}`;
+  const gd = document.getElementById('g-done-count'); if (gd) gd.textContent = total;
 }
 
 
