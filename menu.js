@@ -1099,8 +1099,11 @@
   /* تصدير عام */
   window.ZadShare = { text: _zadShareText, png: _zadSharePng };
 })();
-/* ═══ تفعيل شريط التنقل السفلي (bottom-nav) على كل الصفحات التي تحمّل menu.js ═══
-   آمن ومتكرّر-المنع: يحمّل الملف مرة واحدة ثم يستدعي init (الذي هو idempotent). */
+/* ═══ شريط التنقل السفلي (bottom-nav) — مُعطَّل بناءً على طلب المستخدم ═══
+   الاعتماد على القائمة الجانبية (الهامبرجر) كتنقّل أساسي. لإعادة تفعيله مستقبلاً
+   أزِل التعليق عن الكتلة أدناه. لا يُحمَّل js/ui/bottom-nav.js إطلاقاً الآن،
+   لذا لا يُحقَن أي CSS ولا padding سفلي على الجسم. */
+/*
 (function loadZadBottomNav() {
   if (window.__zadBnavWired) return;
   window.__zadBnavWired = true;
@@ -1112,3 +1115,4 @@
   s.onload = go;
   document.head.appendChild(s);
 })();
+*/
