@@ -112,7 +112,10 @@
     getGroup: function (groupId) {
       var g = readGroups();
       var grp = g.list.filter(function (x) { return x.id === groupId; })[0] || null;
-      if (grp) { LocalAdapter._refreshMe(grp); saveGroups(g); }
+      if (grp) {
+        if (grp.members) grp.members = grp.members.filter(function (m) { return !m.demo; }); /* أزِل الأعضاء التوضيحيين القدامى من المجموعات المُنشأة سابقاً */
+        LocalAdapter._refreshMe(grp); saveGroups(g);
+      }
       return Promise.resolve(grp);
     },
 
@@ -121,7 +124,7 @@
       var grp = {
         id: uuid(), name: (name || 'مجموعتي').trim().slice(0, 32),
         code: joinCode(), createdAt: Date.now(), local: true,
-        members: [meAsMember()].concat(demoMembers())
+        members: [meAsMember()]
       };
       g.list.push(grp); saveGroups(g);
       return Promise.resolve(grp);
@@ -133,10 +136,10 @@
       var g = readGroups();
       var existing = g.list.filter(function (x) { return x.code === code; })[0];
       if (existing) { LocalAdapter._refreshMe(existing); saveGroups(g); return Promise.resolve(existing); }
-      /* وضع محلي: نُنشئ نسخة من المجموعة بالرمز المُدخل + أعضاء توضيحيين */
+      /* وضع محلي: نُنشئ نسخة من المجموعة بالرمز المُدخل (بدون أعضاء توضيحيين) */
       var grp = {
         id: uuid(), name: 'مجموعة ' + code, code: code, createdAt: Date.now(), local: true, joined: true,
-        members: [meAsMember()].concat(demoMembers())
+        members: [meAsMember()]
       };
       g.list.push(grp); saveGroups(g);
       return Promise.resolve(grp);
