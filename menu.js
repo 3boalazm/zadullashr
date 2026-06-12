@@ -46,6 +46,17 @@
     { href: 'hasad.html',        icon: '📊', label: 'حصاد العشر',       section: 'sec-hajj' },
     { href: 'hikayat-hajj.html', icon: '🕋', label: 'حكاية حج (للأطفال)', section: 'sec-hajj' },
 
+    { sep: 'رمضان الخير 🌙', id: 'sec-ramadan' },
+    { href: 'ramadan.html',         icon: '🌙', label: 'رمضان الخير — الرئيسية', section: 'sec-ramadan' },
+    { href: 'ramadan-tadhkir.html', icon: '💡', label: 'تذكير إيماني',          section: 'sec-ramadan' },
+    { href: 'ramadan-afdal.html',   icon: '🏆', label: 'أفضل الأعمال',          section: 'sec-ramadan' },
+    { href: 'ramadan-plan.html',    icon: '🗂️', label: 'خطة العبادة',           section: 'sec-ramadan' },
+    { href: 'ramadan-quran.html',   icon: '📖', label: 'القرآن في رمضان',       section: 'sec-ramadan' },
+    { href: 'ramadan-fasting.html', icon: '📋', label: 'أحكام الصيام',          section: 'sec-ramadan' },
+    { href: 'ramadan-duas.html',    icon: '🤲', label: 'أدعية رمضان',           section: 'sec-ramadan' },
+    { href: 'ramadan-last10.html',  icon: '✨', label: 'العشر الأواخر',         section: 'sec-ramadan' },
+    { href: 'ramadan-kids.html',    icon: '🧒', label: 'ركن الأطفال',           section: 'sec-ramadan' },
+
     { sep: 'الزكاة 💰', id: 'sec-tools' },
     { href: 'zakat-ahkam.html',  icon: '📋', label: 'أحكام الزكاة',          section: 'sec-tools' },
     { href: 'zakat-anwa.html',   icon: '📊', label: 'أنواع الزكاة وحسابها',  section: 'sec-tools' },
@@ -91,7 +102,7 @@
   const STORE_SCROLL  = 'zad_menu_scroll';  /* موضع التمرير */
 
   /* ── الأقسام المفتوحة افتراضياً ─────────────────────────────────────── */
-  const ALL_SECTIONS = ['sec-prayer','sec-quran','sec-hajj','sec-learn','sec-kids','sec-track','sec-family','sec-settings'];
+  const ALL_SECTIONS = ['sec-prayer','sec-quran','sec-hajj','sec-ramadan','sec-learn','sec-kids','sec-track','sec-family','sec-settings'];
   function getOpenSections() {
     try {
       const stored = localStorage.getItem(STORE_OPEN);

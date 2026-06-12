@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>تذكير إيماني — زاد · رمضان الخير</title>
+<meta name="description" content="سلسلة تذكير إيماني يومية قصيرة لشهر رمضان — خاطرة ملهمة لكل يوم من الثلاثين.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/premium-ui.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+.rk-hero{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 55%,#c9a14a 160%);border-radius:22px;padding:30px 26px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.rk-hero::after{content:attr(data-emoji);position:absolute;top:14px;left:22px;font-size:58px;opacity:.13;line-height:1}
+.rk-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:3px;font-weight:700;margin-bottom:8px}
+.rk-title{font-size:26px;font-weight:900;line-height:1.25;margin-bottom:8px;font-family:'ThmanyahSans',sans-serif}
+.rk-sub{font-size:13.5px;color:rgba(255,255,255,.86);line-height:1.85;max-width:620px}
+.rk-sec-title{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .rk-sec-title,html[data-theme="oled"] .rk-sec-title{color:var(--sys-green)}
+.rk-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+.rk-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow-sm);margin-bottom:14px}
+.rk-card p{font-size:14px;line-height:1.95;color:var(--ink);margin:0 0 6px}
+.rk-card p:last-child{margin-bottom:0}
+.rk-card strong{color:var(--green-deep);font-weight:800}
+html[data-theme="dark"] .rk-card strong,html[data-theme="oled"] .rk-card strong{color:var(--sys-green)}
+.rk-h3{font-size:15px;font-weight:800;color:var(--green-deep);margin:0 0 6px;display:flex;align-items:center;gap:8px}
+html[data-theme="dark"] .rk-h3,html[data-theme="oled"] .rk-h3{color:var(--sys-green)}
+.rk-ayah{background:var(--green-pale);border-right:4px solid var(--green-soft);border-radius:12px;padding:14px 16px;margin:10px 0;font-family:'Amiri',serif;font-size:18px;line-height:2;color:var(--green-deep);text-align:center}
+html[data-theme="dark"] .rk-ayah,html[data-theme="oled"] .rk-ayah{color:var(--sys-green);background:rgba(42,122,95,.12)}
+.rk-ayah .src{display:block;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:11.5px;color:var(--muted);margin-top:6px;font-weight:600}
+.rk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:14px}
+.rk-link-card{display:flex;gap:13px;align-items:flex-start;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,border-color .18s}
+.rk-link-card:hover{transform:translateY(-2px);border-color:var(--green-soft)}
+.rk-link-card .lc-ico{font-size:26px;flex-shrink:0;line-height:1.2}
+.rk-link-card .lc-t{display:block;font-size:15px;font-weight:800;color:var(--green-deep);margin-bottom:3px}
+html[data-theme="dark"] .rk-link-card .lc-t,html[data-theme="oled"] .rk-link-card .lc-t{color:var(--sys-green)}
+.rk-link-card .lc-s{display:block;font-size:12px;line-height:1.6;color:var(--muted)}
+.rk-num{counter-reset:rk;list-style:none;padding:0;margin:0}
+.rk-num>li{counter-increment:rk;position:relative;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px 14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+.rk-num>li::before{content:counter(rk);position:absolute;left:14px;top:14px;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#0e3b2e,#1a5d47);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;font-family:'ThmanyahSans',sans-serif}
+.rk-num>li .rk-q{font-size:14.5px;font-weight:800;color:var(--green-deep);margin:0 44px 6px 0;line-height:1.7}
+html[data-theme="dark"] .rk-num>li .rk-q,html[data-theme="oled"] .rk-num>li .rk-q{color:var(--sys-green)}
+.rk-num>li .rk-a{font-size:13.5px;line-height:1.9;color:var(--ink);margin:0 44px 0 0}
+.rk-num>li .rk-a strong{color:var(--gold-dark);font-weight:800}
+.rk-day{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm);position:relative}
+.rk-day .d-no{display:inline-block;background:linear-gradient(135deg,var(--gold),#e6c97a);color:#3a2e10;font-weight:800;font-size:12px;padding:3px 12px;border-radius:999px;margin-bottom:8px}
+.rk-day p{font-size:13.8px;line-height:1.95;color:var(--ink);margin:0}
+.rk-day strong{color:var(--green-deep);font-weight:800}
+html[data-theme="dark"] .rk-day strong,html[data-theme="oled"] .rk-day strong{color:var(--sys-green)}
+.rk-today{background:linear-gradient(135deg,#0e3b2e,#1a5d47);color:#fff;border-radius:18px;padding:20px 22px;margin-bottom:18px;box-shadow:var(--shadow)}
+.rk-today .t-lbl{font-size:11px;letter-spacing:2px;color:#e6c97a;font-weight:700;margin-bottom:8px}
+.rk-today .t-body{font-size:15px;line-height:1.95}
+.rk-today .t-body strong{color:#ffe9b8}
+.rk-note{display:flex;gap:10px;background:var(--sand);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.8;color:var(--ink);margin:12px 0}
+.rk-note .ni{font-size:18px;flex-shrink:0}
+.rk-level{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+.rk-level .lv-badge{display:inline-block;font-size:12px;font-weight:800;padding:4px 14px;border-radius:999px;color:#fff;margin-bottom:10px}
+.rk-level ul{list-style:none;padding:0;margin:8px 0 0}
+.rk-level li{font-size:13.5px;line-height:1.85;color:var(--ink);padding:7px 22px 7px 0;position:relative;border-bottom:1px solid var(--border)}
+.rk-level li:last-child{border-bottom:none}
+.rk-level li::before{content:"✦";position:absolute;right:2px;top:7px;color:var(--gold);font-size:12px}
+.rk-level li strong{color:var(--green-deep)}
+html[data-theme="dark"] .rk-level li strong,html[data-theme="oled"] .rk-level li strong{color:var(--sys-green)}
+.rk-dua{background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1.5px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+.rk-dua .du-ar{font-family:'Amiri',serif;font-size:19px;line-height:2.05;color:var(--green-deep);text-align:center}
+html[data-theme="dark"] .rk-dua .du-ar,html[data-theme="oled"] .rk-dua .du-ar{color:var(--sys-green)}
+.rk-dua .du-t{font-size:12px;color:var(--gold-dark);font-weight:800;text-align:center;margin-bottom:6px}
+.rk-cross{display:grid;gap:10px;margin-top:8px}
+.rk-cross a{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,border-color .18s}
+.rk-cross a:hover{transform:translateY(-2px);border-color:var(--green-soft)}
+.rk-cross .cx-ico{font-size:24px}
+.rk-cross .cx-t{display:block;font-size:14.5px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{color:var(--sys-green)}
+.rk-cross .cx-s{display:block;font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
+    </div>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav" aria-label="القائمة الرئيسية">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+    </nav>
+    <div class="side-foot">زاد 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">تذكير <span>إيماني</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="rk-hero" data-emoji="💡">
+      <div class="rk-eyebrow">تذكير يومي · 30</div>
+      <h1 class="rk-title">تذكير إيماني</h1>
+      <p class="rk-sub">خاطرة قصيرة لكل يوم من رمضان تُلهمك وتجدّد نيّتك، مصمّمة لتقليل العبء وتشجيع التفاعل السريع.</p>
+    </section>
+
+    <div class="rk-today">
+      <div class="t-lbl" id="rk-today-no">خاطرة اليوم</div>
+      <div class="t-body" id="rk-today-body"><strong>الصيام ركن عظيم من أركان الإسلام لا يكتمل الإيمان بدونه.</strong> هو مدرسة لتربية النفس وكبح جماح الشهوات. للصائم فرحتان: فرحة عند فطره، وفرحة حين يلقى ربه. وهو <strong>جنة وحصن للمؤمن من النار</strong>.</div>
+    </div>
+    <h2 class="rk-sec-title">🗓️ التذكير الكامل · 30 يوماً</h2>
+    <div class="rk-day"><span class="d-no">اليوم 1</span><p><strong>الصيام ركن عظيم من أركان الإسلام لا يكتمل الإيمان بدونه.</strong> هو مدرسة لتربية النفس وكبح جماح الشهوات. للصائم فرحتان: فرحة عند فطره، وفرحة حين يلقى ربه. وهو <strong>جنة وحصن للمؤمن من النار</strong>.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 2</span><p><strong>باب الريان في الجنة مخصص للصائمين فقط يوم القيامة.</strong> فمن صام يوماً خالصاً لله باعد الله وجهه عن النار سبعين خريفاً. استثمر كل لحظة في هذا الشهر لتكون من <strong>الداخلين من ذلك الباب المبارك</strong>.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 3</span><p><strong>رمضان شهر الغفران والعتق من النيران.</strong> من صام رمضان إيماناً واحتساباً غفر له ما تقدم من ذنبه. هو فرصة للتوبة النصوح والندم على ما فات من تقصير. <strong>لا تجعل هذا الشهر يمر دون تجديد عهدك مع الله</strong>.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 4</span><p><strong>للصائم عند فطره دعوة لا ترد.</strong> فاغتنم وقت الإفطار في التضرع إلى الله. الدعاء هو العبادة وأكرم شيء على الله. <strong>ارفع يديك بيقين</strong>، فربك قريب يجيب دعوة الداع إذا دعاه.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 5</span><p><strong>الصيام والقرآن يشفعان للعبد يوم القيامة.</strong> يقول الصيام: أي رب منعته الطعام والشهوات بالنهار فشفعني فيه. ويقول القرآن: منعته النوم بالليل فشفعني فيه. فاجعل لك معهما <strong>صحبة دائمة في رمضان</strong>.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 6</span><p><strong>شهر رمضان الذي أنزل فيه القرآن هدى للناس.</strong> هو موسم مدارسة الوحي والتقرب من كتاب الله. احرص على تلاوته بتدبر وفهم لتنال الهداية والفرقان. <strong>كل حرف تقرؤه بعشر حسنات</strong> والله يضاعف لمن يشاء.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 7</span><p><strong>لا تهجر القرآن في رمضان، فهو سر قوة الأمة وطمأنينة القلوب.</strong> اجعل لك ورداً يومياً ثابتاً لا تفرط فيه. القليل الدائم مع التدبر خير من كثير منقطع بلا فهم. <strong>القرآن يرفع أقواماً ويغير النفوس</strong> بصدق القراءة.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 8</span><p><strong>الذكر حياة القلوب وطرد للشيطان.</strong> استثمر أوقاتك في التسبيح والاستغفار والصلاة على النبي. ليكن لسانك رطباً بذكر الله في كل حين. <strong>الذكر يصبغ النفس بأسماء الله الحسنى</strong> كصفتي الرحمة والقوة.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 9</span><p><strong>فقه الأولويات في رمضان يبدأ بأداء الفرائض ثم النوافل.</strong> تقرب إلى الله بما افترضه عليك، فهو أحب الأعمال إليه. صلاة الفرض الواحدة ثوابها أعظم من أربع وعشرين ركعة نافلة. <strong>لا تضيع الفجر</strong> بسبب السهر في قيام الليل.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 10</span><p><strong>ليلة القدر خير من ألف شهر، والعبادة فيها تعدل عبادة 83 سنة.</strong> يقدر الله فيها ما يكون في السنة وهي ليلة مباركة. تحرَّها في أوتار العشر الأواخر واجتهد فيها بالقيام والدعاء. قل فيها: &quot;<strong>اللهم إنك عفو تحب العفو فاعف عني</strong>&quot;.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 11</span><p><strong>كان النبي ﷺ أجود الناس، وكان أجود ما يكون في رمضان.</strong> الصدقة في هذا الشهر تضاعف إلى 700 ضعف. أنفق مما أعطاك الله، فما نقصت صدقة من مال. <strong>الصدقة تدفع البلاء وتخلف البركة في الرزق</strong>.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 12</span><p><strong>إطعام الطعام من أقرب القربات إلى الله.</strong> تفطير الصائمين له أجر عظيم، فلا تحرم نفسك هذه الفضيلة. مساعدة الأهل في إعداد الإفطار تعتبر من أفضل الأعمال وبراً بالوالدين. <strong>استثمر نية إدخال السرور على أسرتك</strong> لتنال الأجر.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 13</span><p><strong>التوبة هي شعار المتقين ودأب الصالحين في رمضان.</strong> هو فرصة لمن أسرف على نفسه أن يعود إلى رشده. الله يبسط يده بالرحمة ويقبل توبة التائبين. <strong>لا تيأس من روح الله</strong>، فرمضان محطة للتغيير والانطلاق نحو الأفضل.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 14</span><p><strong>العمل الصالح المتعدي نفعه أفضل من القاصر على النفس.</strong> تعليم طفل، أو زيارة مريض، أو صلة رحم، كلها أعمال تثقل الميزان. المؤمن للمؤمن كالبنيان يشد بعضه بعضاً. <strong>كن نافعاً لمجتمعك</strong> واجعل من صيامك خلقاً وعطاء.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 15</span><p><strong>رمضان شهر الصبر والجد والاجتهاد لا شهر الكسل والنوم.</strong> الانضباط في العمل ورعاية مصالح الناس عبادة يؤجر عليها المسلم. الصيام ليس عذراً للتقصير، بل دافعاً للعطاء والنشاط. <strong>نظم وقتك بجدول يومي</strong> يجمع بين العبادة ومسؤوليات الحياة.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 16</span><p><strong>الصيام جنة، فإذا كان يوم صوم أحدكم فلا يرفث ولا يصخب.</strong> إذا سابك أحد أو قاتلك فقل: &quot;إني صائم&quot;. الصيام الحقيقي هو تهذيب للسان والجوارح عن كل ما لا يرضي الله. <strong>الأخلاق الحسنة هي كمال الإيمان</strong>.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 17</span><p><strong>الغيبة والنميمة تجرح الصوم وتنقص الأجر.</strong> عوّد لسانك على الصمت إلا في خير، فالكلام الكثير يولد قسوة القلب. الصمت حكمة وقليل فاعله. <strong>احفظ صيامك بالانشغال بذكر الله</strong> والابتعاد عن القيل والقال.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 18</span><p><strong>النية الصادقة تحول العادات اليومية إلى عبادات عظيمة.</strong> كل عملاً تقصد به وجه الله تنال عليه الأجر دون زيادة جهد. جدد نيتك في أكلك ونومك وعملك لتكون <strong>كلها في ميزان حسناتك</strong>. إنما الأعمال بالنيات وإنما لكل امرئ ما نوى.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 19</span><p><strong>التقوى هي الثمرة الكبرى من تشريع الصيام.</strong> الصوم يساعد على مراقبة الله في السر والعلن وتحقيق التوبة النصوح. التقوى هي خير زاد للمؤمن في حركته في الدنيا وفي الآخرة. <strong>كن من المتقين</strong> الذين يستشعرون رؤية الله لهم في كل فعل.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 20</span><p><strong>العفو والتسامح من أولويات المسلم في رمضان.</strong> إذا أردت أن يعفو الله عنك فاعف عن خلقه والتمس لهم الأعذار. الخصومات تمنع نزول الرحمات وترفع ليلة القدر. <strong>طهّر قلبك من الحقد والحسد</strong> لتبدأ صفحة جديدة من التآلف والإخاء.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 21</span><p><strong>الصلاة قرة عيون المحبين وسرور أرواحهم.</strong> لا تزن إيمانك ومحبتك لله بمثل ميزان الصلاة. حافظ على صلاة الجماعة في بيوت الله وتزود من النوافل. <strong>السجود هو أقرب ما يكون العبد من ربه</strong>، فأكثر فيه من الدعاء.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 22</span><p><strong>الاعتكاف سنة نبوية تهدف للانقطاع عن الخلق والاشتغال بالخالق.</strong> هدفه عكوف القلب على طاعة الله وتفريغه من هموم الدنيا. أقل كمال الاعتكاف يوم وليلة ومجرد دخول المسجد بنية الاعتكاف تؤجر عليه. <strong>اجعل لقلبك خلوة مع الله</strong>.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 23</span><p><strong>المرأة في رمضان توازن بين مسؤوليات البيت وعبادتها بيقين.</strong> تعبها في المطبخ ورعاية أطفالها عبادة عظيمة تؤجر عليها. لا تشعري بالتقصير، فنية الخدمة ترفع درجتك. <strong>القليل المستمر من تلاوة وذكر خير من الانقطاع</strong>.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 24</span><p><strong>طالب العلم يتقرب لله بفريضة العلم في رمضان.</strong> الموازنة بين الدراسة والعبادة أمر ممكن بتنظيم الوقت والاستعانة بالله. العلم بما يجب تعلمه من أحكام الشرع فرض عين. <strong>اجعل دراستك طاعة لخدمة أمتك</strong>.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 25</span><p><strong>السحور بركة ومخالفة لأهل الكتاب ومعونة على العبادة.</strong> يسن تأخيره إلى قبيل الفجر وتقوي به نفسك على النشاط في الطاعة. يكفي فيه ولو شربة ماء أو تمرات. <strong>السحور يدفع سوء الخلق</strong> الذي قد يثيره الجوع.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 26</span><p><strong>العشر الأواخر هي مضمار السباق</strong>، كان النبي ﷺ يشد فيها مئزره ويحيي ليله. ضاعف جهدك في هذه الليالي المباركة طلباً للمغفرة وليلة القدر. لا تجعل الفتور يحيط بك في نهاية الشهر. <strong>الأعمال بخواتيمها</strong> فاجتهد حتى اللحظة الأخيرة.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 27</span><p><strong>رمضان شهر التغيير الذكي في النفس والروح والفكر.</strong> إذا لم يغير الصوم في أخلاقك فراجع نيتك. الله لا يغير ما بقوم حتى يغيروا ما بأنفسهم. <strong>اجعل من هذا الشهر نقطة تحول حقيقية</strong> لاستقامة حياتك.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 28</span><p><strong>ذكر الموت يورث قصر الأمل ويحث على المبادرة بالعمل الصالح.</strong> كن في الدنيا كأنك غريب أو عابر سبيل. اغتنم صحتك قبل سقمك وفراغك قبل شغلك. <strong>استعد للقاء الله بقلب سليم</strong> وعمل خالص يبيض وجهك يوم القيامة.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 29</span><p><strong>الاستقامة بعد رمضان هي علامة قبول الصيام.</strong> لا تهدم ما بنيته من طاعات في هذا الشهر بالعودة للذنوب. كن ربانياً لا رمضانياً، وداوم على القليل من العمل الصالح فإنه أحب إلى الله. <strong>العمل الصالح بعد رمضان يثبت الأجر</strong>.</p></div>
+    <div class="rk-day"><span class="d-no">اليوم 30</span><p><strong>الشكر لله على بلوغ رمضان وتمام الصيام واجب على كل مسلم.</strong> قل دائماً: &quot;الحمد لله الذي أعانني فصمت ورزقني فأفطرت&quot;. اسأل الله القبول والإخلاص في القول والعمل وأن يبلغك رمضان أعواماً عديدة.</p></div>
+    
+    <h2 class="rk-sec-title">↪️ تابع في رمضان الخير</h2>
+    <nav class="rk-cross" aria-label="صفحات رمضان الخير">
+      <a href="ramadan-afdal.html"><span class="cx-ico">🏆</span><span><span class="cx-t">أفضل الأعمال في رمضان</span><span class="cx-s">ترتيب العبادات على فقه الأولويات</span></span></a>
+      <a href="ramadan-plan.html"><span class="cx-ico">🗂️</span><span><span class="cx-t">خطة العبادة اليومية</span><span class="cx-s">ثلاثة مستويات: مبتدئ ومتوسط ومتقدم</span></span></a>
+      <a href="ramadan-quran.html"><span class="cx-ico">📖</span><span><span class="cx-t">القرآن في رمضان</span><span class="cx-s">المقصد الجوهري لكل جزء من الثلاثين</span></span></a>
+      <a href="ramadan-fasting.html"><span class="cx-ico">📋</span><span><span class="cx-t">أحكام الصيام</span><span class="cx-s">عشرون مسألة من أكثر مسائل الصيام شيوعاً</span></span></a>
+      <a href="ramadan-duas.html"><span class="cx-ico">🤲</span><span><span class="cx-t">أدعية رمضان</span><span class="cx-s">جوامع الكلم النبوية والدعاء الأغلى</span></span></a>
+      <a href="ramadan-last10.html"><span class="cx-ico">✨</span><span><span class="cx-t">العشر الأواخر وليلة القدر</span><span class="cx-s">فضلها وأعمالها وأدعيتها المأثورة</span></span></a>
+      <a href="ramadan-kids.html"><span class="cx-ico">🧒</span><span><span class="cx-t">ركن الأطفال في رمضان</span><span class="cx-s">أنشطة تربوية تغرس القيم بالقدوة</span></span></a>
+      </nav>
+<script>
+(function(){
+  try{
+    var R=["<strong>الصيام ركن عظيم من أركان الإسلام لا يكتمل الإيمان بدونه.</strong> هو مدرسة لتربية النفس وكبح جماح الشهوات. للصائم فرحتان: فرحة عند فطره، وفرحة حين يلقى ربه. وهو <strong>جنة وحصن للمؤمن من النار</strong>.", "<strong>باب الريان في الجنة مخصص للصائمين فقط يوم القيامة.</strong> فمن صام يوماً خالصاً لله باعد الله وجهه عن النار سبعين خريفاً. استثمر كل لحظة في هذا الشهر لتكون من <strong>الداخلين من ذلك الباب المبارك</strong>.", "<strong>رمضان شهر الغفران والعتق من النيران.</strong> من صام رمضان إيماناً واحتساباً غفر له ما تقدم من ذنبه. هو فرصة للتوبة النصوح والندم على ما فات من تقصير. <strong>لا تجعل هذا الشهر يمر دون تجديد عهدك مع الله</strong>.", "<strong>للصائم عند فطره دعوة لا ترد.</strong> فاغتنم وقت الإفطار في التضرع إلى الله. الدعاء هو العبادة وأكرم شيء على الله. <strong>ارفع يديك بيقين</strong>، فربك قريب يجيب دعوة الداع إذا دعاه.", "<strong>الصيام والقرآن يشفعان للعبد يوم القيامة.</strong> يقول الصيام: أي رب منعته الطعام والشهوات بالنهار فشفعني فيه. ويقول القرآن: منعته النوم بالليل فشفعني فيه. فاجعل لك معهما <strong>صحبة دائمة في رمضان</strong>.", "<strong>شهر رمضان الذي أنزل فيه القرآن هدى للناس.</strong> هو موسم مدارسة الوحي والتقرب من كتاب الله. احرص على تلاوته بتدبر وفهم لتنال الهداية والفرقان. <strong>كل حرف تقرؤه بعشر حسنات</strong> والله يضاعف لمن يشاء.", "<strong>لا تهجر القرآن في رمضان، فهو سر قوة الأمة وطمأنينة القلوب.</strong> اجعل لك ورداً يومياً ثابتاً لا تفرط فيه. القليل الدائم مع التدبر خير من كثير منقطع بلا فهم. <strong>القرآن يرفع أقواماً ويغير النفوس</strong> بصدق القراءة.", "<strong>الذكر حياة القلوب وطرد للشيطان.</strong> استثمر أوقاتك في التسبيح والاستغفار والصلاة على النبي. ليكن لسانك رطباً بذكر الله في كل حين. <strong>الذكر يصبغ النفس بأسماء الله الحسنى</strong> كصفتي الرحمة والقوة.", "<strong>فقه الأولويات في رمضان يبدأ بأداء الفرائض ثم النوافل.</strong> تقرب إلى الله بما افترضه عليك، فهو أحب الأعمال إليه. صلاة الفرض الواحدة ثوابها أعظم من أربع وعشرين ركعة نافلة. <strong>لا تضيع الفجر</strong> بسبب السهر في قيام الليل.", "<strong>ليلة القدر خير من ألف شهر، والعبادة فيها تعدل عبادة 83 سنة.</strong> يقدر الله فيها ما يكون في السنة وهي ليلة مباركة. تحرَّها في أوتار العشر الأواخر واجتهد فيها بالقيام والدعاء. قل فيها: &quot;<strong>اللهم إنك عفو تحب العفو فاعف عني</strong>&quot;.", "<strong>كان النبي ﷺ أجود الناس، وكان أجود ما يكون في رمضان.</strong> الصدقة في هذا الشهر تضاعف إلى 700 ضعف. أنفق مما أعطاك الله، فما نقصت صدقة من مال. <strong>الصدقة تدفع البلاء وتخلف البركة في الرزق</strong>.", "<strong>إطعام الطعام من أقرب القربات إلى الله.</strong> تفطير الصائمين له أجر عظيم، فلا تحرم نفسك هذه الفضيلة. مساعدة الأهل في إعداد الإفطار تعتبر من أفضل الأعمال وبراً بالوالدين. <strong>استثمر نية إدخال السرور على أسرتك</strong> لتنال الأجر.", "<strong>التوبة هي شعار المتقين ودأب الصالحين في رمضان.</strong> هو فرصة لمن أسرف على نفسه أن يعود إلى رشده. الله يبسط يده بالرحمة ويقبل توبة التائبين. <strong>لا تيأس من روح الله</strong>، فرمضان محطة للتغيير والانطلاق نحو الأفضل.", "<strong>العمل الصالح المتعدي نفعه أفضل من القاصر على النفس.</strong> تعليم طفل، أو زيارة مريض، أو صلة رحم، كلها أعمال تثقل الميزان. المؤمن للمؤمن كالبنيان يشد بعضه بعضاً. <strong>كن نافعاً لمجتمعك</strong> واجعل من صيامك خلقاً وعطاء.", "<strong>رمضان شهر الصبر والجد والاجتهاد لا شهر الكسل والنوم.</strong> الانضباط في العمل ورعاية مصالح الناس عبادة يؤجر عليها المسلم. الصيام ليس عذراً للتقصير، بل دافعاً للعطاء والنشاط. <strong>نظم وقتك بجدول يومي</strong> يجمع بين العبادة ومسؤوليات الحياة.", "<strong>الصيام جنة، فإذا كان يوم صوم أحدكم فلا يرفث ولا يصخب.</strong> إذا سابك أحد أو قاتلك فقل: &quot;إني صائم&quot;. الصيام الحقيقي هو تهذيب للسان والجوارح عن كل ما لا يرضي الله. <strong>الأخلاق الحسنة هي كمال الإيمان</strong>.", "<strong>الغيبة والنميمة تجرح الصوم وتنقص الأجر.</strong> عوّد لسانك على الصمت إلا في خير، فالكلام الكثير يولد قسوة القلب. الصمت حكمة وقليل فاعله. <strong>احفظ صيامك بالانشغال بذكر الله</strong> والابتعاد عن القيل والقال.", "<strong>النية الصادقة تحول العادات اليومية إلى عبادات عظيمة.</strong> كل عملاً تقصد به وجه الله تنال عليه الأجر دون زيادة جهد. جدد نيتك في أكلك ونومك وعملك لتكون <strong>كلها في ميزان حسناتك</strong>. إنما الأعمال بالنيات وإنما لكل امرئ ما نوى.", "<strong>التقوى هي الثمرة الكبرى من تشريع الصيام.</strong> الصوم يساعد على مراقبة الله في السر والعلن وتحقيق التوبة النصوح. التقوى هي خير زاد للمؤمن في حركته في الدنيا وفي الآخرة. <strong>كن من المتقين</strong> الذين يستشعرون رؤية الله لهم في كل فعل.", "<strong>العفو والتسامح من أولويات المسلم في رمضان.</strong> إذا أردت أن يعفو الله عنك فاعف عن خلقه والتمس لهم الأعذار. الخصومات تمنع نزول الرحمات وترفع ليلة القدر. <strong>طهّر قلبك من الحقد والحسد</strong> لتبدأ صفحة جديدة من التآلف والإخاء.", "<strong>الصلاة قرة عيون المحبين وسرور أرواحهم.</strong> لا تزن إيمانك ومحبتك لله بمثل ميزان الصلاة. حافظ على صلاة الجماعة في بيوت الله وتزود من النوافل. <strong>السجود هو أقرب ما يكون العبد من ربه</strong>، فأكثر فيه من الدعاء.", "<strong>الاعتكاف سنة نبوية تهدف للانقطاع عن الخلق والاشتغال بالخالق.</strong> هدفه عكوف القلب على طاعة الله وتفريغه من هموم الدنيا. أقل كمال الاعتكاف يوم وليلة ومجرد دخول المسجد بنية الاعتكاف تؤجر عليه. <strong>اجعل لقلبك خلوة مع الله</strong>.", "<strong>المرأة في رمضان توازن بين مسؤوليات البيت وعبادتها بيقين.</strong> تعبها في المطبخ ورعاية أطفالها عبادة عظيمة تؤجر عليها. لا تشعري بالتقصير، فنية الخدمة ترفع درجتك. <strong>القليل المستمر من تلاوة وذكر خير من الانقطاع</strong>.", "<strong>طالب العلم يتقرب لله بفريضة العلم في رمضان.</strong> الموازنة بين الدراسة والعبادة أمر ممكن بتنظيم الوقت والاستعانة بالله. العلم بما يجب تعلمه من أحكام الشرع فرض عين. <strong>اجعل دراستك طاعة لخدمة أمتك</strong>.", "<strong>السحور بركة ومخالفة لأهل الكتاب ومعونة على العبادة.</strong> يسن تأخيره إلى قبيل الفجر وتقوي به نفسك على النشاط في الطاعة. يكفي فيه ولو شربة ماء أو تمرات. <strong>السحور يدفع سوء الخلق</strong> الذي قد يثيره الجوع.", "<strong>العشر الأواخر هي مضمار السباق</strong>، كان النبي ﷺ يشد فيها مئزره ويحيي ليله. ضاعف جهدك في هذه الليالي المباركة طلباً للمغفرة وليلة القدر. لا تجعل الفتور يحيط بك في نهاية الشهر. <strong>الأعمال بخواتيمها</strong> فاجتهد حتى اللحظة الأخيرة.", "<strong>رمضان شهر التغيير الذكي في النفس والروح والفكر.</strong> إذا لم يغير الصوم في أخلاقك فراجع نيتك. الله لا يغير ما بقوم حتى يغيروا ما بأنفسهم. <strong>اجعل من هذا الشهر نقطة تحول حقيقية</strong> لاستقامة حياتك.", "<strong>ذكر الموت يورث قصر الأمل ويحث على المبادرة بالعمل الصالح.</strong> كن في الدنيا كأنك غريب أو عابر سبيل. اغتنم صحتك قبل سقمك وفراغك قبل شغلك. <strong>استعد للقاء الله بقلب سليم</strong> وعمل خالص يبيض وجهك يوم القيامة.", "<strong>الاستقامة بعد رمضان هي علامة قبول الصيام.</strong> لا تهدم ما بنيته من طاعات في هذا الشهر بالعودة للذنوب. كن ربانياً لا رمضانياً، وداوم على القليل من العمل الصالح فإنه أحب إلى الله. <strong>العمل الصالح بعد رمضان يثبت الأجر</strong>.", "<strong>الشكر لله على بلوغ رمضان وتمام الصيام واجب على كل مسلم.</strong> قل دائماً: &quot;الحمد لله الذي أعانني فصمت ورزقني فأفطرت&quot;. اسأل الله القبول والإخلاص في القول والعمل وأن يبلغك رمضان أعواماً عديدة."];
+    var d=new Date(); var idx=(d.getDate()-1)%R.length;
+    var el=document.getElementById('rk-today-body'); if(el) el.innerHTML=R[idx];
+  }catch(e){}
+})();
+</script>
+
+    <div style="height:40px"></div>
+  </main>
+</div>
+  <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+<script src="command-palette.js" defer></script>
+</body>
+</html>

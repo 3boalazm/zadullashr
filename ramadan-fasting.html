@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>أحكام الصيام — زاد · رمضان الخير</title>
+<meta name="description" content="عشرون سؤالاً وجواباً من أكثر مسائل أحكام الصيام شيوعاً، بصيغة مختصرة ومبسّطة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/premium-ui.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+.rk-hero{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 55%,#c9a14a 160%);border-radius:22px;padding:30px 26px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
+.rk-hero::after{content:attr(data-emoji);position:absolute;top:14px;left:22px;font-size:58px;opacity:.13;line-height:1}
+.rk-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:3px;font-weight:700;margin-bottom:8px}
+.rk-title{font-size:26px;font-weight:900;line-height:1.25;margin-bottom:8px;font-family:'ThmanyahSans',sans-serif}
+.rk-sub{font-size:13.5px;color:rgba(255,255,255,.86);line-height:1.85;max-width:620px}
+.rk-sec-title{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .rk-sec-title,html[data-theme="oled"] .rk-sec-title{color:var(--sys-green)}
+.rk-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
+.rk-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow-sm);margin-bottom:14px}
+.rk-card p{font-size:14px;line-height:1.95;color:var(--ink);margin:0 0 6px}
+.rk-card p:last-child{margin-bottom:0}
+.rk-card strong{color:var(--green-deep);font-weight:800}
+html[data-theme="dark"] .rk-card strong,html[data-theme="oled"] .rk-card strong{color:var(--sys-green)}
+.rk-h3{font-size:15px;font-weight:800;color:var(--green-deep);margin:0 0 6px;display:flex;align-items:center;gap:8px}
+html[data-theme="dark"] .rk-h3,html[data-theme="oled"] .rk-h3{color:var(--sys-green)}
+.rk-ayah{background:var(--green-pale);border-right:4px solid var(--green-soft);border-radius:12px;padding:14px 16px;margin:10px 0;font-family:'Amiri',serif;font-size:18px;line-height:2;color:var(--green-deep);text-align:center}
+html[data-theme="dark"] .rk-ayah,html[data-theme="oled"] .rk-ayah{color:var(--sys-green);background:rgba(42,122,95,.12)}
+.rk-ayah .src{display:block;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:11.5px;color:var(--muted);margin-top:6px;font-weight:600}
+.rk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:14px}
+.rk-link-card{display:flex;gap:13px;align-items:flex-start;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,border-color .18s}
+.rk-link-card:hover{transform:translateY(-2px);border-color:var(--green-soft)}
+.rk-link-card .lc-ico{font-size:26px;flex-shrink:0;line-height:1.2}
+.rk-link-card .lc-t{display:block;font-size:15px;font-weight:800;color:var(--green-deep);margin-bottom:3px}
+html[data-theme="dark"] .rk-link-card .lc-t,html[data-theme="oled"] .rk-link-card .lc-t{color:var(--sys-green)}
+.rk-link-card .lc-s{display:block;font-size:12px;line-height:1.6;color:var(--muted)}
+.rk-num{counter-reset:rk;list-style:none;padding:0;margin:0}
+.rk-num>li{counter-increment:rk;position:relative;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px 14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+.rk-num>li::before{content:counter(rk);position:absolute;left:14px;top:14px;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#0e3b2e,#1a5d47);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;font-family:'ThmanyahSans',sans-serif}
+.rk-num>li .rk-q{font-size:14.5px;font-weight:800;color:var(--green-deep);margin:0 44px 6px 0;line-height:1.7}
+html[data-theme="dark"] .rk-num>li .rk-q,html[data-theme="oled"] .rk-num>li .rk-q{color:var(--sys-green)}
+.rk-num>li .rk-a{font-size:13.5px;line-height:1.9;color:var(--ink);margin:0 44px 0 0}
+.rk-num>li .rk-a strong{color:var(--gold-dark);font-weight:800}
+.rk-day{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm);position:relative}
+.rk-day .d-no{display:inline-block;background:linear-gradient(135deg,var(--gold),#e6c97a);color:#3a2e10;font-weight:800;font-size:12px;padding:3px 12px;border-radius:999px;margin-bottom:8px}
+.rk-day p{font-size:13.8px;line-height:1.95;color:var(--ink);margin:0}
+.rk-day strong{color:var(--green-deep);font-weight:800}
+html[data-theme="dark"] .rk-day strong,html[data-theme="oled"] .rk-day strong{color:var(--sys-green)}
+.rk-today{background:linear-gradient(135deg,#0e3b2e,#1a5d47);color:#fff;border-radius:18px;padding:20px 22px;margin-bottom:18px;box-shadow:var(--shadow)}
+.rk-today .t-lbl{font-size:11px;letter-spacing:2px;color:#e6c97a;font-weight:700;margin-bottom:8px}
+.rk-today .t-body{font-size:15px;line-height:1.95}
+.rk-today .t-body strong{color:#ffe9b8}
+.rk-note{display:flex;gap:10px;background:var(--sand);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.8;color:var(--ink);margin:12px 0}
+.rk-note .ni{font-size:18px;flex-shrink:0}
+.rk-level{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+.rk-level .lv-badge{display:inline-block;font-size:12px;font-weight:800;padding:4px 14px;border-radius:999px;color:#fff;margin-bottom:10px}
+.rk-level ul{list-style:none;padding:0;margin:8px 0 0}
+.rk-level li{font-size:13.5px;line-height:1.85;color:var(--ink);padding:7px 22px 7px 0;position:relative;border-bottom:1px solid var(--border)}
+.rk-level li:last-child{border-bottom:none}
+.rk-level li::before{content:"✦";position:absolute;right:2px;top:7px;color:var(--gold);font-size:12px}
+.rk-level li strong{color:var(--green-deep)}
+html[data-theme="dark"] .rk-level li strong,html[data-theme="oled"] .rk-level li strong{color:var(--sys-green)}
+.rk-dua{background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1.5px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+.rk-dua .du-ar{font-family:'Amiri',serif;font-size:19px;line-height:2.05;color:var(--green-deep);text-align:center}
+html[data-theme="dark"] .rk-dua .du-ar,html[data-theme="oled"] .rk-dua .du-ar{color:var(--sys-green)}
+.rk-dua .du-t{font-size:12px;color:var(--gold-dark);font-weight:800;text-align:center;margin-bottom:6px}
+.rk-cross{display:grid;gap:10px;margin-top:8px}
+.rk-cross a{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,border-color .18s}
+.rk-cross a:hover{transform:translateY(-2px);border-color:var(--green-soft)}
+.rk-cross .cx-ico{font-size:24px}
+.rk-cross .cx-t{display:block;font-size:14.5px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{color:var(--sys-green)}
+.rk-cross .cx-s{display:block;font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
+    </div>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav" aria-label="القائمة الرئيسية">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+    </nav>
+    <div class="side-foot">زاد 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">أحكام <span>الصيام</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="rk-hero" data-emoji="📋">
+      <div class="rk-eyebrow">فقه الصيام</div>
+      <h1 class="rk-title">أحكام الصيام</h1>
+      <p class="rk-sub">إجابات مختصرة لأكثر مسائل الصيام شيوعاً: المفطرات، السفر، الأدوية، والنية.</p>
+    </section>
+
+    <div class="rk-note"><span class="ni">⚖️</span><span>عشرون مسألة من أكثر مسائل الصيام شيوعاً، بصيغة مبسّطة. عند النوازل الخاصة بحالتك يُرجع لأهل العلم.</span></div>
+    <h2 class="rk-sec-title">📋 مسائل وأحكام</h2>
+    <ol class="rk-num">
+    <li><div class="rk-q">ما هو تعريف الصيام شرعاً؟</div><div class="rk-a">هو الإمساك عن المفطرات (كالأكل والشرب والجماع) من طلوع الفجر الصادق إلى غروب الشمس بنية التقرب إلى الله.</div></li>
+    <li><div class="rk-q">هل يبطل الصوم بالأكل أو الشرب نسياناً؟</div><div class="rk-a">لا، من أكل أو شرب ناسياً فصيامه صحيح ولا شيء عليه، وعليه أن يتم صومه.</div></li>
+    <li><div class="rk-q">ما حكم استخدام بخاخ الربو للصائم؟</div><div class="rk-a">الأرجح أنه <strong>لا يفطر</strong>؛ لأن الدواء يذهب إلى الرئتين لا المعدة، والقدر الذي يصل للمعدة يسير جداً.</div></li>
+    <li><div class="rk-q">هل تسبب قطرة العين أو الأذن فطر الصائم؟</div><div class="rk-a">لا تعتبر من المفطرات؛ لأن العين والأذن ليستا منفذين مفتوحين للجوف، حتى وإن وجد الصائم طعمها في حلقه.</div></li>
+    <li><div class="rk-q">ما حكم الحقن الطبية (الإبر) في نهار رمضان؟</div><div class="rk-a">الحقن العضلية والوريدية <strong>العلاجية لا تفطر</strong>، أما الحقن <strong>المغذية</strong> التي تقوم مقام الطعام والشراب فهي <strong>مفطرة</strong>.</div></li>
+    <li><div class="rk-q">هل سحب الدم للتحليل أو التبرع يفسد الصوم؟</div><div class="rk-a">سحب الدم للتحاليل المخبرية <strong>لا يفطر</strong>، وكذلك التبرع بالدم لا يفسد الصوم على الراجح إلا إذا أضعف الصائم جداً.</div></li>
+    <li><div class="rk-q">ما حكم من تقيأ عمداً وهو صائم؟</div><div class="rk-a">من استقاء (تقيأ) <strong>عمداً فسد صومه</strong> وعليه القضاء، أما من غلبه القيء دون قصد فلا شيء عليه وصومه صحيح.</div></li>
+    <li><div class="rk-q">هل يجوز للصائم استخدام معجون الأسنان؟</div><div class="rk-a">نعم، يجوز استخدامه مع الحرص الشديد على عدم بلع شيء منه وصولاً إلى الحلق.</div></li>
+    <li><div class="rk-q">متى يجب على المسافر بالطائرة أن يفطر؟</div><div class="rk-a">يفطر عند رؤيته <strong>غروب قرص الشمس بالكامل</strong> من المكان الذي هو فيه في الجو، ولا عبرة بتوقيت البلد الذي يمر فوقه.</div></li>
+    <li><div class="rk-q">ما الحكم إذا استمر نهار المسافر بالطائرة لأكثر من 18 ساعة؟</div><div class="rk-a">المختار أن <strong>يُقدّر صومه على توقيت مكة المكرمة</strong>؛ فيصوم عدد الساعات التي يصومها أهل مكة ثم يفطر.</div></li>
+    <li><div class="rk-q">هل يفطر الصائم بسبب الغسيل الكلوي؟</div><div class="rk-a">نعم، الغسيل الكلوي (الدموي أو البريتوني) <strong>يفطر</strong>؛ لما يصاحبه من تزويد الجسم بسوائل مغذية وأملاح وسكريات.</div></li>
+    <li><div class="rk-q">ما حكم الأقراص التي توضع تحت اللسان لعلاج الأزمات القلبية؟</div><div class="rk-a"><strong>لا تفطر</strong>؛ لأنها تُمص مباشرة ويحملها الدم للقلب ولا يدخل منها شيء للجوف، بشرط تجنب بلع ما قد يتحلل منها.</div></li>
+    <li><div class="rk-q">هل يفسد الصوم باستخدام بخاخ الأنف؟</div><div class="rk-a">نعم، استخدام بخاخ أو قطرة الأنف <strong>مفسد للصوم</strong> إذا وصل شيء منها إلى الحلق؛ لأن الأنف منفذ مباشر للمعدة.</div></li>
+    <li><div class="rk-q">ما حكم صيام أصحاب المهن الشاقة؟</div><div class="rk-a">يجب عليهم تبييت النية والصيام، فإذا واجهوا <strong>مشقة شديدة خارجة عن المعتاد</strong> تسبب ضرراً جسدياً جاز لهم الفطر والقضاء لاحقاً.</div></li>
+    <li><div class="rk-q">هل يجوز للطلاب الإفطار بسبب الامتحانات؟</div><div class="rk-a">الأصل وجوب الصوم، لكن يجوز الفطر للضرورة إذا كان الطالب <strong>يتضرر بالصوم تضرراً حقيقياً</strong> يؤدي لرسوبه أو انهياره، وعليه القضاء.</div></li>
+    <li><div class="rk-q">ما حكم استخدام التحاميل (اللبوس) الشرجية؟</div><div class="rk-a">الأرجح أنها <strong>لا تفطر</strong>؛ لأنها ليست أكلاً ولا شراباً ولا تصل إلى المعدة.</div></li>
+    <li><div class="rk-q">هل يبطل الصوم بخروج دم الحيض قبل المغرب بلحظات؟</div><div class="rk-a">نعم، إذا حاضت المرأة قبل غروب الشمس ولو بلحظة <strong>بطل صومها</strong> ووجب عليها قضاء ذلك اليوم.</div></li>
+    <li><div class="rk-q">ما حكم النية في صيام رمضان؟</div><div class="rk-a">يجب <strong>تبييت النية من الليل</strong> قبل طلوع الفجر لكل يوم عند جمهور العلماء، وتكفي نية واحدة للشهر كله عند المالكية.</div></li>
+    <li><div class="rk-q">هل العطر وشم الروائح يفطر الصائم؟</div><div class="rk-a">لا، <strong>التطيب وشم الروائح مباح</strong> للصائم، ما لم يكن بخوراً له جرم يُستنشق عمداً ويصل إلى الجوف.</div></li>
+    <li><div class="rk-q">ما حكم من أكل ظانّاً أن الشمس قد غربت ثم تبين له خلاف ذلك؟</div><div class="rk-a">يجب عليه <strong>الإمساك فوراً</strong> فور علمه، والأحوط وجوب القضاء عليه عند جمهور الفقهاء.</div></li>
+    </ol>
+    <h2 class="rk-sec-title">↪️ تابع في رمضان الخير</h2>
+    <nav class="rk-cross" aria-label="صفحات رمضان الخير">
+      <a href="ramadan-tadhkir.html"><span class="cx-ico">💡</span><span><span class="cx-t">تذكير إيماني (٣٠ يوم)</span><span class="cx-s">خاطرة يومية قصيرة تُلهمك طوال الشهر</span></span></a>
+      <a href="ramadan-afdal.html"><span class="cx-ico">🏆</span><span><span class="cx-t">أفضل الأعمال في رمضان</span><span class="cx-s">ترتيب العبادات على فقه الأولويات</span></span></a>
+      <a href="ramadan-plan.html"><span class="cx-ico">🗂️</span><span><span class="cx-t">خطة العبادة اليومية</span><span class="cx-s">ثلاثة مستويات: مبتدئ ومتوسط ومتقدم</span></span></a>
+      <a href="ramadan-quran.html"><span class="cx-ico">📖</span><span><span class="cx-t">القرآن في رمضان</span><span class="cx-s">المقصد الجوهري لكل جزء من الثلاثين</span></span></a>
+      <a href="ramadan-duas.html"><span class="cx-ico">🤲</span><span><span class="cx-t">أدعية رمضان</span><span class="cx-s">جوامع الكلم النبوية والدعاء الأغلى</span></span></a>
+      <a href="ramadan-last10.html"><span class="cx-ico">✨</span><span><span class="cx-t">العشر الأواخر وليلة القدر</span><span class="cx-s">فضلها وأعمالها وأدعيتها المأثورة</span></span></a>
+      <a href="ramadan-kids.html"><span class="cx-ico">🧒</span><span><span class="cx-t">ركن الأطفال في رمضان</span><span class="cx-s">أنشطة تربوية تغرس القيم بالقدوة</span></span></a>
+      </nav>
+
+    <div style="height:40px"></div>
+  </main>
+</div>
+  <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+<script src="command-palette.js" defer></script>
+</body>
+</html>
