@@ -81,6 +81,20 @@ html[data-theme="dark"] .rk-dua .du-ar,html[data-theme="oled"] .rk-dua .du-ar{co
 .rk-cross .cx-t{display:block;font-size:14.5px;font-weight:800;color:var(--green-deep)}
 html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{color:var(--sys-green)}
 .rk-cross .cx-s{display:block;font-size:12px;color:var(--muted)}
+html{scroll-behavior:smooth}
+.rk-num>li{padding-bottom:16px}
+.rk-num>li+li{margin-top:14px}
+.rk-li-actions{display:flex;gap:8px;margin:10px 44px 0 0;flex-wrap:wrap}
+.rk-mini-btn{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1.5px solid var(--border);color:var(--muted);font-family:inherit;font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:999px;cursor:pointer;transition:border-color .18s,color .18s}
+.rk-mini-btn:hover{border-color:var(--green-soft);color:var(--green-deep)}
+html[data-theme="dark"] .rk-mini-btn:hover,html[data-theme="oled"] .rk-mini-btn:hover{color:var(--sys-green)}
+.rk-cta{background:linear-gradient(135deg,#0e3b2e,#1a5d47);border-radius:20px;padding:24px 22px;margin:24px 0 8px;color:#fff;text-align:center;box-shadow:var(--shadow)}
+.rk-cta h3{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif;font-size:18px;font-weight:900;margin:0 0 6px}
+.rk-cta p{font-size:13px;color:rgba(255,255,255,.82);line-height:1.7;margin:0 0 16px}
+.rk-cta .cta-levels{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.rk-cta .cta-lv{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);color:#fff;font-family:inherit;font-size:12.5px;font-weight:800;padding:9px 18px;border-radius:999px;text-decoration:none;transition:background .18s}
+.rk-cta .cta-lv:hover{background:rgba(255,255,255,.26)}
+.rk-cta .cta-lv.primary{background:var(--gold);color:#3a2e10;border-color:var(--gold)}
 </style>
 </head>
 <body>
@@ -128,14 +142,23 @@ html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{
     <div class="rk-note"><span class="ni">📌</span><span>أفضل الأعمال تبدأ بضبط <strong>الفرائض</strong>، ثم الانتقال للقرآن والقيام، مع تحويل العادات اليومية إلى عبادات بالنية الصالحة.</span></div>
     <h2 class="rk-sec-title">🏆 الترتيب على فقه الأولويات</h2>
     <ol class="rk-num">
-    <li><div class="rk-q">🕌 أداء الفرائض والواجبات (الأولوية القصوى)</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li><strong>المحافظة على الصلوات الخمس في وقتها</strong>: هي الركن الذي لا يُمَس، وأجر صلاة الفرض الواحدة في وقتها (كالفجر) أعظم عند الله من قيام الليل كله؛ لقوله في الحديث القدسي: «وما تقرب إليّ عبدي بشيء أحب إليّ مما افترضته عليه».</li><li><strong>صيام نهار رمضان</strong>: الركن الأساسي الذي لا يكتمل الإيمان بدونه، وهو «جُنة» (حصن) للمؤمن من النار.</li></ul></li>
-    <li><div class="rk-q">📖 قراءة القرآن ومدارسته</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li>رمضان هو شهر القرآن، والارتباط بينهما وثيق جداً.</li><li>يُستحب الإكثار من تلاوته بسماع وفهم وتدبر، حيث كان جبريل عليه السلام يدارس النبي ﷺ القرآن في كل ليلة من رمضان.</li><li><strong>التدبر مقدم على الكثرة</strong>: قراءة صفحة واحدة بتدبر خير من ختمات كثيرة بلا فهم.</li></ul></li>
-    <li><div class="rk-q">🌙 القيام (التراويح والتهجد)</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li>لقوله ﷺ: «من قام رمضان إيماناً واحتساباً غفر له ما تقدم من ذنبه».</li><li>يُشرع الاجتهاد خاصة في العشر الأواخر طلباً لليلة القدر التي العبادة فيها خير من ألف شهر.</li></ul></li>
-    <li><div class="rk-q">🤲 الدعاء والذكر</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li>رمضان شهر الدعاء، وللصائم عند فطره دعوة لا ترد.</li><li>الإكثار من «جوامع الكلم» مثل: «اللهم إنك عفو تحب العفو فاعف عني».</li><li>الحرص على أن يظل اللسان رطباً بذكر الله والتسبيح والاستغفار طوال اليوم.</li></ul></li>
-    <li><div class="rk-q">💚 الصدقة وإطعام الطعام (الأعمال المتعدية)</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li><strong>الجود والسخاء</strong>: كان النبي ﷺ أجود ما يكون في رمضان.</li><li><strong>تفطير الصائمين</strong>: له أجر عظيم، ويشمل مساعدة الأهل في إعداد الإفطار.</li><li>العمل المتعدي الذي ينفع الآخرين أجره أعظم من العمل القاصر على النفس.</li></ul></li>
-    <li><div class="rk-q">💧 التوبة وتزكية النفس</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li><strong>التوبة النصوح</strong>: شعار المتقين، ورمضان فرصة ذهبية لتجديد العهد مع الله ورد المظالم.</li><li><strong>تهذيب الأخلاق</strong>: الصيام الحقيقي هو صوم الجوارح عن المعاصي، وقول الصائم لمن سابّه: «إني صائم».</li></ul></li>
-    <li><div class="rk-q">🕋 الاعتكاف</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li>سنة نبوية مؤكدة، خاصة في العشر الأواخر، بهدف الانقطاع التام للعبادة وخلوة القلب مع الخالق.</li></ul></li>
+    <li><div class="rk-q">🕌 أداء الفرائض والواجبات (الأولوية القصوى)</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li><strong>المحافظة على الصلوات الخمس في وقتها</strong>: هي الركن الذي لا يُمَس، وأجر صلاة الفرض الواحدة في وقتها (كالفجر) أعظم عند الله من قيام الليل كله؛ لقوله في الحديث القدسي: «وما تقرب إليّ عبدي بشيء أحب إليّ مما افترضته عليه».</li><li><strong>صيام نهار رمضان</strong>: الركن الأساسي الذي لا يكتمل الإيمان بدونه، وهو «جُنة» (حصن) للمؤمن من النار.</li></ul><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy" >📋 نسخ</button></div></li>
+    <li><div class="rk-q">📖 قراءة القرآن ومدارسته</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li>رمضان هو شهر القرآن، والارتباط بينهما وثيق جداً.</li><li>يُستحب الإكثار من تلاوته بسماع وفهم وتدبر، حيث كان جبريل عليه السلام يدارس النبي ﷺ القرآن في كل ليلة من رمضان.</li><li><strong>التدبر مقدم على الكثرة</strong>: قراءة صفحة واحدة بتدبر خير من ختمات كثيرة بلا فهم.</li></ul><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy" >📋 نسخ</button></div></li>
+    <li><div class="rk-q">🌙 القيام (التراويح والتهجد)</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li>لقوله ﷺ: «من قام رمضان إيماناً واحتساباً غفر له ما تقدم من ذنبه».</li><li>يُشرع الاجتهاد خاصة في العشر الأواخر طلباً لليلة القدر التي العبادة فيها خير من ألف شهر.</li></ul><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy" >📋 نسخ</button></div></li>
+    <li><div class="rk-q">🤲 الدعاء والذكر</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li>رمضان شهر الدعاء، وللصائم عند فطره دعوة لا ترد.</li><li>الإكثار من «جوامع الكلم» مثل: «اللهم إنك عفو تحب العفو فاعف عني».</li><li>الحرص على أن يظل اللسان رطباً بذكر الله والتسبيح والاستغفار طوال اليوم.</li></ul><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy" >📋 نسخ</button></div></li>
+    <li><div class="rk-q">💚 الصدقة وإطعام الطعام (الأعمال المتعدية)</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li><strong>الجود والسخاء</strong>: كان النبي ﷺ أجود ما يكون في رمضان.</li><li><strong>تفطير الصائمين</strong>: له أجر عظيم، ويشمل مساعدة الأهل في إعداد الإفطار.</li><li>العمل المتعدي الذي ينفع الآخرين أجره أعظم من العمل القاصر على النفس.</li></ul><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy" >📋 نسخ</button></div></li>
+    <li><div class="rk-q">💧 التوبة وتزكية النفس</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li><strong>التوبة النصوح</strong>: شعار المتقين، ورمضان فرصة ذهبية لتجديد العهد مع الله ورد المظالم.</li><li><strong>تهذيب الأخلاق</strong>: الصيام الحقيقي هو صوم الجوارح عن المعاصي، وقول الصائم لمن سابّه: «إني صائم».</li></ul><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy" >📋 نسخ</button></div></li>
+    <li><div class="rk-q">🕋 الاعتكاف</div><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li>سنة نبوية مؤكدة، خاصة في العشر الأواخر، بهدف الانقطاع التام للعبادة وخلوة القلب مع الخالق.</li></ul><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy" >📋 نسخ</button></div></li>
     </ol>
+    <div class="rk-cta">
+      <h3>جاهز للخطوة التالية؟</h3>
+      <p>حوّل هذا الترتيب إلى خطة يومية عملية تناسب وقتك ومستواك.</p>
+      <div class="cta-levels">
+        <a class="cta-lv" href="ramadan-plan.html?level=beginner">🌱 مبتدئ</a>
+        <a class="cta-lv primary" href="ramadan-plan.html?level=intermediate">⚖️ متوسط</a>
+        <a class="cta-lv" href="ramadan-plan.html?level=advanced">🌙 متقدم</a>
+      </div>
+    </div>
     <h2 class="rk-sec-title">↪️ تابع في رمضان الخير</h2>
     <nav class="rk-cross" aria-label="صفحات رمضان الخير">
       <a href="ramadan-tadhkir.html"><span class="cx-ico">💡</span><span><span class="cx-t">تذكير إيماني (٣٠ يوم)</span><span class="cx-s">خاطرة يومية قصيرة تُلهمك طوال الشهر</span></span></a>
@@ -150,6 +173,30 @@ html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{
     <div style="height:40px"></div>
   </main>
 </div>
+<script>
+(function(){
+  try{
+    var items=document.querySelectorAll('.rk-num>li');
+    function toast(m){ if(typeof showToast==='function') showToast(m); }
+    items.forEach(function(li){
+      var btn=li.querySelector('.rk-copy'); if(!btn) return;
+      var q=li.querySelector('.rk-q'), pts=li.querySelectorAll('.rk-level li');
+      btn.addEventListener('click', function(){
+        var lines=[]; if(q) lines.push(q.textContent.trim());
+        pts.forEach(function(p){ lines.push('• '+p.textContent.replace(/\s+/g,' ').trim()); });
+        var txt='🏆 أفضل الأعمال في رمضان — زاد\n\n'+lines.join('\n')+'\n\n'+location.href;
+        if(navigator.clipboard&&navigator.clipboard.writeText){
+          navigator.clipboard.writeText(txt).then(function(){toast('تم النسخ ✅');},function(){toast('تعذر النسخ');});
+        }else{
+          var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
+          try{document.execCommand('copy');toast('تم النسخ ✅');}catch(_){toast('تعذر النسخ');}
+          document.body.removeChild(ta);
+        }
+      });
+    });
+  }catch(e){}
+})();
+</script>
   <script src="js/app.js" defer></script>
   <script src="js/pwa-install-fab.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
