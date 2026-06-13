@@ -8,7 +8,7 @@
    تستجب الشبكة خلال 3 ثوانٍ نرجع فوراً للنسخة المخزّنة.
    ════════════════════════════════════════════════════════════ */
 
-const CACHE_STATIC = 'zad-20260613-7823';
+const CACHE_STATIC = 'zad-20260613-7824';
 const NET_TIMEOUT  = 3000; /* مهلة الشبكة قبل الرجوع للكاش (ms) */
 
 /* ── أصول تُخزَّن مسبقاً عند التثبيت ── */
@@ -41,6 +41,7 @@ const BYPASS = [
   'aladhan.com', 'alquran.cloud',
   'nominatim.openstreetmap.org',
   'radiojar.com', 'zeno.fm',
+  'qurango.net', 'mp3quran.net',   /* بثّ الراديو الحي + API القايمة — لا تمرّرها على الكاش */
 ];
 const bypass = url => BYPASS.some(p => url.includes(p));
 
