@@ -81,6 +81,15 @@ html[data-theme="dark"] .rk-dua .du-ar,html[data-theme="oled"] .rk-dua .du-ar{co
 .rk-cross .cx-t{display:block;font-size:14.5px;font-weight:800;color:var(--green-deep)}
 html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{color:var(--sys-green)}
 .rk-cross .cx-s{display:block;font-size:12px;color:var(--muted)}
+.rk-today .t-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.rk-today .t-btn{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);color:#fff;font-family:inherit;font-size:12.5px;font-weight:700;padding:8px 16px;border-radius:999px;cursor:pointer;transition:background .18s}
+.rk-today .t-btn:hover{background:rgba(255,255,255,.24)}
+.rk-day.rk-hidden{display:none}
+.rk-day.is-today{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),var(--shadow-sm)}
+.rk-day.is-today .d-no::after{content:" · اليوم الحالي"}
+.rk-toggle-days{display:block;width:100%;background:var(--card);border:1.5px dashed var(--border);border-radius:14px;padding:13px;margin-bottom:14px;font-family:inherit;font-size:13.5px;font-weight:800;color:var(--green-deep);cursor:pointer;transition:border-color .18s}
+html[data-theme="dark"] .rk-toggle-days,html[data-theme="oled"] .rk-toggle-days{color:var(--sys-green)}
+.rk-toggle-days:hover{border-color:var(--green-soft)}
 </style>
 </head>
 <body>
@@ -128,6 +137,10 @@ html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{
     <div class="rk-today">
       <div class="t-lbl" id="rk-today-no">خاطرة اليوم</div>
       <div class="t-body" id="rk-today-body"><strong>الصيام ركن عظيم من أركان الإسلام لا يكتمل الإيمان بدونه.</strong> هو مدرسة لتربية النفس وكبح جماح الشهوات. للصائم فرحتان: فرحة عند فطره، وفرحة حين يلقى ربه. وهو <strong>جنة وحصن للمؤمن من النار</strong>.</div>
+      <div class="t-actions">
+        <button type="button" class="t-btn" id="rk-copy-btn">📋 نسخ الخاطرة</button>
+        <button type="button" class="t-btn" id="rk-share-btn">📤 مشاركة</button>
+      </div>
     </div>
     <h2 class="rk-sec-title">🗓️ التذكير الكامل · 30 يوماً</h2>
     <div class="rk-day"><span class="d-no">اليوم 1</span><p><strong>الصيام ركن عظيم من أركان الإسلام لا يكتمل الإيمان بدونه.</strong> هو مدرسة لتربية النفس وكبح جماح الشهوات. للصائم فرحتان: فرحة عند فطره، وفرحة حين يلقى ربه. وهو <strong>جنة وحصن للمؤمن من النار</strong>.</p></div>
@@ -174,9 +187,73 @@ html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{
 <script>
 (function(){
   try{
-    var R=["<strong>الصيام ركن عظيم من أركان الإسلام لا يكتمل الإيمان بدونه.</strong> هو مدرسة لتربية النفس وكبح جماح الشهوات. للصائم فرحتان: فرحة عند فطره، وفرحة حين يلقى ربه. وهو <strong>جنة وحصن للمؤمن من النار</strong>.", "<strong>باب الريان في الجنة مخصص للصائمين فقط يوم القيامة.</strong> فمن صام يوماً خالصاً لله باعد الله وجهه عن النار سبعين خريفاً. استثمر كل لحظة في هذا الشهر لتكون من <strong>الداخلين من ذلك الباب المبارك</strong>.", "<strong>رمضان شهر الغفران والعتق من النيران.</strong> من صام رمضان إيماناً واحتساباً غفر له ما تقدم من ذنبه. هو فرصة للتوبة النصوح والندم على ما فات من تقصير. <strong>لا تجعل هذا الشهر يمر دون تجديد عهدك مع الله</strong>.", "<strong>للصائم عند فطره دعوة لا ترد.</strong> فاغتنم وقت الإفطار في التضرع إلى الله. الدعاء هو العبادة وأكرم شيء على الله. <strong>ارفع يديك بيقين</strong>، فربك قريب يجيب دعوة الداع إذا دعاه.", "<strong>الصيام والقرآن يشفعان للعبد يوم القيامة.</strong> يقول الصيام: أي رب منعته الطعام والشهوات بالنهار فشفعني فيه. ويقول القرآن: منعته النوم بالليل فشفعني فيه. فاجعل لك معهما <strong>صحبة دائمة في رمضان</strong>.", "<strong>شهر رمضان الذي أنزل فيه القرآن هدى للناس.</strong> هو موسم مدارسة الوحي والتقرب من كتاب الله. احرص على تلاوته بتدبر وفهم لتنال الهداية والفرقان. <strong>كل حرف تقرؤه بعشر حسنات</strong> والله يضاعف لمن يشاء.", "<strong>لا تهجر القرآن في رمضان، فهو سر قوة الأمة وطمأنينة القلوب.</strong> اجعل لك ورداً يومياً ثابتاً لا تفرط فيه. القليل الدائم مع التدبر خير من كثير منقطع بلا فهم. <strong>القرآن يرفع أقواماً ويغير النفوس</strong> بصدق القراءة.", "<strong>الذكر حياة القلوب وطرد للشيطان.</strong> استثمر أوقاتك في التسبيح والاستغفار والصلاة على النبي. ليكن لسانك رطباً بذكر الله في كل حين. <strong>الذكر يصبغ النفس بأسماء الله الحسنى</strong> كصفتي الرحمة والقوة.", "<strong>فقه الأولويات في رمضان يبدأ بأداء الفرائض ثم النوافل.</strong> تقرب إلى الله بما افترضه عليك، فهو أحب الأعمال إليه. صلاة الفرض الواحدة ثوابها أعظم من أربع وعشرين ركعة نافلة. <strong>لا تضيع الفجر</strong> بسبب السهر في قيام الليل.", "<strong>ليلة القدر خير من ألف شهر، والعبادة فيها تعدل عبادة 83 سنة.</strong> يقدر الله فيها ما يكون في السنة وهي ليلة مباركة. تحرَّها في أوتار العشر الأواخر واجتهد فيها بالقيام والدعاء. قل فيها: &quot;<strong>اللهم إنك عفو تحب العفو فاعف عني</strong>&quot;.", "<strong>كان النبي ﷺ أجود الناس، وكان أجود ما يكون في رمضان.</strong> الصدقة في هذا الشهر تضاعف إلى 700 ضعف. أنفق مما أعطاك الله، فما نقصت صدقة من مال. <strong>الصدقة تدفع البلاء وتخلف البركة في الرزق</strong>.", "<strong>إطعام الطعام من أقرب القربات إلى الله.</strong> تفطير الصائمين له أجر عظيم، فلا تحرم نفسك هذه الفضيلة. مساعدة الأهل في إعداد الإفطار تعتبر من أفضل الأعمال وبراً بالوالدين. <strong>استثمر نية إدخال السرور على أسرتك</strong> لتنال الأجر.", "<strong>التوبة هي شعار المتقين ودأب الصالحين في رمضان.</strong> هو فرصة لمن أسرف على نفسه أن يعود إلى رشده. الله يبسط يده بالرحمة ويقبل توبة التائبين. <strong>لا تيأس من روح الله</strong>، فرمضان محطة للتغيير والانطلاق نحو الأفضل.", "<strong>العمل الصالح المتعدي نفعه أفضل من القاصر على النفس.</strong> تعليم طفل، أو زيارة مريض، أو صلة رحم، كلها أعمال تثقل الميزان. المؤمن للمؤمن كالبنيان يشد بعضه بعضاً. <strong>كن نافعاً لمجتمعك</strong> واجعل من صيامك خلقاً وعطاء.", "<strong>رمضان شهر الصبر والجد والاجتهاد لا شهر الكسل والنوم.</strong> الانضباط في العمل ورعاية مصالح الناس عبادة يؤجر عليها المسلم. الصيام ليس عذراً للتقصير، بل دافعاً للعطاء والنشاط. <strong>نظم وقتك بجدول يومي</strong> يجمع بين العبادة ومسؤوليات الحياة.", "<strong>الصيام جنة، فإذا كان يوم صوم أحدكم فلا يرفث ولا يصخب.</strong> إذا سابك أحد أو قاتلك فقل: &quot;إني صائم&quot;. الصيام الحقيقي هو تهذيب للسان والجوارح عن كل ما لا يرضي الله. <strong>الأخلاق الحسنة هي كمال الإيمان</strong>.", "<strong>الغيبة والنميمة تجرح الصوم وتنقص الأجر.</strong> عوّد لسانك على الصمت إلا في خير، فالكلام الكثير يولد قسوة القلب. الصمت حكمة وقليل فاعله. <strong>احفظ صيامك بالانشغال بذكر الله</strong> والابتعاد عن القيل والقال.", "<strong>النية الصادقة تحول العادات اليومية إلى عبادات عظيمة.</strong> كل عملاً تقصد به وجه الله تنال عليه الأجر دون زيادة جهد. جدد نيتك في أكلك ونومك وعملك لتكون <strong>كلها في ميزان حسناتك</strong>. إنما الأعمال بالنيات وإنما لكل امرئ ما نوى.", "<strong>التقوى هي الثمرة الكبرى من تشريع الصيام.</strong> الصوم يساعد على مراقبة الله في السر والعلن وتحقيق التوبة النصوح. التقوى هي خير زاد للمؤمن في حركته في الدنيا وفي الآخرة. <strong>كن من المتقين</strong> الذين يستشعرون رؤية الله لهم في كل فعل.", "<strong>العفو والتسامح من أولويات المسلم في رمضان.</strong> إذا أردت أن يعفو الله عنك فاعف عن خلقه والتمس لهم الأعذار. الخصومات تمنع نزول الرحمات وترفع ليلة القدر. <strong>طهّر قلبك من الحقد والحسد</strong> لتبدأ صفحة جديدة من التآلف والإخاء.", "<strong>الصلاة قرة عيون المحبين وسرور أرواحهم.</strong> لا تزن إيمانك ومحبتك لله بمثل ميزان الصلاة. حافظ على صلاة الجماعة في بيوت الله وتزود من النوافل. <strong>السجود هو أقرب ما يكون العبد من ربه</strong>، فأكثر فيه من الدعاء.", "<strong>الاعتكاف سنة نبوية تهدف للانقطاع عن الخلق والاشتغال بالخالق.</strong> هدفه عكوف القلب على طاعة الله وتفريغه من هموم الدنيا. أقل كمال الاعتكاف يوم وليلة ومجرد دخول المسجد بنية الاعتكاف تؤجر عليه. <strong>اجعل لقلبك خلوة مع الله</strong>.", "<strong>المرأة في رمضان توازن بين مسؤوليات البيت وعبادتها بيقين.</strong> تعبها في المطبخ ورعاية أطفالها عبادة عظيمة تؤجر عليها. لا تشعري بالتقصير، فنية الخدمة ترفع درجتك. <strong>القليل المستمر من تلاوة وذكر خير من الانقطاع</strong>.", "<strong>طالب العلم يتقرب لله بفريضة العلم في رمضان.</strong> الموازنة بين الدراسة والعبادة أمر ممكن بتنظيم الوقت والاستعانة بالله. العلم بما يجب تعلمه من أحكام الشرع فرض عين. <strong>اجعل دراستك طاعة لخدمة أمتك</strong>.", "<strong>السحور بركة ومخالفة لأهل الكتاب ومعونة على العبادة.</strong> يسن تأخيره إلى قبيل الفجر وتقوي به نفسك على النشاط في الطاعة. يكفي فيه ولو شربة ماء أو تمرات. <strong>السحور يدفع سوء الخلق</strong> الذي قد يثيره الجوع.", "<strong>العشر الأواخر هي مضمار السباق</strong>، كان النبي ﷺ يشد فيها مئزره ويحيي ليله. ضاعف جهدك في هذه الليالي المباركة طلباً للمغفرة وليلة القدر. لا تجعل الفتور يحيط بك في نهاية الشهر. <strong>الأعمال بخواتيمها</strong> فاجتهد حتى اللحظة الأخيرة.", "<strong>رمضان شهر التغيير الذكي في النفس والروح والفكر.</strong> إذا لم يغير الصوم في أخلاقك فراجع نيتك. الله لا يغير ما بقوم حتى يغيروا ما بأنفسهم. <strong>اجعل من هذا الشهر نقطة تحول حقيقية</strong> لاستقامة حياتك.", "<strong>ذكر الموت يورث قصر الأمل ويحث على المبادرة بالعمل الصالح.</strong> كن في الدنيا كأنك غريب أو عابر سبيل. اغتنم صحتك قبل سقمك وفراغك قبل شغلك. <strong>استعد للقاء الله بقلب سليم</strong> وعمل خالص يبيض وجهك يوم القيامة.", "<strong>الاستقامة بعد رمضان هي علامة قبول الصيام.</strong> لا تهدم ما بنيته من طاعات في هذا الشهر بالعودة للذنوب. كن ربانياً لا رمضانياً، وداوم على القليل من العمل الصالح فإنه أحب إلى الله. <strong>العمل الصالح بعد رمضان يثبت الأجر</strong>.", "<strong>الشكر لله على بلوغ رمضان وتمام الصيام واجب على كل مسلم.</strong> قل دائماً: &quot;الحمد لله الذي أعانني فصمت ورزقني فأفطرت&quot;. اسأل الله القبول والإخلاص في القول والعمل وأن يبلغك رمضان أعواماً عديدة."];
-    var d=new Date(); var idx=(d.getDate()-1)%R.length;
-    var el=document.getElementById('rk-today-body'); if(el) el.innerHTML=R[idx];
+    var days = Array.prototype.slice.call(document.querySelectorAll('.rk-day'));
+    if(!days.length) return;
+    var total = days.length;
+
+    /* --- determine today's index: real Ramadan day via Umm al-Qura, fallback = previous Gregorian behavior --- */
+    var d = new Date(), idx = (d.getDate()-1) % total, inRamadan = false;
+    try{
+      var parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{month:'numeric',day:'numeric'}).formatToParts(d);
+      var hm = 0, hd = 0;
+      parts.forEach(function(pt){ if(pt.type==='month') hm=parseInt(pt.value,10); if(pt.type==='day') hd=parseInt(pt.value,10); });
+      if(hm === 9 && hd >= 1){ idx = Math.min(hd, total) - 1; inRamadan = true; }
+    }catch(_){/* keep fallback */}
+
+    /* --- today card: content from DOM (single source of truth) + day label --- */
+    var srcP = days[idx].querySelector('p');
+    var body = document.getElementById('rk-today-body');
+    var lbl  = document.getElementById('rk-today-no');
+    if(body && srcP) body.innerHTML = srcP.innerHTML;
+    if(lbl) lbl.textContent = inRamadan ? ('خاطرة اليوم · ' + (idx+1) + ' رمضان') : ('خاطرة اليوم · اليوم ' + (idx+1));
+
+    /* --- mark current day + collapse list (show first 3 + today) --- */
+    days[idx].classList.add('is-today');
+    var visible = {0:1, 1:1, 2:1}; visible[idx] = 1;
+    var hiddenCount = 0;
+    days.forEach(function(el, k){ if(!visible[k]){ el.classList.add('rk-hidden'); el.setAttribute('hidden',''); hiddenCount++; } });
+    if(hiddenCount > 0){
+      var btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'rk-toggle-days';
+      btn.setAttribute('aria-expanded','false');
+      var lblShow = '📜 عرض كل الأيام الثلاثين (' + hiddenCount + ' يوماً إضافياً)';
+      btn.textContent = lblShow;
+      var last = days[total-1];
+      last.parentNode.insertBefore(btn, last.nextSibling);
+      btn.addEventListener('click', function(){
+        var collapsed = btn.getAttribute('aria-expanded') === 'false';
+        days.forEach(function(el, k){
+          if(visible[k]) return;
+          el.classList.toggle('rk-hidden', !collapsed);
+          if(collapsed) el.removeAttribute('hidden'); else el.setAttribute('hidden','');
+        });
+        btn.setAttribute('aria-expanded', collapsed ? 'true' : 'false');
+        btn.textContent = collapsed ? '🔼 إخفاء الأيام' : lblShow;
+      });
+    }
+
+    /* --- copy & share (stateless; reuses global showToast from app.js) --- */
+    function todayText(){
+      var t = (srcP ? srcP.textContent : '').replace(/\s+/g,' ').trim();
+      return '🌙 تذكير إيماني — ' + (inRamadan ? ((idx+1)+' رمضان') : ('اليوم '+(idx+1))) + '\n\n' + t + '\n\n— زاد · ' + location.href;
+    }
+    function toast(m){ if(typeof showToast==='function') showToast(m); }
+    function copyText(){
+      var txt = todayText();
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(txt).then(function(){ toast('تم نسخ الخاطرة ✅'); }, function(){ toast('تعذر النسخ'); });
+      }else{
+        var ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
+        try{ document.execCommand('copy'); toast('تم نسخ الخاطرة ✅'); }catch(_){ toast('تعذر النسخ'); }
+        document.body.removeChild(ta);
+      }
+    }
+    var cb=document.getElementById('rk-copy-btn'), sb=document.getElementById('rk-share-btn');
+    if(cb) cb.addEventListener('click', copyText);
+    if(sb) sb.addEventListener('click', function(){
+      if(navigator.share){ navigator.share({title:'تذكير إيماني — زاد', text:todayText()}).catch(function(){}); }
+      else copyText();
+    });
   }catch(e){}
 })();
 </script>
