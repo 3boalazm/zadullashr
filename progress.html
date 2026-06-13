@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>لوحة التقدّم — زاد</title>
+<meta name="description" content="لوحة التقدّم: حسناتك وسلسلتك وأوسمتك وتقدّمك اليومي ورحلتك خلال آخر الأيام، في مكان واحد.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/premium-ui.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+.pd-reveal{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+.pd-reveal.in{opacity:1;transform:none}
+
+/* hero stat band (theme-independent green) */
+.pd-hero{position:relative;overflow:hidden;border-radius:24px;margin-bottom:18px;padding:26px 24px;color:#fff;
+  background:radial-gradient(120% 120% at 85% 0%,#155343 0%,#0e3b2e 45%,#08241c 100%);box-shadow:0 22px 54px -20px rgba(8,36,28,.6)}
+.pd-hero::after{content:"📊";position:absolute;top:16px;left:22px;font-size:54px;opacity:.12}
+.pd-hero .eyebrow{font-size:11px;letter-spacing:3px;color:#f0d79a;font-weight:700;margin-bottom:14px}
+.pd-hero .row{display:flex;gap:10px;flex-wrap:wrap}
+.pd-stat-big{flex:1;min-width:96px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:14px 12px;text-align:center;backdrop-filter:blur(6px)}
+.pd-stat-big b{display:block;font-size:30px;font-weight:900;font-family:'ThmanyahSans',sans-serif;line-height:1.05}
+.pd-stat-big span{font-size:11.5px;color:rgba(255,255,255,.78);display:block;margin-top:4px}
+.pd-mult{display:inline-flex;align-items:center;gap:6px;margin-top:14px;background:linear-gradient(135deg,#e6c97a,#c9a14a);color:#23190a;font-weight:800;font-size:12.5px;padding:5px 14px;border-radius:999px}
+
+.pd-sec-title{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .pd-sec-title,html[data-theme="oled"] .pd-sec-title{color:var(--sys-green)}
+.pd-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px}
+
+.pd-glass{background:var(--card);border:1.5px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);overflow:hidden}
+@supports (backdrop-filter:blur(8px)){html[data-theme="dark"] .pd-glass,html[data-theme="oled"] .pd-glass{background:rgba(255,255,255,.04);backdrop-filter:blur(10px)}}
+
+/* today ring */
+.pd-today{display:flex;gap:20px;align-items:center;padding:22px;flex-wrap:wrap}
+.pd-ring{flex-shrink:0;width:122px;height:122px;position:relative}
+.pd-ring svg{transform:rotate(-90deg)}
+.pd-ring .pc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pd-ring .pc b{font-size:25px;font-weight:900;color:var(--green-deep);font-family:'ThmanyahSans',sans-serif;line-height:1}
+html[data-theme="dark"] .pd-ring .pc b,html[data-theme="oled"] .pd-ring .pc b{color:var(--sys-green)}
+.pd-ring .pc span{font-size:10.5px;color:var(--muted)}
+.pd-today-body{flex:1;min-width:190px}
+.pd-today-body h3{font-size:18px;color:var(--green-deep);margin:0 0 4px;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .pd-today-body h3,html[data-theme="oled"] .pd-today-body h3{color:var(--sys-green)}
+.pd-today-body p{font-size:12.5px;color:var(--muted);margin:0 0 12px;line-height:1.7}
+.pd-today-body a{display:inline-block;background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;text-decoration:none;font-weight:800;font-size:13px;padding:10px 18px;border-radius:13px;transition:transform .2s}
+.pd-today-body a:hover{transform:translateY(-2px)}
+
+/* stats grid */
+.pd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
+.pd-stat{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;text-align:center;box-shadow:var(--shadow-sm)}
+.pd-stat .ic{font-size:24px}
+.pd-stat b{display:block;font-size:24px;color:var(--green-deep);font-family:'ThmanyahSans',sans-serif;margin:4px 0 2px}
+html[data-theme="dark"] .pd-stat b,html[data-theme="oled"] .pd-stat b{color:var(--sys-green)}
+.pd-stat span{font-size:11.5px;color:var(--muted)}
+
+/* history chart */
+.pd-chart{padding:20px}
+.pd-bars{display:flex;align-items:flex-end;gap:4px;height:120px;margin-top:8px}
+.pd-bars .bar{flex:1;min-width:5px;border-radius:5px 5px 0 0;background:linear-gradient(180deg,var(--green-soft),var(--gold));opacity:.92;transition:height .9s cubic-bezier(.16,1,.3,1)}
+.pd-bars .bar.empty{background:var(--sand-2)}
+.pd-chart .legend{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:8px}
+.pd-empty{text-align:center;color:var(--muted);font-size:13px;line-height:1.9;padding:24px 10px}
+
+/* insights */
+.pd-ins{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.pd-ins{grid-template-columns:1fr}}
+.pd-ins-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:16px;box-shadow:var(--shadow-sm)}
+.pd-ins-card h4{font-size:14px;margin:0 0 10px;display:flex;align-items:center;gap:6px;color:var(--green-deep)}
+html[data-theme="dark"] .pd-ins-card h4,html[data-theme="oled"] .pd-ins-card h4{color:var(--sys-green)}
+.pd-ins-card ul{list-style:none;padding:0;margin:0}
+.pd-ins-card li{font-size:12.8px;line-height:1.7;color:var(--ink);padding:7px 0;border-bottom:1px solid var(--border)}
+.pd-ins-card li:last-child{border-bottom:none}
+.pd-ins-card .none{font-size:12.5px;color:var(--muted)}
+
+/* cross links */
+.pd-cross{display:grid;gap:10px}
+.pd-cross a{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .2s,border-color .2s}
+.pd-cross a:hover{transform:translateY(-2px);border-color:var(--green-soft)}
+.pd-cross .cx-ico{font-size:24px}
+.pd-cross .cx-t{display:block;font-size:14.5px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .pd-cross .cx-t,html[data-theme="oled"] .pd-cross .cx-t{color:var(--sys-green)}
+.pd-cross .cx-s{display:block;font-size:12px;color:var(--muted)}
+
+@media (prefers-reduced-motion:reduce){.pd-reveal{transition:none;opacity:1;transform:none}.pd-bars .bar{transition:none}}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
+    </div>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav" aria-label="القائمة الرئيسية">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+    </nav>
+    <div class="side-foot">زاد 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">لوحة <span>التقدّم</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- hero stat band -->
+    <section class="pd-hero pd-reveal in">
+      <div class="eyebrow">رحلتك مع زاد</div>
+      <div class="row">
+        <div class="pd-stat-big"><b id="pd-points">—</b><span>الحسنات</span></div>
+        <div class="pd-stat-big"><b id="pd-streak">—</b><span>أيام متتالية 🔥</span></div>
+        <div class="pd-stat-big"><b id="pd-badges">—</b><span>أوسمة 🏅</span></div>
+      </div>
+      <span class="pd-mult" id="pd-mult" style="display:none">✦ مُضاعِف الإحسان <b id="pd-mult-v"></b></span>
+    </section>
+
+    <!-- today ring -->
+    <h2 class="pd-sec-title pd-reveal">🎯 إنجاز اليوم</h2>
+    <div class="pd-glass pd-today pd-reveal">
+      <div class="pd-ring" aria-hidden="true">
+        <svg width="122" height="122" viewBox="0 0 122 122">
+          <circle cx="61" cy="61" r="51" fill="none" stroke="var(--sand-2)" stroke-width="10"></circle>
+          <circle id="pd-ring-fg" cx="61" cy="61" r="51" fill="none" stroke="url(#pdg)" stroke-width="10" stroke-linecap="round" stroke-dasharray="320.4" stroke-dashoffset="320.4"></circle>
+          <defs><linearGradient id="pdg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3dcc5e"></stop><stop offset="1" stop-color="#c9a14a"></stop></linearGradient></defs>
+        </svg>
+        <div class="pc"><b id="pd-today-pct">0%</b><span>اليوم</span></div>
+      </div>
+      <div class="pd-today-body">
+        <h3 id="pd-today-title">عبادات اليوم</h3>
+        <p id="pd-today-lead">سجّل عباداتك من برنامج اليوم لترتفع نسبتك.</p>
+        <a href="barnamaj.html">افتح برنامج اليوم →</a>
+      </div>
+    </div>
+
+    <!-- stats grid -->
+    <h2 class="pd-sec-title pd-reveal">📈 إحصاءاتك</h2>
+    <div class="pd-grid pd-reveal">
+      <div class="pd-stat"><div class="ic">🌙</div><b id="pd-fasting">—</b><span>أيام صيام</span></div>
+      <div class="pd-stat"><div class="ic">📿</div><b id="pd-takbeer">—</b><span>تسبيح/تكبير</span></div>
+      <div class="pd-stat"><div class="ic">📖</div><b id="pd-juz">—</b><span>أجزاء القرآن</span></div>
+      <div class="pd-stat"><div class="ic">💚</div><b id="pd-charity">—</b><span>صدقات</span></div>
+    </div>
+
+    <!-- history chart -->
+    <h2 class="pd-sec-title pd-reveal">🗓️ رحلتك خلال الأيام</h2>
+    <div class="pd-glass pd-chart pd-reveal" id="pd-chart-wrap">
+      <div class="pd-bars" id="pd-bars"></div>
+      <div class="legend"><span>الأقدم</span><span>نسبة الإنجاز اليومي</span><span>اليوم</span></div>
+    </div>
+
+    <!-- insights -->
+    <h2 class="pd-sec-title pd-reveal">💡 قراءة في أدائك</h2>
+    <div class="pd-ins pd-reveal">
+      <div class="pd-ins-card"><h4>💪 نقاط قوّتك</h4><ul id="pd-strength"></ul><div class="none" id="pd-strength-none" style="display:none">سجّل عباداتك لتظهر نقاط قوّتك هنا.</div></div>
+      <div class="pd-ins-card"><h4>🌱 فرص للتحسين</h4><ul id="pd-improve"></ul><div class="none" id="pd-improve-none" style="display:none">ما شاء الله — لا توجد ملاحظات حالياً.</div></div>
+    </div>
+
+    <!-- cross links -->
+    <h2 class="pd-sec-title pd-reveal">↪️ تابع رحلتك</h2>
+    <nav class="pd-cross pd-reveal" aria-label="روابط المتابعة">
+      <a href="badges.html"><span class="cx-ico">🏅</span><span><span class="cx-t">أوسمتي</span><span class="cx-s">كل إنجازاتك الروحانية والشارات</span></span></a>
+      <a href="barnamaj.html"><span class="cx-ico">📅</span><span><span class="cx-t">برنامج اليوم</span><span class="cx-s">سجّل عباداتك ونوافذ يومك</span></span></a>
+      <a href="summary.html"><span class="cx-ico">📈</span><span><span class="cx-t">إحصاء العشر</span><span class="cx-s">ملخّص تفصيلي لمسيرتك</span></span></a>
+    </nav>
+
+    <div style="height:40px"></div>
+  </main>
+</div>
+
+  <script src="js/calendar.js" defer></script>
+  <script src="js/core/state-manager.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+<script src="command-palette.js" defer></script>
+
+<script>
+(function(){
+  'use strict';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var WK=['fajr','zuhr','asr','maghrib','isha','rawatib','duha','qiyam','morning_dhikr','evening_dhikr','takbeer_100','tawbah'];
+
+  function get(p,d){ try{ var v=window.ZadState&&window.ZadState.get(p); return (v===undefined||v===null)?d:v; }catch(e){ return d; } }
+
+  function reveal(){
+    var els=[].slice.call(document.querySelectorAll('.pd-reveal'));
+    if(reduce||!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in');}); return; }
+    var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} }); },{threshold:.12});
+    els.forEach(function(e){ if(!e.classList.contains('in')) io.observe(e); });
+  }
+
+  function num(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; }
+
+  function fmt(n){ n=+n||0; return n>=1000 ? (n/1000).toFixed(n>=10000?0:1).replace(/\.0$/,'')+'K' : String(n); }
+
+  function render(){
+    /* points + multiplier */
+    var pts=0, mult=1;
+    try{ var cp=window.calcZadPoints&&window.calcZadPoints(); if(cp){ pts=cp.points||0; mult=cp.multiplier||1; } }catch(e){}
+    num('pd-points', fmt(pts));
+    num('pd-streak', get('streak',0));
+    var badges=get('badges',[]); num('pd-badges',(badges&&badges.length)||0);
+    if(mult>1){ var m=document.getElementById('pd-mult'); if(m){ m.style.display='inline-flex'; num('pd-mult-v','×'+mult); } }
+
+    /* today ring */
+    var w=get('worship',{})||{}, done=WK.filter(function(k){return w[k];}).length, pct=Math.round(done/WK.length*100);
+    var c=320.4, fg=document.getElementById('pd-ring-fg'); if(fg) fg.style.strokeDashoffset=(c-c*(pct/100)).toFixed(1);
+    num('pd-today-pct',pct+'%');
+    num('pd-today-title','أكملت '+done+' من '+WK.length+' عبادة');
+    var lead=document.getElementById('pd-today-lead');
+    if(lead) lead.textContent = pct>=100 ? 'ما شاء الله — أتممت ورد اليوم كاملاً 🌟' : (pct>=50 ? 'أحسنت — أنت في منتصف الطريق، أكمل البقية.' : 'سجّل عباداتك من برنامج اليوم لترتفع نسبتك.');
+
+    /* stats */
+    var fasting=get('fasting',{})||{}; num('pd-fasting', Object.keys(fasting).filter(function(k){return fasting[k];}).length);
+    num('pd-takbeer', fmt(get('takbeer',{}).total||0));
+    num('pd-juz', get('mushaf',{}).juz||0);
+    num('pd-charity', (get('charityDone',[])||[]).length);
+
+    /* history bars */
+    var hist=get('history',{})||{};
+    var keys=Object.keys(hist).sort();
+    var bars=document.getElementById('pd-bars'), wrap=document.getElementById('pd-chart-wrap');
+    if(keys.length===0){
+      if(wrap) wrap.innerHTML='<div class="pd-empty">لسه ما فيش سجل كافٍ 🌱<br>سجّل عباداتك يوماً بعد يوم وستظهر رحلتك هنا.</div>';
+    } else {
+      var last=keys.slice(-30), html='';
+      last.forEach(function(k){
+        var p=Math.max(0,Math.min(100, (hist[k]&&hist[k].pct)||0));
+        html+='<div class="bar'+(p===0?' empty':'')+'" style="height:'+Math.max(4,p)+'%" title="'+k+' — '+p+'%"></div>';
+      });
+      if(bars) bars.innerHTML=html;
+    }
+
+    /* insights */
+    var ins=null; try{ ins=window.generateInsights&&window.generateInsights(); }catch(e){}
+    var st=(ins&&ins.strength)||[], im=(ins&&ins.improve)||[];
+    fillList('pd-strength','pd-strength-none',st);
+    fillList('pd-improve','pd-improve-none',im);
+  }
+  function fillList(ulId,noneId,arr){
+    var ul=document.getElementById(ulId), none=document.getElementById(noneId);
+    if(!ul) return;
+    if(!arr||!arr.length){ ul.innerHTML=''; if(none) none.style.display='block'; return; }
+    if(none) none.style.display='none';
+    ul.innerHTML=arr.map(function(t){ return '<li>'+String(t).replace(/</g,'&lt;')+'</li>'; }).join('');
+  }
+
+  function init(){ reveal(); render(); setTimeout(render,700); /* recompute after engine async init */ }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+</body>
+</html>
