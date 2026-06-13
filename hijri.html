@@ -15,11 +15,14 @@
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/premium-ui.css">
 <style>
 .page-title,.section-title,h1,h2,h3,.brand-name{font-family:'ThmanyahSans','Tajawal',sans-serif}
+/* أرقام عربية هندية أصيلة */
+:root{--num-font:'Amiri','Scheherazade New','Noto Naskh Arabic',serif}
+.hindi-num{font-family:var(--num-font);font-feature-settings:"ss01";letter-spacing:.5px}
 
 /* ── Today banner ─────────────────────────────────────────── */
 .today-banner{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:20px;padding:24px;margin-bottom:18px;color:#fff;display:flex;align-items:center;gap:18px;position:relative;overflow:hidden}
@@ -28,7 +31,7 @@
 .tb-hijri{font-size:26px;font-weight:900;font-family:'ThmanyahSans','Tajawal',sans-serif;line-height:1.2}
 .tb-greg{font-size:13px;opacity:.8;margin-top:4px;direction:ltr}
 .tb-special{display:inline-flex;align-items:center;gap:6px;background:rgba(201,161,74,.3);border:1px solid rgba(201,161,74,.5);color:var(--gold2,#e6c97a);padding:6px 14px;border-radius:99px;font-size:13px;font-weight:700;margin-top:10px;font-family:'ThmanyahSans','Tajawal',sans-serif}
-.tb-num{font-size:48px;font-weight:900;font-family:'ThmanyahSans','Tajawal',sans-serif;color:var(--gold2,#e6c97a);flex-shrink:0;line-height:1}
+.tb-num{font-size:52px;font-weight:700;font-family:var(--num-font);font-feature-settings:'ss01';color:var(--gold2,#e6c97a);flex-shrink:0;line-height:1}
 
 /* ── Calendar grid ────────────────────────────────────────── */
 .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
@@ -44,9 +47,11 @@ html[data-theme="dark"] .cal-month-lbl,html[data-theme="oled"] .cal-month-lbl{co
 .cal-wday.friday{color:var(--gold-dark)}
 
 /* Day cells */
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cal-day{background:var(--card);border-radius:10px;padding:6px 4px;min-height:56px;position:relative;cursor:pointer;transition:all .15s;border:1.5px solid transparent;display:flex;flex-direction:column;align-items:center;gap:2px}
-.cal-day:hover{border-color:var(--gold);background:var(--gold-pale)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-day{background:var(--card-2);border-radius:14px;padding:8px 4px;min-height:60px;position:relative;cursor:pointer;transition:transform .18s var(--ease),background .18s,border-color .18s,box-shadow .18s;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.cal-day:hover{border-color:var(--gold);background:var(--gold-pale);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+html[data-theme="dark"] .cal-day,html[data-theme="oled"] .cal-day{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.06)}
+html[data-theme="dark"] .cal-day:hover,html[data-theme="oled"] .cal-day:hover{background:rgba(201,161,74,.1);border-color:rgba(201,161,74,.4)}
 .cal-day.empty{background:transparent;pointer-events:none}
 .cal-day.other-month{opacity:.35}
 .cal-day.today-day{border-color:var(--gold);background:linear-gradient(135deg,var(--green-deep),var(--green-mid));box-shadow:0 0 0 3px var(--gold),0 6px 22px rgba(14,59,46,.5);transform:scale(1.14);z-index:3;position:relative;animation:todayPulse 2.6s ease-in-out infinite}
@@ -59,8 +64,8 @@ html[data-theme="oled"] .cal-day.today-day{background:linear-gradient(135deg,#0e
 .cal-day.eid-day{border-color:#ff3b30;background:rgba(255,59,48,.1)}
 
 /* Hijri mode: hijri number BIG, greg SMALL */
-.cd-primary{font-size:15px;font-weight:700;color:var(--ink);line-height:1}
-.cd-secondary{font-size:10px;color:var(--muted);font-weight:600}
+.cd-primary{font-size:18px;font-weight:700;color:var(--ink);line-height:1;font-family:var(--num-font);font-feature-settings:'ss01'}
+.cd-secondary{font-size:10.5px;color:var(--muted);font-weight:600;font-family:var(--num-font)}
 
 /* Greg mode: flip sizes */
 body[data-caltype="greg"] .cd-primary{font-size:10px;color:var(--muted);font-weight:600}
@@ -295,6 +300,10 @@ const HIJRI_MONTHS_AR = ['محرم','صفر','ربيع الأول','ربيع ا�
 const GREG_MONTHS_AR  = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
 const WEEK_AR = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 
+/* تحويل الأرقام إلى عربية هندية (٠١٢٣٤٥٦٧٨٩) */
+const _AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
+function ai(n){ return String(n).replace(/[0-9]/g, d => _AR_DIGITS[+d]); }
+
 /* Confirmed reference */
 const DH1 = new Date(2026, 4, 18); /* May 18, 2026 = 1 Dhul Hijjah 1447 */
 
@@ -372,9 +381,9 @@ function showBanner(h, now) {
   const grEl  = document.getElementById('tb-greg-full');
   const spEl  = document.getElementById('tb-special-name');
 
-  if (dayEl) dayEl.textContent = h.d;
-  if (hijEl) hijEl.textContent = `${h.d} ${HIJRI_MONTHS_AR[h.m-1]} ${h.y} هـ`;
-  if (grEl)  grEl.textContent  = `${now.getDate()} ${GREG_MONTHS_AR[now.getMonth()]} ${now.getFullYear()} م · ${WEEK_AR[now.getDay()]}`;
+  if (dayEl) dayEl.textContent = ai(h.d);
+  if (hijEl) hijEl.textContent = `${ai(h.d)} ${HIJRI_MONTHS_AR[h.m-1]} ${ai(h.y)} هـ`;
+  if (grEl)  grEl.textContent  = `${ai(now.getDate())} ${GREG_MONTHS_AR[now.getMonth()]} ${ai(now.getFullYear())} م · ${WEEK_AR[now.getDay()]}`;
   if (spEl) {
     if (sp) { spEl.textContent = sp.label; spEl.style.display = 'inline-flex'; }
     else    { spEl.style.display = 'none'; }
@@ -389,7 +398,7 @@ function showBanner(h, now) {
 
 /* ── Hijri calendar month ────────────────────────────────── */
 function renderHijriMonth(hy, hm) {
-  document.getElementById('cal-month-lbl').textContent = `${HIJRI_MONTHS_AR[hm-1]} ${hy} هـ`;
+  document.getElementById('cal-month-lbl').textContent = `${HIJRI_MONTHS_AR[hm-1]} ${ai(hy)} هـ`;
 
   /* Find first day of this Hijri month */
   const firstDay   = hijriToGreg(hy, hm, 1);
@@ -428,8 +437,8 @@ function renderHijriMonth(hy, hm) {
       : '';
 
     html += `<div class="${cls}" onclick="showDayPopup(${hy},${hm},${d})">
-      <div class="cd-primary">${d}</div>
-      <div class="cd-secondary">${greg.getDate()}</div>
+      <div class="cd-primary">${ai(d)}</div>
+      <div class="cd-secondary">${ai(greg.getDate())}</div>
       ${badge}
     </div>`;
 
@@ -442,7 +451,7 @@ function renderHijriMonth(hy, hm) {
 
 /* ── Gregorian calendar month ────────────────────────────── */
 function renderGregMonth(gy, gm) {
-  document.getElementById('cal-month-lbl').textContent = `${GREG_MONTHS_AR[gm-1]} ${gy}`;
+  document.getElementById('cal-month-lbl').textContent = `${GREG_MONTHS_AR[gm-1]} ${ai(gy)}`;
 
   const firstDay = new Date(gy, gm-1, 1);
   const startDow = firstDay.getDay();
@@ -474,8 +483,8 @@ function renderGregMonth(gy, gm) {
     const badge = sp ? `<div class="cd-badge ${sp.cls}">${h.d===9?'عرفة':h.d===10?'عيد':''}</div>` : '';
 
     html += `<div class="${cls}" onclick="showDayPopupGreg(${gy},${gm-1},${d})">
-      <div class="cd-primary">${d}</div>
-      <div class="cd-secondary">${h.d} ${HIJRI_MONTHS_AR[h.m-1].substring(0,3)}</div>
+      <div class="cd-primary">${ai(d)}</div>
+      <div class="cd-secondary">${ai(h.d)} ${HIJRI_MONTHS_AR[h.m-1].substring(0,3)}</div>
       ${badge}
     </div>`;
 
@@ -496,10 +505,10 @@ function renderSpecialEvents(events) {
   el.innerHTML = events.map(ev => {
     const greg = ev.greg;
     return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">
-      <div style="width:40px;height:40px;border-radius:12px;background:var(--gold-pale);border:1.5px solid rgba(201,161,74,.3);display:grid;place-items:center;font-weight:900;color:var(--gold-dark);font-family:'ThmanyahSans','Tajawal',sans-serif;font-size:16px">${ev.d}</div>
+      <div style="width:40px;height:40px;border-radius:12px;background:var(--gold-pale);border:1.5px solid rgba(201,161,74,.3);display:grid;place-items:center;font-weight:900;color:var(--gold-dark);font-family:'ThmanyahSans','Tajawal',sans-serif;font-size:16px" class="hindi-num">${ai(ev.d)}</div>
       <div style="flex:1">
         <div style="font-weight:700;color:var(--ink);font-size:14px">${ev.label}</div>
-        <div style="font-size:11px;color:var(--muted);direction:ltr">${greg.getDate()}/${greg.getMonth()+1}/${greg.getFullYear()}</div>
+        <div style="font-size:11px;color:var(--muted);direction:ltr">${ai(greg.getDate())}/${ai(greg.getMonth()+1)}/${ai(greg.getFullYear())}</div>
       </div>
     </div>`;
   }).join('');
@@ -513,12 +522,12 @@ function showDayPopup(hy, hm, hd) {
   const content = document.getElementById('dp-content');
   content.innerHTML = `
     <div style="text-align:center;margin-bottom:16px">
-      <div style="font-size:48px;font-weight:900;font-family:'ThmanyahSans','Tajawal',sans-serif;color:var(--green-deep)">${hd}</div>
-      <div style="font-size:18px;font-weight:700;color:var(--ink)">${HIJRI_MONTHS_AR[hm-1]} ${hy} هـ</div>
-      <div style="font-size:13px;color:var(--muted);margin-top:4px;direction:ltr">${WEEK_AR[greg.getDay()]} · ${greg.getDate()} ${GREG_MONTHS_AR[greg.getMonth()]} ${greg.getFullYear()}</div>
+      <div style="font-size:48px;font-weight:900;font-family:'ThmanyahSans','Tajawal',sans-serif;color:var(--green-deep)" class="hindi-num">${ai(hd)}</div>
+      <div style="font-size:18px;font-weight:700;color:var(--ink)">${HIJRI_MONTHS_AR[hm-1]} ${ai(hy)} هـ</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px;direction:ltr">${WEEK_AR[greg.getDay()]} · ${ai(greg.getDate())} ${GREG_MONTHS_AR[greg.getMonth()]} ${ai(greg.getFullYear())}</div>
       ${sp ? `<div class="cd-badge special" style="margin-top:8px;padding:5px 16px;font-size:13px">${sp.label}</div>` : ''}
     </div>
-    ${hm===12&&hd>=1&&hd<=9 ? `<a href="barnamaj.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">📿 سجّل عبادات اليوم ${hd} →</a>` : ''}
+    ${hm===12&&hd>=1&&hd<=9 ? `<a href="barnamaj.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">📿 سجّل عبادات اليوم ${ai(hd)} →</a>` : ''}
     ${hd===9&&hm===12 ? `<a href="arafah.html" class="btn btn-gold" style="width:100%;justify-content:center;margin-top:8px">🌄 برنامج يوم عرفة →</a>` : ''}
   `;
   document.getElementById('day-popup').classList.add('show');
