@@ -81,6 +81,10 @@ html[data-theme="dark"] .rk-dua .du-ar,html[data-theme="oled"] .rk-dua .du-ar{co
 .rk-cross .cx-t{display:block;font-size:14.5px;font-weight:800;color:var(--green-deep)}
 html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{color:var(--sys-green)}
 .rk-cross .cx-s{display:block;font-size:12px;color:var(--muted)}
+html{scroll-behavior:smooth}
+.rk-level.is-targeted{animation:lvPulse 2.2s ease-out 1}
+@keyframes lvPulse{0%{box-shadow:0 0 0 0 var(--gold),var(--shadow-sm)}30%{box-shadow:0 0 0 3px var(--gold),0 8px 28px -6px rgba(201,161,74,.5)}100%{box-shadow:var(--shadow-sm)}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rk-level.is-targeted{animation:none;border-color:var(--gold)}}
 </style>
 </head>
 <body>
@@ -126,9 +130,9 @@ html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{
     </section>
 
     <div class="rk-note"><span class="ni">🧭</span><span>القاعدة: تقديم <strong>الفرائض على النوافل</strong>، و<strong>القليل الدائم خير من الكثير المنقطع</strong>. اختر المستوى الذي يناسب وقتك وارتقِ تدريجياً.</span></div>
-    <div class="rk-level"><span class="lv-badge" style="background:#1a5d47">المستوى الأول · المبتدئ</span><p style="font-size:13px;color:var(--muted);margin:0 0 4px;line-height:1.7">التركيز على الأركان والانتظام — لمن يبدأ رحلة الالتزام أو يضيق وقته.</p><ul><li><strong>الصلاة</strong>: أداء الصلوات الخمس المكتوبة في وقتها (الخط الأحمر الذي لا يُفرط فيه).</li><li><strong>القرآن</strong>: صفحة أو صفحتان يومياً بتركيز وتدبر — التدبر مقدم على كثرة الختمات.</li><li><strong>الذكر</strong>: المحافظة على أذكار الصباح والمساء المختصرة، مع كثرة الاستغفار والصلاة على النبي ﷺ.</li><li><strong>مبدأ الأولوية</strong>: «الواجبات مقدمة على النوافل»، فإتقان الفرض هنا هو العبادة الكبرى.</li></ul></div>
-    <div class="rk-level"><span class="lv-badge" style="background:#0e3b2e">المستوى الثاني · المتوسط</span><p style="font-size:13px;color:var(--muted);margin:0 0 4px;line-height:1.7">الموازنة بين الفرائض والسنن دون إرهاق يسبب الفتور.</p><ul><li><strong>الصلاة</strong>: الخمس + السنن الرواتب + التراويح (ولو بثماني ركعات).</li><li><strong>القرآن</strong>: ورد يومي ثابت (جزء مثلاً) مع تفسير ميسر لضمان الفهم.</li><li><strong>الذكر</strong>: أذكار الصباح والمساء كاملة + ورد مئة من التسبيح أو التهليل + الدعاء عند الإفطار والسحر.</li><li><strong>مبدأ الأولوية</strong>: الجمع بين العمل/الدراسة وبين القسط الممكن من النوافل.</li></ul></div>
-    <div class="rk-level"><span class="lv-badge" style="background:#c9a14a">المستوى الثالث · المتقدم</span><p style="font-size:13px;color:var(--muted);margin:0 0 4px;line-height:1.7">الاستغراق في الطاعة والتنويع — للمعتكف أو من ينظم وقته بدقة.</p><ul><li><strong>الصلاة</strong>: الفرائض والرواتب + الضحى + قيام ليل طويل (تهجد) خاصة في العشر الأواخر.</li><li><strong>القرآن</strong>: مدارسة القرآن (قراءة ختمة وتدبر أخرى) مع المراجعة أو الحفظ.</li><li><strong>الذكر</strong>: لسان رطب بذكر الله طوال اليوم + وقت لـ«التفكر» في ملكوت الله ونعمه.</li><li><strong>مبدأ الأولوية</strong>: استثمار الأوقات الشريفة (السحر وما بعد الفجر) وتوزيع العبادات بين متعدية النفع وقاصرته.</li></ul></div>
+    <div class="rk-level" id="level-beginner" data-level="beginner"><span class="lv-badge" style="background:#1a5d47">المستوى الأول · المبتدئ</span><p style="font-size:13px;color:var(--muted);margin:0 0 4px;line-height:1.7">التركيز على الأركان والانتظام — لمن يبدأ رحلة الالتزام أو يضيق وقته.</p><ul><li><strong>الصلاة</strong>: أداء الصلوات الخمس المكتوبة في وقتها (الخط الأحمر الذي لا يُفرط فيه).</li><li><strong>القرآن</strong>: صفحة أو صفحتان يومياً بتركيز وتدبر — التدبر مقدم على كثرة الختمات.</li><li><strong>الذكر</strong>: المحافظة على أذكار الصباح والمساء المختصرة، مع كثرة الاستغفار والصلاة على النبي ﷺ.</li><li><strong>مبدأ الأولوية</strong>: «الواجبات مقدمة على النوافل»، فإتقان الفرض هنا هو العبادة الكبرى.</li></ul></div>
+    <div class="rk-level" id="level-intermediate" data-level="intermediate"><span class="lv-badge" style="background:#0e3b2e">المستوى الثاني · المتوسط</span><p style="font-size:13px;color:var(--muted);margin:0 0 4px;line-height:1.7">الموازنة بين الفرائض والسنن دون إرهاق يسبب الفتور.</p><ul><li><strong>الصلاة</strong>: الخمس + السنن الرواتب + التراويح (ولو بثماني ركعات).</li><li><strong>القرآن</strong>: ورد يومي ثابت (جزء مثلاً) مع تفسير ميسر لضمان الفهم.</li><li><strong>الذكر</strong>: أذكار الصباح والمساء كاملة + ورد مئة من التسبيح أو التهليل + الدعاء عند الإفطار والسحر.</li><li><strong>مبدأ الأولوية</strong>: الجمع بين العمل/الدراسة وبين القسط الممكن من النوافل.</li></ul></div>
+    <div class="rk-level" id="level-advanced" data-level="advanced"><span class="lv-badge" style="background:#c9a14a">المستوى الثالث · المتقدم</span><p style="font-size:13px;color:var(--muted);margin:0 0 4px;line-height:1.7">الاستغراق في الطاعة والتنويع — للمعتكف أو من ينظم وقته بدقة.</p><ul><li><strong>الصلاة</strong>: الفرائض والرواتب + الضحى + قيام ليل طويل (تهجد) خاصة في العشر الأواخر.</li><li><strong>القرآن</strong>: مدارسة القرآن (قراءة ختمة وتدبر أخرى) مع المراجعة أو الحفظ.</li><li><strong>الذكر</strong>: لسان رطب بذكر الله طوال اليوم + وقت لـ«التفكر» في ملكوت الله ونعمه.</li><li><strong>مبدأ الأولوية</strong>: استثمار الأوقات الشريفة (السحر وما بعد الفجر) وتوزيع العبادات بين متعدية النفع وقاصرته.</li></ul></div>
     
     <h2 class="rk-sec-title">✅ توجيهات لجميع المستويات</h2>
     <ul class="rk-level"><div style="display:none"></div><li><strong>النية الذكية</strong>: حوّل العادات اليومية (الأكل والنوم وخدمة الأهل) إلى عبادات باستحضار نية التقوي على طاعة الله.</li><li><strong>المرونة</strong>: لازم ما تجد فيه قلبك خشوعاً وزيادة إيمان من النوافل (قراءةً كان أو ذكراً).</li><li><strong>ترتيب الوقت</strong>: ابدأ بالنشاط العبادي بعد الفجر مباشرة لبركة البكور، وأجّل فضول الكلام واللقاءات غير الضرورية.</li></ul>
@@ -146,6 +150,25 @@ html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{
     <div style="height:40px"></div>
   </main>
 </div>
+<script>
+(function(){
+  try{
+    var allowed={beginner:1,intermediate:1,advanced:1};
+    var lvl=new URLSearchParams(location.search).get('level');
+    if(!lvl||!allowed[lvl]) return;
+    var el=document.getElementById('level-'+lvl);
+    if(!el) return;
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    requestAnimationFrame(function(){
+      el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});
+      el.classList.add('is-targeted');
+      el.setAttribute('tabindex','-1');
+      try{el.focus({preventScroll:true});}catch(_){}
+      setTimeout(function(){el.classList.remove('is-targeted');},2400);
+    });
+  }catch(e){}
+})();
+</script>
   <script src="js/app.js" defer></script>
   <script src="js/pwa-install-fab.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
