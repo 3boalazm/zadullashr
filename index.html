@@ -68,13 +68,43 @@
   @keyframes acUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
   @media(prefers-reduced-motion:reduce){.ac-star{display:none}.ac-crescent,.ac-eyebrow,.ac-title,.ac-verse,.ac-verse-src,.ac-content{animation:none!important;opacity:1!important}}
 
-  
-  50%{height:20px}}
-  50%{height:4px}}
   @keyframes qpSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-  50%{opacity:.3}}
-  #qp-btn:hover{background:rgba(255,255,255,.22)!important;transform:scale(1.08)}
-  #qp-wrap:hover{transform:translateY(-2px);transition:transform .25s}
+
+  /* ════ INDEX VISUAL POLISH (inspired board: emerald-night + gold glow) ════ */
+  /* أرقام عربية مستقرة */
+  .sc-val,#np-time,#np-countdown,.pp-time,#hijri-full,#miladi-full,#ring-pct{font-feature-settings:"tnum";font-variant-numeric:tabular-nums}
+
+  /* Hijri bar: deeper, glowing edge */
+  .hijri-bar{position:relative;overflow:hidden;border-radius:18px;transition:transform .2s var(--ease),box-shadow .2s}
+  .hijri-bar:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .hijri-bar::after{content:"";position:absolute;top:-30px;left:-20px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.16),transparent 70%);pointer-events:none}
+
+  /* Stat cards: glow on hover + gold number, like the reference tiles */
+  .stats-grid-2x2 .stat-card{position:relative;overflow:hidden;transition:transform .2s var(--ease),border-color .2s,box-shadow .2s}
+  .stats-grid-2x2 .stat-card:hover{transform:translateY(-3px);border-color:rgba(201,161,74,.45);box-shadow:var(--shadow-gold)}
+  .stats-grid-2x2 .stat-card .sc-val{font-family:'ThmanyahSans','Tajawal',sans-serif;color:var(--gold-dark);transition:color .2s}
+  html[data-theme="dark"] .stats-grid-2x2 .stat-card .sc-val,html[data-theme="oled"] .stats-grid-2x2 .stat-card .sc-val{color:var(--gold)}
+  .stats-grid-2x2 .stat-card::after{content:"";position:absolute;inset:auto -24px -30px auto;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.12),transparent 70%);opacity:0;transition:opacity .25s;pointer-events:none}
+  .stats-grid-2x2 .stat-card:hover::after{opacity:1}
+
+  /* Mini badges: softer cards + glow on earned */
+  #mini-badges-container>a{transition:transform .2s var(--ease),box-shadow .2s}
+  #mini-badges-container>a:hover{transform:translateY(-3px);box-shadow:var(--shadow-sm)}
+
+  /* Quick action cards: lift + gold edge */
+  .grid.cols-3 .quick-card{transition:transform .2s var(--ease),border-color .2s,box-shadow .2s}
+  .grid.cols-3 .quick-card:hover{transform:translateY(-3px);border-color:rgba(201,161,74,.4);box-shadow:var(--shadow-sm)}
+
+  /* Daily verse card: glass depth in dark */
+  html[data-theme="dark"] #daily-verse-card,html[data-theme="oled"] #daily-verse-card{box-shadow:0 8px 30px -10px rgba(0,0,0,.6),inset 0 0 0 1px rgba(201,161,74,.12)}
+
+  /* Section titles: subtle gold tick */
+  .section-title{position:relative}
+
+  /* Gentle reveal */
+  .idx-reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+  .idx-reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.idx-reveal{opacity:1;transform:none;transition:none}}
 </style>
 <script>(function(){var saved=localStorage.getItem('zad_font_size');var map={small:0.875,medium:1,large:1.15};if(!saved||saved==='system'){var scale=1;try{var p=document.createElement('div');p.style.cssText='position:absolute;visibility:hidden;font-size:1rem;width:1rem;height:1rem';(document.head||document.documentElement).appendChild(p);var rem=parseFloat(getComputedStyle(p).width)||16;(document.head||document.documentElement).removeChild(p);scale=rem<=14?0.875:rem>=18?1.15:1;}catch(e){}document.documentElement.style.setProperty('--font-scale',scale);}else{document.documentElement.style.setProperty('--font-scale',map[saved]||1);}})();</script>
 <meta property="og:type" content="website">
@@ -674,6 +704,17 @@ document.addEventListener('DOMContentLoaded',()=>{
 function getUserLocation() {
   window.location.href = 'prayers.html';
 }
+</script>
+<script>
+(function(){
+  try{
+    if(!('IntersectionObserver' in window))return;
+    var sel='.section-title, .stats-grid-2x2, #mini-badges-container, .grid.cols-3, #daily-verse-card';
+    var els=document.querySelectorAll(sel);
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('idx-reveal','in');io.unobserve(x.target);}})},{threshold:.08});
+    els.forEach(function(e){e.classList.add('idx-reveal');io.observe(e);});
+  }catch(e){}
+})();
 </script>
 </body>
 </html>
