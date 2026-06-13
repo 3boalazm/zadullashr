@@ -78,6 +78,7 @@
 
     { sep: 'المتابعة', id: 'sec-track' },
     { href: 'progress.html',     icon: '📊', label: 'لوحة التقدّم',     section: 'sec-track' },
+    { href: 'challenges.html',   icon: '🔥', label: 'التحدّيات',         section: 'sec-track' },
     { href: 'hasad-month.html',  icon: '🗓️', label: 'حصاد الشهر',       section: 'sec-track' },
     { href: 'summary.html',      icon: '📈', label: 'إحصاء العشر',     section: 'sec-track' },
     { href: 'badges.html',       icon: '🏅', label: 'أوسمتي',           section: 'sec-track' },

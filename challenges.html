@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+<title>التحدّيات — زاد</title>
+<meta name="description" content="تحدّيات زاد: التزم بتحدٍّ يومي (ختمة، أذكار، قيام، صدقة) وتابع تقدّمك يوماً بيوم حتى تُكمله.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/premium-ui.css">
+<style>
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+@font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
+html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
+h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
+
+.ch-reveal{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+.ch-reveal.in{opacity:1;transform:none}
+
+/* hero */
+.ch-hero{position:relative;overflow:hidden;border-radius:24px;margin-bottom:18px;padding:26px 24px;color:#fff;
+  background:radial-gradient(120% 120% at 12% 0%,#155343 0%,#0e3b2e 45%,#08241c 100%);box-shadow:0 22px 54px -20px rgba(8,36,28,.6)}
+.ch-hero::after{content:"🔥";position:absolute;top:16px;left:22px;font-size:52px;opacity:.14}
+.ch-hero .eyebrow{font-size:11px;letter-spacing:3px;color:#f0d79a;font-weight:700;margin-bottom:6px}
+.ch-hero h1{font-size:24px;font-weight:900;margin:0 0 6px;font-family:'ThmanyahSans',sans-serif}
+.ch-hero p{font-size:13px;color:rgba(255,255,255,.82);line-height:1.8;margin:0 0 14px;max-width:480px}
+.ch-hero .row{display:flex;gap:10px}
+.ch-hero .mini{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px;text-align:center;backdrop-filter:blur(6px)}
+.ch-hero .mini b{display:block;font-size:24px;font-weight:900;font-family:'ThmanyahSans',sans-serif}
+.ch-hero .mini span{font-size:11px;color:rgba(255,255,255,.78)}
+
+.ch-sec-title{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .ch-sec-title,html[data-theme="oled"] .ch-sec-title{color:var(--sys-green)}
+.ch-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px}
+
+/* challenge card */
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.ch-card{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:transform .22s cubic-bezier(.16,1,.3,1),border-color .22s,box-shadow .22s}
+.ch-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--green-soft)}
+.ch-card.done{border-color:var(--gold)}
+.ch-card .top{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.ch-card .ico{font-size:30px;line-height:1}
+.ch-card .ttl{font-size:15.5px;font-weight:800;color:var(--green-deep);margin:0}
+html[data-theme="dark"] .ch-card .ttl,html[data-theme="oled"] .ch-card .ttl{color:var(--sys-green)}
+.ch-card .desc{font-size:12.5px;color:var(--muted);line-height:1.7;margin:0 0 12px}
+.ch-card .bar{height:9px;border-radius:999px;background:var(--sand-2);overflow:hidden;margin-bottom:8px}
+.ch-card .bar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--green-soft),var(--gold));transition:width .9s cubic-bezier(.16,1,.3,1)}
+.ch-card .meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:12px}
+.ch-card .meta b{color:var(--green-deep)}
+html[data-theme="dark"] .ch-card .meta b,html[data-theme="oled"] .ch-card .meta b{color:var(--sys-green)}
+.ch-btn{width:100%;appearance:none;border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:13.5px;padding:12px;border-radius:13px;transition:transform .18s,opacity .18s}
+.ch-btn:hover{transform:translateY(-2px)}
+.ch-btn.start{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff}
+.ch-btn.mark{background:linear-gradient(135deg,#e6c97a,#c9a14a);color:#23190a}
+.ch-btn.markedToday{background:var(--sand);color:var(--muted);cursor:default}
+.ch-btn.markedToday:hover{transform:none}
+.ch-btn.done{background:linear-gradient(135deg,var(--gold),#e6c97a);color:#23190a;cursor:default}
+.ch-leave{display:block;width:100%;text-align:center;background:none;border:none;color:var(--muted);font-family:inherit;font-size:11.5px;margin-top:8px;cursor:pointer;text-decoration:underline}
+.ch-badge{position:absolute;top:12px;left:-2px;background:linear-gradient(135deg,var(--gold),#e6c97a);color:#23190a;font-size:10px;font-weight:800;padding:3px 12px 3px 14px;border-radius:0 999px 999px 0}
+.ch-auto{font-size:10.5px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:5px}
+
+.ch-empty{text-align:center;color:var(--muted);font-size:13px;line-height:2;padding:18px 10px;background:var(--card);border:1.5px dashed var(--border);border-radius:18px}
+
+@keyframes chPop{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
+.ch-card.justdone{animation:chPop .6s ease}
+@media (prefers-reduced-motion:reduce){.ch-reveal{transition:none;opacity:1;transform:none}.ch-card .bar i{transition:none}.ch-card.justdone{animation:none}}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px">
+      <div class="brand-mark"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد" style="width:36px;height:36px;border-radius:10px"></div>
+      <div><div class="brand-name">زاد</div><div class="brand-sub">أفضل أيام الدنيا</div></div>
+    </a>
+    <div id="profile-chip" style="display:none;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink)"></div>
+    <div class="theme-seg" id="theme-seg">
+      <button type="button" class="theme-opt" data-theme="light" onclick="applyTheme&&applyTheme('light')">☀️ فاتح</button>
+      <button type="button" class="theme-opt" data-theme="dark" onclick="applyTheme&&applyTheme('dark')">🌙 داكن</button>
+      <button type="button" class="theme-opt" data-theme="oled" onclick="applyTheme&&applyTheme('oled')">⚫ OLED</button>
+    </div>
+    <button class="sidebar-install-btn" id="sidebar-install-btn" onclick="installPWA?.()">📲 تثبيت / تحميل التطبيق</button>
+    <nav class="nav" aria-label="القائمة الرئيسية">
+      <a href="index.html"><span class="ico">🏠</span><span>لوحة التحكم</span></a>
+    </nav>
+    <div class="side-foot">زاد 2026 · بدون إعلانات 📴</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="hamburger" id="hamburger" aria-label="القائمة">☰</button>
+        <a href="index.html" class="tb-logo"><img fetchpriority="high" src="icons/icon-192.svg" alt="زاد"></a>
+      </div>
+      <div class="tb-center"><div class="page-title">التحدّيات <span>اليومية</span></div></div>
+      <div class="tb-right">
+        <div class="notif-wrap">
+          <button class="notif-btn" id="notif-btn" onclick="toggleNotifDropdown?.()" aria-label="الإشعارات">🔔<span class="notif-dot" id="notif-dot"></span></button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ch-hero ch-reveal in">
+      <div class="eyebrow">التزام يومي</div>
+      <h1>تحدّياتك</h1>
+      <p>اختر تحدّياً، والتزم به يوماً بعد يوم. بعض التحدّيات تُحتسب تلقائياً عند تسجيل عبادتها في برنامج اليوم.</p>
+      <div class="row">
+        <div class="mini"><b id="ch-active-n">0</b><span>نشِط</span></div>
+        <div class="mini"><b id="ch-done-n">0</b><span>مكتمل 🏆</span></div>
+        <div class="mini"><b id="ch-days-n">0</b><span>أيام التزام</span></div>
+      </div>
+    </section>
+
+    <h2 class="ch-sec-title ch-reveal">🔥 تحدّياتك النشطة</h2>
+    <div id="ch-active" class="ch-grid ch-reveal"></div>
+    <div id="ch-active-empty" class="ch-empty ch-reveal" style="display:none">لا توجد تحدّيات نشطة بعد 🌱<br>ابدأ تحدّياً من الأسفل وستظهر هنا.</div>
+
+    <h2 class="ch-sec-title ch-reveal">✨ ابدأ تحدّياً جديداً</h2>
+    <div id="ch-available" class="ch-grid ch-reveal"></div>
+
+    <h2 class="ch-sec-title ch-reveal" id="ch-done-title" style="display:none">🏆 تحدّيات أكملتها</h2>
+    <div id="ch-done" class="ch-grid ch-reveal"></div>
+
+    <div style="height:40px"></div>
+  </main>
+</div>
+
+  <script src="js/calendar.js" defer></script>
+  <script src="js/core/state-manager.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script src="js/pwa-install-fab.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="animations.js" defer></script>
+<script src="menu.js" defer></script>
+<script src="command-palette.js" defer></script>
+
+<script>
+(function(){
+  'use strict';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* catalog — target = number of days; link = worship key for auto-credit (optional) */
+  var CATALOG=[
+    {id:'ashr10',   ico:'✨', title:'تحدّي العشر',          desc:'عبادة يومية لمدة عشرة أيام مباركة.',           target:10, link:null},
+    {id:'morning7', ico:'🌅', title:'أذكار الصباح · أسبوع', desc:'حافظ على أذكار الصباح سبعة أيام.',             target:7,  link:'morning_dhikr'},
+    {id:'evening7', ico:'🌇', title:'أذكار المساء · أسبوع', desc:'حافظ على أذكار المساء سبعة أيام.',             target:7,  link:'evening_dhikr'},
+    {id:'qiyam7',   ico:'🌙', title:'قيام سبع ليالٍ',       desc:'قم الليل سبع ليالٍ — يعدل قيام ليلة القدر.',   target:7,  link:'qiyam'},
+    {id:'takbeer7', ico:'📿', title:'لسان ذاكر · أسبوع',    desc:'وردك من التكبير والتسبيح يومياً لأسبوع.',      target:7,  link:'takbeer_100'},
+    {id:'sadaqah7', ico:'💚', title:'صدقة سبعة أيام',       desc:'لا يمر يوم دون صدقة ولو يسيرة.',               target:7,  link:null},
+    {id:'khatma30', ico:'📖', title:'ختمة في ثلاثين يوماً', desc:'جزء كل يوم حتى تختم القرآن.',                  target:30, link:null},
+    {id:'last10',   ico:'🌌', title:'تحدّي العشر الأواخر',  desc:'اجتهد في آخر عشر ليالٍ — تحرَّ ليلة القدر.',   target:10, link:'qiyam'}
+  ];
+  function meta(id){ for(var i=0;i<CATALOG.length;i++) if(CATALOG[i].id===id) return CATALOG[i]; return null; }
+  function today(){ return new Date().toISOString().split('T')[0]; }
+
+  /* ── persistence via ZadState (single-owner). fallback: namespaced key, never zad_v2 ── */
+  function getCh(){
+    try{ var c=window.ZadState&&window.ZadState.get('challenges'); if(c&&typeof c==='object') return c; }catch(e){}
+    try{ return JSON.parse(localStorage.getItem('zad_challenges')||'{}'); }catch(e){ return {}; }
+  }
+  function saveCh(obj){
+    try{ if(window.ZadState&&window.ZadState.transaction){ window.ZadState.transaction(function(s){ s.challenges=obj; }); return; } }catch(e){}
+    try{ localStorage.setItem('zad_challenges',JSON.stringify(obj)); }catch(e){}
+  }
+  function worship(){ try{ return (window.ZadState&&window.ZadState.get('worship'))||{}; }catch(e){ return {}; } }
+
+  /* ── actions ── */
+  function join(id){ var c=getCh(); if(c[id]&&c[id].status) return; c[id]={status:'active',startedAt:today(),log:{}}; saveCh(c); render(true); }
+  function leave(id){ var c=getCh(); if(c[id]){ delete c[id]; saveCh(c); render(); } }
+  function markToday(id){
+    var c=getCh(), rec=c[id]; if(!rec||rec.status==='done') return;
+    rec.log=rec.log||{}; rec.log[today()]=true;
+    var m=meta(id); if(m && Object.keys(rec.log).length>=m.target){ rec.status='done'; rec.doneAt=today();
+      try{ window.ZadState&&window.ZadState.addNotification&&window.ZadState.addNotification('🏆 أكملت تحدّي «'+m.title+'» — تقبّل الله','success'); }catch(e){}
+    }
+    saveCh(c); render(true, id);
+  }
+  /* auto-credit: if a challenge is linked to a worship key done today, mark today automatically */
+  function autoCredit(){
+    var c=getCh(), w=worship(), t=today(), changed=false;
+    Object.keys(c).forEach(function(id){
+      var rec=c[id], m=meta(id);
+      if(rec&&rec.status==='active'&&m&&m.link&&w[m.link]&&!(rec.log&&rec.log[t])){
+        rec.log=rec.log||{}; rec.log[t]=true;
+        if(Object.keys(rec.log).length>=m.target){ rec.status='done'; rec.doneAt=t; }
+        changed=true;
+      }
+    });
+    if(changed) saveCh(c);
+  }
+
+  function ring(days,target){ var pct=Math.min(100,Math.round(days/target*100)); return pct; }
+
+  function cardActive(id,rec){
+    var m=meta(id), days=Object.keys(rec.log||{}).length, pct=ring(days,m.target), didToday=!!(rec.log&&rec.log[today()]);
+    var auto = m.link ? '<div class="ch-auto">⚡ يُحتسب تلقائياً عند تسجيل العبادة في برنامج اليوم</div>' : '';
+    var btn = didToday
+      ? '<button class="ch-btn markedToday" disabled>✓ سُجِّل اليوم</button>'
+      : '<button class="ch-btn mark" data-mark="'+id+'">سجّل تقدّم اليوم</button>';
+    return '<div class="ch-card" data-card="'+id+'"><div class="top"><span class="ico">'+m.ico+'</span><h3 class="ttl">'+m.title+'</h3></div>'+
+      '<p class="desc">'+m.desc+'</p>'+
+      '<div class="bar"><i style="width:'+pct+'%"></i></div>'+
+      '<div class="meta"><span><b>'+days+'</b> / '+m.target+' يوم</span><span>'+pct+'%</span></div>'+
+      btn+auto+
+      '<button class="ch-leave" data-leave="'+id+'">إلغاء التحدّي</button></div>';
+  }
+  function cardDone(id,rec){
+    var m=meta(id);
+    return '<div class="ch-card done" data-card="'+id+'"><span class="ch-badge">مكتمل ✓</span>'+
+      '<div class="top"><span class="ico">'+m.ico+'</span><h3 class="ttl">'+m.title+'</h3></div>'+
+      '<p class="desc">🎉 أتممت هذا التحدّي — '+m.target+' يوماً. تقبّل الله منك.</p>'+
+      '<button class="ch-btn done" disabled>🏆 مُكتمل</button>'+
+      '<button class="ch-leave" data-leave="'+id+'">إزالة</button></div>';
+  }
+  function cardAvailable(m){
+    return '<div class="ch-card"><div class="top"><span class="ico">'+m.ico+'</span><h3 class="ttl">'+m.title+'</h3></div>'+
+      '<p class="desc">'+m.desc+'</p>'+
+      '<div class="meta"><span>المدّة: <b>'+m.target+'</b> يوم</span></div>'+
+      '<button class="ch-btn start" data-start="'+m.id+'">ابدأ التحدّي</button></div>';
+  }
+
+  function reveal(){
+    var els=[].slice.call(document.querySelectorAll('.ch-reveal'));
+    if(reduce||!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in');}); return; }
+    var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} }); },{threshold:.1});
+    els.forEach(function(e){ if(!e.classList.contains('in')) io.observe(e); });
+  }
+
+  function render(animateDone, justDoneId){
+    var c=getCh();
+    var activeIds=[], doneIds=[], totalDays=0;
+    Object.keys(c).forEach(function(id){ if(!meta(id)) return; var r=c[id]; totalDays+=Object.keys(r.log||{}).length;
+      if(r.status==='done') doneIds.push(id); else activeIds.push(id); });
+
+    var aEl=document.getElementById('ch-active'), aEmpty=document.getElementById('ch-active-empty');
+    aEl.innerHTML=activeIds.map(function(id){ return cardActive(id,c[id]); }).join('');
+    aEmpty.style.display=activeIds.length?'none':'block';
+
+    var vEl=document.getElementById('ch-available');
+    vEl.innerHTML=CATALOG.filter(function(m){ return !c[m.id]; }).map(cardAvailable).join('') || '<div class="ch-empty">بدأت كل التحدّيات المتاحة — ما شاء الله! 🌟</div>';
+
+    var dEl=document.getElementById('ch-done'), dTitle=document.getElementById('ch-done-title');
+    dEl.innerHTML=doneIds.map(function(id){ return cardDone(id,c[id]); }).join('');
+    dTitle.style.display=doneIds.length?'flex':'none';
+
+    document.getElementById('ch-active-n').textContent=activeIds.length;
+    document.getElementById('ch-done-n').textContent=doneIds.length;
+    document.getElementById('ch-days-n').textContent=totalDays;
+
+    if(animateDone&&justDoneId){ var card=document.querySelector('[data-card="'+justDoneId+'"]'); if(card){ card.classList.add('justdone'); } }
+    bind(); reveal();
+  }
+
+  function bind(){
+    [].slice.call(document.querySelectorAll('[data-start]')).forEach(function(b){ b.onclick=function(){ join(b.getAttribute('data-start')); }; });
+    [].slice.call(document.querySelectorAll('[data-mark]')).forEach(function(b){ b.onclick=function(){ markToday(b.getAttribute('data-mark')); }; });
+    [].slice.call(document.querySelectorAll('[data-leave]')).forEach(function(b){ b.onclick=function(){ if(confirm('متأكد من إزالة هذا التحدّي؟')) leave(b.getAttribute('data-leave')); }; });
+  }
+
+  function init(){ autoCredit(); render(); setTimeout(function(){ autoCredit(); render(); }, 700); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+</body>
+</html>
