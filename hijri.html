@@ -25,21 +25,20 @@
 .hindi-num{font-family:var(--num-font);font-feature-settings:"ss01";letter-spacing:.5px}
 
 /* ── Today banner ─────────────────────────────────────────── */
-.today-banner{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:20px;padding:24px;margin-bottom:18px;color:#fff;display:flex;align-items:center;gap:18px;position:relative;overflow:hidden}
-.today-banner::after{content:'📅';position:absolute;left:16px;bottom:8px;font-size:60px;opacity:.1}
-.tb-date{flex:1}
-.tb-hijri{font-size:26px;font-weight:900;font-family:'ThmanyahSans','Tajawal',sans-serif;line-height:1.2}
-.tb-greg{font-size:13px;opacity:.8;margin-top:4px;direction:ltr}
-.tb-special{display:inline-flex;align-items:center;gap:6px;background:rgba(201,161,74,.3);border:1px solid rgba(201,161,74,.5);color:var(--gold2,#e6c97a);padding:6px 14px;border-radius:99px;font-size:13px;font-weight:700;margin-top:10px;font-family:'ThmanyahSans','Tajawal',sans-serif}
-.tb-num{font-size:52px;font-weight:700;font-family:var(--num-font);font-feature-settings:'ss01';color:var(--gold2,#e6c97a);flex-shrink:0;line-height:1}
-/* تبديل التأكيد بين الهجري والميلادي عند قلب التقويم */
-.tb-hijri,.tb-greg{transition:font-size .25s var(--ease),opacity .25s}
-body[data-caltype="greg"] #tb-hijri-full{font-size:15px;opacity:.7;font-weight:700}
-body[data-caltype="greg"] #tb-greg-full{font-size:22px;font-weight:900;opacity:1;color:#fff;margin-top:5px}
-body[data-caltype="greg"] #tb-day-num{font-size:40px;opacity:.85}
+.today-banner{background:linear-gradient(135deg,var(--green-deep),var(--green-mid));border-radius:20px;padding:22px 20px;margin-bottom:18px;color:#fff;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden}
+.today-banner::after{content:'';position:absolute;left:-30px;bottom:-30px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.18),transparent 70%);pointer-events:none}
+.tb-date{flex:1;text-align:center;min-width:0}
+.tb-hijri{font-size:19px;font-weight:900;font-family:'ThmanyahSans','Tajawal',sans-serif;line-height:1.3}
+.tb-greg{font-size:13px;opacity:.82;margin-top:4px;direction:rtl}
+.tb-special{display:inline-flex;align-items:center;gap:6px;background:rgba(201,161,74,.3);border:1px solid rgba(201,161,74,.5);color:var(--gold2,#e6c97a);padding:5px 13px;border-radius:99px;font-size:12px;font-weight:700;margin-top:9px;font-family:'ThmanyahSans','Tajawal',sans-serif}
+/* رقمان ذهبيان كبيران يحيطان بالتاريخ: الهجري يمين، الميلادي شمال */
+.tb-num{font-size:46px;font-weight:700;font-family:var(--num-font);font-feature-settings:'ss01';color:var(--gold2,#e6c97a);flex-shrink:0;line-height:1;position:relative;text-align:center}
+.tb-num .tb-num-lbl{display:block;font-family:'ThmanyahSans','Tajawal',sans-serif;font-size:9px;font-weight:700;opacity:.65;letter-spacing:1px;margin-top:3px;color:rgba(255,255,255,.7)}
 
 /* ── Calendar grid ────────────────────────────────────────── */
-.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cal-header{display:flex;align-items:center;margin-bottom:14px}
+.cal-header .cal-nav{display:flex;align-items:center;justify-content:space-between;width:100%;gap:10px}
+.cal-header .cal-month-lbl{flex:1;text-align:center}
 .cal-nav{display:flex;align-items:center;gap:10px}
 .cal-nav-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);font-size:16px;cursor:pointer;display:grid;place-items:center;transition:all .2s;color:var(--ink)}
 .cal-nav-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
@@ -94,6 +93,10 @@ body[data-caltype="greg"] .cal-day.today-day .cd-primary{color:rgba(255,255,255,
 .cd-badge.arafah{background:#ff9500;color:#fff}
 .cd-badge.eid{background:#ff3b30;color:#fff}
 .cd-badge.special{background:var(--gold);color:#3a2a08}
+.cd-badge.national{background:var(--sys-blue);color:#fff}
+.cd-badge.social{background:var(--sys-teal);color:#08384a}
+.cal-day.national-day{border-color:var(--sys-blue);background:rgba(0,122,255,.1)}
+.cal-day.social-day{border-color:var(--sys-teal);background:rgba(90,200,250,.12)}
 .friday-col .cd-greg{color:var(--gold-dark)}
 
 /* Month/year switch */
@@ -217,12 +220,13 @@ html[data-theme="dark"] .type-tab.active,html[data-theme="oled"] .type-tab.activ
 
     <!-- Today banner -->
     <div class="today-banner">
-      <div class="tb-num" id="tb-day-num">—</div>
+      <div class="tb-num" id="tb-day-num">—<span class="tb-num-lbl">هجري</span></div>
       <div class="tb-date">
         <div class="tb-hijri" id="tb-hijri-full">جارٍ التحميل...</div>
         <div class="tb-greg" id="tb-greg-full"></div>
         <div class="tb-special" id="tb-special-name" style="display:none"></div>
       </div>
+      <div class="tb-num" id="tb-greg-num">—<span class="tb-num-lbl">ميلادي</span></div>
     </div>
 
     <!-- Calendar type toggle -->
@@ -234,11 +238,10 @@ html[data-theme="dark"] .type-tab.active,html[data-theme="oled"] .type-tab.activ
     <!-- Month navigation -->
     <div class="cal-header">
       <div class="cal-nav">
-        <button class="cal-nav-btn" onclick="prevMonth()">›</button>
+        <button class="cal-nav-btn" onclick="prevMonth()" aria-label="الشهر السابق">›</button>
         <div class="cal-month-lbl" id="cal-month-lbl">—</div>
-        <button class="cal-nav-btn" onclick="nextMonth()">‹</button>
+        <button class="cal-nav-btn" onclick="nextMonth()" aria-label="الشهر التالي">‹</button>
       </div>
-      <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px" onclick="goToToday()">اليوم</button>
     </div>
 
     <!-- Week days header -->
@@ -253,13 +256,8 @@ html[data-theme="dark"] .type-tab.active,html[data-theme="oled"] .type-tab.activ
     </div>
     <div class="cal-grid" id="cal-grid"></div>
 
-    <!-- Legend -->
-    <div class="cal-legend">
-      <div class="leg-item"><div class="leg-dot" style="background:var(--green-soft)"></div>اليوم</div>
-      <div class="leg-item"><div class="leg-dot" style="background:rgba(201,161,74,.6)"></div>أيام العشر</div>
-      <div class="leg-item"><div class="leg-dot" style="background:#ff9500"></div>يوم عرفة</div>
-      <div class="leg-item"><div class="leg-dot" style="background:#ff3b30"></div>العيد</div>
-    </div>
+    <!-- Legend (dynamic per calendar type) -->
+    <div class="cal-legend" id="cal-legend"></div>
 
     <!-- Special events list -->
     <div class="section-title" style="margin-top:20px">📅 المناسبات</div>
@@ -395,6 +393,20 @@ function recurringForDate(greg, h){
   return out;
 }
 
+/* مناسبات السنة الميلادية (مصر) — مفتاح (شهر-يوم) ميلادي. النصوص من مصدر المستخدم. */
+const GREG_EVENTS = {
+  '1-1':   { label:'رأس السنة الميلادية 🎆', cls:'social', brief:'مطلع عام ميلادي جديد يشرق بالبشائر، محطة متجددة للتفاؤل والتخطيط والانطلاق نحو أهداف وطموحات جديدة.' },
+  '1-7':   { label:'عيد الميلاد المجيد ✝️', cls:'social', brief:'تهنئة ومشاركة للشركاء في الوطن بمناسبة ميلاد السيد المسيح عليه السلام؛ يوم يجسّد أسمى معاني التلاحم والمحبة والسلام.' },
+  '1-25':  { label:'عيد الشرطة وذكرى ٢٥ يناير 🇪🇬', cls:'national', brief:'تحية لرجال الشرطة البواسل في عيدهم السنوي، وتخليداً لذكرى الحراك الشعبي من أجل الحرية والكرامة والمستقبل.' },
+  '4-13':  { label:'شم النسيم 🌸', cls:'social', brief:'عيد الربيع المصري الأصيل الممتد من عمق التاريخ؛ مظهرٌ للبهجة والتجمع العائلي وتفتح الحياة والطبيعة. (يتغيّر تاريخه سنوياً تبعاً لعيد القيامة)' },
+  '4-25':  { label:'عيد تحرير سيناء 🕊️', cls:'national', brief:'ذكرى استعادة أرض سيناء الغالية كاملة إلى أحضان الوطن، وتجسيداً لبطولات وإرادة القوات المسلحة والتضحيات الكبرى.' },
+  '5-1':   { label:'عيد العمال 🛠️', cls:'national', brief:'يوم التقدير والتكريم لساعد الإنتاج وعماد التنمية؛ احتفاءً بجهود وعرق العمال الذين يبنون صروح المستقبل.' },
+  '6-30':  { label:'ذكرى ثورة ٣٠ يونيو 🇪🇬', cls:'national', brief:'تخليد للإرادة الشعبية التي استعادت هوية الوطن، ورسمت مساراً جديداً للأمن والاستقرار والبناء الشامل.' },
+  '7-23':  { label:'عيد ثورة ٢٣ يوليو 🇪🇬', cls:'national', brief:'ذكرى الثورة المجيدة التي غيّرت وجه التاريخ وأسست للجمهورية، محققةً السيادة الوطنية والاستقلال.' },
+  '10-6':  { label:'انتصار أكتوبر المجيد 🎖️', cls:'national', brief:'اليوم الخالد لأعظم انتصارات العسكرية المصرية في العصر الحديث؛ حين استُردت العزة والكرامة والأرض المحتلة.' },
+};
+function getGregKey(gm, gd){ return `${gm}-${gd}`; }
+
 function getSpecialKey(hy, hm, hd) {
   return `${hm}-${hd}`;
 }
@@ -424,13 +436,16 @@ function showBanner(h, now) {
   const sp  = HIJRI_EVENTS[key];
 
   const dayEl = document.getElementById('tb-day-num');
+  const gregNumEl = document.getElementById('tb-greg-num');
   const hijEl = document.getElementById('tb-hijri-full');
   const grEl  = document.getElementById('tb-greg-full');
   const spEl  = document.getElementById('tb-special-name');
 
-  if (dayEl) dayEl.textContent = ai(h.d);
-  if (hijEl) hijEl.textContent = `${ai(h.d)} ${HIJRI_MONTHS_AR[h.m-1]} ${ai(h.y)} هـ`;
-  if (grEl)  grEl.textContent  = `${ai(now.getDate())} ${GREG_MONTHS_AR[now.getMonth()]} ${ai(now.getFullYear())} م · ${WEEK_AR[now.getDay()]}`;
+  /* رقمان كبيران: الهجري يمين، الميلادي شمال (بدون تكرار الرقم في سطر التاريخ) */
+  if (dayEl) dayEl.innerHTML = `${ai(h.d)}<span class="tb-num-lbl">هجري</span>`;
+  if (gregNumEl) gregNumEl.innerHTML = `${ai(now.getDate())}<span class="tb-num-lbl">ميلادي</span>`;
+  if (hijEl) hijEl.textContent = `${HIJRI_MONTHS_AR[h.m-1]} ${ai(h.y)} هـ`;
+  if (grEl)  grEl.textContent  = `${WEEK_AR[now.getDay()]} · ${GREG_MONTHS_AR[now.getMonth()]} ${ai(now.getFullYear())} م`;
   if (spEl) {
     if (sp) { spEl.textContent = sp.label; spEl.style.display = 'inline-flex'; }
     else    { spEl.style.display = 'none'; }
@@ -514,20 +529,18 @@ function renderGregMonth(gy, gm) {
   for (let d = 1; d <= daysInMonth; d++) {
     const greg   = new Date(gy, gm-1, d);
     const h      = gregToHijri(greg);
-    const key    = getSpecialKey(h.y, h.m, h.d);
-    const sp     = HIJRI_EVENTS[key];
+    const sp     = GREG_EVENTS[getGregKey(gm, d)];   /* مناسبات ميلادية في العرض الميلادي */
     const isToday = greg.toDateString() === today.toDateString();
     const isFri  = greg.getDay() === 5;
 
     let cls = 'cal-day';
     if (isToday) cls += ' today-day';
-    if (sp?.cls === 'arafah') cls += ' arafah-day';
-    else if (sp?.cls === 'eid') cls += ' eid-day';
+    if (sp?.cls === 'national') cls += ' national-day';
+    else if (sp?.cls === 'social') cls += ' social-day';
     else if (sp) cls += ' special-day';
     if (isFri) cls += ' friday-col';
 
-    const hijriLabel = `${h.d} ${HIJRI_MONTHS_AR[h.m-1].substring(0,3)}`;
-    const badge = sp ? `<div class="cd-badge ${sp.cls}">${h.d===9?'عرفة':h.d===10?'عيد':''}</div>` : '';
+    const badge = sp ? `<div class="cd-badge ${sp.cls}">${sp.cls==='national'?'وطني':'مناسبة'}</div>` : '';
 
     html += `<div class="${cls}" onclick="showDayPopupGreg(${gy},${gm-1},${d})">
       <div class="cd-primary">${ai(d)}</div>
@@ -573,9 +586,9 @@ function renderSpecialEvents(events) {
     html += `<div style="font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.5px;margin:4px 2px 10px">📌 مناسبات هذا الشهر</div>`;
     html += events.map(ev => {
       const greg = ev.greg;
-      const accent = ev.cls === 'arafah' ? '#ff9500' : ev.cls === 'eid' ? '#ff3b30' : 'var(--gold-dark)';
-      const accentBg = ev.cls === 'arafah' ? 'rgba(255,149,0,.12)' : ev.cls === 'eid' ? 'rgba(255,59,48,.12)' : 'var(--gold-pale)';
-      const accentBd = ev.cls === 'arafah' ? 'rgba(255,149,0,.35)' : ev.cls === 'eid' ? 'rgba(255,59,48,.35)' : 'rgba(201,161,74,.3)';
+      const accent = ev.cls === 'arafah' ? '#ff9500' : ev.cls === 'eid' ? '#ff3b30' : ev.cls === 'national' ? 'var(--sys-blue)' : ev.cls === 'social' ? 'var(--sys-teal)' : 'var(--gold-dark)';
+      const accentBg = ev.cls === 'arafah' ? 'rgba(255,149,0,.12)' : ev.cls === 'eid' ? 'rgba(255,59,48,.12)' : ev.cls === 'national' ? 'rgba(0,122,255,.12)' : ev.cls === 'social' ? 'rgba(90,200,250,.14)' : 'var(--gold-pale)';
+      const accentBd = ev.cls === 'arafah' ? 'rgba(255,149,0,.35)' : ev.cls === 'eid' ? 'rgba(255,59,48,.35)' : ev.cls === 'national' ? 'rgba(0,122,255,.35)' : ev.cls === 'social' ? 'rgba(90,200,250,.4)' : 'rgba(201,161,74,.3)';
       return `<div style="display:flex;gap:11px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start">
         <div style="width:42px;height:42px;flex-shrink:0;border-radius:12px;background:${accentBg};border:1.5px solid ${accentBd};display:grid;place-items:center;font-weight:900;color:${accent};font-family:'ThmanyahSans','Tajawal',sans-serif;font-size:17px" class="hindi-num">${ai(ev.d)}</div>
         <div style="flex:1;min-width:0">
@@ -624,9 +637,18 @@ function closeDayPopup(e) {
 }
 
 /* ── Navigation ──────────────────────────────────────────── */
+function renderLegend(){
+  const el = document.getElementById('cal-legend');
+  if (!el) return;
+  const items = (calType === 'hijri')
+    ? [['var(--green-soft)','اليوم'],['rgba(201,161,74,.6)','أيام العشر'],['#ff9500','يوم عرفة'],['#ff3b30','العيد']]
+    : [['var(--green-soft)','اليوم'],['var(--sys-blue)','مناسبة وطنية'],['var(--sys-teal)','عيد / مناسبة']];
+  el.innerHTML = items.map(([c,t]) => `<div class="leg-item"><div class="leg-dot" style="background:${c}"></div>${t}</div>`).join('');
+}
 function render() {
   if (calType === 'hijri') renderHijriMonth(curHijriY, curHijriM);
   else                      renderGregMonth(curGregY,  curGregM);
+  renderLegend();
 }
 function prevMonth() {
   if (calType === 'hijri') { curHijriM--; if(curHijriM<1){curHijriM=12;curHijriY--;} }
