@@ -403,12 +403,9 @@
     const activeSecId = activeSectionId();
     const openSecs  = getOpenSections();
 
-    /* تأكد إن القسم النشط مفتوح دايماً */
-    if (activeSecId && !openSecs.includes(activeSecId)) {
-      openSecs.push(activeSecId);
-      /* القسم بتاع index مفتوح دايماً */
-      setOpenSections(openSecs);
-    }
+    /* أكورديون: قسم واحد مفتوح فقط (القسم النشط، وإلا آخر قسم محفوظ) */
+    const openSec = activeSecId || openSecs[0] || null;
+    setOpenSections(openSec ? [openSec] : []);
 
     /* بناء الـ HTML */
     let html = '';
@@ -420,7 +417,7 @@
         /* أغلق الجروب السابق */
         if (currentGroupId) html += '</div>';
         currentGroupId = item.id;
-        const isOpen = openSecs.includes(item.id) || item.id === activeSecId;
+        const isOpen = item.id === openSec;
         html += `<div class="nav-sep ${isOpen ? '' : 'collapsed'}" data-sec="${item.id}" onclick="window._zadToggleSec('${item.id}')">
           <span class="sep-arrow">▾</span>${item.sep}
         </div>
@@ -448,6 +445,13 @@
       grp.classList.add('collapsed');
       grp.style.maxHeight = '0';
     } else {
+      /* أكورديون: اقفل كل الأقسام الأخرى المفتوحة أولاً */
+      document.querySelectorAll('.nav-sep:not(.collapsed)').forEach(el => {
+        if (el === sep) return;
+        el.classList.add('collapsed');
+        const g = document.getElementById('grp-' + el.getAttribute('data-sec'));
+        if (g) { g.classList.add('collapsed'); g.style.maxHeight = '0'; }
+      });
       sep.classList.remove('collapsed');
       grp.classList.remove('collapsed');
       grp.style.maxHeight = '1000px';
