@@ -19,87 +19,123 @@
 @font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
 html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
 h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
-.rk-hero{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 55%,#c9a14a 160%);border-radius:22px;padding:30px 26px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
-.rk-hero::after{content:attr(data-emoji);position:absolute;top:14px;left:22px;font-size:58px;opacity:.13;line-height:1}
-.rk-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:3px;font-weight:700;margin-bottom:8px}
-.rk-title{font-size:26px;font-weight:900;line-height:1.25;margin-bottom:8px;font-family:'ThmanyahSans',sans-serif}
-.rk-sub{font-size:13.5px;color:rgba(255,255,255,.86);line-height:1.85;max-width:620px}
-.rk-sec-title{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
-html[data-theme="dark"] .rk-sec-title,html[data-theme="oled"] .rk-sec-title{color:var(--sys-green)}
-.rk-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
-.rk-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow-sm);margin-bottom:14px}
-.rk-card p{font-size:14px;line-height:1.95;color:var(--ink);margin:0 0 6px}
-.rk-card p:last-child{margin-bottom:0}
-.rk-card strong{color:var(--green-deep);font-weight:800}
-html[data-theme="dark"] .rk-card strong,html[data-theme="oled"] .rk-card strong{color:var(--sys-green)}
-.rk-h3{font-size:15px;font-weight:800;color:var(--green-deep);margin:0 0 6px;display:flex;align-items:center;gap:8px}
-html[data-theme="dark"] .rk-h3,html[data-theme="oled"] .rk-h3{color:var(--sys-green)}
-.rk-ayah{background:var(--green-pale);border-right:4px solid var(--green-soft);border-radius:12px;padding:14px 16px;margin:10px 0;font-family:'Amiri',serif;font-size:18px;line-height:2;color:var(--green-deep);text-align:center}
-html[data-theme="dark"] .rk-ayah,html[data-theme="oled"] .rk-ayah{color:var(--sys-green);background:rgba(42,122,95,.12)}
-.rk-ayah .src{display:block;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:11.5px;color:var(--muted);margin-top:6px;font-weight:600}
-.rk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:14px}
-.rk-link-card{display:flex;gap:13px;align-items:flex-start;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,border-color .18s}
-.rk-link-card:hover{transform:translateY(-2px);border-color:var(--green-soft)}
-.rk-link-card .lc-ico{font-size:26px;flex-shrink:0;line-height:1.2}
-.rk-link-card .lc-t{display:block;font-size:15px;font-weight:800;color:var(--green-deep);margin-bottom:3px}
-html[data-theme="dark"] .rk-link-card .lc-t,html[data-theme="oled"] .rk-link-card .lc-t{color:var(--sys-green)}
-.rk-link-card .lc-s{display:block;font-size:12px;line-height:1.6;color:var(--muted)}
-.rk-num{counter-reset:rk;list-style:none;padding:0;margin:0}
-.rk-num>li{counter-increment:rk;position:relative;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px 14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
-.rk-num>li::before{content:counter(rk);position:absolute;left:14px;top:14px;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#0e3b2e,#1a5d47);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;font-family:'ThmanyahSans',sans-serif}
-.rk-num>li .rk-q{font-size:14.5px;font-weight:800;color:var(--green-deep);margin:0 44px 6px 0;line-height:1.7}
-html[data-theme="dark"] .rk-num>li .rk-q,html[data-theme="oled"] .rk-num>li .rk-q{color:var(--sys-green)}
-.rk-num>li .rk-a{font-size:13.5px;line-height:1.9;color:var(--ink);margin:0 44px 0 0}
-.rk-num>li .rk-a strong{color:var(--gold-dark);font-weight:800}
-.rk-day{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm);position:relative}
-.rk-day .d-no{display:inline-block;background:linear-gradient(135deg,var(--gold),#e6c97a);color:#3a2e10;font-weight:800;font-size:12px;padding:3px 12px;border-radius:999px;margin-bottom:8px}
-.rk-day p{font-size:13.8px;line-height:1.95;color:var(--ink);margin:0}
-.rk-day strong{color:var(--green-deep);font-weight:800}
-html[data-theme="dark"] .rk-day strong,html[data-theme="oled"] .rk-day strong{color:var(--sys-green)}
-.rk-today{background:linear-gradient(135deg,#0e3b2e,#1a5d47);color:#fff;border-radius:18px;padding:20px 22px;margin-bottom:18px;box-shadow:var(--shadow)}
-.rk-today .t-lbl{font-size:11px;letter-spacing:2px;color:#e6c97a;font-weight:700;margin-bottom:8px}
-.rk-today .t-body{font-size:15px;line-height:1.95}
-.rk-today .t-body strong{color:#ffe9b8}
-.rk-note{display:flex;gap:10px;background:var(--sand);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.8;color:var(--ink);margin:12px 0}
-.rk-note .ni{font-size:18px;flex-shrink:0}
-.rk-level{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
-.rk-level .lv-badge{display:inline-block;font-size:12px;font-weight:800;padding:4px 14px;border-radius:999px;color:#fff;margin-bottom:10px}
-.rk-level ul{list-style:none;padding:0;margin:8px 0 0}
-.rk-level li{font-size:13.5px;line-height:1.85;color:var(--ink);padding:7px 22px 7px 0;position:relative;border-bottom:1px solid var(--border)}
-.rk-level li:last-child{border-bottom:none}
-.rk-level li::before{content:"✦";position:absolute;right:2px;top:7px;color:var(--gold);font-size:12px}
-.rk-level li strong{color:var(--green-deep)}
-html[data-theme="dark"] .rk-level li strong,html[data-theme="oled"] .rk-level li strong{color:var(--sys-green)}
-.rk-dua{background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1.5px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
-.rk-dua .du-ar{font-family:'Amiri',serif;font-size:19px;line-height:2.05;color:var(--green-deep);text-align:center}
-html[data-theme="dark"] .rk-dua .du-ar,html[data-theme="oled"] .rk-dua .du-ar{color:var(--sys-green)}
-.rk-dua .du-t{font-size:12px;color:var(--gold-dark);font-weight:800;text-align:center;margin-bottom:6px}
-.rk-cross{display:grid;gap:10px;margin-top:8px}
-.rk-cross a{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,border-color .18s}
-.rk-cross a:hover{transform:translateY(-2px);border-color:var(--green-soft)}
-.rk-cross .cx-ico{font-size:24px}
-.rk-cross .cx-t{display:block;font-size:14.5px;font-weight:800;color:var(--green-deep)}
-html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{color:var(--sys-green)}
-.rk-cross .cx-s{display:block;font-size:12px;color:var(--muted)}
 html{scroll-behavior:smooth}
-.rk-num>li+li{margin-top:14px}
-.rk-li-actions{display:flex;gap:8px;margin:10px 44px 0 0;flex-wrap:wrap}
-.rk-mini-btn{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1.5px solid var(--border);color:var(--muted);font-family:inherit;font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:999px;cursor:pointer;transition:border-color .18s,color .18s}
-.rk-mini-btn:hover{border-color:var(--green-soft);color:var(--green-deep)}
-html[data-theme="dark"] .rk-mini-btn:hover,html[data-theme="oled"] .rk-mini-btn:hover{color:var(--sys-green)}
-.rk-cta{background:linear-gradient(135deg,#0e3b2e,#1a5d47);border-radius:20px;padding:24px 22px;margin:24px 0 8px;color:#fff;text-align:center;box-shadow:var(--shadow)}
-.rk-cta h3{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif;font-size:18px;font-weight:900;margin:0 0 6px}
-.rk-cta p{font-size:13px;color:rgba(255,255,255,.82);line-height:1.7;margin:0 0 16px}
-.rk-cta .cta-levels{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.rk-cta .cta-lv{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);color:#fff;font-family:inherit;font-size:12.5px;font-weight:800;padding:9px 18px;border-radius:999px;text-decoration:none;transition:background .18s}
-.rk-cta .cta-lv:hover{background:rgba(255,255,255,.26)}
-.rk-cta .cta-lv.primary{background:var(--gold);color:#3a2e10;border-color:var(--gold)}
-.rk-num>li{padding:18px 18px 16px}
-.rk-num>li .rk-essence{font-size:13px;color:var(--muted);line-height:1.75;margin:0 44px 10px 0;font-weight:500}
-.rk-proof{background:var(--green-pale);border-right:4px solid var(--green-soft);border-radius:12px;padding:12px 15px;margin:10px 0 0;font-family:'Amiri',serif;font-size:16.5px;line-height:1.95;color:var(--green-deep);text-align:center}
-html[data-theme="dark"] .rk-proof,html[data-theme="oled"] .rk-proof{color:var(--sys-green);background:rgba(42,122,95,.12)}
-.rk-proof .pf-src{display:block;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:11px;color:var(--muted);margin-top:6px;font-weight:700;letter-spacing:.3px}
-.rk-proof .pf-takhrij{display:block;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:10.5px;color:var(--muted);margin-top:3px;font-weight:600;opacity:.85}
+
+/* ===== HERO: emerald-night with gold glow ===== */
+.af-hero{position:relative;overflow:hidden;border-radius:24px;padding:34px 26px 30px;margin-bottom:22px;color:#fff;
+  background:radial-gradient(130% 90% at 80% -10%,#1a5d47 0%,#0e3b2e 45%,#072017 100%)}
+html[data-theme="dark"] .af-hero,html[data-theme="oled"] .af-hero{background:radial-gradient(130% 90% at 80% -10%,#163832 0%,#0b2b26 45%,#051f20 100%);border:1px solid rgba(201,161,74,.18)}
+.af-hero::before{content:"";position:absolute;top:-60px;left:-40px;width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,161,74,.22),transparent 68%);pointer-events:none}
+.af-hero::after{content:"🏆";position:absolute;top:18px;left:24px;font-size:62px;opacity:.12;line-height:1}
+.af-eyebrow{font-size:11px;letter-spacing:4px;color:#e6c97a;font-weight:700;margin-bottom:9px;position:relative}
+.af-title{font-size:27px;font-weight:900;line-height:1.25;margin-bottom:9px;position:relative;font-family:'ThmanyahSans',sans-serif}
+.af-sub{font-size:13.5px;color:rgba(220,234,216,.82);line-height:1.8;max-width:560px;position:relative}
+.af-hero-meta{display:flex;gap:18px;margin-top:18px;position:relative;flex-wrap:wrap}
+.af-hero-meta .hm{display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,.78)}
+.af-hero-meta .hm b{color:#e6c97a;font-weight:800;font-size:15px}
+
+/* ===== Section title ===== */
+.af-sec{display:flex;align-items:center;gap:10px;margin:26px 2px 16px;font-size:16px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .af-sec,html[data-theme="oled"] .af-sec{color:var(--sys-green)}
+.af-sec::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px}
+
+/* ===== THE LADDER (vertical glowing timeline) ===== */
+.af-ladder{position:relative;padding-right:40px;margin-top:6px}
+.af-ladder::before{content:"";position:absolute;right:18px;top:10px;bottom:46px;width:2.5px;border-radius:3px;
+  background:linear-gradient(180deg,var(--gold-soft),var(--gold) 22%,rgba(42,122,95,.55) 90%);
+  box-shadow:0 0 14px rgba(201,161,74,.45)}
+html[data-theme="dark"] .af-ladder::before,html[data-theme="oled"] .af-ladder::before{box-shadow:0 0 16px rgba(230,201,122,.4)}
+
+.af-step{position:relative;margin-bottom:18px}
+.af-node{position:absolute;right:-31px;top:18px;width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;z-index:3;
+  font-family:'ThmanyahSans',sans-serif;border:3px solid var(--bg);
+  background:var(--green-mid);color:#fff;transition:transform .25s var(--ease)}
+html[data-theme="dark"] .af-node,html[data-theme="oled"] .af-node{background:#235347;color:#bcd9c9}
+
+/* glass card */
+.af-card{position:relative;border-radius:18px;padding:17px 18px;overflow:hidden;
+  background:var(--card);border:1.5px solid var(--border);box-shadow:var(--shadow-sm);
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s var(--ease)}
+html[data-theme="dark"] .af-card,html[data-theme="oled"] .af-card{
+  background:linear-gradient(145deg,rgba(35,83,71,.32),rgba(22,40,25,.5));
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-color:rgba(141,182,155,.16)}
+.af-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+
+.af-card .c-head{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.af-card .c-ico{font-size:21px;line-height:1.2;flex-shrink:0}
+.af-card .c-title{font-size:15.5px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .af-card .c-title,html[data-theme="oled"] .af-card .c-title{color:#f3f0e6}
+.af-card .c-essence{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:11px}
+html[data-theme="dark"] .af-card .c-essence,html[data-theme="oled"] .af-card .c-essence{color:#9fcaba}
+
+.af-card .c-points{list-style:none;padding:0;margin:0 0 4px}
+.af-card .c-points li{position:relative;padding:6px 18px 6px 0;font-size:13px;line-height:1.8;color:var(--ink)}
+.af-card .c-points li::before{content:"✦";position:absolute;right:0;top:6px;color:var(--gold);font-size:11px}
+.af-card .c-points li strong{color:var(--green-deep);font-weight:800}
+html[data-theme="dark"] .af-card .c-points li strong,html[data-theme="oled"] .af-card .c-points li strong{color:var(--sys-green)}
+
+/* HERO STEP (الفرائض) — gold-lit */
+.af-step.is-hero .af-node{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#3a2e10;
+  box-shadow:0 0 18px rgba(201,161,74,.65)}
+.af-step.is-hero .af-card{border-color:rgba(201,161,74,.5);box-shadow:var(--shadow-gold)}
+html[data-theme="dark"] .af-step.is-hero .af-card,html[data-theme="oled"] .af-step.is-hero .af-card{
+  background:linear-gradient(145deg,rgba(201,161,74,.14),rgba(22,56,50,.6));border-color:rgba(201,161,74,.5);
+  box-shadow:0 0 30px -8px rgba(230,201,122,.4)}
+.af-step.is-hero .c-title{color:var(--gold-dark)}
+html[data-theme="dark"] .af-step.is-hero .c-title,html[data-theme="oled"] .af-step.is-hero .c-title{color:#ffe9b8}
+
+/* proof block (glass + inner green glow) */
+.af-proof{position:relative;overflow:hidden;border-radius:13px;padding:13px 15px;margin-top:11px;text-align:center;
+  background:var(--green-pale);border:1px solid rgba(42,122,95,.2)}
+html[data-theme="dark"] .af-proof,html[data-theme="oled"] .af-proof{background:rgba(8,40,32,.5);
+  backdrop-filter:blur(6px);border-color:rgba(141,182,155,.22)}
+.af-proof::after{content:"";position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);
+  width:130px;height:54px;border-radius:50%;background:radial-gradient(circle,rgba(42,122,95,.22),transparent 70%);pointer-events:none}
+html[data-theme="dark"] .af-proof::after,html[data-theme="oled"] .af-proof::after{background:radial-gradient(circle,rgba(125,224,148,.2),transparent 70%)}
+.af-proof .pf-txt{font-family:'Amiri',serif;font-size:16px;line-height:1.85;color:var(--green-deep);position:relative}
+html[data-theme="dark"] .af-proof .pf-txt,html[data-theme="oled"] .af-proof .pf-txt{color:#9fe6b4}
+.af-proof .pf-src{display:block;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:10.5px;color:var(--muted);margin-top:6px;font-weight:700;position:relative}
+
+/* card actions (copy) */
+.af-card .c-foot{display:flex;justify-content:flex-end;margin-top:11px}
+.af-copy{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1.5px solid var(--border);
+  color:var(--muted);font-family:inherit;font-size:11px;font-weight:700;padding:5px 12px;border-radius:999px;cursor:pointer;transition:border-color .18s,color .18s}
+.af-copy:hover{border-color:var(--green-soft);color:var(--green-deep)}
+html[data-theme="dark"] .af-copy:hover,html[data-theme="oled"] .af-copy:hover{color:var(--sys-green)}
+
+/* ===== Final CTA ===== */
+.af-cta{position:relative;overflow:hidden;border-radius:22px;padding:28px 22px;margin:26px 0 10px;text-align:center;color:#fff;
+  background:radial-gradient(130% 100% at 50% 0%,#1a5d47,#0e3b2e 60%,#072017)}
+html[data-theme="dark"] .af-cta,html[data-theme="oled"] .af-cta{background:radial-gradient(130% 100% at 50% 0%,#163832,#0b2b26 60%,#051f20);border:1px solid rgba(201,161,74,.2)}
+.af-cta::before{content:"";position:absolute;top:-50px;right:-30px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,74,.2),transparent 68%);pointer-events:none}
+.af-cta h3{font-family:'ThmanyahSans',sans-serif;font-size:19px;font-weight:900;margin:0 0 7px;position:relative}
+.af-cta p{font-size:12.5px;color:rgba(220,234,216,.8);line-height:1.7;margin:0 0 18px;position:relative}
+.af-cta-lv{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;position:relative}
+.af-cta-lv a{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.26);color:#fff;font-family:inherit;
+  font-size:12.5px;font-weight:800;padding:10px 18px;border-radius:999px;text-decoration:none;transition:background .18s,transform .18s}
+.af-cta-lv a:hover{background:rgba(255,255,255,.24);transform:translateY(-2px)}
+.af-cta-lv a.primary{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#3a2e10;border-color:var(--gold);box-shadow:0 0 18px rgba(201,161,74,.5)}
+
+/* cross-links */
+.af-cross{display:grid;gap:10px;margin-top:8px}
+.af-cross a{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,border-color .18s}
+html[data-theme="dark"] .af-cross a,html[data-theme="oled"] .af-cross a{background:linear-gradient(145deg,rgba(35,83,71,.25),rgba(22,40,25,.4));backdrop-filter:blur(8px);border-color:rgba(141,182,155,.14)}
+.af-cross a:hover{transform:translateY(-2px);border-color:var(--green-soft)}
+.af-cross .cx-ico{font-size:24px}
+.af-cross .cx-t{display:block;font-size:14.5px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .af-cross .cx-t,html[data-theme="oled"] .af-cross .cx-t{color:var(--sys-green)}
+.af-cross .cx-s{display:block;font-size:12px;color:var(--muted)}
+
+/* reveal-on-scroll */
+.af-reveal{opacity:0;transform:translateY(22px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
+.af-reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.af-reveal{opacity:1;transform:none;transition:none}}
+/* graceful fallback if no backdrop-filter */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  html[data-theme="dark"] .af-card,html[data-theme="oled"] .af-card{background:var(--card-2)}
+}
 </style>
 </head>
 <body>
@@ -138,35 +174,39 @@ html[data-theme="dark"] .rk-proof,html[data-theme="oled"] .rk-proof{color:var(--
       </div>
     </div>
 
-    <section class="rk-hero" data-emoji="🏆">
-      <div class="rk-eyebrow">فقه الأولويات</div>
-      <h1 class="rk-title">أفضل الأعمال في رمضان</h1>
-      <p class="rk-sub">ما الذي تبدأ به؟ ترتيبٌ عملي للعبادات في رمضان على قاعدة تقديم الفرائض على النوافل.</p>
+    <section class="af-hero">
+      <div class="af-eyebrow">فقه الأولويات</div>
+      <h1 class="af-title">أفضل الأعمال في رمضان</h1>
+      <p class="af-sub">رحلةٌ صاعدة من الفرض إلى الإحسان. اعرف أين تبدأ، وما الذي يأتي بعده — على قاعدة تقديم الفرائض على النوافل.</p>
+      <div class="af-hero-meta">
+        <div class="hm"><b>٧</b><span>مراتب على الترتيب</span></div>
+        <div class="hm"><b>📌</b><span>الأهمّ فالمهمّ</span></div>
+      </div>
     </section>
 
-    <div class="rk-note"><span class="ni">📌</span><span>أفضل الأعمال تبدأ بضبط <strong>الفرائض</strong>، ثم الانتقال للقرآن والقيام، مع تحويل العادات اليومية إلى عبادات بالنية الصالحة.</span></div>
-    <h2 class="rk-sec-title">🏆 الترتيب على فقه الأولويات</h2>
-    <ol class="rk-num">
-    
-    <li><div class="rk-q">🕌 أداء الفرائض والواجبات (الأولوية القصوى)</div><p class="rk-essence">الأساس الذي لا يُمَسّ — صلاةٌ في وقتها وصيامٌ خالص.</p><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li><strong>المحافظة على الصلوات الخمس في وقتها</strong>: هي الركن الذي لا يُمَس، وأجر صلاة الفرض الواحدة في وقتها (كالفجر) أعظم عند الله من قيام الليل كله؛ لقوله في الحديث القدسي: «وما تقرب إليّ عبدي بشيء أحب إليّ مما افترضته عليه».</li><li><strong>صيام نهار رمضان</strong>: الركن الأساسي الذي لا يكتمل الإيمان بدونه، وهو «جُنة» (حصن) للمؤمن من النار.</li></ul><div class="rk-proof">«وما تقرّب إليّ عبدي بشيءٍ أحبّ إليّ مما افترضتُه عليه»<span class="pf-src">حديث قدسي</span><span class="pf-takhrij">رواه البخاري (٦٥٠٢)</span></div><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy">📋 نسخ</button></div></li>
-    <li><div class="rk-q">📖 قراءة القرآن ومدارسته</div><p class="rk-essence">رمضان شهر القرآن — والتدبّر مقدَّمٌ على الكثرة.</p><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li>رمضان هو شهر القرآن، والارتباط بينهما وثيق جداً.</li><li>يُستحب الإكثار من تلاوته بسماع وفهم وتدبر، حيث كان جبريل عليه السلام يدارس النبي ﷺ القرآن في كل ليلة من رمضان.</li><li><strong>التدبر مقدم على الكثرة</strong>: قراءة صفحة واحدة بتدبر خير من ختمات كثيرة بلا فهم.</li></ul><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy">📋 نسخ</button></div></li>
-    <li><div class="rk-q">🌙 القيام (التراويح والتهجد)</div><p class="rk-essence">قيامُ ليلةٍ قد يوافق ليلة القدر، خيرٌ من ألف شهر.</p><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li>لقوله ﷺ: «من قام رمضان إيماناً واحتساباً غفر له ما تقدم من ذنبه».</li><li>يُشرع الاجتهاد خاصة في العشر الأواخر طلباً لليلة القدر التي العبادة فيها خير من ألف شهر.</li></ul><div class="rk-proof">«من قام رمضان إيماناً واحتساباً غُفر له ما تقدّم من ذنبه»<span class="pf-src">متفق عليه</span><span class="pf-takhrij">البخاري (٣٧) ومسلم (٧٥٩)</span></div><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy">📋 نسخ</button></div></li>
-    <li><div class="rk-q">🤲 الدعاء والذكر</div><p class="rk-essence">للصائم عند فطره دعوةٌ لا تُرَدّ — فلا تُفرّط فيها.</p><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li>رمضان شهر الدعاء، وللصائم عند فطره دعوة لا ترد.</li><li>الإكثار من «جوامع الكلم» مثل: «اللهم إنك عفو تحب العفو فاعف عني».</li><li>الحرص على أن يظل اللسان رطباً بذكر الله والتسبيح والاستغفار طوال اليوم.</li></ul><div class="rk-proof">«اللهم إنك عفوٌّ تحبّ العفو فاعفُ عني»<span class="pf-src">من دعاء ليلة القدر</span><span class="pf-takhrij">الترمذي (٣٥١٣) وابن ماجه (٣٨٥٠)</span></div><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy">📋 نسخ</button></div></li>
-    <li><div class="rk-q">💚 الصدقة وإطعام الطعام (الأعمال المتعدية)</div><p class="rk-essence">العمل المتعدّي الذي ينفع غيرك أعظم أجرًا من القاصر على نفسك.</p><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li><strong>الجود والسخاء</strong>: كان النبي ﷺ أجود ما يكون في رمضان.</li><li><strong>تفطير الصائمين</strong>: له أجر عظيم، ويشمل مساعدة الأهل في إعداد الإفطار.</li><li>العمل المتعدي الذي ينفع الآخرين أجره أعظم من العمل القاصر على النفس.</li></ul><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy">📋 نسخ</button></div></li>
-    <li><div class="rk-q">💧 التوبة وتزكية النفس</div><p class="rk-essence">رمضان فرصةٌ ذهبية لتجديد العهد مع الله وردّ المظالم.</p><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li><strong>التوبة النصوح</strong>: شعار المتقين، ورمضان فرصة ذهبية لتجديد العهد مع الله ورد المظالم.</li><li><strong>تهذيب الأخلاق</strong>: الصيام الحقيقي هو صوم الجوارح عن المعاصي، وقول الصائم لمن سابّه: «إني صائم».</li></ul><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy">📋 نسخ</button></div></li>
-    <li><div class="rk-q">🕋 الاعتكاف</div><p class="rk-essence">انقطاعٌ تامّ للعبادة، وخلوةُ القلب مع خالقه في العشر الأواخر.</p><ul class="rk-level" style="border:none;box-shadow:none;padding:6px 0 0;margin:0"><li>سنة نبوية مؤكدة، خاصة في العشر الأواخر، بهدف الانقطاع التام للعبادة وخلوة القلب مع الخالق.</li></ul><div class="rk-li-actions"><button type="button" class="rk-mini-btn rk-copy">📋 نسخ</button></div></li>
-    </ol>
-    <div class="rk-cta">
+    <h2 class="af-sec">🏆 سُلّم الأولويات</h2>
+    <div class="af-ladder">
+    <div class="af-step is-hero af-reveal"><div class="af-node">١</div><div class="af-card"><div class="c-head"><span class="c-ico">🕌</span><span class="c-title">أداء الفرائض والواجبات</span></div><div class="c-essence">الأساس الذي لا يُمَسّ — صلاةٌ في وقتها وصيامٌ خالص.</div><ul class="c-points"><li><strong>المحافظة على الصلوات الخمس في وقتها</strong>: الركن الذي لا يُمَس، وتقديم الفريضة على النافلة أصل شرعي متفق عليه.</li><li><strong>صيام نهار رمضان</strong>: الركن الأساسي الذي لا يكتمل الإيمان بدونه، وهو «جُنة» للمؤمن من النار.</li></ul><div class="af-proof"><div class="pf-txt">«وما تقرّب إليّ عبدي بشيءٍ أحبّ إليّ مما افترضتُه عليه»</div><span class="pf-src">حديث قدسي · رواه البخاري (٦٥٠٢)</span></div><div class="c-foot"><button type="button" class="af-copy">📋 نسخ</button></div></div></div>
+<div class="af-step af-reveal"><div class="af-node">٢</div><div class="af-card"><div class="c-head"><span class="c-ico">📖</span><span class="c-title">قراءة القرآن ومدارسته</span></div><div class="c-essence">رمضان شهر القرآن — والتدبّر مقدَّمٌ على الكثرة.</div><ul class="c-points"><li>رمضان شهر القرآن، وكان جبريل عليه السلام يدارس النبي ﷺ القرآن في كل ليلة منه.</li><li><strong>التدبر مقدم على الكثرة</strong>: قراءة صفحة واحدة بتدبر خير من ختمات كثيرة بلا فهم.</li></ul><div class="c-foot"><button type="button" class="af-copy">📋 نسخ</button></div></div></div>
+<div class="af-step af-reveal"><div class="af-node">٣</div><div class="af-card"><div class="c-head"><span class="c-ico">🌙</span><span class="c-title">القيام: التراويح والتهجّد</span></div><div class="c-essence">قيامُ ليلةٍ قد يوافق ليلة القدر، خيرٌ من ألف شهر.</div><ul class="c-points"><li>يُشرع الاجتهاد خاصة في العشر الأواخر طلباً لليلة القدر التي العبادة فيها خير من ألف شهر.</li><li>القيام يشمل الصلاة مع الإمام حتى ينصرف، فتُكتب قيام ليلة كاملة.</li></ul><div class="af-proof"><div class="pf-txt">«من قام رمضان إيماناً واحتساباً غُفر له ما تقدّم من ذنبه»</div><span class="pf-src">متفق عليه · البخاري (٣٧) ومسلم (٧٥٩)</span></div><div class="c-foot"><button type="button" class="af-copy">📋 نسخ</button></div></div></div>
+<div class="af-step af-reveal"><div class="af-node">٤</div><div class="af-card"><div class="c-head"><span class="c-ico">🤲</span><span class="c-title">الدعاء والذكر</span></div><div class="c-essence">للصائم عند فطره دعوةٌ لا تُرَدّ — فلا تُفرّط فيها.</div><ul class="c-points"><li>رمضان شهر الدعاء، وللصائم عند فطره دعوة لا ترد.</li><li>الإكثار من «جوامع الكلم»، والحرص على أن يظل اللسان رطباً بذكر الله والتسبيح والاستغفار.</li></ul><div class="af-proof"><div class="pf-txt">«اللهم إنك عفوٌّ تحبّ العفو فاعفُ عني»</div><span class="pf-src">من دعاء ليلة القدر · الترمذي (٣٥١٣)</span></div><div class="c-foot"><button type="button" class="af-copy">📋 نسخ</button></div></div></div>
+<div class="af-step af-reveal"><div class="af-node">٥</div><div class="af-card"><div class="c-head"><span class="c-ico">💚</span><span class="c-title">الصدقة وإطعام الطعام</span></div><div class="c-essence">العمل المتعدّي الذي ينفع غيرك أعظم أجرًا من القاصر على نفسك.</div><ul class="c-points"><li><strong>الجود والسخاء</strong>: كان النبي ﷺ أجود ما يكون في رمضان.</li><li><strong>تفطير الصائمين</strong>: له أجر عظيم، ويشمل مساعدة الأهل في إعداد الإفطار.</li></ul><div class="c-foot"><button type="button" class="af-copy">📋 نسخ</button></div></div></div>
+<div class="af-step af-reveal"><div class="af-node">٦</div><div class="af-card"><div class="c-head"><span class="c-ico">💧</span><span class="c-title">التوبة وتزكية النفس</span></div><div class="c-essence">رمضان فرصةٌ ذهبية لتجديد العهد مع الله وردّ المظالم.</div><ul class="c-points"><li><strong>التوبة النصوح</strong>: شعار المتقين، ورمضان فرصة لتجديد العهد مع الله ورد المظالم.</li><li><strong>تهذيب الأخلاق</strong>: الصيام الحقيقي صوم الجوارح عن المعاصي، وقول الصائم لمن سابّه: «إني صائم».</li></ul><div class="c-foot"><button type="button" class="af-copy">📋 نسخ</button></div></div></div>
+<div class="af-step af-reveal"><div class="af-node">٧</div><div class="af-card"><div class="c-head"><span class="c-ico">🕋</span><span class="c-title">الاعتكاف</span></div><div class="c-essence">انقطاعٌ تامّ للعبادة، وخلوةُ القلب مع خالقه في العشر الأواخر.</div><ul class="c-points"><li>سنة نبوية مؤكدة، خاصة في العشر الأواخر، بهدف الانقطاع التام للعبادة وخلوة القلب مع الخالق.</li></ul><div class="c-foot"><button type="button" class="af-copy">📋 نسخ</button></div></div></div>
+    </div>
+
+    <div class="af-cta af-reveal">
       <h3>جاهز للخطوة التالية؟</h3>
       <p>حوّل هذا الترتيب إلى خطة يومية عملية تناسب وقتك ومستواك.</p>
-      <div class="cta-levels">
-        <a class="cta-lv" href="ramadan-plan.html?level=beginner">🌱 مبتدئ</a>
-        <a class="cta-lv primary" href="ramadan-plan.html?level=intermediate">⚖️ متوسط</a>
-        <a class="cta-lv" href="ramadan-plan.html?level=advanced">🌙 متقدم</a>
+      <div class="af-cta-lv">
+        <a href="ramadan-plan.html?level=beginner">🌱 مبتدئ</a>
+        <a class="primary" href="ramadan-plan.html?level=intermediate">⚖️ متوسط</a>
+        <a href="ramadan-plan.html?level=advanced">🌙 متقدم</a>
       </div>
     </div>
-    <h2 class="rk-sec-title">↪️ تابع في رمضان الخير</h2>
-    <nav class="rk-cross" aria-label="صفحات رمضان الخير">
+
+    <h2 class="af-sec">↪️ تابع في رمضان الخير</h2>
+    <nav class="af-cross" aria-label="صفحات رمضان الخير">
       <a href="ramadan-tadhkir.html"><span class="cx-ico">💡</span><span><span class="cx-t">تذكير إيماني (٣٠ يوم)</span><span class="cx-s">خاطرة يومية قصيرة تُلهمك طوال الشهر</span></span></a>
       <a href="ramadan-plan.html"><span class="cx-ico">🗂️</span><span><span class="cx-t">خطة العبادة اليومية</span><span class="cx-s">ثلاثة مستويات: مبتدئ ومتوسط ومتقدم</span></span></a>
       <a href="ramadan-quran.html"><span class="cx-ico">📖</span><span><span class="cx-t">القرآن في رمضان</span><span class="cx-s">المقصد الجوهري لكل جزء من الثلاثين</span></span></a>
@@ -182,22 +222,22 @@ html[data-theme="dark"] .rk-proof,html[data-theme="oled"] .rk-proof{color:var(--
 <script>
 (function(){
   try{
-    var items=document.querySelectorAll('.rk-num>li');
+    var els=document.querySelectorAll('.af-reveal');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});}
+    else{
+      var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}})},{threshold:.12});
+      els.forEach(function(e){io.observe(e)});
+    }
     function toast(m){ if(typeof showToast==='function') showToast(m); }
-    items.forEach(function(li){
-      var btn=li.querySelector('.rk-copy'); if(!btn) return;
-      var q=li.querySelector('.rk-q'), pts=li.querySelectorAll('.rk-level>li');
-      btn.addEventListener('click', function(){
-        var lines=[]; if(q) lines.push(q.textContent.trim());
-        pts.forEach(function(p){ lines.push('• '+p.textContent.replace(/\s+/g,' ').trim()); });
+    document.querySelectorAll('.af-card').forEach(function(card){
+      var btn=card.querySelector('.af-copy'); if(!btn) return;
+      var t=card.querySelector('.c-title'), pts=card.querySelectorAll('.c-points li');
+      btn.addEventListener('click',function(){
+        var lines=[]; if(t) lines.push(t.textContent.trim());
+        pts.forEach(function(p){lines.push('• '+p.textContent.replace(/\s+/g,' ').trim())});
         var txt='🏆 أفضل الأعمال في رمضان — زاد\n\n'+lines.join('\n')+'\n\n'+location.href;
-        if(navigator.clipboard&&navigator.clipboard.writeText){
-          navigator.clipboard.writeText(txt).then(function(){toast('تم النسخ ✅');},function(){toast('تعذر النسخ');});
-        }else{
-          var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
-          try{document.execCommand('copy');toast('تم النسخ ✅');}catch(_){toast('تعذر النسخ');}
-          document.body.removeChild(ta);
-        }
+        if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){toast('تم النسخ ✅')},function(){toast('تعذر النسخ')});}
+        else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('تم النسخ ✅')}catch(_){toast('تعذر النسخ')}document.body.removeChild(ta);}
       });
     });
   }catch(e){}
