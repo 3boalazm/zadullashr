@@ -32,6 +32,11 @@
 .tb-greg{font-size:13px;opacity:.8;margin-top:4px;direction:ltr}
 .tb-special{display:inline-flex;align-items:center;gap:6px;background:rgba(201,161,74,.3);border:1px solid rgba(201,161,74,.5);color:var(--gold2,#e6c97a);padding:6px 14px;border-radius:99px;font-size:13px;font-weight:700;margin-top:10px;font-family:'ThmanyahSans','Tajawal',sans-serif}
 .tb-num{font-size:52px;font-weight:700;font-family:var(--num-font);font-feature-settings:'ss01';color:var(--gold2,#e6c97a);flex-shrink:0;line-height:1}
+/* تبديل التأكيد بين الهجري والميلادي عند قلب التقويم */
+.tb-hijri,.tb-greg{transition:font-size .25s var(--ease),opacity .25s}
+body[data-caltype="greg"] #tb-hijri-full{font-size:15px;opacity:.7;font-weight:700}
+body[data-caltype="greg"] #tb-greg-full{font-size:22px;font-weight:900;opacity:1;color:#fff;margin-top:5px}
+body[data-caltype="greg"] #tb-day-num{font-size:40px;opacity:.85}
 
 /* ── Calendar grid ────────────────────────────────────────── */
 .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
@@ -115,6 +120,9 @@ html[data-theme="dark"] .type-tab.active,html[data-theme="oled"] .type-tab.activ
   .cd-hijri{font-size:9px}
   .tb-hijri{font-size:20px}
   .tb-num{font-size:36px}
+  body[data-caltype="greg"] #tb-hijri-full{font-size:14px}
+  body[data-caltype="greg"] #tb-greg-full{font-size:19px}
+  body[data-caltype="greg"] #tb-day-num{font-size:30px}
 }
 </style>
 <script>(function(){var s=localStorage.getItem('zad_v2');var t='light';try{var p=JSON.parse(s);t=p.theme||'light';}catch(e){}document.documentElement.setAttribute('data-theme',t);try{if(p.excuseMode)document.documentElement.setAttribute('data-excuse','on')}catch(e){}})();</script>
@@ -339,19 +347,58 @@ function hijriToGreg(hy, hm, hd){
 }
 
 /* ── Special days ─────────────────────────────────────────── */
-const SPECIAL_DH = {
-  '1447-12-1':  { label:'أول ذو الحجة 🌙',  cls:'special' },
-  '1447-12-8':  { label:'يوم التروية 💧',   cls:'special' },
-  '1447-12-9':  { label:'يوم عرفة ⭐',      cls:'arafah'  },
-  '1447-12-10': { label:'عيد الأضحى 🎉',    cls:'eid'     },
-  '1447-12-11': { label:'أول أيام التشريق', cls:'special' },
-  '1447-12-12': { label:'ثاني أيام التشريق',cls:'special' },
-  '1447-12-13': { label:'ثالث أيام التشريق',cls:'special' },
+/* مناسبات السنة الهجرية — مفتاح (شهر-يوم) مستقل عن السنة، يعمل كل عام.
+   النصوص (البريفات) من مصدر المستخدم حرفياً. */
+const HIJRI_EVENTS = {
+  /* محرّم */
+  '1-1':   { label:'رأس السنة الهجرية 🌙', cls:'special', brief:'مطلع عام جديد يشرق بالبشائر، نَستحضر فيه أسمى معاني التضحية والبناء في ذكرى الهجرة النبوية المباركة.' },
+  '1-9':   { label:'يوم تاسوعاء 💧', cls:'special', brief:'محطة روحية تسبق النجاة الكبرى، ويُستحب صيامها إحياءً للسنة النبوية ومخالفةً لأهل الكتاب.' },
+  '1-10':  { label:'يوم عاشوراء ⭐', cls:'arafah', brief:'يوم النصر والنجاة؛ فيه فلق الله البحر لسيدنا موسى وقومه، وصيامه يُكفّر ذنوب سنة مضت.' },
+  /* ربيع الأول */
+  '3-12':  { label:'المولد النبوي الشريف 🕌', cls:'special', brief:'اليوم الذي أضاء الكون بمولد خير الأنام ومبعث الرحمة المهداة ﷺ، فرصة لتجديد العهد ومحبة النبي.' },
+  /* رجب */
+  '7-1':   { label:'دخول الأشهر الحُرم 🌿', cls:'special', brief:'مطلع رجب أحد الأشهر الحُرُم؛ تُعظَّم فيه الطاعات وتُجتنب المظالم استعداداً لموسم الخير الأكبر.' },
+  '7-27':  { label:'الإسراء والمعراج ✨', cls:'arafah', brief:'رحلة الآيات الكبرى والسلوان النبوي من المسجد الحرام إلى الأقصى ثم إلى السموات العُلا، وفيها فُرِضت الصلاة.' },
+  /* شعبان */
+  '8-15':  { label:'ليلة النصف من شعبان 🌕', cls:'special', brief:'ليلة تحويل القبلة إلى الكعبة المشرفة، ومحطة إيمانية مباركة تُرفع فيها الأعمال إلى الله تعالى.' },
+  /* رمضان */
+  '9-1':   { label:'أول أيام الصيام 🌙', cls:'special', brief:'بوابة الشهر الفضيل؛ نبدأ اليوم ركن الصيام والقرآن، متضرعين بالدعاء ليتقبل الله منا ومنكم صالح الأعمال.' },
+  '9-17':  { label:'ذكرى غزوة بدر الكبرى ⚔️', cls:'special', brief:'يوم الفرقان الأعظم في تاريخ الأمة؛ حين التقى الجمعان وتجلى النصر الإلهي ليعز الله دينه.' },
+  '9-20':  { label:'ذكرى فتح مكة 🕋', cls:'special', brief:'يوم النصر المبين ودخول الناس في دين الله أفواجاً، وتطهير بيت الله الحرام بشعار: جاء الحق وزهق الباطل.' },
+  '9-21':  { label:'ليالي العشر الأواخر ✨', cls:'special', brief:'أعظم ليالي الدنيا، نتحرى فيها ليلة القدر التي هي خَيرٌ من ألف شهر، ونستزيد من القيام والدعاء والعتق من النار.' },
+  '9-27':  { label:'تحري ليلة القدر 🌟', cls:'arafah', brief:'من أرجى ليالي العشر الأواخر لليلة القدر؛ اجتهد بالقيام والدعاء: «اللهم إنك عفوٌّ تحب العفو فاعفُ عني».' },
+  /* شوال */
+  '10-1':  { label:'عيد الفطر المبارك 🎉', cls:'eid', brief:'يوم الجائزة والبهجة، نفرح فيه بتمام الطاعة وصيام رمضان، ونتبادل التبريكات ونصل الأرحام.' },
+  '10-2':  { label:'بدء الست البيض 🤍', cls:'special', brief:'فرصة لمضاعفة الأجر؛ من صام رمضان ثم أتبعه بست من شوال كان كصيام الدهر كاملاً.' },
+  /* ذو القعدة */
+  '11-1':  { label:'ذو القعدة — شهر حرام 🌿', cls:'special', brief:'الشهر الذي يسبق الحج وتدشين موسمه؛ من الأشهر الحُرُم التي يُعظَّم فيها العمل الصالح وتتحرك فيه الوفود نحو البقاع المقدسة.' },
+  /* ذو الحجة */
+  '12-1':  { label:'بدء العشر الأوائل 🌙', cls:'special', brief:'أفضل أيام الدنيا؛ أيام التكبير، والتهليل، والعمل الصالح الذي هو أحب إلى الله من أي وقت آخر.' },
+  '12-8':  { label:'يوم التروية 💧', cls:'special', brief:'اليوم الثامن من ذي الحجة؛ يبدأ فيه الحجاج التوجه إلى مِنى استعداداً للوقوف بعرفة، ويُستحب فيه الإكثار من الطاعة.' },
+  '12-9':  { label:'يوم عرفة ⭐', cls:'arafah', brief:'ركن الحج الأعظم، يوم المغفرة والتجلي والمباهاة، وصيامه لغير الحاج يُكفّر ذنوب سنتين.' },
+  '12-10': { label:'عيد الأضحى 🎉', cls:'eid', brief:'أكبر أعياد الأمة؛ يوم التضحية والفداء، والتقرب إلى الله بالأضاحي إحياءً لسنة أبينا إبراهيم عليه السلام.' },
+  '12-11': { label:'أول أيام التشريق 🍖', cls:'special', brief:'أيام مِنى المباركة؛ أيام أكلٍ وشربٍ وذكرٍ لله تعالى، وفيها يتم الحجاج مناسكهم بفيض من الطمأنينة.' },
+  '12-12': { label:'ثاني أيام التشريق 🍖', cls:'special', brief:'من أيام مِنى؛ يستمر فيها التكبير المقيّد ورمي الجمرات، ويحرم صيامها لأنها أيام عيدٍ وذكر.' },
+  '12-13': { label:'ثالث أيام التشريق 🍖', cls:'special', brief:'آخر أيام التشريق؛ يتم فيها الحجاج مناسكهم، ويُختم موسم العشر بالذكر والشكر لله على تمام النعمة.' },
 };
 
-function getSpecialKey(hy, hm, hd) {
-  return `${hy}-${hm}-${hd}`;
+/* مناسبات متكررة — تظهر في يومها فقط (لا تُعرض طوال العام) */
+function recurringForDate(greg, h){
+  const out=[];
+  const dow=greg.getDay();
+  /* الجمعة */
+  if(dow===5) out.push({label:'يوم الجمعة 🕌', cls:'special', brief:'عيد الأسبوع للمسلمين، وفيه ساعة إجابة؛ تُشرع فيه صلاة الجمعة وسماع الخطبة وقراءة سورة الكهف.'});
+  /* الأيام البيض 13-14-15 */
+  if(h.d>=13 && h.d<=15) out.push({label:'الأيام البيض 🤍', cls:'special', brief:'يُستحب صيام الأيام (١٣، ١٤، ١٥) من كل شهر هجري؛ نورٌ يُضاف إلى صحيفتك على مدار العام.'});
+  /* الإثنين والخميس */
+  else if(dow===1 || dow===4) out.push({label:'صيام الإثنين والخميس 🌙', cls:'special', brief:'يُستحب صيام الإثنين والخميس من كل أسبوع؛ يومان تُعرض فيهما الأعمال على الله، فأحبَّ أن يُعرض عمله وهو صائم.'});
+  return out;
 }
+
+function getSpecialKey(hy, hm, hd) {
+  return `${hm}-${hd}`;
+}
+function getEvent(hy, hm, hd){ return HIJRI_EVENTS[`${hm}-${hd}`]; }
 
 /* ── Global Hijri state (shared with app.js) ─────────────── */
 window._ZAD_HIJRI = null; /* {y, m, d} set by API */
@@ -374,7 +421,7 @@ async function renderTodayBanner() {
 
 function showBanner(h, now) {
   const key = getSpecialKey(h.y, h.m, h.d);
-  const sp  = SPECIAL_DH[key];
+  const sp  = HIJRI_EVENTS[key];
 
   const dayEl = document.getElementById('tb-day-num');
   const hijEl = document.getElementById('tb-hijri-full');
@@ -421,7 +468,7 @@ function renderHijriMonth(hy, hm) {
     const greg    = hijriToGreg(hy, hm, d);
     const isToday = greg.toDateString() === today.toDateString();
     const key     = getSpecialKey(hy, hm, d);
-    const sp      = SPECIAL_DH[key];
+    const sp      = HIJRI_EVENTS[key];
     const dow     = greg.getDay();
     const isFri   = dow === 5;
 
@@ -442,7 +489,7 @@ function renderHijriMonth(hy, hm) {
       ${badge}
     </div>`;
 
-    if (sp) events.push({ d, label: sp.label, greg });
+    if (sp) events.push({ d, label: sp.label, brief: sp.brief, cls: sp.cls, greg });
   }
 
   grid.innerHTML = html;
@@ -468,7 +515,7 @@ function renderGregMonth(gy, gm) {
     const greg   = new Date(gy, gm-1, d);
     const h      = gregToHijri(greg);
     const key    = getSpecialKey(h.y, h.m, h.d);
-    const sp     = SPECIAL_DH[key];
+    const sp     = HIJRI_EVENTS[key];
     const isToday = greg.toDateString() === today.toDateString();
     const isFri  = greg.getDay() === 5;
 
@@ -488,7 +535,7 @@ function renderGregMonth(gy, gm) {
       ${badge}
     </div>`;
 
-    if (sp) events.push({ d, label: sp.label, greg });
+    if (sp) events.push({ d, label: sp.label, brief: sp.brief, cls: sp.cls, greg });
   }
 
   grid.innerHTML = html;
@@ -498,27 +545,59 @@ function renderGregMonth(gy, gm) {
 function renderSpecialEvents(events) {
   const el = document.getElementById('special-events-list');
   if (!el) return;
-  if (!events.length) {
-    el.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:13px;padding:8px">لا توجد مناسبات في هذا الشهر</div>';
-    return;
+
+  /* مناسبات اليوم المتكررة (جمعة / أيام بيض / إثنين وخميس) — تظهر فقط عند مطابقة اليوم الفعلي */
+  const now = new Date();
+  const hNow = (window._ZAD_HIJRI) ? window._ZAD_HIJRI : gregToHijri(now);
+  const todayRecurring = recurringForDate(now, hNow);
+
+  let html = '';
+
+  /* بطاقة "بريف اليوم" المتكرر — تظهر أعلى اللوحة في يومها فقط */
+  if (todayRecurring.length) {
+    html += todayRecurring.map(r => `
+      <div style="position:relative;overflow:hidden;border-radius:14px;padding:14px 16px;margin-bottom:12px;
+        background:linear-gradient(135deg,var(--green-deep),var(--green-mid));color:#fff;box-shadow:var(--shadow-sm)">
+        <div style="position:absolute;inset:auto -24px -28px auto;width:90px;height:90px;border-radius:50%;
+          background:radial-gradient(circle,rgba(201,161,74,.28),transparent 70%);pointer-events:none"></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;position:relative">
+          <span style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:#e6c97a">🟢 مناسبة اليوم</span>
+        </div>
+        <div style="font-size:15px;font-weight:800;font-family:'ThmanyahSans','Tajawal',sans-serif;margin-bottom:5px;position:relative">${r.label}</div>
+        <div style="font-size:12.5px;line-height:1.85;color:rgba(255,255,255,.9);position:relative">${r.brief}</div>
+      </div>`).join('');
   }
-  el.innerHTML = events.map(ev => {
-    const greg = ev.greg;
-    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">
-      <div style="width:40px;height:40px;border-radius:12px;background:var(--gold-pale);border:1.5px solid rgba(201,161,74,.3);display:grid;place-items:center;font-weight:900;color:var(--gold-dark);font-family:'ThmanyahSans','Tajawal',sans-serif;font-size:16px" class="hindi-num">${ai(ev.d)}</div>
-      <div style="flex:1">
-        <div style="font-weight:700;color:var(--ink);font-size:14px">${ev.label}</div>
-        <div style="font-size:11px;color:var(--muted);direction:ltr">${ai(greg.getDate())}/${ai(greg.getMonth()+1)}/${ai(greg.getFullYear())}</div>
-      </div>
-    </div>`;
-  }).join('');
+
+  /* مناسبات الشهر المعروض (ثابتة بالتاريخ) */
+  if (events.length) {
+    html += `<div style="font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.5px;margin:4px 2px 10px">📌 مناسبات هذا الشهر</div>`;
+    html += events.map(ev => {
+      const greg = ev.greg;
+      const accent = ev.cls === 'arafah' ? '#ff9500' : ev.cls === 'eid' ? '#ff3b30' : 'var(--gold-dark)';
+      const accentBg = ev.cls === 'arafah' ? 'rgba(255,149,0,.12)' : ev.cls === 'eid' ? 'rgba(255,59,48,.12)' : 'var(--gold-pale)';
+      const accentBd = ev.cls === 'arafah' ? 'rgba(255,149,0,.35)' : ev.cls === 'eid' ? 'rgba(255,59,48,.35)' : 'rgba(201,161,74,.3)';
+      return `<div style="display:flex;gap:11px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start">
+        <div style="width:42px;height:42px;flex-shrink:0;border-radius:12px;background:${accentBg};border:1.5px solid ${accentBd};display:grid;place-items:center;font-weight:900;color:${accent};font-family:'ThmanyahSans','Tajawal',sans-serif;font-size:17px" class="hindi-num">${ai(ev.d)}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:800;color:var(--ink);font-size:14px;margin-bottom:3px">${ev.label}</div>
+          ${ev.brief ? `<div style="font-size:12px;line-height:1.8;color:var(--muted)">${ev.brief}</div>` : ''}
+          <div style="font-size:10.5px;color:var(--muted-2,var(--muted));direction:ltr;margin-top:4px;opacity:.8">${ai(greg.getDate())}/${ai(greg.getMonth()+1)}/${ai(greg.getFullYear())}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  if (!html) {
+    html = '<div style="text-align:center;color:var(--muted);font-size:13px;padding:8px">لا توجد مناسبات ثابتة في هذا الشهر</div>';
+  }
+  el.innerHTML = html;
 }
 
 /* ── Day popup ────────────────────────────────────────────── */
 function showDayPopup(hy, hm, hd) {
   const greg = hijriToGreg(hy, hm, hd);
   const key  = getSpecialKey(hy, hm, hd);
-  const sp   = SPECIAL_DH[key];
+  const sp   = HIJRI_EVENTS[key];
   const content = document.getElementById('dp-content');
   content.innerHTML = `
     <div style="text-align:center;margin-bottom:16px">
@@ -526,6 +605,7 @@ function showDayPopup(hy, hm, hd) {
       <div style="font-size:18px;font-weight:700;color:var(--ink)">${HIJRI_MONTHS_AR[hm-1]} ${ai(hy)} هـ</div>
       <div style="font-size:13px;color:var(--muted);margin-top:4px;direction:ltr">${WEEK_AR[greg.getDay()]} · ${ai(greg.getDate())} ${GREG_MONTHS_AR[greg.getMonth()]} ${ai(greg.getFullYear())}</div>
       ${sp ? `<div class="cd-badge special" style="margin-top:8px;padding:5px 16px;font-size:13px">${sp.label}</div>` : ''}
+      ${sp && sp.brief ? `<div style="font-size:13px;line-height:1.9;color:var(--muted);margin-top:12px;text-align:right;background:var(--gold-pale);border:1px solid rgba(201,161,74,.2);border-radius:12px;padding:12px 14px">${sp.brief}</div>` : ''}
     </div>
     ${hm===12&&hd>=1&&hd<=9 ? `<a href="barnamaj.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">📿 سجّل عبادات اليوم ${ai(hd)} →</a>` : ''}
     ${hd===9&&hm===12 ? `<a href="arafah.html" class="btn btn-gold" style="width:100%;justify-content:center;margin-top:8px">🌄 برنامج يوم عرفة →</a>` : ''}
