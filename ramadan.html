@@ -7,8 +7,8 @@
 <meta name="theme-color" content="#0e3b2e">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
-<title>رمضان الخير — زاد · رمضان الخير</title>
-<meta name="description" content="قسم رمضان الخير في تطبيق زاد: تذكير إيماني يومي، أفضل الأعمال، خطة عبادة، القرآن في رمضان، أحكام الصيام، الأدعية، العشر الأواخر، وركن الأطفال.">
+<title>رمضان الخير — زاد</title>
+<meta name="description" content="رمضان الخير: رفيقك اليومي في شهر القرآن — تتبّع تقدّمك، أهداف اليوم، العشر الأواخر، وأدعية، بتجربة هادئة وملهمة.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" media="print" onload="this.media='all'">
@@ -19,68 +19,172 @@
 @font-face{font-family:'ThmanyahSans';src:url('fonts/thmanyahsans-Black.otf') format('opentype');font-weight:900;font-display:swap}
 html,body{font-family:'IBM Plex Sans Arabic','Tajawal',system-ui,sans-serif}
 h1,h2,h3,.page-title,.brand-name{font-family:'ThmanyahSans','IBM Plex Sans Arabic',sans-serif}
-.rk-hero{background:linear-gradient(135deg,#0e3b2e 0%,#1a5d47 55%,#c9a14a 160%);border-radius:22px;padding:30px 26px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 16px 48px -12px rgba(14,59,46,.4)}
-.rk-hero::after{content:attr(data-emoji);position:absolute;top:14px;left:22px;font-size:58px;opacity:.13;line-height:1}
-.rk-eyebrow{font-size:11px;color:#e6c97a;letter-spacing:3px;font-weight:700;margin-bottom:8px}
-.rk-title{font-size:26px;font-weight:900;line-height:1.25;margin-bottom:8px;font-family:'ThmanyahSans',sans-serif}
-.rk-sub{font-size:13.5px;color:rgba(255,255,255,.86);line-height:1.85;max-width:620px}
-.rk-sec-title{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-size:17px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
-html[data-theme="dark"] .rk-sec-title,html[data-theme="oled"] .rk-sec-title{color:var(--sys-green)}
-.rk-sec-title::before{content:"";width:5px;height:20px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px;flex-shrink:0}
-.rk-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow-sm);margin-bottom:14px}
-.rk-card p{font-size:14px;line-height:1.95;color:var(--ink);margin:0 0 6px}
-.rk-card p:last-child{margin-bottom:0}
-.rk-card strong{color:var(--green-deep);font-weight:800}
-html[data-theme="dark"] .rk-card strong,html[data-theme="oled"] .rk-card strong{color:var(--sys-green)}
-.rk-h3{font-size:15px;font-weight:800;color:var(--green-deep);margin:0 0 6px;display:flex;align-items:center;gap:8px}
-html[data-theme="dark"] .rk-h3,html[data-theme="oled"] .rk-h3{color:var(--sys-green)}
-.rk-ayah{background:var(--green-pale);border-right:4px solid var(--green-soft);border-radius:12px;padding:14px 16px;margin:10px 0;font-family:'Amiri',serif;font-size:18px;line-height:2;color:var(--green-deep);text-align:center}
-html[data-theme="dark"] .rk-ayah,html[data-theme="oled"] .rk-ayah{color:var(--sys-green);background:rgba(42,122,95,.12)}
-.rk-ayah .src{display:block;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:11.5px;color:var(--muted);margin-top:6px;font-weight:600}
-.rk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:14px}
-.rk-link-card{display:flex;gap:13px;align-items:flex-start;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,border-color .18s}
-.rk-link-card:hover{transform:translateY(-2px);border-color:var(--green-soft)}
-.rk-link-card .lc-ico{font-size:26px;flex-shrink:0;line-height:1.2}
-.rk-link-card .lc-t{display:block;font-size:15px;font-weight:800;color:var(--green-deep);margin-bottom:3px}
-html[data-theme="dark"] .rk-link-card .lc-t,html[data-theme="oled"] .rk-link-card .lc-t{color:var(--sys-green)}
-.rk-link-card .lc-s{display:block;font-size:12px;line-height:1.6;color:var(--muted)}
-.rk-num{counter-reset:rk;list-style:none;padding:0;margin:0}
-.rk-num>li{counter-increment:rk;position:relative;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px 14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
-.rk-num>li::before{content:counter(rk);position:absolute;left:14px;top:14px;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#0e3b2e,#1a5d47);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;font-family:'ThmanyahSans',sans-serif}
-.rk-num>li .rk-q{font-size:14.5px;font-weight:800;color:var(--green-deep);margin:0 44px 6px 0;line-height:1.7}
-html[data-theme="dark"] .rk-num>li .rk-q,html[data-theme="oled"] .rk-num>li .rk-q{color:var(--sys-green)}
-.rk-num>li .rk-a{font-size:13.5px;line-height:1.9;color:var(--ink);margin:0 44px 0 0}
-.rk-num>li .rk-a strong{color:var(--gold-dark);font-weight:800}
-.rk-day{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm);position:relative}
-.rk-day .d-no{display:inline-block;background:linear-gradient(135deg,var(--gold),#e6c97a);color:#3a2e10;font-weight:800;font-size:12px;padding:3px 12px;border-radius:999px;margin-bottom:8px}
-.rk-day p{font-size:13.8px;line-height:1.95;color:var(--ink);margin:0}
-.rk-day strong{color:var(--green-deep);font-weight:800}
-html[data-theme="dark"] .rk-day strong,html[data-theme="oled"] .rk-day strong{color:var(--sys-green)}
-.rk-today{background:linear-gradient(135deg,#0e3b2e,#1a5d47);color:#fff;border-radius:18px;padding:20px 22px;margin-bottom:18px;box-shadow:var(--shadow)}
-.rk-today .t-lbl{font-size:11px;letter-spacing:2px;color:#e6c97a;font-weight:700;margin-bottom:8px}
-.rk-today .t-body{font-size:15px;line-height:1.95}
-.rk-today .t-body strong{color:#ffe9b8}
-.rk-note{display:flex;gap:10px;background:var(--sand);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.8;color:var(--ink);margin:12px 0}
-.rk-note .ni{font-size:18px;flex-shrink:0}
-.rk-level{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
-.rk-level .lv-badge{display:inline-block;font-size:12px;font-weight:800;padding:4px 14px;border-radius:999px;color:#fff;margin-bottom:10px}
-.rk-level ul{list-style:none;padding:0;margin:8px 0 0}
-.rk-level li{font-size:13.5px;line-height:1.85;color:var(--ink);padding:7px 22px 7px 0;position:relative;border-bottom:1px solid var(--border)}
-.rk-level li:last-child{border-bottom:none}
-.rk-level li::before{content:"✦";position:absolute;right:2px;top:7px;color:var(--gold);font-size:12px}
-.rk-level li strong{color:var(--green-deep)}
-html[data-theme="dark"] .rk-level li strong,html[data-theme="oled"] .rk-level li strong{color:var(--sys-green)}
-.rk-dua{background:linear-gradient(135deg,var(--card),var(--gold-pale));border:1.5px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
-.rk-dua .du-ar{font-family:'Amiri',serif;font-size:19px;line-height:2.05;color:var(--green-deep);text-align:center}
-html[data-theme="dark"] .rk-dua .du-ar,html[data-theme="oled"] .rk-dua .du-ar{color:var(--sys-green)}
-.rk-dua .du-t{font-size:12px;color:var(--gold-dark);font-weight:800;text-align:center;margin-bottom:6px}
-.rk-cross{display:grid;gap:10px;margin-top:8px}
-.rk-cross a{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,border-color .18s}
-.rk-cross a:hover{transform:translateY(-2px);border-color:var(--green-soft)}
-.rk-cross .cx-ico{font-size:24px}
-.rk-cross .cx-t{display:block;font-size:14.5px;font-weight:800;color:var(--green-deep)}
-html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{color:var(--sys-green)}
-.rk-cross .cx-s{display:block;font-size:12px;color:var(--muted)}
+
+/* ═══ Reveal (scroll) ═══ */
+.rx-reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.rx-reveal.in{opacity:1;transform:none}
+.rx-stagger>*{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+.rx-stagger.in>*{opacity:1;transform:none}
+
+/* ═══ 1) Immersive Hero (always night, theme-independent) ═══ */
+.rx-hero{position:relative;overflow:hidden;border-radius:26px;margin-bottom:22px;min-height:330px;display:flex;align-items:flex-end;
+  background:radial-gradient(120% 90% at 80% 0%,#12463a 0%,#0c3528 40%,#071f18 75%,#04130e 100%);
+  box-shadow:0 24px 60px -20px rgba(4,19,14,.7)}
+.rx-hero .sky{position:absolute;inset:0;overflow:hidden}
+.rx-star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.0;animation:rxTwinkle 4s ease-in-out infinite}
+@keyframes rxTwinkle{0%,100%{opacity:.15}50%{opacity:.9}}
+.rx-moon{position:absolute;top:26px;left:30px;width:84px;height:84px;border-radius:50%;
+  background:radial-gradient(circle at 36% 34%,#fff7e0,#f3d79a 55%,#d8b766 100%);
+  box-shadow:0 0 40px 6px rgba(243,215,154,.45);
+  filter:drop-shadow(0 0 18px rgba(243,215,154,.4));animation:rxFloat 7s ease-in-out infinite}
+.rx-moon::after{content:"";position:absolute;top:-6px;left:-12px;width:84px;height:84px;border-radius:50%;
+  background:radial-gradient(120% 90% at 80% 0%,#12463a 0%,#0c3528 40%,#071f18 75%,#04130e 100%);transform:translateX(26px)}
+@keyframes rxFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.rx-glow{position:absolute;bottom:-40%;right:-10%;width:70%;height:90%;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,161,74,.22),transparent 70%);pointer-events:none}
+.rx-hero .inner{position:relative;z-index:2;padding:30px 28px;color:#fff;width:100%}
+.rx-eyebrow{font-size:12px;letter-spacing:4px;color:#f0d79a;font-weight:700;margin-bottom:10px}
+.rx-h1{font-size:34px;line-height:1.2;font-weight:900;font-family:'ThmanyahSans',sans-serif;margin:0 0 8px;text-shadow:0 2px 18px rgba(0,0,0,.35)}
+.rx-h1 .en{display:block;font-size:14px;font-weight:500;letter-spacing:.5px;color:rgba(255,255,255,.72);margin-top:6px;font-family:'IBM Plex Sans Arabic',sans-serif}
+.rx-hsub{font-size:13.5px;line-height:1.85;color:rgba(255,255,255,.84);max-width:520px;margin:0 0 18px}
+.rx-cta{display:flex;gap:10px;flex-wrap:wrap}
+.rx-btn{appearance:none;border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:13.5px;padding:12px 20px;border-radius:14px;transition:transform .2s,box-shadow .2s,background .2s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.rx-btn.primary{background:linear-gradient(135deg,#e6c97a,#c9a14a);color:#23190a;box-shadow:0 10px 24px -8px rgba(201,161,74,.6)}
+.rx-btn.ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px)}
+.rx-btn:hover{transform:translateY(-2px)}
+.rx-btn:active{transform:translateY(0)}
+
+/* ═══ Section titles ═══ */
+.rx-sec-title{display:flex;align-items:center;gap:10px;margin:30px 0 14px;font-size:18px;color:var(--green-deep);font-weight:800;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .rx-sec-title,html[data-theme="oled"] .rx-sec-title{color:var(--sys-green)}
+.rx-sec-title::before{content:"";width:5px;height:22px;background:linear-gradient(180deg,var(--gold),var(--green-soft));border-radius:3px}
+.rx-sec-title .h{font-size:12px;color:var(--muted);font-weight:600;margin-inline-start:auto}
+
+/* glass card base */
+.rx-glass{background:var(--card);border:1.5px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+@supports (backdrop-filter:blur(8px)){
+  html[data-theme="dark"] .rx-glass,html[data-theme="oled"] .rx-glass{background:rgba(255,255,255,.04);backdrop-filter:blur(10px)}
+}
+
+/* ═══ 2) Progress ═══ */
+.rx-prog{display:flex;gap:20px;align-items:center;padding:22px;flex-wrap:wrap}
+.rx-ring{flex-shrink:0;width:128px;height:128px;position:relative}
+.rx-ring svg{transform:rotate(-90deg)}
+.rx-ring .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rx-ring .pct b{font-size:26px;font-weight:900;color:var(--green-deep);font-family:'ThmanyahSans',sans-serif;line-height:1}
+html[data-theme="dark"] .rx-ring .pct b,html[data-theme="oled"] .rx-ring .pct b{color:var(--sys-green)}
+.rx-ring .pct span{font-size:11px;color:var(--muted);margin-top:2px}
+.rx-prog-body{flex:1;min-width:200px}
+.rx-prog-body h3{font-size:19px;color:var(--green-deep);margin:0 0 4px;font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .rx-prog-body h3,html[data-theme="oled"] .rx-prog-body h3{color:var(--sys-green)}
+.rx-prog-body .lead{font-size:12.5px;color:var(--muted);margin:0 0 12px}
+.rx-bar{height:10px;border-radius:999px;background:var(--sand-2);overflow:hidden;margin-bottom:14px}
+.rx-bar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--green-soft),var(--gold));transition:width 1.1s cubic-bezier(.16,1,.3,1)}
+.rx-stats{display:flex;gap:10px}
+.rx-stat{flex:1;text-align:center;background:var(--sand);border:1px solid var(--border);border-radius:13px;padding:10px 6px}
+.rx-stat b{display:block;font-size:18px;color:var(--green-deep);font-family:'ThmanyahSans',sans-serif}
+html[data-theme="dark"] .rx-stat b,html[data-theme="oled"] .rx-stat b{color:var(--sys-green)}
+.rx-stat span{font-size:11px;color:var(--muted)}
+
+/* ═══ 3) Goal cards ═══ */
+.rx-goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.rx-goal{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:18px;cursor:pointer;
+  background:var(--card);border:1.5px solid var(--border);box-shadow:var(--shadow-sm);
+  transition:transform .22s cubic-bezier(.16,1,.3,1),border-color .22s,box-shadow .22s}
+.rx-goal:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--green-soft)}
+.rx-goal .g-top{display:flex;align-items:center;justify-content:space-between}
+.rx-goal .g-ico{font-size:26px;line-height:1}
+.rx-goal .g-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);display:grid;place-items:center;font-size:14px;color:transparent;transition:.22s}
+.rx-goal.done .g-check{background:linear-gradient(135deg,var(--green-soft),var(--green-mid));border-color:transparent;color:#fff}
+.rx-goal h4{font-size:14.5px;font-weight:800;color:var(--green-deep);margin:2px 0 0}
+html[data-theme="dark"] .rx-goal h4,html[data-theme="oled"] .rx-goal h4{color:var(--sys-green)}
+.rx-goal .g-sub{font-size:12px;color:var(--muted)}
+.rx-goal.link .g-check{border:none;color:var(--gold);font-size:18px}
+.rx-goal.done{border-color:var(--green-soft)}
+
+/* ═══ 4) Ashras timeline ═══ */
+.rx-time{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rx-stage{padding:16px 14px;border-radius:18px;border:1.5px solid var(--border);background:var(--card);box-shadow:var(--shadow-sm);text-align:center;position:relative;transition:.3s}
+.rx-stage .s-num{font-size:11px;color:var(--muted);font-weight:700}
+.rx-stage .s-ico{font-size:24px;margin:6px 0}
+.rx-stage h4{font-size:14px;font-weight:800;color:var(--green-deep);margin:0 0 4px}
+html[data-theme="dark"] .rx-stage h4,html[data-theme="oled"] .rx-stage h4{color:var(--sys-green)}
+.rx-stage p{font-size:11.5px;color:var(--muted);line-height:1.6;margin:0}
+.rx-stage.active{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,161,74,.25),var(--shadow)}
+.rx-stage.active::after{content:"الآن";position:absolute;top:-10px;right:12px;background:linear-gradient(135deg,var(--gold),#e6c97a);color:#23190a;font-size:10px;font-weight:800;padding:2px 10px;border-radius:999px}
+
+/* ═══ 5) Reflection ═══ */
+.rx-reflect{padding:20px}
+.rx-reflect h3{font-size:16px;color:var(--green-deep);margin:0 0 4px}
+html[data-theme="dark"] .rx-reflect h3,html[data-theme="oled"] .rx-reflect h3{color:var(--sys-green)}
+.rx-reflect .q{font-size:13.5px;color:var(--ink);line-height:1.8;margin:0 0 12px}
+.rx-reflect textarea{width:100%;min-height:96px;resize:vertical;border:1.5px solid var(--border);border-radius:14px;padding:13px 15px;
+  font-family:inherit;font-size:14px;line-height:1.9;color:var(--ink);background:var(--sand);transition:border-color .2s}
+.rx-reflect textarea:focus{outline:none;border-color:var(--green-soft)}
+.rx-reflect .saved{font-size:11.5px;color:var(--muted);margin-top:8px;min-height:16px;transition:opacity .3s}
+
+/* ═══ 6) Dua flip card ═══ */
+.rx-dua-wrap{perspective:1400px}
+.rx-flip{position:relative;min-height:200px;cursor:pointer;transition:transform .7s cubic-bezier(.16,1,.3,1);transform-style:preserve-3d}
+.rx-flip.flipped{transform:rotateY(180deg)}
+.rx-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:22px;padding:26px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  background:linear-gradient(135deg,#0e3b2e,#1a5d47);color:#fff;box-shadow:var(--shadow)}
+.rx-face.back{transform:rotateY(180deg);background:linear-gradient(135deg,#1a5d47,#0e3b2e)}
+.rx-face .du-t{font-size:12px;letter-spacing:1px;color:#f0d79a;font-weight:800;margin-bottom:12px}
+.rx-face .du-ar{font-family:'Amiri',serif;font-size:21px;line-height:2.05}
+.rx-face .du-hint{font-size:11px;color:rgba(255,255,255,.6);margin-top:16px}
+.rx-face .du-benefit{font-size:13.5px;line-height:1.9;color:rgba(255,255,255,.9);max-width:340px}
+.rx-dua-bar{display:flex;gap:10px;margin-top:12px}
+.rx-dua-bar button{flex:1;appearance:none;border:1.5px solid var(--border);background:var(--card);color:var(--green-deep);font-family:inherit;font-weight:800;font-size:13px;padding:11px;border-radius:14px;cursor:pointer;transition:.2s}
+html[data-theme="dark"] .rx-dua-bar button,html[data-theme="oled"] .rx-dua-bar button{color:var(--sys-green)}
+.rx-dua-bar button:hover{border-color:var(--green-soft);transform:translateY(-2px)}
+
+/* ═══ 7) Last 10 nights ═══ */
+.rx-last{padding:22px;background:radial-gradient(120% 100% at 50% 0%,#1a1407 0%,#0e3b2e 60%,#071f18 100%);color:#fff;border-radius:22px;text-align:center;position:relative;overflow:hidden}
+.rx-last .l-glow{position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(201,161,74,.25),transparent 60%);pointer-events:none}
+.rx-last h3{font-size:20px;margin:0 0 4px;color:#fff;font-family:'ThmanyahSans',sans-serif;position:relative}
+.rx-last .l-sub{font-size:13px;color:rgba(255,255,255,.8);margin:0 0 16px;position:relative}
+.rx-chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative}
+.rx-chip{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;
+  background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);color:#fff;font-family:'ThmanyahSans',sans-serif;transition:.3s}
+.rx-chip.glow{background:linear-gradient(135deg,#e6c97a,#c9a14a);color:#23190a;border-color:transparent;box-shadow:0 0 22px 2px rgba(230,201,122,.55)}
+
+/* ═══ 8) Tips carousel ═══ */
+.rx-carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.rx-carousel::-webkit-scrollbar{display:none}
+.rx-tip{scroll-snap-align:start;flex:0 0 78%;max-width:320px;padding:18px;border-radius:18px;background:var(--card);border:1.5px solid var(--border);box-shadow:var(--shadow-sm)}
+.rx-tip .t-ico{font-size:26px}
+.rx-tip h4{font-size:15px;color:var(--green-deep);margin:8px 0 5px}
+html[data-theme="dark"] .rx-tip h4,html[data-theme="oled"] .rx-tip h4{color:var(--sys-green)}
+.rx-tip p{font-size:12.8px;color:var(--muted);line-height:1.75;margin:0}
+
+/* ═══ 9) Tools showcase ═══ */
+.rx-tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.rx-tool{display:flex;flex-direction:column;gap:6px;padding:18px;border-radius:18px;text-decoration:none;background:var(--card);border:1.5px solid var(--border);box-shadow:var(--shadow-sm);transition:transform .22s cubic-bezier(.16,1,.3,1),border-color .22s,box-shadow .22s}
+.rx-tool:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--green-soft)}
+.rx-tool .t-ico{font-size:28px}
+.rx-tool .t-t{font-size:14.5px;font-weight:800;color:var(--green-deep)}
+html[data-theme="dark"] .rx-tool .t-t,html[data-theme="oled"] .rx-tool .t-t{color:var(--sys-green)}
+.rx-tool .t-s{font-size:11.5px;color:var(--muted);line-height:1.55}
+
+/* ═══ 10) Closing ═══ */
+.rx-end{text-align:center;padding:36px 22px;position:relative}
+.rx-end .moon{font-size:30px;animation:rxFloat 6s ease-in-out infinite;display:inline-block}
+.rx-end .ar{font-family:'Amiri',serif;font-size:20px;line-height:2.1;color:var(--green-deep);max-width:520px;margin:14px auto 8px}
+html[data-theme="dark"] .rx-end .ar,html[data-theme="oled"] .rx-end .ar{color:var(--sys-green)}
+.rx-end .en{font-size:13px;color:var(--muted);line-height:1.9;max-width:420px;margin:0 auto}
+
+/* ═══ reduced motion ═══ */
+@media (prefers-reduced-motion:reduce){
+  .rx-reveal,.rx-stagger>*{transition:none;opacity:1;transform:none}
+  .rx-star,.rx-moon,.rx-end .moon{animation:none}
+  .rx-flip{transition:none}
+  .rx-bar i{transition:none}
+}
+@media (max-width:520px){
+  .rx-h1{font-size:28px}.rx-hero{min-height:300px}
+  .rx-time{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -119,53 +223,335 @@ html[data-theme="dark"] .rk-cross .cx-t,html[data-theme="oled"] .rk-cross .cx-t{
       </div>
     </div>
 
-    <section class="rk-hero" data-emoji="🌙">
-      <div class="rk-eyebrow">رمضان الخير</div>
-      <h1 class="rk-title">رمضان الخير</h1>
-      <p class="rk-sub">موسمك الكامل في شهر القرآن — تذكيرٌ يومي، خطة عبادة، أحكام الصيام، أدعية، والعشر الأواخر. كل ما تحتاجه لتجعل رمضانك نقطة تحوّل.</p>
+    <!-- ═══ 1) HERO ═══ -->
+    <section class="rx-hero rx-reveal in" aria-label="رمضان مبارك">
+      <div class="sky" id="rx-sky" aria-hidden="true"></div>
+      <div class="rx-moon" aria-hidden="true"></div>
+      <div class="rx-glow" aria-hidden="true"></div>
+      <div class="inner">
+        <div class="rx-eyebrow">رمضان الخير · زاد</div>
+        <h1 class="rx-h1">رمضان مبارك<span class="en">اجعل رمضانك هذا العام أفضل رمضان عشته</span></h1>
+        <p class="rx-hsub">رفيقك اليومي في شهر القرآن — تابع تقدّمك، حقّق أهدافك، واطمئن في رحلة هادئة نحو رمضان أكثر قُربًا وإتقانًا.</p>
+        <div class="rx-cta">
+          <a class="rx-btn primary" href="#rx-goals">✨ تابع رحلتك</a>
+          <a class="rx-btn ghost" href="#rx-tools">استكشف أدوات رمضان</a>
+        </div>
+      </div>
     </section>
 
-    <div class="rk-today">
-      <div class="t-lbl" id="rk-today-no">خاطرة اليوم</div>
-      <div class="t-body" id="rk-today-body"><strong>الصيام ركن عظيم من أركان الإسلام لا يكتمل الإيمان بدونه.</strong> هو مدرسة لتربية النفس وكبح جماح الشهوات. للصائم فرحتان: فرحة عند فطره، وفرحة حين يلقى ربه. وهو <strong>جنة وحصن للمؤمن من النار</strong>.</div>
+    <!-- ═══ 2) PROGRESS ═══ -->
+    <h2 class="rx-sec-title rx-reveal">📅 تقدّمك في رمضان</h2>
+    <div class="rx-glass rx-prog rx-reveal" id="rx-prog">
+      <div class="rx-ring" aria-hidden="true">
+        <svg width="128" height="128" viewBox="0 0 128 128">
+          <circle cx="64" cy="64" r="54" fill="none" stroke="var(--sand-2)" stroke-width="11"></circle>
+          <circle id="rx-ring-fg" cx="64" cy="64" r="54" fill="none" stroke="url(#rxg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"></circle>
+          <defs><linearGradient id="rxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3dcc5e"></stop><stop offset="1" stop-color="#c9a14a"></stop></linearGradient></defs>
+        </svg>
+        <div class="pct"><b id="rx-pct">—</b><span id="rx-pct-lbl">رمضان</span></div>
+      </div>
+      <div class="rx-prog-body">
+        <h3 id="rx-prog-title">جارٍ تحديد اليوم…</h3>
+        <p class="lead" id="rx-prog-lead">نقرأ التاريخ الهجري لعرض تقدّمك.</p>
+        <div class="rx-bar"><i id="rx-bar"></i></div>
+        <div class="rx-stats">
+          <div class="rx-stat"><b id="rx-st-done">—</b><span>أيام مضت</span></div>
+          <div class="rx-stat"><b id="rx-st-left">—</b><span>أيام متبقّية</span></div>
+          <div class="rx-stat"><b id="rx-st-eid">—</b><span>حتى العيد</span></div>
+        </div>
+      </div>
     </div>
 
-    <h2 class="rk-sec-title">📂 صفحات رمضان الخير</h2>
-    <div class="rk-grid">
-      <a class="rk-link-card" href="ramadan-tadhkir.html"><span class="lc-ico">💡</span><span><span class="lc-t">تذكير إيماني (٣٠ يوم)</span><span class="lc-s">خاطرة يومية قصيرة تُلهمك طوال الشهر</span></span></a>
-      <a class="rk-link-card" href="ramadan-afdal.html"><span class="lc-ico">🏆</span><span><span class="lc-t">أفضل الأعمال في رمضان</span><span class="lc-s">ترتيب العبادات على فقه الأولويات</span></span></a>
-      <a class="rk-link-card" href="ramadan-plan.html"><span class="lc-ico">🗂️</span><span><span class="lc-t">خطة العبادة اليومية</span><span class="lc-s">ثلاثة مستويات: مبتدئ ومتوسط ومتقدم</span></span></a>
-      <a class="rk-link-card" href="ramadan-quran.html"><span class="lc-ico">📖</span><span><span class="lc-t">القرآن في رمضان</span><span class="lc-s">المقصد الجوهري لكل جزء من الثلاثين</span></span></a>
-      <a class="rk-link-card" href="ramadan-fasting.html"><span class="lc-ico">📋</span><span><span class="lc-t">أحكام الصيام</span><span class="lc-s">عشرون مسألة من أكثر مسائل الصيام شيوعاً</span></span></a>
-      <a class="rk-link-card" href="ramadan-duas.html"><span class="lc-ico">🤲</span><span><span class="lc-t">أدعية رمضان</span><span class="lc-s">جوامع الكلم النبوية والدعاء الأغلى</span></span></a>
-      <a class="rk-link-card" href="ramadan-last10.html"><span class="lc-ico">✨</span><span><span class="lc-t">العشر الأواخر وليلة القدر</span><span class="lc-s">فضلها وأعمالها وأدعيتها المأثورة</span></span></a>
-      <a class="rk-link-card" href="ramadan-kids.html"><span class="lc-ico">🧒</span><span><span class="lc-t">ركن الأطفال في رمضان</span><span class="lc-s">أنشطة تربوية تغرس القيم بالقدوة</span></span></a>
-      
+    <!-- ═══ 3) DAILY GOALS ═══ -->
+    <h2 class="rx-sec-title rx-reveal" id="rx-goals">🎯 أهداف اليوم <span class="h" id="rx-goals-h"></span></h2>
+    <div class="rx-goals rx-stagger rx-reveal" id="rx-goals-grid"></div>
+
+    <!-- ═══ 4) ASHRAS TIMELINE ═══ -->
+    <h2 class="rx-sec-title rx-reveal">🌌 عشرات رمضان</h2>
+    <div class="rx-time rx-stagger rx-reveal" id="rx-time">
+      <div class="rx-stage" data-stage="1"><div class="s-num">الأيام 1–10</div><div class="s-ico">🤍</div><h4>عشر الرحمة</h4><p>أبواب الرحمة تُفتح — أكثِر من الذكر والدعاء.</p></div>
+      <div class="rx-stage" data-stage="2"><div class="s-num">الأيام 11–20</div><div class="s-ico">🌿</div><h4>عشر المغفرة</h4><p>جدّد توبتك وأَلِحَّ في الاستغفار.</p></div>
+      <div class="rx-stage" data-stage="3"><div class="s-num">الأيام 21–30</div><div class="s-ico">✨</div><h4>عشر العتق من النار</h4><p>مضمار السباق — تحرَّ ليلة القدر واجتهد.</p></div>
     </div>
 
-    <div class="rk-note"><span class="ni">🌱</span><span>هذا القسم محتوى ثابت يعمل بالكامل دون إنترنت، ويظهر لك «خاطرة اليوم» تلقائياً حسب تاريخ الشهر.</span></div>
+    <!-- ═══ 5) REFLECTION ═══ -->
+    <h2 class="rx-sec-title rx-reveal">📝 تأمّل اليوم</h2>
+    <div class="rx-glass rx-reflect rx-reveal">
+      <h3>وقفة مع النفس</h3>
+      <p class="q" id="rx-reflect-q">ما العمل الصالح الذي تريد أن تحافظ عليه بعد رمضان؟</p>
+      <textarea id="rx-reflect" placeholder="اكتب ما يخطر ببالك… (يُحفظ تلقائياً على جهازك)" aria-label="تأمل اليوم"></textarea>
+      <div class="saved" id="rx-reflect-saved"></div>
+    </div>
 
-<script>
-(function(){
-  try{
-    var R=["<strong>الصيام ركن عظيم من أركان الإسلام لا يكتمل الإيمان بدونه.</strong> هو مدرسة لتربية النفس وكبح جماح الشهوات. للصائم فرحتان: فرحة عند فطره، وفرحة حين يلقى ربه. وهو <strong>جنة وحصن للمؤمن من النار</strong>.", "<strong>باب الريان في الجنة مخصص للصائمين فقط يوم القيامة.</strong> فمن صام يوماً خالصاً لله باعد الله وجهه عن النار سبعين خريفاً. استثمر كل لحظة في هذا الشهر لتكون من <strong>الداخلين من ذلك الباب المبارك</strong>.", "<strong>رمضان شهر الغفران والعتق من النيران.</strong> من صام رمضان إيماناً واحتساباً غفر له ما تقدم من ذنبه. هو فرصة للتوبة النصوح والندم على ما فات من تقصير. <strong>لا تجعل هذا الشهر يمر دون تجديد عهدك مع الله</strong>.", "<strong>للصائم عند فطره دعوة لا ترد.</strong> فاغتنم وقت الإفطار في التضرع إلى الله. الدعاء هو العبادة وأكرم شيء على الله. <strong>ارفع يديك بيقين</strong>، فربك قريب يجيب دعوة الداع إذا دعاه.", "<strong>الصيام والقرآن يشفعان للعبد يوم القيامة.</strong> يقول الصيام: أي رب منعته الطعام والشهوات بالنهار فشفعني فيه. ويقول القرآن: منعته النوم بالليل فشفعني فيه. فاجعل لك معهما <strong>صحبة دائمة في رمضان</strong>.", "<strong>شهر رمضان الذي أنزل فيه القرآن هدى للناس.</strong> هو موسم مدارسة الوحي والتقرب من كتاب الله. احرص على تلاوته بتدبر وفهم لتنال الهداية والفرقان. <strong>كل حرف تقرؤه بعشر حسنات</strong> والله يضاعف لمن يشاء.", "<strong>لا تهجر القرآن في رمضان، فهو سر قوة الأمة وطمأنينة القلوب.</strong> اجعل لك ورداً يومياً ثابتاً لا تفرط فيه. القليل الدائم مع التدبر خير من كثير منقطع بلا فهم. <strong>القرآن يرفع أقواماً ويغير النفوس</strong> بصدق القراءة.", "<strong>الذكر حياة القلوب وطرد للشيطان.</strong> استثمر أوقاتك في التسبيح والاستغفار والصلاة على النبي. ليكن لسانك رطباً بذكر الله في كل حين. <strong>الذكر يصبغ النفس بأسماء الله الحسنى</strong> كصفتي الرحمة والقوة.", "<strong>فقه الأولويات في رمضان يبدأ بأداء الفرائض ثم النوافل.</strong> تقرب إلى الله بما افترضه عليك، فهو أحب الأعمال إليه. صلاة الفرض الواحدة ثوابها أعظم من أربع وعشرين ركعة نافلة. <strong>لا تضيع الفجر</strong> بسبب السهر في قيام الليل.", "<strong>ليلة القدر خير من ألف شهر، والعبادة فيها تعدل عبادة 83 سنة.</strong> يقدر الله فيها ما يكون في السنة وهي ليلة مباركة. تحرَّها في أوتار العشر الأواخر واجتهد فيها بالقيام والدعاء. قل فيها: &quot;<strong>اللهم إنك عفو تحب العفو فاعف عني</strong>&quot;.", "<strong>كان النبي ﷺ أجود الناس، وكان أجود ما يكون في رمضان.</strong> الصدقة في هذا الشهر تضاعف إلى 700 ضعف. أنفق مما أعطاك الله، فما نقصت صدقة من مال. <strong>الصدقة تدفع البلاء وتخلف البركة في الرزق</strong>.", "<strong>إطعام الطعام من أقرب القربات إلى الله.</strong> تفطير الصائمين له أجر عظيم، فلا تحرم نفسك هذه الفضيلة. مساعدة الأهل في إعداد الإفطار تعتبر من أفضل الأعمال وبراً بالوالدين. <strong>استثمر نية إدخال السرور على أسرتك</strong> لتنال الأجر.", "<strong>التوبة هي شعار المتقين ودأب الصالحين في رمضان.</strong> هو فرصة لمن أسرف على نفسه أن يعود إلى رشده. الله يبسط يده بالرحمة ويقبل توبة التائبين. <strong>لا تيأس من روح الله</strong>، فرمضان محطة للتغيير والانطلاق نحو الأفضل.", "<strong>العمل الصالح المتعدي نفعه أفضل من القاصر على النفس.</strong> تعليم طفل، أو زيارة مريض، أو صلة رحم، كلها أعمال تثقل الميزان. المؤمن للمؤمن كالبنيان يشد بعضه بعضاً. <strong>كن نافعاً لمجتمعك</strong> واجعل من صيامك خلقاً وعطاء.", "<strong>رمضان شهر الصبر والجد والاجتهاد لا شهر الكسل والنوم.</strong> الانضباط في العمل ورعاية مصالح الناس عبادة يؤجر عليها المسلم. الصيام ليس عذراً للتقصير، بل دافعاً للعطاء والنشاط. <strong>نظم وقتك بجدول يومي</strong> يجمع بين العبادة ومسؤوليات الحياة.", "<strong>الصيام جنة، فإذا كان يوم صوم أحدكم فلا يرفث ولا يصخب.</strong> إذا سابك أحد أو قاتلك فقل: &quot;إني صائم&quot;. الصيام الحقيقي هو تهذيب للسان والجوارح عن كل ما لا يرضي الله. <strong>الأخلاق الحسنة هي كمال الإيمان</strong>.", "<strong>الغيبة والنميمة تجرح الصوم وتنقص الأجر.</strong> عوّد لسانك على الصمت إلا في خير، فالكلام الكثير يولد قسوة القلب. الصمت حكمة وقليل فاعله. <strong>احفظ صيامك بالانشغال بذكر الله</strong> والابتعاد عن القيل والقال.", "<strong>النية الصادقة تحول العادات اليومية إلى عبادات عظيمة.</strong> كل عملاً تقصد به وجه الله تنال عليه الأجر دون زيادة جهد. جدد نيتك في أكلك ونومك وعملك لتكون <strong>كلها في ميزان حسناتك</strong>. إنما الأعمال بالنيات وإنما لكل امرئ ما نوى.", "<strong>التقوى هي الثمرة الكبرى من تشريع الصيام.</strong> الصوم يساعد على مراقبة الله في السر والعلن وتحقيق التوبة النصوح. التقوى هي خير زاد للمؤمن في حركته في الدنيا وفي الآخرة. <strong>كن من المتقين</strong> الذين يستشعرون رؤية الله لهم في كل فعل.", "<strong>العفو والتسامح من أولويات المسلم في رمضان.</strong> إذا أردت أن يعفو الله عنك فاعف عن خلقه والتمس لهم الأعذار. الخصومات تمنع نزول الرحمات وترفع ليلة القدر. <strong>طهّر قلبك من الحقد والحسد</strong> لتبدأ صفحة جديدة من التآلف والإخاء.", "<strong>الصلاة قرة عيون المحبين وسرور أرواحهم.</strong> لا تزن إيمانك ومحبتك لله بمثل ميزان الصلاة. حافظ على صلاة الجماعة في بيوت الله وتزود من النوافل. <strong>السجود هو أقرب ما يكون العبد من ربه</strong>، فأكثر فيه من الدعاء.", "<strong>الاعتكاف سنة نبوية تهدف للانقطاع عن الخلق والاشتغال بالخالق.</strong> هدفه عكوف القلب على طاعة الله وتفريغه من هموم الدنيا. أقل كمال الاعتكاف يوم وليلة ومجرد دخول المسجد بنية الاعتكاف تؤجر عليه. <strong>اجعل لقلبك خلوة مع الله</strong>.", "<strong>المرأة في رمضان توازن بين مسؤوليات البيت وعبادتها بيقين.</strong> تعبها في المطبخ ورعاية أطفالها عبادة عظيمة تؤجر عليها. لا تشعري بالتقصير، فنية الخدمة ترفع درجتك. <strong>القليل المستمر من تلاوة وذكر خير من الانقطاع</strong>.", "<strong>طالب العلم يتقرب لله بفريضة العلم في رمضان.</strong> الموازنة بين الدراسة والعبادة أمر ممكن بتنظيم الوقت والاستعانة بالله. العلم بما يجب تعلمه من أحكام الشرع فرض عين. <strong>اجعل دراستك طاعة لخدمة أمتك</strong>.", "<strong>السحور بركة ومخالفة لأهل الكتاب ومعونة على العبادة.</strong> يسن تأخيره إلى قبيل الفجر وتقوي به نفسك على النشاط في الطاعة. يكفي فيه ولو شربة ماء أو تمرات. <strong>السحور يدفع سوء الخلق</strong> الذي قد يثيره الجوع.", "<strong>العشر الأواخر هي مضمار السباق</strong>، كان النبي ﷺ يشد فيها مئزره ويحيي ليله. ضاعف جهدك في هذه الليالي المباركة طلباً للمغفرة وليلة القدر. لا تجعل الفتور يحيط بك في نهاية الشهر. <strong>الأعمال بخواتيمها</strong> فاجتهد حتى اللحظة الأخيرة.", "<strong>رمضان شهر التغيير الذكي في النفس والروح والفكر.</strong> إذا لم يغير الصوم في أخلاقك فراجع نيتك. الله لا يغير ما بقوم حتى يغيروا ما بأنفسهم. <strong>اجعل من هذا الشهر نقطة تحول حقيقية</strong> لاستقامة حياتك.", "<strong>ذكر الموت يورث قصر الأمل ويحث على المبادرة بالعمل الصالح.</strong> كن في الدنيا كأنك غريب أو عابر سبيل. اغتنم صحتك قبل سقمك وفراغك قبل شغلك. <strong>استعد للقاء الله بقلب سليم</strong> وعمل خالص يبيض وجهك يوم القيامة.", "<strong>الاستقامة بعد رمضان هي علامة قبول الصيام.</strong> لا تهدم ما بنيته من طاعات في هذا الشهر بالعودة للذنوب. كن ربانياً لا رمضانياً، وداوم على القليل من العمل الصالح فإنه أحب إلى الله. <strong>العمل الصالح بعد رمضان يثبت الأجر</strong>.", "<strong>الشكر لله على بلوغ رمضان وتمام الصيام واجب على كل مسلم.</strong> قل دائماً: &quot;الحمد لله الذي أعانني فصمت ورزقني فأفطرت&quot;. اسأل الله القبول والإخلاص في القول والعمل وأن يبلغك رمضان أعواماً عديدة."];
-    var d=new Date(); var idx=(d.getDate()-1)%R.length;
-    var el=document.getElementById('rk-today-body');
-    if(el){ el.innerHTML=R[idx]; }
-    var lbl=document.getElementById('rk-today-no');
-    if(lbl){ lbl.textContent='خاطرة اليوم'; }
-  }catch(e){}
-})();
-</script>
+    <!-- ═══ 6) DUA FLIP ═══ -->
+    <h2 class="rx-sec-title rx-reveal">🤲 دعاء اليوم</h2>
+    <div class="rx-dua-wrap rx-reveal">
+      <div class="rx-flip" id="rx-flip" role="button" tabindex="0" aria-label="اقلب البطاقة لقراءة فضل الدعاء">
+        <div class="rx-face front">
+          <div class="du-t" id="rx-dua-t">الدعاء الأغلى</div>
+          <div class="du-ar" id="rx-dua-ar">«اللهم إنك عفوٌّ كريمٌ تحب العفو فاعفُ عني»</div>
+          <div class="du-hint">اضغط للقلب ↺</div>
+        </div>
+        <div class="rx-face back">
+          <div class="du-t">لماذا هذا الدعاء؟</div>
+          <div class="du-benefit" id="rx-dua-b">أوصى به النبي ﷺ عائشة لتقوله في ليلة القدر — جامعٌ للعفو والمغفرة.</div>
+          <div class="du-hint">اضغط للرجوع ↺</div>
+        </div>
+      </div>
+      <div class="rx-dua-bar">
+        <button id="rx-dua-shuffle" type="button">🔀 دعاء آخر</button>
+        <a class="rx-tool" style="flex:1;flex-direction:row;align-items:center;justify-content:center;gap:8px;padding:11px" href="ramadan-duas.html">📿 كل الأدعية</a>
+      </div>
+    </div>
+
+    <!-- ═══ 7) LAST 10 ═══ -->
+    <div class="rx-reveal" id="rx-last-wrap" style="margin-top:30px;display:none">
+      <div class="rx-last">
+        <div class="l-glow" aria-hidden="true"></div>
+        <h3>الليالي العشر الأخيرة</h3>
+        <p class="l-sub">مضمار السباق — تحرَّ ليلة القدر في الأوتار</p>
+        <div class="rx-chips" id="rx-chips"></div>
+      </div>
+    </div>
+
+    <!-- ═══ 8) TIPS ═══ -->
+    <h2 class="rx-sec-title rx-reveal">💡 نصائح رمضانية <span class="h">اسحب →</span></h2>
+    <div class="rx-carousel rx-reveal" id="rx-carousel">
+      <div class="rx-tip"><div class="t-ico">🍽️</div><h4>سحور بركة</h4><p>أخّر سحورك إلى قبيل الفجر ولو بتمرات أو شربة ماء؛ فهو معونة على الطاعة ويدفع سوء الخلق.</p></div>
+      <div class="rx-tip"><div class="t-ico">😴</div><h4>نظّم نومك</h4><p>قيلولة قصيرة بعد الظهر تعوّض سهر القيام — ولا تضيّع الفجر بسبب السهر.</p></div>
+      <div class="rx-tip"><div class="t-ico">📖</div><h4>ختمة بتدبّر</h4><p>اجعل لك ورداً ثابتاً ولو صفحة بتدبّر؛ القليل الدائم خير من كثير منقطع بلا فهم.</p></div>
+      <div class="rx-tip"><div class="t-ico">🤲</div><h4>دعوة لا تُرد</h4><p>للصائم عند فطره دعوة مستجابة — جهّز قائمة دعائك واغتنم لحظة الإفطار والسحر.</p></div>
+      <div class="rx-tip"><div class="t-ico">💚</div><h4>جُد بالخير</h4><p>كان النبي ﷺ أجود ما يكون في رمضان؛ فطّر صائماً ولو بتمرة، وأعِن محتاجاً.</p></div>
+    </div>
+
+    <!-- ═══ 9) TOOLS ═══ -->
+    <h2 class="rx-sec-title rx-reveal" id="rx-tools">🧭 أدوات رمضان الخير</h2>
+    <div class="rx-tools rx-stagger rx-reveal">
+      <a class="rx-tool" href="ramadan-tadhkir.html"><span class="t-ico">💡</span><span class="t-t">تذكير إيماني</span><span class="t-s">خاطرة لكل يوم من الثلاثين</span></a>
+      <a class="rx-tool" href="ramadan-afdal.html"><span class="t-ico">🏆</span><span class="t-t">أفضل الأعمال</span><span class="t-s">ترتيب العبادات على الأولويات</span></a>
+      <a class="rx-tool" href="ramadan-plan.html"><span class="t-ico">🗂️</span><span class="t-t">خطة العبادة</span><span class="t-s">مبتدئ · متوسط · متقدم</span></a>
+      <a class="rx-tool" href="ramadan-quran.html"><span class="t-ico">📖</span><span class="t-t">القرآن في رمضان</span><span class="t-s">مقاصد الأجزاء الثلاثين</span></a>
+      <a class="rx-tool" href="ramadan-fasting.html"><span class="t-ico">📋</span><span class="t-t">أحكام الصيام</span><span class="t-s">٢٠ مسألة شائعة</span></a>
+      <a class="rx-tool" href="ramadan-duas.html"><span class="t-ico">🤲</span><span class="t-t">أدعية رمضان</span><span class="t-s">جوامع الكلم النبوية</span></a>
+      <a class="rx-tool" href="ramadan-last10.html"><span class="t-ico">✨</span><span class="t-t">العشر الأواخر</span><span class="t-s">ليلة القدر وأعمالها</span></a>
+      <a class="rx-tool" href="ramadan-kids.html"><span class="t-ico">🧒</span><span class="t-t">ركن الأطفال</span><span class="t-s">تربية بالقدوة</span></a>
+    </div>
+
+    <!-- ═══ 10) CLOSING ═══ -->
+    <div class="rx-end rx-reveal">
+      <span class="moon">🌙</span>
+      <p class="ar">اللهم بلّغنا رمضان أعوامًا عديدةً وأزمنةً مديدة</p>
+      <p class="en">تقبّل الله صيامك وقيامك وكل أثرٍ صالحٍ سعيت إليه.</p>
+    </div>
 
     <div style="height:40px"></div>
   </main>
 </div>
+
+  <script src="js/calendar.js" defer></script>
+  <script src="js/seasons-module.js" defer></script>
+  <script src="js/core/state-manager.js" defer></script>
   <script src="js/app.js" defer></script>
   <script src="js/pwa-install-fab.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="animations.js" defer></script>
 <script src="menu.js" defer></script>
 <script src="command-palette.js" defer></script>
+
+<script>
+(function(){
+  'use strict';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* ── stars ── */
+  function stars(){
+    var sky=document.getElementById('rx-sky'); if(!sky) return;
+    var n=reduce?18:42, html='';
+    for(var i=0;i<n;i++){
+      var x=Math.random()*100, y=Math.random()*72, d=(Math.random()*4+2).toFixed(1), dl=(Math.random()*4).toFixed(1), s=(Math.random()*1.6+1).toFixed(1);
+      html+='<span class="rx-star" style="left:'+x+'%;top:'+y+'%;width:'+s+'px;height:'+s+'px;animation-duration:'+d+'s;animation-delay:'+dl+'s"></span>';
+    }
+    sky.innerHTML=html;
+  }
+
+  /* ── scroll reveal ── */
+  function reveal(){
+    var els=[].slice.call(document.querySelectorAll('.rx-reveal'));
+    if(reduce || !('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in');}); return; }
+    var io=new IntersectionObserver(function(ents){
+      ents.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+    },{threshold:.12});
+    els.forEach(function(e){ if(!e.classList.contains('in')) io.observe(e); });
+  }
+
+  /* ── ramadan progress (real Hijri via getCurrentSeason / getHijriDate) ── */
+  function setRing(pct){
+    var c=339.3, fg=document.getElementById('rx-ring-fg');
+    if(fg) fg.style.strokeDashoffset = (c - c*(pct/100)).toFixed(1);
+    var bar=document.getElementById('rx-bar'); if(bar) bar.style.width=pct+'%';
+  }
+  function progress(){
+    var day=null, inRamadan=false;
+    try{
+      var s = window.getCurrentSeason && window.getCurrentSeason();
+      if(s && s.id==='ramadan'){ day=s.currentDay; inRamadan=true; }
+    }catch(e){}
+    if(day===null){
+      try{ var h=window.getHijriDate && window.getHijriDate(); if(h && h.month===9){ day=h.day; inRamadan=true; } }catch(e){}
+    }
+    var $=function(id){return document.getElementById(id);};
+    if(inRamadan && day){
+      day=Math.max(1,Math.min(30,day));
+      var pct=Math.round(day/30*100);
+      setRing(pct);
+      $('rx-pct').textContent=day; $('rx-pct-lbl').textContent='/ ٣٠';
+      $('rx-prog-title').textContent='اليوم '+day+' من رمضان';
+      $('rx-prog-lead').textContent='بارك الله لك فيما مضى — وأعانك على ما بقي.';
+      $('rx-st-done').textContent=day;
+      $('rx-st-left').textContent=(30-day);
+      $('rx-st-eid').textContent=(30-day)+' يوم';
+      lastTen(day); ashras(day);
+    } else {
+      /* empty / pre-Ramadan state */
+      setRing(0);
+      var hd=null; try{ hd=window.getHijriDate && window.getHijriDate(); }catch(e){}
+      var approx = hd && hd.month<9 ? ((9-hd.month)*30 - hd.day) : null;
+      $('rx-pct').textContent='🌙'; $('rx-pct-lbl').textContent='قريباً';
+      $('rx-prog-title').textContent='نستعدّ لرمضان';
+      $('rx-prog-lead').textContent= approx!==null ? ('يفصلنا عن رمضان نحو '+approx+' يوماً تقريباً — هذا القسم جاهز لاستقبال الشهر.') : 'هذا القسم جاهز لاستقبال الشهر بإذن الله.';
+      $('rx-st-done').textContent='—'; $('rx-st-left').textContent='—';
+      $('rx-st-eid').textContent= approx!==null ? ('~'+approx) : '—';
+      ashras(0);
+    }
+  }
+  function ashras(day){
+    var stage = day>=21?3 : day>=11?2 : day>=1?1 : 0;
+    [].slice.call(document.querySelectorAll('.rx-stage')).forEach(function(el){
+      el.classList.toggle('active', +el.getAttribute('data-stage')===stage);
+    });
+  }
+  function lastTen(day){
+    var wrap=document.getElementById('rx-last-wrap'); if(!wrap) return;
+    if(day>=20){
+      wrap.style.display='block';
+      var odds=[21,23,25,27,29], html='';
+      odds.forEach(function(o){ html+='<div class="rx-chip'+(day>=o?' glow':'')+'">'+o+'</div>'; });
+      document.getElementById('rx-chips').innerHTML=html;
+    } else { wrap.style.display='none'; }
+  }
+
+  /* ── daily goals wired to ZadState worship (same keys as barnamaj → feeds points) ── */
+  var GOALS=[
+    {key:'fajr',         ico:'🕌', label:'صلاة الفجر',    sub:'في وقتها'},
+    {key:'morning_dhikr',ico:'🌅', label:'أذكار الصباح',  sub:'٣ دقائق'},
+    {key:'qiyam',        ico:'🌙', label:'القيام/التراويح',sub:'هدف الليلة'},
+    {key:'evening_dhikr',ico:'🌇', label:'أذكار المساء',  sub:'٣ دقائق'},
+    {link:'mushaf.html', ico:'📖', label:'ورد القرآن',    sub:'تابع وردك →'},
+    {link:'sadaqah.html',ico:'💚', label:'صدقة اليوم',    sub:'سجّل صدقتك →'}
+  ];
+  function worship(){ try{ return (window.ZadState&&window.ZadState.get('worship'))||{}; }catch(e){ return {}; } }
+  function setWorship(key,val){
+    try{
+      if(window.ZadState&&window.ZadState.markWorship){ window.ZadState.markWorship(key,val); }
+      else { /* fallback: never clobber zad_v2 — use a soft local cache only */
+        var k='zad_ramadan_goals', o={}; try{o=JSON.parse(localStorage.getItem(k)||'{}');}catch(e){} o[key]=val; localStorage.setItem(k,JSON.stringify(o));
+      }
+      if(window.checkBadges) try{ window.checkBadges(); }catch(e){}
+    }catch(e){}
+  }
+  function goalsDone(){
+    var w=worship(), keys=GOALS.filter(function(g){return g.key;}), d=keys.filter(function(g){return w[g.key];}).length;
+    var h=document.getElementById('rx-goals-h'); if(h) h.textContent=d+' / '+keys.length;
+  }
+  function renderGoals(){
+    var grid=document.getElementById('rx-goals-grid'); if(!grid) return;
+    var w=worship();
+    grid.innerHTML='';
+    GOALS.forEach(function(g){
+      var el=document.createElement(g.link?'a':'div');
+      el.className='rx-goal'+(g.link?' link':'')+(!g.link&&w[g.key]?' done':'');
+      if(g.link){ el.href=g.link; }
+      else { el.setAttribute('role','button'); el.setAttribute('tabindex','0'); el.setAttribute('aria-pressed', w[g.key]?'true':'false'); }
+      el.innerHTML='<div class="g-top"><span class="g-ico">'+g.ico+'</span><span class="g-check">'+(g.link?'→':'✓')+'</span></div>'+
+                   '<h4>'+g.label+'</h4><span class="g-sub">'+g.sub+'</span>';
+      if(!g.link){
+        var toggle=function(){
+          var nw=!el.classList.contains('done');
+          el.classList.toggle('done',nw); el.setAttribute('aria-pressed',nw?'true':'false');
+          setWorship(g.key,nw); goalsDone();
+        };
+        el.addEventListener('click',toggle);
+        el.addEventListener('keydown',function(ev){ if(ev.key===' '||ev.key==='Enter'){ ev.preventDefault(); toggle(); } });
+      }
+      grid.appendChild(el);
+    });
+    goalsDone();
+  }
+
+  /* ── reflection autosave (namespaced key — does NOT touch zad_v2) ── */
+  function reflection(){
+    var ta=document.getElementById('rx-reflect'), lbl=document.getElementById('rx-reflect-saved'), K='zad_ramadan_reflection';
+    if(!ta) return;
+    try{ ta.value=localStorage.getItem(K)||''; }catch(e){}
+    var t;
+    ta.addEventListener('input',function(){
+      clearTimeout(t);
+      t=setTimeout(function(){
+        try{ localStorage.setItem(K,ta.value); }catch(e){}
+        if(lbl){ lbl.textContent='✓ حُفظ تلقائياً'; lbl.style.opacity='1'; setTimeout(function(){lbl.style.opacity='.5';},1500); }
+      },500);
+    });
+  }
+
+  /* ── dua flip + shuffle ── */
+  var DUAS=[
+    {t:'الدعاء الأغلى', ar:'«اللهم إنك عفوٌّ كريمٌ تحب العفو فاعفُ عني»', b:'أوصى به النبي ﷺ عائشة لتقوله في ليلة القدر — جامعٌ للعفو والمغفرة.'},
+    {t:'أجمع دعاء للخير', ar:'«اللهم إني أسألك من الخير كله عاجله وآجله، ما علمتُ منه وما لم أعلم»', b:'دعاءٌ يجمع كل خير ويستعيذ من كل شر، علِمتَه أو لم تعلمه.'},
+    {t:'لصلاح الدنيا والآخرة', ar:'«اللهم أصلح لي ديني… ودنياي… وآخرتي»', b:'يجمع صلاح الأمور الثلاثة: الدين عصمة الأمر، والدنيا المعاش، والآخرة المعاد.'},
+    {t:'لطلب الهداية والكفاية', ar:'«اللهم إني أسألك الهدى والتقى والعفاف والغنى»', b:'أربع كلماتٍ جامعةٍ لخيري الدين والدنيا.'},
+    {t:'لطلب الثبات', ar:'«يا مقلب القلوب ثبّت قلبي على دينك»', b:'القلوب بين أصبعين من أصابع الرحمن يقلّبها كيف يشاء — فاسأله الثبات.'},
+    {t:'سيد الاستغفار', ar:'«اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك…»', b:'من قاله موقناً نهاراً فمات دخل الجنة، ومثلها ليلاً.'},
+    {t:'للبركة في الرزق', ar:'«اللهم اكفني بحلالك عن حرامك، وأغنني بفضلِك عمن سواك»', b:'يكفيك الحلال عن الحرام، ويغنيك بالله عمن سواه.'}
+  ];
+  function dua(){
+    var i=0, flip=document.getElementById('rx-flip');
+    function render(){
+      var d=DUAS[i];
+      document.getElementById('rx-dua-t').textContent=d.t;
+      document.getElementById('rx-dua-ar').textContent=d.ar;
+      document.getElementById('rx-dua-b').textContent=d.b;
+    }
+    if(flip){
+      flip.addEventListener('click',function(){ flip.classList.toggle('flipped'); });
+      flip.addEventListener('keydown',function(ev){ if(ev.key===' '||ev.key==='Enter'){ ev.preventDefault(); flip.classList.toggle('flipped'); } });
+    }
+    var sh=document.getElementById('rx-dua-shuffle');
+    if(sh) sh.addEventListener('click',function(){
+      if(flip) flip.classList.remove('flipped');
+      var j; do{ j=Math.floor(Math.random()*DUAS.length); }while(j===i && DUAS.length>1); i=j; render();
+    });
+  }
+
+  /* ── tips auto-advance (skip if reduced motion) ── */
+  function tips(){
+    if(reduce) return;
+    var c=document.getElementById('rx-carousel'); if(!c) return;
+    var paused=false;
+    c.addEventListener('pointerdown',function(){paused=true;});
+    setInterval(function(){
+      if(paused||!c) return;
+      var max=c.scrollWidth-c.clientWidth-4;
+      if(c.scrollLeft>=max){ c.scrollTo({left:0,behavior:'smooth'}); }
+      else { c.scrollBy({left:c.clientWidth*0.8,behavior:'smooth'}); }
+    },5000);
+  }
+
+  function init(){ stars(); reveal(); progress(); renderGoals(); reflection(); dua(); tips();
+    /* recompute shortly after, in case hijri/state finished async init */
+    setTimeout(progress, 600); setTimeout(renderGoals, 600);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
 </body>
 </html>
